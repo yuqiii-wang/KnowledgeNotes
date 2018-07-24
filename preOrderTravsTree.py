@@ -74,11 +74,10 @@ if __name__=='__main__':
 	np.random.seed(111)
 	val_range = 10
 	size_range = 10
-	array = np.random.randint(val_range, size=size_range)
-	array = list(reversed(array)) # should add reversed() as list.pop() starts from the end of the list
+	array = list(np.random.randint(val_range, size=size_range))
 	print(array)
 	tree = binaryTree(element=array)
-	postOrderTravsObj = postOrderTravs(tree=tree)
-	print(postOrderTravsObj)
+	preOrderTravsObj = preOrderTravs(tree=tree)
+	print(preOrderTravsObj)
 
 
