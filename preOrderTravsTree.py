@@ -1,48 +1,7 @@
 #post-order traversal of a binary tree
 
 import numpy as np 
-
-# construction of a tree
-
-class binaryTree:
-
-	def __init__(self, element, **kwargs):
-
-		if '_Root_Start' not in kwargs:
-			i = 0
-			_count = 0
-			self.depth = 0
-			while(1):
-				_count += 2**i
-				i += 1
-				self.depth += 1
-				if _count > len(element):
-					break
-
-			self._loop_count = self.depth
-
-		if '_loop_count' in kwargs:
-			self._loop_count = kwargs['_loop_count']
-		if 'depth' in kwargs:
-			self.depth = kwargs['depth']
-
-		if self._loop_count > 0 and element:
-
-			self.root = element.pop()
-
-			self._loop_count -= 1
-
-			self.left = binaryTree(element, _Root_Start=False, depth=self.depth, _loop_count=self._loop_count)
-			self.right = binaryTree(element, _Root_Start=False, depth=self.depth, _loop_count=self._loop_count)
-
-		else:
-			self.root = None
-			self._loop_count = self.depth
-
-			return 
-
-	def __str__(self):
-		return str(self.root)
+from binaryTreeConstrct import binaryTree
 
 
 class preOrderTravs:
