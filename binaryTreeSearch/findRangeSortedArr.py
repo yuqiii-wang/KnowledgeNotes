@@ -9,8 +9,54 @@ Example 1:
 
 Input: nums = [5,7,7,8,8,10], target = 8
 Output: [3,4]
+
 Example 2:
 
 Input: nums = [5,7,7,8,8,10], target = 6
 Output: [-1,-1]
 """
+
+def findRnge(nums, target):
+    if not nums:
+        return [-1, -1]
+
+    def bisect_left(nums, target):
+        l, r = 0, len(nums) - 1
+        while l < r:
+            m = (l + r) // 2
+            if nums[m] < target:
+                l = m + 1
+            else:
+                r = m
+        return l if nums[l] == target else -1
+
+    def bisect_right(nums, target):
+        l, r = 0, len(nums) - 1
+        while l < r:
+            m = (l + r) // 2 + 1
+            if nums[m] > target:
+                r = m - 1
+            else:
+                l = m
+        return l if nums[l] == target else -1
+
+    return [bisect_left(nums, target), bisect_right(nums, target)]
+
+if __name__=="__main__":
+    num_list = [5,7,7,8,8,8,10]
+    pick = 8
+    result = findRnge(num_list, pick)
+    print(num_list)
+    print(result)
+    print()
+    num_list = [5,7,8,9]
+    pick = 5
+    result = findRnge(num_list, pick)
+    print(num_list)
+    print(result)
+    print()
+    num_list = [5, 5]
+    pick = 5
+    result = findRnge(num_list, pick)
+    print(num_list)
+    print(result)
