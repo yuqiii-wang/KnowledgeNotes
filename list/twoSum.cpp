@@ -26,9 +26,10 @@ vector<int> twoSum(vector<int>& nums, int target) {
     for (int i = 0;i < nums.size(); i ++){
         int complement = target - nums[i];
         
+        // unordered_map.at() method accesses python-dict alike variables via .at(key)
         if (hashtable.count(complement) && hashtable.at(complement) != i ){
             index.push_back(i);
-            index.push_back(hashtable.at(complement));
+            index.push_back(hashtable.at(complement)); 
             return index;
             }
     }
