@@ -62,7 +62,9 @@ ListNode* Solution::detectCycle(ListNode *head) {
     ListNode* fast = head; 
     ListNode* slow = head;
     ListNode* posNode = head;
-    while(fast->next->next && slow->next){
+    // the logic is that when *fast finishes its loop (meeting with *slow), *slow has only finished half of *fast,
+    // then when *posNode meets *slow, *slow will have finished same steps as *fast
+    while(fast->next && fast->next->next && slow->next){
         fast = fast->next->next;
         slow = slow->next;
         if (fast == slow){
