@@ -6,7 +6,7 @@ SELECT Name AS Customers FROM
  Customers.Id=Orders.CustomerId) AS boughtCust
  WHERE boughtCust.CustomerId IS NULL
 
--- The second solution
+-- Another solution
 SELECT customers.name AS Customers
 FROM customers
 WHERE customers.id NOT IN

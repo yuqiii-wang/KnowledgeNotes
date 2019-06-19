@@ -1,0 +1,2 @@
+-- The Employee table holds all employees. The employee table has three columns: Employee Id, Company Name, and Salary.
+-- Find median salary of each company.

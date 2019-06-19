@@ -1,0 +1,5 @@
+/* Write an SQL query that reports the first login date for each player. */
+SELECT Activity.player_id AS player_id,
+     CONVERT(VARCHAR, CONVERT(DATETIME, MIN(DATEDIFF(DAY, '19000101', Activity.event_date))), 23) AS first_login
+FROM Activity
+GROUP BY Activity.player_id

@@ -1,0 +1,27 @@
+-- The Trips table holds all taxi trips. Each trip has a unique Id, while Client_Id and Driver_Id are both foreign keys to the Users_Id at the Users table. Status is an ENUM type of (‘completed’, ‘cancelled_by_driver’, ‘cancelled_by_client’).
+
+-- The Users table holds all users. Each user has an unique Users_Id, and Role is an ENUM type of (‘client’, ‘driver’, ‘partner’).
+
+-- Write a SQL query to find the cancellation rate of requests made by unbanned users between Oct 1, 2013 and Oct 3, 2013. For the above tables, your SQL query should return the following rows with the cancellation rate being rounded to two decimal places.
+
+SELECT Request_at AS 'Day',
+    ROUND(SUM(CASE WHEN Status LIKE 'cancel%' THEN 1 ELSE 0 END) / CAST(COUNT(*) AS FLOAT), 2) AS 'Cancellation Rate'
+FROM Trips 
+JOIN Users AS u1 ON Trips.Client_Id=u1.Users_Id 
+JOIN Users AS u2 ON Trips.Driver_Id=u2.Users_Id
+WHERE Request_at BETWEEN '2013-10-01' AND '2013-10-03'
+    AND u1.Banned = 'No'
+    AND u2.Banned = 'No'
+GROUP BY Request_at
+
+-- Another solution, 3 times faster
+SELECT newT.Request_at AS 'Day', 
+       ROUND(SUM(CASE WHEN newT.Status LIKE 'cancelled%' THEN 1 ELSE 0 END) / CAST(COUNT(*) AS FLOAT), 2) AS "Cancellation Rate"
+FROM(
+    SELECT * FROM Trips AS t
+    WHERE
+        t.Client_Id NOT IN (SELECT Users_Id FROM Users WHERE Banned = 'Yes') AND
+        t.Driver_Id NOT IN (SELECT Users_Id FROM Users WHERE Banned = 'Yes') AND
+        t.Request_at BETWEEN '2013-10-01' AND '2013-10-03'
+    ) AS newT
+GROUP BY newT.Request_at
