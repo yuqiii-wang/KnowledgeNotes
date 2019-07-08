@@ -1,0 +1,10 @@
+/* https://leetcode.com/problems/get-highest-answer-rate-question/ */
+
+SELECT TOP 1
+    question_id AS "survey_log"
+    FROM survey_log
+    WHERE answer_id IS NOT NULL
+    GROUP BY question_id
+    ORDER BY 
+        COUNT(question_id) DESC,
+        question_id ASC

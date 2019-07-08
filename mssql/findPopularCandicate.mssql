@@ -1,0 +1,10 @@
+/* https://leetcode.com/problems/winning-candidate/ */
+
+SELECT Name FROM
+Candidate JOIN
+    (SELECT TOP 1 COUNT(CandidateId) AS IdCount,
+     CandidateId
+    FROM Vote
+    GROUP BY CandidateId
+    ORDER BY IdCount DESC) AS Winner
+ON Candidate.Id=Winner.CandidateId

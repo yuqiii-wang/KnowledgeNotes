@@ -1,0 +1,18 @@
+-- https://www.hackerrank.com/challenges/the-company/problem
+
+SELECT Company.company_code, Company.Founder,
+    COUNT(DISTINCT Lead_Manager.lead_manager_code),
+    COUNT(DISTINCT Senior_Manager.senior_manager_code),
+    COUNT(DISTINCT Manager.Manager_code),
+    COUNT(DISTINCT Employee.Employee_code)
+FROM Company 
+JOIN Lead_Manager 
+    ON Company.company_code = Lead_Manager.company_code
+JOIN Senior_Manager
+    ON Lead_Manager.lead_manager_code = Senior_Manager.lead_manager_code
+JOIN Manager
+    ON Senior_Manager.senior_manager_code = Manager.senior_manager_code
+JOIN Employee
+    ON Manager.Manager_code = Employee.Manager_code
+GROUP BY Company.company_code, Company.Founder
+ORDER BY Company.company_code;

@@ -1,0 +1,18 @@
+-- https://www.hackerrank.com/challenges/the-pads/problem
+
+SELECT CONCAT(Name, "(", first_letter, ")") AS NameProf
+FROM (
+    SELECT Name, LEFT(Occupation, 1) AS first_letter
+    FROM OCCUPATIONS
+) AS tmp
+ORDER BY NameProf;
+
+SELECT CONCAT("There are a total of ", occup_num, " ", occup_name, "s.") AS state
+FROM (
+    SELECT COUNT(occupation) AS occup_num,
+        LOWER(occupation) AS occup_name
+    FROM Occupations
+    GROUP BY occupation
+) AS tmp
+ORDER BY occup_num ASC,
+    occup_name ASC;

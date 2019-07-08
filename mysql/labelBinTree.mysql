@@ -1,0 +1,20 @@
+-- https://www.hackerrank.com/challenges/binary-search-tree-1/problem
+
+-- The 1st solution
+SELECT
+N AS node,
+CASE
+    WHEN P IS NULL THEN "Root"
+    WHEN N IN (SELECT P FROM BST) THEN "Inner"
+    ELSE "Leaf"
+END
+FROM BST
+ORDER BY N;
+
+-- The 2nd solution
+SELECT 
+    N, 
+    IF(P IS NULL,'Root',
+       IF((SELECT COUNT(*) FROM BST WHERE P=B.N)>0, 'Inner', 'Leaf'))
+FROM BST AS B 
+ORDER BY N;

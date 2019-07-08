@@ -1,0 +1,30 @@
+-- https://www.hackerrank.com/challenges/occupations/problem
+
+-- Explain:
+-- MAX() or MIN() when acts on varchar, will perform comparison based on ASCII value of the string
+-- The key thinking is using GROUP BY to select non-NULL cells
+
+SET @countDoc = 0, @countAct = 0, @countSin = 0, @countProf = 0;
+SELECT MIN(nameDoc), MIN(nameProf), MIN(nameSin), MIN(nameAct)
+FROM (SELECT 
+        CASE
+            WHEN Occupation = "Doctor" THEN @countDoc := @countDoc + 1
+            WHEN Occupation = "Actor" THEN @countAct := @countAct + 1
+            WHEN Occupation = "Singer" THEN @countSin := @countSin + 1
+            WHEN Occupation = "Professor" THEN @countProf := @countProf + 1
+        END AS count_num,
+        CASE
+            WHEN Occupation = "Doctor" THEN Name
+        END AS nameDoc,
+        CASE
+            WHEN Occupation = "Actor" THEN Name
+        END AS nameAct,
+        CASE
+            WHEN Occupation = "Singer" THEN Name
+        END AS nameSin,
+        CASE
+            WHEN Occupation = "Professor" THEN Name
+        END AS nameProf
+    FROM Occupations
+    ORDER BY Name) AS tmp
+GROUP BY count_num;

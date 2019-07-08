@@ -1,0 +1,10 @@
+-- https://www.hackerrank.com/challenges/weather-observation-station-20/problem
+
+SELECT round(S.LAT_N,4) AS median
+FROM station AS S 
+WHERE 
+    (SELECT COUNT(Lat_N) 
+     FROM station WHERE Lat_N < S.LAT_N) 
+     = 
+    (SELECT COUNT(Lat_N) 
+     FROM station WHERE Lat_N > S.LAT_N)
