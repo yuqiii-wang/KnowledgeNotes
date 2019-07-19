@@ -1,5 +1,5 @@
 // https://leetcode.com/explore/learn/card/queue-stack/231/practical-application-queue/1374/
-// g++ -std=c++11 BFS.cpp
+// g++ -std=c++11 findIslands.cpp
 
 #include <vector>
 
