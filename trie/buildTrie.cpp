@@ -7,6 +7,7 @@ using namespace std;
 
 const int ALPHABET_SIZE = 26;
 
+// Trie is an efficient tool for string manipulation
 class trieNode{
 public:
     trieNode* children[ALPHABET_SIZE];
