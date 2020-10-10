@@ -1,4 +1,5 @@
 # Interview Question Practice
-Yuqi's personal data structure and algorithm tutorial and practices. The questions are collected from various sources.
 
-Machine learning topics are covered.
+Just notes and code practices on computer science topics, inclusive of everything relevant.
+
+Folders list all touched areas.
