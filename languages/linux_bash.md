@@ -169,6 +169,13 @@ File Redirection: The >> operator redirects the command's Standard Output to a g
 `[command] <([command list])`
 Process substitution: The `<(...)` operator expands into a new file created by bash that contains the other command's output.
 
+`2>&1` stderr redirected to stdout. 2 is interpreted as file descriptor 2 (aka stderr) and file descriptor 1 as stdout in the context of stream (P.S. 0 for stdin).
+```bash
+# the two different cmds give different colours of output
+g++ lots_of_errors 2>&1 | head
+g++ lots_of_errors 2>&2 | head
+```
+
 `[command] "$([command list])"`
 Command Substitution: captures the output of a command and expands it inline.
 
