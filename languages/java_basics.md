@@ -16,6 +16,21 @@ If a class is inheriting the properties of another class. And if the members of 
 
 Generally, the `implements` keyword is used with classes to inherit the properties of an interface. Interfaces can never be extended by a class.
 
+The nearest reached functions are called when there are multiple functions with same signatures (same name and arguments).
+
+`super` can directlly call parent's methods.
+```java
+public class Animal {
+   Animal(){}
+   public void eat(){}
+}
+
+public class Dog extends Animal {
+   super(); // calls Animal's constructor
+   super.eat(); // calls Animal's eat method
+}
+```
+
 * Overriding
 
 Member functions of subclass with same names as that of a super class, these member functions override that of the super class.
@@ -86,7 +101,7 @@ public class EncapTest {
 
 * Interfaces
 
-A class implements an `interface`, thereby inheriting the abstract methods of the interface.  It is a collection of abstract methods.
+A class implements an `interface`, thereby inheriting the abstract methods of the interface.  It is a collection of abstract methods. It defines `abstract` type
 
 ```java
 interface Animal {
@@ -210,4 +225,101 @@ public class GreetingClient {
       }
    }
 }
+```
+
+* Variable Scope 
+
+1. Default access modifier
+
+When we do not mention any access modifier, it is called default access modifier. The scope of this modifier is limited to the package only. 
+
+2. Private access modifier
+
+1). Private Data members and methods are only accessible within the class
+
+2). Class and Interface cannot be declared as private
+
+3). If a class has private constructor then you cannot create the object of that class from outside of the class.
+
+3. Protected Access Modifier
+
+Protected data member and method are only accessible by the classes of the same package and the subclasses present in any package. 
+
+4. Public access modifier
+
+The members, methods and classes that are declared public can be accessed from anywhere. This modifier doesn’t put any restriction on the access.
+
+* final 
+
+`final` is used to make a variable constant; and a method be a non-overriden function.
+
+* Exception
+
+It is good to classify exceptions and have separate business logics to solve them accordingly.
+
+```java
+try{
+   // ...
+} catch (Exception e) {
+   System.out.println(e.getMessage());
+} finally {
+   // ...
+}
+```
+
+Exception inheritance tree shows as below.
+![alt text](imgs/java_exception_inheritance_tree.png "java_exception_inheritance_treejava_exception_inheritance_tree")
+
+`throws Exception` is used to specify a method to handle exception whenever a function is called. 
+
+```java
+public static void readFile(String filename) {
+   InputStream in = new FileInputStream(filename);
+   int data = in.read();
+}
+
+public static void readFile(String filename) throws IOException {
+   System.out.println("File read failed");
+}
+
+// if readFile(...); fails, the above exception calls 
+readFile("filename.txt");
+```
+
+`throw` can manually generate an error.
+```java
+if (! found) {
+   throw new FileNotFoundException();
+}
+```
+
+Custom exception can be defined by inheriting `Exception`.
+
+```java
+// custom invalid password exception
+class InvalidPasswordException extends Exception {
+   InvalidPasswordException(){}
+   InvalidPasswordException(String msg){ super(msg); }
+   InvalidPasswordException(String msg, Throwable cuz){ super(msg, cuz); }
+}
+```
+
+**Error** refers to a termination of this program. Programmer need to re-write code to deal with this problem.
+
+
+* Generics and Collections
+
+Generics in Java is similar to `template` in c++.
+
+Common collections that implement basic data structures: `stack`, `queue`, `dynamic array (vector)` and `hash`.
+
+`hashmap` is not thread-safe while `vector` is thread-safe.
+
+Java wraps primitive datatypes into class, such as
+```java
+Integer intObj = new Integer(1); // wrapper
+int intPrimitive = 2; // int
+
+Integer intObj2 = new Integer(intPrimitive); // wrapper
+int intPrimitive2 = intObj2.intValue(); // int
 ```

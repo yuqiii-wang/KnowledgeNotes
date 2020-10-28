@@ -88,4 +88,19 @@ int main(){
 
 ### Private, Protected and Friend
 
-### GDB Common Debugging Practices
+### GDB Common Debugging Practicess
+
+* i++ vs ++i
+
+++i will increment the value of i, and then return the incremented value.
+```cpp
+int i = 1;
+int j = ++i;
+// (i is 2, j is 2)
+```
+i++ will increment the value of i, but return the original value that i held before being incremented.
+```cpp
+int i = 1;
+int j = i++;
+// (i is 2, j is 1)
+```
