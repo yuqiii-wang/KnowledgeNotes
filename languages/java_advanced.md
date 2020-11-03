@@ -235,10 +235,36 @@ public class C
 public class S extends C.D {} 
 ```
 * HashMap vs HashTable
-There are several differences between HashMap and Hashtable in Java:
 
-Hashtable is synchronized, whereas HashMap is not. This makes HashMap better for non-threaded applications, as unsynchronized Objects typically perform better than synchronized ones.
+There are several differences between `HashMap` and `Hashtable` in Java:
 
-Hashtable does not allow null keys or values. HashMap allows one null key and any number of null values.
+`Hashtable` is synchronized, whereas HashMap is not. This makes `HashMap` better for non-threaded applications, as unsynchronized Objects typically perform better than synchronized ones.
+
+`Hashtable` does not allow null keys or values. `HashMap` allows one null key and any number of null values.
+
+Since synchronization is not an issue for you, use `HashMap`. If synchronization becomes an issue, you may also look at `ConcurrentHashMap`.
+
+**Why HashMap is not thread-safe**:
+
+A hash map is based on an array, where each item represents a bucket. As more keys are added, the buckets grow and at a certain threshold the array is recreated with a bigger size, its buckets rearranged so that they are spread more evenly (performance considerations). It means that sometimes `HashMap#put()` will internally call `HashMap#resize()` to make the underlying array bigger. `HashMap#resize()` assigns the table field a new empty array with a bigger capacity and populates it with the old items. During re-polulation, when a thread accesses this HashMap, this HashMap may return `null`.
+
+```java
+final Map<Integer, String> map = new HashMap<>();
+
+final Integer targetKey = 0b1111_1111_1111_1111; // 65 535, forced JVM to resize and populate
+final String targetValue = "v";
+map.put(targetKey, targetValue);
+
+new Thread(() -> {
+    IntStream.range(0, targetKey).forEach(key -> map.put(key, "someValue"));
+}).start(); // start another thread to add key/value pairs
+
+
+while (true) {
+    if (!targetValue.equals(map.get(targetKey))) {
+        throw new RuntimeException("HashMap is not thread safe."); // throw err
+    }
+}
+```
 
 * Java Container
