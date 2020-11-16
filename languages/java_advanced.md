@@ -56,7 +56,20 @@ public class TestThread {
 }
 ```
 
-* Java Lock
+* Java Lock and Synchronized
+
+Java provides a way of creating threads and synchronizing their task by using synchronized blocks. Synchronized blocks in Java are marked with the synchronized keyword. A synchronized block in Java is synchronized on some object. All synchronized blocks synchronized on the same object can only have one thread executing inside them at a time. All other threads attempting to enter the synchronized block are blocked until the thread inside the synchronized block exits the block.
+
+```java
+public class Obj{
+   Obj(){}
+}
+
+// Only one thread can process Obj at a time
+synchronized(Obj.class){  
+   // doSomething();
+}    
+```
 
 * Annotation
 

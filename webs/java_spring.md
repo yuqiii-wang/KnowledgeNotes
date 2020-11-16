@@ -4,7 +4,7 @@
 
 Make sure `M2_HOME` (for maven repository) set properly for Maven
 
-For a Maven to use CN Mainland mirrors, add the following in Maven root dir `conf/setting.xml`
+For a Maven to use CN Mainland mirrors, add the following in Maven root dir `~/.m2/setting.xml`
 ```xml
 <mirror>
    <id>alimaven</id>

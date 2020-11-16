@@ -82,13 +82,13 @@ int main(){
 
 ## Shared Pointer's Realization
 
-### Virtual Fuction Realization
+## Virtual Fuction Realization
 
-### Factory in CPP
+## STL Container Thread-Safe Access and Modification
 
-### Private, Protected and Friend
+## Garbage Collection, Constructor and Destructor
 
-### GDB Common Debugging Practicess
+## Miscelleneous
 
 * i++ vs ++i
 
@@ -104,3 +104,7 @@ int i = 1;
 int j = i++;
 // (i is 2, j is 1)
 ```
+
+* Private, Protected and Friend
+
+* GDB Common Debugging Practicess

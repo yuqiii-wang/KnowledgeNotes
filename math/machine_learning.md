@@ -13,3 +13,5 @@ Used NN to encode/decode input. It demonstrates its capability to "remember" the
 ### Generative Adversarial Networks (GANs) 
 Given a training set, this technique learns to generate new data with the same statistics as the training set by use of a discriminator and a generator competing against each other. 
 Generator takes noises as input and feed its output to a discriminator and the discriminator will compute the loss judging validity. The loss will be backprobagated to the generator so that the generator will learn the differences. When the generator is good enough to imitate the true input the discriminator starts to get confused about validity. Since the loss is backpropagated to discriminator as well, discriminator will start to learn how to distinguish the forged input.
+
+### Markov Chain
