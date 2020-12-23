@@ -123,5 +123,14 @@ CloudFormation, on the other hand, doesn't automatically do anything. It's simpl
 
 Images that use the v2 or later format have a content-addressable identifier called a **digest**. As long as the input used to generate the image is unchanged, the digest value is predictable. `docker images --digests` to see image's digest.
 
-**Amazon Machine Images (AMI)** provides the information required to launch an instance.
+**Amazon Machine Images (AMI)** 
+provides the information required to launch an instance.
 
+## AWS Cognito
+
+Used to help user signin, signup, and social identity verification/access management service integration with 3rd party such as Google and Facebook.
+
+For example, by React Native,
+```js
+// 
+```
