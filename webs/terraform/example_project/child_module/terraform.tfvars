@@ -1,0 +1,1 @@
+example_ec2_nano = "t2.nano	"

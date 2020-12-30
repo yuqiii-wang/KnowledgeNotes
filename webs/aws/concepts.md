@@ -130,7 +130,12 @@ provides the information required to launch an instance.
 
 Used to help user signin, signup, and social identity verification/access management service integration with 3rd party such as Google and Facebook.
 
-For example, by React Native,
+For example, by React Native, Auth connects to backend servers.
 ```js
-// 
+Amplify.configure({
+    Auth: {
+        identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX', // Amazon Cognito Identity Pool ID
+        region: 'XX-XXXX-X', // Amazon Cognito Region
+    }
+});
 ```
