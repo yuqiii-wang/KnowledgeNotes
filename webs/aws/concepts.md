@@ -139,3 +139,9 @@ Amplify.configure({
     }
 });
 ```
+
+## AWS VPC
+
+* Diffs between Interface and Gateway
+
+![AwsVpcInterfaceVsGateway](../imgs/AwsVpcInterfaceVsGateway.png "AwsVpcInterfaceVsGateway")

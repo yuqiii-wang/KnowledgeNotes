@@ -12,6 +12,9 @@ https://mywiki.wooledge.org/BashSheet#:~:text=An%20ampersand%20does%20the%20same
 
 ```bash
 find -name "<filename>" | xargs grep <keyword>
+
+# find "abc" from files on dir 
+find ./ -type f | xargs grep -Hni "abc"
 ```
 
 2. echo "Hello World" for every 2 second
@@ -182,3 +185,4 @@ Command Substitution: captures the output of a command and expands it inline.
 `? * [...]` Glob (regex) indicators: common regex syntax applies here.
 
 `[command] &` This trailing ampersand directs the shell to run the command in the background, that is, it is forked and run in a separate sub-shell, as a job, asynchronously.
+
