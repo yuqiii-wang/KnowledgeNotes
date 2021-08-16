@@ -68,8 +68,6 @@ server {
 }
 ```
 
-## Docker
-
 ## Wiremock
 
 **Wiremock** is a simulator for HTTP-based APIs.

@@ -1,11 +1,9 @@
-
-
-#OAuth
+# OAuth
 OAuth is an open standard for authorization, commonly used as a way for Internet users to log in to third party websites using their Microsoft, Google, Facebook, Twitter, One Network etc. accounts without exposing their password.
 
 ![Oauth_architecture](imgs/Oauth_architecture.jpg "Oauth_architecture")
 
-**jwt**
+## JWT
 
 Json Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. 
 
@@ -38,3 +36,29 @@ A typical usage:
 ```
 Authorization: Bearer <token>
 ```
+
+## Token Grant 
+
+The **authorization code** (mostly used) is obtained by using an authorization server as an intermediary between the client and resource owner.
+
+An **access token** is a string representing an authorization issued to the client.
+
+**Refresh tokens** are issued to the client by the authorization server and are used to obtain a new access token when the current access token becomes invalid or expires, or to obtain additional access tokens with identical or narrower scope.
+
+## OpenId Connect
+
+**OpenID Connect (OIDC)** is a thin layer that sits on top of OAuth 2.0 that adds login and profile information about the person who is logged in.
+
+The differences are, 
+
+* Functionally speaking,
+
+OpenID is about authentication (ie. proving who you are), OAuth is about authorisation (ie. to grant access to functionality/data/etc).
+
+* Technically speaking,
+
+In the initial request, a specific scope of openid is used, and in the final exchange the Client receives both an Access Token and an ID Token. The Access Token is thus in addition having further permission for user identity information such as email and address.
+
+![openid_init_request](imgs/openid_init_request.png "openid_init_request")
+
+![openid_return_token](imgs/openid_return_token.png "openid_return_token")
