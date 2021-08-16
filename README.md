@@ -1,4 +1,4 @@
-# Interview Question Practice
+# Knowledge notes
 
 Just notes and code practices on computer science topics, inclusive of everything relevant.
 
