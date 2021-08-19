@@ -1,15 +1,23 @@
+cmake_minimum_required (VERSION 3.1.0)
+project (sp_trader_run)
+set (CMAKE_CXX_STANDARD 11)
 
-cmake_minimum_required(VERSION 3.1.0)
-project(Tutorial VERSION 1.0)
-set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# include_directories is for headers
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-#Bring the headers, such as Student.h into the project
-include_directories(include)
+# link_directories is for 3rd party built binaries to be found
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-#However, the file(GLOB...) allows for wildcard additions:
-file(GLOB SOURCES "src/*.cpp")
+# locate 3rd party built binaries
+find_library(APIWRAPPER_PATH apiwrapper HINTS ${CMAKE_CURRENT_SOURCE_DIR} PATH_SUFFIXES lib)
 
-#Generate the shared library from the sources
-add_library(testBin SHARED ${SOURCES})
+# Create a library called "ApiTester" which includes the source file "ApiTester.cxx".
+# The extension is already found. Any number of sources could be listed here.
+add_library (ApiTester SHARED ${CMAKE_CURRENT_SOURCE_DIR}/src/ApiTester.cpp)
+
+# Add executable called "${PROJECT_NAME}" that is built from the source files
+add_executable (${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+
+# Link the executable to all libraries. 
+target_link_libraries (${PROJECT_NAME} ApiTester ${APIWRAPPER_PATH})
