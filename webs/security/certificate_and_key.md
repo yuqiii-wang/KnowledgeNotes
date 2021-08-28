@@ -1,5 +1,14 @@
 # Certs and Secure Tunneling
 
+# Symmetric vs Asymmetric Encryption
+
+Symmetric-key algorithms are algorithms for cryptography that **use the same cryptographic keys** for both the encryption of plaintext and the decryption of ciphertext, while asymmetric ones use diff keys.
+
+Diffs:
+
+* Asymmetric encryption usually uses complex mathematical operations, such as power and modulus, on very large numbers (2048 bits).
+* Symmetric encryption uses simpler operations, such as XOR and multiply, on smaller numbers (64 or 128 bits)
+
 
 ## SSL 
 
@@ -83,6 +92,24 @@ Some common used extensions include:
 **Chian of trust**
 
 Certificate Authorities (CAs) is a third-party that has already been vouched for trust by client and server. There are root CAs and intermediate CAs (any certificate that are in between CA and clients), and leaf certificate for end client.
+
+Client and server communicate through signed leaf certificate ("signed" means trusted by intermediate/root CA).
+
+* In the case of browser/client, builtin Object Tokens are root certificates in the default Network Security Services (NSS) database as installed on the user's PC when the user installed the software (e.g., Firefox) that uses them.
+
+* In the case of server, such as tomcat, CA certificate should be added:
+```bash
+keytool -import -alias tomcat -keystore example.jks -file example.crt
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+open tomcat/conf/server.xml, and add your example.jks
+```xml
+<Connector port=”443″ protocol=”HTTP/1.1″
+  SSLEnabled=”true”
+  scheme=”https” secure=”true” clientAuth=”false”
+  sslProtocol=”TLS” keystoreFile=”/your_path/yourkeystore.jks”
+  keystorePass=”password_for_your_key_store” />
+```
 
 **Certificate signing request (CSR)**
 
