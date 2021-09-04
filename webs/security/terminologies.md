@@ -9,3 +9,9 @@
 **Hardening** is a process that prevents possible cyber attacks on servers, such as AMI.
 
 Security group rules: A security rule applies either to inbound traffic (**ingress**) or outbound traffic (**egress**). 
+
+## Log in vs Log on
+
+Log in is a verb phrase. When you log in to something, you provide credentials to access material.
+
+Log on is that, when you log on to something, you are simply accessing digital material, without necessarily needing to provide credentials.

@@ -11,7 +11,7 @@ LDAP terminologies:
 * Matching Rule: search criteria for matching entries in a directory
 * Object Class: a group of attributes defining a directory
 * Schema: a packaged concept of attributes, object classes and matching rules
-* LDIF: a plain text of LDAP entries (u can import `xxx.ldif` into an LDAP server, similar to importing `xxx.sql` to a SQL database)
+* LDIF: a plain text of LDAP entries (u can import `xxx.ldif` into an LDAP server, similar to importing `xxx.sql` to a SQL database), specified in RFC 2849
 * DN: Distinguished Name, an entry unique identifier, collectively consisted of RDNs (Relative Distinguished Names) such as CN (Canonical Name), OU (Organization Unit), etc.
 
 ## Schema Example and Explain
@@ -72,7 +72,8 @@ Define a class object, similar to defining an attribute,
 objectclass ( 1.3.6.1.4.1.15490.2.2 NAME 'objectclass1'
                 SUP top STRUCTURAL
                 DESC 'an object class'
-                MUST (attribute1 $ attribute2 ) )
+                MUST (attribute1 $ attribute2 ) 
+            )
 ```
 
 **Table: Attributes for Object Class**
@@ -84,18 +85,82 @@ objectclass ( 1.3.6.1.4.1.15490.2.2 NAME 'objectclass1'
 | OBSOLETE | "true" if obsolete; "false" or absent otherwise |
 | SUP | Names of superior object classes from which this object class is derived |
 | STRUCTURAL | "true" if object class is structural; "false" or absent otherwise |
-| AUXILIARY | "true" if object class is auxiliary; "false" or absent otherwise |
+| AUXILIARY | "true" if object class is auxiliary; "false" or absent otherwise. An AUXILIARY object class is one that does not define the core type of an entry, but defines additional characteristics of that entry. An LDAP Entry can contain zero or more AUXILIARY object classes. |
 | MUST | List of type names of attributes that must be present |
 | MAY | List of type names of attributes that may be present |
+| X-ORIGIN | X-ORIGIN typically specifies the origin of the attribute which is often an RFC (Request For Comments) and represents a document series containing technical and organizational notes about the Internet. |
 
 Other necessary explained:
 1. `top` is an abstract object class that is the parent of every LDAP object class. It is the one that defines that every object in LDAP must have an `objectClass` attribute.
 2. An `ObjectClass` defined for use in the `STRUCTURAL` specification of the `DIT` is termed a `STRUCTURAL ObjectClass`
-3. `$` represent element `AND` operation 
+3. `$` represents element `AND` operation 
+4. `SUBSTR`: Substrings is a LDAP Filter Choices that can be used to identify entries that contain a value for a given attribute that matches a specified substring. For example, `(cn=ab*def*mno*stu*yz)` is a `SUBSTR` filter for `cn` whose sub-init str must contain `ab`, and sub-any for `def`, `mno`, `stu` and `yz`.   
 
+## Object Class Example and Explained
 
+This example looks at `inetOrgPerson`
 
-## Entry Example
+The `inetOrgPerson` object class is a general purpose object class that holds attributes about people, defined already in `rfc2798` (https://datatracker.ietf.org/doc/html/rfc2798).
+
+```bash
+( 2.16.840.1.113730.3.2.2
+    NAME 'inetOrgPerson'
+    SUP organizationalPerson STRUCTURAL
+    MAY (
+        audio $ businessCategory $ carLicense $ departmentNumber $
+        displayName $ employeeNumber $ employeeType $ givenName $
+        homePhone $ homePostalAddress $ initials $ jpegPhoto $
+        labeledURI $ mail $ manager $ mobile $ o $ pager $
+        photo $ roomNumber $ secretary $ uid $ userCertificate $
+        x500uniqueIdentifier $ preferredLanguage $
+        userSMIMECertificate $ userPKCS12
+    )
+)
+```
+
+Inside `MAY` defining many attributes, such as `carLicense`, which is a plain UTF-8 string (defined in syntax `1.3.6.1.4.1.1466.115.121.1.15`) with matching rules disregarding case sensitivity.
+```bash
+( 2.16.840.1.113730.3.1.1 NAME 'carLicense'
+    DESC 'vehicle license or registration plate'
+    EQUALITY caseIgnoreMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 
+)
+```
+
+The aforementioned inherited/parent/super object class `organizationalPerson` defined in `rfc4519` (https://datatracker.ietf.org/doc/html/rfc4519).
+
+```bash
+( 2.5.6.7 NAME 'organizationalPerson'
+    SUP person
+    STRUCTURAL
+    MAY ( title $ x121Address $ registeredAddress $
+        destinationIndicator $ preferredDeliveryMethod $
+        telexNumber $ teletexTerminalIdentifier $
+        telephoneNumber $ internationalISDNNumber $
+        facsimileTelephoneNumber $ street $ postOfficeBox $
+        postalCode $ postalAddress $ physicalDeliveryOfficeName $
+        ou $ st $ l 
+    ) 
+)
+```
+
+which is inherited from `person` defined in `rfc4519` (https://datatracker.ietf.org/doc/html/rfc4519). It reaches `top` root objectclass hence no more explaining required.
+
+```bash
+( 2.5.6.6 NAME 'person'
+    SUP top STRUCTURAL
+    MUST ( sn $
+        cn 
+    )
+    MAY ( userPassword $
+        telephoneNumber $
+        seeAlso $ description 
+    ) 
+)
+```
+
+## Entry Example and Explained
 
 Entries are added to an LDAP system as branches on trees called **Data Information Trees**, or DITs.
 
@@ -130,7 +195,34 @@ Here below is an example of `people` ObjectClass definition.
 ```
 This indicates that the `people` object class is a `STRUCTURAL` class with `OID 2.5.6.6`. Entries with the people object class are required to include the `sn` (surname), `ou` (organizational unit) and `cn` (common name) attribute types, and may also include any or all of the userPassword, telephoneNumber, seeAlso, and description attribute types. And because the people object class inherits from the `top` object class, entries containing the people object class are required to also include the objectClass attribute type (which is declared as mandatory in the top object class). The people object class is not obsolete and does not have a description.
 
-## LDAP Client Cmds
+## LDAP Cmds
+
+### purposes
+
+A Reference:
+https://dracones.ideosystem.com/work/talks/2016-04-soit-directory-services.pdf
+
+* search
+Find object in the DIT, also used for reading data
+
+* add
+Creating objects
+
+* modify
+Changing objects
+
+* delete
+Removing objects
+
+* bind
+User authentication
+
+Directory server authenticates every incoming
+connection using objects in the DIT, which means that **DN is used as user identifier**, and this action is termed `bind`
+
+![ldap_based_authentication](imgs/ldap_based_authentication.png "ldap_based_authentication")
+
+### cmds
 
 * `ladpadd`:  adds entries to a directory
 * `ldapcompare`: compares attributes
@@ -138,30 +230,25 @@ This indicates that the `people` object class is a `STRUCTURAL` class with `OID 
 * `ldapmodify`: modifies entries in a directory
 * `ldapsearch`: search LDAP directory entries
 
-## Setup A LDAP Server
+### search
 
-db.ldif changes admin DN and password
-```ldif
-dn: olcDatabase={2}hdb,cn=config
-changetype: modify
-replace: olcSuffix
-olcSuffix: dc=localnet,dc=com
+```bash
+ldapsearch [-b <baseDN>] [-s <scope>] <filter>
+ [ <attrs> ]
+```
+examples: 
+```bash
+ldapsearch -b 'ou=people,o=nlight' '(objectclass=*)'
 
-dn: olcDatabase={2}hdb,cn=config
-changetype: modify
-replace: olcRootDN
-olcRootDN: cn=ladpadm,dc=localnet,dc=com
+ldapsearch -b 'o=nlight' -s one '(ou=*)'
 
-dn: olcDatabase={2}hdb,cn=config
-changetype: modify
-replace: olcRootPW
-olcRootPW: {SSHA}uiyb98YBIOUyIUYTBIYUTiuyB+yui
+ldapsearch -b "dc=evolveum,dc=com" -s sub
+ "(uid=semancik)"
 ```
 
-monitor.ldif
-```ldif
-dn: olcDatabase={1}monitor,cn=config
-changetype: modify
-replace: olcAccess
-olcAccess: {0}to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read by dn.base="cn=ladpadm,dc=localnet,dc=com" read by * none
+commons options
+```bash
+-h <ldapServerHostName>
+-p <ldapServerPort>
+-D <bindDN>
 ```

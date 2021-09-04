@@ -107,3 +107,6 @@ public class MyTests {
     }
 }
 ``` 
+
+## Headless Browser
+A headless browser is a web browser without a graphical user interface.
