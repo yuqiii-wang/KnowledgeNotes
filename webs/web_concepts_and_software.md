@@ -84,29 +84,5 @@ curl -X POST --data '{"request": {"url":"index", "method":"GET"}, "response": {"
 # Go to your browser to  http://localhost:8080/index
 ```
 
-## JUnit Test
-A JUnit test is a method contained in a class which is only used for testing. This is called a Test class. To define that a certain method is a test method, annotate it with the `@Test` annotation.
-
-The following code shows a JUnit test using the JUnit 5 version. This test assumes that the MyClass class exists and has a multiply(int, int) method.
-
-```java
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
-public class MyTests {
-
-    @Test
-    public void multiplicationOfZeroIntegersShouldReturnZero() {
-        MyClass tester = new MyClass(); // MyClass is tested
-
-        // assert statements
-        assertEquals(0, tester.multiply(10, 0), "10 x 0 must be 0");
-        assertEquals(0, tester.multiply(0, 10), "0 x 10 must be 0");
-        assertEquals(0, tester.multiply(0, 0), "0 x 0 must be 0");
-    }
-}
-``` 
-
 ## Headless Browser
 A headless browser is a web browser without a graphical user interface.

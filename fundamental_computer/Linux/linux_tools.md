@@ -58,7 +58,7 @@ P.S. The name systemd adheres to the Unix convention of naming daemons by append
 sudo systemctl start application.service
 ```
 
-* `awk` provides a scripting language for text processing, of a given syntax `aws {cmd_scripts} filename`
+* `awk` provides a scripting language for text processing, of a given syntax `aws {cmd_scripts} filename`. Var denoted by `$` indicates str separated by `empty space`; `$0` represents the whole input str.
 
 ```bash
 echo "Hello Tom" | awk '{$2="Adam"; print $0}'

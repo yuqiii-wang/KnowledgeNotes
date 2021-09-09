@@ -281,3 +281,10 @@ while (true) {
 ```
 
 * Java Container
+
+* Java Bean Concept
+
+In computing based on the Java Platform, `JavaBeans` are classes that encapsulate many objects into a single object (the bean). 
+
+The JavaBeans functionality is provided by a set of classes and interfaces in the java.beans package. Methods include info/description for this bean.
+

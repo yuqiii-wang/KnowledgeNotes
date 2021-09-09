@@ -37,9 +37,3 @@ public class TextEditor {
    }
 }
 ```
-
-* Servlet
-
-A code snippet running on a server. Every HTTP request is sent and processed in a web container. Business user sends requests from browser (applet, applet container), through HTTP SSL a web container handles the request. A servlet consists of a number of components, such as object instantiations when receiving a request, and garbage collection after a complete HTTP request/response finishes. After, an EJB container runs that provides multi-threading execution.
-
-A web container can be regarded as a special JVM tool interface that manages the servlets and a thread pool. One example is that a JSP page is translated between HTML and java code.
