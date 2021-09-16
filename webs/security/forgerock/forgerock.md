@@ -1,113 +1,19 @@
 # ForgeRock
 
-## Access Management (AM)
-
-AM manages access to resources, such as a web page, an application, or a web service, that are available over the network by building a authentication flow of nodes.
-
-AM handles both authentication and authorization, via such as LDAP (Lightweight Directory Access Protocol), Windows authentication, one-time password services.
-
-### ssoadm
-
-ssoadm is admin console tool for various configuration.
-
-```bash
-./ssoadm update-agent -e [realmname] -b [agentname] -u [adminID] -f [passwordfile] -a com.sun.identity.agents.config.agent.protocol=[protocol]
-```
-
-### policy example
-
-`Policy` can be used for taking action (analyzing requests) based on Opendj's user data (e.g., what permissions associated with a client id) to grant the requested permissions.
-
-**reference:**
-https://backstage.forgerock.com/knowledge/kb/book/b91932752#a10205600
-
-1. use `amadmin` to obtain config permission (use response token)
-```bash
-curl -X POST \
-    -H "X-OpenAM-Username: amadmin" \
-    -H "X-OpenAM-Password: cangetinam" \
-    -H "Content-Type: application/json" \
-    -H "Accept-API-Version: resource=2.1" \
-http://host1.example.com:8080/openam/json/realms/root/authenticate?authIndexType=service&authIndexValue=adminconsoleservice
-```
-It returns
-```json
-{ "tokenId": "AQIC5wM2LY4SfcxsuvGEjcsppDSFR8H8DYBSouTtz3m64PI.*AAJTSQACMDIAAlNLABQtNTQwMTU3NzgxODI0NzE3OTIwNAEwNDU2NjE0*", "successUrl": "/openam/console", "realm": "/" } 
-```
-
-2. find resource type ID; The "uuid" shown in the response is the "resourceTypeUuids" attribute required to create a policy.
-```bash
-token=AQIC5wM2LY4Sfcxs...EwNDU2NjE0*
-curl \
-    -H "iPlanetDirectoryPro: ${token}" \
-http://host1.example.com:8080/openam/json/realms/root/resourcetypes?_queryFilter=true
-```
-It returns
-```json
-{
-  "result": [
-    {
-      "uuid": "76656a38-5f8e-401b-83aa-4ccb74ce88d2",
-      "name": "URL",
-      "description": "The built-in URL Resource Type available to OpenAM Policies.",
-      "patterns": [
-        "*://*:*/*?*",
-        "*://*:*/*"
-      ],
-      "actions": {
-        "POST": true,
-        "PATCH": true,
-        "GET": true,
-        "DELETE": true,
-        "OPTIONS": true,
-        "HEAD": true,
-        "PUT": true
-      },
-      "createdBy": "id=dsameuser,ou=user,dc=openam,dc=forgerock,dc=org",
-      "creationDate": 1422892465848,
-      "lastModifiedBy": "id=dsameuser,ou=user,dc=openam,dc=forgerock,dc=org",
-      "lastModifiedDate": 1422892465848
-    }
-  ]
-}
-```
-
-3. update a policy according to resource uuid
-```bash
-curl -X POST \
--H "iPlanetDirectoryPro: AQIC5wM2LY4Sfcxs...EwNDU2NjE0*" \
--H "Content-Type: application/json" \
--H "Accept-API-Version: resource=2.0" \
--d "{
-    "name": "mypolicy",
-    "active": true,
-    "description": "My Policy.",
-    "applicationName": "iPlanetAMWebAgentService",
-    "actionValues": {
-        "POST": false,
-        "GET": true
-    },
-    "resources": [
-        "http://www.example.com:80/*",
-        "http://www.example.com:80/*?*"
-    ],
-    "subject": {
-        "type": "Identity",
-        "subjectValues": [
-            "uid=demo,ou=People,dc=example,dc=com"
-        ]
-    },
-    "resourceTypeUuid": "76656a38-5f8e-401b-83aa-4ccb74ce88d2"
-}" \
-http://host1.example.com:8080/openam/json/realms/root/policies?_action=create
-```
-Response shows updated result policy json.
-
 ## Identity Management (IDM)
 
 ## Directory Services (DS)
 
-A typical DS Schema:
+Best architecture practice:
+![fr-multi-datastores](imgs/fr-multi-datastores.png "fr-multi-datastores")
+
+## Directory Services (DS) CTS
+
+AM's Core Token Service (CTS) provides generalized, persistent, and highly available storage for sessions and tokens used by AM.
+
+## Directory Services (DS) USR
+
+A typical DS USR Schema:
 
 https://backstage.forgerock.com/docs/ds/7/schemaref/index.html#preface
 

@@ -24,3 +24,19 @@ Use this for `git rebase <new_branch>`
 ```bash
 git rebase --continue
 ```
+
+## git rollback
+
+* rollback from `git add .`
+
+```bash
+git reset .
+```
+
+* rollback from `git commit`
+
+```bash
+git log --oneline
+# find HEAD hash
+git reset <HEAD>
+```

@@ -1,6 +1,6 @@
 # Python Notes
 
-## `set` Usage
+### `set` Usage
 
 **`set` as key for `dict`**
 ```python
@@ -25,7 +25,7 @@ print(set1 - set2) # complementary set
 
 In python, elements in `set` are unique while elements in `tuple` are immutable.
 
-## Deepcopy
+### Deepcopy
 
 Should not just use `=` for by-value assignment in python, instead, by
 ```python
@@ -35,7 +35,25 @@ a = [[1,2,3], [2,3,4]]
 b = copy.deepcopy(a)
 ```
 
-## Variadic Arguments
+### `yield` usage
+
+`iterable`: When you create a list, you can read its items one by one. Reading its items one by one is called iteration,
+
+`generators` are iterators, a kind of iterable you can only iterate over once. Generators do not store all the values in memory, they generate the values on the fly.
+```py
+mygenerator = (x*x for x in range(3))
+for i in mygenerator:
+    print(i)
+# print results: 0, 1, 4
+
+for i in mygenerator:
+    print(i)
+# print results: 0, 0, 0
+```
+
+`yield` is a keyword that is used like return, except the function will return a generator.
+
+### Variadic Arguments
 
 ```python
 # *data is de-referenced to of tuple
@@ -46,7 +64,7 @@ def inputList(*data):
 print(inputList(1,2,3))
 ```
 
-## Dynamic Function and Function Handle
+### Dynamic Function and Function Handle
 
 In general, a callable is something that can be called. This built-in method in Python checks and returns True if the object passed appears to be callable, but may not be, otherwise False.
 ```py

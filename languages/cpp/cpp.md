@@ -82,13 +82,13 @@ int main(){
 
 ## Shared Pointer's Realization
 
-## Virtual Fuction Realization
+## Virtual Function Realization
 
 ## STL Container Thread-Safe Access and Modification
 
 ## Garbage Collection, Constructor and Destructor
 
-## Miscelleneous
+## Miscellaneous
 
 * i++ vs ++i
 
@@ -107,4 +107,8 @@ int j = i++;
 
 * Private, Protected and Friend
 
-* GDB Common Debugging Practicess
+* GDB Common Debugging Practices
+
+* std::vector<bool>
+
+`std::vector<bool>` contains boolean values in compressed form using only one bit for value (and not 8 how bool[] arrays do). It is not possible to return a reference to a bit in c++, 
