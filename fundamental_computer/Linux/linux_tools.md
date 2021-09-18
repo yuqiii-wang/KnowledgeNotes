@@ -89,6 +89,14 @@ The `sshd` process is started when the system boots. The program is usually loca
 
 * `chkconfig` command is used to list all available services and view or update their run level settings. In simple words it is used to list current startup information of services or any particular service
 
+* ln
+
+A soft link is something like a shortcut in Windows. It is an indirect pointer to a file or directory. Unlike a hard link, a symbolic link can point to a file or a directory on a different filesystem or partition.
+
+```bash
+ln -s [OPTIONS] FILE LINK
+```
+
 ## Concepts
 
 ### Process
@@ -128,6 +136,13 @@ We should mask a service, if we want to prevent any kind of activation, even man
 ```bash
 systemctl unmask firewalld
 systemctl start firewalld
+```
+
+### Create a bootable usb
+
+```bash
+sudo umount /dev/sda1
+sudo dd if=/path/to/ubuntu.iso of=/dev/sda1 bs=1M
 ```
 
 ### Kernel Levels:
