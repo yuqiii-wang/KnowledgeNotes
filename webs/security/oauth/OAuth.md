@@ -101,6 +101,29 @@ This used to deal with access_token transmission (stateless authentication) betw
 
 ![nonce_process_flow](imgs/nonce_process_flow.png "nonce_process_flow")
 
+### Use of State
+
+Reference:
+
+https://auth0.com/docs/configure/attack-protection/state-parameters
+
+As described in rfc6749, state parameter preserves some state objects set by the client in the Authorization request and makes it available to the client in the response to mitigate CSRF attacks.
+
+Some typical generation can be
+```py
+state = hash('sha256', session_id())
+```
+```py
+state = hash('sha256', client_id())
+```
+
+Init by a client for authorization to an AM server.
+```bash
+curl \
+'https://oauth.pipedrive.com/oauth/authorize?client_id=xxx&redirect_uri=https://xxx.com/oauth2/redirect.html&state=xyzABC123'
+```
+
+This client checks if response from the AM server has same `state=xyzABC123`.
 
 ## OpenId Connect
 

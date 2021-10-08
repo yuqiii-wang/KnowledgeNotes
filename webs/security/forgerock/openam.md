@@ -125,3 +125,13 @@ Sessions are identified using a unique token called SSOTokenID.
 * The period (.) is a separator.
 
 ![ssotokenid](imgs/ssotokenid.jpg "ssotokenid")
+
+### Get session's user info
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Accept-API-Version: resource=2" \
+  -H "iPlanetDirectoryPro: AQIC5wM2LY4Sfcxs...EwNDU2NjE0*" \
+  "http://host1.example.com:8080/openam/json/realms/root/sessions?_action=getSessionProperties&tokenId=BXCCq...NX*1*"
+```

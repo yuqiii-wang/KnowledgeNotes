@@ -97,6 +97,13 @@ A soft link is something like a shortcut in Windows. It is an indirect pointer t
 ln -s [OPTIONS] FILE LINK
 ```
 
+* read os name
+
+```bash
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+echo $distribution
+```
+
 ## Concepts
 
 ### Process
