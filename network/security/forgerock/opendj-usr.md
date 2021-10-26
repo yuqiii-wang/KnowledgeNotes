@@ -1,7 +1,12 @@
-# OPendj-usr
+# Opendj-usr
 
-## LDAP Schema for **user** opendj
+Run this for USR Store Creation:
+```bash
+./ssoadm create-datastore -e realm -t LDAPv3ForOpenDS -D config.conf
+```
+where `config.conf` is ldap usr schema shown as below
 
+### LDAP Schema for **user** opendj
 
 A typical DS USR Schema:
 

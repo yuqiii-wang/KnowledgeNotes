@@ -4,13 +4,9 @@ AM manages access to resources, such as a web page, an application, or a web ser
 
 AM handles both authentication and authorization, via such as LDAP (Lightweight Directory Access Protocol), Windows authentication, one-time password services.
 
-### ssoadm
+## Policy
 
-ssoadm is admin console tool for various configuration.
-
-```bash
-./ssoadm update-agent -e [realmname] -b [agentname] -u [adminID] -f [passwordfile] -a com.sun.identity.agents.config.agent.protocol=[protocol]
-```
+AM is an policy server that checks against client and user profile and manages tokens by defined policies.
 
 ### policy example
 
@@ -106,7 +102,7 @@ Response shows updated result policy json.
 The `iPlanetDirectoryPro` cookie is the AM session cookie (also referred to as the session ID or SSOTokenID).
 
 When a user successfully authenticates against an OpenAM server, a session is generated on that server.  The session contains information about the interaction between the client and the server. A decoded snippet of token is shown below
-```bash
+```conf
 sessionID:  AQIC5wM…
 maxSessionTime:  120
 maxIdleTime:  30

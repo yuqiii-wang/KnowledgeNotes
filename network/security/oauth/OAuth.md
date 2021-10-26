@@ -1,58 +1,7 @@
 # OAuth
 OAuth is an open standard for authorization, commonly used as a way for Internet users to log in to third party websites using their Microsoft, Google, Facebook, Twitter, One Network etc. accounts without exposing their password.
 
-## JWT
-
-Json Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. 
-
-It contains (separated by `.`):
-* Header, such as type of algo, are encoded in Base64
-```json
-{
-  "alg": "HS256",
-  "typ": "JWT"
-}
-```
-* Payload, lots of claims (Claims are statements about an entity (typically, the user) and additional data.) They are encoded in Base64 rather than encrypted (thus anyone can read the content).
-```json
-{
-  "sub": "1234567890",
-  "name": "John Doe",
-  "admin": true
-}
-```
-* Signature, takes Base64 encoded header, payload, and a secret, then signs by the given signing algo, 
-```bash
-HMACSHA256(
-  base64UrlEncode(header) + "." +
-  base64UrlEncode(payload),
-  secret)
-```
-
-A typical usage:
-`Authorization` in header of an https request for protected resources as specified in claims of this jwt. Cross-Origin Resource Sharing (CORS) won't be an issue as it doesn't use cookies
-```
-Authorization: Bearer <token>
-```
-A Bearer Token is an opaque string, not intended to have any meaning to clients using it.
-
-
-An example of decoded JWT 
-
-```json
-{
-  "iss": "https://YOUR_DOMAIN/",
-  "sub": "auth0|123456",
-  "aud": [
-    "my-api-identifier",
-    "https://YOUR_DOMAIN/userinfo"
-  ],
-  "azp": "YOUR_CLIENT_ID",
-  "exp": 1489179954,
-  "iat": 1489143954,
-  "scope": "openid profile email address phone read:appointments"
-}
-```
+* id token: sso token, returned from user/client authentication.
 
 ## Token Grant 
 
@@ -72,9 +21,21 @@ Section 4.2 of the draft OAuth 2.0 protocol indicates that an authorization serv
 * User is a human being
 * Companies host auth server and resource server.
 
-![Oauth_architecture](imgs/Oauth_architecture.jpg "Oauth_architecture")
+**Authorization Code Grant Flow**
+
+![oauth2-authz](imgs/oauth2-authz.svg "oauth2-authz")
+
+**Authorization Code Grant Flow with PKCE**
+
+The flow is similar to the regular Authorization Code grant type, but the client must generate a code that will be part of the communication between the client and the authorization server.
+
+ Proof Key for Code Exchange (PKCE)
+
+![oauth2-authz](imgs/oauth2-authz-pkce.svg "oauth2-authz")
 
 ### Client Credential
+
+Client Credentials grant is used when the client is also the resource owner and it is accessing its own data instead of acting in behalf of a user.
 
 Client provided credentials, used as API key, etc.
 

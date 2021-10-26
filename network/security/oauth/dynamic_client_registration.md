@@ -2,11 +2,73 @@
 
 References:
 
+https://datatracker.ietf.org/doc/html/rfc7591
+
 https://backstage.forgerock.com/docs/am/6.5/oauth2-guide/
+
+## Intro
+
+**dynamic-client-registration-flow (Technical):**
+
+![dynamic-client-registration-flow](imgs/dynamic-client-registration-flow.png "dynamic-client-registration-flow")
+
+**dynamic-client-registration-flow (Business):**
 
 As illustrated in this figure, Client Registration refers to App representing resource owners (end users) to request resources from resource servers.
 
 ![Oauth_architecture](imgs/Oauth_architecture.jpg "Oauth_architecture")
+
+* Client Registration Endpoint:
+
+OAuth 2.0 endpoint through which a client can be registered at an authorization server.
+
+* Initial Access Token
+
+OAuth 2.0 access token optionally issued by an authorization server to a developer or client and used to authorize calls to the client registration endpoint.
+
+* Software Statement
+
+A digitally signed or MACed JSON Web Token (JWT) [RFC7519] that asserts metadata values about the client software.
+
+* Client Software Instance
+
+A unit of a working program able to request for dynamic client registration. It can be a piece of a software system. 
+
+* Client Metadata
+
+The implementation and use of all client metadata fields is OPTIONAL
+
+1. redirect_uris
+
+2. token_endpoint_auth_method: 
+
+one of ["none", "client_secret_post", "client_secret_basic"]
+
+3. grant_types
+
+["authorization_code", "implicit", "password"(resource owner password), "client_credentials", "refresh_token", "urn:ietf:params:oauth:grant-type:jwt-bearer", "urn:ietf:params:oauth:grant-type:saml2-bearer"]
+
+4. response_types
+
+["code"(authorization code), "token"(for implicit)]
+
+5. client_name
+
+6. scope
+
+7. jwks_uri
+
+uri for client's public keys.
+
+8. jwks
+
+This field MUST be a JSON object containing a valid JWK Set.
+
+9. software_id
+
+uuid to identify the client software to be dynamically registered. Unlike "client_id", which is issued by the authorization server and SHOULD vary between instances.
+
+## Example Curls
 
 **Below, illustration by Forgerock as authorization servers** (others include Facebook, Google, etc.)
 
