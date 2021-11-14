@@ -43,6 +43,12 @@ void foo(const X& x){}
 
 ## Move and Forward
 
+### Summary
+
+Both `move` and `forward` are introduced to deal with expensive "copy" operation when passing params; `move` is used to force using `rvalue reference` without copy, while `forward` is of added compatability handling `rvalue/lvalue reference` as well as `const reference`.
+
+### Further explained
+
 Consider this stastement:
 
 ```cpp

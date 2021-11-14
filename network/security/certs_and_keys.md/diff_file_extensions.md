@@ -1,0 +1,91 @@
+# Different File Extensions
+
+###  `.pem`: Privacy Enhanced Mail
+
+`base64` encoding of binary/text content, specifically, a public key infrastructure based on X.509
+
+### `.der`: Distinguished Encoding Rules 
+
+Eestricted variant of BER (Basic Encoding Rules) for producing unequivocal transfer syntax for data structures described by ASN.1. (Abstract Syntax Notation One)
+
+### `.key`: a private key
+
+OpenSSL can wrap private keys for all algorithms (RSA, DSA, EC) in a generic and standard PKCS#8 structure.
+
+### `.csr` or `.req` or sometimes `.p10` 
+
+stands for Certificate Signing Request as defined in PKCS#10
+
+1. certification request information (include the entity's distinguished name, the entity's public key, and a set of attributes providing other information about the entity)
+2. a signature algorithm identifier
+3. a digital signature on the certification request information. 
+
+### `.crt` or `.cer`: simply certificate
+
+Usually an X509v3 certificate, again the encoding could be PEM or DER.
+
+```crt
+Certificate  ::=  SEQUENCE  {
+        tbsCertificate       TBSCertificate,
+        signatureAlgorithm   AlgorithmIdentifier,
+        signatureValue       BIT STRING  }
+
+TBSCertificate  ::=  SEQUENCE  {
+        version         [0]  EXPLICIT Version DEFAULT v1,
+        serialNumber         CertificateSerialNumber,
+        signature            AlgorithmIdentifier,
+        issuer               Name,
+        validity             Validity,
+        subject              Name,
+        subjectPublicKeyInfo SubjectPublicKeyInfo,
+        issuerUniqueID  [1]  IMPLICIT UniqueIdentifier OPTIONAL,
+                             -- If present, version MUST be v2 or v3
+
+        subjectUniqueID [2]  IMPLICIT UniqueIdentifier OPTIONAL,
+                             -- If present, version MUST be v2 or v3
+        extensions      [3]  EXPLICIT Extensions OPTIONAL
+                             -- If present, version MUST be v3
+        }
+
+Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
+
+CertificateSerialNumber  ::=  INTEGER
+
+Validity ::= SEQUENCE {
+        notBefore      Time,
+        notAfter       Time }
+
+Time ::= CHOICE {
+        utcTime        UTCTime,
+        generalTime    GeneralizedTime }
+
+UniqueIdentifier  ::=  BIT STRING
+
+SubjectPublicKeyInfo  ::=  SEQUENCE  {
+        algorithm            AlgorithmIdentifier,
+        subjectPublicKey     BIT STRING  }
+
+Extensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension
+
+Extension  ::=  SEQUENCE  {
+        extnID      OBJECT IDENTIFIER,
+        critical    BOOLEAN DEFAULT FALSE,
+        extnValue   OCTET STRING
+                    -- contains the DER encoding of an ASN.1 value
+                    -- corresponding to the extension type identified
+                    -- by extnID
+        }
+```
+
+Explained:
+
+* `tbsCertificate`: the names of the subject and issuer, a public key associated with the subject, a validity period, and other associated information.
+
+* `signatureValue`: a digital signature computed upon
+the ASN.1 DER encoded tbsCertificate as BIT STREAM. By generating this signature, a CA certifies the validity of the information in the tbsCertificate field.
+
+* `Issuer`: Info about a CA entity that signs the cert, minimum info include a DN for the CA.
+
+### `.crl`: Certificate Revocation List 
+
+Defined within the X.509v3 certificate specifications, and this is usually DER encoded as well.

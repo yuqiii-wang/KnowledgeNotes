@@ -4,26 +4,6 @@
 
 In short, the microservice architectural style is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API. 
 
-## Tomcat
-
-### Server.xml
-
-The elements of the `server.xml` file belong to five basic categories - Top Level Elements, Connectors, Containers, Nested Components, and Global Settings. 
-
-The port attribute of `Server` element is used to specify which port Tomcat should listen to for shutdown commands.
-
-`Service` is used to contain one or multiple Connector components that share the same Engine component. 
-
-By nesting one `Connector` (or multiple Connectors) within a Service tag, you allow Catalina to forward requests from these ports to a single Engine component for processing. 
-
-`Listener` can be nested inside Server, Engine, Host, or Context elements, point to a component that will perform an action when a specific event occurs.
-
-`Resource` directs Catalina to static resources used by your web applications.
-
-### Web.XML
-
-Tomcat will use TOMCAT-HOME/conf/web.xml as a base configuration, which can be overwritten by application-specific `WEB-INF/web.xml` files.
-
 ## WebSocket
 
 **WebSocket** is a computer communications protocol, providing full-duplex communication channels over a single TCP connection, facilitating real-time data transfer from and to the server.
@@ -86,3 +66,34 @@ curl -X POST --data '{"request": {"url":"index", "method":"GET"}, "response": {"
 
 ## Headless Browser
 A headless browser is a web browser without a graphical user interface.
+
+## Web Agents vs J2EE Agents
+
+Both act as an agent for Policy Decision Process, performing tasks ranging from user/client authentication to ip or location validation.
+
+* **Web agents** control access to content on web servers and proxy servers. Most typical is a web browser, that stores cookies, for instance, to hold user credentials for SSO before accessing a server's resources.
+
+* **J2EE agent** can be installed for protecting a variety of hosted J2EE applications, which might require a varying set of security policy implementation. The agent is a servlet filter that intercepts inbound requests to a server, including authorization/validation of the requests by defined policies. Policies can be declarative (e.g., xml) or programatic (e.g., java code).
+
+## Web Server
+
+A web server is computer software and underlying hardware that accepts requests via HTTP/HTTPS to distribute web content.
+
+Key services include:
+* URL path translation and resource mapping
+* Bandwidth throttling
+* http/https connection management
+* Logging
+* Request authentication
+
+## MIME
+
+Multipurpose Internet Mail Extensions (MIME) is an Internet standard that extends the format of email messages to support text in character sets other than ASCII, as well as attachments of audio, video, images, and application programs. 
+
+Inside a request's header, `Content-Type` specifies media type, such as
+```bash
+Content-Type: text/plain
+Content-Type: application/json
+Content-Type: application/octet-stream
+Content-Type: application/x-www-form-urlencoded
+```

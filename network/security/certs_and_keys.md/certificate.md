@@ -1,78 +1,5 @@
-# Certs and Secure Tunneling
 
-# Symmetric vs Asymmetric Encryption
-
-Symmetric-key algorithms are algorithms for cryptography that **use the same cryptographic keys** for both the encryption of plaintext and the decryption of ciphertext, while asymmetric ones use diff keys.
-
-Diffs:
-
-* Asymmetric encryption usually uses complex mathematical operations, such as power and modulus, on very large numbers (2048 bits).
-* Symmetric encryption uses simpler operations, such as XOR and multiply, on smaller numbers (64 or 128 bits)
-
-
-## SSL 
-
-`SSH tunneling` is a method of transporting arbitrary networking data over an encrypted SSH connection.
-
-**SSL** stands for Secure Socket Layer.
-
-The client contacts the server and sends the first message. The first message causes the client and server to exchange a few messages to negotiate the encryption algorithm to use and to pick an encryption key to use for this connection. Then the client's data is sent to the server. After this is done the client and the server can exchange information at will.
-
-An asymmetric cryptography:
-
-![asymmetric_cryptography](imgs/asymmetric_cryptography.png "asymmetric_cryptography")
-
-A symmetric cryptography:
-
-![symmetric-cryptography](imgs/symmetric-cryptography.png "symmetric-cryptography")
-
-An SSL handshake:
-
-1. Hello messages contain SSL version number, cipher settings, session-specific data, etc. (browser receives the certificate served as a **public key**)
-2. The client verifies the server's SSL certificate from **CA (Certificate Authority)** and authenticates the server (CA uses **private key** to perform verification)
-3. The client creates a session key, encrypts it with the server's public key and sends it to the server
-4. The server decrypts the session key with its private key and sends the acknowledgement
-
-![ssl-handshack](imgs/ssl-handshack.png "ssl-handshack")
-
-After a successful handshake, data is transferred with session key encryption.
-
-## TLS
-
-Transport Layer Security (TLS) is a successor of SSL, with most publicly visible use case of https.
-
-The process is illustrated as below, that
-1. Hello includes information about itself such as the ciphers it supports and the TLS versions it supports
-2. a pre-master secret is calculated by the server's public key extracted from its cert, meanwhile, a symmetric key is generated
-3. Server generates same symmetric key and switches to using symmetric key encryption
-
-![TLS_handshake](imgs/TLS_handshake.png "TLS_handshake")
-
-TLS is different from SSL in terms of 
-1. Cipher suites
-2. Alert messages
-3. Hash algos
-4. Certificate format 
-
-**CRL** 
-
-a certificate revocation list (or CRL) is "a list of digital certificates that have been revoked by the issuing certificate authority (CA) before their scheduled expiration date and should no longer be trusted".
-
-**TLS Certificate**
-
-A very good tutorial:
-https://tls.ulfheim.net/
-
-X.509 is a standard defining the format of public key certificates.
-
-### mTLS
-
-On mTLS, both client and server need to present certificates issued by a CA, and verify whether the certificates are valid.
-
-
-![mTLS_handshake](imgs/mTLS_handshake.png "mTLS_handshake")
-
-## Certificate
+# Certificate
 
 A certificate is a container of a public key, with added info such as issuer, experation time, encryption algo, etc:
 
@@ -145,6 +72,85 @@ To check fingerprint, first convert into .der then hash it and return the result
 * check cert chain
 `openssl s_client -connect <hostname:port> -showcerts`
 
+### **A Walk-through Example**
+
+1. Create a `server-csr.conf`, in which the server dn is defined.
+```conf
+[ req ]
+default_bits = 2048
+encrypt_key = no
+default_md = sha256
+utf8 = yes
+string_mask = utf8only
+prompt = no
+distinguished_name = server_dn
+req_extensions = server_reqext
+[ server_dn ]
+commonName = threatshield.example.com 
+[ server_reqext ]
+keyUsage = critical,digitalSignature,keyEncipherment
+extendedKeyUsage = serverAuth,clientAuth
+subjectKeyIdentifier = hash
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = threatshield.example.com
+```
+
+2. Certificate Signing Request, in which you obtain a private key `server.key` and a public key (aka a cert) `server.csr`
+```bash
+openssl req -new -config server-csr.conf -out server.csr \
+        -keyout server.key
+```
+
+3. Create a `CA.conf`
+
+```conf
+[ ca ]
+default_ca = the_ca
+[ the_ca ]
+dir = ./CA
+private_key = $dir/private/CA.key
+certificate = $dir/CA.crt
+new_certs_dir = $dir/certs
+serial = $dir/db/crt.srl
+database = $dir/db/db
+unique_subject = no
+default_md = sha256
+policy = any_pol
+email_in_dn = no
+copy_extensions = copy
+[ any_pol ]
+domainComponent = optional
+countryName = optional
+stateOrProvinceName = optional
+localityName = optional
+organizationName = optional
+organizationalUnitName = optional
+commonName = optional
+emailAddress = optional
+[ leaf_ext ]
+keyUsage = critical,digitalSignature,keyEncipherment
+basicConstraints = CA:false
+extendedKeyUsage = serverAuth,clientAuth
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always
+[ ca_ext ]
+keyUsage                = critical,keyCertSign,cRLSign
+basicConstraints        = critical,CA:true,pathlen:0
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid:always
+```
+
+4. To sign the server's certificate by ca
+```bash
+openssl ca -config CA.conf -days 365 -create_serial \
+    -in server.csr -out server.crt -extensions leaf_ext -notext
+```
+
+5. Link certificates together to have the certificate chain in one file
+```bash
+cat server.crt CA/CA.pem >server.pem
+```
 
 ## JWK and JKWS
 
