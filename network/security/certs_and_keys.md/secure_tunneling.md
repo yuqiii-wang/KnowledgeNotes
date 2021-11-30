@@ -1,6 +1,6 @@
 # Secure Tunneling
 
-# Symmetric vs Asymmetric Encryption
+## Symmetric vs Asymmetric Encryption
 
 Symmetric-key algorithms are algorithms for cryptography that **use the same cryptographic keys** for both the encryption of plaintext and the decryption of ciphertext, while asymmetric ones use diff keys.
 

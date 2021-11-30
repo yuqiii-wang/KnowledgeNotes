@@ -41,6 +41,38 @@ void foo(X&& x) { foo(x); }
 void foo(const X& x){}
 ```
 
+### Example
+
+Consider this, 
+```cpp
+Object A, B, C, D, E;
+A = (B + (C + (D + E)));
+```
+However, `operator+` such as on `(D + E)` whose result is `+` to `C`, creates multiple temp objects and soon useless thus deleted, given the following Object definition.
+```cpp
+Object Object::operator+ (const Object& rhs) {
+    Object temp (*this);
+    // logic for adding
+    return temp;
+}
+```
+
+This can be addressed by 
+```cpp
+Object& Object::operator+ (Object&& rhs) {
+    // logic to modify rhs directly
+    return rhs;
+}
+```
+This is known as `move` semantics, in which `const Object& rhs` is a lvalve reference and `Object&& rhs` changes to a modifiable rvalue reference.
+
+### & vs && in var declaration
+
+`auto& x` is simply a var reference.
+
+`auto&& x` treats x as a temp rvalue without making it as `const&`.
+
+
 ## Move and Forward
 
 ### Summary
@@ -67,6 +99,7 @@ so that `src_str` becomes a temporary (an rvalue).
 
 In contrast to `std::move` that treats an object as a temp rvalue, `std::forward` has a single use case: to cast a templated function parameter (inside the function) to the value category (lvalue or rvalue) the caller used to pass it. This allows rvalue arguments to be passed on as rvalues, and lvalues to be passed on as lvalues, a scheme called “perfect forwarding.”
 
+In the example below, `wrap(T&& t)` has a param not deduced until invocation.
 ```cpp
 struct S{};
 
@@ -80,7 +113,7 @@ void wrap(T&& t){
 
 int main(){
     S s;
-    wrap(s); // lvalaue
+    wrap(s); // lvalue
     wrap(S()); // rvalue
     return 0;
 }
@@ -118,3 +151,39 @@ int j = i++;
 * std::vector<bool>
 
 `std::vector<bool>` contains boolean values in compressed form using only one bit for value (and not 8 how bool[] arrays do). It is not possible to return a reference to a bit in c++, 
+
+* template
+
+cpp template functions must be in `#include` with their implementation, which means, for example, in header files, template should be materialized with definitions rather than a pure declaration.
+
+Example.hpp
+```cpp
+class Example {
+    template<typename T>
+    T method_empty(T& t);
+
+    template<typename T>
+    T method_realized(T& t){
+        return t;
+    }
+};
+```
+Example.cpp
+```cpp
+#include "Example.cpp"
+T Example::method_empty(T& t){
+    return t;
+}
+```
+main.cpp
+```cpp
+#include "Example.cpp"
+
+int main(){
+    Example example;
+    int i = 1;
+    example.method_empty(i); // linker err, definition must be in Example.hpp
+    example.method_realized(i); // ok
+    return 0;
+}
+```

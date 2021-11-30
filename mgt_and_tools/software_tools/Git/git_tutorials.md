@@ -1,5 +1,17 @@
 # Git Commands
 
+## git clone with token
+
+```bash
+git clone https://github.com/username/repo.git
+```
+input on prompts: **password is token instead**
+```bash
+Username: <username>
+Password: <token>
+```
+
+
 ## How to upload
 First, go to `https://github.com/settings/tokens/new` and generate token with `write:packages` permission. Then put that token onto the `<token>` in the bash below.
 

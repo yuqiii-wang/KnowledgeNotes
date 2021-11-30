@@ -1,4 +1,6 @@
-# Client Auth
+# Client Authentication
+
+Methods available on ForgeRock.
 
 ## 1. By ` client_id` and `client_secret`
 
