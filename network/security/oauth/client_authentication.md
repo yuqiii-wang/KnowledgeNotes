@@ -1,6 +1,6 @@
 # Client Authentication
 
-Methods available on ForgeRock.
+Methods available on ForgeRock. Only one auth method can be used as specified in client profile (e.g., Software Statement Assertion) via the config `tokenEndPointAuthMethod`.
 
 ## 1. By ` client_id` and `client_secret`
 
