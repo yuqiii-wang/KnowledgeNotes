@@ -68,7 +68,7 @@ This field MUST be a JSON object containing a valid JWK Set.
 
 uuid to identify the client software to be dynamically registered. Unlike "client_id", which is issued by the authorization server and SHOULD vary between instances.
 
-## Example Curls
+## Example Curl for Client Registration
 
 **Below, illustration by Forgerock as authorization servers** (others include Facebook, Google, etc.)
 
@@ -123,7 +123,7 @@ Without other specifications, the response is
 
 Specifications about this app client reside on Forgerock opendj-cfg.
 
-## MTLS
+## Client Auth
 
 Clients are required to proof their identity by providing CA-signed X.509 certificates (PKI) or jwks when self-signed.
 

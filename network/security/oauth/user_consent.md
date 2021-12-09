@@ -31,8 +31,8 @@ Example Request JWT
 ```
 
 Explained:
-* `iss`: OAuth 2.0 Provider Service in AM
-* `aud`: remote consent service (RCS): renders a consent page, gathers the result, signs and encrypts the result, and returns it to the authorization server (e.g., could be middleware aws lambda that renders an html page)
+* `iss`: OAuth 2.0 Provider Service in AM (Auth Server)
+* `aud`: remote consent service (RCS): (Client APP) renders a consent page, gathers the result, signs and encrypts the result, and returns it to the authorization server (e.g., could be middleware aws lambda that renders an html page)
 * `csfr`: a unique string that must be returned in the response to help prevent cross-site request forgery (CSRF) attacks; AM generates this string from a hash of the user's session ID.
 * `claims`: additional info such as prompt text for user to help decide if consent should be given.
 

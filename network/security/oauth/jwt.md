@@ -2,6 +2,8 @@
 
 Json Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. 
 
+There are some mandatory fields in header and payload, and customised fields for tailored needs.
+
 It contains (separated by `.`):
 * Header, such as type of algo, are encoded in Base64
 ```json
