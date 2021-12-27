@@ -26,3 +26,7 @@ A web container can be regarded as a special JVM tool interface that manages the
 In general, an ABI is the interface between two program modules, one of which is often at the level of machine code. The interface is the de facto method for encoding/decoding data into/out of the machine code.
 
 In Ethereum, it's basically how you can encode Solidity contract calls for the EVM and, backwards, how to read the data out of transactions.
+
+* dry run
+
+Program execution rehearsal. The most observed use is running the the whole program lifecylel without actually committing any action, and printing out the list of expected behavior. For example, `terraform plan` is a dry run of `terraform apply`.

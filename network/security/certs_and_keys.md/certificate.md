@@ -1,4 +1,3 @@
-
 # Certificate
 
 A certificate is a container of a public key, with added info such as issuer, experation time, encryption algo, etc:
@@ -71,6 +70,11 @@ To check fingerprint, first convert into .der then hash it and return the result
 
 * check cert chain
 `openssl s_client -connect <hostname:port> -showcerts`
+
+* Generate a cert from an existing key
+```bash
+keytool -omportkeystore -srckeystore src_keystore.jks -destkeystore dest_keystore.p12 -srcstoretype jks deststoretype pkcs12 -srcstorepass changeit -deststorepass changeit
+```
 
 ### **A Walk-through Example**
 

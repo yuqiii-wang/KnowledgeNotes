@@ -1,6 +1,6 @@
 from web3 import Web3
 
-eth_provider="https://mainnet.infura.io/v3/cc979f19b71b470893d4f101b5a941fc"
+eth_provider="https://mainnet.infura.io/v3/<endpoint>"
 
 # HTTPProvider:
 w3 = Web3(Web3.HTTPProvider(eth_provider))

@@ -74,3 +74,7 @@ and the derived eigenvalues &Lambda; are
 The visualization of the aforementioned calculations are described below. The two-dimension dataset can deliver a two-dimensioin eigen-space. The two eigenvectors (with extensions) walk across perceptually major directions of the provided dataset. Eigenvalues give information about relative information retention, that data samples with diverse distributions have high eigenvalues.
 
 ![alt text](imgs/pcaExample.png "pcaExample")
+
+5. Inverse Matrix Transformation 
+
+Define $A^{-1}A=I$, so that it means $A^{-1}$ transforms $A$ back to Identity Matrix. Given this into consideration, $A^{-1}$ exists only when $det(A)\neq0$, since $det(A)\neq0$ (*full rank*) indicates there is no transformation from higher *rank* to lower *rank*.

@@ -1,5 +1,7 @@
 # Different File Extensions
 
+## File Extension
+
 ###  `.pem`: Privacy Enhanced Mail
 
 `base64` encoding of binary/text content, specifically, a public key infrastructure based on X.509
@@ -89,3 +91,11 @@ the ASN.1 DER encoded tbsCertificate as BIT STREAM. By generating this signature
 ### `.crl`: Certificate Revocation List 
 
 Defined within the X.509v3 certificate specifications, and this is usually DER encoded as well.
+
+## Cert/Key types
+
+A **trustedCertEntry** is a certificate which is trusted by the keystore. This is essential for allowing certificate chains
+
+A **privateKeyEntry** is a public/private key pair with an associated CA-signed or self-signed certificate
+
+A **keyEntry** is a public/private key pair without the certificate.
