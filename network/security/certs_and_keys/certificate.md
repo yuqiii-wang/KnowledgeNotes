@@ -41,7 +41,10 @@ open tomcat/conf/server.xml, and add your example.jks
 
 A CSR is an encoded message submitted by an applicant to a CA to get an SSL certificate. CSR identifies a client by its distinguished name (DN).
 
-A CSR is sent to a CA and CA signs this CSR and return a certificate (containing a client's public key and client DN) and a client private key.
+A CSR is sent to a CA and CA signs this CSR and return a certificate (containing a client's public key and client DN).
+
+Checking a CSR by
+`keytool -printcertreq -file clientcsr.csr -storepass changeit`, that reveals info such as DN and key identifier.
 
 **Signature**
 
@@ -56,13 +59,13 @@ To check fingerprint, first convert into .der then hash it and return the result
 `sha1sum cert.cer`
 
 **openssl/keytool examples**
-* private key generation:
+* key pair generation:
 `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out private-key.pem`
 
 * corresponding public key generation
 `openssl pkey -in private-key.pem -out public-key.pem -pubout`
 
-* generating CSR
+* generate a private key and csr
 `openssl req -newkey rsa:2048 -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=www.example.com" -keyout PRIVATEKEY.key -out MYCSR.csr`
 
 * check cert content
@@ -71,12 +74,12 @@ To check fingerprint, first convert into .der then hash it and return the result
 * check cert chain
 `openssl s_client -connect <hostname:port> -showcerts`
 
-* Generate a cert from an existing key
+* change format
 ```bash
-keytool -omportkeystore -srckeystore src_keystore.jks -destkeystore dest_keystore.p12 -srcstoretype jks deststoretype pkcs12 -srcstorepass changeit -deststorepass changeit
+keytool -importkeystore -srckeystore src_keystore.jks -destkeystore dest_keystore.p12 -srcstoretype jks deststoretype pkcs12 -srcstorepass changeit -deststorepass changeit
 ```
 
-### **A Walk-through Example**
+### **A Walk-through example (by conf file)**
 
 1. Create a `server-csr.conf`, in which the server dn is defined.
 ```conf

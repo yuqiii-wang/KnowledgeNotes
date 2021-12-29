@@ -30,3 +30,23 @@ In Ethereum, it's basically how you can encode Solidity contract calls for the E
 * dry run
 
 Program execution rehearsal. The most observed use is running the the whole program lifecylel without actually committing any action, and printing out the list of expected behavior. For example, `terraform plan` is a dry run of `terraform apply`.
+
+* Lazy evaluation
+
+lazy evaluation, or call-by-need, is an evaluation strategy which delays the evaluation of an expression until its value is needed (non-strict evaluation).
+
+For example, in python 2.x, `range()` stores the entire list of elems on memory. 
+```py
+r = range(10)
+print r
+# [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+However, in python 3.x, `range()` uses lazy evaluation and returns elem on demand.
+```py
+r = range(10)
+print(r)
+# range(0, 10)
+print(r(3))
+# 3
+```

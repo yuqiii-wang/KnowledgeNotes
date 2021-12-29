@@ -28,6 +28,32 @@ $$
 
 Determinant is a scalar value that is a function of the entries of a square matrix.
 
+Geometrically speaking, determinant is area of the $n \times n$ squared matrix, for example, for a $2 \times 2$ matrix, the area of parallellogram is
+$$
+|u||v|sin\theta = 
+\begin{array}{c}
+    \bigg (
+    \begin{array}{c}
+      -b \\
+      a
+    \end{array}
+    \bigg )
+\end{array}
+\begin{array}{c}
+    \bigg (
+    \begin{array}{c}
+      c \\
+      d
+    \end{array}
+    \bigg )
+\end{array}
+=
+ad-bc
+$$
+
+![alt text](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
+
+The following shows the calculation of a $3 \times 3$ matrix's determinant:
 $$
 \bigg |
 \begin{array}{ccc}
