@@ -2,9 +2,11 @@
 
 * Concurrency & Parallelism
 
-`Concurrency` means executing multiple tasks at the same time but not simultaneously. E.g. two tasks works in overlapping time periods.
+`Concurrency` means executing multiple tasks roughly at the same time but NOT simultaneously. E.g. two tasks works in overlapping time periods.
 
 `Parallelism` means performing two or more tasks simultaneously, e.g. performing multiple calculations at the same time.
+
+`Coroutines` are computer program components that generalize subroutines for non-preemptive multitasking, by allowing execution to be suspended and resumed. Most typical are exception handling, event loop and interrupt callback.
 
 * Serialization
 
