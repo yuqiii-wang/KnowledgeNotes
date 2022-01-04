@@ -1,10 +1,36 @@
 # Formula explained
 
+## Proof of Determinant
+
+Take an orthonormal basis $e_1,…,e_n$ and let columns of $A$ be $a_1,…,a_n$, where $∧$ represents exterior product operator,
+$$
+a_1 ∧ ⋯ ∧ a_n=det(A) (e_1 ∧ ⋯ ∧ e_n)
+$$
+
+hence
+$$
+det(A)=(e_1 ∧ ⋯ ∧ e_n)^{−1}(a_1 ∧ ⋯ ∧ a_n)
+$$
+
+given orthogonality ($E^{-1}=E^T$):
+$$
+(e_1 ∧ ⋯ ∧ e_n)^{−1} = (e_1 ⋯ e_n)^{−1} = e_n ⋯ e_1 = e_n ∧ ⋯ ∧ e_1
+$$
+
+Note that $e_n ∧ ⋯ ∧ e_1$ is a subspace of $a_1 ∧ ⋯ ∧ a_n$, we can further write
+
+$$\begin{align*}
+det(A) \\
+& =(e_n ∧ ⋯ ∧ e_1)⋅(a_1 ∧ ⋯ ∧ a_n) \\
+& =(e_n ∧ ⋯ ∧ e_2)⋅\big(e_1⋅(a_1 ∧ ⋯ ∧ a_n)\big) \\
+& =(e_n ∧ ⋯ ∧ e_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ a_n)−\sum_{i=2}^n (-1)^i a_{1,i}(a_1 ∧ ⋯ \hat a_i ⋯ ∧ a_n) \bigg)
+\end{align*}$$
+
 ## Orthogonal matrix proof: $A^T$ = $A^{-1}$
 
-Matrix $A$ is orthogonal if the column and row vectors are orthonormal vectors. Define $v_i$ as column vector of $A$, given orthogonality here define:
+Matrix $A$ is orthogonal if the column and row vectors are orthonormal vectors. Define $a_i$ as column vector of $A$, given orthogonality here define:
 $$
-v_i^T v_j =
+a_i^T a_j =
 \begin{array}{cc}
   \Big \{ & 
     \begin{array}{cc}

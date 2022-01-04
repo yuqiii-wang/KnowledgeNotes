@@ -86,6 +86,7 @@ $$
 =
 a(ei-fh)-d(bi-hc)+g(bf-ec)
 $$
+which give the volume of a parallelotope.
 
 ## Adjugate Matrix
 
@@ -122,11 +123,12 @@ M_{1,2} =
 \big |
 = -(di-fg)
 $$
+Co-matirx $C$:
 $$
 C =
 \begin{bmatrix}
-      M_{1,1} & M_{1,1} & M_{1,3} \\
-      M_{1,2} & M_{2,3} & M_{2,3} \\
+      M_{1,1} & M_{1,2} & M_{1,3} \\
+      M_{1,2} & M_{2,2} & M_{2,3} \\
       M_{1,3} & M_{3,2} & M_{3,3}
 \end{bmatrix}
 $$
@@ -144,6 +146,8 @@ A^{-1} = \frac{1}{|A|}Adj(A)
 $$
 where
 $|A|$ is determiant of $A$ and $Adj(A)$ is an adjugate matrix of $A$.
+
+Geometrically speaking, an inverse matrix $A^{-1}$ takes a transformation $A$ back to its origin (same as reseting basis vectors).
 
 ## Covariance Matrix
 
@@ -167,9 +171,9 @@ cov(x, y) =
 ![alt text](imgs/covarianceMateExample.png "covarianceMateExample")
 that indicates high disparity on y-axis and small on x-axis. THe numbers on thee top-right to bottom-left diagnal says independence between x and y.
 
-## dot vs cross product
+## product: dot, cross and exterior
 
-* dot product: scalar product
+### dot product: scalar product
 $$
 u * v = |u| |v| cos\theta 
 = v_1u_1 + v_2u_2 + v_3u_3 + ... + v_nu_n
@@ -179,13 +183,13 @@ Applications: $u$ represents a 8 lb force applied pulling a wagon with an upward
 
 ![alt text](imgs/dot_prod_example_use_pull_wagon.jfif "dot_prod_example_use_pull_wagon")
 
-* cross product: vector quantity product
+### cross product: vector quantity product
 $$
 u \times v = |u| |v| \space n \space sin\theta
 = \bigg |
 \begin{array}{ccc}
     \begin{array}{ccc}
-      i & j & k \\
+      \overrightarrow{i} & \overrightarrow{j} & \overrightarrow{k} \\
       u_1 & u_2 & u_3 \\
       v_1 & v_2 & v_3
     \end{array}
@@ -195,10 +199,52 @@ $$
 hence,
 $$
 u \times v =
-i|u_2v_3-u_3v_2| - j|u_1v_3-u_3v1| + k|u_1v_2-u_2v_1|
+\overrightarrow{i}|u_2v_3-u_3v_2| - \overrightarrow{j}|u_1v_3-u_3v1| + \overrightarrow{k}|u_1v_2-u_2v_1|
 $$
-where $u$ and $v$ are two vectors and $n=(i,j,k)$ is a unit vector (3-dimensional in this example) perpendicular to the plane containing $u$ and $v$. $u \times v$ itself represents the area of a parallelogram.
+where $u$ and $v$ are two vectors and $n=(\overrightarrow{i},\overrightarrow{j},\overrightarrow{k})$ is a unit vector (3-dimensional in this example) perpendicular to the plane containing $u$ and $v$. $u \times v$ itself represents the area of a parallelogram.
 
 Applications: Twisting a bolt with a spanner, Torque is cross product of force multiplying length $\overrightarrow{T} = \overrightarrow{F} \times \overrightarrow{L}$, that means the resultant force either pulling up or pushing down the bolt.
 
 ![alt text](imgs/cross_product_example_twisting_spanner.png "cross_product_example_twisting_spanner")
+
+### exterior product: wedge product
+
+Wedge/exterior product of vectors is an algebraic construction used in geometry to study areas, volumes, and their higher-dimensional analogues, operator denoted as below:
+
+$$\begin{align*}
+u \space ∧ \space v \\
+& = (a e_1 + b e_2)∧(c e_1 + d e_2) \\
+& = ac (e_1 ∧ e1) + ad (e_1 ∧ e_2) + bc (e_2 ∧ e_1) + bd (e_2 ∧ e_2) \\
+& = ad (e_1 ∧ e_2) - bc (e_1 ∧ e_2) \\
+& = (ad-bc)(e_1 ∧ e_2)
+\end{align*}
+$$
+where 
+$$
+e_1=
+\begin{array}{c}
+    \bigg (
+    \begin{array}{c}
+      1 \\
+      0
+    \end{array}
+    \bigg )
+\end{array}
+,
+e_2=
+\begin{array}{c}
+    \bigg (
+    \begin{array}{c}
+      0 \\
+      1
+    \end{array}
+    \bigg )
+\end{array}
+$$
+that constructs a real Cartesian plane $R^2$.
+
+![alt text](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
+
+Geometric definition is observed as in the examples below, indicating the area/volume of multi-dimensional vectors.
+
+![alt text](imgs/Wedge_product_examples.jpg "Wedge_product_examples")
