@@ -17,7 +17,7 @@ $$
 ### Application:
 The output of a linear time-invariant system can be calculated by convolving its unit impulse response with the input signal. The use of Laplace transform turns convolution calculation from time-based space into multiplication in Laplace space.
 
-* **electric circuit example**
+### Electric circuit example
 
 ![alt text](imgs/RC_Circuit.png "RC_Circuit")
 
@@ -70,7 +70,7 @@ $$
 \theta = arctan(\frac{X}{R})
 $$
 
-* **Physical meaning of real and imaginary part of $s$**:
+### Physical meaning of real and imaginary part of $s$
 
 1. For a DC circuit, this simplifies to $s = 0$. 
 

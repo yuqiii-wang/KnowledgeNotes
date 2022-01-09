@@ -15,6 +15,14 @@ Some common used extensions include:
 * .crt, .pem - (Privacy-enhanced Electronic Mail) Base64 encoded DER certificate, enclosed between "-----BEGIN CERTIFICATE-----" and "-----END CERTIFICATE-----"
 * .der, .cer - usually in binary DER  (Distinguished Encoding Rules) form
 
+Creation vs Renewal:
+
+* Creation:
+generate a new cert/key which involves generating a new key (And provide your CSR to your CA).
+* Renewal: 
+renew you certificat which involves keeping your private key (And provide your CSR to your CA).
+
+
 **Chian of trust**
 
 Certificate Authorities (CAs) is a third-party that has already been vouched for trust by client and server. There are root CAs and intermediate CAs (any certificate that are in between CA and clients), and leaf certificate for end client.
@@ -77,86 +85,6 @@ To check fingerprint, first convert into .der then hash it and return the result
 * change format
 ```bash
 keytool -importkeystore -srckeystore src_keystore.jks -destkeystore dest_keystore.p12 -srcstoretype jks deststoretype pkcs12 -srcstorepass changeit -deststorepass changeit
-```
-
-### **A Walk-through example (by conf file)**
-
-1. Create a `server-csr.conf`, in which the server dn is defined.
-```conf
-[ req ]
-default_bits = 2048
-encrypt_key = no
-default_md = sha256
-utf8 = yes
-string_mask = utf8only
-prompt = no
-distinguished_name = server_dn
-req_extensions = server_reqext
-[ server_dn ]
-commonName = threatshield.example.com 
-[ server_reqext ]
-keyUsage = critical,digitalSignature,keyEncipherment
-extendedKeyUsage = serverAuth,clientAuth
-subjectKeyIdentifier = hash
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = threatshield.example.com
-```
-
-2. Certificate Signing Request, in which you obtain a private key `server.key` and a public key (aka a cert) `server.csr`
-```bash
-openssl req -new -config server-csr.conf -out server.csr \
-        -keyout server.key
-```
-
-3. Create a `CA.conf`
-
-```conf
-[ ca ]
-default_ca = the_ca
-[ the_ca ]
-dir = ./CA
-private_key = $dir/private/CA.key
-certificate = $dir/CA.crt
-new_certs_dir = $dir/certs
-serial = $dir/db/crt.srl
-database = $dir/db/db
-unique_subject = no
-default_md = sha256
-policy = any_pol
-email_in_dn = no
-copy_extensions = copy
-[ any_pol ]
-domainComponent = optional
-countryName = optional
-stateOrProvinceName = optional
-localityName = optional
-organizationName = optional
-organizationalUnitName = optional
-commonName = optional
-emailAddress = optional
-[ leaf_ext ]
-keyUsage = critical,digitalSignature,keyEncipherment
-basicConstraints = CA:false
-extendedKeyUsage = serverAuth,clientAuth
-subjectKeyIdentifier = hash
-authorityKeyIdentifier = keyid:always
-[ ca_ext ]
-keyUsage                = critical,keyCertSign,cRLSign
-basicConstraints        = critical,CA:true,pathlen:0
-subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid:always
-```
-
-4. To sign the server's certificate by ca
-```bash
-openssl ca -config CA.conf -days 365 -create_serial \
-    -in server.csr -out server.crt -extensions leaf_ext -notext
-```
-
-5. Link certificates together to have the certificate chain in one file
-```bash
-cat server.crt CA/CA.pem >server.pem
 ```
 
 ## JWK and JKWS

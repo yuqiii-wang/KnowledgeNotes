@@ -22,3 +22,22 @@ Flow control is the process of managing the rate of data transmission between tw
 * For UDP socket, the server side will just start dropping packets after the receive buffer is filled.
 
 * For TCP, server's socket decreases kernel window size when receiving data exceeds server processing capacity, and rejects incoming TCP Datagrams when window size is zero.
+
+## QUIC
+
+QUIC (Quick UDP Internet Connections) is tailored to facilitate http communication with a number of improvements based on http characteristics.
+
+### TCP disadvantages and QUIC's remediations
+
+Some major comparisons are listed below
+
+TCP: 
+1. breaks up the data into small network packets
+2. uses checksum to detect corrupt packets
+3. sends automatic repeat request (ARQ) for corrupt packets, until proven validity
+4. communicates in a sequential/sync manner
+
+QUIC:
+1. prepares key exchange for TLS during initial handshake, hence reducing connection overhead
+2. uses multiplexing UDP communication so that different protocols can continue receiving data despite some of data streams might be broken (paralellism).
+3. includes connection identifier that reduces re-connection time when an end user changes local network (such as jump between different wifi hotspots)

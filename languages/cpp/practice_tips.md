@@ -111,3 +111,38 @@ __static_initialization_and_destruction_0(int, int):
 ...
         call    multiply(int, int)
 ```
+
+* lambda
+
+example
+```cpp
+float x[5] = {5,4,3,2,1};
+std::sort(x, x + n,
+    [](float a, float b) {
+        return (std::abs(a) < std::abs(b));
+    }
+);
+```
+
+`[]` is called capture clause, that `[=]` means by value capture while `[&]` is by reference capture
+
+* bind
+
+The function template `bind` generates a forwarding call wrapper for f (returns a function object based on f). Calling this wrapper is equivalent to invoking f with some of its arguments bound to args. 
+
+For example:
+```cpp
+#include <functional>
+
+int foo(int x1, int x2) {
+    std::max(x1, x2);
+}
+
+int main(){
+    using namespace std::placeholders;
+
+    auto f1 = std::bind(foo, _1, _2);
+    int max_val = f1(1, 2);
+    return 0;
+}
+```

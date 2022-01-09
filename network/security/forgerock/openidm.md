@@ -30,10 +30,16 @@ cp /path/to/openidm/db/mysql/conf/repo.jdbc.json my-project/conf/
 ```
 
 3. load openidm sql
+
+Such sql scripts map openidm defined data to mysql-compliant storage. 
 ```bash
 mysql -u root -p < /path/to/openidm/db/mysql/scripts/openidm.sql
 mysql -u root -p < /path/to/openidm/db/mysql/scripts/createuser.sql
 mysql -D openidm -u root -p < /path/to/openidm/db/mysql/scripts/flowable.mysql.all.create.sql
+```
+For example, inside repo.jdbc.json
+```sql
+SELECT objectid FROM ${_dbSchema}.${_table} LIMIT ${int:_pageSize} OFFSET ${int:_pageResultOffset}
 ```
 
 4. update `jdbcUrl` on `conf/datasource.jdbc-default.json`

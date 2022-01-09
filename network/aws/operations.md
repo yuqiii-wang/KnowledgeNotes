@@ -38,3 +38,30 @@ Create users in IAM， and add users to defined groups, and add policies.
 
 ## AWS OpsWorks vs AWS Beanstalk
 
+## Api Gateway Auth
+
+Best practices of invoking an API include using API Gateway Authoerizer, which is a lambda that checks coming requests before functional lambda to be invoked. It creates a policy document stipulating what action is allowed. 
+
+```js
+export.handler = function(event, context,callback){
+    callback(generateAllow(event))
+}
+
+var generateAllow =function(event) {
+    var statementOne = {}
+    statementOne.Action = 'execute-api:Invoke'
+    statementOne.Effect = 'Allow'
+    statementOne.Resource = event.methodArn
+
+    var policyDoc = {}
+    policyDoc.Version = '2012-10-17'
+    policyDoc.Statement = []
+    policyDoc.Statement[0] = statementOne
+
+    var authResponse = {};
+    authResponse.principlalId = null;
+    authResponse.policyDocument = policyDoc
+
+    return authResponse
+}
+```
