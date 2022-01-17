@@ -126,23 +126,56 @@ std::sort(x, x + n,
 
 `[]` is called capture clause, that `[=]` means by value capture while `[&]` is by reference capture
 
-* bind
+* string types
 
-The function template `bind` generates a forwarding call wrapper for f (returns a function object based on f). Calling this wrapper is equivalent to invoking f with some of its arguments bound to args. 
+`std::string` is allocates memory in **a single block** (as needed, and sometimes preemptively), and best practice suggests pre-computing the string size the filling it.
 
-For example:
+`std::stringstream`, `std::istringstream` and `std::ostringstream` **1)** better express the intent to appending strings by `<<` and `>>` respectively. **2)** A stringstream writes into a stringbuffer, which usually means **a linked list of buffers**. Memory is not continuous, and it requires no reallocations as the buffer grows.
+
+
+They are interchangeable via the following
 ```cpp
-#include <functional>
+const std::string tmp = stringstream.str();
+const char* cstr = tmp.c_str();
+```
 
-int foo(int x1, int x2) {
-    std::max(x1, x2);
-}
+* `std::atomic`
 
-int main(){
-    using namespace std::placeholders;
+`std::atomic` works with trivial copyables (such as C-compatible POD types, e.g., int, bool, char) to guarantee thread safety (defined behavior when one thread read and another thread write) by trying squeezing one operation into one cpu cycle (one instruction).
 
-    auto f1 = std::bind(foo, _1, _2);
-    int max_val = f1(1, 2);
-    return 0;
-}
+It is **NOT** allowed to apply atomic to an array such as
+```cpp
+std::atomic<std::array<int,10>> myArray;
+```
+in which `myArray`'s element is not readable/writable.
+
+* constructors
+
+default
+```cpp
+// class construct
+construct(){}
+// main()
+construct c;
+```
+
+parameterized
+```cpp
+// class construct
+construct(int a){}
+// main()
+int a = 1;
+construct c(a);
+```
+
+copy construct (only shallow copy)
+using `=` copy assignment without defined copy constructor in class is undefined behavior.
+```cpp
+// class construct
+construct(){}
+construct(const construct&){} // copy construct
+// main()
+construct c1;
+construct c2 = c1; // copy construct
+construct c3(c1); // also a copy construct
 ```

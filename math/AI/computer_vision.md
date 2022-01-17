@@ -1,49 +1,6 @@
-Computer Vision Basics
+# Computer Vision 
 
-1. SVD for Image Compression
-
-reference: http://web.mit.edu/course/other/be.400/OldFiles/www/SVD/Singular_Value_Decomposition.htm
-
-Assume an image &Chi; = {&Chi;<sub>1</sub>, &Chi;<sub>2</sub>, ..., &Chi;<sub>n</sub>} of a size of n &times; m, with &Chi;<sub>i</sub> consisted of m elements. We want to achieve 
-<center>
-X = U<sub>n&times;n</sub> S<sub>n&times;m</sub> V<sub>m&times;m</sub><sup>T</sup>
-</center>
-
-The eigen-decomposition of X X<sup>T</sup> is
-<center>
-X X<sup>T</sup> = E&Lambda;E<sup>-1</sup>
-</center>
-where
-E = {e<sub>1</sub>, e<sub>2</sub>, ..., e<sub>n</sub>}
-are n eigenvectors of X X<sup>T</sup>, and &Lambda; = diag(&Lambda;<sub>1</sub>, &Lambda;<sub>2</sub>, ..., &Lambda;<sub>n</sub>) containing n eigenvalues. Since X X<sup>T</sup> is symmetric, the eigenvectors are orthogonal and each can be scaled to have unit length, that
-<center>
-E E<sup>T</sup> = I
-</center>
-implies
-E<sup>-1</sup> = E<sup>T</sup>,
-so that
-<center>
-X X<sup>T</sup> = E&Lambda;E<sup>T</sup>
-</center>
-This consideration is from the fact that images are often not orthogonal in eigen-decomposition, as the derived eigenvectors should be othogonal to achieve high compression rate.
-
-The eigenvectors of X<sup>T</sup>X make up the columns of V, the eigenvectors of XX<sup>T</sup> make up the columns of U. ||V|| = 1 and ||U|| = 1 are defined to make U and V unitary. Thus, the singular values in S are square roots of eigenvalues from X<sup>T</sup>X or XX<sup>T</sup>. 
-
-Eigenvalues in S are ranked by value to select eigenvectors with most information.
-
-Another usage of SVD for image compression is that there are n images with m pixels. Rearrange all images we have a matrix with a size of n &times; m, then continue the aforementioned process.
-
-P.S. Proof:
-
-X=USV<sup>T</sup> and X<sup>T</sup>=VSU<sup>T</sup>
-
-X<sup>T</sup>X = VSU<sup>T</sup>USV<sup>T</sup>
-
-X<sup>T</sup>A = VS<sup>2</sup>V<sup>T</sup>
-
-X<sup>T</sup>XV = VS<sup>2</sup>
-
-2. Canny Detector
+## Canny Detector
 
 reference: http://www.pages.drexel.edu/~nk752/cannyTut2.html
 

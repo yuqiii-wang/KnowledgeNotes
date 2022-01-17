@@ -1,5 +1,85 @@
 # Vector and matrix
 
+## Rank
+
+The rank of a matrix $A$ is the dimension of the vector space generated (or spanned) by its columns, corresponding to the max number of linearly indepent columns of $A$.
+
+For example,
+$$
+A = 
+\begin{bmatrix}
+      1 & 4 & 5 \\
+      2 & 5 & 7 \\
+      3 & 6 & 9
+\end{bmatrix}
+$$
+is of rank $2$ since the third column is the sum of the first two columns.
+
+### Gaussian elimination
+
+Gaussian elimination, also known as row reduction, does not change column linearity. The above matrix $A$ can be reduced to 
+$$\begin{align*}
+A = 
+\begin{bmatrix}
+      1 & 4 & 5 \\
+      2 & 5 & 7 \\
+      3 & 6 & 9
+\end{bmatrix}
+\underrightarrow{-3 R_1 + R_3}
+\begin{bmatrix}
+      1 & 4 & 5 \\
+      2 & 5 & 7 \\
+      0 & -6 & -6
+\end{bmatrix}
+& \underrightarrow{-2 R_1 + R_2} \\
+\begin{bmatrix}
+      1 & 4 & 5 \\
+      0 & -3 & -3 \\
+      0 & -6 & -6
+\end{bmatrix}
+\underrightarrow{-2 R_2 + R_3} 
+\begin{bmatrix}
+      1 & 4 & 5 \\
+      0 & -3 & -3 \\
+      0 & 0 & 0
+\end{bmatrix}
+& \underrightarrow{-3 R_2} \\
+\begin{bmatrix}
+      1 & 4 & 5 \\
+      0 & 1 & 1 \\
+      0 & 0 & 0
+\end{bmatrix}
+\underrightarrow{-4 R_2 + R_1}
+\begin{bmatrix}
+      1 & 0 & 1 \\
+      0 & 1 & 1 \\
+      0 & 0 & 0
+\end{bmatrix}
+\end{align*}
+$$
+hence proving rank $2$ for matrix $A$.
+
+## Transpose
+
+$A_{n \times m}$ can be expressed as row-based ($A=[r_1, r_2, ..., r_n]$) or column-based ($A=[c_1, c_2, ..., c_m]$), so that  
+$$
+A^T A = 
+\begin{bmatrix}
+      c_1^T \\
+      c_2^T \\
+      ... \\
+      c_m^T 
+\end{bmatrix}
+[c_1, c_2, ..., c_m]
+=
+\begin{bmatrix}
+      c_1^T c_1 & c_1^T c_2 & ... & c_1^T c_m \\
+      c_2^T c_1 & c_2^T c_2 & ... & c_2^T c_m\\
+      ... & ... & ... & ... \\
+      c_m^T c_1 & c_m^T c_2& ... & c_m^T c_m
+\end{bmatrix}
+$$
+which $A^T A$ is a Gramian matrix (inner products of column vectors). Likewise, $A A^T$ is for inner products of row vectors.
 ## Determinant
 
 Determinant is a scalar value that is a function of the entries of a square matrix.
@@ -170,81 +250,3 @@ cov(x, y) =
 
 ![alt text](imgs/covarianceMateExample.png "covarianceMateExample")
 that indicates high disparity on y-axis and small on x-axis. THe numbers on thee top-right to bottom-left diagnal says independence between x and y.
-
-## product: dot, cross and exterior
-
-### dot product: scalar product
-$$
-u * v = |u| |v| cos\theta 
-= v_1u_1 + v_2u_2 + v_3u_3 + ... + v_nu_n
-$$
-
-Applications: $u$ represents a 8 lb force applied pulling a wagon with an upward force direction, while $v$ represents 50 ft distance. $u * v$ express the *work* ($W = \overrightarrow{F} * \overrightarrow{D}$) for this effort.
-
-![alt text](imgs/dot_prod_example_use_pull_wagon.jfif "dot_prod_example_use_pull_wagon")
-
-### cross product: vector quantity product
-$$
-u \times v = |u| |v| \space n \space sin\theta
-= \bigg |
-\begin{array}{ccc}
-    \begin{array}{ccc}
-      \overrightarrow{i} & \overrightarrow{j} & \overrightarrow{k} \\
-      u_1 & u_2 & u_3 \\
-      v_1 & v_2 & v_3
-    \end{array}
-\end{array}
-\bigg |
-$$
-hence,
-$$
-u \times v =
-\overrightarrow{i}|u_2v_3-u_3v_2| - \overrightarrow{j}|u_1v_3-u_3v1| + \overrightarrow{k}|u_1v_2-u_2v_1|
-$$
-where $u$ and $v$ are two vectors and $n=(\overrightarrow{i},\overrightarrow{j},\overrightarrow{k})$ is a unit vector (3-dimensional in this example) perpendicular to the plane containing $u$ and $v$. $u \times v$ itself represents the area of a parallelogram.
-
-Applications: Twisting a bolt with a spanner, Torque is cross product of force multiplying length $\overrightarrow{T} = \overrightarrow{F} \times \overrightarrow{L}$, that means the resultant force either pulling up or pushing down the bolt.
-
-![alt text](imgs/cross_product_example_twisting_spanner.png "cross_product_example_twisting_spanner")
-
-### exterior product: wedge product
-
-Wedge/exterior product of vectors is an algebraic construction used in geometry to study areas, volumes, and their higher-dimensional analogues, operator denoted as below:
-
-$$\begin{align*}
-u \space ∧ \space v \\
-& = (a e_1 + b e_2)∧(c e_1 + d e_2) \\
-& = ac (e_1 ∧ e1) + ad (e_1 ∧ e_2) + bc (e_2 ∧ e_1) + bd (e_2 ∧ e_2) \\
-& = ad (e_1 ∧ e_2) - bc (e_1 ∧ e_2) \\
-& = (ad-bc)(e_1 ∧ e_2)
-\end{align*}
-$$
-where 
-$$
-e_1=
-\begin{array}{c}
-    \bigg (
-    \begin{array}{c}
-      1 \\
-      0
-    \end{array}
-    \bigg )
-\end{array}
-,
-e_2=
-\begin{array}{c}
-    \bigg (
-    \begin{array}{c}
-      0 \\
-      1
-    \end{array}
-    \bigg )
-\end{array}
-$$
-that constructs a real Cartesian plane $R^2$.
-
-![alt text](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
-
-Geometric definition is observed as in the examples below, indicating the area/volume of multi-dimensional vectors.
-
-![alt text](imgs/Wedge_product_examples.jpg "Wedge_product_examples")

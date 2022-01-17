@@ -52,3 +52,7 @@ print(r)
 print(r(3))
 # 3
 ```
+
+* Shallow vs deep copy
+
+Shallow copy: none of the variables of the object are defined in the heap section of memory.

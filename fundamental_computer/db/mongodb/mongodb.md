@@ -47,3 +47,10 @@ db.collection_name.deleteMany({})
 # example, delete by condition (qty greater than 10)
 db.collection_name.deleteMany({qty: {$gt: 10}})
 ```
+
+Existing field search:
+
+When the qty field exists and its value does not equal 5 or 15.
+```bash
+db.collection_name.find({"qty": {"$exists": true, "$nin": [5,15]}})
+```

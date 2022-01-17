@@ -40,7 +40,7 @@ L<sub>&delta;</sub> = {
 
 
 
-## Alos
+## Algos
 
 ### Ensemble Methods
  Ensemble methods are learning algorithms that construct a set of classifiers/regressors and then classify/regress new data points by taking a weighted vote of their predictions.
