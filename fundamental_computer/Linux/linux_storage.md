@@ -18,3 +18,11 @@ Terminologies:
 File system point-in-time view backup.
 
 Copy-on-write to monitor changes to existing data blocks.
+
+## Inode
+
+An *inode* is a data structure that stores various information about a file in Linux, such as permisions (read, write, exe), file size, ownership, etc.
+
+Each inode is identified by an integer number. An inode is assigned to a file when it is created.
+
+use `ls -il` to show inode number (first col).

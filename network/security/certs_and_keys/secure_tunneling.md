@@ -54,17 +54,6 @@ TLS is different from SSL in terms of
 3. Hash algos
 4. Certificate format 
 
-**CRL** 
-
-a certificate revocation list (or CRL) is "a list of digital certificates that have been revoked by the issuing certificate authority (CA) before their scheduled expiration date and should no longer be trusted".
-
-**TLS Certificate**
-
-A very good tutorial:
-https://tls.ulfheim.net/
-
-X.509 is a standard defining the format of public key certificates.
-
 ### mTLS
 
 On mTLS, both client and server need to present certificates issued by a CA, and verify whether the certificates are valid.
