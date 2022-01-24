@@ -1,6 +1,6 @@
 # Builder
 
-When a described object is complex and needs lots of code inside a `constructor`, it is preferred to abstract common attributes and place them in a parent abstract class, and realized with children of implementation details.
+When a described object is complex and needs lots of code inside a `constructor`, it is preferred to abstract common attributes and place them in a parent abstract class, and to realize by children with implementation details.
 
 Class attributes are set/get methods, and ClassBuilder describes detailed/complex methods to set/get class attributes.
 

@@ -179,3 +179,9 @@ construct c1;
 construct c2 = c1; // copy construct
 construct c3(c1); // also a copy construct
 ```
+
+* `new` vs `malloc`
+
+`new` allocates memory and calls constructor for object initialization. But `malloc()` allocates memory and does not call constructor.
+
+Return type of `new` is exact data type while `malloc()` returns `void*`.
