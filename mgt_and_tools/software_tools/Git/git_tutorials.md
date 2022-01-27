@@ -59,3 +59,13 @@ git log --oneline
 # find HEAD hash
 git reset <HEAD>
 ```
+
+## git delete branch
+
+```bash
+# locally
+git branch -d <localbranchname>
+
+# remote
+git push origin --delete <remotebranchname>
+```

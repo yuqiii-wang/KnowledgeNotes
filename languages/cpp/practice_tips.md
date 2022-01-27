@@ -185,3 +185,11 @@ construct c3(c1); // also a copy construct
 `new` allocates memory and calls constructor for object initialization. But `malloc()` allocates memory and does not call constructor.
 
 Return type of `new` is exact data type while `malloc()` returns `void*`.
+
+* exceptions
+
+`try`/`catch` cannot catch all exceptions, some typical are
+
+1) divided by zero
+
+2) segmentation fault/access out of range
