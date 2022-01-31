@@ -193,3 +193,7 @@ Return type of `new` is exact data type while `malloc()` returns `void*`.
 1) divided by zero
 
 2) segmentation fault/access out of range
+
+* POD
+
+A POD type is a type that is compatible with C 
