@@ -4,34 +4,68 @@ Reference: https://stanford.edu/~sebell/oc_projects/ic_design_finalreport.pdf
 
 Here designs an 8-bit microprocessor:
 * 8-bit data bus
-* 16-bit address bus
-* Eight 8-bit registers
-* A set of self-designed instructions and coresponding formats
+* 8-bit address bus
+* 8-bit ALU
+* 8-bit generic registers
+* 4-bit memory address register
+* 16 bytes of RAM
+* 4-bit program counter
+* 4-level adjustable clocks (1Hz, 5Hz, 10Hz, 25Hz)
+* 4-bit opcode
 
-Abbrvs: 
-reg (register), 
-cond (condition),
-imm (immediate number)
+$\space \space$ Notes: 
 
-Instruction Format:
+LSR/LSL: Logical Shift Right/Left
 
-| 15 - 11 | 10 - 9 | 8 | 7 - 5 | 4 - 2 | 1 - 0 |
-| ------- | ------ | - | ----- | ----- | ----- |
-| Opcode  | src type | dest type | src reg | dest reg | cond |
+ASR/ASL: Arithmetic Shift Right/Left
 
-Instruction Set (Opcode)
+LD: Load
 
-| Instruction | Opcode | Operands |
-| ----------- | ------ | -------- |
-| NOP | 0x00 |  $\space$    |
-| ADD | 0x01 | reg, reg/imm |
-| SUB | 0x02 | reg, reg/imm |
-| MUL | 0x03 | reg, reg/imm |
-| AND | 0x04 | reg, reg/imm |
-| OR  | 0x05 | reg, reg/imm |
-| SHIFTRIGHT | 0x06 | reg   |
-| SHIFTLEFT  | 0x07 | reg   |
-| LD  | 0x08 | reg, imm/addr|
-| MV  | 0x09 | addr, addr   |
-| JMP  | 0x0A | addr, cond   |
+There's a register to hold information about the last operation computed by the ALU. This register is called the Condition Codes, usually abbreviated CC. 
 
+Most typical are 
+1) always (default result, such as `void` from C-compatible function); 
+2) zero
+3) carry (the current register width cannot hold a large number of too many bits, need to indicate concatenations as one result)
+4) negative
+5) overflow
+
+...
+
+## CPU modules
+
+### Generic 8-bit registers
+
+They can hold tmp 8-bit data for various purposes. Such as Stack pointer, temp ALU computation results, etc.
+
+### Program counter
+
+It indicates the step/process of a running program. 
+
+For example, JUMP register may be triggered with some flag and directly sets a program counter to a specific value to load another instruction rather than the one next scheduled. 
+
+### ALU
+
+Arithmetic Logic Unit (ALU) is implemented to perform ADD, SUB, MUL, etc.
+
+An ALU latch can be included for complex calculation purposes (large numbers of many bits). It grabs the result of the ALU operation, holds it, and then puts it on the databus when the store signals are asserted.
+
+### Control module
+
+Read from instruction register to determine next action on next clock cycle. Some most typical action signals are
+* LOAD (fetch data from memory)
+* STORE (write data into memeory)
+* FETCH INSTRUCTION
+* JMP
+
+Besides such action signals, it controls delays/waits and optimizations for parallelism.
+
+For example, When CPU receives `MOV eax 100`, it first loads it into an instruction register to be read. The following action include: increase Program Counter (pc) by 1, prepare a generic purpose register and fill it with the value 100. It also checks flag register to see if any flag set (such as Carry/Negative/Zero/...).
+
+### Memory
+
+A memory module takes inputs such as `in_addr` and `in_data` from modules such as ALU. A memory chip connects to ROMs and RAMs to perform data read and write operation.
+
+## CPU DataPath
+
+A datapath module is the description of how bits of data flow 
