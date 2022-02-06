@@ -76,7 +76,7 @@ $$
 Q = [v_1, v_2, v_3, ..., v_n]
 $$
 
-then, take scalar $\lambda_i$ into consideration
+then, take scalar $\lambda_i$ into consideration constructing a diagnal matrix $\Lambda$, and 
 $$
 A Q = [\lambda_1 v_1, \lambda_2 v_2, \lambda_3 v_3, ..., \lambda_n v_n]
 $$
@@ -90,6 +90,11 @@ A = Q \Lambda Q^{-1}
 $$
 
 $A$ can therefore be decomposed into a matrix composed of its eigenvectors, a diagonal matrix with its eigenvalues along the diagonal, and the inverse of the matrix of eigenvectors.
+
+If $Q$ is orthogonal, there is
+$$
+A = Q \Lambda Q^T
+$$
 
 ## Singular Value Decomposition
 

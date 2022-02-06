@@ -231,22 +231,22 @@ Geometrically speaking, an inverse matrix $A^{-1}$ takes a transformation $A$ ba
 
 ## Covariance Matrix
 
-Define *&Chi;* = (&Chi;<sub>1</sub>, &Chi;<sub>2</sub>, ..., &Chi;<sub>n</sub>)<sup>T</sup>, where &Chi;<sub>i</sub> is a vector representing a feature/axis/dimension. A covariance matrix of *&Chi;* expressed as entries cov(&Chi;<sub>i</sub>, &Chi;<sub>j</sub>) with i, j &le; n can formulated as
+A $2 \times 2$ covariance matrix is defined as
 
-<center>
-cov(&Chi;<sub>i</sub>, &Chi;<sub>j</sub>) = 	&Epsilon;[(&Chi;<sub>i</sub> - &Epsilon;(&Chi;<sub>i</sub>)) (&Chi;<sub>j</sub> - &Epsilon;(&Chi;<sub>j</sub>))]
-</center>
+$$
+\Sigma = 
+\begin{bmatrix}
+      \sigma(x,x) & \sigma(x,y) \\
+      \sigma(y,x) & \sigma(y,y)
+\end{bmatrix}
+$$
 
-where &Epsilon; denotes the expected/mean value of its arguments.
+in which
 
-The image below shows an example of 2-D point distribution with respects to x and y axis of a covariance of 
+$$
+\sigma(x,y) = E [ \big(x - E(x) \big) \big(y - E(y)\big) ]
+$$
 
-cov(x, y) = 
-<center>
-0.50558298, -0.09532611
+where $x$ and $y$ are sample vectors, hence $\sigma(x,y)$ is scalar. 
 
--0.09532611, 10.43067155
-</center>
-
-![alt text](imgs/covarianceMateExample.png "covarianceMateExample")
-that indicates high disparity on y-axis and small on x-axis. THe numbers on thee top-right to bottom-left diagnal says independence between x and y.
+![covariance_mat_examples](imgs/covariance_mat_examples.png "covariance_mat_examples")

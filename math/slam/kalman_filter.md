@@ -47,4 +47,19 @@ Q = \sigma_{a_k}G G^T \sigma_{a_k} =
 $$
 
 Since $GG^T$ is not full ranked ($R_1 = [\frac{1}{4}\Delta t^4, \frac{1}{2}\Delta t^3] = \frac{1}{2}\Delta t^3 R_2$) hence 
-$w_k \sim G \cdot N(0, Q) \sigma_{a_k}$
+$w_k \sim G \cdot N(0, Q) \sigma_{a_k}^2 \sim G \cdot N (0, \sigma_{a_k}^2)$
+
+Here defines Observation 
+
+$z_k = H x_k + v_k$
+
+where $v_k$ follows $N(0, \sigma_z)$ and $H$ is observation transformation matrix 
+$$
+H = 
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}
+$$
+
+Here $R = E[v_k v_k^T] = \sigma_{z}^2$.
