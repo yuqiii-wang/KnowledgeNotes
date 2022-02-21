@@ -1,6 +1,6 @@
 # Some Practice Tips
 
-* `std::endl` must be appened to `std::cout`
+* `std::endl` must be appended to `std::cout`
 
 The reason for this is that typically endl flushes the contents of the stream.
 
@@ -188,6 +188,8 @@ construct c3(c1); // also a copy construct
 
 Return type of `new` is exact data type while `malloc()` returns `void*`.
 
+Use `delete` to deallocates a block of memory. Use `delete` for non-`new` allocated memory rendering undefined behavior.
+
 * exceptions
 
 `try`/`catch` cannot catch all exceptions, some typical are
@@ -199,3 +201,9 @@ Return type of `new` is exact data type while `malloc()` returns `void*`.
 * POD
 
 A POD type is a type that is compatible with C 
+
+* `class` vs `struct`
+
+Diffs: 
+1) when inheritance, struct's members are default public, while class'es are private.
+2) when accessed as object, struct object members are default public, while class'es are private.

@@ -16,4 +16,16 @@
 
 ### System calls
 
+Example system calls:
+
 ![example_sys_calls](imgs/example_sys_calls.png "example_sys_calls")
+
+### Virtual Machine
+
+The fundamental idea behind a virtual machine is to abstract hardware into different kernel environments.
+
+![virtual_machine](imgs/virtual_machine.png "virtual_machine")
+
+### Bootstrap OS
+
+A bootstrap program from ROM is first executed and starts OS program from disk. GRUB is an example of an open-source bootstrap program for Linux systems.

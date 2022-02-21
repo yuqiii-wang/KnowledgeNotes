@@ -67,3 +67,18 @@ Command Substitution: captures the output of a command and expands it inline.
 
 `[command] &` This trailing ampersand directs the shell to run the command in the background, that is, it is forked and run in a separate sub-shell, as a job, asynchronously.
 
+`$#`, `$@` and `$?`:
+Run the bash script
+```bash
+#! /bin/sh
+echo '$#' $#
+echo '$@' $@
+echo '$?' $?
+```
+You get output:
+
+$#  3,  number of arguments. Answer is 3
+
+$@  1 2 3, what parameters were passed. Answer is 1 2 3
+
+$?  0, was last command successful. Answer is 0 which means 'yes'
