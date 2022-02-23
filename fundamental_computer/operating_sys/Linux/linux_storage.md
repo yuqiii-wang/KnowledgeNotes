@@ -26,3 +26,7 @@ An *inode* is a data structure that stores various information about a file in L
 Each inode is identified by an integer number. An inode is assigned to a file when it is created.
 
 use `ls -il` to show inode number (first col).
+
+### Stream
+
+Unix *stream* enables an application to assemble pipelines of driver code dynamically.

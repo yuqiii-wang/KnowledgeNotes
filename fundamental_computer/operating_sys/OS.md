@@ -29,3 +29,9 @@ The fundamental idea behind a virtual machine is to abstract hardware into diffe
 ### Bootstrap OS
 
 A bootstrap program from ROM is first executed and starts OS program from disk. GRUB is an example of an open-source bootstrap program for Linux systems.
+
+### Real-time system
+
+A real-time system is a computer system that requires not only that the
+computing results be "correct" but also that the results be produced within
+a specified deadline period.
