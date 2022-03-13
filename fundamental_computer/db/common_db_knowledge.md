@@ -9,7 +9,7 @@ ordered/unordered flat files, ISAM, heap files, hash buckets, or B+ trees
 
 **Ordered** storage typically stores the records in order. It has lower insertion efficiency, while providing more efficient retrieval of $O(log n)$
 
-### **Structured files**
+### Structured files
 
 * Heap files
 
@@ -40,7 +40,7 @@ def tree_search(k, node):
             return tree_search(k, p_{d})
 ```
 
-### **Data Orientation**
+### Data Orientation
 
 * "row-oriented" storage: 
 
@@ -51,3 +51,74 @@ each record/entry as a unit
 feature based storage
 
 easy for data warehouse-style queries
+
+
+## High Availability
+
+Best way to optimize MySQL is to provide high performance hardware (still single instance, a.k.a. scaling up) and correct SQL query/schema for Mysql, after which, scaling out (provide more Mysql running machines) is required.
+
+* Scaling Up: prefer multi-core CPU and multi-IO peripherals.
+
+### Scaling Out:
+
+* Replication: simply replicating instances from master db instance.
+
+Might have limitations when high concurrency writes for data syncs.
+
+* Functional partitioning, or division of duties: dedicate different nodes to different tasks.
+
+This is about business level of providing db instances for targeted usage, such as one db for user login (db stores token, user profile, etc.) and another for user business services (db stores subscribed news, purchased products, etc.).
+
+* #### Data sharding: shard the data by splitting it into smaller pieces, or
+shards, and storing them on different instances/nodes.
+
+Shard is a horizontal partition of data in a database.
+
+Horizontal partitioning is a database design principle whereby rows of a database table are held separately (vertical partitioning is for column held data).
+
+Each partition forms part of a shard, which may in turn be located on a separate database server or physical location. 
+
+The most important challenge with sharding is finding and retrieving data (choose a right partition key).
+
+One typical partition key is date-based timestamp (Unix date count starting from 1970.01.01), that data entries generated from the same date are grouped into a shard (contiguous disk addresses).
+
+![data_sharding_difficulty_level](imgs/data_sharding_difficulty_level.png "data_sharding_difficulty_level")
+
+## Key Explained
+
+* `PRIMARY KEY (a)`: The partition key is a.
+* `PRIMARY KEY (a, b)`: The partition key is a, the clustering key is b.
+* `PRIMARY KEY (a, b, c)`: The partition key is a, the composite clustering key is (b, c).
+* `PRIMARY KEY ((a, b), c)`: The composite partition key is (a, b), the clustering key is c.
+
+## Terminologies
+
+* Procedure
+
+A SQL procedure is a  group of SQL statements and logic, compiled and stored together to perform a specific task.
+
+```sql
+Create  PROCEDURE GetStudentName 
+(
+    --Input parameter, employeID of the employee
+    @employeeID INT,
+    --Output parameter, employeeName of employee
+    @employeName VARCHAR(50) OUT
+
+    AS
+    BEGIN
+        SELECT @employeName = 
+        Firstname + ' ' + Lastname 
+        FROM Employee_Table 
+            WHERE EmployeId=@employeID
+    END
+```
+
+* View
+
+A *view* is a virtual table that doesn’t store any data itself, but maps query results to underlying physical table data, so that when next time a user runs the same query, the result is delivered fast.
+
+```sql
+CREATE VIEW Oceania AS
+    SELECT * FROM Country WHERE Continent = 'Oceania'
+```

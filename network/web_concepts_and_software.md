@@ -85,15 +85,3 @@ Key services include:
 * http/https connection management
 * Logging
 * Request authentication
-
-## MIME
-
-Multipurpose Internet Mail Extensions (MIME) is an Internet standard that extends the format of email messages to support text in character sets other than ASCII, as well as attachments of audio, video, images, and application programs. 
-
-Inside a request's header, `Content-Type` specifies media type, such as
-```bash
-Content-Type: text/plain
-Content-Type: application/json
-Content-Type: application/octet-stream
-Content-Type: application/x-www-form-urlencoded
-```
