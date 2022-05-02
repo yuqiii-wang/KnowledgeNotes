@@ -59,9 +59,11 @@ virtual ~derived(){ cout << "Destructing derived\n"; }
 
 ## Virtual method table
 
-A virtual method table is implemented to map a base class virtual method to a derived class defined/override method ay trun time.
+A virtual method table is implemented to map a base class virtual method to a derived class defined/override method at run time.
 
-In practice, such as in g++ compiler, when an object is created, a pointer to this table (describing addresses of virtual methods), called the virtual table pointer, is added as a hidden member of this object (generated hidden code in constructor by compiler).
+Typically, the compiler creates a separate virtual method table for each class. 
+When an object is created, a pointer to this table, called the virtual table pointer, `vpointer` or `VPTR`, is added as a hidden member of this object. 
+As such, the compiler must also generate "hidden" code in the constructors of each class to initialize a new object's virtual table pointer to the address of its class's virtual method table. 
 
 Again given the above `base`/`derived` class example, compiler might augment/expand destructor source code to incoporate base class destructor code.
 

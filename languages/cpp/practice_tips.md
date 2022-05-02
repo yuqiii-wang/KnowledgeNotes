@@ -14,7 +14,18 @@ You must implement at least one `std::endl` before exit of a program.
 
 `stack`: LIFO context (last-in first-out)
 
-* i++ vs ++i
+* `i++` vs `++i`
+
+`++i` increments the number before the current expression is evaluated, whereas `i++` increments the number after the expression is evaluated.
+
+There is no diff for them being placed in a loop condition 
+```cpp
+for (int i = 0; i < 10; i++){;}
+```
+or
+```cpp
+for (int i = 0; i < 10; ++i){;}
+```
 
 ++i will increment the value of i, and then return the incremented value.
 ```cpp
@@ -207,3 +218,7 @@ A POD type is a type that is compatible with C
 Diffs: 
 1) when inheritance, struct's members are default public, while class'es are private.
 2) when accessed as object, struct object members are default public, while class'es are private.
+
+* `constexpr`
+
+If a function is declared as `constexpr`, and if the passed argument can be deducted when compiling, the function result is hard coded into binary machine code. If not, this declaration does not have any impact.

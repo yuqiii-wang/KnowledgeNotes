@@ -4,8 +4,6 @@
 
 ## STL Container Thread-Safe Access and Modification
 
-## Garbage Collection, Constructor and Destructor
-
 ### placement new
 
 As it allows to construct an object on memory that is already allocated, it is required for optimizations as it is faster not to re-allocate all the time. It is useful for object been re-constructed multiple times.
@@ -26,3 +24,11 @@ int main() {
     return 0;
 }
 ```
+
+### Scopes
+
+public、protected、private
+
+### `noexcept`
+
+### `typedef`, `decltype`, `typename`, `#define`
