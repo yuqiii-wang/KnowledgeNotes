@@ -72,3 +72,30 @@ HMSET person1 name John age 31 gender male # person1 has many fields
 
 ### Sorted Set
 Sorted set (`ZSET`) is a set whose members are sorted. It can be used as index to find keys that are associated with more data.
+
+## Aggregates
+
+Aggregation needs external redis module (this module also provides many advanced query features):
+```bash
+redis-server --loadmodule /path/to/module/src/redisearch.so
+```
+
+Build a pipeline of operations that transform the results by zero or more steps of:
+* Group and Reduce: grouping by fields in the results, and applying reducer functions on each group.
+* Sort: sort the results based on one or more fields.
+* Apply Transformations: Apply mathematical and string functions on fields in the pipeline, optionally creating new fields or replacing existing ones
+* Limit: Limit the result, regardless of sorting the result.
+* Filter: Filter the results (post-query) based on predicates relating to its values.
+
+### Practices
+
+```bash
+# create index
+FT.CREATE myIdx ON HASH PREFIX 1 doc: SCHEMA title TEXT WEIGHT 5.0 body TEXT url TEXT
+
+# add one item
+hset doc:1 title "hello world" body "lorem ipsum" url "http://redis.io" 
+
+# search by index
+FT.SEARCH myIdx "hello world" LIMIT 0 10
+```
