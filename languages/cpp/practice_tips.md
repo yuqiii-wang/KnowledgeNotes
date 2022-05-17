@@ -40,10 +40,6 @@ int j = i++;
 // (i is 2, j is 1)
 ```
 
-* Private, Protected and Friend
-
-* GDB Common Debugging Practices
-
 * std::vector<bool>
 
 `std::vector<bool>` contains boolean values in compressed form using only one bit for value (and not 8 how bool[] arrays do). It is not possible to return a reference to a bit in c++, 
@@ -219,6 +215,29 @@ Diffs:
 1) when inheritance, struct's members are default public, while class'es are private.
 2) when accessed as object, struct object members are default public, while class'es are private.
 
-* `constexpr`
+* Tricks: show the result
 
-If a function is declared as `constexpr`, and if the passed argument can be deducted when compiling, the function result is hard coded into binary machine code. If not, this declaration does not have any impact.
+`||` returns when met the first true statement, so the `++y` is not run. `true` is implicitly converted to `int` 1.
+
+```bash
+t = 1;
+x = 3;
+y = 2;
+```
+
+```cpp
+int x = 2, y = 2, t = 0;
+t = x++ || ++y;
+```
+
+* `const` of diff forms
+
+Always remember things preceding on the left hand side of `*` are the pointer pointed type, right hand side only allows `const` to say if the pointer is a const (do not allow re-pointing to a new object)
+
+`int const*` is equivalent to `const int*`, pointer to const int.
+
+`int *const` is a constant pointer to integer
+
+`const int* const` is a constant pointer to constant integer
+
+* `final` vs `override`

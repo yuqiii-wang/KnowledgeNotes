@@ -59,8 +59,8 @@ Shallow copy: none of the variables of the object are defined in the heap sectio
 
 * Override vs overload
 
-Override: same method signature (same func name and args) both in super and child classes 
+Override: same method signature (same func name and args) both in super and child classes, materialized at run time. 
 
-Overload: same function names but different in args in the same class.
+Overload: same function names but different in args in the same class, materialized at compile time.
 
 ![overload_vs_override](imgs/overload_vs_override.png "overload_vs_override")

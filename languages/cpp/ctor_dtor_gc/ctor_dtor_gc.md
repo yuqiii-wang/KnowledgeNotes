@@ -2,7 +2,7 @@
 
 ## `new`
 
-* It allocates enough memory to hold an object of the type requested. In the above example, it allocates enough memory to hold a string object.
+* It allocates enough memory to hold an object of the type requested.
     
 * It calls a constructor to initialize an object in the memory that was allocated.
 
@@ -23,6 +23,10 @@ After `new` allocating memory, class members are not init (similar to `malloc(si
 Constructor is used to initialize some valid values to the data members of an object.
 
 Constructors are also used to locate memory at run time using the new operator.
+
+### No virtual constructor
+
+The virtual mechanism works only when we have a base class pointer to a derived class object. In C++, constructor cannot be virtual, because when constructor of a class is executed there is no virtual table in the memory, means no virtual pointer defined yet.
 
 ### Constructors during Inheritance
 

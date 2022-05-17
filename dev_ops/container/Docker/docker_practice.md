@@ -1,6 +1,16 @@
-# Docker Cmds
+# Docker Practices
 
 ## Start Docker
+Download from official website and install it.
+
+Use **Docker Desktop Deb** version.
+
+Example run as a check to success of installation:
+```bash
+docker run -d -p 80:80 docker/getting-started
+```
+
+Cmd docker start:
 ```bash
 # start docker
 service docker start
@@ -56,5 +66,3 @@ COPY [--chown=<user>:<group>] ["<src>",... "<dest>"]
 
 ```
 
-
-### Docker vs Docker-Compose

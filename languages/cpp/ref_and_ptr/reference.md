@@ -1,5 +1,19 @@
 # Reference
 
+## Reference vs Pointer
+
+Rule of thumb: Use references when you can, and pointers when you have to.
+
+### Diffs
+
+* A pointer can be re-assigned, while a reference is not (a pointer can have modifiable address, while reference is const).
+
+* Init check, that a pointer can be assigned with a `nullptr` whereas reference is forbidden.
+
+* Scope management, that a pointer offers more layers of indirection, accessed/passed from/to external scopes
+
+## Reference Tools
+
 * reference_wrapper
 
 A `reference_wrapper<Ty>` is a copy constructible and copy assignable wrapper around a reference to an object or a function of type `Ty`, and holds a pointer that points to an object of that type.

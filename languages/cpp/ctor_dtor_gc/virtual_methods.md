@@ -4,6 +4,10 @@ A virtual function is unknown at compile time and is defined at run time.
 
 A normal (opposed to pure virtual) virtual function can be defined in a base/parent class while derived class can override it.
 
+Compiler adds a virtual pointer (`VPTR`) and a virtual table (`VTABLE`) to a *class* (not to an object) when found it has virtual functions:
+1. If object of that class is created then a virtual pointer (`VPTR`) is inserted as a data member of the class to point to `VTABLE` of that class. For each new object created, a new virtual pointer is inserted as a data member of that class.
+2. Irrespective of object is created or not, class contains as a member a static array of function pointers called `VTABLE`. Cells of this table store the address of each virtual function contained in that class.
+
 ## Pure virtual
 
 A virtual function that is required to be implemented by a derived class if the derived class is not abstract. The derived class must define the virtual function.

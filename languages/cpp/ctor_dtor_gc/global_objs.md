@@ -42,3 +42,9 @@ void MyClass::subscriptionHandler(const char *eventName, const char *data) {
 // In this example, MyClass is a globally constructed object.
 MyClass myClass;
 ```
+
+### `__do_global_dtors_aux` and `__do_global_ctors_aux`
+
+The addresses of constructors and destructors of static objects are each stored in a different section in ELF executable. for the constructors there is a section called .CTORS and for the destructors there is the .DTORS section.
+
+the compiler creates two auxillary functions __do_global_ctors_aux and __do_global_dtors_aux for calling the constructors and destructors of these static objects, respectively.

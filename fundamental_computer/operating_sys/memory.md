@@ -1,16 +1,24 @@
 # Memory OS management
 
-### Swap
+## Swap
 
 Swap is the operation swapping data between primary memory (RAM) and secondary storage (disk). The time cost is mainly associated with transferring data. There are memory lock implemented when data undergoing transferring/swapping.
 
-### Fragmentation
+## Program Memory Allocation Schema
+
+![program_mem](imgs/program_mem.png "program_mem")
+
+The text area contains the program's machine instructions (i.e., the executable code).
+
+Heap and stack areas grow as program runs.
+
+## Fragmentation
 
 As processes are loaded and removed from memory, the free memory space is broken into little pieces, left many "holes" in contiguous memory addresses. Process requested memory allocations are fit into these holes.
 
 It can be addressed by *compaction* (shuffling memory blocks into a bug contiguous memory block). Other techniques include *paging* and *segmentation*.
 
-### Paging
+## Paging
 
 A page table is consisted of mapping relationships between logical and physical addresses. $p$ and $f$ are indices for memory blocks, and $d$ is the offsets to locate data in each block. 
 
@@ -21,7 +29,7 @@ A page table is consisted of mapping relationships between logical and physical 
 
 * shared pages: data that can be shared across multiple processes, such as compiler, system libs.
 
-#### Paging practice
+### Paging practice
 
 When memory is large, page indexing might go out of $2^{32}$ bit-wide size and further action is required to address it.
 
@@ -40,7 +48,7 @@ Each entry of a mapping hash table contains a list of elements, each element has
 
 Each hash table entry is associated with a number of pages scattered in different memory blocks. This is an advantage as it can link pages based on running process's semantics.
 
-### Segmentation
+## Segmentation
 
 Segmentation is a user-view memory management scheme, that allocates memory into variable size blocks such as code section, global variables, process heap and thread stacks, etc.
 
@@ -48,7 +56,7 @@ Segmentation works on top of paging in terms of better mapping from logical memo
 
 ![segmentation](imgs/segmentation.png "segmentation")
 
-### Virtual Memory
+## Virtual Memory
 
 In practice, only partial code/data is (frequently) executed/used, and there is no need of allocating memory for all declared/requested variables at the same time. 
 However, at the code execution level, user still regards memory ready for all code variables, while actually there are only small chunks of memory blocks used at the physical memory layer. 
@@ -56,7 +64,11 @@ Virtual memory is the abstract layer for this purpose, viewed by user as full an
 
 Virtual memory allows extremely large memory provided for user while only small physical memory is available. Techniques include use of shared kernel memory.
 
-#### Locality
+### Thrashing
+
+In a virtual memory system, thrashing is the excessive swapping of pages of data between memory and the hard disk, causing the application to respond more slowly. The virtual memory function tracks page usage and keeps often-used pages in memory as much as possible.
+
+### Locality
 
 Given the code below, `data[i][j]` is accessed with granularity of row major and column major, respectively. Row major access is allocated with much more pages ($128 \times 128$) than column major's ($128$). This correlates better memory management such as low page fault rate.
 ```cpp
@@ -74,7 +86,7 @@ for (i = 0; i < 128; i++)
         data[i][j] = 1;
 ```
 
-#### Page Fault
+### Page Fault
 
 An exception that the memory management unit (MMU) raises when a process accesses a memory page without proper preparations (disk-resided data not yet added a mapping.loading to the process's virtual memory/RAM). 
 
@@ -91,6 +103,6 @@ This happens when the number of frames (physical memory blocks) is small while t
 
 OS might send signal to the process for thrashing (typically a process termination signal).
 
-#### Segmentation Fault
+### Segmentation Fault
 
 Memory Access violation raised by hardware for memory protection, handled by notified OS sending signal to the process raising an exception (such as process termination).

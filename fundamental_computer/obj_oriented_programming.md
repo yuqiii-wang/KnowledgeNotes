@@ -26,14 +26,14 @@ Inheritance refers to derived classes inheriting base class member attrs and met
 class A {
 public:
     A(){};
-    ~A(){};
+    virtual ~A(){};
     virtual int aMethod() {return 0;}
 };      // Base class
 
 class B : public A {
 public:
     B(){};
-    ~B(){};
+    virtual ~B(){};
     int aMethod() override {return 1;}
 };   // B derived from A
 class C : public B{
@@ -44,15 +44,22 @@ class C : public B{
 
 ## Polymorphism
 
-Polymorphism is the provision of a single interface to entities of different types (overload).
+Polymorphism is the provision of a single interface to entities of different types (overload, compile time polymorphism) or or the use of a single symbol to represent multiple different types (override, run time polymorphism).
 
-One typical use case is operator `+` is used with different behaviors.
+One typical use case is operator `+` is used with different behaviors (overload).
 
 ```cpp
 int a = 1;
 int c = 1 + a;  // + as arithmetic operator
 
 std::string str = "1" + "+" + "1"; // + as string concatenation
+```
+
+Another one is by inheritance with common attributes of a base class
+```cpp
+class Animal {};
+class Dog : public Animal {};
+class Cat : public Animal {};
 ```
 
 ## Abstraction

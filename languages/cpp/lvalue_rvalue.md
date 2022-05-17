@@ -70,16 +70,15 @@ This is known as `move` semantics, in which `const Object& rhs` is a lvalve refe
 
 `auto&& x` treats x as a temp rvalue without making it as `const&`.
 
-
 ## Move and Forward
 
 ### Summary
 
-Both `move` and `forward` are introduced to deal with expensive "copy" operation when passing params; `move` is used to force using `rvalue reference` without copy, while `forward` is of added compatability handling `rvalue/lvalue reference` as well as `const reference`.
+Both `move` and `forward` are introduced to deal with expensive "copy" operation when passing params; `move` is used to force using `rvalue reference` without copy, while `forward` is of added compatibility handling `rvalue/lvalue reference` as well as `const reference`.
 
 ### Further explained
 
-Consider this stastement:
+Consider this statement:
 
 ```cpp
 std::String src_str = "hello";
@@ -101,8 +100,8 @@ In the example below, `wrap(T&& t)` has a param not deduced until invocation.
 ```cpp
 struct S{};
 
-void foo(S& s){}
-void foo(S&& s){}
+void foo(S& s){};
+void foo(S&& s){};
 
 template<typename T>
 void wrap(T&& t){

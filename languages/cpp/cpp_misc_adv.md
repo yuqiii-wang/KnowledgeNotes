@@ -1,0 +1,94 @@
+# Some C++ Advanced Knowledge
+
+### `std::unordered_map` thread safety
+
+When multi-threading running on `std::unordered_map` performing simultaneous read and write on elements, it is NOT thread-safe.
+
+When inserting a new element, there is rehashing, so that iterator is not valid. However, reference remains valid (element memory unchanged).
+
+### `inline` performance issues
+
+An inline function is one for which the compiler copies the code from the function definition directly into the code of the calling function rather than creating a separate set of instructions in memory, hence improving performance.
+
+However, it might reduce performance if misused, for increased cache misses and thrashing.
+
+### `std::function` performance issues
+
+Reference source: https://blog.demofox.org/2015/02/25/avoiding-the-performance-hazzards-of-stdfunction/
+
+### Diffs in lambda function, capture by reference vs by value
+
+
+### Curiously recurring template pattern (CRTP)
+
+CRTP is an idiom in C++ in which a class X derives from a class template instantiation using X itself as a template argument.
+
+```cpp
+// The Curiously Recurring Template Pattern (CRTP)
+template <class T>
+class Base
+{
+    // methods within Base can use template to access members of Derived
+};
+class Derived : public Base<Derived> {};
+```
+
+* Use example: object counter
+
+```cpp
+template <typename T>
+struct counter
+{
+    static inline int objects_created = 0;
+    static inline int objects_alive = 0;
+
+    counter()
+    {
+        ++objects_created;
+        ++objects_alive;
+    }
+    
+    counter(const counter&)
+    {
+        ++objects_created;
+        ++objects_alive;
+    }
+protected:
+    ~counter() // objects should never be removed through pointers of this type
+    {
+        --objects_alive;
+    }
+};
+
+class X : counter<X>
+{
+    // ...
+};
+
+class Y : counter<Y>
+{
+    // ...
+};
+```
+
+### Substitution failure is not an error (SFINAE) 
+
+An invalid substitution of template parameters is not in itself an error.
+
+```cpp
+struct Test {
+  typedef int foo;
+};
+
+template <typename T>
+void f(typename T::foo) {}  // Definition #1
+
+template <typename T>
+void f(T) {}  // Definition #2
+
+int main() {
+  f<Test>(10);  // Call #1.
+  f<int>(10);   // Call #2. Without error (even though there is no int::foo)
+                // thanks to SFINAE.
+}
+```
