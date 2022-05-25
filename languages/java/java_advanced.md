@@ -73,7 +73,8 @@ synchronized(Obj.class){
 
 * Annotation
 
-One word to explain annotation is metadata and are only metadata and do not contain any business logic. The usage of annotation is mainly about decoupling of different parts of a project and avoids xml configuration.
+One word to explain annotation is metadata and are only metadata and do not contain any business logic. 
+The usage of annotation is mainly about decoupling of different parts of a project and avoids xml configuration.
 
 For example,
 
@@ -84,7 +85,7 @@ public String toString() {
 }
 ```
 
-@Override tells the compiler that this method is an overridden method (metadata about the method), and if any such method does not exist in a parent class, then throw a compiler error (method does not override a method from its super class). 
+`@Override` tells the compiler that this method is an overridden method (metadata about the method), and if any such method does not exist in a parent class, then throw a compiler error (method does not override a method from its super class). 
 
 All attributes of annotations are defined as methods, and default values can also be provided.
 

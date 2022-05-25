@@ -8,6 +8,7 @@ OPA (pronounced “oh-pa”)  is an open source, general purpose policy engine, 
 The high-level declarative language for OPA is called `Rego`.
 
 Basically, OPA works as below. Service is what end users interact with an application. The application translates user's request into json for OPA for decision making.
+
 ![opa-service](imgs/opa-service.svg "opa-service")
 
 ### For example,

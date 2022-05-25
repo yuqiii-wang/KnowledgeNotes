@@ -52,7 +52,7 @@ An array of function pointers that contributes to a single initialization array 
 
 * .interp
 
-The path name of a program interpreter. 
+The path name of a program interpreter.
 
 * .rodata, .rodata1
 

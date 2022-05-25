@@ -64,3 +64,14 @@ Override: same method signature (same func name and args) both in super and chil
 Overload: same function names but different in args in the same class, materialized at compile time.
 
 ![overload_vs_override](imgs/overload_vs_override.png "overload_vs_override")
+
+* Coroutine
+
+*Coroutines* are computer program components that generalize subroutines for *non-preemptive multitasking*.
+
+*Cooperative multitasking*, also known as *non-preemptive multitasking*, is a style of computer multitasking in which the operating system never initiates a context switch from a running process to another process. Instead, in order to run multiple applications concurrently, processes voluntarily yield control periodically or when idle or logically blocked. 
+
+It is useful in event-driven callback scenarios.
+
+* Closure
+

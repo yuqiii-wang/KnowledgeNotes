@@ -14,11 +14,19 @@ vector、deque、stack/queue、map/set、unordered_map/unordered_set
 
 ### `std::unordered_map`
 
-`std::unordered_map` does not have order hence the read/write operations on the map is always $O(1)$
+`std::unordered_map` does not have order hence the read/write operations on the map is always $O(1)$.
+
+Key/value pairs in `std::unordered_map` are stored in bucket depending on hash result of keys. There is no mandated implementations, that linked lists are used in the libstdc++ and Microsoft implementations, while other might use a number of vectors to represent buckets.
 
 ### `std::vector`
 
 A vector grows exponentially, such as by $2^n$: $2$, $4$, $8$, $16$ ..., and every time it grows, there need copy operations that assigns elements from old memory to new memory addresses.
+
+* `std::vector<bool>` 
+
+It is an exception that `operator[]` returns `std::vector<bool>::reference` rather than a `bool`. Using `auto& elem = std::vector<bool>(1, false)[0]` to retrieve elements results in undefined behavior.
+
+Consider use `auto highPriority = static_cast<bool>(std::vector<bool>(1, false)[0]);`
 
 ### `std::list`
 
@@ -40,6 +48,15 @@ std::array<int, 3> a {1, 2, 3};
 Deque implements pointer to the queue's first and end elements, while elements inside are chopped into chunks, each chunk is a vector, linked through a map:
 
 ![deque](imgs/deque.png "deque")
+
+### `std::bitset`
+
+The class template bitset represents a fixed-size sequence of N bits. Bitsets can be manipulated by standard logic operators and converted to and from strings and integers.
+
+```cpp
+template< std::size_t N >
+class bitset;
+```
 
 
 ## Tools

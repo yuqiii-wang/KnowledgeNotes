@@ -48,3 +48,11 @@ Threading with non-static member function by `&` and `this`, together they provi
 ```cpp
 std::thread th1(&ClassName::classMethod, this, arg1, arg2);
 ```
+
+### `std::atomic`
+
+If `a` is accessed and modifiable by multiple threads, `atomic` (preserve atomicity to POD data types) is required.
+
+```cpp
+mutable std::atomic<unsigned> a{ 0 };
+```

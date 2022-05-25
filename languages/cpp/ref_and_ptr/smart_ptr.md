@@ -83,3 +83,16 @@ that outputs
 weak1 is expired
 weak2 value is 5
 ```
+
+## Prefer `std::make_unique` and `std::make_shared` to direct use of `new`
+
+Rule of thumb: Try to use standard tools as much as possible, otherwise, you risk program failure when OS or compiler upgrade to a higher version.
+
+Smart pointer make is a simple forward operation as below:
+```cpp
+template<typename T, typename... Ts>
+std::unique_ptr<T> make_unique(Ts&&... params)
+{
+    return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
+```

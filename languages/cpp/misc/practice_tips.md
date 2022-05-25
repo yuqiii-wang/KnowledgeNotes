@@ -241,3 +241,39 @@ Always remember things preceding on the left hand side of `*` are the pointer po
 `const int* const` is a constant pointer to constant integer
 
 * `final` vs `override`
+
+* `NULL` vs `nullptr`
+
+Better use `std::nullptr_t` implicitly converts to all raw pointer types and prevents ambiguity of integral type.
+
+```cpp
+// three overloads of f
+void f(int);
+void f(bool);
+void f(void*);
+
+f(0); // calls f(int), not f(void*)
+f(NULL); // might not compile, but typically calls
+         // f(int). Never calls f(void*)
+```
+
+* Use scoped `enum`
+
+```cpp
+enum class Color { black, white, red };
+// are scoped to Color
+
+auto white = false;
+// fine, no other
+
+Color c = Color::white; 
+// fine
+```
+
+* `delete` use to default functions
+
+There are compiler generated functions such as copy constructor but you do not want user to invoke, you can hence:
+```cpp
+basic_ios(const basic_ios& ) = delete;
+basic_ios& operator=(const basic_ios&) = delete;
+```

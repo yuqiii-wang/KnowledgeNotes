@@ -18,6 +18,9 @@ Reference source: https://blog.demofox.org/2015/02/25/avoiding-the-performance-h
 
 ### Diffs in lambda function, capture by reference vs by value
 
+Compiler generates a *closure class* and a derived *closure object* from lambda. *Closure* is the code block of a lambda.
+
+There are two default capture modes in C++11: by-reference (default) and by-value.
 
 ### Curiously recurring template pattern (CRTP)
 
@@ -92,3 +95,18 @@ int main() {
                 // thanks to SFINAE.
 }
 ```
+
+### `noexcept`
+
+Compiler uses *flow graph* to optimize machine code generation. A flow graph consists of what are generally called "blocks" of the function (areas of code that have a single entrance and a single exit) and edges between the blocks to indicate where flow can jump to. `Noexcept` alters the flow graph (simplifies flow graph not to cope with any error handling)
+
+For example, code below using containers might throw `std::bad_alloc` error for lack of memory, and compiler needs attaching `std::terminate()` when error was thrown, hence adding complexity to flow graph. Remember, there are many errors a function can throw, and error handling code blocks can be many in a flow graph. By `noexcept`, flow graph is trimmed. 
+```cpp
+double compute(double x) noexcept;     {
+    std::string s = "Courtney and Anya";
+    std::vector<double> tmp(1000);
+    // ...
+}
+```
+
+### Common Reasons for Stack Overflow

@@ -70,6 +70,28 @@ This is known as `move` semantics, in which `const Object& rhs` is a lvalve refe
 
 `auto&& x` treats x as a temp rvalue without making it as `const&`.
 
+### Example
+
+```cpp
+class Widget {
+public:
+
+
+void doWork() &; // this version of doWork applies
+                 // only when *this is an lvalue
+void doWork() &&; // this version of doWork applies
+                  // only when *this is an rvalue
+};
+
+Widget makeWidget(); // factory function (returns rvalue)
+Widget w; // normal object (an lvalue)
+
+w.doWork(); // calls Widget::doWork for lvalues
+// (i.e., Widget::doWork &)
+makeWidget().doWork(); // calls Widget::doWork for rvalues
+// (i.e., Widget::doWork &&)
+```
+
 ## Move and Forward
 
 ### Summary

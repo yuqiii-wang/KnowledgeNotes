@@ -23,6 +23,20 @@ Flow control is the process of managing the rate of data transmission between tw
 
 * For TCP, server's socket decreases kernel window size when receiving data exceeds server processing capacity, and rejects incoming TCP Datagrams when window size is zero.
 
+## TCP
+
+### Handshake
+
+1. The first host (Alice) sends the second host (Bob) a "synchronize" (SYN) message with its own sequence number $x$
+
+2. Bob replies with a synchronize-acknowledgment (SYN-ACK) message with its own sequence number $y$ and acknowledgement number $x+1$
+
+3. Alice replies with an acknowledgment (ACK) message with acknowledgement number $y+1$
+
+4. Data transmission starts
+
+![tcp_handshake](imgs/tcp_handshake.svg "tcp_handshake")
+
 ## QUIC
 
 QUIC (Quick UDP Internet Connections) is tailored to facilitate http communication with a number of improvements based on http characteristics.

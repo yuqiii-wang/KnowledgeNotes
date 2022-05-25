@@ -18,6 +18,8 @@ Dynamic linker loads and links object files to executable at run time, by copyin
 
 All program object references are resolved at compile time and and copied into an executable, and when the executable runs, objects are referenced simply by address offsetting loading into RAM.
 
+Static executable is discouraged provided that it is built against system archive libraries, once built, future OS updates might cause failure. 
+
 ### Example (static lib)
 
 Compile from source code `fn1.cpp` and `fn2.cpp`:
