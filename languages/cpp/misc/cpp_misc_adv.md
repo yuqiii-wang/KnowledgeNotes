@@ -12,15 +12,6 @@ An inline function is one for which the compiler copies the code from the functi
 
 However, it might reduce performance if misused, for increased cache misses and thrashing.
 
-### `std::function` performance issues
-
-Reference source: https://blog.demofox.org/2015/02/25/avoiding-the-performance-hazzards-of-stdfunction/
-
-### Diffs in lambda function, capture by reference vs by value
-
-Compiler generates a *closure class* and a derived *closure object* from lambda. *Closure* is the code block of a lambda.
-
-There are two default capture modes in C++11: by-reference (default) and by-value.
 
 ### Curiously recurring template pattern (CRTP)
 

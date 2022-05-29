@@ -103,16 +103,16 @@ Both `move` and `forward` are introduced to deal with expensive "copy" operation
 Consider this statement:
 
 ```cpp
-std::String src_str = "hello";
-std::String dest_str = src_str;
+std::string src_str = "hello";
+std::string dest_str = src_str;
 ```
 
 inside, `=` is actually a copy assignment operator. If src_str is no long used, we can actually assign the addr of src_str to dest_str. To do that, we can
 
 ```cpp
-std::String dest_str = std::move(src_str);
+std::string dest_str = std::move(src_str);
 // The above statement is same as
-std::String dest_str((std::String&&)src_str);
+std::string dest_str((std::string&&)src_str);
 ```
 so that `src_str` becomes a temporary (an rvalue).
 

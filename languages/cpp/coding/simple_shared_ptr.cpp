@@ -2,6 +2,7 @@
 using namespace std;
  
 // Class representing a reference counter class
+// It should be global
 class Counter
 {
 public:

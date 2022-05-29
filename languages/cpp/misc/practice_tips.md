@@ -18,7 +18,7 @@ You must implement at least one `std::endl` before exit of a program.
 
 `++i` increments the number before the current expression is evaluated, whereas `i++` increments the number after the expression is evaluated.
 
-There is no diff for them being placed in a loop condition 
+There is no diff for them being placed in a loop condition (However, `++i` should be preferred as old version compiler might generate more machine code for `i++` than that of `++i`)
 ```cpp
 for (int i = 0; i < 10; i++){;}
 ```
@@ -118,20 +118,6 @@ __static_initialization_and_destruction_0(int, int):
 ...
         call    multiply(int, int)
 ```
-
-* lambda
-
-example
-```cpp
-float x[5] = {5,4,3,2,1};
-std::sort(x, x + n,
-    [](float a, float b) {
-        return (std::abs(a) < std::abs(b));
-    }
-);
-```
-
-`[]` is called capture clause, that `[=]` means by value capture while `[&]` is by reference capture
 
 * string types
 

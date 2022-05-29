@@ -48,6 +48,8 @@ void f(const shared_ptr<T const>& t) {...}
 
 Dangling pointers and wild pointers are pointers that do not point to a valid object of the appropriate type. Weak pointers are used to "try" access the pointer to see if it is a dangling pointer by `lock()`.
 
+Weak pointer manages more reference count than shared pointer, as it needs to track 
+
 ```cpp
 // empty definition
 std::shared_ptr<int> sptr;

@@ -28,6 +28,53 @@ It is an exception that `operator[]` returns `std::vector<bool>::reference` rath
 
 Consider use `auto highPriority = static_cast<bool>(std::vector<bool>(1, false)[0]);`
 
+* `emplace_back` vs `push_back`
+
+`emplace_back` is generally preferred as it does additional memory check.
+
+`emplace_back` does type deduction so that it can be written with templates such as
+```cpp
+template<class T, class Allocator = allocator<T>>
+class vector {
+public:
+    template <class... Args>
+    void emplace_back(Args&&... args);
+};
+```
+while `push_back` can only be used after instantiation (cannot be used in template)
+```cpp
+class vector<Widget, allocator<Widget>> {
+public:
+    void push_back(Widget&& x);
+};
+```
+
+A better example:
+```cpp
+class MyKlass {
+public:
+  MyKlass(int ii_, float ff_) {...}
+
+private:
+};
+
+void function() {
+  std::vector<MyKlass> v;
+
+  v.push_back(MyKlass(2, 3.14f));
+  v.emplace_back(2, 3.14f);
+}
+```
+
+By using `push_back`, it creates a temp obj every time:
+1. Constructor for a temporary `MyKlass` object
+2. Move constructor (if one was defined for `MyKlass`, otherwise a copy constructor) for the object actually allocated inside the vector
+3. Destructor for the temporary
+
+This is unnecessary since the object passed to push_back is obviously an rvalue that ceases to exist after the statement is completed.
+
+By using `emplace_back`, only `MyKlass` constructor is called. This is the object constructed inside the vector. No temporaries are needed.
+
 ### `std::list`
 
 `insert()`/`erase()` in a list need $O(n)$ since it iterates over the whole list to determine where to insert/delete an element.
@@ -58,6 +105,48 @@ template< std::size_t N >
 class bitset;
 ```
 
+## Algorithms
+
+`std::all_of`, `std::any_of` and `std::none_of` can used to compute an expression over a range of vars. 
+```cpp
+std::vector<int> v(10, 2);
+
+if (std::all_of(v.cbegin(), v.cend(), [](int i){ return i % 2 == 0; })) {
+    std::cout << "All numbers are even\n";
+}
+
+if (std::none_of(v.cbegin(), v.cend(), std::bind(std::modulus<>(), 
+                                                    std::placeholders::_1, 2))) {
+    std::cout << "None of them are odd\n";
+}
+```
+
+* `std::all_of`
+```cpp
+template< class InputIt, class UnaryPredicate >
+constexpr bool all_of(InputIt first, InputIt last, UnaryPredicate p)
+{
+    return std::find_if_not(first, last, p) == last;
+}
+```
+
+* `std::any_of`
+```cpp
+template< class InputIt, class UnaryPredicate >
+constexpr bool any_of(InputIt first, InputIt last, UnaryPredicate p)
+{
+    return std::find_if(first, last, p) != last;
+}
+```
+
+* `std::none_of`
+```cpp
+template< class InputIt, class UnaryPredicate >
+constexpr bool none_of(InputIt first, InputIt last, UnaryPredicate p)
+{
+    return std::find_if(first, last, p) == last;
+}
+```
 
 ## Tools
 
