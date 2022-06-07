@@ -1,5 +1,9 @@
 # Global Objects
 
+## Global Object Storage
+
+Global objects are stored in ELF's static section, unlike local vars are stored in stack/heap areas.
+
 ## Init Globals
 
 All global C++ variables that have constructors must have their constructor called before `main()`. The compiler builds a table of global constructor addresses that must be called, in order, before `main()` in a section called `.init_array`. 

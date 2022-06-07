@@ -98,3 +98,9 @@ std::unique_ptr<T> make_unique(Ts&&... params)
     return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
 }
 ```
+
+## Auto Pointer and Unique Pointer
+
+Note: `std::auto_ptr` is deprecated and `std::unique_ptr` is its replacement.
+
+Same as `std::shared_ptr` but without counter.

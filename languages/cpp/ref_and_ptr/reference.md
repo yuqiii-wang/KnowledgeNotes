@@ -12,6 +12,8 @@ Rule of thumb: Use references when you can, and pointers when you have to.
 
 * Scope management, that a pointer offers more layers of indirection, accessed/passed from/to external scopes
 
+* resource by pointer might outlive local scope if not handled by `delete`, whereas reference-based resource will die when local scope ends.
+
 ## Universal References vs Rvalue References
 
 `T&&` earns it name by working as either rvalue reference or lvalue reference, binding to const or non-const objects, and to volatile or non-volatile objects.

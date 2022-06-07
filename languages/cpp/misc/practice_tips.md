@@ -195,6 +195,29 @@ Use `delete` to deallocates a block of memory. Use `delete` for non-`new` alloca
 
 A POD type is a type that is compatible with C 
 
+* Some code tricks
+Show the print results:
+```cpp
+using namespace std;
+int  a=4;
+int  &f(int  x)
+{
+    a = a + x;
+    return  a;
+}
+
+int main()
+{
+    int t = 5;
+    cout<<f(t)<<endl;  //a = 9
+    f(t) = 20;           //a = 20
+    cout<<f(t)<<endl;  //t = 5,a = 25
+    t = f(t);            //a = 30 t = 30
+    cout<<f(t)<<endl;  //t = 60
+    return 0;
+}
+```
+
 * `class` vs `struct`
 
 Diffs: 

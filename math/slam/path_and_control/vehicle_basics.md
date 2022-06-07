@@ -1,6 +1,4 @@
-# SLAM Basics
-
-## Vehicle Properties/Measurements to Road/Track
+# Vehicle Properties/Measurements to Road/Track
 
 * heading
 
@@ -35,3 +33,9 @@ The speed parameter measures the observed speed of the vehicle, measured in mete
 The steering_angle parameter measures the steering angle of the vehicle, measured in degrees.
 
 This value is negative if the vehicle is steering right, and positive if the vehicle is steering left.
+
+* frame
+
+A frame is a Cartesian Coordinate representation of an object at a time.
+
+![Reference-frames-used-in-SLAM-filter](imgs/Reference-frames-used-in-SLAM-filter.png "Reference-frames-used-in-SLAM-filter")

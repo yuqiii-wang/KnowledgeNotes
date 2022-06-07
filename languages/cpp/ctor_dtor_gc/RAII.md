@@ -12,6 +12,31 @@ Some typical:
 
 * Use smart pointers to manage resources that are used in different scopes
 
+## A Typical Obj Lifecycle
+
+```cpp
+#include <memory>
+
+
+template <typename T>
+void life_of_an_object
+{
+    std::allocator<T> alloc;
+
+    // 1. allocate/malloc 
+    T * p = alloc.allocate(1);
+
+    // 2. placement new run constructor
+    new (p) T(); 
+
+    // 3. to destroy the obk, run destructor
+    p->~T();
+
+    // 4. deallocate/free
+    alloc.deallocate(p, 1);
+}
+```
+
 ## Examples
 
 ### Container Cautions

@@ -3,7 +3,7 @@
 * Multithreading
 
 A lifecycle of Java multithreading object shows as below.
-![alt text](imgs/java_multithreading_lifecycle.png "java_multithreading_lifecycle")
+![java_multithreading_lifecycle](imgs/java_multithreading_lifecycle.png "java_multithreading_lifecycle")
 
 1. As a first step, you need to implement a run() method provided by a Runnable interface. This method provides an entry point for the thread and you will put your complete business logic inside this method. 
 

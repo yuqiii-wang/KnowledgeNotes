@@ -27,6 +27,8 @@ A web container can be regarded as a special JVM tool interface that manages the
 
 In general, an ABI is the interface between two program modules, one of which is often at the level of machine code. The interface is the de facto method for encoding/decoding data into/out of the machine code.
 
+In Linux, one example is ELF-format executable that defines how to run binary code.
+
 In Ethereum, it's basically how you can encode Solidity contract calls for the EVM and, backwards, how to read the data out of transactions.
 
 * dry run

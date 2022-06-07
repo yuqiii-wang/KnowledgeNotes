@@ -2,8 +2,6 @@
 
 Put simply, an lvalue is an object reference and an rvalue is a value. An lvalue refers to an object that persists beyond a single expression. An rvalue is a temporary value that does not persist beyond the expression that uses it.
 
-function return rvalue.
-
 ```cpp
 int get(){
     return 0;
@@ -39,7 +37,46 @@ void foo(X&& x) { foo(x); }
 void foo(const X& x){}
 ```
 
-### Example
+## Example
+
+### lvalue reference must either be a const or take an addr
+
+```cpp
+int a = 5;
+int &ref_a = a; 
+int &ref_a = 5; // Compilation error, lvalue reference must be const
+
+const int &ref_a = 5;  // good to pass compilation, 
+                       // but no semantic meaning, 
+                       // since ref_a refers to invalid addr
+```
+
+### `std::vector::push_back` takes lvalue
+
+```cpp
+std::vector<int> vec;
+
+vec.push_back(1); // compilation error
+
+int a = 1;
+vec.push_back(a); // works, a is lvalue, but not elegant
+```
+
+### `std::vector::emplace_back` takes `T&&`
+```cpp
+std::vector<std::string> vec;
+
+std::string str1{"asdfg"};
+std::string str2{"asdfg"};
+
+vec.push_back(str1); // copy
+vec.push_back(std::move(str1)); // by move, str1 is now empty
+vec.emplace_back(str2); // same as by move, str2 is now empty
+vec.emplace_back("axcsddcas"); // valid, emplace_back can take rvalue
+
+```
+
+### Operation Overloading Example
 
 Consider this, 
 ```cpp
@@ -134,6 +171,40 @@ int main(){
     S s;
     wrap(s); // lvalue
     wrap(S()); // rvalue
+    return 0;
+}
+```
+
+### Example
+
+
+
+```cpp
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    auto print = [](auto& x) {
+        cout << x << endl;
+    }; 
+    
+    auto forwarder1 = [&](const auto& e) {
+      print(std::forward<decltype(e)>(e));
+    };
+    auto forwarder2 = [&]( auto&& e) {
+      print(std::forward<decltype(e)>(e));
+    };
+    
+    int e = 1;
+    
+    forwarder1(std::move(e)); // working because legal to bind const lvalue reference to rvalue
+
+    // forwarder2(std::move(e)); 
+    // above NOT working because deduced type is rvalue of type int 
+    // in print(), cannot bind non-const lvalue reference of type ‘int&’ to an rvalue of type ‘int’
+
     return 0;
 }
 ```

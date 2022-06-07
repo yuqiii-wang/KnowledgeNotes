@@ -86,6 +86,8 @@ if (A1 *a1 = dynamic_cast<A1*>(&obj)) {
 
 `reinterpret_cast<new-type>(expression)` performs conversions between types by reinterpreting the underlying bit pattern.
 
+`reinterpret_cast` can force pointer type change, and makes type unsafe.
+
 For example,
 ```cpp
 union U { int a; double b; } u = {0};

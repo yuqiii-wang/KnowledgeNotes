@@ -1,5 +1,17 @@
 # Memory OS management
 
+## MMU (Memory Management Unit)
+
+The memory management unit logically sits between the processor internal bus and the memory hierarchy—the first level of the hierarchy is most likely the processor’s first level cache on modern embedded processors. The MMU provides the following key features:
+
+* Address translation. The MMU provides per process address translation of linear (virtual) address to physical addresses (see paging for detail).
+
+* Protection. The MMU entries provide privilege checking and read/write protection of memory. Privilege checking ensures that the processor has the correct privilege level to access a particular memory region.
+
+* Cache control. Different memory regions requires different cacheability attributes.
+
+When using the MMU, the memory map is divided into pages (typically 4 kB each). The operating system maintains a page directory and a set of page tables to keep track of the pages. 
+
 ## Swap
 
 Swap is the operation swapping data between primary memory (RAM) and secondary storage (disk). The time cost is mainly associated with transferring data. There are memory lock implemented when data undergoing transferring/swapping.
@@ -57,6 +69,8 @@ Segmentation works on top of paging in terms of better mapping from logical memo
 ![segmentation](imgs/segmentation.png "segmentation")
 
 ## Virtual Memory
+
+Virtual memory makes the primary storage (RAM) hold more data than its max capability by paging data and exchanging data between the primary storage (RAM) and secondary storage (disk).
 
 In practice, only partial code/data is (frequently) executed/used, and there is no need of allocating memory for all declared/requested variables at the same time. 
 However, at the code execution level, user still regards memory ready for all code variables, while actually there are only small chunks of memory blocks used at the physical memory layer. 

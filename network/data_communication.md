@@ -1,5 +1,17 @@
 # Data Communication
 
+The IOS Data COmmunication Model
+
+![osi-model-7-layers-1](imgs/osi-model-7-layers-1.png "osi-model-7-layers-1")
+
+## MAC vs IP 
+
+MAC stands for Media Access Control (Layer 2 Data Link). A MAC address is a unique 12-digit hexadecimal identifier given to a network interface controller (NIC).
+
+An Internet Protocol (IP) (Layer 3/4) address is a unique identifier given to a device connected to a local network or the internet.
+
+MAC address is supposedly unique to each network interface card while an IP address is usually replaced.
+
 ## IPC socket
 
 A Unix domain socket or IPC socket (inter-process communication socket) is a data communications endpoint for exchanging data between processes executing on the same host operating system. All communication occurs entirely within the operating system kernel, rather than via network protocol.
@@ -35,7 +47,14 @@ Flow control is the process of managing the rate of data transmission between tw
 
 4. Data transmission starts
 
-![tcp_handshake](imgs/tcp_handshake.svg "tcp_handshake")
+![tcp_handshake](imgs/tcp_handshake.png "tcp_handshake")
+
+### 4-Way TCP Goodbye Handshake
+
+`close` is invoked in both server and client who send `FIN` and expect receiving `ACK`
+
+![tcp_goodbye_handshake](imgs/tcp_goodbye_handshake.png "tcp_goodbye_handshake")
+
 
 ## QUIC
 

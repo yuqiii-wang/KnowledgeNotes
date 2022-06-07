@@ -1,58 +1,5 @@
 # Differential equations in matrix form
 
-
-## Intuition about $e^{Ax}$ 
-
-Given $e^{Ax}$ where $A$ is a matrix, for example
-$$
-e^{A_{3 \times 3}
-}
-=
-e^{
-\begin{bmatrix}
-      a_{1,1} & a_{1,2} & a_{1,3} \\
-      a_{1,2} & a_{2,2} & a_{2,3} \\
-      a_{1,3} & a_{3,2} & a_{3,3}
-\end{bmatrix}
-}
-$$
-
-Take Euler's formula into consideration
-$$
-e^x = 
-\sum_{n=0}^{\infty} \frac{x^n}{n!}
-$$
-
-Derived with $n \rightarrow \infty$:
-$$
-e^{A_{3 \times 3}x} =
-x^0 {\begin{bmatrix}
-      a_{1,1} & a_{1,2} & a_{1,3} \\
-      a_{1,2} & a_{2,2} & a_{2,3} \\
-      a_{1,3} & a_{3,2} & a_{3,3}
-\end{bmatrix}}^0
-+
-x^1 {\begin{bmatrix}
-      a_{1,1} & a_{1,2} & a_{1,3} \\
-      a_{1,2} & a_{2,2} & a_{2,3} \\
-      a_{1,3} & a_{3,2} & a_{3,3}
-\end{bmatrix}}^1
-+ \\
-\frac{x^2}{2}
-{\begin{bmatrix}
-      a_{1,1} & a_{1,2} & a_{1,3} \\
-      a_{1,2} & a_{2,2} & a_{2,3} \\
-      a_{1,3} & a_{3,2} & a_{3,3}
-\end{bmatrix}}^2
-+ ... +
-\frac{x^n}{n!}
-{\begin{bmatrix}
-      a_{1,1} & a_{1,2} & a_{1,3} \\
-      a_{1,2} & a_{2,2} & a_{2,3} \\
-      a_{1,3} & a_{3,2} & a_{3,3}
-\end{bmatrix}}^n
-$$
-
 ## Example: Dynamics of $x(t)$ and $y(t)$
 
 Given a dynamic system with known $A_{2 \times 2}$ searching for analytic solutions of $x(t)$ and $y(t)$:

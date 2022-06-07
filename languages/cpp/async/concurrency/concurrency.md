@@ -40,3 +40,29 @@ reallyAsync(F&& f, Ts&&... params)
 // would throw
 auto fut = reallyAsync(f);
 ```
+
+### Policy: Single- or Multi- Threading
+
+Multithreading programming is all about concurrent execution of different functions. Async programming is about non-blocking execution between functions, and we can apply async with single-threaded or multithreaded programming.
+
+`std::async` can either use a single or separate thread for async operations:
+
+* `std::launch::async`
+
+the task is executed on a different thread, potentially by launching a new thread
+```cpp
+// Calls barPrint("hello"); with async policy
+// prints "43" concurrently
+auto a3 = std::async(std::launch::async, barPrint, "hello");
+```
+
+* `std::launch::deferred`
+
+the task is executed on the calling thread the first time its result is requested (lazy evaluation). The main thread might pick sleep/free time to handle the async operation, rather than launching a new thread.
+```cpp
+// Calls barPrint("world!") with deferred policy
+// prints "world!" when a.get() or a.wait() is called
+auto a = std::async(std::launch::deferred, barPrint, "world!");
+sleep(1);
+a.wait();
+```

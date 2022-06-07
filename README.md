@@ -1,5 +1,5 @@
 # Knowledge notes
 
-Just notes and code practices on computer science topics, inclusive of everything relevant.
+Just knowledge notes and code practices on computer science topics.
 
 Folders list all touched areas.

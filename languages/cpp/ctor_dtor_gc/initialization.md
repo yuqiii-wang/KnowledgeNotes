@@ -20,3 +20,9 @@ std::vector<int> v2{10, 20}; // use std::initializer_list ctor:
 ```
 
 Use of `std::initializer_list<T>` should be preferred when using `{}` ctor.
+
+## When to must use *intialization list* rather than *assignment*
+
+* const var 
+
+* Base class constructor

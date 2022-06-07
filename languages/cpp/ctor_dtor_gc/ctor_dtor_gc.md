@@ -120,3 +120,7 @@ So that, we need to add `virtual` to base class destructor:
 ```cpp
 virtual ~base(){};
 ```
+
+### `delete` vs `delete[]`
+
+`delete[]` calls each element's destructor (synonym: array version of a single `delete`)
