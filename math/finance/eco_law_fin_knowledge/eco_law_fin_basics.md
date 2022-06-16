@@ -1,6 +1,6 @@
 # Economics, Law and Finance Basics
 
-Terminologies/colloquial terms in the economics, law or finance knowledge doamins.
+Terminologies/colloquial terms in the economics, law or finance knowledge domains.
 
 * Pay-as-we-go
 

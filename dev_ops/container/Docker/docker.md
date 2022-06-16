@@ -6,6 +6,12 @@ Docker can package an application and its dependencies in a virtual container on
 
 Docker images are "compiled" from Dockerfile; depending on the levels of inclusion, an image can be with or without dependencies such as SDKs.
 
+## Docker Sock
+
+Docker.sock is a Unix socket that enables the Docker server-side daemon, dockerd, to communicate with its command-line interface via a REST API.
+
+The socket appears as the /var/run/docker.sock file. Because it is a file, admins can share and run docker.
+
 ## Registry
 A Docker registry is a repository for Docker images. Two main public registries are Docker Hub (the default registry where Docker looks for images) and Docker Cloud. 
 

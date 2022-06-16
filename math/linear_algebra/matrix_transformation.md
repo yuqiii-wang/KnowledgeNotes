@@ -1,4 +1,0 @@
-# Matrix Transformation
-
-## Homogeneous Transformation
-

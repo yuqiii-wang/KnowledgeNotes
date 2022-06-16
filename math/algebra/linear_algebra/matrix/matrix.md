@@ -107,7 +107,7 @@ $$
 ad-bc
 $$
 
-![alt text](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
+![parallellogram_as_determinant](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
 
 The following shows the calculation of a $3 \times 3$ matrix's determinant:
 $$
@@ -212,6 +212,8 @@ C =
       M_{1,3} & M_{3,2} & M_{3,3}
 \end{bmatrix}
 $$
+
+Finding adjoint of a matrix is the same as applying a linear transformation which brings the coordinates of $i$ and $j$ to a square of area equal to the determinant of that matrix.
 
 ## Inverse Matrix
 

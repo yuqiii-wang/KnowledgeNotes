@@ -1,6 +1,8 @@
 # Proof-of-Possession
 
-Proof-of-possession is a means of ensuring that the client sending a request to the resource server is in possession of a particular cryptographic key. 
+By default, OAuth access tokens are so called bearer tokens. This means they are not bound to a client and anybody who possess the token can use it (compare to cash).
+
+Proof-of-Possession (short PoP) tokens are bound to the client that requested the token. I
 
 Generally, there are two appraoches:
 

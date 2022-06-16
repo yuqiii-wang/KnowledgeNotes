@@ -1,35 +1,4 @@
-# Complex Analysis
-
-## Concepts
-
-### Complex conjugate
-
-The complex conjugate of a complex number is the number with an equal real part and an imaginary part equal in magnitude but opposite in sign, such as the complex conjugate of $a + b i$ is equal to $a − b i$.
-
-### Isometry
-
-An isometry (or congruence, or congruent transformation) is a distance-preserving transformation between metric spaces.
-
-Geometrically speaking, it refers to rigid translation and rotation of geometrical figures.
-
-### Hermitian matrix
-
-A Hermitian matrix (or self-adjoint matrix) is a complex square matrix that is equal to its own conjugate transpose.
-
-For example,
-$$
-\begin{bmatrix}
-      0 & a-ib & c-id \\
-      a+ib & 1 & 0 \\
-      c+id & 0 & 2
-\end{bmatrix}
-$$
-
-### Conjugate transpose
-
-The conjugate transpose (or Hermitian transpose) of $A_{n \times m}$ is 
-1. take the transpose of $A_{n \times m}$
-2. replace each entry $a_{i,j}$ with its complex conjugate
+# Complex Application
 
 ## Laplace transform
 

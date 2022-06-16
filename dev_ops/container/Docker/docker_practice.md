@@ -31,6 +31,16 @@ sudo cat <<EOF>> /etc/docker/daemon.json
 EOF
 ```
 
+### Base Image
+Every container should start from a `scratch` image, aka base/parent image, such as
+
+```dockerfile
+# syntax=docker/dockerfile:1
+FROM scratch
+ADD hello /
+CMD ["/hello"]
+```
+
 ### Dockerfile and Syntax
 
 ```Dockerfile
@@ -66,3 +76,21 @@ COPY [--chown=<user>:<group>] ["<src>",... "<dest>"]
 
 ```
 
+## Check Docker
+
+Check Docker
+```bash
+### Check if there is a pid running docker
+sudo service docker status
+
+### Check docker which socket it listens to
+ps -elf | grep docker
+
+### Check version
+docker version
+```
+
+If multiple dockers are installed, you can config docker to listen to another socket
+```bash
+
+```

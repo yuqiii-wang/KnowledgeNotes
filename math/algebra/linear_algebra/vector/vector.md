@@ -8,7 +8,7 @@ $$
 
 Applications: $u$ represents a 8 lb force applied pulling a wagon with an upward force direction, while $v$ represents 50 ft distance. $u * v$ express the *work* ($W = \overrightarrow{F} * \overrightarrow{D}$) for this effort.
 
-![alt text](imgs/dot_prod_example_use_pull_wagon.jfif "dot_prod_example_use_pull_wagon")
+![dot_prod_example_use_pull_wagon](imgs/dot_prod_example_use_pull_wagon.jfif "dot_prod_example_use_pull_wagon")
 
 ## cross product: vector quantity product
 $$
@@ -32,7 +32,7 @@ where $u$ and $v$ are two vectors and $n=(\overrightarrow{i},\overrightarrow{j},
 
 Applications: Twisting a bolt with a spanner, Torque is cross product of force multiplying length $\overrightarrow{T} = \overrightarrow{F} \times \overrightarrow{L}$, that means the resultant force either pulling up or pushing down the bolt.
 
-![alt text](imgs/cross_product_example_twisting_spanner.png "cross_product_example_twisting_spanner")
+![cross_product_example_twisting_spanner](imgs/cross_product_example_twisting_spanner.png "cross_product_example_twisting_spanner")
 
 ## exterior product: wedge product
 
@@ -70,8 +70,8 @@ e_2=
 $$
 that constructs a real Cartesian plane $R^2$.
 
-![alt text](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
+![parallellogram_as_determinant](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
 
 Geometric definition is observed as in the examples below, indicating the area/volume of multi-dimensional vectors.
 
-![alt text](imgs/Wedge_product_examples.jpg "Wedge_product_examples")
+![Wedge_product_examples](imgs/Wedge_product_examples.jpg "Wedge_product_examples")
