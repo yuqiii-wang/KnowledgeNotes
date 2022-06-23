@@ -48,3 +48,29 @@ A processor's caches are on high priority data fetch list; if not found, it goes
 
 ![multiprocessor_cache_arch](imgs/multiprocessor_cache_arch.png "multiprocessor_cache_arch")
 
+## SIMD
+
+The acronym stands for “single instruction, multiple data”. In short, it’s an extension to the instruction set which can apply same operation onto multiple values. These extensions also define extra set of registers, wide ones, able to hold these multiple values in a single register.
+
+Every 64-bit PC processor in the world is required to support at least SSE 1 and SSE 2.
+
+A multiplication example:
+```cpp
+void mul4_scalar( float* ptr )
+{
+    for( int i = 0; i < 4; i++ )
+    {
+        const float f = ptr[ i ];
+        ptr[ i ] = f * f;
+    }
+}
+```
+Here’s a vectorized SIMD version which does the same thing:
+```cpp
+void mul4_vectorized( float* ptr )
+{
+    __m128 f = _mm_loadu_ps( ptr );
+    f = _mm_mul_ps( f, f );
+    _mm_storeu_ps( ptr, f );
+}
+```

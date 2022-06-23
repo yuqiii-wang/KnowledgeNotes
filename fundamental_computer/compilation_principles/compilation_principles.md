@@ -160,4 +160,4 @@ which as data computations can be parallelized given the dependencies below. Eac
 
 Inter-procedural analysis considers procedure invocations (typically a function call in c/c++).
 
-Many functions are labelled as `inline` due to high frequency invocations, 
+Many functions are labelled as `inline` due to high frequency invocations.

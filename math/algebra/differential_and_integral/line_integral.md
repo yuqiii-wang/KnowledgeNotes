@@ -1,6 +1,9 @@
 # Line Integral
 
-Line integral is used for vector field function. Intuitively, line integral works on curve that does not flow along with integral direction, but  takes integral with respect to each integral direction 
+Line integral is used for vector field function. Intuitively, line integral works on curve that does not flow along with integral direction, but  takes integral with respect to each integral direction.
+
+![line_integral](imgs/line_integral.jpg "line_integral")
+
 
 ## Example
 

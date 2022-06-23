@@ -1,5 +1,19 @@
 # Bayes' Theorem
 
+## Concepts
+
+*Prior* expresses one's beliefs about this quantity before some evidence is taken into account, denoted $p(\theta)$
+
+*Posterior* expresses condition's/parameter $\theta$ probability given observations/evidence $X$, denoted $p(\theta|X)$
+
+*Likelihood* is the probability of an event $x$ given condition's/parameter $\theta$, denoted as $p(x|\theta)$
+
+$$
+p(\theta|x)=\frac{p(x|\theta)p(\theta)}{\int{p(x|\theta)p(\theta)d\theta}}
+$$
+
+## Questions
+
 ### Q1
 When a lady is diagonised having a disease, the doctor told her that in general the probability of having the disease is 0.001, and ordered a professional test with a device (this device has accuracy of 0.99). What is the probability of having the disease given a positive test result.
 

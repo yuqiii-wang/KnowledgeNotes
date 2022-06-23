@@ -30,3 +30,67 @@ return std::move(w);// Moving version of makeWidget
 When a string length is smaller than 20, data is stored on stack rather than on heap, as heap storage requires additional operation costs such as `new`.
 
 However, from user side, a `std::string` works consistently regardless of its length.
+
+## MemCpy Optimization
+
+Write a `memcpy` function that copies data of size `len` from `src` to `dst`, such as 
+```cpp
+void* memcpy_v1(void* dst, const void* src, size_t len) {
+    char* d = (char*) dst;
+    const char* s = (const char*) src;
+    while (len--)
+        *d++ = *s++;
+    return dst;
+}
+```
+
+### CPU Pipeline
+
+CPU running typically follows this order, and can be run parallel:
+
+![cpu_pipeline](imgs/cpu_pipeline.png "cpu_pipeline")
+
+(IF = Instruction Fetch, ID = Instruction Decode, EX = Execute, MEM = Memory access, WB = Register write back).
+
+```cpp
+void* memcpy_v2(void* dst, const void* src, size_t len) {
+    char* d = (char*) dst;
+    const char* s = (const char*) src;
+    
+    size_t i = 0;
+    for (; i + 4 < len; i += 4, d = d + 4, s = s + 4) {
+        *d = *s;
+        *(d + 1) = *(s + 1);
+        *(d + 2) = *(s + 2);
+        *(d + 3) = *(s + 3);
+    }
+    while (i < len) {
+        i++;
+        *d++ = *s++;
+    }
+    return dst;
+}
+```
+
+### Cast to `int*` rather than `char*`
+
+`char` copy only takes one byte per time, while `int` takes 4 bytes.
+
+```cpp
+void* memcpy_v3(void* dst, const void* src, size_t len) {
+    int* d = (int*) dst;
+    const int* s = (const int*) src;
+    
+    for (size_t i=0; i < len; i += 4) {
+        *d++ = *s++;
+    }
+    return d;
+}
+```
+
+### SIMD
+
+To check if your machine support SIMD:
+```bash
+grep -q sse2 /proc/cpuinfo && echo "SSE2 supported" || echo "SSE2 not supported"
+```
