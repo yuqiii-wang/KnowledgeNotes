@@ -63,28 +63,7 @@ $$
 R(t) = \int\dot{R(t)} =e^{\phi^{\wedge}_0t}
 $$
 
-Given a 3-D rotation matrix $R$ being a $SO(3)$, there is 
-$$
-R = e^{\phi^{\wedge}} 
-= 
-\sum_{n=0}^{\infty} \frac{{\phi^{\wedge}}^n}{n!}
-$$
-
-Remember, $\phi$ is a three-element vector with volume of $\theta$ and orientation vector $a$, there is $\phi=\theta a$
-
-$$
-a^{\wedge}a^{\wedge}
-=
-aa^T-I
-$$
-
-$$
-a^{\wedge}a^{\wedge}a^{\wedge}
-=
--a^{\wedge}
-$$
-
-Here derives *Rodrigues’s Formula*
+Remember *Rodrigues’s Formula*
 $$
 R = e^{\phi^{\wedge}} 
 = 

@@ -1,4 +1,6 @@
-# Motion Control
+# 6 DOF Transformation
+
+6 DOF (Dimensions of Freedom) refers to $T = [t_x, t_y, t_z, \theta_x, \theta_y, \theta_z]^T$
 
 ## Homogeneous Transformation
 

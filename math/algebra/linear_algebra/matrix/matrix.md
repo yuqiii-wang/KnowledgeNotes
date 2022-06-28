@@ -80,6 +80,28 @@ A^T A =
 \end{bmatrix}
 $$
 which $A^T A$ is a Gramian matrix (inner products of column vectors). Likewise, $A A^T$ is for inner products of row vectors.
+
+## Triangular Matrix
+
+A square matrix is called lower triangular if all the entries above the main diagonal are zero. Similarly, a square matrix is called upper triangular if all the entries below the main diagonal are zero.
+
+## Orthogonal matrix
+
+An orthogonal matrix, or orthonormal matrix, is a real square matrix whose columns and rows are orthonormal vectors.
+
+$$
+Q^TQ=QQ^T=I
+$$
+
+This leads to 
+$$
+Q^T=Q^{-1}
+$$
+
+The determinant of any orthogonal matrix is either $+1$ or $−1$.
+
+The set of $n \times n$ orthogonal matrices forms a group, $O(n)$, known as the orthogonal group. The subgroup $SO(n)$ consisting of orthogonal matrices with determinant $+1$ is called the *special orthogonal group*, and each of its elements is a *special orthogonal matrix*. 
+
 ## Determinant
 
 Determinant is a scalar value that is a function of the entries of a square matrix.
@@ -244,7 +266,6 @@ $$
 $$
 
 in which
-
 $$
 \sigma(x,y) = E [ \big(x - E(x) \big) \big(y - E(y)\big) ]
 $$
@@ -252,3 +273,7 @@ $$
 where $x$ and $y$ are sample vectors, hence $\sigma(x,y)$ is scalar. 
 
 ![covariance_mat_examples](imgs/covariance_mat_examples.png "covariance_mat_examples")
+
+The orientations and thickness of the point cloud are eigenvectors and eigenvalues, such as
+
+![cov_mat_orientations](imgs/cov_mat_orientations.png "cov_mat_orientations")

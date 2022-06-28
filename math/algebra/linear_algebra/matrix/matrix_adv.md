@@ -33,6 +33,10 @@ The conjugate transpose (or Hermitian transpose) of $A_{n \times m}$ is
 1. take the transpose of $A_{n \times m}$
 2. replace each entry $a_{i,j}$ with its complex conjugate
 
+## Permutation matrix
+
+A permutation matrix is a square binary matrix that has exactly one entry of 1 in each row and each column and 0s elsewhere.
+
 ## Jacobian
 
 In vector calculus, the Jacobian matrix of a vector-valued function of several variables is the matrix of all its first-order partial derivatives. 
@@ -100,4 +104,17 @@ $$
 * A scalar multiple of a skew-symmetric matrix is skew-symmetric.
 
 The space of $n \times n$ skew-symmetric matrices has dimensionality $\frac{1}{2} n (n - 1)$.
+
+## Linear Least Squares Problem
+
+We have a $m \times n$ linear system matrix $A$ and $m \times 1$ vector $\bold{b}$ such as
+$$
+A\bold{x}=\bold{b}
+$$
+
+If $m = n$, the solution is $\bold{x}=A^{-1}\bold{b}$ 
+
+If $m > n$, there are more equations than unknown $\bold{x}$, solution to $\bold{x}$ is over-determined
+
+If $m < n$, there are less equations than unknown $\bold{x}$, solution to $\bold{x}$ is under-determined
 

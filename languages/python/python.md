@@ -35,24 +35,6 @@ a = [[1,2,3], [2,3,4]]
 b = copy.deepcopy(a)
 ```
 
-### `yield` usage
-
-`iterable`: When you create a list, you can read its items one by one. Reading its items one by one is called iteration,
-
-`generators` are iterators, a kind of iterable you can only iterate over once. Generators do not store all the values in memory, they generate the values on the fly.
-```py
-mygenerator = (x*x for x in range(3))
-for i in mygenerator:
-    print(i)
-# print results: 0, 1, 4
-
-for i in mygenerator:
-    print(i)
-# print results: 0, 0, 0
-```
-
-`yield` is a keyword that is used like return, except the function will return a generator.
-
 ### Variadic Arguments
 
 ```python

@@ -59,4 +59,4 @@ Combine the information from step B and C, $p(\bold{z_k}|\bold{x_k})p(\bold{x_k}
 
 "Adaptive" here means using an adaptive particle filter which converges much faster and is computationally much more efficient than a basic particle filter.
 
-It uses KL-Distance to measure the relative netropy between true posterior $p$ and max likelihood estimated probability $\hat{p}$, and make sure that the relative entropy is smaller than a threshold $\epsilon$. Otherwise, the number of particles should increase.
+It uses KL-Distance to measure the relative entropy between true posterior $p$ and max likelihood estimated probability $\hat{p}$, and make sure that the relative entropy is smaller than a threshold $\epsilon$. Otherwise, the number of particles should increase.

@@ -64,7 +64,7 @@ There are master nodes and worker nodes:
 
 ### Worker Node
 
-* Kubelet
+* Kubelet: the primary "node agent" that runs on each node. It takes a set of PodSpecs (yaml or json config files) and make sure a pod run accordingly to the PodSpecs.
 
 * Kube Proxy
 

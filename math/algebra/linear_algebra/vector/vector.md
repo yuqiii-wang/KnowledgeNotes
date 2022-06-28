@@ -23,6 +23,8 @@ u \times v = |u| |v| \space n \space sin\theta
 \end{array}
 \bigg |
 $$
+where $n$ is a unit vector perpendicular to the plane containing $u$ and $v$.
+
 hence,
 $$
 u \times v =
