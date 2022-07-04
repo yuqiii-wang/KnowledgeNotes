@@ -274,6 +274,6 @@ where $x$ and $y$ are sample vectors, hence $\sigma(x,y)$ is scalar.
 
 ![covariance_mat_examples](imgs/covariance_mat_examples.png "covariance_mat_examples")
 
-The orientations and thickness of the point cloud are eigenvectors and eigenvalues, such as
+The orientations and thickness of the point cloud are eigenvectors and eigenvalues, such as the two arrows shown as below.
 
 ![cov_mat_orientations](imgs/cov_mat_orientations.png "cov_mat_orientations")

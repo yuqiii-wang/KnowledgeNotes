@@ -16,7 +16,7 @@ where
 
 * $A$ is the state update matrix on the current robot state $x(t)$
 * $B$ is the transformation for unit input $u(t)$
-* $e(t)$ is the error/gap given expected/goal value $y(t)$ and the current state $x(t)$
+* $e(t)$ is the error/gap given expected/goal state $y(t)$ and the current state $x(t)$
 
 Define an objective function $J$ to be minimized
 $$
@@ -26,4 +26,9 @@ arg \space \underset{u}{min} \space J
 +
 \sum_{i=1}^N w_{u_i}\Delta u_i^2
 $$
-where $w_{x_i}$ and $w_{u_i}$ are wight coefficients
+where $w_{x_i}$ and $w_{u_i}$ are wight coefficients. $N$ is the number of future inputs to take into consideration.
+
+This objective function talks about two items:
+
+1.  The sum of $N$ future errors $e_{i, i=1,2,3,...N}$ should be kept small
+2. There should be no sudden changes on input action $u$

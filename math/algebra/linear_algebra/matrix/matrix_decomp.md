@@ -33,7 +33,7 @@ $$
 
 ### Application
 
-Given a system of linear equations in matrix form $A$ and we want to solve the linear system (find solution for $\bold{x}$)
+Given a system of linear equations in matrix form $A$ and we want to solve the linear system (find a solution for $\bold{x}$)
 $$
 A\bold{x}=\bold{b}
 $$
@@ -52,7 +52,7 @@ Given the nature of triangular matrix, by forward and backward substitution, def
 $$
 L\bold{y}=P\bold{b}
 $$
-Then, use $\bold{y}$ to solve $\bold{x}$ by
+Then, solve $\bold{y}$, and use $\bold{y}$ to solve $\bold{x}$ by
 $$
 U\bold{x} = \bold{y}
 $$
@@ -99,7 +99,7 @@ we can construct by taking the hyperplane normal to $x − ||x||y$. That is, let
 
 $$\begin{align*}
 (I-2vv^T)x
-\\ &=
+&=
 x-2\frac{(x − ||x||y)(x^Tx − ||x||x^Ty)}{(x − ||x||y)^2}
 \\ &=
 x-2\frac{(x − ||x||y)(x^Tx − ||x||x^Ty)}{||x||^2+2x^Ty||x||+||x||^2||y||^2}

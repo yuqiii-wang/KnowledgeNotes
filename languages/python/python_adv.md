@@ -102,6 +102,17 @@ class Car(object, metaclass=AttributeInitType):
 new_car = Car(make='Toyota', model='Prius', year=2005, color='Green', engine='Hybrid')
 ```
 
+### `__new__`
+
+When you create an instance of a class, Python first calls the `__new__()` method to create the object and then calls the `__init__()` method to initialize the object’s attributes.
+
+The `__new__()` is a static method of the object class:
+```py
+object.__new__(class, *args, **kwargs)
+```
+
+When you define a new class, that class implicitly inherits from the `object` class. It means that you can override the `__new__` static method and do something before and after creating a new instance of the class.
+
 ## `__iter__`, `generators` and Coroutine
 
 `iterable`: When you create a list, you can read its items one by one. Reading its items one by one is called iteration,

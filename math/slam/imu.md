@@ -8,12 +8,12 @@ $$
 [a_x, a_y, a_z, a_{\theta_{yaw}}, a_{\theta_{pitch}}, a_{\theta_{roll}}]
 $$
 
-linear and angular velocities
+By taking interal over acceleration, linear and angular velocities can be expressed as
 $$
 [v_x, v_y, v_z, v_{\theta_{yaw}}, v_{\theta_{pitch}}, v_{\theta_{roll}}]
 $$
 
-distance and angle
+By taking interal over acceleration, distance and angle can be expressed as
 $$
 [d_x, d_y, d_z, \theta_{yaw}, \theta_{pitch}, \theta_{roll}]
 $$

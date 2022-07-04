@@ -142,3 +142,40 @@ a^{'}_3 \\
 $$
 
 ## Quaternion
+
+A rotation of angle $\theta$  around the axis defined by the unit vector
+$$
+\overrightarrow{u}
+=(u_x, u_y, u_z)
+=u_x \overrightarrow{i} + u_y \overrightarrow{j} + u_z \overrightarrow{k}
+$$
+can be represented by a quaternion using an extension of Euler's formula:
+$$
+\begin{align*}
+\bold{q}
+&=
+e^{\frac{\theta}{2}(u_x \overrightarrow{i} + u_y \overrightarrow{j} + u_z \overrightarrow{k})}
+\\
+&=
+cos\frac{\theta}{2} + (u_x \overrightarrow{i} + u_y \overrightarrow{j} + u_z \overrightarrow{k})sin\frac{\theta}{2}
+\end{align*}
+$$
+
+### Example
+
+Consider a rotation around $\overrightarrow{v}=\overrightarrow{i} + \overrightarrow{j} + \overrightarrow{k}$ with a rotation angle of $\theta=\frac{2\pi}{3}$. The length of $\overrightarrow{v}$ is $\sqrt{3}$.
+
+Hence
+$$
+\begin{align*}
+\overrightarrow{u}
+&=
+cos \frac{\theta}{2} + sin \frac{\theta}{2} \cdot \frac{\overrightarrow{v}}{||\overrightarrow{v}||}
+\\ &=
+cos\frac{\pi}{3} + sin\frac{\pi}{3} \cdot \frac{\overrightarrow{v}}{||\sqrt{3}||}
+\\ &=
+cos\frac{\pi}{3} + sin\frac{\pi}{3} \cdot \frac{\overrightarrow{i} + \overrightarrow{j} + \overrightarrow{k}}{||\sqrt{3}||}
+\\ &=
+\frac{1+\overrightarrow{i} + \overrightarrow{j} + \overrightarrow{k}}{2}
+\end{align*}
+$$
