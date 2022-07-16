@@ -89,6 +89,8 @@ A square matrix is called lower triangular if all the entries above the main dia
 
 An orthogonal matrix, or orthonormal matrix, is a real square matrix whose columns and rows are orthonormal vectors.
 
+It has the below properties:
+
 $$
 Q^TQ=QQ^T=I
 $$

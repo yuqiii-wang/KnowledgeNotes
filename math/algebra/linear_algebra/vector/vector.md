@@ -1,79 +1,57 @@
-# product: dot, cross and exterior
+# Vector
 
-## dot product: scalar product
+## Orthogonal Vectors
+
+Two vectors $\overrightarrow{x} \in \mathbb{R}^n$ and $\overrightarrow{y} \in \mathbb{R}^n$ are orthogonal or perpendicular when their inner product is zero: $\overrightarrow{x} \cdot \overrightarrow{y} = 0$
+
+Another notation is $\overrightarrow{x} \perp \overrightarrow{y}$.
+
+### Proof
+
+![orthogonal_vector_proof](imgs/orthogonal_vector_proof.png "orthogonal_vector_proof")
+
 $$
-u * v = |u| |v| cos\theta 
-= v_1u_1 + v_2u_2 + v_3u_3 + ... + v_nu_n
-$$
-
-Applications: $u$ represents a 8 lb force applied pulling a wagon with an upward force direction, while $v$ represents 50 ft distance. $u * v$ express the *work* ($W = \overrightarrow{F} * \overrightarrow{D}$) for this effort.
-
-![dot_prod_example_use_pull_wagon](imgs/dot_prod_example_use_pull_wagon.jfif "dot_prod_example_use_pull_wagon")
-
-## cross product: vector quantity product
-$$
-u \times v = |u| |v| \space n \space sin\theta
-= \bigg |
-\begin{array}{ccc}
-    \begin{array}{ccc}
-      \overrightarrow{i} & \overrightarrow{j} & \overrightarrow{k} \\
-      u_1 & u_2 & u_3 \\
-      v_1 & v_2 & v_3
-    \end{array}
-\end{array}
-\bigg |
-$$
-where $n$ is a unit vector perpendicular to the plane containing $u$ and $v$.
-
-hence,
-$$
-u \times v =
-\overrightarrow{i}|u_2v_3-u_3v_2| - \overrightarrow{j}|u_1v_3-u_3v1| + \overrightarrow{k}|u_1v_2-u_2v_1|
-$$
-where $u$ and $v$ are two vectors and $n=(\overrightarrow{i},\overrightarrow{j},\overrightarrow{k})$ is a unit vector (3-dimensional in this example) perpendicular to the plane containing $u$ and $v$. $u \times v$ itself represents the area of a parallelogram.
-
-Applications: Twisting a bolt with a spanner, Torque is cross product of force multiplying length $\overrightarrow{T} = \overrightarrow{F} \times \overrightarrow{L}$, that means the resultant force either pulling up or pushing down the bolt.
-
-![cross_product_example_twisting_spanner](imgs/cross_product_example_twisting_spanner.png "cross_product_example_twisting_spanner")
-
-## exterior product: wedge product
-
-Wedge/exterior product of vectors is an algebraic construction used in geometry to study areas, volumes, and their higher-dimensional analogues, operator denoted as below:
-
-$$\begin{align*}
-u \space ∧ \space v \\
-& = (a e_1 + b e_2)∧(c e_1 + d e_2) \\
-& = ac (e_1 ∧ e1) + ad (e_1 ∧ e_2) + bc (e_2 ∧ e_1) + bd (e_2 ∧ e_2) \\
-& = ad (e_1 ∧ e_2) - bc (e_1 ∧ e_2) \\
-& = (ad-bc)(e_1 ∧ e_2)
+\begin{align*}
+||\overrightarrow{x}||^2 + ||\overrightarrow{y}||^2
+&=
+||\overrightarrow{y}-\overrightarrow{x}||^2
+\\
+\overrightarrow{x} \cdot \overrightarrow{x} + \overrightarrow{y} \cdot \overrightarrow{y}
+&=
+(\overrightarrow{y}-\overrightarrow{x})(\overrightarrow{y}-\overrightarrow{x})
+\\
+\overrightarrow{x} \cdot \overrightarrow{x} + \overrightarrow{y} \cdot \overrightarrow{y}
+&=
+\overrightarrow{x} \cdot \overrightarrow{x} + \overrightarrow{y} \cdot \overrightarrow{y} + 2 \overrightarrow{x} \cdot \overrightarrow{y}
+\\
+2 \overrightarrow{x} \cdot \overrightarrow{y}
+&=
+0
 \end{align*}
 $$
-where 
+
+## Conjugate to A Matrix
+
+Let $u$ and $v$ be vectors in $\mathbb{R}^n$, $A$ be a positive definite $n \times n$ matirx, $u, v$ are mutally $A$-conjugate if and only if $u^T A v = 0$.
+
+Any vector parallel to $u$ or $v$ is conjugate to $u$ or $v$.
+
+### Example
+
+Given $u=[1,1]^T, v=[1,-1]^T$, and an identity matrix $I=\begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix}$, there is
 $$
-e_1=
-\begin{array}{c}
-    \bigg (
-    \begin{array}{c}
-      1 \\
-      0
-    \end{array}
-    \bigg )
-\end{array}
-,
-e_2=
-\begin{array}{c}
-    \bigg (
-    \begin{array}{c}
-      0 \\
-      1
-    \end{array}
-    \bigg )
-\end{array}
+u^T A v
+=
+\begin{bmatrix}
+1 & 1
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 \\ 
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}
+= 0
 $$
-that constructs a real Cartesian plane $R^2$.
-
-![parallellogram_as_determinant](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
-
-Geometric definition is observed as in the examples below, indicating the area/volume of multi-dimensional vectors.
-
-![Wedge_product_examples](imgs/Wedge_product_examples.jpg "Wedge_product_examples")

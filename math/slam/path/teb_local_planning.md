@@ -186,3 +186,36 @@ $$
 The above objective functions are constructed to a hyper-graph (as opposed to normal graph, hyper-graph has its edges connecting more than two nodes).
 
 States $\bold{x}_i$ and $\Delta T_i$ are nodes; objective functions $f_k$ are edges.
+
+### Code Practices
+
+```cpp
+// create and init an optimizer
+std::shared_ptr<g2o::SparseOptimizer> optimizer = std::make_shared<g2o::SparseOptimizer>();
+g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg();
+optimizer->setAlgorithm(solver);
+
+// build a graph
+// add TEB vertices
+AddTEBVertices(); // optimizer_->addVertex(teb_.PoseVertex(i));
+AddEdgesObstacles();
+AddEdgesDynamicObstacles();
+AddEdgesViaPoints();
+AddEdgesVelocity();
+AddEdgesAcceleration();
+AddEdgesTimeOptimal();	
+AddEdgesShortestPath();
+AddEdgesPreferRotDir();
+AddEdgesVelocityObstacleRatio();
+
+// start optimization
+optimizer_->initializeOptimization();
+int iter = optimizer_->optimize(no_iterations);
+
+// end of one teb generation, clear graph
+auto& vertices = optimizer_->vertices();
+for(auto& v : vertices)
+    v.second->edges().clear();
+optimizer_->vertices().clear();
+optimizer_->clear();
+```

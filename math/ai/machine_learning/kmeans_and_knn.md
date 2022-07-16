@@ -35,7 +35,7 @@ Repeat the 2nd and 3rd steps, until it converges.
 
 ### Example
 
-Given an set of known observations with known classified labels, we want to determine the label of the green dot.
+Given a set of known observations with known classified labels, we want to determine the label of the green dot.
 
 If nearest neighbour number is $k=3$, the green dot is assigned triangle red;
 

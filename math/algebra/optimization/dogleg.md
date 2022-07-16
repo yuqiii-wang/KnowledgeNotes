@@ -1,2 +1,0 @@
-# Powell's Dogleg method
-

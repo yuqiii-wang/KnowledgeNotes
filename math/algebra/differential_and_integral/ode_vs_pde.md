@@ -1,0 +1,1 @@
+# Ordinary Differential Equations (ODE) vs Partial Differenial Equations (PDE)

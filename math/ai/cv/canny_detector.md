@@ -1,24 +1,19 @@
-# Computer Vision 
-
-## Canny Detector
+# Canny Detector
 
 reference: http://www.pages.drexel.edu/~nk752/cannyTut2.html
 
 **Apply a Gaussian blur**
 
 A Gaussian blur is applied. E.g., a 5 &times; 5 Gaussian blur matrix is
-<center>
-
-2/159 , 4/159, 5/159, 4/159, 2/159
-
-4/159 , 9/159, 12/159, 9/159, 4/159
-
-5/159 , 12/159, 15/159, 12/159, 5/159
-
-4/159 , 9/159, 12/159, 9/159, 4/159
-
-2/159 , 4/159, 5/159, 4/159, 2/159
-</center>
+$$
+\begin{bmatrix}
+    2/159 & 4/159 & 5/159 & 4/159 & 2/159 \\
+    4/159 & 9/159 & 12/159 & 9/159 & 4/159 \\
+    5/159 & 12/159 & 15/159 & 12/159 & 5/159 \\
+    4/159 & 9/159 & 12/159 & 9/159 & 4/159 \\
+    2/159 & 4/159 & 5/159 & 4/159 & 2/159
+\end{bmatrix}
+$$
 
 **Find edge gradient strength and direction**
 
@@ -26,32 +21,30 @@ The next step is to use Sobel masks to find the edge gradient strength and direc
 
 Sobel operator uses two 3×3 kernels which are convolved with the original image to calculate approximations of the derivatives – one for horizontal changes, and one for vertical. The process goes as below (an example)
 
-G<sub>x</sub> = 
-<center>
+$$
+G_x=
+\begin{bmatrix}
++1 & 0 & -1 \\
++2 & 0 & -2 \\
++1 & 0 & -1
+\end{bmatrix}
+$$
 
-+1, 0, -1
-
-+2, 0, -2
-
-+1, 0, -1
-</center>
-
-G<sub>x</sub> = 
-<center>
-
-+1, +2, +1
-
-0, 0, 0
-
--1, -2, -1
-</center>
+$$
+G_y=
+\begin{bmatrix}
++1 & +2 & +1 \\
+0 & 0 & 0 \\
+-1 & -2 & -1
+\end{bmatrix}
+$$
 
 Then
-<center>
-G = &radic;G<sub>x</sub><sup>2</sup> + G<sub>y</sub><sup>2</sup>
-
-&Theta; = atan(G<sub>x</sub> / G<sub>y</sub>)
-</center>
+$$
+G = \sqrt{G_x^2 + G_y^2}
+\\
+\Theta = atan(\frac{G_x}{G_y})
+$$
 
 ```cpp
 int edgeDir[maxRow][maxCol];			
