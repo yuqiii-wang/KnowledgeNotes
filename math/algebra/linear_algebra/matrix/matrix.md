@@ -239,22 +239,6 @@ $$
 
 Finding adjoint of a matrix is the same as applying a linear transformation which brings the coordinates of $i$ and $j$ to a square of area equal to the determinant of that matrix.
 
-## Inverse Matrix
-
-A spare matrix $A$ has its inverse when its determiant is not zero.
-$$
-AA^{-1} - I
-$$
-
-and,
-$$
-A^{-1} = \frac{1}{|A|}Adj(A)
-$$
-where
-$|A|$ is determiant of $A$ and $Adj(A)$ is an adjugate matrix of $A$.
-
-Geometrically speaking, an inverse matrix $A^{-1}$ takes a transformation $A$ back to its origin (same as reseting basis vectors).
-
 ## Covariance Matrix
 
 A $2 \times 2$ covariance matrix is defined as

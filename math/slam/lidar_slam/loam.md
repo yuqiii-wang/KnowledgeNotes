@@ -1,9 +1,5 @@
 # LOAM: Lidar Odometry and Mapping
 
-## Iterative Closest Point (ICP)
-
-Given some source points, with applied transformation (rotation and translation), algorithm iteratively revises the transformation to minimize an error metric (typically the sum of squared differences) between output point cloud and reference (regarded as ground truth) point cloud.
-
 ## IMU as Prior
 
 IMU orientation is obtained by integrating angular rates from a gyro and readings from an accelerometer in a Kalman filter. 

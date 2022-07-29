@@ -78,8 +78,34 @@ Obligation of one party to act on behalf of another party to its best interest.
 
 [Finance] A comprehensive appraisal of a business undertaken by a prospective buyer, especially to establish its assets and liabilities and evaluate its commercial potential.
 
-* face/nominal value
+* face/nominal/par value
 
 Claimed value/price of a security by an authority. 
 
 For example, one dollar of a nation's currency is worth of $0.1 USD by face value (the value is traded via national banks and financial institutions, enforced by the government). However, if people are skeptical of this country's economic trajectory, in dark markets, people might actually trade by less than $0.1 USD per one the nation's dollar (as actual/intrinsic value).
+
+* bank run/run on the bank （挤兑）
+
+A bank run or run on the bank occurs when many clients withdraw their money from a bank, because they believe the bank may cease to function in the near future.
+
+* loan vs bond （借款与债券）
+
+Bonds are debt instruments/securities that can be traded; whereas loans are just debt.
+
+* Libor
+
+The London Inter-Bank Offered Rate is an interest-rate average calculated from estimates submitted by the leading banks in London. 
+
+* EONIA
+
+Eonia (Euro Overnight Index Average) is computed as a weighted average of all overnight unsecured lending transactions in the interbank market, undertaken in the European Union and European Free Trade Association (EFTA) countries by the Panel Banks
+
+* Forward contrtact
+
+A forward contract is a customized contract between two parties to buy or sell an asset at a specified price on a future date.
+
+* Forward price
+
+Forward price is the price at which a seller delivers an underlying asset, financial derivative, or currency to the buyer of a forward contract at a predetermined date.
+
+It is roughly equal to the spot price plus associated carrying costs such as storage costs, interest rates, etc.

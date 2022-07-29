@@ -115,3 +115,22 @@ jobs # use jobs to see currently running jobs in this shell
 
 fg # this job can be brought to front (if not yet finished/done)
 ```
+
+8. `<<` vs `<<<`
+
+Both are implemented via temp files, usually in the form `/tmp/sh-thd`, run by anonymous pipes.
+
+`<<` is known as *here-document* structure.
+```bash
+$ wc << EOF
+> one two three
+> four five
+> EOF
+2  5 24
+```
+
+`<<<` is known as *here-string*, that can be used to directly passing a string to a program.
+```bash
+$ bc <<< 4*5
+20
+```
