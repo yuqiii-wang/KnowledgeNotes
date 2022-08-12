@@ -1,4 +1,4 @@
-# Java Basics
+# Java OOP (Object Oriented Programming)
 
 * Inheritance
 ```java

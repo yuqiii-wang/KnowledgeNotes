@@ -37,6 +37,23 @@ void life_of_an_object
 }
 ```
 
+## Temp object destruction
+
+Compiler auto invokes destructor of a temp obj once its execution finishes.
+
+The content of `p1` is undefined behavior, that `substr(1)` returns a temporary object which is soon destroyed automatically once this line of expression finishes running.
+```cpp
+string s1 = string("string1");
+const char* p1 = s1.substr(1).data();
+```
+
+The correction would be this below.
+```cpp
+string s1 = string("string1");
+string sTmp = s1.substr(1);
+const char* p1 = sTmp.data();
+```
+
 ## Examples
 
 ### Container Cautions

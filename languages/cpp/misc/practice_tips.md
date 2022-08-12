@@ -241,6 +241,8 @@ t = x++ || ++y;
 
 * `const` of diff forms
 
+`const` applies to the thing left of it. If there is nothing on the left then it applies to the thing right of it.
+
 Always remember things preceding on the left hand side of `*` are the pointer pointed type, right hand side only allows `const` to say if the pointer is a const (do not allow re-pointing to a new object)
 
 `int const*` is equivalent to `const int*`, pointer to const int.

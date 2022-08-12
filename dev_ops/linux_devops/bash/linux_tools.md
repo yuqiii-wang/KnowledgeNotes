@@ -58,15 +58,6 @@ P.S. The name systemd adheres to the Unix convention of naming daemons by append
 sudo systemctl start application.service
 ```
 
-* `awk` provides a scripting language for text processing, of a given syntax `aws {cmd_scripts} filename`. Var denoted by `$` indicates str separated by `empty space`; `$0` represents the whole input str.
-
-```bash
-echo "Hello Tom" | awk '{$2="Adam"; print $0}'
-
-# put awk_cmd in a file and run it
-awk -f mypgoram.awk input.txt
-```
-
 * `sed` is a stream editor. A stream editor is used to perform basic text transformations on an input stream (a file or input from a pipeline).
 
 ```bash

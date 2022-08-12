@@ -12,7 +12,7 @@ Easy in computation and cheap
 
 Requiring camera constant movement/translation to find multiple key frames to detect disparity.
 
-Scale Ambiguity: in figure (a), a camera moved forward and observed a pair of feature dots spanning two meter wide; in figure (b), a camera moved forward and observed an one-meter wide two dot feature pair. However, both scenarios see the same correspondance points on the monocular camera view, before and after camera moving forward motion, hence defined the scale ambiguity issue.
+Scale Ambiguity: in figure (a), a camera moved forward and observed a pair of feature dots spanning two meter wide; in figure (b), a camera moved forward and observed an one-meter wide two dot feature pair. However, both scenarios see the same correspondance points on the monocular camera view, and camera itself cannot determine actual width of the feature pair, hence defined the scale ambiguity issue.
 
 ![monocular_scale_ambiguity](imgs/monocular_scale_ambiguity.png   "monocular_scale_ambiguity")
 
@@ -29,7 +29,7 @@ $$
 Bf=z(x-x')
 $$
 
-Hence, if we know the two optical center vector $B$, focus length (vector from camera view plane to optical center) $f$, two object points (left and right) on camera views relative to epipoles, we can compute the real world object point $X$ represented by $z$.
+Hence, if we know the two optical center vector $B$, focus length (vector from camera view plane to optical center) $f$, two object correspondance points (left and right) on camera views relative to epipoles, we can compute the real world object point $X$ represented by $z$.
 
 * Pros
 

@@ -10,7 +10,7 @@ Every camera image point $x_c$ follows homogeneous coordinate's representation t
 $$
 x_c=
 f \begin{bmatrix}
-    x_{x, h} \\
+    x_{x,h} \\
     x_{y,h} \\
     1 \\
 \end{bmatrix}
@@ -113,7 +113,7 @@ $E$ has $rank(E)=2$ for its homogeneous coordinates' representation scaling by $
 
 ### Fundamental matrix
 
-An instrinsic camera calibration matrix $M_{in}$ defines the transformation from a camera coordinate point $x_{\tiny{W,C}}$ to its homogeneous coorsdinate point $x_{\tiny{W}}$.
+An instrinsic camera calibration matrix $M_{in}$ defines the transformation from a camera coordinate point $x_{\tiny{W,C}}$ to its homogeneous coorsdinate point $x_{\tiny{W,h}}$.
 $$
 x_{\tiny{W, h}} = M_{in} x_{\tiny{W,C}}
 $$
@@ -144,6 +144,117 @@ x_{\tiny{R, h}}
 0
 $$
 
-## Compute fundamental matrix 
+### Fundamental matrix use case
+
+$F x_{\tiny{R, h}}$ is the epipolar line $x_{\tiny{L, h}}-e_{\tiny{L}}$ associated with $x_{\tiny{R, h}}$.
+
+$F^\text{T} x_{\tiny{L, h}}$ is the epipolar line $x_{\tiny{R, h}}-e_{\tiny{R}}$ associated with $x_{\tiny{L, h}}$ 
+
+For epipoles, there are $F e_{\tiny{L}} = 0$ and $F^\text{T} e_{\tiny{R}} = 0$
+
+In a common scenario, camera views start as the grey image planes, we can use two homographies to transform them into parallel camera views such as yellow image planes.
+
+![stereo_img_rectification](imgs/stereo_img_rectification.png "stereo_img_rectification")
+
+The below figure shows an example of such a rectification result.
+
+![homography_rectification](imgs/homography_rectification.png "homography_rectification")
+
+A pair of parallel camera views give simple essential matrix performing one-dimension translation such that
+$$
+x_{\tiny{R}}^\text{T} E x_{\tiny{L}} = 0
+$$
+where
+$$
+E=
+T \times R
+=
+\begin{bmatrix}
+    0 & 0 & 0 \\
+    0 & 0 & -t \\
+    0 & t & 0
+\end{bmatrix}
+$$
+
+Define $x_{\tiny{R}}$ and $x_{\tiny{L}}$ as unit homogeneous vectors
+$$
+x_{\tiny{L}}
+=
+\begin{bmatrix}
+    u \\
+    v \\
+    1
+\end{bmatrix}
+\text{, }
+x_{\tiny{R}}
+=
+\begin{bmatrix}
+    u' \\
+    v' \\
+    1
+\end{bmatrix}
+$$
+
+Hence, we can prove that $x_{\tiny{R}}$ and $x_{\tiny{L}}$ are on the same epipolar line that at the height of $v=v'$.
+$$
+\begin{align*}
+\begin{bmatrix}
+    u & v & 1
+\end{bmatrix}
+\begin{bmatrix}
+    0 & 0 & 0 \\
+    0 & 0 & -t \\
+    0 & t & 0
+\end{bmatrix}
+\begin{bmatrix}
+    u' \\
+    v' \\
+    1
+\end{bmatrix}
+&= 0
+\\
+\begin{bmatrix}
+    u & v & 1
+\end{bmatrix}
+\begin{bmatrix}
+    0 \\
+    -t \\
+    tv'
+\end{bmatrix}
+&= 0
+\\
+tv &= tv'
+\end{align*}
+$$
+
+![parallel_img_epi](imgs/parallel_img_epi.png "parallel_img_epi")
 
 ## Correspondance search
+
+By Fundamental matrix, a point $x_{\tiny{L}}$ on the left camera view should exist on its corresponding epipolar line $x_{\tiny{R}}-e_{\tiny{R}}$. Since having implemented homographical transformation that two camera views are now in parallel, the point $x_{\tiny{L}}$'s correspondant point $x_{\tiny{R}}$ must be on this horizontal scanline.
+
+Consider a shifting window $\bold{W}$ of a size of $m \times n$, window moving step of $(u,v)$ on an image $I$, and define an error *sum of squared differences* (SSD) which is the squared differences of all pixels in a window before and after window's shifting.
+$$
+E_{ssd}(u,v)=\sum_{(x,y)\in\bold{W}_{m \times n}} 
+\big[
+    I(x+u, y+v)-I(x,y)    
+\big]^2
+$$
+
+![scanline_match_epi](imgs/scanline_match_epi.png "scanline_match_epi")
+
+### Correspondance priors and constaints
+
+There are priors that can help windows fast locate feature points.
+
+* Uniqueness
+
+There should be only one $x_{\tiny{R}}$ on $x_{\tiny{L}}$'s epipolar line.
+
+* Ordering
+
+If there are more than one feature points on the same correspondant epipolar lines $x_{\tiny{R}} - e_{\tiny{R}}$ and $x_{\tiny{L}} - e_{\tiny{L}}$, their corresponding points should have the same order on epipolar lines.
+
+* Smoothness
+
+If features changes slowly, the drastic changing feature points are discarded.

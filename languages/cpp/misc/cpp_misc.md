@@ -164,38 +164,6 @@ However, if `Foo`'s constructor is defined `explicit`, the above invocation is f
 
 `void function (T const&);`: a reference is a const pointer. `int * const a = &b;` is the same as `int& a = b;`.
 
-## Template metaprogramming (TMP)
-
-Template metaprogramming (TMP) is a form of compile-time polymorphism in which templates are used by a compiler to generate temporary source code.
-
-The code below calculates the factorial value of the literals 0 and 4 at compile time and uses the results as if they were precalculated constants.
-```cpp
-template <unsigned N>
-struct factorial {
-	static constexpr unsigned value = N * factorial<N - 1>::value;
-};
-
-template <>
-struct factorial<0> {
-	static constexpr unsigned value = 1;
-};
-
-// Usage examples:
-// factorial<0>::value would yield 1;
-// factorial<4>::value would yield 24.
-```
-
-whereas a typical factorial evaluates a result at run time such as below
-```cpp
-unsigned factorial(unsigned n) {
-	return n == 0 ? 1 : n * factorial(n - 1); 
-}
-
-// Usage examples:
-// factorial(0) would yield 1;
-// factorial(4) would yield 24.
-```
-
 ## C++ 11
 
 * Lambda

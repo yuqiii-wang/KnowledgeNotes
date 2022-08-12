@@ -78,3 +78,12 @@ However, it might not be accurate since `typeid(x)` passes var by value.
 std::function<bool(const std::unique_ptr<T>&,
                 const std::unique_ptr<T>&)> func;
 ```
+
+## Use of `union`
+
+`union` declaration of a variable with alternative data type occupying the same memory location.
+
+For example given below, only 4 bytes are used for this union. Same bits fo data on the four byte memory, interpreted as either `int` or `float` depending on compiler and runtime execution.
+```cpp
+union{int a; float b;};
+```

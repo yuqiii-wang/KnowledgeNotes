@@ -1,5 +1,19 @@
 # Optimization
 
+##  `g++` embedded optimization flags
+
+|option|optimization level|execution time|code size|memory usage|compile time|
+|-|-|-|-|-|-|
+|`-O0`|optimization for compilation time (default)|+|+|-|-|
+|`-O1` or `-O`|optimization for code size and execution time|-|-|+|+|
+|`-O2`|optimization more for code size and execution time|--||+|++|
+|`-O3`|optimization even more for code size and execution time|---||+|+++|
+|`-Os`|optimization for code size||--||++|
+|`-Ofast`|O3 with fast none accurate math calculations|---||+|+++|
+
+Work from behind
+
+https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
 
 ## Return Value 
 
@@ -86,11 +100,4 @@ void* memcpy_v3(void* dst, const void* src, size_t len) {
     }
     return d;
 }
-```
-
-### SIMD
-
-To check if your machine support SIMD:
-```bash
-grep -q sse2 /proc/cpuinfo && echo "SSE2 supported" || echo "SSE2 not supported"
 ```
