@@ -1,5 +1,16 @@
 # Quantitative Trading Basics
 
+## Performance measurement
+
+$$
+y = \alpha + \beta x + u
+$$
+where
+* $y$ is the total yield
+* $\alpha$ is alpha, which is the excess return of the stock or fund.
+* $\beta$ is beta, which is volatility relative to the benchmark.
+* $x$ is the performance of the benchmark, typical Shanghai-A index for China or S&P 500 index for the U.S.
+* $u$ is the residual, which is the unexplained random portion of performance in a given year. 
 
 ## Common order param explains
 

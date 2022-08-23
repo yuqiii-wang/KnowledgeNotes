@@ -4,6 +4,43 @@ CUDA (or Compute Unified Device Architecture) is a parallel computing platform a
 
 ![CUDA_processing_flow_(En)](imgs/CUDA_processing_flow_(En).png "CUDA_processing_flow_(En)")
 
+### Driver and cuda version
+
+* Nvidia driver includes driver kernel module and user libraries.
+
+NVIDIA's System Management Interface (`nvidia-smi`) is part of nvidia driver (run `nvidia-smi` to check driver version).
+
+`nvidia-driver-xxx-server` is a subset of `nvidia-driver-xxx`. `nvidia-driver-xxx` has additional vendor support such as 
+```bash
+linux-modules-nvidia-xxx-aws  
+linux-modules-nvidia-xxx-azure  
+linux-modules-nvidia-xxx-gcp  
+linux-modules-nvidia-xxx-oem-20.04  
+linux-modules-nvidia-xxx-oracle  
+```
+
+* Cuda toolkit is an SDK contains compiler, api, libs, docs, etc...
+
+Cuda installs `nvcc`, which reveals cuda version by `nvcc --version`.
+
+For example, driver version 515 corresponds to cuda version 11.7
+
+#### Debug
+
+This list shows cuda hardware and driver specifications: https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html
+
+`nvidia-smi` might throw error 
+```bash
+Failed to initialize NVML: Driver/library version mismatch
+```
+
+`dpkg -l | grep nvidia` looks at nvidia-utils-xxx package version
+
+`cat /proc/driver/nvidia/version` looks at the version of Kernel Module
+
+`sudo dpkg --purge remove '^nvidia-.*'` removes all nvidia driver packages, and run `sudo apt-get install nvidia-utils-xxx`
+
+
 ## Memory hierarchy
 
 Each grid has $n \times m$ number of thread blocks; each thread blocks has some threads.
@@ -128,3 +165,12 @@ cudaMemcpyAsync ( host4, dev4, size, D2H, stream4 ) ;
 ```
 
 ## Profiling
+
+### Performance check by `nvtop`
+
+`nvtop` is a GUI Nvidia GPU tool that monitors general GPU performance.
+
+Install by (If found any err, do `sudo apt-get update` and manually install dependencies)
+```bash
+sudo apt-get install nvtop
+```

@@ -10,6 +10,8 @@ This instrument is used in speculative trading (high-medium level frequency trad
 
 Another use case is satisfying regulatory requirements that banks are required to preserve some cash. A seller of a repo, such as an investment bank, borrows money from reserve banks to meet certain short term auditory requirements, hands over owned federal bonds as collaterals to the reserve bank.
 
+Federal Reserve uses it as a monetary policy tool. When the Fed buys securities from a seller who agrees to repurchase them, it is injecting reserves into the financial system. Conversely, when the Fed sells securities with an agreement to repurchase, it is draining reserves from the system. 
+
 ## Reverse repo
 
 To the party selling the security with the agreement to buy it back, it is a repurchase agreement. 
@@ -36,7 +38,7 @@ Haircut serves as a discount factor to reflect risk aversion consideration of th
 
 ## Example
 
-Calculate the repo
+### Repo calculation
 
 * Trade date: 20th Jul 2014
 * Trade price: $110.85 (per $100 coupon)

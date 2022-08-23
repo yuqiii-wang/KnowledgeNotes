@@ -36,6 +36,6 @@ void foo() {
 }
 ```
 
-## Memory Operation Functions
+## Memory alignment
 
 ## POD vs Trivial

@@ -40,3 +40,22 @@ private:
 
 const std::string& a = m.FindOrDefault("key", "");
 ```
+
+## Memory alignment
+
+`struct A` has possible memory invalid read/write on different compilation option of `DEBUG` for memory misalignment.
+
+Such `struct` definition should be avoided.
+```cpp
+struct A
+{
+  int aVal;
+#ifdef DEBUG
+  int debug_aVal;
+#endif
+} a;
+```
+
+### Solution
+
+Often sdk does not provide source code, and you need to use Valgrind and gdb to locate wronged code/memory leaked object.

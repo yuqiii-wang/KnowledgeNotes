@@ -6,3 +6,4 @@ tslint.json
 
 *.out
 .vscode/
+tmpTest/

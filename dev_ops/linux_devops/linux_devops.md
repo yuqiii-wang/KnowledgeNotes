@@ -23,6 +23,12 @@ sudo find / -type f -printf "%s\t%p\n" 2>/dev/null | sort -n | tail -10
 df
 ```
 
+* Check I/O to/from devices
+
+```bash
+iostat
+```
+
 * Failed `apt install` for connection error
 
 There are different apt mirrors with different levels of legal constraints: *main*, *restricted*, *universe*, *multiverse*

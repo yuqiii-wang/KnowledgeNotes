@@ -8,13 +8,14 @@ Consider the code
 ```py
 import time
 from threading import Thread
+from multiprocessing import Pool
   
 def countdown(n):
     while n>0:
         n -= 1
 
 # one thread running countdown
-COUNT = 50000000
+COUNT = 200000000
 t0 = Thread(target = countdown, args =(COUNT, ))
 
 start = time.time()
@@ -24,7 +25,6 @@ end = time.time()
 print('Time taken (one thread) in seconds:', end - start)
 
 # four threads running countdown
-COUNT = 50000000
 t1 = Thread(target = countdown, args =(COUNT//4, ))
 t2 = Thread(target = countdown, args =(COUNT//4, ))
 t3 = Thread(target = countdown, args =(COUNT//4, ))
@@ -40,17 +40,28 @@ t2.join()
 t3.join()
 t4.join()
 end = time.time()
-  
-print('Time taken (four thread) in seconds: ', end - start)
+print('Time taken (four threads) in seconds: ', end - start)
+
+pool = Pool(processes=4)
+start = time.time()
+r1 = pool.apply_async(countdown, [COUNT//4])
+r2 = pool.apply_async(countdown, [COUNT//4])
+r3 = pool.apply_async(countdown, [COUNT//4])
+r4 = pool.apply_async(countdown, [COUNT//4])
+pool.close()
+pool.join()
+end = time.time()
+print('Time taken (four processes) in seconds: ', end - start)
 ```
 which outputs
 ```
-Time taken (one thread) in seconds: 3.64469313621521
-Time taken (four thread) in seconds: 3.3186004161834717
+Time taken (one thread) in seconds: 7.321912527084351
+Time taken (four threads) in seconds:  7.665801525115967
+Time taken (four processes) in seconds:  2.1135129928588867
 ```
 where there is no facilitated computation (four threads should have rendered 1/4 countdown time of by one thread). This is caused by GIL that forces CPU to run by only one thread.
 
-The GIL has restrictions on multi-processing as well (no significant facilitations when running on multi-processing mode).
+However, it has no restriction on multi-processes.
 
 ## `__new__` and Metaclass
 
@@ -153,3 +164,5 @@ Just running `helloWorld()` does not execute the code:
 ```
 
 Instead, should run by `asyncio.run(helloWorld())` that prints `"Hello World"`.
+
+## Argument pass by object-reference

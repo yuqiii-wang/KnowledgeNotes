@@ -7,7 +7,9 @@ To locate conf file:
 /usr/sbin/mysqld --verbose --help | grep -A 1 'Default options'
 ```
 
-run below to retrieve global config variables.
+Typically they are in `/etc/my.cnf` or `/etc/mysql/my.cnf`.
+
+Run below to retrieve global config variables.
 ```sql
 SHOW GLOBAL VARIABLES
 ```

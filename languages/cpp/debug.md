@@ -1,6 +1,8 @@
-# GDB
+# Debug
 
-## Debugging Symbol Table
+## GDB
+
+### Debugging Symbol Table
 
 A Debugging Symbol Table maps instructions in the compiled binary program to their corresponding variable, function, or line in the source code. 
 
@@ -11,7 +13,7 @@ gcc -g hello.cc -o hello
 
 Add a break point to code 
 
-## Example: A coredump
+### Example: A coredump
 
 ```cpp
 #include <iostream>
@@ -52,7 +54,7 @@ run `where` to find at which line it fails.
 where
 ```
 
-## Use `launch.json` for vs code
+### Use `launch.json` for vs code
 
 Install GDB and config `launch.json`
 
@@ -86,3 +88,8 @@ Install GDB and config `launch.json`
     ]
 }
 ```
+
+## Valgrind
+
+Valgrind is for memory debugging, memory leak detection, and profiling.
+
