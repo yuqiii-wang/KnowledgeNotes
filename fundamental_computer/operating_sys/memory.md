@@ -30,6 +30,14 @@ As processes are loaded and removed from memory, the free memory space is broken
 
 It can be addressed by *compaction* (shuffling memory blocks into a bug contiguous memory block). Other techniques include *paging* and *segmentation*.
 
+### Slab allocation
+
+Slab allocation is a memory management mechanism intended for the efficient memory allocation of objects, reduced fragmentation caused by object allocations and deallocations.
+
+It pre-allocates a few chunks of memory (named slabs) that suits the expected allocated memory of a program's variables/objects. 
+
+When the program allocates/deallocates the objects, the slab mechanism just labels the memory used/unused. Therefore, if this object class type is frequently used/destroyed, the slab mechanism helps save memory search/allocation/deallocation time.
+
 ## Paging
 
 A page table is consisted of mapping relationships between logical and physical addresses. $p$ and $f$ are indices for memory blocks, and $d$ is the offsets to locate data in each block. 
@@ -108,7 +116,7 @@ As described below, first, a process attempts to reference data from a page tabl
 
 ![page_fault](imgs/page_fault.png "page_fault")
 
-* Thrashing
+* Thrashing under page faults
 
 A process is thrashing if it is
 spending more time paging than executing. 

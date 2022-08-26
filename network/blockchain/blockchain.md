@@ -65,10 +65,6 @@ Wei is the smallest denomination of ether—the cryptocurrency coin used on the 
 
 ether == $10^{18}$ wei == 1,000,000,000,000,000,000 == 1 ETH
 
-### ABI (application binary interface)
-
-An ABI determines such details as how functions are called and in which binary format information should be passed from one program component to the next
-
 ### Transaction Signature
 
 Ethereum Private Keys are 64 random hex characters or 32 random bytes.

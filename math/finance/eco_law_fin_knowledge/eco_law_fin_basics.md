@@ -109,3 +109,23 @@ A forward contract is a customized contract between two parties to buy or sell a
 Forward price is the price at which a seller delivers an underlying asset, financial derivative, or currency to the buyer of a forward contract at a predetermined date.
 
 It is roughly equal to the spot price plus associated carrying costs such as storage costs, interest rates, etc.
+
+* Market moving information
+
+Market moving information is a term used in stock market investing, defined as information that would cause any reasonable investor to make a buy or sell decision.
+
+* Pool factor
+
+A pool factor is the outstanding principle out of the amount of the initial principal for ABS or MBS.
+
+$$
+F_{pool} = \frac{OutstandingPrincipleBalance}{OriginalPrincipleBalance}
+$$
+
+E.g., $F_{pool}=0.4$ for $ \$ 1,000,000 $ loan means the underlying mortgage loan that remains in a mortgage-backed security transaction is $ \$ 400,000$, and $ \$ 600,000 $ has been repaid.
+
+* Wash trade
+
+Wash trading – also referred to as round trip trading – is a practice where investors buy and sell the same financial instruments almost at the same time.
+
+One major motivation is to manipulate market (often illegal) by first pumping up a security value by bulk buying, then bulk selling the security when its price is high. This pair of actions should finish within a short period of time. 

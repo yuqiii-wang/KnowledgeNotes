@@ -1,5 +1,17 @@
 # Process
 
+## Linux process management
+
+Linux manages processes with assigned priority and locks to shared memory access.
+
+System calls are
+
+* `fork()` creates a new process by duplicating the calling process. On success, the PID of the child process is returned in the parent, and 0 is returned in the child.
+
+* `exec()` family of functions replaces the current process image with a new process image. It loads the program into the current process space and runs it from the entry point, such as `exec("ls")` runs `ls` from the current process.
+
+* `clone()` gives a new process or a new thread depending on passed arguments to determined various shared memory regions. For example, `CLONE_FS` dictates shared file system; `CLONE_SIGHAND` dictates shared signal handlers. If with no argument flags, it is same as `fork()`.
+
 * PID - Process ID
 
 Process ID is a unique identifier of a process.
@@ -20,7 +32,7 @@ A collection of processes that permits the signaling of related processes.
 
 An attribute of a process that is used in determining various permissions, including file access permissions; see also User ID.
 
-### Service vs Systemctl
+## Service vs Systemctl
 
 `Service` is an "high-level" command used for start, restart, stop and status services in different Unixes and Linuxes, operating on the files in `/etc/init.d`.
 
@@ -37,50 +49,10 @@ systemctl unmask firewalld
 systemctl start firewalld
 ```
 
-### Create a bootable usb
+## Create a bootable usb
 
 ```bash
 sudo umount /dev/sda1
 sudo dd if=/path/to/ubuntu.iso of=/dev/sda1 bs=1M
 ```
 
-### Kernel Levels:
-
-A `runlevel` can simply be thought of as the state your system enters like if a system is in a single-user mode it will have a runlevel 1 while if the system is in a multi-user mode it will have a runlevel 5.
-
-LINUX kernel supports these seven different runlevels :
-
-0 – System halt i.e the system can be safely powered off with no activity.
-
-1 – Single user mode.
-
-2 – Multiple user mode with no NFS(network file system).
-
-3 – Multiple user mode under the command line interface and not under the graphical user interface.
-
-4 – User-definable.
-
-5 – Multiple user mode under GUI (graphical user interface) and this is the standard runlevel for most of the LINUX based systems.
-
-6 – Reboot which is used to restart the system.
-
-
-## Terminal
-
-### TTY
-
-**tty** (TeleTYpewriter) is a native terminal device; the backend is either hardware or kernel emulated.
-
-* Historically speaking, user interacts with a terminal and communicate with computer through UART (Universal Asynchronous Receiver and Transmitter) which directs bytes to various processes.
-
-![alt text](imgs/tty.png "tty")
-
-* Given fruther integrations, modern console does not have UART, emulated with software.
-
-![alt text](imgs/tty_no_uart.png "tty_no_uart")
-
-Use `alt + crtl + F1~F7` to switch between virtual terminals from `tty1` to `tty6`. `tty0` is root virtual terminal.
-
-### pty
-
-**pty** (pseudo-tty), a pair of slave (pts) and master (ptmx) provides  an  interface that behaves exactly like a classical terminal (tty).

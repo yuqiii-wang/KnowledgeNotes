@@ -8,7 +8,7 @@ Repo price is usually computed at the base of collateral, adding repo rate/inter
 
 In real world markets, there are third parties (a.k.a *Tri party*) to liaison with between repo lenders and borrowers, managing non-gov bonds (e.g. corporate bonds) as collaterals. For gov bonds, banks and institutions can directly transact with governments, hence no need of engaging other parties.
 
-## Model Assumptions:
+## Standard Repurchase Agreement (SRA)
 
 Two banks $b_1$ and $b_2$ agree congruently about 
 1. repo rate $r$
@@ -76,3 +76,7 @@ The above probability model states that the expected utility should account for 
 There exists $m$ assets together as collaterals defined in a SRA. A ranking is assigned to the $m$ assets to describe the liquidity and riskiness of these assets.
 
 Good collaterals are first used up.
+
+## Practical risk analysis
+
+Compare similar repo products on the market, and monitor the fluctuations of prices and volumes.

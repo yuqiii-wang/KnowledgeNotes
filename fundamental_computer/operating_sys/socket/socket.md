@@ -1,18 +1,18 @@
-# Socket Process
+# Socket
 
 ```cpp
 // create a socket by OS
 int s = socket(AF_INET, SOCK_STREAM, 0);   
 // bind a socket/port
-bind(s, ...)
+bind(s, ...);
 // listen to a port
-listen(s, ...)
+listen(s, ...);
 // accept client connection
-int c = accept(s, ...)
+int c = accept(s, ...);
 // receive client data
 recv(c, ...);
 // printout the data
-printf(...)
+printf(...);
 ```
 
 Code above lists the typical work of socket communication.
@@ -28,13 +28,3 @@ The socket object is a file assigned with an `fd` (file descriptor), in which th
 ### `recv` Is A Blocking Service
 
 `recv` eats up the precious CPU time checking for constantly checking if there is data coming into socket buffer.
-
-## Performance
-
-* Upon ready IO, select/poll are $O(n)$, epoll is $O(n_{ready})$, where $n$ is the total number of all `fd`s, $n_{ready}$ is the number of `fd` with buffers arrived of data.
-
-* `epoll` has the best performance results since it passively received data notification then run data retrieval, rather than the other two scanning through all registered `fd`
-
-* If the number of listening `fd`s is small, `select` might actually faster than `epoll` since `epoll` requires many kernel function invocation.
-
-![poll-times](imgs/poll-times.jpg "poll-times")

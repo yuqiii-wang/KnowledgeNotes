@@ -6,42 +6,17 @@
 
 ###  Kernel
 
-Maintaining all the important abstractions of the operating system
+Kernel has below functionalities
 
-Kernel refers to the privileged mode with full access to all the physical resources
+* Process Scheduler
 
-* Kernel Modules
+* Memory Manager
 
-Kernel loads binary from disk into memory and maintains a symbol look-up table for object reference.
+* VFS (Virtual File System)
 
-* Driver Registration
+* Network
 
-Common drivers are
-1) device driver: printers/terminals and mice, disk
-2) File systems
-3) Network protocols
-4) binaries: executables
-
-* System Libraries
-
-System libraries define a standard set of functions through which applications can interact with the kernel.
-
-* System Utilities
-
-System utilities are programs that perform individual, specialized management tasks, others known as daemons in UNIX terminology - may run permanently
-
-## Linux process management
-
-Linux manages processes with assigned priority and locks to shared memory access.
-
-System calls are
-
-* `fork()` creates a new process by duplicating the calling process. On success, the PID of the child process is returned in the parent, and 0 is returned in the child.
-
-* `exec()` family of functions replaces the current process image with a new process image. It loads the program into the current process space and runs it from the entry point, such as `exec("ls")` runs `ls` from the current process.
-
-* `clone()` gives a new process or a new thread depending on passed arguments to determined various shared memory regions. For example, `CLONE_FS` dictates shared file system; `CLONE_SIGHAND` dictates shared signal handlers. If with no argument flags, it is same as `fork()`.
-
+* IPC (Inter-Process Communication)
 
 ## Linux Distributions
 

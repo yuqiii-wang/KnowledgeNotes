@@ -77,3 +77,6 @@ It is useful in event-driven callback scenarios.
 
 * Closure
 
+* Read-copy-update (RCU)
+
+Read-copy-update (RCU) is a synchronization mechanism that avoids the use of lock primitives while multiple threads concurrently read and update elements that are linked through pointers and that belong to shared data structures (e.g., linked lists, trees, hash tables).
