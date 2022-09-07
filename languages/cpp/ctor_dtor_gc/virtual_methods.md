@@ -69,7 +69,7 @@ Typically, the compiler creates a separate virtual method table for each class.
 When an object is created, a pointer to this table, called the virtual table pointer, `vpointer` or `VPTR`, is added as a hidden member of this object. 
 As such, the compiler must also generate "hidden" code in the constructors of each class to initialize a new object's virtual table pointer to the address of its class's virtual method table. 
 
-Again given the above `base`/`derived` class example, compiler might augment/expand destructor source code to incoporate base class destructor code.
+Again given the above `base`/`derived` class example, compiler might augment/expand destructor source code to incorporate base class destructor code.
 
 ```cpp
 derived::~derived(){

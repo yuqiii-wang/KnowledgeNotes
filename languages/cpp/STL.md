@@ -105,6 +105,12 @@ template< std::size_t N >
 class bitset;
 ```
 
+### `std::set`
+
+`std::set` is an associative container that contains a sorted set of unique objects of type Key. 
+
+Sets are usually implemented as *red-black tree*s.
+
 ## Algorithms
 
 `std::all_of`, `std::any_of` and `std::none_of` can used to compute an expression over a range of vars. 

@@ -31,3 +31,9 @@ auto lambdaPerThread = [&](int threadId; int threadTotalNum)
     }
 }
 ```
+
+## Inline
+
+inline function are faster in execution( compared to normal function) due to overhead saved by removal of
+* function call
+* pushing of function parameters on stack

@@ -15,6 +15,7 @@ Two banks $b_1$ and $b_2$ agree congruently about
 2. haircut $h$
 3. collateral assets $y$
 4. frictional costs $fr$
+5. lending and repayment date $d_0$ and $d_2$
 
 by signing a contract named *Standard Repurchase Agreement* (SRA,）denoted as $C(r,h,y, fr)$.
 
@@ -79,4 +80,10 @@ Good collaterals are first used up.
 
 ## Practical risk analysis
 
-Compare similar repo products on the market, and monitor the fluctuations of prices and volumes.
+Compare similar repo products on the market, and monitor the fluctuations of prices and volumes (monitor repo market movements).
+
+Given a bond maturity date and interest, backward compute its present value. Compare the present values against similar products (such as same risk ratings by Moody).
+
+10-year treasury bond rates are a benchmark regarded as the no-risk security.
+
+Compute the present value by discount factor, and compare it with the market price.

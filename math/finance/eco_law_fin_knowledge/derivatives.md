@@ -47,3 +47,15 @@ An options contract offers the buyer the opportunity to buy or sell, depending o
 Call options allow the holder to buy the asset at a stated price within a specific timeframe. Put options, on the other hand, allow the holder to sell the asset at a stated price within a specific timeframe.
 
 Example: Daily Oil investment, where people pays a premium to obtain a right to buy/sell oil at a stated price within a day.
+
+## Forward
+
+A forward contract or simply a forward is a non-standardized contract between two parties to buy or sell an asset at a specified future time at a price agreed on at the time of conclusion of the contract.
+
+### Forward vs Futures
+
+Forward contracts are not exchange-traded, or defined on standardized assets.
+
+Forwards typically have no interim partial settlements or "true-ups" in margin requirements like futures, that is the parties do not exchange additional property securing the party at gain and the entire unrealized gain or loss builds up while the contract is open.
+
+Hence, forward is not open to retail investors. 

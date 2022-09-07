@@ -187,3 +187,23 @@ use of `std::move`.
 * `promise` and `future`, `async()`
 
 * smart pointer: `shared_ptr` and `unique_ptr`
+
+## c++20
+
+* module
+
+```cpp
+export module myModule;
+
+namespace myModule
+{
+  export int add (int a, int b) 
+    return a + b;
+
+  export class Foo {
+    public:
+      int add(int a, int b) 
+        return myModule::add(a, b);
+  };
+}
+```

@@ -1,6 +1,4 @@
-# Economics, Law and Finance Basics
-
-Terminologies/colloquial terms in the economics, law or finance knowledge domains.
+# Economics, Law and Finance Concepts
 
 * Pay-as-we-go
 
@@ -100,7 +98,7 @@ The London Inter-Bank Offered Rate is an interest-rate average calculated from e
 
 Eonia (Euro Overnight Index Average) is computed as a weighted average of all overnight unsecured lending transactions in the interbank market, undertaken in the European Union and European Free Trade Association (EFTA) countries by the Panel Banks
 
-* Forward contrtact
+* Forward contract
 
 A forward contract is a customized contract between two parties to buy or sell an asset at a specified price on a future date.
 

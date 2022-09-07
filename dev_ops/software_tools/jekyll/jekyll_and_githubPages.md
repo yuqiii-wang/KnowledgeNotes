@@ -10,6 +10,20 @@ sudo apt-get install ruby-full ruby-bundler
 ruby -v
 ```
 
+### Localhost
+
+```bash 
+sudo gem install jekyll bundler
+
+jekyll new myblog # this might take a while
+cd myblog
+bundle exec jekyll serve
+
+# open 127.0.0.1:4000
+```
+
+### To github
+
 To publish a user site, you must create a repository owned by your personal account that's named `<username>.github.io`
 
 ## Config

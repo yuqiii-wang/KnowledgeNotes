@@ -68,3 +68,29 @@ WITH temporaryTable(averageValue) as
 `CROSS APPLY` operator returns only those rows from the left table expression, similar to `INNER JOIN ` 
 
 `OUTER APPLY` operator returns all the rows from the left table expression irrespective of its matches with the right table expression, similar to `LEFT OUTER JOIN`.
+
+* `Null`
+
+```sql
+SELECT * FROM MyTable WHERE MyColumn != NULL (0 Results)
+SELECT * FROM MyTable WHERE MyColumn <> NULL (0 Results)
+SELECT * FROM MyTable WHERE MyColumn IS NOT NULL (568 Results)
+```
+
+`null` represents no value or an unknown value. 
+
+`IS NULL` is specifically saying not comparing values, but rather it seeks out missing values.
+
+`<>` and `!=` are often interchangeable.
+
+* `COMMIT`
+
+Use the `COMMIT` statement to end your current transaction and make permanent all changes performed in the transaction. 
+
+Oracle Database issues an implicit `COMMIT` before and after any data definition language (DDL) statement (such as `CREATE TABLE`).
+
+By default, `COMMIT` has such arguments: `WORK WRITE IMMEDIATE WAIT`
+1. `WORK` is only about SQL standard compliance, no additional impact on execution
+2. `WRITE`
+3. `IMMEDIATE` initiates I/O, causing the redo for the commit of the transaction to be written out immediately by sending a message to the LGWR process
+4. `WAIT` ensures that the commit will not return until the corresponding redo is persistent in the online redo log.

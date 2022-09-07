@@ -56,3 +56,42 @@ $$
 DayCountFactor=
 \frac{AccrualDays}{360}
 $$
+
+## Bond valuation
+
+The theoretical fair value of a bond is the present value of the stream of cash flows it is expected to generate. Hence, the value of a bond is obtained by discounting the bond's expected cash flows to the present using an appropriate discount rate.
+
+Present value $V_{present}$ can be computed by coupon payment $C$ over a number of periods $n$ with an interest rate $r$, plus the its face value $F$ (equal to its maturity value) on the final date. 
+
+$$
+V_{present} = 
+\big(
+    \frac{C}{1+r}
+    + \frac{C}{(1+r)^2}
+    + \frac{C}{(1+r)^3}
+    + ...
+    + \frac{C}{(1+r)^n}
+\big)
++
+\frac{F}{(1+r)^n}
+$$
+where coupon interest rate is $r=\frac{C}{F}$.
+
+
+## Terminologies
+
+* Interlife
+
+Any action in the life cycle (between start/end date) of this repo.
+
+* Accrued interest
+
+Accrued interest is the interest on a bond or loan that has accumulated since the principal investment, or since the previous coupon payment if there has been one already.
+
+In other words, the interest accounts for the time since the bond's start date or the last coupon payment date. 
+
+* Clean and dirty price
+
+"Clean price" is the price excluding any interest that has accrued.
+
+"Dirty price" (or "full price" or "all in price" or "Cash price") includes accrued interest

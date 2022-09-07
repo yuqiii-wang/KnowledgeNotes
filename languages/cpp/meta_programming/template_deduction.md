@@ -125,4 +125,15 @@ auto x = *p;           // x has type int
 decltype(auto) y = *p; // y is a reference to *p
 ```
 
+## `decltype` deduction
+
+If the return of a function is unknown for its inputs are simply templates that gives an unknown result, you can use `auto` and `decltype(x + y)` to declare return type.
+```cpp
+template<typename T1, typename T2>
+auto sum(T1 x, T2 y) -> decltype(x + y)
+{
+    return x + y;
+}
+```
+
 ## Variadic Template

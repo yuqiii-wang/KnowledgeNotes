@@ -54,8 +54,6 @@ string sTmp = s1.substr(1);
 const char* p1 = sTmp.data();
 ```
 
-## Examples
-
-### Container Cautions
+## Container Cautions
 
 When using containers such as `std::vector<T>`, if `T` has sub objects with allocated memory, must first free `T` before let `std::vector<T>` run out of scope. Smart pointer cannot detect if sub object memory is freed.

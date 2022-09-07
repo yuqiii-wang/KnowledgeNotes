@@ -38,6 +38,18 @@ Linux scheduler is a preemptive, priority-based algorithm with two separate prio
 
 Synchronizations of threads' code are handled by `mutex`/`semaphore`.
 
+### Interrupt
+
+* Hardware interrupt
+
+A hardware interrupt is a condition related to the state of the hardware that may be signaled by an external hardware device, e.g., an interrupt request (IRQ) line on a PC, CPU Timer timeout, peripheral signals by keyboard or mouse.
+
+* Software interrupt
+
+A software interrupt is requested by the processor itself upon executing particular instructions or when certain conditions are met. Every software interrupt signal is associated with a particular interrupt handler.
+
+In unix-like system, some interrupt signals are `SIGSEGV`, `SIGBUS`, `SIGILL` or `SIGFPE`. 
+
 ## Process communications
 
 Processes communicate to each other via

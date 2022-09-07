@@ -51,3 +51,9 @@ if __name__ == "__main__":
 * `Failed to dlopen libcuda.so`
 
 `libcuda.so.1` is a symlink to a file that is specific to the version of your NVIDIA drivers. It may be pointing to the wrong version or it may not exist.
+
+* Could not open cuda
+
+Use `navidia-smi` to check if Python is running on GPU. Nvidia GPU manager often automatically kills gpu-python process for inactivity.
+
+A common solution is to reboot your computer.

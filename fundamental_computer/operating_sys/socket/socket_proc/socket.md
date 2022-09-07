@@ -34,7 +34,7 @@ struct socket {
   struct file * file;
   struct sock * sk;
   const struct proto_ops * ops;
-};  
+}
 ```
 in which,
 

@@ -1,5 +1,21 @@
 # Linux Kernel
 
+## User space vs Kernel space
+
+### User space
+
+The term user space (or userland) refers to all code that runs outside the operating system's kernel.
+
+Each user space process normally runs in its own virtual memory space, and, unless explicitly allowed, cannot access the memory of other processes.
+
+Typically, they are `fopen`, `execv`, `malloc`, `memcpy`, `localtime`, `pthread_create`... (up to 2000 subroutines)
+
+### Kernel space
+
+Kernel space is strictly reserved for running a privileged operating system kernel, kernel extensions, and most device drivers. 
+
+Typically, they are `stat`, `splice`, `dup`, `read`, `open`, `ioctl`, `write`, `mmap`, `close`, `exit`, etc. (about 380 system calls)
+
 ## Kernel Levels:
 
 A `runlevel` can simply be thought of as the state your system enters like if a system is in a single-user mode it will have a runlevel 1 while if the system is in a multi-user mode it will have a runlevel 5.
@@ -40,3 +56,12 @@ Use `alt + crtl + F1~F7` to switch between virtual terminals from `tty1` to `tty
 ### pty
 
 **pty** (pseudo-tty), a pair of slave (pts) and master (ptmx) provides  an  interface that behaves exactly like a classical terminal (tty).
+
+### `l3mdev`
+
+The L3 Master Device (`l3mdev` for short) idea evolved
+from the initial Virtual Routing and Forwarding (VRF)
+implementation for the Linux networking stack. The
+concept was created to generalize the changes made to the
+core IPv4 and IPv6 code into an API that can be leveraged
+by devices that operate at layer 3 (L3). 

@@ -28,7 +28,11 @@ int main(){
             cv::drawChessboardCorners(srcMat, boardSize, corners, found);
 
             // object points in the real world coordinate, used to denote 3-d corner point coordinate; real world point (x, y) coordinates should correlate to chessboard corner points in terms of relative positions; since real world mapping to camera image is scalable, we can set real world points to (0,0), (0,1) ..., etc.; it is assumed projected on the z=0 real world coordinate
-            objpoints{{0,0,0}, {0,1,0}, {0,2,0}, {0,3,0}, {1,0,0}, {1,1,0}, {1,2,0}, {1,3,0}, {2,0,0}, {2,1,0}, {2,2,0}, {2,3,0}};
+            objpoints{
+                  {0,0,0}, {0,1,0}, {0,2,0}, {0,3,0}, 
+                  {1,0,0}, {1,1,0}, {1,2,0}, {1,3,0}, 
+                  {2,0,0}, {2,1,0}, {2,2,0}, {2,3,0}
+                  };
 
             cv::Mat cameraMatrix; // instrinsic parameters
             cv::Mat distCoeffs; // distortion coefficients
