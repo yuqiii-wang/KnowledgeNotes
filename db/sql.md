@@ -85,7 +85,11 @@ SELECT * FROM MyTable WHERE MyColumn IS NOT NULL (568 Results)
 
 * `COMMIT`
 
-Use the `COMMIT` statement to end your current transaction and make permanent all changes performed in the transaction. 
+`COMMIT` is the SQL command that is used for storing changes performed by a transaction. 
+
+When you perform a DML operation without a COMMIT statement, the changes are visible only to you.
+
+Once applied `COMMIT`, there is no rollback. 
 
 Oracle Database issues an implicit `COMMIT` before and after any data definition language (DDL) statement (such as `CREATE TABLE`).
 
@@ -94,3 +98,15 @@ By default, `COMMIT` has such arguments: `WORK WRITE IMMEDIATE WAIT`
 2. `WRITE`
 3. `IMMEDIATE` initiates I/O, causing the redo for the commit of the transaction to be written out immediately by sending a message to the LGWR process
 4. `WAIT` ensures that the commit will not return until the corresponding redo is persistent in the online redo log.
+
+
+* `ON DUPLICATE KEY UPDATE`
+
+If you specify an `ON DUPLICATE KEY UPDATE` clause and a row to be inserted would cause a duplicate value in a `UNIQUE` index or `PRIMARY KEY`, an `UPDATE` of the old row occurs. For example, if column a is declared as `UNIQUE` and contains the value 1, the following two statements have similar effect:
+
+```sql
+INSERT INTO t1 (a,b,c) VALUES (1,2,3)
+  ON DUPLICATE KEY UPDATE c=c+1;
+
+UPDATE t1 SET c=c+1 WHERE a=1;
+```

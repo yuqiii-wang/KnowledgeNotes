@@ -160,16 +160,16 @@ int inet_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
 
 ## TCP recv
 
-* Receive queue path
+###  Receive queue path
 1. Find a good skb by `skb_queue_walk(&sk->sk_receive_queue, skb)` which is true
 2. If `if (offset < skb->len) goto found_ok_skb;`
 3. Copy data to msg by `skb_copy_datagram_msg(skb, offset, msg, used);`
 
-* Prequeue path
+### Prequeue path
 1. `if (!sysctl_tcp_low_latency && tp->ucopy.task == user_recv)` is true, handle prequeue
 2. `tcp_prequeue_process` handles the prequeue
 
-* Backlog path
+### Backlog path
 1. `if (copied >= target && !READ_ONCE(sk->sk_backlog.tail))` is true (indicating `sk->sk_backlog.tail` got data) and the above receive queue path is false
 2. `__sk_flush_backlog(sk);` processes sk's backlog
 

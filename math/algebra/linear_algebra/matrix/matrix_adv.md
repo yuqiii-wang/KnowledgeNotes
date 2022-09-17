@@ -86,3 +86,36 @@ $$
 Given a manifold $M$, a tangent space at $x$ on $M$ is $\Tau_x M$.
 
 ![tangent_space](imgs/tangent_space.png "tangent_space")
+
+## Trace
+
+The trace of a square matrix $A$, denoted $tr(A)$,is defined to be the sum of elements on the main diagonal (from the upper left to the lower right) of $A$. The trace is only defined for a square matrix ($n × n$).
+
+For example, given $A$
+$$
+A = 
+\begin{bmatrix}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{bmatrix}
+$$
+
+its trace is
+$$
+tr(A) = 
+\sum^3_i a_{ii}
+=
+a_{11} + a_{22} + a_{33}
+$$
+
+### Derivative
+
+$$
+\frac{
+      \partial \space tr(ABC)
+}{
+      \partial \space B
+} =
+A^\text{T} C^\text{T}
+$$

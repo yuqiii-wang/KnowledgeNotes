@@ -1,6 +1,6 @@
 # Process
 
-## Linux process management
+## Children process creation
 
 Linux manages processes with assigned priority and locks to shared memory access.
 
@@ -11,6 +11,8 @@ System calls are
 * `exec()` family of functions replaces the current process image with a new process image. It loads the program into the current process space and runs it from the entry point, such as `exec("ls")` runs `ls` from the current process.
 
 * `clone()` gives a new process or a new thread depending on passed arguments to determined various shared memory regions. For example, `CLONE_FS` dictates shared file system; `CLONE_SIGHAND` dictates shared signal handlers. If with no argument flags, it is same as `fork()`.
+
+## Process attributes
 
 * PID - Process ID
 

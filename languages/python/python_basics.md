@@ -1,5 +1,11 @@
 # Python Notes
 
+## Python interpreter
+
+* Cython vs Jython
+
+## Builtin types
+
 ### `set` Usage
 
 **`set` as key for `dict`**

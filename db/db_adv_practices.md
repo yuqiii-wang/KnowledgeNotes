@@ -29,6 +29,40 @@ A compromised page level is taken with overhead and conflict levels between row-
 
 When a deadlock is detected, InnoDB automatically rolls back a transaction.
 
+## Transaction commit
+
+### Explicit transactions
+
+An explicit transaction is one in which you explicitly define both the start and end of the transaction through an API function or by issuing the Transact-SQL `BEGIN TRANSACTION`, `COMMIT TRANSACTION`, `COMMIT WORK`, `ROLLBACK TRANSACTION`, or `ROLLBACK WORK` Transact-SQL statements. When the transaction ends, the connection returns to the transaction mode it was in before the explicit transaction was started, either implicit or autocommit mode.
+
+Some typical explicit transactions are 
+* `CREATE DATABASE`
+* `ALTER DATABASE`
+* `DROP DATABASE`
+
+### Implicit Transactions
+
+When a connection is operating in implicit transaction mode, the instance of the SQL Server Database Engine automatically starts a new transaction after the current transaction is committed or rolled back. 
+
+* `ALTER TABLE`
+* `CREATE`
+* `DELETE`
+* `DROP`
+* `FETCH`
+* `GRANT`
+* `INSERT`
+* `OPEN`
+* `REVOKE`
+* `SELECT`
+* `TRUNCATE TABLE`
+* `UPDATE`
+
+### Commit
+
+Before `COMMIT`, DML changes are only visible to the user session. There is a dedicated storage area (called rollback area, prepared for rollback) associated with user session DML data changes.
+
+Once applied `COMMIT`, the changes are permanent to DB, not in the user session lifecycle.
+
 ## Replication and Latency
 
 MySQL supports two kinds of replication: *statement-based* replication and *row-based* replications.

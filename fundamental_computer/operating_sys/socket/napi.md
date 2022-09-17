@@ -14,6 +14,30 @@ Once DMA finishes loading data, NIC triggers an interrupt to CPU invoking the pr
 
 NAPI is a NIC-driver specific embedded system, different depending on hardware. NAPI takes charge of polling NIC if data arrives, and queues up the arrived packets into a `poll_list`, then raises an interrupt to CPU to read/process the collected data packets after a number of polls called "budget". This is advantageous since CPU no longer triggers interrupt handler every time a packet arrives. 
 
+## Device and the buffer ring
+
+The processing of a received packet as it moves from the NIC device driver to the *dev* layer mainly consider the below functions:
+
+* `skb = dev_alloc_skb(pkt_len + 5);`
+
+Allocates an `sk_buff` of the required size prior to transferring the packet
+to kernel memory.  Two hardware strategies are commonly used. 
+
+If packets are received directly into system memory owned by the kernel,
+the `sk_buff` must be allocated prior to initiating the receive operation.
+
+If packets are first received into NIC buffers and then transferred via DMA to system memory, an `sk_buff` of the exact size needed may be
+allocated after the packet has been received but before the DMA transfer is initiated.
+
+* ` skb->protocol = eth_type_trans(skb, dev);`
+
+Determine the packet type which will be used to identify the network
+layer handler.
+
+* `netif_rx(skb);`
+
+Used to pass the sk_buff to the generic device layer when a receive operation completes. 
+
 ## NAPI related structures
 
 ### `softnet_data`
