@@ -20,12 +20,6 @@ h_n(x) =
 \frac{d^n}{dx^n} e^{-x^2}
 $$
 
-### Symmetry
-
-$$
-h_n(-x) = (-1)^n h_n(x)
-$$
-
 ### Orthogonality
 
 Orthogonality of two functions is defined as
@@ -44,7 +38,7 @@ h_m(x) h_n(x) w(x) dx
 \forall \space m \ne n
 $$
 
-### Examples
+### First few Hermite polynomials
 
 $$
 \begin{align*}
@@ -64,7 +58,7 @@ $$
 
 ##  Gauss–Hermite quadrature definition
 
-Gauss–Hermite quadrature is a form of Gaussian quadrature for approximating the value of integrals of the following kind:
+Gauss–Hermite quadrature is a form of Gaussian quadrature for approximating the value of integrals of the following kind (in contrast to Legendre polynomial that $e^{-x^2}$ is replaced with $1$):
 $$
 \int_{-\infty}^{+\infty} 
 e^{-x^2} f(x) dx
@@ -72,14 +66,14 @@ e^{-x^2} f(x) dx
 \sum_{i=1}^n 
 w_i f(x_i)
 $$
-where, given $x_i$ are the roots of physicist's Hermite polynomial $h_{n}(x)$, $w_i$ can be expressed as
+where, given $x_i^*$ are the roots of physicist's Hermite polynomial $h_{n}(x)$, $w_i$ can be expressed as
 $$
 w_i =
 \frac{
     2^{n-1} n! \sqrt{\pi}
 }{
     n^2 \big(
-        h_{n-1}(x_i)
+        h_{n-1}(x^*_i)
         \big)^2
 }
 $$
@@ -108,7 +102,7 @@ y&=
 \sqrt{2} \sigma x + \mu
 \end{align*}
 $$
-and if $y=\phi(x)$, then
+and by $y=\phi(x)$, then
 $$
 \int_a^b g(y) dy = 
 \int_{\phi^{-1}(a)}^{\phi^{-1}(b)}

@@ -1,12 +1,49 @@
 
 # Legendre polynomials
 
-The polynomials are defined as an orthogonal system with respect to the weight function $w(x)=1$ over the interval $[-1,1]$, and $L_n$ is a polynomial of degree $n$
+The polynomials are defined as an orthogonal complete system with the below definitions:
 
 $$
-\int^1_{-1} L_m(x) L_n(x) dx = 0
-\quad n \ne m
+L_n (x) = 
+\frac{1}{2^n n!} \cdot 
+\frac{d^n}{dx^n} \big(
+              (x^2-1)^n
+              \big)
 $$
+or recursively starting with $L_0(x)=1, L_1(x)=x$, there is
+$$
+(n+1)L_{n+1}(x) = 
+(2n+1)x L_n (x) - n L_{n-1}(x)
+$$
+
+For example, for $n=1$, there is
+$$
+\begin{align*}
+(1+1) L_2(x) &= (2+1)x L_1(x) - L_0(x)
+\\
+2 L_2(x) &= (3)x^2 - 1
+\\
+L_2(x) &= \frac{3}{2}x^2 - \frac{1}{2}
+\end{align*}
+$$ 
+
+Solve the above equations by $L_n(x)=0$ with different degree $n$ and obtain roots $x_i$ 
+
+For weights $w_i$, there is
+$$
+w_i=
+\frac{2}{(1-x_i^2)\big(L_n'(x_i)\big)^2}
+$$ 
+
+Here is a table of result summary.
+
+|$n$|$x_i$|$w_i$|
+|-|-|-|
+|$1$|$0$|$2$|
+|$2$|$\frac{1}{\sqrt{3}}, -\frac{1}{\sqrt{3}}$|$1,1$|
+|$3$|$0,\sqrt{\frac{3}{5}}, -\sqrt{\frac{3}{5}}$|$\frac{8}{9},\frac{5}{9},\frac{5}{9}$|
+|$4$|$\sqrt{\frac{3}{7}-\frac{2}{7}\sqrt{\frac{6}{5}}},-\sqrt{\frac{3}{7}-\frac{2}{7}\sqrt{\frac{6}{5}}}, \sqrt{\frac{3}{7}+\frac{2}{7}\sqrt{\frac{6}{5}}},-\sqrt{\frac{3}{7}+\frac{2}{7}\sqrt{\frac{6}{5}}}$|$\frac{18+\sqrt{30}}{36},\frac{18+\sqrt{30}}{36},\frac{18-\sqrt{30}}{36},\frac{18-\sqrt{30}}{36}$|
+||$\vdots$||
 
 ## Orthogonality
 
@@ -17,7 +54,7 @@ $$
 $$
 
 Legendre polynomials are orthogonal. 
-For example, given a space $\bold{L}=\{1,x,x^2\}$, 
+For example, given a space $\bold{L}=\{1,x,\frac{3}{2}x^2 - \frac{1}{2}\}$, 
 
 1. For $L_0$ and $L_1$
 
@@ -38,13 +75,13 @@ $
  
 2. For $L_0$ and $L_2$
 
-Given $L_i$ 's definitions $L_0(x) = 1, L_2(x) = x^2$
+Given $L_i$ 's definitions $L_0(x) = 1, L_2(x) = \frac{3}{2}x^2 - \frac{1}{2}$
 
 and the integral
 $$
 \begin{align*}
 \int^1_{-1} L_0(x) \times L_2(x) dx &=
-\int^1_{-1} x^2 dx 
+\int^1_{-1} 1 \cdot (\frac{3}{2}x^2 - \frac{1}{2}) dx 
 \\ &= 0
 \end{align*}
 $$
@@ -52,13 +89,13 @@ hence perpendicular to each other $L_0(x) \perp L_2(x)$
  
 3. For $L_1$ and $L_2$
 
-Given $L_i$ 's definitions $L_1(x) = x, L_2(x) = x^2 $
+Given $L_i$ 's definitions $L_1(x) = x, L_2(x) = \frac{3}{2}x^2 - \frac{1}{2}$
 
 and the integral
 $$
 \begin{align*}
 \int^1_{-1} L_1(x) \times L_2(x) dx &=
-\int^1_{-1} x^3 dx 
+\int^1_{-1} x (\frac{3}{2}x^2 - \frac{1}{2}) dx 
 \\ &= 0
 \end{align*}
 $$
@@ -75,3 +112,19 @@ $$
 f(\frac{b-a}{2} \xi \frac{a+b}{2}) \frac{dx}{d \xi} d \xi
 $$
 where $\frac{dx}{d \xi}=\frac{b-a}{2}$
+
+## First few Legendre polynomials
+
+$$
+\begin{align*}
+l_0(x) &= 1
+\\
+l_1(x) &= x
+\\
+l_2(x) &= \frac{1}{2} (3x^2-1)
+\\
+l_3(x) &= \frac{1}{2} (5x^3-3x)
+\\
+l_4(x) &= \frac{1}{8} (35x^4-30x^2+3)
+\end{align*}
+$$
