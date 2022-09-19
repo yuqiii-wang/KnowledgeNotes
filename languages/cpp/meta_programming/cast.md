@@ -144,7 +144,7 @@ double* p2 = reinterpret_cast<double*>(p);
 int* p3 = reinterpret_cast<int*>(&arr); 
 ```
 
-## `const_cast<new-type>(expression)`
+### `const_cast<new-type>(expression)`
 
 `const_cast<new-type>(expression)` may be used to cast away (remove) constness or volatility, such as
 ```cpp

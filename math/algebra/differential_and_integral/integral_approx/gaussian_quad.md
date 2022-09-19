@@ -16,14 +16,14 @@ We use only $n$ nodes to estimate $2n-1$ power of polynomial exactly.  If we wan
 
 ## Definition
 
-Integral of a function $h$ can be approximated via the form
+Integral of a function $h$ can be approximated via the form ($w(x)$ and $w_i(x)$ refer to two different things)
 $$
 \int^b_a w(x) f(x) dx
 \approx
 \sum_{i=0}^n w_i(x) f_i(x) 
 $$
 
-Some choices of $w_i(x)$ and $f_i(x)$ are
+Some choices of $w(x)$ and $f_i(x)$ are
 
 |Interval|$w(x)$|Orthogonal Polynomials|
 |-|-|-|

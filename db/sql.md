@@ -110,3 +110,57 @@ INSERT INTO t1 (a,b,c) VALUES (1,2,3)
 
 UPDATE t1 SET c=c+1 WHERE a=1;
 ```
+
+* Window function vs `GROUP BY`
+
+```sql
+SELECT country, SUM(profit) AS country_profit
+       FROM sales
+       GROUP BY country
+       ORDER BY country;
+```
+that outputs
+```bash
++---------+----------------+
+| country | country_profit |
++---------+----------------+
+| Finland |           1610 |
+| India   |           1350 |
+| USA     |           4575 |
++---------+----------------+
+```
+
+In contrast, window operations do not collapse groups of query rows to a single output row. Instead, they produce a result for each row. 
+
+`SUM(profit) OVER(PARTITION BY country)` sums up profit per country. However, different from `GROUP BY`, window function does not collapses rows.
+
+`OVER()` without argument, covers full table rows.
+
+```sql
+SELECT
+         year, country, product, profit,
+         SUM(profit) OVER() AS total_profit,
+         SUM(profit) OVER(PARTITION BY country) AS country_profit
+       FROM sales
+       ORDER BY country, year, product, profit;
+```
+that outputs
+```bash
++------+---------+------------+--------+--------------+----------------+
+| year | country | product    | profit | total_profit | country_profit |
++------+---------+------------+--------+--------------+----------------+
+| 2000 | Finland | Computer   |   1500 |         7535 |           1610 |
+| 2000 | Finland | Phone      |    100 |         7535 |           1610 |
+| 2001 | Finland | Phone      |     10 |         7535 |           1610 |
+| 2000 | India   | Calculator |     75 |         7535 |           1350 |
+| 2000 | India   | Calculator |     75 |         7535 |           1350 |
+| 2000 | India   | Computer   |   1200 |         7535 |           1350 |
+| 2000 | USA     | Calculator |     75 |         7535 |           4575 |
+| 2000 | USA     | Computer   |   1500 |         7535 |           4575 |
+| 2001 | USA     | Calculator |     50 |         7535 |           4575 |
+| 2001 | USA     | Computer   |   1200 |         7535 |           4575 |
+| 2001 | USA     | Computer   |   1500 |         7535 |           4575 |
+| 2001 | USA     | TV         |    100 |         7535 |           4575 |
+| 2001 | USA     | TV         |    150 |         7535 |           4575 |
++------+---------+------------+--------+--------------+----------------+
+```

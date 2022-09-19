@@ -164,3 +164,11 @@ a_{m,0} & a_{m,1} & a_{m,2} & ... & a_{2,n} \\
 $$
 
 Eigenvalues are zeros for the added null elements in $A_{n \times n}$, so that only $\sigma_i \in [1, m]$ have positive values. Such $\sigma_i$ represent how scaled the transformation matrix $A$ is on a basis vector of size $(1 \times n)$, hence representing $A_{m \times n}$ on the basis vector associated with $\sigma_{max}$ has the greatest deviation and most information.
+
+### SVD vs Eigen decomposition
+
+* Eigen decomposition matrix $Q$ is not necessarily orthogonal
+
+* SVD's $U$ and $V$ are not necessarily the inverse of each other
+
+* SVD can work on rectangular matrix

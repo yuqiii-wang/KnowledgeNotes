@@ -75,7 +75,7 @@ To resolve the time-consuming Jacobian computation as well as first-order deriva
 
 Define a random variable $\bold{x} \in \mathbb{R}^d$ assumed exhibited normal distribution (of a mean $\bold{\overline{x}}$ and covariance $\bold{P_\bold{x}}$ ) sampling behavior.
 
-Sampling follows *Gauss-Hermite quadrature*, that describes the general rule of sampling on a linear/non-linear transformation result of a normal distribution input $\bold{y}=g(\bold{x})$.
+Define $g$ as a linear/non-linear transformation on normal distribution random variables $\bold{x}$ such as $\bold{y}=g(\bold{x})$. The transformed result is $\bold{y}$.
 
 ![unscented_transform](imgs/unscented_transform.png "unscented_transform")
 
@@ -92,7 +92,7 @@ X_i &=
 \quad i=1,2,...,d
 \\
 X_i &= 
-\bold{\overline{x}} + (\sqrt{(d+\lambda)\bold{P_\bold{x}}})_{i-d} 
+\bold{\overline{x}} - (\sqrt{(d+\lambda)\bold{P_\bold{x}}})_{i-d} 
 \quad i=d+1,d+2,...,2d
 
 \\
@@ -108,7 +108,194 @@ W_i^{(m)}=W_i^{(m)} &=
 $$
 where 
 * $\lambda=\alpha^2(d+\kappa)-d$ is a scaling parameter
-* $\alpha \in (0,1]$ determines the spread of the sigma points
-* $\kappa \ge 0$ is a secondary scaling parameter 
+* $\alpha \in (0,1]$ determines the spread of the sigma points, typically $\alpha=e^{-0.001}$
+* $\kappa \ge 0$ is a secondary scaling parameter, typically $\kappa = 0$ 
 * $\beta$ is used to incorporate prior knowledge of Gaussian distribution ($\beta=2$ is optimal by experience).
-* $\sqrt{(d+\lambda)\bold{P_\bold{x}}}$ is the $i$-th row of the matrix square root
+* $(\sqrt{(d+\lambda)\bold{P_\bold{x}}})_i$ is the $i$-th row of the matrix square root
+
+### Transform Sigma Points
+
+The expectation of $\bold{y}$ can be approximated via Gauss-Hermite quadrature:
+$$
+\begin{align*}
+\bold{\overline{y}} 
+&\approx
+\sum^{2d}_{i=0}
+W^{(m)} y_i
+\\
+\bold{P_y} 
+&\approx
+\sum^{2d}_{i=0}
+W^{(c)} (y_i-\bold{\overline{y}}) (y_i-\bold{\overline{y}})^\text{T}
+\end{align*}
+$$ 
+
+### 
+
+### Gauss-Hermite quadrature discussions
+
+Sampling follows *Gauss-Hermite quadrature*. Given each dimension having $3$ sampling points, the polynomial precision is a degree of $5$.
+
+## Example
+
+Given a vehicle state composed of a distance $p$ and velocity $v$. 
+Its init estimates: init state and covariances are known as below.
+$$
+\bold{x} = 
+\begin{bmatrix}
+p\\
+v
+\end{bmatrix}
+, \quad
+
+\bold{\hat{x}}_0 \sim
+N
+\bigg(
+\begin{bmatrix}
+0\\
+5
+\end{bmatrix}
+,
+\begin{bmatrix}
+0.01 & 0\\
+0 & 1.0
+\end{bmatrix}
+\bigg)
+$$
+
+and vehicle motion model
+$$
+\begin{align*}
+\bold{\hat{x}}_k 
+&= 
+f(\bold{\hat{x}}_{k-1}, \bold{u}_k, \bold{w}_k)
+\\ &=
+\begin{bmatrix}
+1 & \Delta t \\
+0 & 1
+\end{bmatrix}
+\bold{x}_{k-1}
++
+\begin{bmatrix}
+0 \\
+\Delta t
+\end{bmatrix}
+\bold{u}_k
++
+\bold{w}_k
+\end{align*}
+$$
+where $\bold{u}_k = a$ is the acceleration.
+
+Vehicle measurement model is defined such that we can only observe the distance
+$$
+\begin{align*}
+y_k &= h(\bold{x}) + \bold{v}_k
+\\ &=
+\begin{bmatrix}
+1 & 0\\
+0 & 0
+\end{bmatrix}
+\bold{x}
+ + \bold{v}_k
+\end{align*}
+$$
+
+### Computation
+
+Use Cholesky to solve $\bold{P}_0=\begin{bmatrix} 0.01 & 0 \\ 0 & 1.0 \end{bmatrix}$, there is 
+$$
+{\Sigma}_0 = 
+\begin{bmatrix}
+0.1 & 0\\
+0 & 1.0
+\end{bmatrix}
+$$
+
+Compute2-dimensional sigma points:
+$$
+\sqrt{d+\lambda} =
+\sqrt{d+\alpha^2(d+\kappa)-d}
+$$
+
+$$
+\begin{align*}
+x_0^{(0)} &=
+\begin{bmatrix}
+0 \\
+5
+\end{bmatrix}
+
+\\
+x_0^{(1)} &=
+\begin{bmatrix}
+0 \\
+5
+\end{bmatrix}
++
+\sqrt{3}
+\begin{bmatrix}
+0.1 \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{\sqrt{3}}{10} \\
+5
+\end{bmatrix}
+
+\\
+x_0^{(2)} &=
+\begin{bmatrix}
+0 \\
+5
+\end{bmatrix}
++
+\sqrt{3}
+\begin{bmatrix}
+0 \\
+0.1
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+5+\frac{\sqrt{3}}{10}
+\end{bmatrix}
+
+\\
+x_0^{(3)} &=
+\begin{bmatrix}
+0 \\
+5
+\end{bmatrix}
+-
+\sqrt{3}
+\begin{bmatrix}
+0.1 \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+-\frac{\sqrt{3}}{10} \\
+5
+\end{bmatrix}
+
+\\
+x_0^{(4)} &=
+\begin{bmatrix}
+0 \\
+5
+\end{bmatrix}
+-
+\sqrt{3}
+\begin{bmatrix}
+0 \\
+0.1
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+5-\frac{\sqrt{3}}{10}
+\end{bmatrix}
+\end{align*}
+$$
