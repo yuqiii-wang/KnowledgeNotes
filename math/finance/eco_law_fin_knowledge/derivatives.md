@@ -52,6 +52,12 @@ Example: Daily Oil investment, where people pays a premium to obtain a right to 
 
 A forward contract or simply a forward is a non-standardized contract between two parties to buy or sell an asset at a specified future time at a price agreed on at the time of conclusion of the contract.
 
+### Forward price
+
+Forward price is the price at which a seller delivers an underlying asset, financial derivative, or currency to the buyer of a forward contract at a predetermined date.
+
+It is roughly equal to the spot price plus associated carrying costs such as storage costs, interest rates, etc.
+
 ### Forward vs Futures
 
 Forward contracts are not exchange-traded, or defined on standardized assets.
@@ -59,3 +65,4 @@ Forward contracts are not exchange-traded, or defined on standardized assets.
 Forwards typically have no interim partial settlements or "true-ups" in margin requirements like futures, that is the parties do not exchange additional property securing the party at gain and the entire unrealized gain or loss builds up while the contract is open.
 
 Hence, forward is not open to retail investors. 
+

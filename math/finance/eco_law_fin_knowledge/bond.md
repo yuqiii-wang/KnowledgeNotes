@@ -24,6 +24,16 @@ The interest rate on the security or loan-type agreement, e.g., $5.25\%$. In the
 
 Figure representing the amount of the Coupon Rate to apply in calculating Interest. 
 
+* Pool factor
+
+A pool factor is the outstanding principle out of the amount of the initial principal for ABS or MBS.
+
+$$
+F_{pool} = \frac{OutstandingPrincipleBalance}{OriginalPrincipleBalance}
+$$
+
+E.g., $F_{pool}=0.4$ for $ \$ 1,000,000 $ loan means the underlying mortgage loan that remains in a mortgage-backed security transaction is $ \$ 400,000$, and $ \$ 600,000 $ has been repaid.
+
 ## Day Count Factor: Day count Conventions
 
 A day count convention determines how interest accrues over time.

@@ -35,3 +35,5 @@ void main(){
               // Base's x is not accessible from d  
 }
 ```   
+
+However, user can still access the base's `x` via `d->Base::foo()`

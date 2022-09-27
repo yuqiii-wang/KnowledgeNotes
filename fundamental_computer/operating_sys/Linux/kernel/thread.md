@@ -9,3 +9,6 @@ The previous code results in behavior identical to a normal fork() , except that
 
 ## Kernel threads
 
+Kernel threads do not have visible address, since they exist in kernel space that is invisible from user space.
+
+A kernel thread can be created via `kthread_create` and made runnable by `kthread_run`.

@@ -86,6 +86,8 @@ Virtual memory is the abstract layer for this purpose, viewed by user as full an
 
 Virtual memory allows extremely large memory provided for user while only small physical memory is available. Techniques include use of shared kernel memory.
 
+The total max size of virtual memory is the sum of RAM and disk space.
+
 ### Thrashing
 
 In a virtual memory system, thrashing is the excessive swapping of pages of data between memory and the hard disk, causing the application to respond more slowly. The virtual memory function tracks page usage and keeps often-used pages in memory as much as possible.

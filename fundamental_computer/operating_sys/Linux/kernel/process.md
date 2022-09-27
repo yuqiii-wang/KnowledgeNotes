@@ -30,6 +30,17 @@ Each `task_struct` has a pointer to the parent’s task_struct , named *parent* 
 
 Linux implements `fork()` via `clone()`, taking a number of flags specifying which resources to copy. The detailed implementation is by `do_fork()` that calls `copy_process()`
 
+### Process termination
+
+`exit()` is a system call for process termination. Every `main()` after returned calls `exit()` enforced by system.
+
+Some important steps are
+1. It sets the `PF_EXITING` flag in the flags member of the task_struct.
+2. It calls `exit_mm()` to release the mm_struct held by this process. 
+3. It calls `exit_sem()`. If the process is queued waiting for an IPC (Inter-Process Communication) semaphore, it is dequeued here.
+4. It then calls `exit_files()` and `exit_fs()` to decrement the usage count of objects related to file descriptors and filesystem data, respectively. If either usage counts reach zero, the object is no longer in use by any process, and it is destroyed.
+5. Set `exit_code` in task_struct
+6. `do_eexit()` calls `schedule()` to switch to a new process. Because the process is now not schedulable, this is the last code the task will ever execute.
 
 ## Code
 

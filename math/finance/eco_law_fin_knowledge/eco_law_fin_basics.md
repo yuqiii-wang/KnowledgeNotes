@@ -98,32 +98,14 @@ The London Inter-Bank Offered Rate is an interest-rate average calculated from e
 
 Eonia (Euro Overnight Index Average) is computed as a weighted average of all overnight unsecured lending transactions in the interbank market, undertaken in the European Union and European Free Trade Association (EFTA) countries by the Panel Banks
 
-* Forward contract
-
-A forward contract is a customized contract between two parties to buy or sell an asset at a specified price on a future date.
-
-* Forward price
-
-Forward price is the price at which a seller delivers an underlying asset, financial derivative, or currency to the buyer of a forward contract at a predetermined date.
-
-It is roughly equal to the spot price plus associated carrying costs such as storage costs, interest rates, etc.
-
 * Market moving information
 
 Market moving information is a term used in stock market investing, defined as information that would cause any reasonable investor to make a buy or sell decision.
 
-* Pool factor
+* Endowment
 
-A pool factor is the outstanding principle out of the amount of the initial principal for ABS or MBS.
+A financial endowment is a legal structure for managing, and in many cases indefinitely perpetuating, a pool of financial, real estate, or other investments for a specific purpose according to the will of its founders and donors.
 
-$$
-F_{pool} = \frac{OutstandingPrincipleBalance}{OriginalPrincipleBalance}
-$$
+* Sting operation （便衣/钓鱼执法）
 
-E.g., $F_{pool}=0.4$ for $ \$ 1,000,000 $ loan means the underlying mortgage loan that remains in a mortgage-backed security transaction is $ \$ 400,000$, and $ \$ 600,000 $ has been repaid.
-
-* Wash trade
-
-Wash trading – also referred to as round trip trading – is a practice where investors buy and sell the same financial instruments almost at the same time.
-
-One major motivation is to manipulate market (often illegal) by first pumping up a security value by bulk buying, then bulk selling the security when its price is high. This pair of actions should finish within a short period of time. 
+In law enforcement, a sting operation is a deceptive operation designed to catch a person attempting to commit a crime. 

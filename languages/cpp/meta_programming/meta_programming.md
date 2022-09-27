@@ -1,6 +1,6 @@
 # Meta Programming
 
-*Template metaprogramming* (TMP) is a metaprogramming technique in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled. 
+*Template meta-programming* (TMP) is a meta-programming technique in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled. 
 
 * Meta Programming vs Macro
 

@@ -24,6 +24,8 @@ However, compiler does NOT guarantee that
 
 * CPU hardware has lower level pipelining, might affect the order of `volatile`-declared variable execution
 
+## `std::atomic`
+
 ## Memory barrier
 
 Memory barrier is used to sync memory access order. It forces that read/write of a variable must be from/to the main memory, and order of execution must be not changed.
