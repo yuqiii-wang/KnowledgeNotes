@@ -1,33 +1,4 @@
-# Memory in Linux
-
-## High/Low Memory
-
-A 32-bit OS can only access a little less than $2^{32}$ ($4$ GB) bytes of virtual memory. 
-
-### Mem Mapping
-
-On a 32-bit architecture, the address space range for addressing RAM is:
-```bash
-0x00000000 - 0xffffffff
-```
-
-User space (low memory) would take
-```bash
-0x00000000 - 0xbfffffff
-```
-Every newly spawned user process gets an address (range) inside this area. User processes are generally untrusted and therefore are forbidden to access the kernel space. Further, they are considered non-urgent, as a general rule, the kernel tries to defer the allocation of memory to those processes.
-
-The kernel space (high memory) range:
-```bash
-0xc0000000 - 0xffffffff
-```
-Processes spawned in kernel space are trusted, urgent and assumed error-free, the memory request gets processed instantaneously.
-
-### Implementation
-
-So when a 32-bit kernel needs to map more than $4$ GB of memory, it must be compiled with *high memory* support. High memory is memory which is not permanently mapped in the kernel's address space. (*Low memory* is the opposite: it is always mapped, so you can access it in the kernel simply by dereferencing a pointer).
-
-When you access high memory from kernel code, you need to call `kmap` first, to obtain a pointer from a page data structure `struct page`. Calling `kmap` works whether the page is in high or low memory. The pointer obtained through `kmap` is a resource: it uses up address space. Once you've finished with it, you must call `kunmap` (or `kunmap_atomic`) to free that resource; then the pointer is no longer valid, and the contents of the page can't be accessed until you call `kmap` again.
+# Memory Implementation in Linux Kernel
 
 ## Zones
 
@@ -41,6 +12,121 @@ Given these constraints, Linux has four primary memory zones:
 * `ZONE_DMA32` —Like `ZOME_DMA` , this zone contains pages that can undergo DMA. Unlike ZONE_DMA , these pages are accessible only by 32-bit devices. On some architectures, this zone is a larger subset of memory.
 * `ZONE_NORMAL` —This zone contains normal, regularly mapped, pages.
 * ZONE_HIGHMEM —This zone contains “high memory,” which are pages not permanently mapped into the kernel’s address space.
+
+## Slab
+
+Slab mechanism is used to better manage memory allocation/deallocation through a *free list*, which contains information about used/available memory blocks.
+
+Detailed operations:
+
+* Frequently used data structures tend to be allocated and freed often, so cache them.
+* Frequent allocation and deallocation can result in memory fragmentation (the inability to find large contiguous chunks of available memory).To prevent this, the cached free lists are arranged contiguously. 
+* If the allocator is aware of concepts such as object size, page size, and total cache size, it can make more intelligent decisions.
+* Stored objects can be colored to prevent multiple objects from mapping to the same cache lines.
+
+### Slab Design
+
+![slab_struct](imgs/slab_struct.png "slab_struct")
+
+* The slab layer divides different objects into groups called caches. 
+
+Cache is defined in `kmem_cache`
+```cpp
+struct kmem_cache {
+    struct array_cache __percpu *cpu_cache;  // To find free mem node info
+
+    unsigned int batchcount;        
+    unsigned int limit;             // max supported sizes, sum of all nodes' mem
+    unsigned int shared;            
+    unsigned int size; // size for every mem block, including user space, pad and kasan
+    unsigned int num;             // max num of pages
+    unsigned int gfporder;     
+    gfp_t allocflags;    
+
+    size_t colour;  
+    unsigned int colour_off;
+    struct kmem_cache *freelist_cache; // kmem_cache as list
+    unsigned int freelist_size;     
+
+    const char *name;  
+    int object_size;  // max size available for an object
+    int align; 
+
+#ifdef CONFIG_KASAN
+    struct kasan_cache kasan_info;  // kasan info, used for invalid mem access checking
+#endif
+
+    unsigned int useroffset;    /* Usercopy region offset */
+    unsigned int usersize;        /* Usercopy region size */
+
+    struct kmem_cache_node *node[MAX_NUMNODES];  // record mem node info
+};
+
+
+struct kmem_cache_node {
+    spinlock_t list_lock;
+
+    struct list_head slabs_partial;  // list of not yet used pages
+    struct list_head slabs_full; // list of used pages
+    struct list_head slabs_free; // list available pages
+    unsigned long total_slabs;    /* length of all slab lists */
+    unsigned long free_slabs;    /* length of free slab list only */
+    unsigned long free_objects;  
+    unsigned int free_limit; 
+    unsigned int colour_next;    /* Per-node cache coloring */
+    struct array_cache *shared;    // shared mem node
+    struct alien_cache **alien;    /* on other nodes */
+    unsigned long next_reap;    /* updated without locking */
+    int free_touched;        /* updated without locking */
+};
+```
+
+To get free pages
+```cpp
+static void *kmem_getpages(struct kmem_cache *cachep, gfp_t flags, int nodeid)
+{
+	addr = (void*)__get_free_pages(flags, cachep->gfporder);
+	page = virt_to_page(addr);
+}
+```
+
+* The caches are then divided into slabs, which are composed of one or more physically contiguous pages.Typically, slabs are composed of only a single page. Each cache may consist of multiple slabs.
+
+A slab descriptor, `struct slab` , represents each slab:
+```cpp
+struct slab {
+    struct list_head 	list;		// full, partial, or empty list 
+    unsigned long		colouroff;	// offset for the slab coloring 
+    void				*s_mem;		// first object in the slab 
+    unsigned int		inuse;		// allocated objects in the slab 
+    kmem_bufctl_t 		free;		// first free object, if any 
+};
+```
+
+Each slab contains some number of objects, which are the data structures being cached.
+
+### Example of Mem Allocation for A Task
+
+During kernel initialization, in `fork_init()` , defined in `kernel/fork.c` , the cache is created. which stores objects of type `struct task_struct`
+
+```cpp
+task_struct_cachep = kmem_cache_create(“task_struct”, sizeof(struct task_struct), ARCH_MIN_TASKALIGN, SLAB_PANIC | SLAB_NOTRACK, NULL);
+```
+
+Each time a process calls fork() , a new process descriptor must be created.
+```cpp
+tsk = kmem_cache_alloc(task_struct_cachep, GFP_KERNEL);
+```
+
+After a task dies, if it has no children waiting on it, its process descriptor is freed and returned to the `task_struct_cachep` slab cache.
+```cpp
+kmem_cache_free(task_struct_cachep, tsk);
+```
+
+Because process descriptors are part of the core kernel and always needed, the `task_struct_cachep` cache is never destroyed, hence requiring the below action.
+```cpp
+err = kmem_cache_destroy(task_struct_cachep);
+```
 
 ## Page in Linux
 

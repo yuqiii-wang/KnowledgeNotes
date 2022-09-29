@@ -14,7 +14,9 @@ When using the MMU, the memory map is divided into pages (typically 4 kB each). 
 
 ## Swap
 
-Swap is the operation swapping data between primary memory (RAM) and secondary storage (disk). The time cost is mainly associated with transferring data. There are memory lock implemented when data undergoing transferring/swapping.
+*Swap* is the operation swapping data between primary memory (RAM) and secondary storage (disk). The time cost is mainly associated with transferring data. There are memory lock implemented when data undergoing transferring/swapping.
+
+Swap can be regraded as a buffer that temporarily holds transferring data between RAM and disk. When swap is full, it means RAM is full and data (inactive pages) is temporarily transferred to swap space, then to disk.
 
 ## Program Memory Allocation Schema
 

@@ -1,10 +1,14 @@
-# Kernel Memory
+# Kernel Memory Methods
+
+## `malloc` Implementation
+
+`void *malloc(size_t size);` allocates `size` bytes of memory, providing access to a process's heap. The heap is a construct in the C core library (commonly `libc`) that allows objects to obtain exclusive access to some space on the process's heap.
 
 ## Kernel memory allocation
 
 ### `kmalloc`
 
-`kmalloc` can allocate contiguous physical memory; max allocation size is $128$ kb. 
+`kmalloc` can allocate contiguous physical memory in kernel space; max allocation size is $128$ kb. 
 ```cpp
 void * kmalloc(size_t size, gfp_t, flags);
 void kfree(const void * objp);
