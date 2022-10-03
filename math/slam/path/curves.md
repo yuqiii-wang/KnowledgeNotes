@@ -4,9 +4,30 @@
 
 Just a polynomial trajectory. 
 
+* Linear
+
+$$
+p(x)=ax + b
+\quad a \ne 0
+$$
+
+* Quadratic
+
+$$
+p(x)=ax^2 + bx + c
+\quad a \ne 0
+$$
+
 * Cubic
 $$
 p(x)=ax^3+bx^2+cx+d
+\quad a \ne 0
+$$
+
+* Quartic
+
+$$
+p(x)=ax^4+bx^3+cx^2 + dx + e
 \quad a \ne 0
 $$
 
@@ -14,6 +35,13 @@ $$
 
 $$
 p(x)=ax^5+bx^4+cx^3+dx^2 + ex + f
+\quad a \ne 0
+$$
+
+* Sextic/Hexic
+
+$$
+p(x)=ax^6+bx^5+cx^4+dx^3 + ex^2 + fx + g
 \quad a \ne 0
 $$
 

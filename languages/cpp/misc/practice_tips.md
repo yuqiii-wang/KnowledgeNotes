@@ -1,19 +1,5 @@
 # Some Practice Tips
 
-* `std::endl` must be appended to `std::cout`
-
-The reason for this is that typically endl flushes the contents of the stream.
-
-You must implement at least one `std::endl` before exit of a program.
-
-* `std::queue`, `std::deque` and `std::stack`
-
-`deque`: Double ended queue, insert and remove from both ends
-
-`queue`: insert only in one end and remove from the other (first in first out)
-
-`stack`: LIFO context (last-in first-out)
-
 * `i++` vs `++i`
 
 `++i` increments the number before the current expression is evaluated, whereas `i++` increments the number after the expression is evaluated.
@@ -39,71 +25,6 @@ int i = 1;
 int j = i++;
 // (i is 2, j is 1)
 ```
-
-* std::vector<bool>
-
-`std::vector<bool>` contains boolean values in compressed form using only one bit for value (and not 8 how bool[] arrays do). It is not possible to return a reference to a bit in c++, 
-
-* template
-
-cpp template functions must be in `#include` with their implementation, which means, for example, in header files, template should be materialized with definitions rather than a pure declaration.
-
-Example.hpp
-```cpp
-class Example {
-    template<typename T>
-    T method_empty(T& t);
-
-    template<typename T>
-    T method_realized(T& t){
-        return t;
-    }
-};
-```
-Example.cpp
-```cpp
-#include "Example.cpp"
-T Example::method_empty(T& t){
-    return t;
-}
-```
-main.cpp
-```cpp
-#include "Example.cpp"
-
-int main(){
-    Example example;
-    int i = 1;
-    example.method_empty(i); // linker err, definition must be in Example.hpp
-    example.method_realized(i); // ok
-    return 0;
-}
-```
-
-* string types
-
-`std::string` is allocates memory in **a single block** (as needed, and sometimes preemptively), and best practice suggests pre-computing the string size the filling it.
-
-`std::stringstream`, `std::istringstream` and `std::ostringstream` **1)** better express the intent to appending strings by `<<` and `>>` respectively. **2)** A stringstream writes into a stringbuffer, which usually means **a linked list of buffers**. Memory is not continuous, and it requires no reallocations as the buffer grows.
-
-
-They are interchangeable via the following
-```cpp
-const std::string tmp = stringstream.str();
-const char* cstr = tmp.c_str();
-```
-
-* `std::atomic`
-
-`std::atomic` works with trivial copyables (such as C-compatible POD types, e.g., int, bool, char) to guarantee thread safety (defined behavior when one thread read and another thread write) by trying squeezing one operation into one cpu cycle (one instruction). 
-
-Only some POD types are by default atomic (placeable inside one register), such as `char` and `int16_t` (both 2 bytes), dependent on register config, other POD types might not be atomic.
-
-It is **NOT** allowed to apply atomic to an array such as
-```cpp
-std::atomic<std::array<int,10>> myArray;
-```
-in which `myArray`'s element is not readable/writable.
 
 * constructors
 
@@ -251,26 +172,3 @@ basic_ios& operator=(const basic_ios&) = delete;
 ```
 
 
-* order of execution
-
-```cpp
-int (*((*ptr(int, int)))) (int); 
-```
-
-Explain:
-```cpp
-// function return to a pointer
-*ptr(int, int)
-
-// take the return pointer as an arg
-(*ptr(int, int))
-
-// extra parentheses does not make any difference
-((*ptr(int, int)))
-
-// function pointer to pointer
-*((*ptr(int, int)))
-
-// function pointer to int pointer
-int (*((*ptr(int, int))))
-```

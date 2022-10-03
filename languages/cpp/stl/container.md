@@ -10,7 +10,24 @@ vector、deque、stack/queue、map/set、unordered_map/unordered_set
 
 ### `std::string`
 
+* string types
 
+`std::string` is allocates memory in **a single block** (as needed, and sometimes preemptively), and best practice suggests pre-computing the string size the filling it.
+
+`std::stringstream`, `std::istringstream` and `std::ostringstream` **1)** better express the intent to appending strings by `<<` and `>>` respectively. **2)** A stringstream writes into a stringbuffer, which usually means **a linked list of buffers**. Memory is not continuous, and it requires no reallocations as the buffer grows.
+
+
+They are interchangeable via the following
+```cpp
+const std::string tmp = stringstream.str();
+const char* cstr = tmp.c_str();
+```
+
+* `std::endl` must be appended to `std::cout`
+
+The reason for this is that typically endl flushes the contents of the stream.
+
+You must implement at least one `std::endl` before exit of a program.
 
 ### `std::unordered_map`
 
@@ -95,6 +112,14 @@ std::array<int, 3> a {1, 2, 3};
 Deque implements pointer to the queue's first and end elements, while elements inside are chopped into chunks, each chunk is a vector, linked through a map:
 
 ![deque](imgs/deque.png "deque")
+
+* `std::queue`, `std::deque` and `std::stack`
+
+`deque`: Double ended queue, insert and remove from both ends
+
+`queue`: insert only in one end and remove from the other (first in first out)
+
+`stack`: LIFO context (last-in first-out)
 
 ### `std::bitset`
 

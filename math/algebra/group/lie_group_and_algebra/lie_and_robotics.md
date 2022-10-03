@@ -1,6 +1,6 @@
 # Lie and Robotics
 
-A 3-D rotation matrix is a *Special Orthogonal Group*. Given $3$ as the dimensionality, it is denoted as $SO(3)$.
+A 3-D rotation matrix is a *Special Orthogonal Group*. Given $3$ as the number of dimensions, denoted as $SO(3)$.
 
 $R$ is in the given form below
 ![rotation_mat](imgs/rotation_mat.png "rotation_mat")

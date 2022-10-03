@@ -90,3 +90,7 @@ db.collection_name.stats()
 * Mongos: MongoDB Shard Utility.
 
 * Mongod: The primary daemon process for the MongoDB system. It handles data requests, manages data access, and performs background management operations.
+
+## Mongo vs MySQL in Performance
+
+Mongo can outperform MySQL in complex query, that when a business item's information resides across multiple tables, there might include many `JOIN`s, but in Mongo, since items are stored in a structured format, query can be much simpler and fast.

@@ -8,6 +8,20 @@ Mandatory requirements:
 
 * Consistency: on multi-threading on different CPU cores with different L1/L2/L3 caches, data should be consistent across caches.
 
+* `std::atomic`
+
+`std::atomic` works with trivial copyables (such as C-compatible POD types, e.g., int, bool, char) to guarantee thread safety (defined behavior when one thread read and another thread write) by trying squeezing one operation into one cpu cycle (one instruction). 
+
+Only some POD types are by default atomic (placeable inside one register), such as `char` and `int16_t` (both 2 bytes), dependent on register config, other POD types might not be atomic.
+
+It is **NOT** allowed to apply atomic to an array such as
+```cpp
+std::atomic<std::array<int,10>> myArray;
+```
+in which `myArray`'s element is not readable/writable.
+
+
+
 ## Volatile
 
 Compiler guarantees that
