@@ -32,24 +32,24 @@ _{
 }
 =
 \begin{bmatrix}
-    \triangledown r_1(\bold{x})^\text{T}
+    \nabla r_1(\bold{x})^\text{T}
     \\
-    \triangledown r_2(\bold{x})^\text{T}
+    \nabla r_2(\bold{x})^\text{T}
     \\
-    \triangledown r_3(\bold{x})^\text{T}
+    \nabla r_3(\bold{x})^\text{T}
     \\
     ...
     \\
-    \triangledown r_m(\bold{x})^\text{T}
+    \nabla r_m(\bold{x})^\text{T}
 \end{bmatrix}
 $$
 
 Hence,
 $$
 \begin{align*}
-\triangledown f(\bold{x})
+\nabla f(\bold{x})
 &=
-\sum^m_{j=1} r_j(\bold{x}) \triangledown r_j(\bold{x})
+\sum^m_{j=1} r_j(\bold{x}) \nabla r_j(\bold{x})
 \\ &=
 J(\bold{x}^\text{T}) \bold{r}(\bold{x})
 \end{align*}
@@ -59,17 +59,17 @@ Its second degree derivative (Hessian) is
 $$
 \begin{align*}
 
-\triangledown^2f(\bold{x})
+\nabla^2f(\bold{x})
 &=
-\sum^m_{j=1} \big( r_j(\bold{x}) \triangledown r_j(\bold{x})\big)'
+\sum^m_{j=1} \big( r_j(\bold{x}) \nabla r_j(\bold{x})\big)'
 \\ &=
-\sum^m_{j=1} r_j'(\bold{x}) \triangledown r_j(\bold{x}) + r_j(\bold{x}) \triangledown r_j'(\bold{x})
+\sum^m_{j=1} r_j'(\bold{x}) \nabla r_j(\bold{x}) + r_j(\bold{x}) \nabla r_j'(\bold{x})
 \\ &=
-\sum^m_{j=1} \triangledown r_j(\bold{x}) \triangledown r_j(\bold{x})^\text{T}
+\sum^m_{j=1} \nabla r_j(\bold{x}) \nabla r_j(\bold{x})^\text{T}
 +
-\sum^m_{j=1} r_j(\bold{x}) \triangledown^2 r_j(\bold{x})
+\sum^m_{j=1} r_j(\bold{x}) \nabla^2 r_j(\bold{x})
 \\ &=
-J(\bold{x})^\text{T} J(\bold{x}) + \sum^m_{j=1} r_j(\bold{x}) \triangledown^2 r_j(\bold{x})
+J(\bold{x})^\text{T} J(\bold{x}) + \sum^m_{j=1} r_j(\bold{x}) \nabla^2 r_j(\bold{x})
 \end{align*}
 $$
 

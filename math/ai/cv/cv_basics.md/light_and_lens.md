@@ -1,5 +1,7 @@
 # Light and Lens
 
+Remember how light passes through a len.
+
 ![light_and_lens](imgs/light_and_lens.png "light_and_lens")
 
 ## Lambertian reflectance
@@ -17,6 +19,8 @@ A pinhole camera is a simple camera without a lens and with a single small apert
 
 ![pinhole_img_transform](imgs/pinhole_img_transform.png "pinhole_img_transform")
 
+### Intrinsics
+
 Define Intrinsic Parameters
 $$
 K=
@@ -30,6 +34,65 @@ where
 * $(c_x, c_y)$ Optical center (the principal point), in pixels.
 * $F$ focal length in world units, often in millimeters
 * $(f_x, f_y)$ focal length in pixels, where $f_x=F/p_x$, $f_y=F/p_y$, in which $p_x \times p_y$ are the size of an image
+
+### Pinhole Intrinsic Matrix $K$ Derivation
+
+Define image pixel $(x_p, y_p)$, camera translation of the origin $(x_c, y_c)$ from the real world point $(x_w, y_w)$, and two scaling factor $\alpha, \beta$ the mapping relationship is
+$$
+\begin{align*}
+x_p &= \alpha x_w +c_x
+\\
+y_p &= \beta y_w +c_y
+\end{align*}
+$$
+
+Consider the symmetric mapping around the origin $O$ indicated as below.
+
+![pinhole_1d_projection](imgs/pinhole_1d_projection.png "pinhole_1d_projection")
+
+The world-to-image mapping can be expressed as
+$$
+\begin{align*}
+x_p &= \frac{f_x}{Z} x_w +c_x
+\\
+y_p &= \frac{f_y}{Z} y_w +c_y
+\end{align*}
+$$
+
+So that
+$$
+\begin{bmatrix}
+      x_p \\
+      y_p \\
+      1
+\end{bmatrix}
+=
+\frac{1}{Z}
+\begin{bmatrix}
+      f_x & 0 & c_x \\
+      0 & f_y & c_y \\
+      0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+      x_w \\
+      y_w \\
+      Z
+\end{bmatrix}
+\overset{\Delta}{=}
+\frac{1}{Z} K^\text{T} \bold{p}
+$$
+
+Here inserts $s$ indicating axis-skew, and derives
+$$
+K=
+\begin{bmatrix}
+      f_x & 0 & 0 \\
+      s & f_y & 0 \\
+      c_x & c_y & 1
+\end{bmatrix}
+$$
+
+### Extrinsics
 
 Define Extrinsic Parameters
 $$
@@ -87,7 +150,7 @@ _{4 \times 3}
       c_x & c_y & 1
 \end{bmatrix}
 $$
-where $(x_p, y_p)$ is image pixel. $(w x_w, w y_w, w)$ is world point pixel. $w$ is the scaling factor. Usually $w=1$.
+where $(x_p, y_p)$ is image pixel. $(w x_w, w y_w, w)$ is world point pixel. $w$ is the scaling factor (same as the $Z$ in intrinsics). Usually $w=1$.
 
 ## Fisheye
 

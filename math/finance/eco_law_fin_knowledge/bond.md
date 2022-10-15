@@ -105,3 +105,11 @@ In other words, the interest accounts for the time since the bond's start date o
 "Clean price" is the price excluding any interest that has accrued.
 
 "Dirty price" (or "full price" or "all in price" or "Cash price") includes accrued interest
+
+## Businesses
+
+### Bond Interest Rate and Spot Price
+
+When the bond price goes up the interest rate goes down, and vice versa. If a bond matures at a price $110, initial purchase price is $100; the interest rate is 10%. If the initial purchase price is $105, the interest rate is lower than 5%.
+
+When bonds are in high demand, the spot price rises, and the interest rate drops. Central bank can bulk purchase bonds so that interest rates are low, and companies and individuals are motivated to spend money rather than purchasing bonds as savings.

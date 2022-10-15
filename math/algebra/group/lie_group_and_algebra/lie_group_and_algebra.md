@@ -16,11 +16,11 @@ Function $f$ is said to be infinitely differentiable, smooth, or of $C^{\infty}$
 
 * the blue sphere $M$ is a Lie Group
 
-* the red plane $\Tau M_{\epsilon}$ is the tangent space on the point $\epsilon$.
+* the red plane $T M_{\epsilon}$ is the tangent space on the point $\epsilon$. $T M_{\epsilon}$ describes the local information around $\epsilon$.
 
 * the green straight line $\tau_{1}$ is mapped to the sphere with $exp(\tau_{1})$
 
-* the navy blue curve $x_3$ on the sphere is mapped to the tangent space via $log(x_3)$
+* the navy blue curve $X_3$ on the sphere is mapped to the tangent space via $log(X_3)$
 
 ![lie_algebra_sphere](imgs/lie_algebra_sphere.png "lie_algebra_sphere")
 
@@ -38,7 +38,9 @@ For $X , Y, Z \in G$
 
 * Closure: 
 
-$X \circ Y \in G$
+$$
+X \circ Y \in G
+$$
 
 You can compose elements of the group
 
@@ -46,17 +48,23 @@ You can compose elements of the group
 
 Parentheses don’t matter
 
-$(X \circ Y) \circ Z = X \circ (Y \circ Z)$
+$$
+(X \circ Y) \circ Z = X \circ (Y \circ Z)
+$$
 
 * Identity: 
 
-$EX=XE=X$
+$$
+EX=XE=X
+$$
 
 There’s a null operator that does nothing
 
 * Inverse: 
 
-$X^{-1}X = XX^{-1} = E$
+$$X
+^{-1}X = XX^{-1} = E
+$$
 
 The action of any element can be reversed
 
@@ -64,15 +72,42 @@ Rotation can be regarded as a Special Orthogonal Group $SO(n)$, which is a Lie G
 
 ## Lie Algebra
 
-Lie Algebra describes Lie Group local properties.
+Each Lie group has a Lie algebra
+corresponding to it. Lie algebra describes the local structure of the Lie group around
+its origin point, or in other words, is the tangent space.
 
-Lie Algebra and Lie Group mapping relationship is $exp$.
+* Closure 
+$$
+\forall X, Y \in \mathbb{V};
+[X,Y] \in \mathbb{V}
+$$
 
-## Example: 2-D Lie Group
+* Bilinear composition
+$$
+\forall X,Y,Z \in \mathbb{V};
+a,b \in \mathbb{F}
+$$
+there is
+$$
+\begin{align*}
+[aX + bY, Z] &=
+a[X, Z] + y[Y, Z],
+\\
+[Z, aX + bY] &= a[Z,X] + b[Z,Y]
+\end{align*}
+$$
 
-$S^1$ manifold is a unit circle (blue) in the plane $\mathbb{C}$
+* Reflective
+$$
+\forall X \in \mathbb{V};
+[X,X] = 0
+$$ 
 
-The unit complex circle is a 1-DoF (Depth of Field, Dimensionality) curve in 2-dimensional space.
-
-![lie_unit_complex_plane](imgs/lie_unit_complex_plane.png "lie_unit_complex_plane")
-
+* Jacobi identity
+$$
+\begin{align*}
+\forall X,Y,Z &\in \mathbb{V};
+\\
+[X, [Y,Z]] + [Y, [X,Z]] &+ [Z, [X,Y]] = 0
+\end{align*}
+$$

@@ -1,9 +1,5 @@
 # Kernel Memory Methods
 
-## `malloc` Implementation
-
-`void *malloc(size_t size);` allocates `size` bytes of memory, providing access to a process's heap. The heap is a construct in the C core library (commonly `libc`) that allows objects to obtain exclusive access to some space on the process's heap.
-
 ## Kernel memory allocation
 
 ### `kmalloc`

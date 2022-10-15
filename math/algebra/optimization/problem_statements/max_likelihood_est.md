@@ -1,4 +1,4 @@
-# Maximum likelihood estimation
+# Maximum Likelihood Estimation
 
 Maximum likelihood estimation (MLE) is a method of estimating the parameters of an assumed probability distribution, given some observed data.
 
@@ -26,4 +26,39 @@ $$
 \frac{\partial ln \space L_n(\bold{y};\theta)}{\partial \theta_2} = 0,
 ...,
 \frac{\partial ln \space L_n(\bold{y};\theta)}{\partial \theta_k} = 0
+$$
+
+## MLE in Gaussian Distribution
+
+Given random variable $\bold{y} \in \mathbb{R}^n$ following Gaussian distribution $\bold{y} \sim N(\mu, \Sigma)$, the probability density function is
+$$
+P(\bold{y};\theta) = 
+\frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}
+e^{-\frac{1}{2}(\bold{y}-\mu)^\text{T}\Sigma^{-1}(\bold{y}-\mu)}
+$$
+
+Take the negative logarithm of the equation:
+$$
+\begin{align*}
+-ln(P(\bold{y};\theta)) &=
+-ln\bigg(
+    \frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}
+    e^{-\frac{1}{2}(\bold{y}-\mu)^\text{T}\Sigma^{-1}(\bold{y}-\mu)}
+\bigg)
+\\ &=
+-ln\bigg(\frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}\bigg)
++\frac{1}{2}(\bold{y}-\mu)^\text{T}\Sigma^{-1}(\bold{y}-\mu)
+\end{align*}$$
+
+$-ln\bigg(\frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}\bigg)$ is discarded since optimization to finding optimum is by the change of hidden parameter $\bold{\theta}$ that does not affect the source data distribution $\bold{y}$.
+
+Since $-ln(P(\bold{y};\theta))$ is monotonically decreasing, finding the maximum of $L_n(\bold{y};\theta)$ is same as find the minimum of the negative logarithm mapping.
+$$
+\begin{align*}
+\hat{\theta} &=
+ arg \space \underset{\theta \in \Theta}{max} \space L_n(\bold{y};\theta)
+\\ &=
+arg\space \underset{\theta \in \Theta}{min}\space
+\frac{1}{2}(\bold{y}-\mu)^\text{T}\Sigma^{-1}(\bold{y}-\mu)
+\end{align*}
 $$

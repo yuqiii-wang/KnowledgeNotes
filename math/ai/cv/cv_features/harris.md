@@ -1,4 +1,4 @@
-# Scale-invariant feature transform (SIFT)
+# Harris Operator
 
 ## Sum of squared differences (SSD)
 
@@ -128,10 +128,10 @@ f_{Harris}
 &=
 \lambda_+ \lambda_- - k(\lambda_+ + \lambda_-)^2
 \\ &=
-det(H) + k \space trace(H)^2
+det(H) + k \space tr(H)^2
 \end{align*}
 $$
-where $det$ denotes determinant and $trace$ denotes the sum of diagonal elements of a matrix.
+where $det$ denotes determinant and $tr$ denotes the sum of diagonal elements of a matrix.
 
 In comparison to eigen-decomposition, it is fast in computation.
 
@@ -140,22 +140,3 @@ In comparison to eigen-decomposition, it is fast in computation.
 Given a window $W$ convolving an image, $f_{Harris}$ is computed (there is a $f_{Harris}$ for every window). Higher the $f_{Harris}$, more likely is a corner feature.
 
 We can set a threshold to filter out low $f_{Harris}$'s window, and the left retained windows should have likely corner features.
-
-## SIFT
-
-Problem definition: visual features are invariant in terms of 
-1) rotation
-2) translation
-3) scale
-
-### sift
-
-Given a window $W$ convolving an image $I$, compute the gradient and edge orientation of each pixel.
-
-Discard low gradient elements in this window, the compute the histogram of this window's angles (usually 8 bins).
-
-The 8 magnitudes and angles of this window can be used for describing this window's feature.
-
-It can be used to interesting feature (corner and edge) dettection and feature match/location.
-
-![sift](imgs/sift.png "sift")

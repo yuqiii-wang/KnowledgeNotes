@@ -20,7 +20,7 @@ A deployment descriptor which is applied to the current web application only and
 * `web.xml` in `WEB-INF`
 
 It contains the minimum set of settings required to get your webapps to work properly, 
-definING the default parameters for ALL applications on a Tomcat instance.
+defining the default parameters for ALL applications on a Tomcat instance.
 
 ### WEB-INF and META-INF
 
@@ -97,6 +97,10 @@ By nesting one `Connector` (or multiple Connectors) within a Service tag, you al
 
 `Resource` directs Catalina to static resources used by your web applications.
 
-### Web.XML
+### Web.XML in `conf`
 
 Tomcat will use TOMCAT-HOME/conf/web.xml as a base configuration, which can be overwritten by application-specific `WEB-INF/web.xml` files.
+
+### Web.XML in `webapps/conf`
+
+It provides app-customized configs.

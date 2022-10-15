@@ -23,9 +23,11 @@ f \begin{bmatrix}
 $$
 where $f$ is the distance between the camera image plane and optical center $O$, that 
 
-$f_L=||x_{\tiny{L,C}}-O_L||
+$$
+f_L=||x_{\tiny{L,C}}-O_L||
 \\
-f_R=||x_{\tiny{R,C}}-O_R||$
+f_R=||x_{\tiny{R,C}}-O_R||
+$$
 
 * Epipole/epipolar point
 

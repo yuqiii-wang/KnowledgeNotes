@@ -2,7 +2,9 @@
 
 This formula provides a shortcut to compute exponential map from $so(3)$ (*Special Orthogonal Group*), the Lie algebra of $SO(3)$, to $SO(3)$ without actually computing the full matrix exponential.
 
-Representing $\bold{v}$ and $\bold{k} \times \bold{v}$ as column matrices ($\bold{k}$ is a unit vector), the cross product can be expressed as a matrix product
+In other words, it helps transform a vector to its matrix representation.
+
+Representing a spacial point as $\bold{v}$, and $\bold{k} \times \bold{v}$ as column matrices ($\bold{k}$ is a unit vector), the cross product can be expressed as a matrix product
 
 $$
 \begin{bmatrix}
@@ -56,6 +58,44 @@ $$
 \bold{v} cos\theta + (\bold{k} \times \bold{v})sin\theta + \bold{k}(\bold{k} \cdot \bold{v})(1-cos\theta)
 $$
 
+* Matrix Form
+
+Define $\wedge$ as the skew-symmetric matrix representation of a vector (same as $\bold{K}=\bold{k}^{\wedge}$)
+
+$$
+\bold{Q} =
+cos \theta \bold{I} + (1-cos \theta) \bold{k}\bold{k}^\text{T} + sin\theta \bold{k}^{\wedge}
+$$
+
+* Angle Computation
+
+Define $tr$ as the trace operation; take the trace of the equation (Rodrigues' rotation in matrix form), so that the angle can be computed as
+$$
+\begin{align*}
+tr(\bold{Q}) &= tr \big(
+      cos \theta \bold{I} + (1-cos \theta) \bold{k}\bold{k}^\text{T} + sin\theta \bold{k}^{\wedge}
+\big)
+
+\\ &=
+cos\theta \space tr(\bold{I})
++ (1-cos \theta) tr(\bold{k}\bold{k}^\text{T})
++ sin \theta \space tr(\bold{k}^{\wedge})
+
+\\ &=
+3 cos\theta + (1-cos \theta)
+
+\\ &=
+1+2cos\theta
+\end{align*}
+$$
+
+Therefore,
+$$
+\theta = arccos \bigg(
+      \frac{tr(\bold{Q})-1}{2}
+\bigg)
+$$
+
 ## Taylor Expansion Explanation
 
 $$
@@ -71,7 +111,7 @@ Given the properties of $\bold{K}$ being an antisymmentric matrix, there is $\bo
 $$
 \begin{align*}
 e^{\bold{K}\theta}
-\\ &=
+ &=
 \bold{I}
 +\big(
     \bold{K}\theta

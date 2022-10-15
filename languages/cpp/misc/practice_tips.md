@@ -171,4 +171,14 @@ basic_ios(const basic_ios& ) = delete;
 basic_ios& operator=(const basic_ios&) = delete;
 ```
 
+* g++ compiler compiles `i[a]` to `*(i+a)`
 
+For example, for `a` and `b` of `int*`, given the code below, compiler compiles `i[a]` to `*(i+a)` and `a[i]` to `*(a+i)`. Since `*(a+i)` and `*(i+a)` points to the same addr. `i[a]` is equal to `a[i]`.
+```cpp
+for (int i = 1; i <= 5; ++i)
+{
+    cout << i[a] << endl;
+    cout << i[b] << endl;
+    cout << i[a][b] << endl;
+}
+```

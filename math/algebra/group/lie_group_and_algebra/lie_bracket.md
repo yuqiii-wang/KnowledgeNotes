@@ -1,5 +1,7 @@
 # Lie Bracket
 
+Generally speaking, Lie bracket describes local differences between Lie algebra.
+
 ## Vector Fields as Direvative
 
 ### Vector Function $f(x)$
@@ -10,19 +12,19 @@ Furthermore, if $f$ is of having an indefinite degree of derivative $C^{\infty}$
 
 ### Smooth Scalar Function $h(x)$
 
-Smooth scalar function $f(x):R^n \rightarrow R$ defines a mapping relationship from $\bold{x} \in R^n$ to $f(x) \in R$, whose *gradient* is a $1 \times n$ vector $\triangledown h = \frac{\partial h}{\partial \bold{x}}$.
+Smooth scalar function $f(x):R^n \rightarrow R$ defines a mapping relationship from $\bold{x} \in R^n$ to $f(x) \in R$, whose *gradient* is a $1 \times n$ vector $\nabla h = \frac{\partial h}{\partial \bold{x}}$.
 
 ### Smooth Vector Field $f(x)$
 
-A smooth vector field $f$'s *Jacobian* is an $n \times n$ matrix $\triangledown f =  \frac{\partial f}{\partial \bold{x}}$
+A smooth vector field $f$'s *Jacobian* is an $n \times n$ matrix $\nabla f =  \frac{\partial f}{\partial \bold{x}}$
 
-## Lie Derivative
+## Lie Derivative in A Vector Field
 
-A smooth scalar function $h(x)$ to a smooth vector field $f(x)$'s *Lie Derivative* is a $1 \times n$ vector $L_f h = \triangledown h \bold{f} = \frac{\partial h}{\partial \bold{x}} \bold{f}$
+A smooth scalar function $h(x)$ to a smooth vector field $f(x)$'s *Lie Derivative* is a $1 \times n$ vector $L_f h = \nabla h \bold{f} = \frac{\partial h}{\partial \bold{x}} \bold{f}$
 
 For example as in the below, $\bold{f}$ is represented by blue arrows as a vector field that excerts pressure on the moving object the green dot.
 
-$\triangledown h$ is the velocity $r'$, hence, $L_f h = \triangledown h \bold{f}$ is the power（功率） by $\bold{f}$ on the object, and the work（功）is to take line integral along its trajectory (the yellow curve).
+$\nabla h$ is the velocity $r'$, hence, $L_f h = \nabla h \bold{f}$ is the power（功率） by $\bold{f}$ on the object, and the work（功）is to take line integral along its trajectory (the yellow curve).
 
 Remember, $r'$ is a scalar having no direction.
 
@@ -40,7 +42,7 @@ In other words, Lie bracket describes a tensor change rate $g$ under the influen
 
 Formally, Lie Bracket can be generalized with the below form
 $$
-[f,g] = \triangledown g f - \triangledown f g
+[f,g] = \nabla g f - \nabla f g
 =
 \frac{\partial g}{\partial \bold{x}}f - \frac{\partial f}{\partial \bold{x}}g
 $$
@@ -75,6 +77,7 @@ Remember Lie Bracket, now here derives
 $$
 [\phi_1, \phi_2] = (\bold{\Phi}_1 \bold{\Phi}_2 - \bold{\Phi}_2 \bold{\Phi}_1)^{\vee}
 $$
+where $\vee$ denotes vector representation of a skew-symmetric matrix.
 
 $$
 \begin{equation*}
@@ -90,14 +93,14 @@ $$
 where $J_l$ and $J_r$ are 
 
 $$
-J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})aa^T + \frac{1-cos\theta}{\theta}a^{\wedge}
+J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})\bold{v}\bold{v}^\text{T} + \frac{1-cos\theta}{\theta}\bold{v}^{\wedge}
 $$
 whose derivative is 
 $$
-J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})aa^T - \frac{\theta}{2}a^{\wedge}
+J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})\bold{v}\bold{v}^\text{T} - \frac{\theta}{2}\bold{v}^{\wedge}
 $$
 
 and for the right multiple
 $$
-J_r(\phi) = -J_l(\phi)
+J_r(\phi) = J_l(-\phi)
 $$

@@ -109,3 +109,41 @@ A financial endowment is a legal structure for managing, and in many cases indef
 * Sting operation （便衣/钓鱼执法）
 
 In law enforcement, a sting operation is a deceptive operation designed to catch a person attempting to commit a crime. 
+
+* Central Banks
+
+Responsible for carrying out monetary policy and regulation of financial institutions.
+
+The U.S.: Federal Reserve
+
+The U.K.: the Bank of England
+
+Japan: the Bank of Japan
+
+EU: the European Central Bank
+
+China: People's Bank of China (PBOC)
+
+Australia: Reserve Bank of Australia
+
+* Treasury （财政部） vs Central Bank （央行）
+
+The Treasury and the Central Bank are separate entities. The Treasury manages all of the money coming into the government and paid out by it. The Central Bank's primary responsibility is to keep the economy stable by managing the supply of money in circulation (mostly buying/selling treasury bonds).
+
+The Department of the Treasury manages federal spending. It collects the government's tax revenues, distributes its budget, issues its bonds, bills, and notes, and literally prints the money. 
+
+The Treasury Department is headed by a Cabinet-level appointee who advises the president on monetary and economic policy.
+
+* International Securities Identification Number (ISIN) 
+
+An ISIN uniquely identifies a fungible security, such as 
+
+Equities (shares, units, depository receipts)
+
+Debt instruments (bonds)
+
+Entitlements (rights, warrants)
+
+Derivatives (options, futures)
+
+Others (commodities, currencies, indices, interest rates)
