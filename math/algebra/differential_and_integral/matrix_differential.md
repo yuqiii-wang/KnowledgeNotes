@@ -2,7 +2,7 @@
 
 ## Rule Table
 
-|$ \text{Scalar derivative} \\ f(x) \rightarrow \frac{df}{dx}$ | $ \text{Vector derivative} \\ f(\bold{x}) \rightarrow \frac{df}{d\bold{x}}$|
+|$\text{Scalar derivative} \\ f(x) \rightarrow \frac{df}{dx}$ | $\text{Vector derivative} \\ f(\bold{x}) \rightarrow \frac{df}{d\bold{x}}$|
 |-|-|
 |$bx \rightarrow b$|$\bold{x}^T \bold{B} \rightarrow \bold{B}$|
 |$bx \rightarrow b$|$\bold{x}^T \bold{b} \rightarrow \bold{b}$|
