@@ -412,3 +412,66 @@ lim_{ \psi \rightarrow 0}
 \\ & =
 -(Rp)^{\wedge}
 \end{align*}$$
+
+### Perturbation Model Considered Both Translation and Rotation
+
+Define $[R|T]$ as the transformation matrix to a point $\bold{p}$ and the perturbation as $\Delta \bold{\xi}$ (this time, both translation $T$'s perturbation $\Delta \bold{\rho}$ and rotation $R$'s perturbation $\Delta \bold{\phi}$ are included, so that $\Delta \bold{\xi} = [\Delta \bold{\rho}, \Delta \bold{\phi}]^\text{T}$), the derivative can be computed as the below
+
+$$
+\begin{align*}
+    \frac{\partial ([R|T]\bold{p})}{\partial \Delta \bold{\xi}} &= 
+    \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
+    \frac
+    {e^{\Delta \bold{\xi}^{\wedge}}e^{ \bold{\xi}^{\wedge}}\bold{p}-e^{ \bold{\xi}^{\wedge}}\bold{p}}
+    {\Delta \bold{\xi}}
+    \\ &=
+    \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
+    \frac
+    {(I+{\Delta \bold{\xi}^{\wedge}})e^{ \bold{\xi}^{\wedge}}\bold{p}-e^{ \bold{\xi}^{\wedge}}\bold{p}}
+    {\Delta \bold{\xi}}
+    \\ &=
+    \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
+    \frac
+    {{\Delta \bold{\xi}^{\wedge}}e^{ \bold{\xi}^{\wedge}}\bold{p}}
+    {\Delta \bold{\xi}}
+    \\ &=
+    \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
+    \frac
+    {
+        \begin{bmatrix}
+            \Delta \bold{\phi} & \Delta \bold{\rho} \\
+            \bold{0} & \bold{0}
+        \end{bmatrix}
+        \begin{bmatrix}
+            R\bold{p}+T \\
+            \bold{1}
+        \end{bmatrix}
+    }
+    {\Delta \bold{\xi}}
+    \\ &=
+    \underset{[\Delta \bold{\rho}, \Delta \bold{\phi}]^\text{T} \rightarrow 0}{lim}
+    \frac
+    {
+        \begin{bmatrix}
+            \Delta \bold{\phi} (R\bold{p}+T) + \Delta \bold{\rho} \\
+            \bold{0}
+        \end{bmatrix}
+    }
+    {\begin{bmatrix}
+        \Delta \bold{\rho} \\ 
+        \Delta \bold{\phi}
+    \end{bmatrix}}
+    \\ &=
+    \begin{bmatrix}
+        \frac{\partial (\Delta \bold{\phi} (R\bold{p}+T) + \Delta \bold{\rho})}{\partial \Delta \bold{\rho}} & 
+        \frac{\partial (\Delta \bold{\phi} (R\bold{p}+T) + \Delta \bold{\rho})}{\partial \Delta \bold{\phi}} \\
+        \frac{\partial \bold{0}}{\partial \Delta \bold{\rho}} & 
+        \frac{\partial \bold{0}}{\partial \Delta \bold{\phi}} 
+    \end{bmatrix}
+    \\ &=
+    \begin{bmatrix}
+        \bold{I} & R\bold{p}+T \\
+        \bold{0} & \bold{0} 
+    \end{bmatrix}
+\end{align*}
+$$

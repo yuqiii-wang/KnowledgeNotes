@@ -182,3 +182,32 @@ for (int i = 1; i <= 5; ++i)
     cout << i[a][b] << endl;
 }
 ```
+
+* `extern "C"`
+
+C++ uses `extern "C"` to prevent mangling.
+
+For example, by a C compiler, the below code compilation fails for duplicate function name `printMe`, whereas a C++ compiler succeeds.
+This is because a C++ compiler implicitly renames (*mangles*) functions based on their parameters to provide function overloading.
+```cpp
+#include <stdio.h>
+    
+// Two functions are defined with the same name
+// but have different parameters
+
+void printMe(int a) {
+  printf("int: %i\n", a);
+}
+
+void printMe(char a) {
+  printf("char: %c\n", a);
+}
+    
+int main() {
+  printMe('a');
+  printMe(1);
+  return 0;
+}
+```
+
+However, there are scenarios when programmer does not want the c++ compiler mangle function names. For instance, in a large project, mangling may cause function to wrongly link function definition. As a result, it might be convenient to provide a keyword `extern "C"` which tells the C++ compiler not to mangle function names such as by `extern "C" void printMe(int a);`.

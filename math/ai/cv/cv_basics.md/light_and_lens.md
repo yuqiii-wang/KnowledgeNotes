@@ -40,9 +40,9 @@ where
 Define image pixel $(x_p, y_p)$, camera translation of the origin $(x_c, y_c)$ from the real world point $(x_w, y_w)$, and two scaling factor $\alpha, \beta$ the mapping relationship is
 $$
 \begin{align*}
-x_p &= \alpha x_w +c_x
+x_p &= \alpha x_w +x_c
 \\
-y_p &= \beta y_w +c_y
+y_p &= \beta y_w +y_c
 \end{align*}
 $$
 

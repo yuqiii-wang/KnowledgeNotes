@@ -54,6 +54,8 @@ void alignImages(Mat &im1, Mat &im2, Mat &im1Reg, Mat &h)
 
   // Use homography to warp image
   warpPerspective(im1, im1Reg, h, im2.size());
+
+  cv::imshow("im1Reg", im1Reg);
 }
 
 int main(int argc, char **argv)

@@ -2,32 +2,12 @@
 
 Epipolar geometry is the geometry of stereo vision. When two cameras view a 3D scene from two distinct positions, there are a number of geometric relations between the 3D points and their projections onto the 2D images that lead to constraints between the image points.
 
-## Image formulation
+## Image Formulation
 
 ![epipolar_geo](imgs/epipolar_geo.png "epipolar_geo")
 
-Every camera image point $x_c$ follows homogeneous coordinate's representation that
-$$
-x_c=
-f \begin{bmatrix}
-    x_{x,h} \\
-    x_{y,h} \\
-    1 \\
-\end{bmatrix}
-=
-\begin{bmatrix}
-    x_{x,c} \\
-    x_{y,c} \\
-    f \\
-\end{bmatrix}
-$$
-where $f$ is the distance between the camera image plane and optical center $O$, that 
 
-$$
-f_L=||x_{\tiny{L,C}}-O_L||
-\\
-f_R=||x_{\tiny{R,C}}-O_R||
-$$
+### Epipolar Geo
 
 * Epipole/epipolar point
 
@@ -45,14 +25,18 @@ The triangular plane $x - O_L - O_R$ is called epipolar plane.
 
 The projection of a real world point $x$ on the right camera plane as $x_R$ must be contained in the $e_R - x_R$ epipolar line. 
 
-## Essential matrix and fundamental matrix
+## Essential Matrix
+
+Essential matrix $E$ describes a camera motion (extrinsics $M_{ex}$: rotation and translation) from $O_L$ to $O_R$.
+
+If the right camera's intrinsics $K$ is same as the left's, the right camera can be said a rotation and translation result of the left camera. 
 
 ### Extrinsic calibration
 Extrinsic calibration provides a 3d rigid coordinate transformation $x_{\tiny{C,L}}=M_{ex}[x^\text{T}_W, 1]^\text{T}$ from real world coordinates to left camera's coordinates, in which 
 $$
 M_{ex}=[R_L \space -R_L \overrightarrow{O}_{\tiny{W,L}}]_{3 \times 4}
 $$
-where $\overrightarrow{O}_{\tiny{W,L}}$ denotes left camera optical center in the real world coordinates; $R_L$ is a $3 \times 3$ rotation matrix. Intuitively, $M_{ex}$ can be interpreted as transoformation by rotation $R_L$ then translation by $R_L\overrightarrow{O}_{\tiny{W,L}}$.
+where $\overrightarrow{O}_{\tiny{W,L}}$ denotes left camera optical center in the real world coordinates; $R_L$ is a $3 \times 3$ rotation matrix. Intuitively, $M_{ex}$ can be interpreted as transformation by rotation $R_L$ then translation by $R_L\overrightarrow{O}_{\tiny{W,L}}$.
 
 ### Epipolar constraint 
 
@@ -75,7 +59,7 @@ $$
     -o_2 & o_1 & 0
 \end{bmatrix}
 $$
-This transforms a vector multiplication into a matrix multiplication.
+This transforms a vector multiplication into a matrix multiplication. Some articles denote this vector to matrix transformation as $O_{b}^{\vee}=[O_{b}]_{\times}$. 
 
 The vector representation of a real world point in the left camera frame $x_{\tiny{W,L}}-O_{\tiny{W,L}}$ can be computed with its pixel vector $x_{\tiny{C,L}}$ multiplied by the orientation $R^\text{T}_{L}$ of the left camera
 $$
@@ -111,9 +95,85 @@ x_{\tiny{C,R}}
 $$
 where $E=R_{L}\big((O_{\tiny{W,L}}-O_{\tiny{W,R}})\times R^\text{T}_{R}\big)$ is the essential matrix.
 
+### Essential Matrix Degree of Freedom (DoF)
+
 $E$ has $rank(E)=2$ for its homogeneous coordinates' representation scaling by $f$.
 
-### Fundamental matrix
+Since translation and rotation each have 3 degrees of freedom, $E$ has $6$ degrees of freedom. 
+But due to the equivalence of scales $f$, $E$ actually has 5 degrees of freedom.
+
+### Essential Matrix Computation
+
+For $x_{\tiny{L}}$ and $x_{\tiny{R}}$ such as
+$$
+x_{\tiny{L}}
+=
+\begin{bmatrix}
+    u \\
+    v \\
+    1
+\end{bmatrix}
+\text{, }
+x_{\tiny{R}}
+=
+\begin{bmatrix}
+    u' \\
+    v' \\
+    1
+\end{bmatrix}
+$$
+
+given $x_{\tiny{C,L}}^\text{T} E x_{\tiny{C,R}} = 0$, that gives
+$$
+[u, v, 1]
+\begin{bmatrix}
+    e_1 & e_2 & e_3 \\
+    e_4 & e_5 & e_6 \\
+    e_7 & e_8 & e_9 \\
+\end{bmatrix}
+\begin{bmatrix}
+    u' \\
+    v' \\
+    1
+\end{bmatrix}
+=
+0
+$$
+
+*Eight-Point Algorithm* requires $8$ point pairs $x_{\tiny{L}}$ and $x_{\tiny{R}}$ (the scaling factor $f$ is considered equivalent to setting $f=1$), rearrange the equation above, there is
+$$
+\begin{bmatrix}
+    u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\
+    u_2'u_2 & u_2'v_2 & u_2' & v_2'v_2 & v_2'u_2 & v_2' & u_2 & v_2 & 1 \\
+    \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\
+    u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    e_1 \\
+    e_2 \\
+    e_3 \\
+    e_4 \\
+    e_5 \\
+    e_6 \\
+    e_7 \\
+    e_8 \\
+    e_9 \\
+\end{bmatrix}
+=0
+$$
+
+### Essential Matrix to Camera Motion Recovery
+
+Since the essential matrix $E$ describes a camera motion (extrinsics $M_{ex}$: rotation and translation) from $O_L$ to $O_R$, 
+there should be a mapping decomposing $E$ into rotation and translation (here defines $M_{ex}$ composed of rotation $R$ and translation $T$.) such that $E \rightarrow M_{ex}$. SVD can help in this mapping.
+$$
+E = U \Sigma V^\text{T}
+$$
+
+
+
+
+## Fundamental matrix
 
 An instrinsic camera calibration matrix $M_{in}$ defines the transformation from a camera coordinate point $x_{\tiny{W,C}}$ to its homogeneous coorsdinate point $x_{\tiny{W,h}}$.
 $$
@@ -231,7 +291,7 @@ $$
 
 ![parallel_img_epi](imgs/parallel_img_epi.png "parallel_img_epi")
 
-## Correspondance search
+## Correspondence search
 
 By Fundamental matrix, a point $x_{\tiny{L}}$ on the left camera view should exist on its corresponding epipolar line $x_{\tiny{R}}-e_{\tiny{R}}$. Since having implemented homographical transformation that two camera views are now in parallel, the point $x_{\tiny{L}}$'s correspondant point $x_{\tiny{R}}$ must be on this horizontal scanline.
 

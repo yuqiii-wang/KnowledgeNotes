@@ -147,3 +147,31 @@ Entitlements (rights, warrants)
 Derivatives (options, futures)
 
 Others (commodities, currencies, indices, interest rates)
+
+* Prime Brokerage（主经纪商业务）
+
+Prime brokerage is the generic name for a bundled package of services offered by investment banks, wealth management firms, and securities dealers to hedge funds which need the ability to borrow securities and cash for investment.
+
+Different from financing for individual investors, prime brokerage targets hedge fund institutions.
+
+* Rehypothecation （再抵押）
+
+Rehypothecation is a practice whereby banks and brokers use, for their own purposes, assets that have been posted as collateral by their clients. 
+
+In a typical example of rehypothecation, securities that have been posted with a prime brokerage as collateral by a hedge fund are used by the brokerage to back its own transactions and trades.
+
+* Margin Call （追加保证金）
+
+A margin call is an order from a broker to an investor, that demands that the investor place more money into their margin account.
+
+Usually, when an investor uses leverage (borrows money from a broker) to invest an asset, but this asset's value keeps decreasing, the broker demands this investor to put more money to his account to avoid forced closing position (平仓).
+
+* Secured Overnight Financing Rate (SOFR) 
+
+SOFR is published by the New York Federal Reserve every business day for the previous business day. SOFR is a reference rate (that is, a rate used by parties in commercial contracts that is outside their direct control) established as an alternative to LIBOR. 
+
+LIBOR is prone to error since it derives from calculations based on banks' survey, while SOFR reflects the real-time real world rates.
+
+* hive off/spin off 
+
+Separate (especially in business) something from a larger group or organization; (of a parent company) turn a subsidiary into a new and separate company.

@@ -126,4 +126,13 @@ $$
 \bold{x} = V\bold{y}
 $$
 
+## SVD vs Eigen Decomposition
+
+SVD generalizes the eigen decomposition of a square normal matrix with an orthonormal eigen basis to any $m \times n$ matrix.
+
+Here defines a typical linear system $A\bold{x}=\bold{b}$.
+Consider the eigen decomposition $A = P\Lambda P^{-1}$ and $A=U\Sigma V^\text{T}$.
+
+Eigen decomposition only takes one basis $P$ in contrast to SVD using two bases $U$ and $V$. Besides, $P$ might not be orthogonal but $U$ and $V$ are orthogonal.
+
 ## SVD for PCA

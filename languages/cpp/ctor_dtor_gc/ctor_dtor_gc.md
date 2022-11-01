@@ -9,7 +9,7 @@
 ### `operator new`
 
 * Syntax: `void * operator new (size_t size);`
-```
+```cpp
 	void *pRawMemory = operator new(sizeof(string));
 ```
 
