@@ -397,7 +397,7 @@ lim_{\Delta \phi \rightarrow 0} \frac{-(e^{\phi^{\wedge}}\bold{p})^\wedge J_l \D
 
 Apply perturbation $\Delta R$ to avoid computing the Jacobian $J_l$:
 $$\begin{align*}
-\frac{\partial R \bold{p}}{\partial R}
+\frac{\partial R \bold{p}}{\partial \Delta R}
  & =
 \frac{\partial e^{\phi^{\wedge}}\bold{p}}{\partial \psi}
 \\ & =

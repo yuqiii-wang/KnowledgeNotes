@@ -165,7 +165,7 @@ $$
 $$
 and the covariance matrix is $\Sigma=diag(R_1, R_2, R_3,...,R_n,Q_1,Q_2,Q_3,...,Q_n)$.
 
-The Maximum Likelihood optimization given the objective function $\bold{e}^\text{T} \Sigma^{-1} \bold{e}$ (this is a quadratic function that has a global minimum) can be approximated by the first order expansion $\bold{e}(\bold{x}+\Delta\bold{x})=\bold{e}(\bold{x})+\bold{J}(\bold{x})\Delta\bold{x}$, so that the optimal state $\bold{x}^*$ can be computed via the below expression.
+The Maximum Likelihood optimization given the objective function $\bold{e}^\text{T} \Sigma^{-1} \bold{e}$ (this is a quadratic function that has a global minimum) can be approximated by the Gauss-Newton method, so that the optimal state $\bold{x}^*$ can be computed via the below expression.
 $$
 \begin{align*}
 \bold{x}^* &=

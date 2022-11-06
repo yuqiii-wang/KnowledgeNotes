@@ -35,5 +35,5 @@ $$
 $$
 where $\bold{H}=\bold{J}^\text{T}_r \bold{J}_r$ is the Hessian matrix that defines the second order derivative.
 
-## Levenberg-Marquardt
+## Levenberg-Marquardt vs Doglet
 

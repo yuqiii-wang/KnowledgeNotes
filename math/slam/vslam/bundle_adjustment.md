@@ -28,17 +28,14 @@ $\hat{\bold{P}}_{j}$ can be decomposed as the product of intrinsics $\hat{\bold{
 
 Here $\bold{x}'_{ij}$ denotes the observed known feature point while $\bold{x}'_{ij}$ represents the unknown feature point.
 
+$$
+\bold{e}(\big[\bold{R}|\bold{t} \big]+\Delta \big[\bold{R}|\bold{t} \big]) \approx
+\bold{e}(\big[\bold{R}|\bold{t} \big])+\bold{J}^{\text{T}} \Delta \big[\bold{R}|\bold{t} \big]
+$$
+
 ### Normal Equation/Gauss-Newton Method as A Solution
 
-The solution for calculating $\bold{x}_{ij}$ can be approximated by a Jacobian $\bold{J}$ as a least square problem solver, such as
-
-$$
-\bold{e}(\bold{x}+\Delta \bold{x}) \approx
-\bold{e}(\bold{x})+\bold{J}^{\text{T}} \Delta \bold{x}
-$$
-
-By normalization, there is 
-
+By Gauss-Newton method, there is 
 $$
 \big(\bold{J}^\text{T}\Sigma^{-1}\bold{J}\big) \Delta\bold{x}_{ij}
 =
@@ -51,12 +48,17 @@ $$
 \big(\bold{J}^\text{T}\Sigma^{-1}\bold{J}\big)^{-1}
 \big(\bold{J}^\text{T}\Sigma^{-1}\big) \Delta\bold{x}'_{ij}
 $$
+where $\widehat{\Delta\bold{x}_{ij}}$ represents the estimate increment to $\bold{x}_{ij}$ that sees a global minimum $\bold{x}_{ij}^*$ for a quadratic function.
 
-However, this solution suffers from high computation costs since even a small vSLAM problem may contain thousands of images, and each image has hundreds of feature points. This obstacle makes this solution impractical.
+However, this solution suffers from high computation costs since even a small vSLAM problem may contain thousands of images, and each image has hundreds of feature points. This obstacle makes this solution impractical (this is the reason BA is preferred).
+
+### Noise Assumption
+
+Gaussian noises are typically based on $N(0,\Sigma)$, where outliers could go astray far from the mean $\mu=0$. Weight function (such as *Blake-Zisserman* weight function) can be applied to reduce the impact of absurd outliers.
 
 ## Bundle Adjustment (BA)
 
 *Bundle adjustment* (BA) boils down to minimizing the reprojection error between the image locations of observed and predicted image points, which is expressed as the sum of squares of a large number of nonlinear, real-valued functions. 
 
-BA is statistically optimal under these assumptions
-* Gaussian noises
+BA can be used to solve PnP problem.
+

@@ -10,7 +10,7 @@ int main() {
 
     // given the homography, there should be no rotation but translation of [-1,-1,0] from the world frame to the camera frame
 
-    cv::Mat cameraMatrix = cv::Mat::eye (3, 3, CV_64FC1);
+    cv::Mat cameraMatrixK = cv::Mat::eye (3, 3, CV_64FC1);
 
     cv::Mat objectPoints = cv::Mat::zeros (4, 3, CV_64FC1);
     objectPoints.at<double>(0,0) = 1;
@@ -40,7 +40,7 @@ int main() {
 
     // here uses the default iterative PnP to solve the [R|t]
     cv::Mat rvec1, tvec1;
-    cv::solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec1, tvec1, false);
+    cv::solvePnP(objectPoints, imagePoints, cameraMatrixK, distCoeffs, rvec1, tvec1, false);
 
     std::cout << "========PnP========" << std::endl;
     std::cout << "R: " << rvec1 << std::endl;
@@ -48,7 +48,7 @@ int main() {
 
     // here uses EPnP to solve the [R|t]
     cv::Mat rvec2, tvec2;
-    cv::solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec2, tvec2, false, cv::SOLVEPNP_EPNP  );
+    cv::solvePnP(objectPoints, imagePoints, cameraMatrixK, distCoeffs, rvec2, tvec2, false, cv::SOLVEPNP_EPNP  );
 
     std::cout << "========EPNP========" << std::endl;
     std::cout << "R: " << rvec2 << std::endl;
@@ -56,7 +56,7 @@ int main() {
 
     // here uses P3P to solve the [R|t]
     cv::Mat rvec3, tvec3;
-    cv::solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec3, tvec3, false, cv::SOLVEPNP_P3P );
+    cv::solvePnP(objectPoints, imagePoints, cameraMatrixK, distCoeffs, rvec3, tvec3, false, cv::SOLVEPNP_P3P );
 
     std::cout << "========P3P========" << std::endl;
     std::cout << "R: " << rvec3 << std::endl;

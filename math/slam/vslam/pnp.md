@@ -204,7 +204,7 @@ $$
 
 In SLAM, the usual approach is to first estimate the camera pose using P3P/EPnP and then construct a least-squares optimization problem to adjust the estimated values (bundle adjustment).
 
-## Solve PnP by Minimizing the Reprojection Error
+## Solve PnP by Minimizing the Reprojection Error (a.k.a Bundle Adjustment)
 
 Suppose there are $n$ known 3D space points $\bold{P}$ (denote the element as $\bold{P}_i=(X_i, Y_i, Z_i)^\text{T}$) on the world frame, 
 and their projection (projected pixel coordinates denoted as $\bold{x}_i=[u_i, v_i]^\text{T}$) on an image, we want to calculate the transform from the world coordinates to camera coordinates $\bold{P}'=\big[\bold{R}|\bold{t} \big]\bold{P}$.
@@ -226,7 +226,8 @@ $$
 
 ### Reprojection Error
 
-Here defines a least-squared optimization problem
+Here defines a least-squared optimization problem, where $\bold{e}_i=\bold{x}_i - \frac{1}{s_i} \bold{K} \big[\bold{R}|\bold{t} \big] \bold{P}_i$ refers to the discrepancy between the observed pixel location and the projected object point on the camera image via the transformation $\frac{1}{s_i} \bold{K} \big[\bold{R}|\bold{t} \big]$.
+
 $$
 \big[\bold{R}|\bold{t} \big]^* = 
 arg \space \underset{\big[\bold{R}|\bold{t} \big]}{min}
@@ -236,12 +237,13 @@ arg \space \underset{\big[\bold{R}|\bold{t} \big]}{min}
 \bigg|\bigg|^2_2
 $$
 
-The optimization error $\bold{e}$ considered two terms: the error of the camera original pose $\bold{x}$ and camera motion $\Delta \bold{x}$, is approximated as below, where the camera motion error is represented by a Jacobian.
+The optimization error $\bold{e}$ to an optimal $\big[\bold{R}|\bold{t} \big]^*$ can be approximated by the Jacobian shown as below, where $\Delta \big[\bold{R}|\bold{t} \big]$ is the increment to $\big[\bold{R}|\bold{t} \big]$ until converged to the global minimum of the above quadratic function. $\bold{J}$ is the step of the increment at each iteration. 
+
 $$
-\bold{e}(\bold{x}+\Delta \bold{x}) \approx
-\bold{e}(\bold{x})+\bold{J}^{\text{T}} \Delta \bold{x}
+\bold{e}(\big[\bold{R}|\bold{t} \big]+\Delta \big[\bold{R}|\bold{t} \big]) \approx
+\bold{e}(\big[\bold{R}|\bold{t} \big])+\bold{J}^{\text{T}} \Delta \big[\bold{R}|\bold{t} \big]
 $$
-where $\bold{e}$ can be the pixel coordinate error ($2$-d) and $\bold{x}$ is the camera pose ($6$-d), $\bold{J}^{\text{T}}$ is of a matrix size $2 \times 6$. Note that, $\bold{J}^{\text{T}}$ is of great interest for it represents the error gradients.
+where $\bold{e}$ can be the pixel coordinate error ($2$-d) and $\bold{x}$ is the camera pose ($6$-d), $\bold{J}^{\text{T}}$ is of a matrix size $2 \times 6$. 
 
 ![pnp_world2camera](imgs/pnp_world2camera.png "pnp_world2camera")
 
@@ -388,7 +390,7 @@ $$
 \end{align*}
 $$
 
-This Jacobian matrix describes the first-order derivative of the reprojection error
+This Jacobian matrix $\bold{J}=\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}$ describes the first-order derivative of the reprojection error
 with respect to the left perturbation model.
 
 The negative sign in the front is kept

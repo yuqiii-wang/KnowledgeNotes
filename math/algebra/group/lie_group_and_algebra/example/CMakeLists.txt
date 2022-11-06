@@ -12,4 +12,6 @@ include_directories(/usr/include/eigen3)
 
 add_executable( SophusExample src/SophusExample.cpp )
 
-target_link_libraries(SophusExample ${Sophus_LIBRARIES} fmt)
+target_link_libraries(SophusExample 
+                                ${Sophus_LIBRARIES} 
+                                fmt)

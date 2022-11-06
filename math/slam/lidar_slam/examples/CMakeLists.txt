@@ -27,33 +27,10 @@ include_directories(${Sophus_INCLUDE_DIRS})
 include_directories(${fmt_INCLUDE_DIRS} ) 
 
 
-add_executable( pnp src/pnp.cpp )
-add_executable( ba_gauss_newton src/ba_gauss_newton.cpp )
-add_executable( ba_g2o src/ba_g2o.cpp )
-add_executable( optical_flow src/optical_flow.cpp )
+add_executable( icp src/icp.cpp )
 
-target_link_libraries(pnp ${OpenCV_LIBRARIES} )
-
-target_link_libraries(ba_gauss_newton ${OpenCV_LIBRARIES}
+target_link_libraries(icp ${OpenCV_LIBRARIES}
                         ${Eigen_LIBRARIES}
                         ${g2o_LIBRARIES}
                         ${Sophus_LIBRARIES} 
                         fmt)
-
-target_link_libraries(ba_g2o ${OpenCV_LIBRARIES}
-                        ${Eigen_LIBRARIES}
-                        ${g2o_LIBRARIES}
-                        ${Sophus_LIBRARIES} 
-                        fmt)
-
-target_link_libraries(optical_flow ${OpenCV_LIBRARIES}
-                        ${Eigen_LIBRARIES}
-                        ${g2o_LIBRARIES}
-                        ${Sophus_LIBRARIES} 
-                        fmt)
-
-FILE(COPY 
-    ${PROJECT_SOURCE_DIR}/resources/street_view_left.png 
-    ${PROJECT_SOURCE_DIR}/resources/street_view_right.png 
-    DESTINATION 
-    ${PROJECT_SOURCE_DIR}/build/ )

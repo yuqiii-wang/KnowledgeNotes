@@ -89,6 +89,24 @@ Install GDB and config `launch.json`
 }
 ```
 
+### GDB Run Executable with Args
+
+* Syntax:
+```bash
+gdb --args executablename arg1 arg2 arg3
+```
+
+
+* Environment Vars: show, set and unset
+
+Inside gdb, run
+```bash
+show environment 
+set environment varname = foo
+unset environment varname
+```
+
+
 ## Valgrind
 
 Valgrind is for memory debugging, memory leak detection, and profiling.

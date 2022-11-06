@@ -15,7 +15,7 @@ A =
 $$
 is of rank $2$ since the third column is the sum of the first two columns.
 
-### Gaussian elimination
+### Gaussian Elimination
 
 Gaussian elimination, also known as row reduction, does not change column linearity. The above matrix $A$ can be reduced to 
 $$\begin{align*}
@@ -92,12 +92,12 @@ An orthogonal matrix, or orthonormal matrix, is a real square matrix whose colum
 It has the below properties:
 
 $$
-Q^TQ=QQ^T=I
+Q^\text{T}Q=QQ^\text{T}=I
 $$
 
 This leads to 
 $$
-Q^T=Q^{-1}
+Q^\text{T}=Q^{-1}
 $$
 
 The determinant of any orthogonal matrix is either $+1$ or $−1$.
