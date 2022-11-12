@@ -106,7 +106,6 @@ int main(){
     }
   }
 
-  // if(true) {
   cv::Mat srcTrian;
   cv::hconcat(imageL, imageR, srcTrian);
   for(int i = 0; i < triangulation_points1.size(); i++) {

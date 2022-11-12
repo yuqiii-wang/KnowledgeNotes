@@ -196,7 +196,7 @@ which give the volume of a parallelotope.
 
 Adjugate, adjunct or classical adjoint of a square matrix $Adj(A)$ is the transpose of its cofactor matrix $C$.
 $$
-Adj(A) = C^T
+Adj(A) = C^\text{T}
 $$
 where 
 $$
@@ -217,14 +217,14 @@ the $(1,2)$-th element is $b$, whose determinant can be expressed as
 $$
 M_{1,2} = 
 -
-\big |
+\bigg |
 \begin{array}{cc}
     \begin{array}{cc}
       d & f \\
       g & i
     \end{array}
 \end{array}
-\big |
+\bigg |
 = -(di-fg)
 $$
 Co-matirx $C$:
@@ -237,7 +237,7 @@ C =
 \end{bmatrix}
 $$
 
-Finding adjoint of a matrix is the same as applying a linear transformation which brings the coordinates of $i$ and $j$ to a square of area equal to the determinant of that matrix.
+Finding adjoint of a matrix is same as applying a linear transformation which brings the coordinates of $i$ and $j$ to a square of area equal to the determinant of that matrix.
 
 ## Covariance Matrix
 

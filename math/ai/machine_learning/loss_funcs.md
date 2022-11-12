@@ -24,12 +24,12 @@ $$
 
 The Huber loss combines the best properties of MSE and MAE. It is quadratic for smaller errors and is linear otherwise (and similarly for its gradient). It is identified by its delta parameter $\delta$:
 $$
-L_{\delta}(a)=
+L_{\delta}(e)=
 \left\{
     \begin{array}{c}
-        \frac{1}{2}a^2 &\quad \text{for} |a|\le \delta
+        \frac{1}{2}e^2 &\quad \text{for} |e|\le \delta
         \\
-        \delta (|a|-\frac{1}{2}\delta) &\quad \text{otherwise}
+        \delta \cdot (|e|-\frac{1}{2}\delta) &\quad \text{otherwise}
     \end{array}
 \right.
 $$

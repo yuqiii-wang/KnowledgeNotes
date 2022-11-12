@@ -10,7 +10,7 @@ $$
 A^{-1} = \frac{1}{|A|}Adj(A)
 $$
 where
-$|A|$ is determiant of $A$ and $Adj(A)$ is an adjugate matrix of $A$.
+$|A|$ is determiant of $A$ (denoted as $det(A)$) and $Adj(A)$ is an adjugate matrix of $A$.
 
 Geometrically speaking, an inverse matrix $A^{-1}$ takes a transformation $A$ back to its origin (same as reseting basis vectors).
 

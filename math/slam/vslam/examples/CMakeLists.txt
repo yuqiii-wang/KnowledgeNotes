@@ -52,8 +52,6 @@ target_link_libraries(optical_flow ${OpenCV_LIBRARIES}
                         ${Sophus_LIBRARIES} 
                         fmt)
 
-FILE(COPY 
-    ${PROJECT_SOURCE_DIR}/resources/street_view_left.png 
-    ${PROJECT_SOURCE_DIR}/resources/street_view_right.png 
-    DESTINATION 
-    ${PROJECT_SOURCE_DIR}/build/ )
+FILE(GLOB images ${PROJECT_SOURCE_DIR}/resources/traffic*.png)
+FILE(COPY ${images}
+        DESTINATION ${PROJECT_SOURCE_DIR}/build/ )

@@ -29,6 +29,43 @@ The reason for this is that typically endl flushes the contents of the stream.
 
 You must implement at least one `std::endl` before exit of a program.
 
+* `std::char_traits`
+
+The `char_traits` class is a traits class template that abstracts basic character and string operations for a given character type.
+
+`std::char_traits<char>` is the default implementation of string.
+
+Since c++20, `std::char_traits<char8_t>` can be used to implement UTF-8 code unit.
+
+* `std::basic_string`
+
+The class template `basic_string` stores and manipulates sequences of char-like objects.
+
+```cpp
+template<
+    class CharT,
+    class Traits = std::char_traits<CharT>,
+    class Allocator = std::allocator<CharT>
+> class basic_string;
+```
+
+`basic_string` is aliased by `typedef` such as
+```cpp
+typedef std::string	std::basic_string<char>
+typedef std::u8string td::basic_string<char8_t> // since c++20
+```
+
+* `std::basic_string_view`
+
+The class template `basic_string_view` describes an object that can refer to a constant contiguous sequence of `char`-like objects with the first element of the sequence at position zero.
+
+A typical implementation holds only two members: a pointer to constant CharT and a size.
+
+Example:
+```cpp
+std::string_view good_str{"a string literal"};
+```
+
 ### `std::unordered_map`
 
 `std::unordered_map` does not have order hence the read/write operations on the map is always $O(1)$.
