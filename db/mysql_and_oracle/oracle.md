@@ -22,3 +22,53 @@ Enable cache, so that high frequency used queries are stored and returned fast.
 Oracle compiler turns SQL lower case syntax words into capital before further action, so it is a good habit of writing SQL syntax words in capital 
 
 Use `EXPLAIN` to find bottlenecks.
+
+## Function
+
+Syntax:
+```sql
+FUNCTION function_name  
+   [ (parameter [,parameter]) ]  
+RETURN return_datatype  
+IS | AS  
+ [declaration_section]  
+BEGIN  
+   executable_section  
+[EXCEPTION  
+   exception_section]  
+END [function_name];  
+```
+
+Example:
+```sql
+FUNCTION computeCashFlow (
+    deposit NUMBER,
+    interestRate NUMBER,
+    totalPeriod NUMBER
+) RETURN NUMBER
+AS
+    interest NUMBER;
+    totalReturn NUMBER;
+BEGIN
+    interest := deposit * interestRate/100;
+    totalReturn := deposit + interest;
+
+    RETURN totalReturn;
+END computeCashFlow
+```
+
+## Loop
+
+```sql
+DECLARE 
+    i NUMBER := 0;
+BEGIN
+    LOOP
+        i := i + 1;
+        IF i > 5 THEN
+            EXIT ;
+        END IF;
+    END LOOP;
+END;
+```
+

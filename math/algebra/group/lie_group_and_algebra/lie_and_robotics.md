@@ -3,7 +3,7 @@
 ## Motivation
 
 The three-dimensional rotation
-matrix $R$ constitutes the *special orthogonal group* $SO(3)$, and the transformation matrix $T$
+matrix $R$ constitutes the *special orthogonal group* $SO(3)$, and the transformation matrix $t$
 constitutes the *special Euclidean group* $SE(3)$.
 $$
 \begin{align*}
@@ -14,14 +14,14 @@ SO(3) &=
 \\
 SE(3) &= 
 \bigg\{
-    T = 
+   T = 
     \begin{bmatrix}
-        R & T \\
+        R & t \\
         0 & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
     |
-    R \in SO(3), T \in \mathbb{R}^3
+    R \in SO(3), t \in \mathbb{R}^3
 \bigg\}
 \end{align*}
 $$
@@ -67,7 +67,7 @@ $$
 \dot{R(t)}R(t)^T + R(t)\dot{R(t)^T} = 0 \\
 \dot{R(t)}R(t)^T = -(\dot{R(t)}R(t)^T)^T
 $$
-where $R(t)R(t)^T$ is a skew-symmetric matrix.
+where $\dot{R(t)}R(t)^T$ is a skew-symmetric matrix.
 
 Remember one property of skew-symmetric matrix:
 the space of a skew-symmetric matrices $A_{n \times n}$ has dimensionality $\frac{1}{2} n (n - 1)$, its vector representation is $a^{\wedge}_{\frac{1}{2} n (n - 1)}$, for example, for a $3 \times 3$ matrix, there is
@@ -77,9 +77,9 @@ $$
 =
 A =
 \begin{bmatrix}
-      0 & a_1 & a_2 \\
-      -a_1 & 0 & a_3 \\
-      -a_2 & -a_3 & 0
+      0 & -a_3 & a_2 \\
+      a_3 & 0 & -a_1 \\
+      -a_2 & a_1    & 0
 \end{bmatrix}
 $$
 
@@ -99,7 +99,7 @@ $$
 \phi^{\wedge}R(t) = \dot{R(t)}
 $$
 
-First degree Taylor Series of $R$ at the time $t_0$ is shown as below.
+First degree Taylor Series of $R$ at the time $t_0=0$ is shown as below.
 $$
 R(t) \approx R(t_0) + \dot{R(t_0)} (t-t_0)
 \\
@@ -124,7 +124,7 @@ e^{\phi^{\wedge}_0t}
 \end{align*}
 $$
 
-Now define $so(3)$ and $se(3)$ (semantically speaking, they represent translation/rotation vector forms)
+Now define $so(3)$ and $se(3)$ (intuitively speaking, they represent translation/rotation vector forms)
 $$
 \begin{align*}
 so(3) &= 
@@ -173,9 +173,9 @@ For example, for a 2-dimensional rotation $\bold{z} = \bold{x}e^{i\theta}$, whos
 
 ![2d_lie_mapping](imgs/2d_lie_mapping.png "2d_lie_mapping")
 
-### Exponential Mapping $so(3) \rightarrow SO(3)$
+### Exponential Mapping $so(3) \mapsto SO(3)$
 
-Define a unit vector $\bold{v}$; remember *Rodrigues’s Rotation Formula* that describes the matrix representation over a 3-dimensional angle $\theta$. Here derives the exponential mapping $so(3) \rightarrow SO(3)$.
+Define a unit vector $\bold{v}$; remember *Rodrigues’s Rotation Formula* that describes the matrix representation over a 3-dimensional angle $\theta$. Here derives the exponential mapping $so(3) \mapsto SO(3)$.
 $$
 \begin{align*}
 R &= e^{\phi^{\wedge}} 
@@ -188,9 +188,9 @@ cos \theta I + (1 - cos \theta)\bold{v} \bold{v}^\text{T} + sin\theta \bold{v}^{
 \end{align*}
 $$
 
-### Logarithmic Mapping $SO(3) \rightarrow so(3)$
+### Logarithmic Mapping $SO(3) \mapsto so(3)$
 
-Conversely, there is $so(3) \rightarrow SO(3)$, and here derives the logarithmic mapping via Taylor series expansion.
+Conversely, there is $so(3) \mapsto SO(3)$, and here derives the logarithmic mapping via Taylor series expansion.
 
 Remember $\phi^{\wedge} = \theta \bold{v}^{\wedge}$, and $\bold{v}^{\wedge} \bold{v}^{\wedge} = \bold{v}\bold{v}^\text{T}-I$, $\bold{v}^{\wedge}  \bold{v}^{\wedge} \bold{v}^{\wedge} = -\bold{v}^{\wedge}$
 $$
@@ -216,7 +216,7 @@ ln\bigg(
 \end{align*}
 $$
 
-### Exponential Mapping $se(3) \rightarrow SE(3)$
+### Exponential Mapping $se(3) \mapsto SE(3)$
 
 $$
 \begin{align*}
@@ -244,7 +244,7 @@ e^{\xi^\wedge} &=
     \\
     0 & 1
 \end{bmatrix}
-\\ &= T
+\\ &= t
 \end{align*}
 $$
 where
@@ -270,7 +270,7 @@ $$
 
 The above expression says the rotation part is just the same as $R$, and the translation part is a Jacobian times the translation vector.
 
-### Logarithmic Mapping $SE(3) \rightarrow se(3)$
+### Logarithmic Mapping $SE(3) \mapsto se(3)$
 
 Simply there is
 $$
@@ -295,7 +295,7 @@ $$
 |-|-|-|-|-|
 |$SO(3) \\ R=e^{\phi^\wedge} \in \mathbb{R}^{3 \times 3}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\bold{v}=\bold{v}$|$\rightarrow$|$so(3) \\ \phi \in \mathbb{R}^3$|
 ||$\leftarrow$|Exponential mapping: $e^{\theta \bold{v}^\wedge}$|$\leftarrow$||
-|$SE(3) \\ T \in \mathbb{R}^{4 \times 4}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\bold{v}=\bold{v} \\ \bold{t}=J\rho$|$\rightarrow$|$se(3) \\ \xi=[\phi^\wedge \quad \rho] \in \mathbb{R}^6$|
+|$SE(3) \\ t \in \mathbb{R}^{4 \times 4}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\bold{v}=\bold{v} \\ \bold{t}=J\rho$|$\rightarrow$|$se(3) \\ \xi=[\phi^\wedge \quad \rho] \in \mathbb{R}^6$|
 ||$\leftarrow$|Exponential mapping: $e^{\xi^\wedge}$|$\leftarrow$||
 
 
@@ -395,7 +395,7 @@ lim_{\Delta \phi \rightarrow 0} \frac{-(e^{\phi^{\wedge}}\bold{p})^\wedge J_l \D
 
 ### Perturbation Model
 
-Apply perturbation $\Delta R$ to avoid computing the Jacobian $J_l$:
+Apply a trivial perturbation $\Delta R$ and take partial derivative over this perturbation to avoid computing the Jacobian $J_l$:
 $$\begin{align*}
 \frac{\partial R \bold{p}}{\partial \Delta R}
  & =
@@ -473,5 +473,61 @@ $$
         \bold{I} & R\bold{p}+T \\
         \bold{0} & \bold{0} 
     \end{bmatrix}
+\end{align*}
+$$
+
+## Similar Transform Group $Sim(3)$ and Its Lie Algebra $sim(3)$
+
+$Sim(3)$ adds scale information for monocular vision.
+
+Define a $3$-d point $\bold{p}$ and its transformation result $\bold{p}'$
+$$
+\begin{align*}
+    \bold{p}' &= \begin{bmatrix}
+    s\bold{R} & \bold{t} \\
+    \bold{0} & 1
+    \end{bmatrix}
+    \bold{p}
+    \\ &=
+    \begin{bmatrix}
+    s\bold{R} & \bold{t} \\
+    \bold{0} & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        \bold{p} \\
+        \bold{0}
+    \end{bmatrix}
+    \\ &=
+    s\bold{R}\bold{p} + \bold{t}
+\end{align*}
+$$
+
+Here give the definition to $Sim(3)$ and $sim(3)$. $\bold{\zeta}$ is a 7-dimensional
+vector that has the same elements as $se(3)$ plus one scaling factor $\sigma$.
+$$
+\begin{align*}
+Sim(3) &= \bigg\{
+    \bold{S} = \begin{bmatrix}
+        s\bold{R} & \bold{t} \\
+        \bold{0} & 1
+    \end{bmatrix}
+    \in \mathbb{R}^{4 \times 4}
+\bigg\}
+\\
+sim(3) &= \bigg\{
+    \bold{\zeta} = \begin{bmatrix}
+        \bold{\rho} \\
+        \bold{\phi} \\
+        \sigma
+    \end{bmatrix}
+    \in \mathbb{R}^{7}
+    , \quad
+    \bold{\zeta}^\wedge =
+    \begin{bmatrix}
+        \sigma \bold{I}+\bold{\phi}^\wedge & \bold{\rho} \\
+        \bold{0} & \bold{0}
+    \end{bmatrix}
+    \in \mathbb{R}^{4 \times 4}
+\bigg\}
 \end{align*}
 $$

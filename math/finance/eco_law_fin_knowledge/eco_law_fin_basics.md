@@ -175,3 +175,7 @@ LIBOR is prone to error since it derives from calculations based on banks' surve
 * hive off/spin off 
 
 Separate (especially in business) something from a larger group or organization; (of a parent company) turn a subsidiary into a new and separate company.
+
+* Stock Exchange Daily Official List (SEDOL)
+
+SEDOL is a list of security identifiers used in the United Kingdom and Ireland for clearing purposes. The numbers are assigned by the London Stock Exchange.

@@ -2,35 +2,36 @@
 
 ## Proof of Determinant
 
-Take an orthonormal basis $e_1,…,e_n$ and let columns of $A$ be $a_1,…,a_n$, where $∧$ represents exterior product operator,
+Take an orthonormal basis $\bold{e}_1,…,\bold{e}_n$ and let columns of $A$ be $a_1,…,a_n$, where $∧$ represents exterior product operator,
 $$
-a_1 ∧ ⋯ ∧ a_n=det(A) (e_1 ∧ ⋯ ∧ e_n)
+ \bold{a}_1 ∧ ⋯ ∧\bold{a}_n=det(A) (\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)
 $$
 
 hence
 $$
-det(A)=(e_1 ∧ ⋯ ∧ e_n)^{−1}(a_1 ∧ ⋯ ∧ a_n)
+det(A)=(\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)^{−1}(a_1 ∧ ⋯ ∧ \bold{a}_n)
 $$
 
 given orthogonality ($E^{-1}=E^T$):
 $$
-(e_1 ∧ ⋯ ∧ e_n)^{−1} = (e_1 ⋯ e_n)^{−1} = e_n ⋯ e_1 = e_n ∧ ⋯ ∧ e_1
+(\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)^{−1} = (\bold{e}_1 ⋯ \bold{e}_n)^{−1} = \bold{e}_n ⋯ \bold{e}_1 = \bold{e}_n ∧ ⋯ ∧ \bold{e}_1
 $$
 
-Note that $e_n ∧ ⋯ ∧ e_1$ is a subspace of $a_1 ∧ ⋯ ∧ a_n$, we can further write
+Note that $\bold{e}_n ∧ ⋯ ∧ \bold{e}_1$ is a subspace of $a_1 ∧ ⋯ ∧ \bold{a}_n$, we can further write
 
 $$\begin{align*}
-det(A) \\
-& =(e_n ∧ ⋯ ∧ e_1)⋅(a_1 ∧ ⋯ ∧ a_n) \\
-& =(e_n ∧ ⋯ ∧ e_2)⋅\big(e_1⋅(a_1 ∧ ⋯ ∧ a_n)\big) \\
-& =(e_n ∧ ⋯ ∧ e_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ a_n)−\sum_{i=2}^n (-1)^i a_{1,i}(a_1 ∧ ⋯ \hat a_i ⋯ ∧ a_n) \bigg)
-\end{align*}$$
+det(A)
+& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_1)⋅(a_1 ∧ ⋯ ∧ \bold{a}_n) \\
+& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_2)⋅\big(\bold{e}_1⋅(a_1 ∧ ⋯ ∧ \bold{a}_n)\big) \\
+& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \bold{a}_n)−\sum_{i=2}^n (-1)^i \bold{a}_{1,i}(a_1 ∧ ⋯ ∧ \hat{\bold{a}}_i ∧ ⋯ ∧ \bold{a}_n) \bigg)
+\end{align*}
+$$
 
 ## Orthogonal matrix proof: $A^T$ = $A^{-1}$
 
 Matrix $A$ is orthogonal if the column and row vectors are orthonormal vectors. Define $a_i$ as column vector of $A$, given orthogonality here define:
 $$
-a_i^T a_j =
+ \bold{a}_i^T \bold{a}_j =
 \begin{array}{cc}
   \Big \{ & 
     \begin{array}{cc}
@@ -152,11 +153,11 @@ $A_{m \times n}$ can be filled with null ($0$) values to be $A_{n \times n}$ (as
 $$
 A_{n \times n} =
 \begin{bmatrix}
-a_{0,0} & a_{0,1} & a_{0,2} & ... & a_{0,n} \\
-a_{1,0} & a_{1,1} & a_{1,2} & ... & a_{1,n} \\
-a_{2,0} & a_{2,1} & a_{1,2} & ... & a_{2,n} \\
+ {a}_{0,0} & {a}_{0,1} & {a}_{0,2} & ... & {a}_{0,n} \\
+ {a}_{1,0} & {a}_{1,1} & {a}_{1,2} & ... & {a}_{1,n} \\
+ {a}_{2,0} & {a}_{2,1} & {a}_{1,2} & ... & {a}_{2,n} \\
 ... & ... & ... & ... & ... \\
-a_{m,0} & a_{m,1} & a_{m,2} & ... & a_{2,n} \\
+ {a}_{m,0} & {a}_{m,1} & {a}_{m,2} & ... & {a}_{2,n} \\
 0 & 0 & 0 & ... & 0 \\
 ... & ... & ... & ... & ... \\
 0 & 0 & 0 & ... & 0

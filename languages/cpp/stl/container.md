@@ -1,14 +1,10 @@
 # STL 
 
-## Containers
-
-vector、deque、stack/queue、map/set、unordered_map/unordered_set
-
-### `std::map`
+## `std::map`
 
 `std::map` uses red-black tree, that renders high computation cost when having too many insertion and deletion operation (to balance the tree). Read/write operations on the map is $O\big(log(n)\big)$.
 
-### `std::string`
+## `std::string`
 
 * string types
 
@@ -66,13 +62,17 @@ Example:
 std::string_view good_str{"a string literal"};
 ```
 
-### `std::unordered_map`
+* `std::iostream`
+
+
+
+## `std::unordered_map`
 
 `std::unordered_map` does not have order hence the read/write operations on the map is always $O(1)$.
 
 Key/value pairs in `std::unordered_map` are stored in bucket depending on hash result of keys. There is no mandated implementations, that linked lists are used in the libstdc++ and Microsoft implementations, while other might use a number of vectors to represent buckets.
 
-### `std::vector`
+## `std::vector`
 
 A vector grows exponentially, such as by $2^n$: $2$, $4$, $8$, $16$ ..., and every time it grows, there need copy operations that assigns elements from old memory to new memory addresses.
 
@@ -129,20 +129,20 @@ This is unnecessary since the object passed to push_back is obviously an rvalue 
 
 By using `emplace_back`, only `MyKlass` constructor is called. This is the object constructed inside the vector. No temporaries are needed.
 
-### `std::list`
+## `std::list`
 
 `insert()`/`erase()` in a list need $O(n)$ since it iterates over the whole list to determine where to insert/delete an element.
 
 `push_back()` only needs $O(1)$.
 
-### `std::array`
+## `std::array`
 
 `std::array` is a container that encapsulates fixed size arrays, init by such as 
 ```cpp
 std::array<int, 3> a {1, 2, 3};
 ```
 
-### `std::deque`
+## `std::deque`
 
 `std::deque` (double-ended queue) is an indexed sequence container that allows fast insertion and deletion at both its beginning and its end.
 
@@ -158,7 +158,7 @@ Deque implements pointer to the queue's first and end elements, while elements i
 
 `stack`: LIFO context (last-in first-out)
 
-### `std::bitset`
+## `std::bitset`
 
 The class template bitset represents a fixed-size sequence of N bits. Bitsets can be manipulated by standard logic operators and converted to and from strings and integers.
 
@@ -167,7 +167,7 @@ template< std::size_t N >
 class bitset;
 ```
 
-### `std::set`
+## `std::set`
 
 `std::set` is an associative container that contains a sorted set of unique objects of type Key. 
 

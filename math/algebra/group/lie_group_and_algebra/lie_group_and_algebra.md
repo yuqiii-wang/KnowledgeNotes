@@ -55,7 +55,7 @@ $$
 * Identity: 
 
 $$
-EX=XE=X
+EI=XI=I
 $$
 
 There’s a null operator that does nothing
@@ -63,7 +63,7 @@ There’s a null operator that does nothing
 * Inverse: 
 
 $$X
-^{-1}X = XX^{-1} = E
+^{-1}X = XX^{-1} = I
 $$
 
 The action of any element can be reversed

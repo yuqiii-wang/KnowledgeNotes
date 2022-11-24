@@ -137,12 +137,14 @@ To employ Gauss-Newton method, this term $(\bold{J}^\text{T} \bold{J})^{-1} \bol
 $$
 \begin{align*}
  \bold{J} &=
-\begin{bmatrix}
+\left[
+\begin{array}{c|c}
     \bold{F} & \bold{E}
-\end{bmatrix}
+\end{array}
+\right]
 \\ &=
 \left[
-\begin{array}{cccccccccc}
+\begin{array}{ccccc|ccccc}
     \frac{\partial \bold{e}_{11}}{\partial [\bold{R}|\bold{t}]_1} &
     \bold{0}_{2 \times 6} &
     \bold{0}_{2 \times 6} &

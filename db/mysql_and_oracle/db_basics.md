@@ -85,6 +85,8 @@ END
 
 A SQL procedure is a  group of SQL statements and logic, compiled and stored together to perform a specific task.
 
+Often start/end with `BEGIN`/`END`
+
 ```sql
 Create  PROCEDURE GetStudentName 
 (

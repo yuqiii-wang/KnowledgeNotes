@@ -6,7 +6,7 @@ u * v = |u| |v| cos\theta
 = v_1u_1 + v_2u_2 + v_3u_3 + ... + v_nu_n
 $$
 
-Applications: $u$ represents a 8 lb force applied pulling a wagon with an upward force direction, while $v$ represents 50 ft distance. $u * v$ express the *work* ($W = \overrightarrow{F} * \overrightarrow{D}$) for this effort.
+Applications: $u$ represents a 8 lb force applied pulling a wagon with an upward force direction, while $v$ represents 50 ft distance. $u \cdot v$ express the *work* ($W = \overrightarrow{F} \cdot \overrightarrow{D}$) for this effort.
 
 ![dot_prod_example_use_pull_wagon](imgs/dot_prod_example_use_pull_wagon.jfif "dot_prod_example_use_pull_wagon")
 
