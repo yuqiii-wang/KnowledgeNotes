@@ -34,7 +34,7 @@ $$
 
 ### Training
 
-RNN works on dataset with periodic hidden patterns, so that each sample $x_i$ should be the size of $m \times n \times \tau$, where $0 \le t \le \tau $, where $\tau$ is the pattern period, over which $U_h$ is tracing back. 
+RNN works on dataset with periodic hidden patterns, so that each sample $x_i$ should be the size of $m \times n \times \tau$, where $0 \le t \le \tau$, where $\tau$ is the pattern period, over which $U_h$ is tracing back. 
 
 For example, a dataset over one year (365 days) is composed of tick data with hour-level granularity, and exhibits a periodic pattern of one day. Each sample should be of the size $m \times n \times 24$. 
 

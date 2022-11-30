@@ -19,6 +19,9 @@ MESSAGE("Eigen3 version: " ${Eigen3_VERSION})
 find_package(g2o 1.0 REQUIRED)
 find_package(Sophus 22.4 REQUIRED)
 find_package(fmt 9.1 REQUIRED)
+find_package(Ceres 2.2 REQUIRED)
+find_package(glog 0.6 REQUIRED)
+
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(/usr/include/eigen3)
@@ -30,6 +33,7 @@ include_directories(${fmt_INCLUDE_DIRS} )
 add_executable( pnp src/pnp.cpp )
 add_executable( ba_gauss_newton src/ba_gauss_newton.cpp )
 add_executable( ba_g2o src/ba_g2o.cpp )
+add_executable( ba_ceres src/ba_ceres.cpp )
 add_executable( optical_flow src/optical_flow.cpp )
 
 target_link_libraries(pnp ${OpenCV_LIBRARIES} )
@@ -46,6 +50,14 @@ target_link_libraries(ba_g2o ${OpenCV_LIBRARIES}
                         ${Sophus_LIBRARIES} 
                         fmt)
 
+target_link_libraries(ba_ceres ${OpenCV_LIBRARIES}
+                        ${Eigen_LIBRARIES}
+                        ${g2o_LIBRARIES}
+                        ${Sophus_LIBRARIES} 
+                        fmt
+                        ${Ceres_LIBRARIES}
+                        glog::glog)
+
 target_link_libraries(optical_flow ${OpenCV_LIBRARIES}
                         ${Eigen_LIBRARIES}
                         ${g2o_LIBRARIES}
@@ -54,4 +66,6 @@ target_link_libraries(optical_flow ${OpenCV_LIBRARIES}
 
 FILE(GLOB images ${PROJECT_SOURCE_DIR}/resources/traffic*.png)
 FILE(COPY ${images}
+        DESTINATION ${PROJECT_SOURCE_DIR}/build/ )
+FILE(COPY resources/landmarks.txt
         DESTINATION ${PROJECT_SOURCE_DIR}/build/ )

@@ -42,3 +42,18 @@ __static_initialization_and_destruction_0(int, int):
 ```
 
 * `constinit`
+
+* `const member function`
+
+The below code throw an error for `error: passing 'const xy_stl::Count' as 'this' argument discards qualifiers [-fpermissive]`.
+
+```cpp
+int add(const Count& count){
+        return c + count.getCount();
+}
+```
+
+The error derives from `count.getCount()` not declared as `const`. The remediation is declaring a trailing `const`.
+```cpp
+int Count::getCount() const
+```

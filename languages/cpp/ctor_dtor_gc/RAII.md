@@ -1,6 +1,6 @@
 # Resource Acquisition Is Initialization (RAII)
 
-Core concept: a resource must be acquired before use to the lifetime of an object, and must be freed after use.
+RAII is a practice philosophy: a resource must be acquired before use to the lifetime of an object, and must be freed after use.
 
 Some typical:
 
@@ -11,6 +11,35 @@ Some typical:
 * Must apply lock for resources being modified by multiple threads (such as vars and files)
 
 * Use smart pointers to manage resources that are used in different scopes
+
+## Practice Example
+
+The below code is bad for `std::mutex m` might never be freed.
+
+```cpp
+std::mutex m;
+ 
+void bad() 
+{
+    m.lock();                    
+    f();                         // if f() throws exception, mutex m will never be freed
+    if(!everything_ok()) return; // return early, mutex m will never be freed
+    m.unlock();                  
+}
+```
+
+The problem can be solved by applying `lock_guard` that automatically checks ownership and releases resources when out of scope.
+
+The class `lock_guard` is a mutex wrapper that provides a convenient RAII-style mechanism for owning a mutex for the duration of a scoped block.
+
+```cpp
+void good()
+{
+    std::lock_guard<std::mutex> lk(m); // RAII: apply resource management when the obj is init.
+    f();                               
+    if(!everything_ok()) return;       
+}
+```
 
 ## A Typical Obj Lifecycle
 

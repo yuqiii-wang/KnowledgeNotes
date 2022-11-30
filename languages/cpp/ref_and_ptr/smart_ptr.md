@@ -35,7 +35,7 @@ int main()
 
 ### Shared Pointer counter
 
-Depending on realization, for `boost::shared_ptr`, a counter is defined in `private` in a `shared_ptr` container, in which it `new`s a counter. As a result, a `shared_ptr` counter resides in heap.
+Depending on materialization, for `boost::shared_ptr`, a counter is defined in `private` in a `shared_ptr` container, in which it `new`s a counter. As a result, a `shared_ptr` counter resides in heap.
 
 ### Shared Pointer Passing Cost
 
@@ -98,6 +98,57 @@ std::unique_ptr<T> make_unique(Ts&&... params)
     return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
 }
 ```
+
+## Circular Dependency Issues with `std::shared_ptr`, and `std::weak_ptr`
+
+In the code below, by `p1->m_partner = p2;		p2->m_partner = p1;`, two shared pointers are dependent on each other. After `partnerUp()` is called, there are two shared pointers pointing to “Ricky” (ricky, and Lucy’s m_partner) and two shared pointers pointing to “Lucy” (lucy, and Ricky’s m_partner).
+
+At the end of `main()`, the ricky's shared pointer goes out of scope first. However, it finds that its pointer has dependency on lucy's. To avoid dangling pointer issues, it does not deallocate lucy's pointer, and vice versa, lucy does not release ricky's pointer.
+
+As a result, only `Person` constructor's `std::cout << m_name << " created\n";` got invoked, and they are not destroyed.
+
+```cpp
+class Person{
+	std::string m_name;
+	std::shared_ptr<Person> m_partner; // initially created empty
+
+    Person(const std::string &name): m_name(name)	{
+		std::cout << m_name << " created\n";
+	}
+	~Person()	{
+		std::cout << m_name << " destroyed\n";
+	}
+
+    friend bool partnerUp(std::shared_ptr<Person> &p1, std::shared_ptr<Person> &p2)	{
+		if (!p1 || !p2)
+			return false;
+
+		p1->m_partner = p2;
+		p2->m_partner = p1;
+
+		std::cout << p1->m_name << " is now partnered with " << p2->m_name << '\n';
+
+		return true;
+	}
+}
+
+int main(){
+	auto lucy { std::make_shared<Person>("Lucy") }; // create a Person named "Lucy"
+	auto ricky { std::make_shared<Person>("Ricky") }; // create a Person named "Ricky"
+
+	partnerUp(lucy, ricky); // Make "Lucy" point to "Ricky" and vice-versa
+
+	return 0;
+}
+```
+
+### `std::weak_ptr` as the Solution to Shared Pointer Circular Dependency
+
+A `std::weak_ptr` is an observer -- it can observe and access the same object as a `std::shared_ptr` but it is not considered an owner.
+
+Given the same code above, just need to replace `std::shared_ptr<Person> m_partner;` with `std::weak_ptr<Person> m_partner;`. Functionally speaking, when ricky goes out of scope, a `std::weak_ptr` performs a double check that there are no other `std::shared_ptr` pointing at “Ricky” (the `std::weak_ptr` from “Lucy” doesn’t count). Therefore, it will deallocate “Ricky”. The same occurs for lucy.
+
+However, `std::weak_ptr` are not directly usable (they have no `operator->`). To use a `std::weak_ptr`, you must first convert it into a `std::shared_ptr` (in practice, implicit conversion ).
 
 ## Auto Pointer and Unique Pointer
 

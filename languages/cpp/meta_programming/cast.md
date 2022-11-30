@@ -41,14 +41,31 @@ First, the "Help" string constant literal is converted to a char* that points to
 char* s = "Help" + 3;
 ```
 
+## Downcast vs Upcast
+
+* Upcast
+
+*Upcast* is the process to create the derived class's pointer or reference from the base class's pointer or reference.
+```cpp
+Base *ptr = &derived_obj;
+```
+
+* Downcast
+
+The *Downcast* is an opposite process to upcast, which converts the base class's pointer or reference to the derived class's pointer or reference. 
+Downcast is dangerous since the derived class may have members not defined in base class.
+```cpp
+Derived *ptr = &base_obj;
+```
+
 ## Four types of cast 
 
 ### Summary
 
-* For strict "value casting" you can use `static_cast<>`. 
-* If you want run-time polymorphic casting of pointers use `dynamic_cast<>`. 
-* If you really want to forget about types, you can use `reintrepret_cast<>`. 
-* To just throw const out the window there is `const_cast<>`.
+* For strict "value casting" you can use `static_cast<new-type>`. 
+* If you want run-time polymorphic casting of pointers use `dynamic_cast<new-type>`. 
+* If you really want to forget about types, you can use `reintrepret_cast<new-type>`. 
+* To just throw const out the window there is `const_cast<new-type>`.
 
 ### `static_cast<new-type>(expression)` 
 
@@ -73,11 +90,13 @@ D* pd = static_cast<D*>(pb); // unsafe, downcast to its base
 ```
 
 
-`static_cast` happens at compile time.
+`static_cast` happens at compile time. As a result, no safety check is performed during runtime to check if the object being converted is in fact a full object of the destination type. 
 
 ### `dynamic_cast<new-type>(expression)` 
 
 `dynamic_cast<new-type>(expression)` returns a value of type `new-type`. The type of expression must be a pointer if `new-type` is a pointer, or an l-value if `new-type` is a reference.
+
+`dynamic_cast` only works on polymorphic types, i.e., types that declare at least one virtual function, hence, used only with pointers and references to objects.
 
 `dynamic_cast` is useful when object type is unknown. It returns a null pointer if the object referred to doesn't contain the type casted to as a base class (when you cast to a reference, a bad_cast exception is thrown in that case).
 
@@ -115,6 +134,19 @@ Cat*    catPtr2 = dynamic_cast<Cat*>(AnimalPtrCat);  // Works
 Animal  a;
 Cat&    catRef1 = dynamic_cast<Cat&>(a);    // Throws an exception  Its not a CAT
 Cat*    catPtr1 = dynamic_cast<Cat*>(&a);   // Returns NULL         Its not a CAT.
+```
+
+`dynamic_cast` raises exception when casting a base object to a derived. `static_cast` would not see this error.
+
+```cpp
+class CBase { };
+class CDerived: public CBase { };
+
+CBase b; CBase* pb;
+CDerived d; CDerived* pd;
+
+pb = dynamic_cast<CBase*>(&d);     // ok: derived-to-base
+pd = dynamic_cast<CDerived*>(&b);  // wrong: base-to-derived
 ```
 
 `dynamic_cast` happens at run time.
