@@ -581,4 +581,6 @@ This is in stark contrast to the transformation by Gram–Schmidt process that $
 
 ### QR vs LU decomposition
 
-For the full-rank case LU factorization is cheaper; QR is good for rank-deficient least-squares cases.
+For the full-rank case LU factorization is cheaper.  
+
+QR is good for rank-deficient least-squares cases, since each QR step solves for one column, disregarding the number of rows. In least squares cases, often $rowNum \gg colNum$.
