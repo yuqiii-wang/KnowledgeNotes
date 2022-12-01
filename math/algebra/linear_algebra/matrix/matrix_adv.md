@@ -2,6 +2,13 @@
 
 The complex conjugate of a complex number is the number with an equal real part and an imaginary part equal in magnitude but opposite in sign, such as the complex conjugate of $a + b i$ is equal to $a − b i$.
 
+## Unitary Matrix
+
+A complex square matrix $U$ is unitary if its conjugate transpose $U^*$ is also its inverse, that is
+$$
+U^*U = UU^* = UU^{-1} = I
+$$
+
 ## Isometry
 
 An isometry (or congruence, or congruent transformation) is a distance-preserving transformation between metric spaces.
