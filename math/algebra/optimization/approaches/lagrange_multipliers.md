@@ -69,4 +69,8 @@ f(\frac{\sqrt{2}}{2}, \frac{\sqrt{2}}{2})=\sqrt{2},
 f(-\frac{\sqrt{2}}{2}, -\frac{\sqrt{2}}{2})=-\sqrt{2}
 $$
 
-![lagrange_mul_example](imgs/lagrange_mul_example.png "lagrange_mul_example")
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/lagrange_mul_example.png" width="30%" height="30%" alt="lagrange_mul_example">
+</div>
+</br>

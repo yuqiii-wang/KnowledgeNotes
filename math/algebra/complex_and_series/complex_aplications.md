@@ -1,4 +1,4 @@
-# Complex Application
+# Complex Applications
 
 ## Laplace transform
 
