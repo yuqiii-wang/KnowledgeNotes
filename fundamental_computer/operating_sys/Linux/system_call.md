@@ -88,7 +88,10 @@ int main ()
 
 Interrupt is signal to processor that there is an urgent task required handling.
 
-![irq](imgs/irq.png "irq")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/irq.png" width="40%" height="40%" alt="irq">
+</div>
+</br>
 
 * IRQ
 
@@ -163,3 +166,25 @@ where, about interrupt services
 * Interrupt about *Real Time Clocks* (RTCs) that are devices used to track the absolute time in nonvolatile memory, which can be internal to the processor or externally connected through the I2C or SPI bus. 
 * acpi refers to *Advanced Configuration and Power Interface* (ACPI) that provides an open standard that operating systems can use to discover and configure computer hardware components, to perform power management 
 * nvme0q0 is about nvidia GPU
+
+## System Call Cheatsheet
+
+### Arch Table
+
+|arch|	syscall number|	return|	arg0|	arg1|	arg2|	arg3|	arg4|	arg5|
+|-|-|-|-|-|-|-|-|-|
+|arm|	r7|	r0|	r0|	r1|	r2|	r3|	r4|	r5|
+|x86_64|	rax|	rax|	rdi|	rsi|	rdx|	r10|	r8|	r9|
+
+### Linux System Call Convention
+
+|syscall number|	syscall name|	%rax|	arg0 (%rdi)|	arg1 (%rsi)|	arg2 (%rdx)|	arg3 (%r10)|	arg4 (%r8)|	arg5 (%r9)|
+|-|-|-|-|-|-|-|-|-|
+|0|	read|	0x00|	unsigned int fd|	char *buf|	size_t count|	-|	-|	-|
+|1|	write|	0x01|	unsigned int fd|	const char *buf|	size_t count|	-|	-|	-|s
+|2|	open|	0x02|	const char *filename|	int flags|	umode_t mode|	-|	-|	-|
+|3|	close|	0x03|	unsigned int fd|	-|	-|	-|	-|	-|
+|7|	poll|	0x07|	struct pollfd *ufds|	unsigned int nfds|	int timeout|	-|	-|	-|
+|22|	pipe|	0x16|	int *fildes|	-|	-|	-|	-|	-|
+|41|	socket|	0x29|	int|	int|	int|	-|	-|	-|
+

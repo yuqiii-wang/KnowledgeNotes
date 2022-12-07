@@ -101,7 +101,7 @@ Cauchy point method is non-convergence in the whole trust region.
 It simply tracks the direction of $\nabla \bold{f}_k$ with the scalar $\tau_k$ as the step length. 
 The objective function $\bold{f}_k$ within a trust region $\Delta_k$ might be very curvy that one simple direction $\nabla \bold{f}_k$ does not represent how $\bold{f}_k$ moves, rendering a bad approximation.
 
-## Dogleg Formulation
+## Dogleg
 
 *Dogleg* provides two steps to better approximate the objective function $\bold{f}$.
 

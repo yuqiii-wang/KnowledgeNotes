@@ -28,7 +28,7 @@ include_directories(/usr/include/eigen3)
 include_directories(${g2o_INCLUDE_DIRS})
 include_directories(${Sophus_INCLUDE_DIRS})
 include_directories(${fmt_INCLUDE_DIRS} ) 
-
+include_directories(${Ceres_INCLUDE_DIRS} ) 
 
 add_executable( pnp src/pnp.cpp )
 add_executable( ba_gauss_newton src/ba_gauss_newton.cpp )
@@ -48,14 +48,16 @@ target_link_libraries(ba_g2o ${OpenCV_LIBRARIES}
                         ${Eigen_LIBRARIES}
                         ${g2o_LIBRARIES}
                         ${Sophus_LIBRARIES} 
-                        fmt)
+                        fmt
+                        ${CERES_LIBRARIES}
+                        glog::glog)
 
 target_link_libraries(ba_ceres ${OpenCV_LIBRARIES}
                         ${Eigen_LIBRARIES}
                         ${g2o_LIBRARIES}
                         ${Sophus_LIBRARIES} 
                         fmt
-                        ${Ceres_LIBRARIES}
+                        ${CERES_LIBRARIES}
                         glog::glog)
 
 target_link_libraries(optical_flow ${OpenCV_LIBRARIES}

@@ -59,3 +59,12 @@ struct A
 ### Solution
 
 Often sdk does not provide source code, and you need to use Valgrind and gdb to locate wronged code/memory leaked object.
+
+## Program Killed by `SIGKILL`
+
+* some other process executed a `kill -9 <your-pid>`
+
+* kernel OOM killer decided that your process consumed too many resources, and terminated it.
+ Check  `/var/log/messages`/`/var/log/syslog` to see OS logs
+
+Inside possible infinite loop, add `usleep(100);` to make `std::cout` having time buffer to actually output something, otherwise, since infinite loop does not give time to `std::cout` to print anything. 

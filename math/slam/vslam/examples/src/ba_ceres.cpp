@@ -4,9 +4,6 @@
 #include <iostream>
 #include <fstream>
 
-#include "ceres/ceres.h"
-#include <Eigen/Core>
-
 #include "se3Tools.hpp"
 
 
@@ -43,52 +40,76 @@ private:
 
 #endif // SnavelyReprojection.h
 
-int readData(const std::string& filename)
-{
-    FILE* fptr = fopen(filename.c_str(), "r");
-    if (fptr == nullptr) {
-        std::cout << "landmarks.txt not existed" << std::endl;
-        return -1;
-    }
-
-    FscanfOrDie(fptr, "%d", &bal.num_cameras_);
-    FscanfOrDie(fptr, "%d", &bal.num_points_);
-    FscanfOrDie(fptr, "%d", &bal.num_observations_);
-
-    std::cout << "Header: " << "NumCameras: " << bal.num_cameras_
-            << " NumPoints: " << bal.num_points_
-            << " NumObservations: " << bal.num_observations_
-            << std::endl;
-
-    bal.point_index_ = new int[bal.num_observations_];
-    bal.camera_index_ = new int[bal.num_observations_];
-    bal.observations_ = new double[2 * bal.num_observations_];
-
-    bal.num_parameters_ = 9 * bal.num_cameras_ + 3 * bal.num_points_;
-    bal.parameters_ = new double[bal.num_parameters_];
-
-    // camera_idx, point_idx, obs_x, obs_y
-    for (int i = 0; i < bal.num_observations_; ++i) {
-        FscanfOrDie(fptr, "%d", bal.camera_index_ + i);
-        FscanfOrDie(fptr, "%d", bal.point_index_ + i);
-        for (int j = 0; j < 2; ++j) {
-            FscanfOrDie(fptr, "%lf", bal.observations_ + 2*i + j);
-        }
-    }
-
-    // params
-    for (int i = 0; i < bal.num_parameters_; ++i) {
-        FscanfOrDie(fptr, "%lf", bal.parameters_ + i);
-    }
-
-    fclose(fptr);
-
-    return 0;
-}
-
 int main() {
 
-    readData("./landmarks.txt");
+    BAL bal;
+
+    readData("./landmarks.txt", bal);
+
+    bal.normalize();
+    bal.perturb(0.0, 0.0, 0.0);
+
+    const int point_block_size = 3;
+    const int camera_block_size = 9;
+    double* points = bal.mutable_points();
+    double* cameras = bal.mutable_cameras();
+
+    writeToPLYFile("inits.ply", bal);
+
+    // Observations is 2 * num_observations long array observations
+    // [u_1, u_2, ... u_n], where each u_i is two dimensional, the x 
+    // and y position of the observation. 
+    // const std::shared_ptr<double> observations = 
+                // std::make_shared<double>(bal.getObservations());
+    const double* observations = bal.getObservations();
+    ceres::Problem problem;
+
+    for(int i = 0; i < bal.getNumObservations(); ++i){
+
+        // Each Residual block takes a point and a camera as input 
+        // and outputs a 2 dimensional Residual
+      
+        ceres::CostFunction* cost_function = SnavelyReprojectionError::Create((&(*observations))[2*i + 0], (&(*observations))[2*i + 1]);
+
+        // If enabled use Huber's loss function. 
+        ceres::LossFunction* loss_function = new ceres::HuberLoss(1.0);
+
+        // Each observation corresponds to a pair of a camera and a point 
+        // which are identified by camera_index()[i] and point_index()[i]
+        // respectively.
+        double* camera = cameras + camera_block_size * bal.getCameraIndex()[i];
+        double* point = points + point_block_size * bal.getPointIndex()[i];
+
+        problem.AddResidualBlock(cost_function, loss_function, camera, point);
+    }
+
+
+    ceres::Solver::Options options;
+    options.max_num_iterations = 20;
+    options.minimizer_progress_to_stdout = true;
+    options.num_threads = 12;
+    ceres::StringToLinearSolverType("dense_schur", &options.linear_solver_type);
+    ceres::StringToTrustRegionStrategyType("dogleg",
+                                        &options.trust_region_strategy_type);
+    ceres::StringToSparseLinearAlgebraLibraryType("suite_sparse", &options.sparse_linear_algebra_library_type);
+    ceres::StringToDenseLinearAlgebraLibraryType("eigen", &options.dense_linear_algebra_library_type);
+    options.gradient_tolerance = 1e-8;
+    options.function_tolerance = 1e-8;
+
+
+    ceres::ParameterBlockOrdering* ordering = new ceres::ParameterBlockOrdering;
+    // The points come before the cameras
+    for(int i = 0; i < bal.getNumPoints(); ++i)
+    ordering->AddElementToGroup(points + point_block_size * i, 0);
+    for(int i = 0; i < bal.getNumCameras(); ++i)
+        ordering->AddElementToGroup(cameras + camera_block_size * i, 1);
+    // set this ordering to options
+    options.linear_solver_ordering.reset(ordering);
+
+    ceres::Solver::Summary summary;
+    ceres::Solve(options, &problem, &summary);
+
+    writeToPLYFile("results.ply", bal);
 
     return 0;
 }

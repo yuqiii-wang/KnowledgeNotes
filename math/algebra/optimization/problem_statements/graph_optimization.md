@@ -135,9 +135,51 @@ Intuition: we want to minimize the error/gap between measured landmark distance 
 
 ### Code
 
-An error function takes two inputs: $\bold{e}_t(\bold{x}_t, \bold{z}_t)$ for estimation and measurement. They are defined in g2o internal classes `BaseVertex` and `BaseEdge`, respectively. Information $\bold{\Omega}_t$ (defined in `BaseEdge`) should be defined to take into consideration of covariances.
+An error function takes two inputs: $\bold{e}_t(\bold{x}_t, \bold{z}_t)$ for estimation and measurement. 
+They are defined in g2o internal classes `BaseVertex` and `BaseEdge`, respectively. Information $\bold{\Omega}_t$ (defined in `BaseEdge`) should be defined to take into consideration of covariances.
 
-`_estimate`, `_measurement` and `_information` should be set by overriden virtual functions from their base classes.
+* `BaseVertex`
+
+```cpp
+virtual bool read(std::istream& is);
+virtual bool write(std::ostream& os) const;
+virtual void oplusImpl(const number_t* update);
+virtual void setToOriginImpl();
+```
+
+`read` and `write`: for disk reading and writing, usually not used.
+
+`setToOriginImpl`: to init `_estimate`.
+
+`oplusImpl`: to do update $\bold{x}_{t+1}=\bold{x}_t \oplus \Delta\bold{x}_t$.
+
+* `BaseBinaryEdge`
+
+```cpp
+virtual bool read(std::istream& is);
+virtual bool write(std::ostream& os) const;
+virtual void computeError();
+virtual void linearizeOplus();
+
+// important members
+_measurement // observations
+_error // err computed from computeError();
+_vertices[]// info about vertex, for example, _vertices[] got size of 2，so that setVertex(int, vertex) has int 0 or 1
+setId(int)// edges' index
+setMeasurement(type) // set measurement
+setVertex(int, vertex) // set vertex, int indicates index
+setInformation() // the information/covariance matrix
+```
+
+`read` and `write`: for disk reading and writing, usually not used.
+
+`computeError`: to compute error such as by `_error = _measurement - Something;`
+
+`linearizeOplus`: the gradient/Jacobian
+
+The **two most important functions** are `computeError` and `linearizeOplus` that defines how a graph would converge.
+
+`_estimate`, `_measurement` and `_information` should be set by overridden virtual functions from their base classes.
 ```cpp
 // BaseVertex
 void setEstimate(const EstimateType& et) {
@@ -155,7 +197,7 @@ void setInformation(const InformationType& information) {
 }
 ```
 
-For optimization, `OptimizableGraph::Edge` has a pure vurtual function `computeError` awaiting being overriden for how you want to customize error calculation. The return errors are stored in `ErrorVector _error;` inside `BaseEdge`.
+For optimization, `OptimizableGraph::Edge` has a pure vurtual function `computeError` awaiting being overridden for how you want to customize error calculation. The return errors are stored in `ErrorVector _error;` inside `BaseEdge`.
 ```cpp
 // class BaseVertex
 protected:
@@ -294,7 +336,7 @@ class EdgeSE2PointXY
 };
 ```
 
-* Simulatioin generating fake data
+* Simulation generating fake data
 
 Measurements are under the assumption of white Gaussian noise, hence reasonable being expressed by covariances.
 
@@ -392,3 +434,9 @@ optimizer.optimize(10);
 // free this optimizer
 optimizer.clear();
 ```
+
+### Other g2o Properties
+
+* `EIGEN_MAKE_ALIGNED_OPERATOR_NEW`
+
+If you define a structure having members of fixed-size vectorizable Eigen types, you must ensure that calling operator new on it allocates properly aligned buffers. c++17 and higher versions have taken care of the alignment.

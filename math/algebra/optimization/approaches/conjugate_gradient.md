@@ -44,21 +44,21 @@ $$
 \\ &=
 \sum_{i=1}^{n} \lambda_i \bold{p}_k^\text{T} A \bold{p}_i
 \\ &=
-\sum_{i=1}^{n} \lambda_i <\bold{p}_k, \bold{p}_i>_A
+\sum_{i=1}^{n} \lambda_i {\langle \bold{p}_k, \bold{p}_i \rangle}_A
 \\ &=
-\lambda_i <\bold{p}_k, \bold{p}_k>_A
+\lambda_i {\langle\bold{p}_k, \bold{p}_k\rangle}_A
 \end{align*}
 $$
-where $<\cdot>_A$ and $<\cdot>$ denote inner product operation with or without respect to $A$: 
+where ${\langle\space\cdot\space\rangle}_A$ denotes inner product operation with or without respect to $A$: 
 
-* $<\bold{p}_j, \bold{p}_i>_A=\bold{p}_j^\text{T} A \bold{p}_i$
+* ${\langle\bold{p}_j, \bold{p}_i\rangle}_A=\bold{p}_j^\text{T} A \bold{p}_i$
 
-* $<\bold{p}_j, \bold{p}_i>=\bold{p}_j^\text{T} \bold{p}_i$.
+* ${\langle\bold{p}_j, \bold{p}_i\rangle}=\bold{p}_j^\text{T} \bold{p}_i$.
 
 Finally,
 $$
 \lambda_k = 
-\frac{<\bold{p}_k, \bold{b}>}{<\bold{p}_k, \bold{p}_k>_A}
+\frac{ {\langle \bold{p}_k, \bold{b} \rangle} }{ {\langle \bold{p}_k, \bold{p}_k \rangle}_A}
 $$
 
 ### Iterative approach
@@ -71,7 +71,7 @@ $$
 Gram-Schmidt orthonormalization gives update for the $k$-th step conjugate vector $\bold{p}_k$:
 $$
 \bold{p}_k = 
-\bold{r}_k - \sum_{i < k} \frac{<\bold{p}_i, \bold{r}_k>_A}{<\bold{p}_i, \bold{p}_i>_A} \bold{p}_i
+\bold{r}_k - \sum_{i < k} \frac{{\langle\bold{p}_i, \bold{r}_k\rangle}_A}{{\langle\bold{p}_i, \bold{p}_i\rangle}_A} \bold{p}_i
 $$
 
 The $k$-th update is
@@ -87,7 +87,7 @@ To find $\bold{x}^*$ (optimal solution to $f(\bold{x})$), first find the $k$-th 
 
 $\bold{p}_k$ computation takes into consideration that, $\bold{x}^* - \bold{x}_k$ can be decomposed into a set of orthogonal vector additions.
 $$
-\bold{r}_k = \bold{p}_k + \sum_{i < k} \frac{<\bold{p}_i, \bold{r}_k>_A}{<\bold{p}_i, \bold{p}_i>_A} \bold{p}_i
+\bold{r}_k = \bold{p}_k + \sum_{i < k} \frac{{\langle\bold{p}_i, \bold{r}_k\rangle}_A}{{\langle\bold{p}_i, \bold{p}_i\rangle}_A} \bold{p}_i
 $$
 
 ## Conjugate Gradient vs Steepest Descent
@@ -98,4 +98,7 @@ The first steps for both steepest descent and conjugate descent are by steepest 
 
 Steepest descent continues descending along with $\frac{\bold{r}_k^T \bold{r}_k}{\bold{r}_k^T A \bold{r}_k} \triangledown f$, while conjugate descent uses orthogonality of residual $\bold{r}$ for descent route.
 
-![conjugate_gradient](imgs/conjugate_gradient.png "conjugate_gradient")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/conjugate_gradient.png" width="35%" height="35%" alt="conjugate_gradient">
+</div>
+</br>

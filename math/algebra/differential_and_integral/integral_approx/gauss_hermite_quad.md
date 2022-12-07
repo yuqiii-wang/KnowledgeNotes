@@ -1,4 +1,4 @@
-# Gauss–Hermite quadrature
+# Gauss–Hermite Quadrature
 
 A quadrature rule is an approximation of the definite integral of a function, usually stated as a weighted sum of function values at specified points within the domain of integration. 
 

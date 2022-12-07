@@ -1,5 +1,15 @@
 # Const
 
+* `const`
+
+`const` to var is subject to type checking and is non-modifiable.
+
+`const` to class member function makes this function *read-only* to its object, which means forbidden invocation to other non-`const` member function, forbidden modification to class members.
+
+`const` to an expression means that the expression can be evaluated at compiling time.
+
+`void function (T const&);`: a reference is a const pointer. `int * const a = &b;` is the same as `int& a = b;`.
+
 * `consteval` (supported since c++20)
 
 * `constexpr`

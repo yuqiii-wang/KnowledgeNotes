@@ -67,7 +67,10 @@ It is useful to solve Linear least squares (LLS) approximation problems.
 
 ### Derivation Proof
 
-Define a positive definite matrix $A \in \mathbb{R}^{n \times n}$. It is trivial when $n=1$, and then only consider $n>1$ cases. Partition $A$ as below, where $\~{A} \in \mathbb{R}^{(n-1) \times (n-1)}$, and $\bold{a} \in \mathbb{R}^{n-1}$ is a vector. $\alpha$ is a scalar number.
+Define a positive definite matrix $A \in \mathbb{R}^{n \times n}$. 
+It is trivial when $n=1$, and then only consider $n>1$ cases. 
+Partition $A$ as below, where $\~{A} \in \mathbb{R}^{(n-1) \times (n-1)}$, and $\bold{a} \in \mathbb{R}^{n-1}$ is a vector. 
+$\alpha$ is a scalar number.
 $$
 A = 
 \begin{bmatrix}
@@ -237,6 +240,9 @@ L_{ij} &= \frac{1}{D_j} \bigg(
 \bigg) \quad i>j 
 \end{align*}
 $$
+
+From the perspective of $A=LU$ decomposition, since $A$ is positive definite, there is $A=(L\sqrt{D})(\sqrt{D}L)^\text{T}=LDL^\text{T}$. 
+One can show that by Gaussian elimination, the $LU$ decomposition on positive definite matrix $A$ produces the lower triangular matrix $L$ being the conjugate transpose of the upper triangular matrix $U$.
 
 ### Application
 
