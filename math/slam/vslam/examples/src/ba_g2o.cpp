@@ -111,7 +111,7 @@ public:
         double *jacobians[] = { dError_dCamera.data(), dError_dPoint.data() };
         double value[Dimension];
 
-        bool diffState = ceres::internal::AutoDifferentiate<2, VertexCameraBAL::Dimension, computeResiduals, double>( computeResiduals( cam->estimate().data(), point->estimate().data(), _error.data() ), parameters, Dimension, value, jacobians );
+        bool diffState = ceres::internal::AutoDiff<2, VertexCameraBAL::Dimension, computeResiduals, double>( computeResiduals( cam->estimate().data(), point->estimate().data(), _error.data() ), parameters, Dimension, value, jacobians );
 
         // bool diffState = BalAutoDifferentiate( *this, parameters, Dimension, value, jacobians );
 

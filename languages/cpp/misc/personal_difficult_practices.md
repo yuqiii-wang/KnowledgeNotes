@@ -62,9 +62,19 @@ Often sdk does not provide source code, and you need to use Valgrind and gdb to 
 
 ## Program Killed by `SIGKILL`
 
-* some other process executed a `kill -9 <your-pid>`
+### Some other process executed a `kill -9 <your-pid>`
 
-* kernel OOM killer decided that your process consumed too many resources, and terminated it.
- Check  `/var/log/messages`/`/var/log/syslog` to see OS logs
+Use `auditctl` to check which process initiated `sigkill`
+1. to check if `audit` is up and running:
+`ps -elf | grep audit`
+2. add a rule to monitor `sigkill` by
+`auditctl -a exit,always -S kill`; besides, use `auditctl -a exit,always -S kill -F a0=<pid-hex-format>` to monitor a particular pid, where the `<pid>` is in hex rather than decimal
+3. When the `<pid>` is killed, check the log
+`tail /var/log/audit/audit.log -n 100`
+4. search for the keyword `type=SYSCALL` and `syscall=62`, locate the `sigkill`-initiated pid and what command that pid uses. For example, `comm="kill" exe="/usr/bin/kill"`
+5. Use `ps -elf | grep <pid>` to check detail of the pid; Check `/var/log/messages` or `/var/log/syslog` to see OS logs if the `sigkill` is initiated by OS's process
+
+### Kernel OOM killer decided that your process consumed too many resources, and terminated it.
+Check  `/var/log/messages` or `/var/log/syslog` to see OS logs
 
 Inside possible infinite loop, add `usleep(100);` to make `std::cout` having time buffer to actually output something, otherwise, since infinite loop does not give time to `std::cout` to print anything. 

@@ -167,7 +167,7 @@ where, about interrupt services
 * acpi refers to *Advanced Configuration and Power Interface* (ACPI) that provides an open standard that operating systems can use to discover and configure computer hardware components, to perform power management 
 * nvme0q0 is about nvidia GPU
 
-## System Call Cheatsheet
+## System Call Cheat Sheet
 
 ### Arch Table
 
