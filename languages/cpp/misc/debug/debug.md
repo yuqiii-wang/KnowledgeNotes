@@ -2,6 +2,15 @@
 
 ## GDB
 
+### Quick Start
+
+```bash
+file <your-binary> # load symbol  table
+run # execute
+where # find failure point
+info sharedlibrary # check the actually loaded libraries
+```
+
 ### Debugging Symbol Table
 
 A Debugging Symbol Table maps instructions in the compiled binary program to their corresponding variable, function, or line in the source code. 

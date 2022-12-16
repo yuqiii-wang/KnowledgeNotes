@@ -1,4 +1,174 @@
-# Executable *ELF*
+# Executable *ELF* (Executable and Linkable Format)
+
+## Linux's Process on ELF
+
+On start, Linux registers its supported binary format into `struct linux_binfmt` below.
+```cpp
+struct linux_binfmt {
+	struct list_head lh;
+	struct module *module;
+	int (*load_binary)(struct linux_binprm *);
+	int (*load_shlib)(struct file *);
+	int (*core_dump)(struct coredump_params *cprm);
+	unsigned long min_coredump;	/* minimal dump size */
+} __randomize_layout;
+```
+
+ELF is a binary format registered to this `linux_binfmt` as below
+```cpp
+static struct linux_binfmt elf_format = {
+	.module		= THIS_MODULE,
+	.load_binary	= load_elf_binary,
+	.load_shlib	= load_elf_library,
+	.core_dump	= elf_core_dump,
+	.min_coredump	= ELF_EXEC_PAGESIZE,
+};
+```
+where `load_elf_binary` Linux kernel function runs checking the ELF binary content.
+
+### Before `load_elf_binary`
+
+From a system perspective of how to start a process:
+* set up a virtual memory space to hold ELF content and for later instruction execution
+* read ELF headers, and build a mapping relationship between the virtual memory and ELF
+* set CPU instruction register to the entry of the ELF
+
+Virtual memory setup is done with `execv()`/`execve()`. Depending on situations, it may fork a new virtual memory space or use existing parent virtual memory.
+
+Eventually, `load_elf_binary()` gets invoked.
+
+### Inside `load_elf_binary`
+
+1. read elf headers
+2. segment checking
+3. find an interpreter
+4. virtual mem mapping
+5. get an elf entry
+6. execute the elf instructions with a new thread 
+
+```cpp
+static int load_elf_binary (struct linux_binprm *bprm)
+{
+     // -------------------------------/
+     /* Get and check the exec-header */
+	loc->elf_ex = *((struct elfhdr *)bprm->buf);
+	retval = -ENOEXEC;
+	if (memcmp(loc->elf_ex.e_ident, ELFMAG, SELFMAG) != 0)
+		goto out;
+	if (loc->elf_ex.e_type != ET_EXEC && loc->elf_ex.e_type != ET_DYN)
+          goto out;
+
+     // -------------------------------/
+     // a program must have at least one segment; one segment has size upto 65536U 
+     /* Sanity check the number of program headers... */
+	if (elf_ex->e_phnum < 1 ||
+		elf_ex->e_phnum > 65536U / sizeof(struct elf_phdr))
+		goto out;
+        
+	/* ...and their total size. */
+	size = sizeof(struct elf_phdr) * elf_ex->e_phnum;
+	if (size > ELF_MIN_ALIGN)
+	goto out;
+	
+     // kernel mem allocation
+	elf_phdata = kmalloc(size, GFP_KERNEL);
+	if (!elf_phdata)
+	goto out;
+	/* Read in the program headers */
+	retval = kernel_read(elf_file, elf_phdata, size, &pos);
+	if (retval != size) {
+		err = (retval < 0) ? retval : -EIO;
+		goto out;
+     }
+
+     // -------------------------------/
+     // find an interpreter (labeled as `.interp`), that is ued to load
+     // dynamic/shared libraries, for example,
+     // `/lib64/ld-linux-x86-64.so.2` is the dynamic linker for linux 64-bit ELF binary
+     if (elf_ppnt->p_type == PT_INTERP) {
+          elf_interpreter = kmalloc(elf_ppnt->p_filesz,    GFP_KERNEL);
+	if (!elf_interpreter)
+		goto out_free_ph;
+
+	pos = elf_ppnt->p_offset;
+	retval = kernel_read(bprm->file, elf_interpreter,  elf_ppnt->p_filesz, &pos);
+	
+	interpreter = open_exec(elf_interpreter);
+     }
+
+     // -------------------------------/
+     // create a mapping via `elf_map()` to map virtual mem and object file
+     for(i = 0, elf_ppnt = elf_phdata;  i < loc->elf_ex.e_phnum; i++, elf_ppnt++) {
+
+          /* check virtual mem and page info  */ 
+          if (elf_ppnt->p_flags & PF_R)
+               elf_prot |= PROT_READ;
+          if (elf_ppnt->p_flags & PF_W)
+               elf_prot |= PROT_WRITE;
+          if (elf_ppnt->p_flags & PF_X)
+               elf_prot |= PROT_EXEC;
+               
+          vaddr = elf_ppnt->p_vaddr;
+
+          error = elf_map(bprm->file, load_bias + vaddr, elf_ppnt,
+                    elf_prot, elf_flags, total_size);
+
+          // random bias is added to `load_bias` to prevent
+          // hacking, that in i386, `.text` has static entry at `0x08048000`,
+          // this is easy to be exploted by hackers
+          if (elf_interpreter) {
+               load_bias = ELF_ET_DYN_BASE;
+               if (current->flags & PF_RANDOMIZE)
+                    load_bias += arch_mmap_rnd();
+               elf_flags |= elf_fixed;
+          }
+
+          // load mem by brk
+          if ((current->flags & PF_RANDOMIZE) && (randomize_va_space > 1)) {
+               current->mm->brk = 
+               current->mm->start_brk =
+               arch_randomize_brk(current->mm);
+          }
+     }
+
+     // -------------------------------/
+     // load interpreter and get elf_entry
+     if (elf_interpreter) {
+          unsigned long interp_map_addr = 0;
+
+          elf_entry = load_elf_interp(&loc->interp_elf_ex,
+		    interpreter,
+		    &interp_map_addr,
+		    load_bias, interp_elf_phdata);
+	} else {
+		elf_entry = loc->elf_ex.e_entry;
+     }
+
+     // -------------------------------/
+     // register virtual mem
+     current->mm->end_code = end_code;
+     current->mm->start_code = start_code;
+     current->mm->start_data = start_data;
+     current->mm->end_data = end_data;
+     current->mm->start_stack = bprm->p;
+
+     if ((current->flags & PF_RANDOMIZE) && (randomize_va_space > 1)) {
+          current->mm->brk = current->mm->start_brk =
+     arch_randomize_brk(current->mm);
+     }
+
+     // -------------------------------/
+     // start the process by a thread
+     void start_thread(struct pt_regs *regs, unsigned long new_ip, unsigned long new_sp)
+     {
+          start_thread_common(regs, new_ip, new_sp,
+               __USER_CS, __USER_DS, 0);
+     }
+}
+```
+
+
+## Sections and Segments
 
 Reference:
 https://docs.oracle.com/cd/E23824_01/html/819-0690/glcdi.html#scrolltoc
@@ -10,8 +180,6 @@ Executable and Linkable Format (*ELF*, formerly named Extensible Linking Format)
 * Common applied extensions:
 
 none, .axf, .bin, .elf, .o, .out, .prx, .puff, .ko, .mod, and .so
-
-## Sections and Segments
 
 The segments contain information that is necessary for runtime execution of the file, while sections contain important data for linking and relocation. 
 One segment can contain many sections.
@@ -27,6 +195,8 @@ tell the linker if a section is either:
 tells the operating system:
 * where should a segment be loaded into virtual memory
 * what permissions the segments have (read, write, execute).
+
+`readelf -l <your-elf-binary>` show the mapping between sections and segments:
 
 ### Typical Sections
 
@@ -52,7 +222,7 @@ An array of function pointers that contributes to a single initialization array 
 
 * .interp
 
-The path name of a program interpreter.
+The path name of a program interpreter. Use `readelf -l <your-elf-binary>` to find the interpreter.
 
 * .rodata, .rodata1
 
@@ -72,7 +242,7 @@ Executable instructions that contribute to a single termination function for the
 
 * .text
 
-The text or executable instructions of a program.
+The text or executable instructions of a program. `objdump -d <your-object-file>` can show assembly code from the binary.
 
 ## A `touch` binary example
 

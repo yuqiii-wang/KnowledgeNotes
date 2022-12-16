@@ -3,6 +3,7 @@
 ## Example: Dynamics of $x(t)$ and $y(t)$
 
 Given a dynamic system with known $A_{2 \times 2}$ searching for analytic solutions of $x(t)$ and $y(t)$:
+
 $$
 \frac{d}{dt}
 \begin{bmatrix}
@@ -21,6 +22,7 @@ $$
 $$
 
 Assigned with values (as an example):
+
 $$
 \frac{d}{dt}
 \begin{bmatrix}
@@ -37,6 +39,7 @@ $$
       y(t) \\
 \end{bmatrix}
 $$
+
 as the representation for this set of differential equations:
 $$\begin{align*}
 x'(t) = -y(t) \\
@@ -59,6 +62,7 @@ where $x=[x_1(t), x_2(t), ..., x_n(t)]$ is a set of functions of $t$.
 Hence, it is assumed that function vector $x$ can be expressed as linear combinations of $e^{x}$.
 
 Back to the example, there is
+
 $$
 \frac{d}{dt}
 \begin{bmatrix}

@@ -23,6 +23,7 @@ $$
 
 The line integral of 
 $\overrightarrow{F}$ along $C$ is
+
 $$
 \int_C \overrightarrow{F} \cdot d \overrightarrow{r}
 =

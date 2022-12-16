@@ -1,4 +1,4 @@
-# Symbol Table
+# ELF Symbol Table
 
 Explained with this example:
 ```cpp
@@ -157,15 +157,13 @@ Symbol table '.symtab' contains 65 entries:
     64: 0000000000000000     0 FUNC    WEAK   DEFAULT  UND __cxa_finalize@@GLIBC_2.2.5
 ```
 
-
-
 Inside this `.symtab`, the object `a`'s (Symbol Num $59$), `b`'s (Symbol Num $47$) and `c`'s (Symbol Num $58$) binary can be found by
 $$
 \mathtt{0x3048} + 59 \times \mathtt{0x18} = \mathtt{0x35d0} = 13776 \text{ bytes}
 \\
-\mathtt{0x3048} + 58 \times \mathtt{0x18} = \mathtt{0x35b8} = 13752 \text{ bytes}
-\\
 \mathtt{0x3048} + 47 \times \mathtt{0x18} = \mathtt{0x34b0} = 13488 \text{ bytes}
+\\
+\mathtt{0x3048} + 58 \times \mathtt{0x18} = \mathtt{0x35b8} = 13752 \text{ bytes}
 $$
 
 So that its binary texts given the compiled `symb_test.o` are 
@@ -175,15 +173,20 @@ So that its binary texts given the compiled `symb_test.o` are
 000035e0  04 00 00 00 00 00 00 00                           |........|
 000035e8
 ```
-* `hexdump -C -s13752 -n24 symb_test.o` for `b`:
-```
-000035b8  0a 00 00 00 11 00 18 00  1c 40 00 00 00 00 00 00  |.........@......|
-000035c8  04 00 00 00 00 00 00 00                           |........|
-000035d0
-```
-* `hexdump -C -s13488 -n24 symb_test.o` for `c`:
+where `10 40 00 00 00 00 00 00` is exactly the same as the `a`'s value `0000000000004010` in the `.symtab`
+
+* `hexdump -C -s13488 -n24 symb_test.o` for `b`:
 ```
 000034b0  36 01 00 00 11 00 17 00  14 40 00 00 00 00 00 00  |6........@......|
 000034c0  04 00 00 00 00 00 00 00                           |........|
 000034c8
 ```
+where `14 40 00 00 00 00 00 00` is exactly the same as the `b`'s value `0000000000004014` in the `.symtab`
+
+* `hexdump -C -s13752 -n24 symb_test.o` for `c`:
+```
+000035b8  0a 00 00 00 11 00 18 00  1c 40 00 00 00 00 00 00  |.........@......|
+000035c8  04 00 00 00 00 00 00 00                           |........|
+000035d0
+```
+where `1c 40 00 00 00 00 00 00` is exactly the same as the `c`'s value `000000000000401c` in the `.symtab`
