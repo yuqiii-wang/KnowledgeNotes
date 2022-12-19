@@ -1,5 +1,35 @@
 # MYSQL
 
+## Quick Start
+
+Download by `sudo apt-get install mysql-server`
+
+By default, mysql has a root user with no password, so that after started mysql server by `sudo service mysql start`, login by `sudo mysql -u root --skip-password`.
+
+Then set up privilege access: 
+constrain `root` by setting up a password
+```sql
+USE mysql;
+UPDATE USER set authentication_string=PASSWORD("") where USER='root';
+UPDATE USER set plugin="mysql_native_password" where USER='root';
+
+FLUSH PRIVILEGES;
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'RootP@ssw0rd';
+
+QUIT
+```
+
+Restart mysql server: `sudo service mysql stop; sudo service mysql start`
+
+From now on, login mysql db requires password: `mysql -u root -p`, the old login method without password would fail.
+
+Create a new user (keeping using root privileges is dangerous)
+```sql
+CREATE USER 'userMe'@'localhost' IDENTIFIED WITH mysql_native_password BY 'MyP@ssw0rd';
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'userMe'@'localhost' WITH GRANT OPTION;
+```
+
 ## MySQL vs Oracle
 
 MySQL and Oracle SQL are both RDBMSs (relational database management systems) owned by Oracle Corporation. MySQL is built to be primarily free and open-source, while Oracle is primarily built to be commercial and paid.

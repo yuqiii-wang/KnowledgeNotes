@@ -99,7 +99,6 @@ By default, `COMMIT` has such arguments: `WORK WRITE IMMEDIATE WAIT`
 3. `IMMEDIATE` initiates I/O, causing the redo for the commit of the transaction to be written out immediately by sending a message to the LGWR process
 4. `WAIT` ensures that the commit will not return until the corresponding redo is persistent in the online redo log.
 
-
 * `ON DUPLICATE KEY UPDATE`
 
 If you specify an `ON DUPLICATE KEY UPDATE` clause and a row to be inserted would cause a duplicate value in a `UNIQUE` index or `PRIMARY KEY`, an `UPDATE` of the old row occurs. For example, if column a is declared as `UNIQUE` and contains the value 1, the following two statements have similar effect:
@@ -119,7 +118,9 @@ SELECT country, SUM(profit) AS country_profit
        GROUP BY country
        ORDER BY country;
 ```
+
 that outputs
+
 ```bash
 +---------+----------------+
 | country | country_profit |
@@ -144,7 +145,9 @@ SELECT
        FROM sales
        ORDER BY country, year, product, profit;
 ```
+
 that outputs
+
 ```bash
 +------+---------+------------+--------+--------------+----------------+
 | year | country | product    | profit | total_profit | country_profit |
