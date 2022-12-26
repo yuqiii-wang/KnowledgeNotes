@@ -11,10 +11,10 @@ constrain `root` by setting up a password
 ```sql
 USE mysql;
 UPDATE USER set authentication_string=PASSWORD("") where USER='root';
-UPDATE USER set plugin="mysql_native_password" where USER='root';
+UPDATE USER set plugin="caching_sha2_password" where USER='root';
 
 FLUSH PRIVILEGES;
-
+MYSQL_PASSWORD
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'RootP@ssw0rd';
 
 QUIT
@@ -26,8 +26,71 @@ From now on, login mysql db requires password: `mysql -u root -p`, the old login
 
 Create a new user (keeping using root privileges is dangerous)
 ```sql
-CREATE USER 'userMe'@'localhost' IDENTIFIED WITH mysql_native_password BY 'MyP@ssw0rd';
-GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'userMe'@'localhost' WITH GRANT OPTION;
+CREATE USER 'userMe' IDENTIFIED WITH caching_sha2_password BY 'P@ssw0rdMe';
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'userMe' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+-- verify user grants
+SHOW GRANTS FOR 'userMe';
+```
+
+### C++ MySql Client
+
+Run `mysql --version`
+
+```
+git clone https://github.com/mysql/mysql-connector-cpp.git
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+```
+
+### MySql Docker
+
+
+```yml
+version: '3.7'
+
+services:
+
+    mysqldb:
+        name: mysqldb
+        image: mysql:latest
+        command: --default-authentication-plugin=caching_sha2_password
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 'P@ssw0rd'
+            MYSQL_DATABASE: 'mysql'
+            MYSQL_PASSWORD: 'P@ssw0rdMe'
+            MYSQL_USER: 'userMe'
+        volumes:
+            - mysqldb-data:/home/yuqi/mysql_db
+        ports:
+            - '3306:3306'
+        expose:
+            - '3306'
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8081:8080
+
+volumes:
+    mysqldb-data:
+```
+
+* `MYSQL_DATABASE` - The name of a database schema to be created when the container starts.
+* `MYSQL_USER` and `MYSQL_PASSWORD` - Create a new ordinary user when the container starts.
+* `MYSQL_RANDOM_ROOT_PASSWORD` - Set this instead of MYSQL_ROOT_PASSWORD if you’d like MySQL to generate a secure root password for you. If you enable this setting, the password will be emitted to the container’s logs (accessible via the docker logs command) during the first start. It will not be possible to retrieve the password afterward.
+* `MYSQL_ALLOW_EMPTY_PASSWORD` - Setting this will create the root user with an empty password. Only use this option for throwaway database instances. It is insecure and would let anyone connect to MySQL with superuser privileges.
+
+To check the docker:
+```bash
+docker inspect example_mysqldb_1
 ```
 
 ## MySQL vs Oracle

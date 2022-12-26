@@ -1,0 +1,35 @@
+# run by
+# mysql -h  '127.0.0.1' -u root -p
+
+# CREATE USER 'userMe' IDENTIFIED WITH caching_sha2_password BY 'P@ssw0rdMe';
+# GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'userMe2' WITH GRANT OPTION;
+# FLUSH PRIVILEGES;
+
+version: '3.7'
+
+services:
+
+    mysqldb:
+        image: mysql:latest
+        command: --default-authentication-plugin=caching_sha2_password
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 'P@ssw0rd'
+            MYSQL_DATABASE: 'mysql'
+            MYSQL_PASSWORD: 'P@ssw0rdMe'
+            MYSQL_USER: 'userMe'
+        volumes:
+            - mysqldb-data:/home/yuqi/mysql_db
+        ports:
+            - '3306:3306'
+        expose:
+            - '3306'
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8081:8080
+
+volumes:
+    mysqldb-data:
