@@ -94,3 +94,160 @@ ZADD temperature 1511533205001 21.0000017643
 ZADD temperature 1511533206001 21.0000091264
 ZADD temperature 1511533207001 21.0000045398
 ```
+
+## C++ Load and Get
+
+```cpp
+void RedisClient::storeTrade(BasicData::Trade& trade)
+{
+    std::stringstream autoIncrTrade;
+    autoIncrTrade << "INCR " << trade.productName << "-trade";
+    
+    redisReply* reply = (redisReply *)redisCommand(redisSession, autoIncrTrade.str().c_str());
+    if (reply->type == REDIS_REPLY_ERROR)
+    {
+        redisLoggerPtr->error(reply->str);
+        redisLoggerPtr->error(autoIncrTrade.str().c_str());
+        sleep(1);
+        freeReplyObject(reply);
+        std::runtime_error("redis increment error");
+    }
+
+    std::stringstream getIncrTrade;
+    getIncrTrade << "GET " << trade.productName << "-trade";
+    
+    std::stringstream tradeKey;
+    reply = (redisReply *)redisCommand(redisSession, getIncrTrade.str().c_str());
+    if (reply->type == REDIS_REPLY_ERROR)
+    {
+        redisLoggerPtr->error(reply->str);
+        redisLoggerPtr->error(getIncrTrade.str().c_str());
+        sleep(1);
+        freeReplyObject(reply);
+        std::runtime_error("redis get increment error");
+    }
+    tradeKey << trade.productName << "-trade" << ":" 
+    << reply->str;
+
+
+    std::stringstream setTradeHashSet;
+    setTradeHashSet << "HMSET " <<  tradeKey.str() 
+    << " productName " << trade.productName
+    << " productPrimitiveName " << trade.productPrimitiveName 
+    << " lastTradedPrice " << trade.lastTradedPrice 
+    << " lastTradedQty " << trade.lastTradedQty 
+    << " lastTradedTimestamp " << trade.lastTradedTimestamp 
+    << " lastTradedTimestampMili " << trade.lastTradedTimestampMili ;
+    reply = (redisReply *)redisCommand(redisSession, setTradeHashSet.str().c_str());
+    if (reply->type == REDIS_REPLY_ERROR)
+    {
+        redisLoggerPtr->error(reply->str);
+        redisLoggerPtr->error(setTradeHashSet.str().c_str());
+        sleep(1);
+        freeReplyObject(reply);
+        std::runtime_error("redis setTradeHashSet error");
+    }
+
+    std::stringstream zaddTradeIndexing;
+    zaddTradeIndexing << "ZADD " << trade.productName << "-trade-timestamp "
+    << trade.lastTradedTimestamp << " " << tradeKey.str() ;
+    reply = (redisReply *)redisCommand(redisSession, zaddTradeIndexing.str().c_str());
+    if (reply->type == REDIS_REPLY_ERROR)
+    {
+        redisLoggerPtr->error(reply->str);
+        redisLoggerPtr->error(zaddTradeIndexing.str().c_str());
+        sleep(1);
+        freeReplyObject(reply);
+        std::runtime_error("redis zaddTradeIndexing error");
+    }
+
+    freeReplyObject(reply);
+}
+
+std::vector<BasicData::Trade> RedisClient::getTradesByTimestamp(
+            std::string productName, long startTimestamp, long endTimestamp)
+{
+    std::vector<BasicData::Trade> tradeVec;
+
+    std::stringstream rangeStr;
+    rangeStr << "ZRANGEBYSCORE " << productName << "-trade-timestamp "
+    << startTimestamp << " " << endTimestamp;
+    redisReply* reply = (redisReply *)redisCommand(redisSession, rangeStr.str().c_str());
+    if (reply->type == REDIS_REPLY_ERROR)
+    {
+        redisLoggerPtr->error(reply->str);
+        redisLoggerPtr->error(rangeStr.str().c_str());
+        sleep(1);
+        freeReplyObject(reply);
+        std::runtime_error("redis ZRANGE error");
+    }
+
+    int replyNum = reply->elements;
+    tradeVec.reserve(replyNum);
+    for (int idx = 0; idx < replyNum; idx++)
+    {
+        std::string tradeKey = reply->element[idx]->str;
+        std::stringstream hgetallStr;
+        hgetallStr << "HGETALL " << tradeKey;
+        
+        redisReply* replySub = (redisReply *)redisCommand(redisSession, hgetallStr.str().c_str());
+
+        if (replySub->element == nullptr)
+        {
+            redisLoggerPtr->info("Empty str: {0}", hgetallStr.str());
+            continue;
+        }
+
+        if (reply->type == REDIS_REPLY_ERROR)
+        {
+            redisLoggerPtr->error(replySub->str);
+            redisLoggerPtr->error(hgetallStr.str().c_str());
+            sleep(1);
+            freeReplyObject(replySub);
+            std::runtime_error("redis HGETALL error");
+        }
+
+        BasicData::Trade trade;
+        int replySubNum = replySub->elements;
+        for (int idx2 = 0; idx2 < replySubNum; idx2++)
+        {
+            if (idx2 % 2 == 0)
+            {
+                if ( !strcmp(replySub->element[idx2]->str, "productName"))
+                {
+                    strcpy(trade.productName, replySub->element[idx2+1]->str);
+                }
+                else if ( !strcmp(replySub->element[idx2]->str, "productPrimitiveName") )
+                {
+                    strcpy(trade.productPrimitiveName, replySub->element[idx2+1]->str);
+                }
+                else if ( !strcmp(replySub->element[idx2]->str, "lastTradedPrice") )
+                {
+                   trade.lastTradedPrice = std::stod( replySub->element[idx2+1]->str, 0 );
+                }
+                else if ( !strcmp(replySub->element[idx2]->str, "lastTradedQty") )
+                {
+                    trade.lastTradedQty = std::stoi( replySub->element[idx2+1]->str, 0 );
+                }
+                else if ( !strcmp(replySub->element[idx2]->str, "lastTradedTimestamp"))
+                {
+                    trade.lastTradedTimestamp = std::stol( replySub->element[idx2+1]->str, 0 );
+                }
+                else if ( !strcmp(replySub->element[idx2]->str, "lastTradedTimestampMili") )
+                {
+                    trade.lastTradedTimestampMili = std::stoi( replySub->element[idx2+1]->str, 0 );
+                }
+            }
+        }
+
+        freeReplyObject(replySub);
+
+        tradeVec.emplace_back(trade);
+    }
+
+    freeReplyObject(reply);
+
+    return tradeVec;
+}
+
+```

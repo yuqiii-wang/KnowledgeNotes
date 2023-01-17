@@ -70,7 +70,7 @@ $$
 x_{\tiny{W,R}}-O_{\tiny{W,R}} = R^\text{T}_{R}x_{\tiny{C,R}}
 $$
 
-So that the epilolar constraint can be written as
+So that the epipolar constraint can be written as
 $$
 \begin{align*}
 & \space \space \space \space \space 
@@ -305,7 +305,32 @@ $$
 
 ![scanline_match_epi](imgs/scanline_match_epi.png "scanline_match_epi")
 
-### Correspondance priors and constaints
+other error formulas are
+* SAD (Sum of Absolute Difference):
+$$
+E_{sad}(u,v)=\sum_{(x,y)\in\bold{W}_{m \times n}} 
+\bigg|
+    I(x+u, y+v)-I(x,y)    
+\bigg|
+$$
+
+* NCC (Normalized Cross Correlation):
+$$
+E_{ncc}(u,v)=
+\frac{
+  \sum_{(x,y)\in\bold{W}_{m \times n}} 
+  I(x+u, y+v)I(x,y)    
+}{
+  \sqrt{
+    \sum_{(x,y)\in\bold{W}_{m \times n}} 
+      I(x+u, y+v)^2
+    \sum_{(x,y)\in\bold{W}_{m \times n}} 
+      I(x, y)^2
+  }
+}
+$$
+
+### Correspondence priors and constraints
 
 There are priors that can help windows fast locate feature points.
 

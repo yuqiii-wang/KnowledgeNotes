@@ -98,6 +98,34 @@ int main() {
 }  
 ```
 
+### Init Reference Class Member
+
+If a class has reference class members, they should be init before constructor invocation, otherwise hit reference member initialization compilation error.
+```cpp
+class Base
+{
+public:
+    Base();
+    ~Base(){};
+private:
+    Foo& foo;
+    Bar& bar;
+}
+```
+
+Should be
+```cpp
+Base::Base(Foo& foo_, Bar& bar_): foo(foo_), bar(bar_) {};
+```
+rather than
+```cpp
+Base::Base(Foo& foo_, Bar& bar_) {
+    foo = foo_;
+    bar = bar_;
+};
+```
+
+
 ## Destructor
 
 A `destructor` is a member function that is invoked automatically when the object goes out of scope or is explicitly destroyed by a call to delete. 

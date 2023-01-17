@@ -6,6 +6,39 @@ Redis is high-performance, RAM-running, key-value cache server.
 
 * Each key can only associated with one data type, for example, Redis throws err when prev value for a key is a FLOAT, while using a STR method updating the value for the key. Consider remove the key first.
 
+## Quick Start
+
+By Docker-Compose:
+```yml
+version: '3.7'
+
+services:
+
+  redis:
+    image: redis
+    restart: always
+    environment:
+      REDIS_USER: root
+      REDIS_PASSWORD: P@ssw0rdRoot
+    volumes:
+      - redisdata:/home/yuqi/Desktop/QuantAlgo/data/redis
+    ports:
+      - 6379:6379
+
+volumes:
+  redisdata:
+    external: true
+```
+
+By default, redis allows login by password such as `redis-cli -h 127.0.0.1 -a P@ssw0rdRoot`
+
+Once login, use `ACL SETUSER user ON >P@ssw0rdUser` to set up a new user, 
+then `ACL SETUSER user ~*` to grant access privileges,
+then `ACL LIST` to check existing users.
+
+Alternatively, run `CONFIG SET requirepass "P@ssw0rd"`
+then `AUTH P@ssw0rd` to access redis db.
+
 ## Config
 
 Usually on file `redis-stable/redis.conf`.

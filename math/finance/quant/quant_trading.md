@@ -1,6 +1,6 @@
 # Quantitative Trading Basics
 
-## Performance measurement
+## Performance Measurement
 
 $$
 y = \alpha + \beta x + u
@@ -11,6 +11,21 @@ where
 * $\beta$ is beta, which is volatility relative to the benchmark.
 * $x$ is the performance of the benchmark, typical Shanghai-A index for China or S&P 500 index for the U.S.
 * $u$ is the residual, which is the unexplained random portion of performance in a given year. 
+
+### Sharpe Ratio
+
+The Sharpe ratio can be used to evaluate a portfolio’s risk-adjusted performance.
+
+$$
+Sharpe Ratio = 
+\frac{R_p-R_f}{\sigma_p}
+$$
+where
+* $R_p$ is return of portfolio
+* $R_f$ is risk-free rate
+* $\sigma_p$ is the standard deviation of the portfolio's excess return
+
+If Sharpe ratio is smaller than $1$, the portfolio's excess return is relatively small compared to its risk $\sigma_p$, not worthy of studying. If Sharpe ratio is greater than $3$, it is a good investment for high return relative to its risk.
 
 ## Common order param explains
 

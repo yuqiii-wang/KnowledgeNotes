@@ -47,6 +47,7 @@ $$
 Together, they are denoted as 
 
 $$
+C^k_n=
 \left(
 \begin{array}{c}
 n
