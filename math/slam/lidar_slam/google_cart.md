@@ -78,11 +78,11 @@ where, $\xi \in W$ means employment of a discrete search window:
 
 1. find the longest scan by
 $$
-d_{max}=\underset{k=1,2,...,K}{max} ||h_k||
+d_{max}=\underset{k=1,2,...,K}{\max} ||h_k||
 $$
 2. calculate angular step $\delta_\theta$
 $$
-\delta_\theta = arccos(1-\frac{r^2}{2d_{max}^2})
+\delta_\theta = \arccos(1-\frac{r^2}{2d_{max}^2})
 $$
 3. compute search window translational move step with pre-defined max window size (such as $7$ m) $W_x, W_y$, and max window rotation (such as $30^\circ$ ) $W_\theta$
 $$
