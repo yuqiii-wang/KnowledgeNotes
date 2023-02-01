@@ -1,4 +1,4 @@
-# Object Oriented Programming
+# Four Concepts of Object Oriented Programming
 
 ## Encapsulation
 

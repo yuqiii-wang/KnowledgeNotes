@@ -178,6 +178,8 @@ use of `std::move`.
 
 * smart pointer: `shared_ptr` and `unique_ptr`
 
+* Regular expression library
+
 ## c++20
 
 * module
@@ -197,3 +199,5 @@ namespace myModule
   };
 }
 ```
+
+* Co-routine

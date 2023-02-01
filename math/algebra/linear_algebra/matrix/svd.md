@@ -5,7 +5,25 @@ $$
 A=U \Sigma V^\text{T}
 $$
 
-![svd](imgs/svd.png "svd")
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/svd.png" width="40%" height="40%" alt="svd">
+</div>
+</br>
+
+## SVD in Machine Learning
+
+Typically, for a population of samples $A$, the covariance $X^\top X$ of $A$ (typically use ${\Sigma}$ as covariance matrix notation, but here use $X^\top X$ to avoid duplicate notations as ${\Sigma}$ means singular value matrix in this article) of the samples' features describes how rich information they are.
+Larger the variance of a feature, likely richer the information. 
+
+Take SVD on the covariance matrix such that $X^\top X=U \Sigma V^\top$, and obtain singular value matrix ${\Sigma}$ and new orthogonal basis space $V$.
+Intuitively speaking, ${\Sigma}$ describes how significant is for each corresponding orthogonal basis vector in $V$.
+
+The transformed new orthogonal space $V$ can help recover the source sample data by $A=AV$.
+
+### SVD for PCA
+
+PCA (Principal Component Analysis) simply takes the first few most significant components out of the result of SVD (Singular Value Decomposition).
 
 ## SVD computation
 
@@ -135,4 +153,3 @@ Consider the eigen decomposition $A = P\Lambda P^{-1}$ and $A=U\Sigma V^\text{T}
 
 Eigen decomposition only takes one basis $P$ in contrast to SVD using two bases $U$ and $V$. Besides, $P$ might not be orthogonal but $U$ and $V$ are orthogonal.
 
-## SVD for PCA

@@ -28,7 +28,7 @@ A homography is an isomorphism of projective spaces, or the transformation betwe
 
 Define $\bold{x}_1=(x_1,y_1,w_1)$ as an image point on the first camera view and $\bold{x}_2=(x_2,y_2,w_2)$ on the second camera view. $\bold{x}_1$ corresponds to $\bold{x}_2$, describing the same real world object point.
 
-Define a transfomrmation matrix $H$ that maps this projective relationship, there is (in homogeneous coordinates)
+Define a transform matrix $H$ that maps this projective relationship, there is (in homogeneous coordinates)
 $$
 \bold{x}_2=H \bold{x}_1
 $$
@@ -92,7 +92,7 @@ $$
 \bold{a}_x &=
 (-x_1, -y_1, -1, 0, 0, 0, x_2'x_1, x_2'y_1, x_2')^\text{T}
 \\
-\bold{a}_x &=
+\bold{a}_y &=
 (0, 0, 0, -x_1, -y_1, -1, y_2'y_1, y_2'x_1, y_2')^\text{T}
 \end{align*}
 $$
@@ -153,7 +153,7 @@ Eigen-decomposition of $A^\text{T} A$ should have 8 non-zero eigenvalues, same a
 
 In practice, we assume real world points on the $z=0$ plane, that is, camera plane and real world plane are parallel to each other.
 
-$\begin{bmatrix}\bold{R} & \bold{t} \\ \bold{0} & 1 \end{bmatrix}$ is the rotation and translation operation from one camera view to the second.
+$\begin{bmatrix}\bold{R} & \bold{t} \\ \bold{0}^\top & 1 \end{bmatrix}$ is the rotation and translation operation from one camera view to the second.
 
 ![planar_homography_formulation](imgs/planar_homography_formulation.png "planar_homography_formulation")
 
@@ -168,3 +168,38 @@ Panorama application example shows that $\bold{x}, \bold{x}' \in \bold{X}$ are o
 
 Both are used to find correspondance points between two camera views, but homography is a special case where all points must be planar ($z=0$), camera views move by rotation.
 
+## Symmetric Transfer Error vs Reprojection Error
+
+$d( \space . \space, \space . \space )$ is the Euclidean distance between two matches. $H$ is the homography transform.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/transfer_vs_reproj_err.png" width="40%" height="40%" alt="transfer_vs_reproj_err">
+</div>
+</br>
+
+* Symmetric Transfer Error
+
+Symmetric Transfer Error measures how accurate is two matches transferring from one image to another by $H$.
+
+$$
+H^* = 
+\min_{H} \sum_{i}
+d(\bold{x}_i, H^{-1}\bold{x}')^2
++
+d(\bold{x}'_i, H\bold{x})^2
+$$
+
+
+* Reprojection Error
+
+The *reprojection error* measures how close is between an observation $\bold{x}$ and an estimate $\hat{\bold{x}}$. 
+First the error between the observation and the estimate is computed, 
+then after applying homography $H$, the error of the correspondence point $\bold{x}'$'s observation and estimate is computed.
+
+$$
+H^* = 
+\min_{H} \sum_{i}
+d(\bold{x}_i, \hat{\bold{x}}_i)^2
++
+d(\bold{x}'_i, \hat{\bold{x}}'_i)^2
+$$
