@@ -1,7 +1,6 @@
 # PnP (Perspective-n-Point) 
 
-PnP (Perspective-n-Point) is a method to solve 3D to 2D motion estimation.
-It describes how to estimate the camera’s pose when the a number of 3D space points and their projection positions are known.
+PnP (Perspective-n-Point) describes how to estimate the camera’s pose when the a number of 3D space points and their projection positions (image pixels) are known.
 
 The 3D position of the feature point can be determined
 by triangulation or the depth map of an RGB-D camera. Therefore, in binocular

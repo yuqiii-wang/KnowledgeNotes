@@ -106,6 +106,20 @@ std::bind(setAlarm,
 
 ## `std::function`
 
+`std::function` is a function wrapper that makes a function an object so that it can be assigned/passed as an object.
+```cpp
+int add(int a, int b) {
+    return a + b;
+}
+int main()
+{
+    std::function<int(int, int)> f1 = add;
+    std::cout << f1(3, 5) << std::endl; // 8
+    return 0;
+}
+```
+
+
 ### `std::function` performance issues
 
 Reference source: https://blog.demofox.org/2015/02/25/avoiding-the-performance-hazzards-of-stdfunction/

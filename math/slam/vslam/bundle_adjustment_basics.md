@@ -24,7 +24,7 @@ $$
 \end{align*}
 $$
 
-2. Project $\bold{P}'$ into the normalized plane and get the normalized coordinates $(u,v)$ 
+2. Project $\bold{P}'$ into the normalized plane and get the normalized coordinates $(u,v)$ (the camera frame)
 $$
 \begin{align*}
 \bold{P}_c &= [u_c, v_c, 1]^\text{T}

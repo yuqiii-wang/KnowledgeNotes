@@ -13,10 +13,10 @@ $$
 
 ## SVD in Machine Learning
 
-Typically, for a population of samples $A$, the covariance $X^\top X$ of $A$ (typically use ${\Sigma}$ as covariance matrix notation, but here use $X^\top X$ to avoid duplicate notations as ${\Sigma}$ means singular value matrix in this article) of the samples' features describes how rich information they are.
+Typically, for a population of samples $A$, the covariance ${\Omega}$ of $A$ (typically use ${\Sigma}$ as covariance matrix notation, but here use ${\Omega}$ to avoid duplicate notations as ${\Sigma}$ means singular value matrix in this article) of the samples' features describes how rich information they are.
 Larger the variance of a feature, likely richer the information. 
 
-Take SVD on the covariance matrix such that $X^\top X=U \Sigma V^\top$, and obtain singular value matrix ${\Sigma}$ and new orthogonal basis space $V$.
+Take SVD on the covariance matrix such that ${\Omega}=U \Sigma V^\top$, and obtain singular value matrix ${\Sigma}$ and new orthogonal basis space $V$.
 Intuitively speaking, ${\Sigma}$ describes how significant is for each corresponding orthogonal basis vector in $V$.
 
 The transformed new orthogonal space $V$ can help recover the source sample data by $A=AV$.

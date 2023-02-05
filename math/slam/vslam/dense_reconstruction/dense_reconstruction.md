@@ -11,6 +11,13 @@ Dense reconstruction tries to recover the environment as much as possible, in co
 
 Dense reconstruction provides rich information available for many computer vision tasks such as recognition, segmentation, etc.
 
+### Direct Method vs Feature-Based Method
+
+Direct approaches minimize photometric error, while feature-based method minimizes geometric displacement (typically keypoints).
+
+Direct methods require a good initial guess due to their small region of attraction, 
+while feature-based approaches consume extra computational resources on extracting and matching features.
+
 ### Inverse Depth Parameterization
 
 Define a point $\bold{p}=(x,y,z)$ in 3D space (the reference frame is $(e_1, e_2, e_3)$) observed by a monocular pinhole camera from multiple views.
@@ -101,3 +108,5 @@ It introduces the keyframe mechanism rather using all keyframes.
 * LSD
 
 * ORB
+
+* VINS

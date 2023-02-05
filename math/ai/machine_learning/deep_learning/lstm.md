@@ -82,3 +82,23 @@ RNN suffers from two problems: vanishing gradient and indiscriminate retention o
 $\hat{c}_t \in (-1,1)^h$ is similar to the RNN's memory unit that holds information over a period of time. $f_t \odot \hat{c}_{t-1}$ removes old memory and $i_t \odot \hat{c}_t$ adds new memory. $c_t$ as the sum of the two results can summarize the long-term memory (only long term memory can survive in $f_t \odot \hat{c}_{t-1}$) and short-term memory (introduced in $i_t \odot \hat{c}_t$).
 
 Besides, $c_t$ employs addition as the operation that helps mitigate the vanishing gradient issue caused by long chained multiplications. 
+
+## LSTM Back Propagation
+
+reference: https://www.geeksforgeeks.org/lstm-derivation-of-back-propagation-through-time/
+
+Define an error (MSE) from the layer's output, and the $t$-th layer's gradient.
+$$
+\begin{align*}
+    {e} &= \big( {y} - {h}({x}) \big)^2 \\
+    \delta{e}  &= \frac{\partial{e}}{\partial {h}_t}
+\end{align*}
+$$
+
+Gradient with respect to output gate  
+$$
+\frac{\partial e}{\partial o_t} = 
+\frac{\partial{e}}{\partial {h}_t} \cdot
+\frac{\partial {h}_t}{\partial {o}_t} =
+\delta{e} \cdot  \tanh(c_t)
+$$

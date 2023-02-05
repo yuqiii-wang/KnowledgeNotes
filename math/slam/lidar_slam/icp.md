@@ -287,3 +287,22 @@ $$
 \end{bmatrix}
 \end{align*}
 $$
+
+## Point-to-Plane ICP
+
+Point-to-Plane ICP is useful if the to-be-detected objects have plane surface that helps a lot in converging ICP.
+
+Point-to-Plane ICP instead of measuring two clouds' centroids, it measures normals.
+
+For a correspondence point pair $(\bold{d}_i, \bold{s}_i)$, the normal of $\bold{d}_i$ can be computed by, for example, collectively compute $\bold{d}_i$'s 5 neighbor points as a plane, then finding the normal $\bold{n}_i$.
+$$
+\min_{\bold{s_i}} \sum_i \big( (\bold{d}_i - {\bold{s}}_i) \cdot \bold{n}_d \big)^2
+$$
+
+If $(\bold{d}_i - {\bold{s}}_i)$ and $\bold{n}_d$ are perpendicular, the $\bold{d}_i$ are ${\bold{s}}_i$ parallel to each other (there is $(\bold{d}_i - {\bold{s}}_i) \rightarrow \infty$).
+The distance $|\bold{d}_i - {\bold{s}}_i|$ is minimized when $\big( (\bold{d}_i - {\bold{s}}_i) \cdot \bold{n}_d \big)^2$ is minimized.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/point_to_plain_icp.png" width="40%" height="40%" alt="point_to_plain_icp">
+</div>
+</br>

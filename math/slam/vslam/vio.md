@@ -1,1 +1,0 @@
-# Visual-Inertial Odometry (VIO)

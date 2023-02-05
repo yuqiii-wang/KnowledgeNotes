@@ -265,4 +265,35 @@ Propose some candidate loop keyframes and find the optimal loop keyframes $K^*_l
 
 ### Loop Fusion
 
-**Goal**: match correspondence map points from multiple frames to only one map point in the 
+**Goal**: match correspondence map points from multiple frames to only one map point in the the global map.
+
+Simply, it takes neighbor keyframes' correspondence points and merges into one map points.
+
+### Essential Graph Optimization
+
+Finally, perform a pose graph
+optimization over the global essential graph. It is a $sim(3)$ optimization:
+
+Given a set of $n$ matches $i \Rightarrow j$ keypoints and their associated 3D map points between keyframe $K_1$ and
+keyframe $K_2$ that are transformed in between by $\bold{S}_{K_1 K_2}$.
+
+The reprojection error in both images is
+$$
+\begin{align*}
+    \bold{e}_1 &= 
+    \bold{x}_{1,i} - \pi_1(\bold{S}_{K_1 K_2}, \bold{X}_{K_2,j}) \\
+    \bold{e}_2 &= 
+    \bold{x}_{2,j} - \pi_2(\bold{S}^{-1}_{K_1 K_2}, \bold{X}_{K_1,j})
+\end{align*}
+$$
+where $\bold{X}_{K,i} \in \mathbb{R}^3$  is map point 3D location and $\bold{x}_{K,i}$ is a matched feature point. $\pi_K(\bold{S}_{K}, \bold{X}_{K,i})$ is the projection that takes a keyframe/camera's $sim(3)$ pose and transform the 3D point to by $sim(3)$ then maps this 3D point to a 2D pixel.
+
+For all $n$ matches, collectively define the below cost function
+$$
+\argmin_{\bold{S}_{K_1 K_2}}
+\sum_{i=1}^n \Big(
+    \rho_h (\bold{e}_1^\top \bold{\Omega}^{-1}_{i,K_1} \bold{e}_1)
+    + \rho_h (\bold{e}_2^\top \bold{\Omega}^{-1}_{j,K_2} \bold{e}_2)
+\Big)
+$$
+where $\bold{\Omega}$ is covariance and $\rho_h$ is Huber loss function.

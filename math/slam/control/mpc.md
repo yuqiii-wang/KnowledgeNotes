@@ -20,7 +20,7 @@ where
 
 Define an objective function $J$ to be minimized
 $$
-arg \space \underset{u}{min} \space J
+\underset{u}{\min} \space J
 =
 \sum_{i=1}^N w_{x_i}e_i^2
 +
