@@ -101,3 +101,22 @@ void* memcpy_v3(void* dst, const void* src, size_t len) {
     return d;
 }
 ```
+
+## Exception Handling
+
+Cost of using exceptions:
+* 
+
+Advantages of using exceptions:
+* Object constructor does not have return value, exception can help show error
+
+
+## Kernel Scheduler Prioritizing handling I/O
+
+## CRTP
+
+## Measure Cache Hit Rate
+
+### struct padding
+
+## RDMA (Remote Direct Memory Access)

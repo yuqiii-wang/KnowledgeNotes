@@ -66,3 +66,26 @@ auto a = std::async(std::launch::deferred, barPrint, "world!");
 sleep(1);
 a.wait();
 ```
+
+## `std::packaged_task`
+
+The class template `std::packaged_task` wraps any *Callable* target (function, lambda expression, bind expression, or another function object) so that it can **be invoked asynchronously**. Its return value or exception thrown is stored in a shared state which can **be accessed through** `std::future` objects.
+
+Declared as
+```cpp
+template< class R, class ...ArgTypes >
+class packaged_task<R(ArgTypes...)>;
+```
+
+Example use case
+```cpp
+std::packaged_task<int(int,int)> task([](int a, int b) {
+    return std::pow(a, b); 
+});
+
+std::future<int> result = task.get_future();
+
+task(2, 9);
+
+std::cout << "task_lambda:\t" << result.get() << '\n';
+```

@@ -32,3 +32,8 @@ This objective function talks about two items:
 
 1.  The sum of $N$ future errors $e_{i, i=1,2,3,...N}$ should be kept small
 2. There should be no sudden changes on input action $u$
+
+## MPC vs LQR
+
+LQR implements static close loop system coefficient $A_{cl}$, 
+while MPC uses a sliding window that dynamically and continuously computes the cost $J$ (demanding much more computation power).

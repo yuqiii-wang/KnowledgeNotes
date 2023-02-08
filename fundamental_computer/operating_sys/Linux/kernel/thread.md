@@ -5,7 +5,7 @@ Threads are created the same as normal tasks, with the exception that the `clone
 clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0);
 ```
 
-The previous code results in behavior identical to a normal fork() , except that the address space, filesystem resources, file descriptors, and signal handlers are shared. 
+The previous code results in behavior identical to a normal `fork()` , except that the address space, filesystem resources, file descriptors, and signal handlers are shared. 
 
 ## Kernel threads
 

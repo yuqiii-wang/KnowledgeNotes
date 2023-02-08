@@ -18,7 +18,7 @@ A pure virtual function is defined with declaration `=0` such as `virtual void f
 
 ## Virtual destructor
 
-Deleting a derived class object using a pointer of base class type that has a non-virtual destructor results in undefined behavior, requiring a defined virtual destructor as a resolution to this issue.
+Deleting a derived class object using a pointer of base class type that has a non-virtual destructor results in undefined behavior (likely **derived class has memory leak**), requiring a defined virtual destructor as a resolution to this issue.
 
 Once execution reaches the body of a base class destructor, any derived object parts have already been destroyed and no longer exist. If the Base destructor body were to call a virtual function, the virtual dispatch would reach no further down the inheritance hierarchy than Base itself. In a destructor (or constructor) body, further-derived classes just don't exist any more (or yet).
 
@@ -63,11 +63,16 @@ virtual ~base(){ cout << "Destructing base\n"; }
 virtual ~derived(){ cout << "Destructing derived\n"; }
 ```
 
+## Virtual Constructor
+
+
+
 ## Virtual method table
 
-A virtual method table is implemented to map a base class virtual method to a derived class defined/override method at run time.
+A virtual method table is implemented to map a base class virtual method to a derived class defined/override method at run time. 
+Compiler assigns a virtual method table to each class that has a virtual method or inherits from a base class with virtual methods.
 
-Typically, the compiler creates a separate virtual method table for each class. 
+Typically, the compiler creates a separate virtual method table for each class (**per class**). 
 When an object is created, a pointer to this table, called the virtual table pointer, `vpointer` or `VPTR`, is added as a hidden member of this object. 
 As such, the compiler must also generate "hidden" code in the constructors of each class to initialize a new object's virtual table pointer to the address of its class's virtual method table. 
 

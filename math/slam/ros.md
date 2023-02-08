@@ -1,5 +1,7 @@
 # ROS
 
+Remember to call `source ./devel/setup.bash` before compilation or execution.
+
 * ROS Error：-- Could NOT find PY_em (missing: PY_EM)
 
 run with a builtin python env:

@@ -39,3 +39,9 @@ void foo() {
 ## Memory alignment
 
 ## POD vs Trivial
+
+## Memory Pool
+
+Memory pool basically is a list that links many memory blocks. When this pool has too few blocks, it asks OS for more memory and appends new memory blocks to the list.
+
+A typical implementation is `std::allocator`.
