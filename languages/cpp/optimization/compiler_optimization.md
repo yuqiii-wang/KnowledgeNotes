@@ -15,6 +15,10 @@ Work from behind
 
 https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
 
+### `-O2` Optimization
+
+
+
 ## Return Value 
 
 Compiler can optimize the "copy" return value by such as *placement new*, and it is discouraged using `std::move` as the lifecycle of local memory is not guaranteed.
@@ -112,10 +116,6 @@ Advantages of using exceptions:
 
 
 ## Kernel Scheduler Prioritizing handling I/O
-
-## CRTP
-
-## Measure Cache Hit Rate
 
 ### struct padding
 

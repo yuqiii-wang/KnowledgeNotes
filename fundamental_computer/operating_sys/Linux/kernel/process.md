@@ -42,7 +42,42 @@ Some important steps are
 5. Set `exit_code` in task_struct
 6. `do_eexit()` calls `schedule()` to switch to a new process. Because the process is now not schedulable, this is the last code the task will ever execute.
 
+## Context Switch
+
+A *context switch* is the process of storing the state of a process or thread, so that it can be restored and resume execution at a later point, and then restoring a different, previously saved, state.
+
+Context switches are usually computationally intensive for saving and loading registers and memory maps, updating various tables and lists, etc. Cache might lose during this process. 
+Each context switch requires tens of nanoseconds to microseconds of CPU time.
+
+Below example shows user mode switching to kernel mode for I/O waiting. Mode switch is a typical context switch.
+
+I/O work is a typical kernel task, and user mode needs to copy the I/O data from kernel mode to its user space. One salient example is socket programming.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/context_switch.png" width="40%" height="40%" alt="context_switch">
+</div>
+</br>
+
+Some typical reasons of context switch
+* The process exits.
+* The process uses up its time slice.
+* The process requires another resource that is not currently available or needs to wait for I/O to complete.
+* A resource has become available for a sleeping process. If there is a higher priority process ready to run, the kernel will run this instead (the current process is preempted).
+* The process relinquishes the CPU using a semaphore or similar system call.
+* In order to respond quickly to events, hardware interrupt will interrupt the normal scheduling and execution process.
+
+### Thread Context Switch
+
+Thread context switch depends on how much data is shared to the main process, and system call invocation.
+
+* When a process has only one thread, it can be considered that a process is equal to a thread
+* When a process has multiple threads, these threads share the same resources such as virtual memory and global variables.
+* In addition, threads also have their own private data, such as stacks and registers, which also need to be saved during context switching.
+
+
 ## Code
+
+* `thread_info`
 
 ```cpp
 struct thread_info {
@@ -57,6 +92,10 @@ struct thread_info {
 	unsigned int		uaccess_err:1;	/* uaccess failed */
 };
 
+```
+* `task_struct`
+
+```cpp
 struct task_struct {
 	volatile long state;	/* -1 unrunnable, 0 runnable, >0 stopped */
 	void *stack;
@@ -505,7 +544,7 @@ struct task_struct {
 };
 ```
 
-
+* `copy_process`
 
 ```cpp
 /*

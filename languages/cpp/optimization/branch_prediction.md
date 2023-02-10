@@ -110,3 +110,29 @@ If replaced with `unlikely`
   400544:	eb e6                	jmp    40052c <main+0x1c>
   400546:	90                   	nop
 ```
+
+## Prefetch
+
+Prefetch is used to instruct CPU to prepare/early load data as addr informed in `prefetch_address`.
+
+For GCC, it is declared as
+```cpp
+__builtin_prefetch((const void*)(prefetch_address),0,0);
+```
+
+`__builtin_prefetch` is clang/gcc specific. 
+In x86 intrinsic `_mm_prefetch` is good with both clang and MSVC.
+
+In modern CPU, prefetch is automatically performed such as in this scenario
+```cpp
+for(int i = 0; i < N; i++)
+    for(int j = 0; j < M; j++)
+        count += tab[i][j];
+```
+
+However, prefetch in work with cache would fail for this situation:
+given a typical `CACHE_LINE_SIZE` of 64 bytes, there are 16 `CACHE_LINE_SIZE/sizeof(int)` units of integer per cache entry.
+
+* Once `tab[i][0]` is read (after a cache miss, or a page fault), the data from `tab[i][0]` to `tab[i][15]` is copied to cache.
+* When the code traverses in the row, i.e., `tab[i][M-1]` to `tab[i+1][0]`, it is highly likely to happen a cold cache miss, especially when `tab` is a dynamically-allocated array where each row could be allocated in a fragmented way.
+Prefetch fails as a result of fragmented memory access.

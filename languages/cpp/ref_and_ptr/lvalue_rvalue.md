@@ -12,7 +12,7 @@ int main(){
 }
 ```
 
-referece takes lvalue, so that
+Reference takes lvalue, so that
 ```cpp
 void setVal(int& val){}
 int main(){

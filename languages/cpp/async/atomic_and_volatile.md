@@ -38,6 +38,12 @@ However, compiler does NOT guarantee that
 
 * CPU hardware has lower level pipelining, might affect the order of `volatile`-declared variable execution
 
+### `volatile` Implementation for `++i`
+
+When used `volatile i; ++i;`, there are four actions: Load、Increment、Store、Memory Barriers.
+
+Memory barrier is thread safe that demands data must be retrieved from the main memory. However, for CPU loading, executing and storing between ALU and cache before implementing memory barrier, `volatile` cannot guarantee thread safety.
+
 ## `std::atomic`
 
 ## Memory barrier

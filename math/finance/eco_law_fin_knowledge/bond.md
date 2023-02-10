@@ -106,6 +106,11 @@ In other words, the interest accounts for the time since the bond's start date o
 
 "Dirty price" (or "full price" or "all in price" or "Cash price") includes accrued interest
 
+* Matched book
+
+A matched book is an approach that banks and other institutions may take to ensure that the maturities of its assets and liabilities are equally distributed. 
+A matched book is also known as "asset/liability management" or "cash matching."
+
 ## Businesses
 
 ### Bond Interest Rate and Spot Price

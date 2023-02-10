@@ -99,9 +99,23 @@ function is called a *transaction*. *Atomic transaction* refers to the block of 
 2) terminate a process releasing all locks simultaneously, 
 3) starvation that forces release/rollback a section of code/state after a period of time
 
-## Lock
+## Deadlock
 
 Deadlock occurs when there are multiple processes. Each process holds a resource while waiting for a resource held by another process. 
+
+### Deadlock Detection
+
+Resource request and release from different processes/threads can be summarized in a Directed Acyclic Graph (DAG). Then, topological sorting (typically, Kahn’s algorithm) works out nodes that does not have precursors one by one.
+
+For example, from (a) to (b), `V6` does not have nodes pointing to it, therefore removed; the same rule goes to `V1`, and the process goes on and on.
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/topological_sorting.png" width="40%" height="40%" alt="topological_sorting">
+</div>
+</br>
+
+Kahn’s algorithm can help process scheduler schedule depended tasks given known tasks' dependencies.
+
+**If Kahn’s algorithm can pop out all nodes, the DAG-managed tasks does not have deadlock; otherwise, there are deadlocks.**
 
 ### Prevention and Avoidance
 
@@ -110,6 +124,8 @@ Deadlock prevention ensures that at least one of the necessary conditions to cau
 ### Banker’s algorithm
 
 Banker’s algorithm is a safety + resource-request algorithm that whenever a process makes a request of the resources then this algorithm checks that if the resource can be allocated or not.
+
+Basically, it schedules what resources at what time being allocated to which processes.
 
 Let $n$ be the number of processes in the system and $m$ be the number of resources types.
 

@@ -168,7 +168,8 @@ Usually, when an investor uses leverage (borrows money from a broker) to invest 
 
 * Secured Overnight Financing Rate (SOFR) 
 
-SOFR is published by the New York Federal Reserve every business day for the previous business day. SOFR is a reference rate (that is, a rate used by parties in commercial contracts that is outside their direct control) established as an alternative to LIBOR. 
+SOFR is published by the New York Federal Reserve every business day for the previous business day. 
+SOFR is a reference rate (that is, a rate used by parties in commercial contracts that is outside their direct control) established as an alternative to LIBOR. 
 
 LIBOR is prone to error since it derives from calculations based on banks' survey, while SOFR reflects the real-time real world rates.
 
@@ -179,3 +180,16 @@ Separate (especially in business) something from a larger group or organization;
 * Stock Exchange Daily Official List (SEDOL)
 
 SEDOL is a list of security identifiers used in the United Kingdom and Ireland for clearing purposes. The numbers are assigned by the London Stock Exchange.
+
+* Gilt (英国国债)
+
+A gilt is a UK Government liability in sterling, issued by HM Treasury and listed on the London Stock Exchange. 
+The term “gilt” or “gilt-edged security” is a reference to its high credibility that the UK gov never failed to make interest or principal payments on gilts as they fall due. 
+
+* Arbitrage (套利)
+
+Arbitrage is the practice of taking advantage of a difference in prices in two or more markets; striking a combination of matching deals to capitalise on the difference, the profit being the difference between the market prices at which the unit is traded. 
+
+* Arbitrage Bond
+
+An arbitrage bond is a debt security with a lower interest rate issued by a municipality prior to the call date of the municipality's existing higher-rate security.

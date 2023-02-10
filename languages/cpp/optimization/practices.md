@@ -34,12 +34,41 @@ auto lambdaPerThread = [&](int threadId; int threadTotalNum)
 
 ## Inline
 
-inline function are faster in execution( compared to normal function) due to overhead saved by removal of
+`inline` function are faster in execution( compared to normal function) due to overhead saved by removal of
 * function call
 * pushing of function parameters on stack
 
 However, it might reduce performance if misused, for increased cache misses and thrashing.
 
+`inline` does not work for virtual function nor recursion.
+
+### Implicit `inline`
+
+When there is need to `sort` many `struct S`, the below code is inefficient for `compare` will not be considered `inline`.
+```cpp
+struct S {
+    int a, b;
+};
+int n_items = 10000;
+S arrS[n_items];
+
+bool compare(const S& s1, const S& s2) {
+    return s1.b < s2.b;
+}
+
+std::sort(arrS, arrS + n_items, compare);
+```
+
+Instead, define `struct Comparator`. The `operator()` is by default `inline`
+```cpp
+struct Comparator {
+    bool operator()(const S& s1, const S& s2) const {
+        return s1.b < s2.b;
+    }
+};
+
+std::sort(arr, arr + n_items, Comparator());
+```
 
 ## `noexcept`
 
@@ -53,3 +82,6 @@ double compute(double x) noexcept {
     // ...
 }
 ```
+
+## Curiously Recurring Template Pattern (CRTP)
+

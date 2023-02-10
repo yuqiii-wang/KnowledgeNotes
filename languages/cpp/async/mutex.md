@@ -184,3 +184,96 @@ int main()
     worker.join();
 }
 ```
+
+## Deadlock Debug
+
+Given an example of two threads having deadlocks to each other shown as below,
+that thread1 acquires `mutex1` then `mutex2`; thread2 acquires `mutex2` then `mutex1`.
+Thread1 wants to lock `mutex2` then releases `mutex1`, 
+while thread2 wants to lock `mutex1` then releases `mutex2`, hence reached a deadlock.
+
+```cpp
+
+pthread_mutex_t mutex1;
+pthread_mutex_t mutex2;
+
+
+void *ThreadWork1(void *arg)
+{
+  int *p = (int*)arg;
+  pthread_mutex_lock(&mutex1);
+  
+  sleep(2);
+  
+  pthread_mutex_lock(&mutex2);
+  pthread_mutex_unlock(&mutex2);
+  pthread_mutex_unlock(&mutex1);
+  return NULL;
+}
+
+void *ThreadWork2(void *arg)
+{
+  int *p = (int*)arg;
+  pthread_mutex_lock(&mutex2);
+  
+  sleep(2);
+  
+  pthread_mutex_lock(&mutex1);
+  pthread_mutex_unlock(&mutex1);
+  pthread_mutex_unlock(&mutex2);
+  return NULL;
+}
+```
+
+GDB can help find the deadlock:
+1. `ps -elf | grep <your_program_name>`
+2. `sudo gdb attach <pid>` (might need `sudo`)
+3. inside gdb: `thread apply all bt` to check running threads
+4. inside gdb: `t <thread_num>` goto inside this tread
+5. inside gdb one thread: `f <stack_num>` goto a particular stack
+6. inside gdb one thread one stack: should see mutex reaching a dead lock
+
+Below is a result from `thread apply all bt`, that both thread 2 and thread 2 are in a lock state.
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/deadlock_debug_all_threads.png" width="40%" height="40%" alt="deadlock_debug_all_threads">
+</div>
+</br>
+
+## Read/Write Deadlock
+
+Often for many threads accessing one shared variable, they want to just read the variable, not writing it. 
+Concurrent read should be safe.
+
+Example shown as below that,
+`get()` should allow concurrent read, while `increment()` and `reset()` should have exclusive ownership of `_mutex`.
+
+When `increment()` or `reset()` runs, the shared lock becomes an exclusive lock, hence preventing read operation `get()`.
+
+```cpp
+class ThreadSafeCounter {
+ public:
+  ThreadSafeCounter() = default;
+ 
+  // Multiple threads/readers can read the counter's value at the same time.
+  unsigned int get() const {
+    std::shared_lock lock(mutex_);
+    return value_;
+  }
+ 
+  // Only one thread/writer can increment/write the counter's value.
+  void increment() {
+    std::unique_lock lock(mutex_);
+    ++value_;
+  }
+ 
+  // Only one thread/writer can reset/write the counter's value.
+  void reset() {
+    std::unique_lock lock(mutex_);
+    value_ = 0;
+  }
+ 
+ private:
+  mutable std::shared_mutex mutex_;
+  unsigned int value_ = 0;
+};
+```

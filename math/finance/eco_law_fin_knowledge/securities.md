@@ -19,3 +19,9 @@ An investment similar to a bond that is made up of a bundle of home loans bought
 * subprime mortgage
 
 A subprime mortgage is one that’s normally issued to borrowers with low credit ratings. 
+
+* General collateral (GC)
+
+Collateral that is not a specified security but of a defined
+homogenous credit quality, for example UK gilts or AA-rated
+sterling Eurobonds.
