@@ -2,6 +2,14 @@
 
 ## Repo Types
 
+### Classic Repo
+
+One party “sells” bonds to the other while simultaneously
+agreeing to repurchase them or receive them back at a
+specified future date.
+
+Also known as allocation trade for bonds as the underlying security should be allocated.
+
 ### Hold-In-Custody (HIC) Repo
 
 In a held-in-custody repo, the seller receives cash for the sale of the security, but holds the security in a custodial account (might not immediately accessible to the buyer) for the buyer. 

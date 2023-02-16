@@ -15,7 +15,7 @@ info sharedlibrary # check the actually loaded libraries
 
 Or directly from terminal (if `<args>` contains a dash `-`, use double quotes such as `-<args>` ):
 ```bash
-gdb <your-binary> <arg1> <arg2> ...
+gdb --args <your-binary> <arg1> <arg2> ...
 ```
 
 ### Debugging Symbol Table

@@ -2,6 +2,23 @@
 
 ## Quick Start
 
+Install by
+```bash
+git clone https://github.com/google/benchmark.git
+cd benchmark && mkdir build && cd build
+
+# Might need to download 3rd party libs
+cmake \
+    -DCMAKE_BUILD_TYPE='Release' \
+    -DCMAKE_INSTALL_PREFIX="${HOME}" \
+    -DBENCHMARK_DOWNLOAD_DEPENDENCIES=ON \
+    ../
+
+make -j$(nproc) 
+ctest -j$(nproc)
+sudo make install
+```
+
 Define your function that you want to measure the performance/execution time.
 ```cpp
 void strCompare(size_t size) [

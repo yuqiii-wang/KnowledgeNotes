@@ -19,7 +19,7 @@ Rule of thumb: Use references when you can, and pointers when you have to.
 `T&&` earns it name by working as either rvalue reference or lvalue reference, binding to const or non-const objects, and to volatile or non-volatile objects.
 
 * If a function template parameter has type `T&&` for a deduced type `T`, or if an
-object is declared using `auto&&`, the parameter or object is a universal reference.
+object is declared using `auto&&`, the parameter or object is a *universal reference*.
 ```cpp
 // param is a universal reference
 template<typename MyTemplateType>

@@ -153,7 +153,8 @@ std::string dest_str((std::string&&)src_str);
 ```
 so that `src_str` becomes a temporary (an rvalue).
 
-In contrast to `std::move` that treats an object as a temp rvalue, `std::forward` has a single use case: to cast a templated function parameter (inside the function) to the value category (lvalue or rvalue) the caller used to pass it. This allows rvalue arguments to be passed on as rvalues, and lvalues to be passed on as lvalues, a scheme called “perfect forwarding.”
+In contrast to `std::move` that treats an object as a temp rvalue, `std::forward` has a single use case: to cast a templated function parameter (inside the function) to the value category (lvalue or rvalue) the caller used to pass it. 
+This allows rvalue arguments to be passed on as rvalues, and lvalues to be passed on as lvalues, a scheme called “perfect forwarding.”
 
 In the example below, `wrap(T&& t)` has a param not deduced until invocation.
 ```cpp
