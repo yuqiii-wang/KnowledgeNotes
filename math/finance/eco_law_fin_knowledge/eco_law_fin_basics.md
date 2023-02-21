@@ -193,3 +193,11 @@ Arbitrage is the practice of taking advantage of a difference in prices in two o
 * Arbitrage Bond
 
 An arbitrage bond is a debt security with a lower interest rate issued by a municipality prior to the call date of the municipality's existing higher-rate security.
+
+* Underwriting (承销)
+
+Financial institutions (acted as underwriter) guarantee payment in case of damage or financial loss and accept the financial risk for liability arising from such guarantee.
+
+Underwriters purchase securities in bulk from issuers then distribute such securities to the public/clients.
+Clients might or might not buy them from underwriters.
+As a result, underwriters take risks when not having such securities sold; or earning underwriting spread if there is rise in security values.

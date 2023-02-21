@@ -253,3 +253,7 @@ void unhandled_exception() {
 Symmetric coroutine facilities provide a single control-transfer operation that allows coroutines to explicitly pass control between themselves.  
 
 Asymmetric coroutine mechanisms (more commonly denoted as semi-symmetric or semi coroutines) provide two control-transfer operations: one for invoking a coroutine and one for suspending it, the latter returning control to the coroutine invoker. 
+
+## "Schedule" Concept in Coroutine
+
+Unlike Python, C++ does not have a built-in event loop. To "schedule" a coroutine to resume on a thread, should manually indicate where and when to run `co_await` or `co_yield` .

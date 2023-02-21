@@ -129,6 +129,29 @@ This happens when the number of frames (physical memory blocks) is small while t
 
 OS might send signal to the process for thrashing (typically a process termination signal).
 
+### Major and Minor Page Fault
+
+Linux OS assigns independent contiguous virtual memory to individual process.
+Virtual memory is maintained by a memory mapping table that maps virtual memory to physical memory.
+
+When a page is not found, OS throws a page fault exception, then goes to kernel space allocating/locating physical memory and updating the memory mapping table, then resumed on user space process.
+
+* Minor Page Fault (Soft Page Fault)
+
+The to-be accessed memory exist in physical memory, but not in virtual memory.
+
+Just need to establish a new mapping relationship.
+
+`malloc` would trigger once minor page fault.
+
+* Major Page Fault
+
+Neither the to-be accessed memory exist in virtual memory, nor exist in physical memory.
+
+Should retrieve data from disk to physical memory, then update mapping table.
+
+Very slow for required loading from disk, usually happened when physical memory is full and need to swap between disk and physical memory.
+
 ### Segmentation Fault
 
 Memory Access violation raised by hardware for memory protection, handled by notified OS sending signal to the process raising an exception (such as process termination).

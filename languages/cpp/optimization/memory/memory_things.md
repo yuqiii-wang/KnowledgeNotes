@@ -36,7 +36,39 @@ void foo() {
 }
 ```
 
-## Memory alignment
+
+## Memory Alignment
+
+Given the `struct A`, for a 32-bit CPU, each time 4 contiguous memory bytes are loaded.
+```cpp
+struct A {
+    char c;
+    int i;
+};
+```
+
+If in not-aligned layout (same as above `struct A`), to load `char c` and `int i`, require 3 loading operations: 1 for `char c` and 2 for `int i` (for it exists across two load instructions).
+
+```cpp
+struct A {
+    int i;
+    char c;
+};
+```
+If in aligned layout such as first declaring `int i` then `char c`, require 2 loading operations: 1 for `char c` and 1 for `int i`.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/mem_alignment.png" width="30%" height="30%" alt="mem_alignment">
+</div>
+</br>
+
+Another alternative is `alignas` (since c++11) that automatically aligns declared variables
+```cpp
+struct alignas(16) A {
+  char c;
+  int i;
+};
+```
 
 ## POD vs Trivial
 

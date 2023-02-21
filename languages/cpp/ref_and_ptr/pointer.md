@@ -67,3 +67,11 @@ PublicClass& PublicClass::operator=(PublicClass&&) = default;
 
 PublicClass::~PublicClass() = default;
 ```
+
+## `delete` vs `free`
+
+|`delete`|`free`|
+|-|-|
+|It de-allocates the memory dynamically.	|It destroys the memory at the runtime.|
+|It should only be used either for the pointers pointing to the memory allocated using the new operator or for a `NULL` pointer.	|It should only be used either for the pointers pointing to the memory allocated using `malloc()` or for a `NULL` pointer.|
+|This operator calls the destructor after it destroys the allocated memory. 	|This function only frees the memory from the heap. It does not call the destructor.|

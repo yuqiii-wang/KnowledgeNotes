@@ -192,7 +192,7 @@ struct promise_type {
 ### `co_yield` To Pass Value
 
 There are issues for the above implementation, where coroutine frame is destroyed prior to generator destructor.
-In other words, if `generator.next();` might throw error if coroutine has already ended.
+In other words, `generator.next();` might throw error after coroutine has already ended.
 If retrieving value after the already destroyed coroutine frame, there is error.
 
 A primitive solution would be `final_suspend` doing some cleaning or generator destructor `~Generator()` handling some coroutine frame destruction.

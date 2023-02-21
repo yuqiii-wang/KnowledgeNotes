@@ -74,6 +74,20 @@ Thread context switch depends on how much data is shared to the main process, an
 * When a process has multiple threads, these threads share the same resources such as virtual memory and global variables.
 * In addition, threads also have their own private data, such as stacks and registers, which also need to be saved during context switching.
 
+### Context Switch Cost
+
+Direct cost include
+
+1. Load the new process/thread page table
+2. Use the new process/thread kernel space stack
+3. Hardware context switch
+   * ip (instruction pointer) points to its next instruction
+   * bp (base pointer) the bottom address of the current function/local environment stack
+   * sp (stack pointer) the top address of the current function/local environment stack, will move down as as instructions get executed
+   * ...
+4. Process scheduler executes code
+
+Indirect cost mainly include CPU cache refresh.
 
 ## Code
 

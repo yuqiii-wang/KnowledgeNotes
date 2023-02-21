@@ -24,3 +24,59 @@ Second, it passively receives notification about data arrival at `fd` via mainta
 * If the number of listening `fd`s is small, `select` might actually faster than `epoll` since `epoll` requires many kernel function invocation.
 
 ![poll-times](imgs/poll-times.png "poll-times")
+
+## `epoll` Operation Summary
+
+Below is a server socket programming by `epoll` for data reception handling.
+
+1. The server creates a socket and the associated epoll.
+2. In an indefinite loop, `epoll_wait` is used to wait for any data arrival for every connected socket, the user process is blocked at this step
+3. If event is of listening, the server `accept` and `epoll_ctl_add` this new connection
+4. If event is of normal data reception, the server just `read` the data
+5. If event is of close, the server removes out this connection and close `df`
+
+
+```cpp
+// set socket
+set_sockaddr(&srv_addr);
+bind(listen_sock, (struct sockaddr *)&srv_addr, sizeof(srv_addr));
+
+setnonblocking(listen_sock);
+listen(listen_sock, MAX_CONN);
+
+// create an epoll and add one sock
+epfd = epoll_create(1);
+epoll_ctl_add(epfd, listen_sock, EPOLLIN | EPOLLOUT | EPOLLET);
+
+while (true) {
+    nfds = epoll_wait(epfd, events, MAX_EVENTS, -1);
+    for (i = 0; i < nfds; i++) {
+    	if (events[i].data.fd == listen_sock) {
+            /* handle new connection */
+    		conn_sock = accept(listen_sock,
+    			   (struct sockaddr *)&cli_addr,
+    			   &socklen);
+            ...
+            epoll_ctl_add(epfd, conn_sock,
+					      EPOLLIN | EPOLLET | EPOLLRDHUP |
+					      EPOLLHUP);
+        }
+        else if (events[i].events & EPOLLIN) {
+            n = read(events[i].data.fd, buf,
+						 sizeof(buf));
+        }
+    	if (events[i].events & (EPOLLRDHUP | EPOLLHUP)) {
+            epoll_ctl(epfd, EPOLL_CTL_DEL,
+					  events[i].data.fd, NULL);
+    		close(events[i].data.fd);
+    		continue;
+        }
+    }
+}
+```
+
+### High Performance Reason
+
+`epoll_wait` is blocking user process, but internally it releases CPU resources.
+
+When new data comes to `sock`, it has already registered a callback `ep_poll_callback` that wakes up `epoll` and sends data to user process.

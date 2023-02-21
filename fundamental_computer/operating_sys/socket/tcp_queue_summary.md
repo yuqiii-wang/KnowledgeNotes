@@ -3,7 +3,7 @@
 The below four queues are used to bridge the interactions between NIC initiated interrupt handlers `tcp_v4_rcv()` and user initiated `recv()`. 
 
 * Receive queue
-* Pprequeue
+* Prequeue
 * Backlog
 * Out of order queue
 

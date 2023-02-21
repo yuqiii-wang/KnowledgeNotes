@@ -1,14 +1,39 @@
-# Linux IO
+# Linux I/O
 
-## Five IO modes
+## Blocking I/O
 
-Below is example of Linux IO arch for TCP/IP communication.
+An OS process should have three states: *Running*, *Ready* and *Blocked*.
 
-![linux_tcp_socket](imgs/linux_tcp_socket.jpg "linux_tcp_socket")
+* Running: the process is getting executed on a CPU
+* Ready: the process is ready to be executed, but for some reason, OS chooses not to run it now, might run it later
+* Blocked: the process is waiting for a reply so that it can proceed execution.
+For example, a process sends an I/O request to OS, it will be blocked at a `read()` instruction, until OS responds with some data.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/process_three_states.png" width="40%" height="40%" alt="process_three_states">
+</div>
+</br>
+
+During I/O blocking, the current process does not occupy CPU resource, simply waiting for I/O response.
+
+In detail, in Linux, a typical I/O process is
+1. I/O request raised in user space
+2. OS generates a system interrupt, user space process is blocked, execution is transferred to kernel space
+3. kernel reads file for data and goes back with data
+4. user process is waken up and sets the process state to ready.
+
+## Five I/O Modes
+
+Below is example of Linux I/O arch for TCP/IP communication.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/linux_tcp_socket.jpg" width="40%" height="40%" alt="linux_tcp_socket">
+</div>
+</br>
 
 reference: https://programmerall.com/article/37681060266/
 
-### Synchronous blocking IO
+### Synchronous blocking I/O
 
 1) During `recv()`/`recvfrom()` system call, kernel waits until at least one complete data packet arrives (such as one UDP/TCP packet). User process is blocked during the wait. 
 
@@ -17,7 +42,7 @@ reference: https://programmerall.com/article/37681060266/
 ![blocking_io](imgs/blocking_io.png "blocking_io")
 
 
-### Synchronous non-blocking IO
+### Synchronous non-blocking I/O
 
 1) While kernel waits for at least one complete data packet arrives, user process is not blocked by `recv()`/`recvfrom()`, but continues running next line of code. However, `recv()`/`recvfrom()` receives `err_no` from system call indicating the data is not yet ready.
 
@@ -25,13 +50,13 @@ reference: https://programmerall.com/article/37681060266/
 
 ![non_blocking_io](imgs/non_blocking_io.png "non_blocking_io")
 
-### IO multiplexing
+### I/O multiplexing
 
-IO multiplexing is what we call `select`, `poll`, `epoll`, and some places also call this IO method as event driven IO. 
+I/O multiplexing is what we call `select`, `poll`, `epoll`, and some places also call this I/O method as event driven I/O. 
 
-Kernel checks data by polling, same as sync blocking and non-blocking IO modes, but multiplexing use one process to check many sockets in charge, thus cost-efficient.
+Kernel checks data by polling, same as sync blocking and non-blocking I/O modes, but multiplexing use one process to check many sockets in charge, thus cost-efficient.
 
-This behavior is same as sync blocking IO's, with addition of being cost-efficient for multiple socket communication. If socket number is small, sync blocking IO is even better.
+This behavior is same as sync blocking I/O's, with addition of being cost-efficient for multiple socket communication. If socket number is small, sync blocking I/O is even better.
 
 1) when a user process calls `select`, user process is blocked, and kernel monitors all sockets registered under the `select`.
 
@@ -40,7 +65,7 @@ This behavior is same as sync blocking IO's, with addition of being cost-efficie
 ![multiplexing_io](imgs/multiplexing_io.png "multiplexing_io")
 
 
-### Signal-driven IO (signal-driven IO)
+### Signal-driven I/O (signal-driven I/O)
 
 1) A user process calls a `read` then continues running next line of code. Kernel notifies the user process by system signal `SIGIO` to the process. 
 
@@ -51,7 +76,7 @@ CPU utilization rate is higher than polling for signal-driven mode.
 ![signal_io](imgs/signal_io.png "signal_io")
 
 
-### Asynchronous non-blocking IO (asynchronous IO)
+### Asynchronous non-blocking I/O (asynchronous I/O)
 
 A user process inits/invokes `aio_read` which immediately returns. When data is ready, kernel signals the user process to invoke a callback function.
 
