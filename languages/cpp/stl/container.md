@@ -173,3 +173,16 @@ class bitset;
 
 Sets are usually implemented as *red-black tree*s.
 
+## `std::tuple` and `std::tie`
+
+Tuple can place objects of various types together :
+```cpp
+std::tuple<int,double,string> t3 = {1, 2.0, "3"};
+```
+
+`std::tie` can take references of a tuple and unzip it to objects by order.
+
+```cpp
+int i; double d; std::string s;
+std::tie(i, d, s) = t3;
+```

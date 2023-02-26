@@ -207,3 +207,10 @@ that should give the below report, where memory leak location is identified.
 ==442705== 
 ==442705== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
+
+## Address Sanitizer
+
+Address sanitizer can check if there exist array boundary breach.
+
+`g++` has already included this tool.
+Compile program with this flag should be good `-fsanitize=address`

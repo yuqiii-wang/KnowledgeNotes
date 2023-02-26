@@ -10,9 +10,13 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_BUILD_TYPE debug)
 
+set(CMAKE_CXX_FLAGS "-fsanitize=address")
+
 
 add_executable(binary_tree_run data_structs/tree/binary_tree_run.cpp)
 
-add_executable(twoSum data_structs/hash/twoSum.cpp)
-
 add_executable(findMedianFromTwoSortedVectors algos/binary_search/findMedianFromTwoSortedVectors.cpp)
+
+add_executable(zigzagConversion data_structs/vector/zigzagConversion.cpp)
+
+add_executable(bfs_and_dfs algos/search/bfs_and_dfs.cpp)

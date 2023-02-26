@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <cstring>
+
 /*
     Given a string s, return the longest palindromic substring in s.
     
@@ -27,41 +29,39 @@ public:
 
         int maxLen = 1;
         int begin = 0;
-        // dp[i][j] represents if s[i..j] is a palindrome
-        vector<vector<int>> dp(n, vector<int>(n));
-        // init: all chars itself form palindromes
-        for (int i = 0; i < n; i++) {
-            dp[i][i] = 1;
+
+        bool dp[n][n];
+        for (int k = 0; k < n; k++) {
+            std::memset(dp[k], false, n*sizeof(bool));
+            dp[k][k] = true;
         }
-        
-        // substring length iteration, a palindrome should at least has two chars
+
+        // L for length
         for (int L = 2; L <= n; L++) {
-            // left boundary of the substring
             for (int i = 0; i < n; i++) {
-                // right boundary of the substring
-                int j = L + i - 1;
-                // if the right boundary breaches total string size, break the loop
-                if (j >= n) {
-                    break;
-                }
+
+                int j = i + L - 1;
+                if (j >= n) break;
 
                 if (s[i] != s[j]) {
-                    dp[i][j] = 0;
-                } else {
+                    dp[i][j] = false;
+                }
+                else {
                     if (j - i < 3) {
-                        dp[i][j] = 1;
+                        dp[i][j] = true;
                     } else {
-                        dp[i][j] = dp[i + 1][j - 1];
+                        dp[i][j] = dp[i+1][j-1]; // critical, 
+                                                 // it remembers the last state true/false from where it proceeds
                     }
                 }
 
-                // if dp[i][L] == true, then s[i..L] is palindrome, and find the max lengths
                 if (dp[i][j] && j - i + 1 > maxLen) {
                     maxLen = j - i + 1;
                     begin = i;
                 }
             }
         }
+
         return s.substr(begin, maxLen);
     }
 };

@@ -201,3 +201,7 @@ Financial institutions (acted as underwriter) guarantee payment in case of damag
 Underwriters purchase securities in bulk from issuers then distribute such securities to the public/clients.
 Clients might or might not buy them from underwriters.
 As a result, underwriters take risks when not having such securities sold; or earning underwriting spread if there is rise in security values.
+
+* Leveraged Buyout (LBO) 杠杆收购
+
+A leveraged buyout (LBO) is the acquisition of another company using a significant amount of borrowed money (bonds or loans) to meet the cost of acquisition. 
