@@ -58,6 +58,17 @@ Args passed with `std::move(a)`
 class A {
     A(A&& other) noexcept {}
 };
+
+A f(A a) {
+    return a;
+}
+
+int main() {
+    A a1 = f(A());
+    A a2 = std::move(a1);
+
+    return 0;
+}
 ```
 
 ### Move Assignment

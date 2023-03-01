@@ -14,13 +14,3 @@ set(CMAKE_CXX_FLAGS "-fsanitize=address")
 
 
 add_executable(binary_tree_run data_structs/tree/binary_tree_run.cpp)
-
-add_executable(findMedianFromTwoSortedVectors algos/binary_search/findMedianFromTwoSortedVectors.cpp)
-
-add_executable(zigzagConversion data_structs/vector/zigzagConversion.cpp)
-add_executable(reverseInt data_structs/list/reverseInt.cpp)
-
-add_executable(bfs_and_dfs algos/search/bfs_and_dfs.cpp)
-
-add_executable(bubble_sort algos/sort/bubble_sort.cpp)
-add_executable(quick_sort algos/sort/quick_sort.cpp)

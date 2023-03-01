@@ -155,3 +155,8 @@ Below is a failure as a braced initializer needs implicit conversion.
 ```cpp
 fwd({ 1, 2, 3 }); // error! doesn't compile
 ```
+
+## Move Failure
+
+* Move pointer: move cannot work on pointer (the pointed object does not change before and after move operation)
+* Return Value Optimization may have different implementations of whether it uses default/copy/move constructor

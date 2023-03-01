@@ -49,9 +49,29 @@ Each thread block has shared memory visible to all threads of the block and with
 
 * each thread has its local memory
 * each thread block has shared memory across all threads in this block
-* all threads has shared global memory.
+* all threads has shared global memory
 
-![cuda_mem_struct](imgs/cuda_mem_struct.png "cuda_mem_struct")
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/cuda_thread_struct.png" width="40%" height="40%" alt="cuda_thread_struct">
+</div>
+</br>
+
+* The global memory is a high-latency memory that every thread can access it.
+
+* The constant memory can be written into and read by the host. 
+It is used for storing data that will not change over the course of kernel execution. 
+Usually of size 64 KB storing in cache for thread, hence access time is fast.
+It is declared in `__constant__`.
+
+* Registers and shared-memory are on-chip memories, allows fast read/write.
+
+* Each block has its own shared-memory; threads within the same block can access the same shared memory.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/cuda_mem_struct.png" width="40%" height="40%" alt="cuda_mem_struct">
+</div>
+</br>
 
 ### Cuda memory copy process
 
@@ -60,6 +80,45 @@ If the memory is not pinned (i.e. not page-locked), data is first copied to a pa
 By using the pinned memory you save the time to copy from pageable host memory to page-locked host memory.
 
 Use `cudaMallocHost` to make data's memory persistent on host device, rather than `malloc` or `new` operation. For memory discharge, use `cudaFreeHost`.
+
+## Concurrency and Warp
+
+Warps are the hardware-level concurrency processing units, in contrast to common thread blocks that only guarantee "logic"-level concurrency where threads might be reordered in what time in hardware they are actually executed.
+Typically, each warp has 32 threads.
+
+This means within the same warp, if some threads finish faster than some others, the early finished threads have to wait for the remaining threads to finish.
+
+For example, there are some `if`/`else` conditions in kernel code, one branch is significantly more computation-intense than another (assumed no constant value optimization).
+In this scenario, some threads finish faster than others, but have to wait.
+```cpp
+__global__ void mathKernel1(float *c) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    float a, b;
+    a = 123.0;
+    b = 456.0;
+    if (tid % 2 == 0) {
+        c[tid] = (a*a + b*b) / (a+b); // time-consuming
+    } else {
+        c[tid] = a + b; // easy to compute
+    }
+    
+}
+```
+
+Branching can be done with `warpSize`, so that all threads within the same warp can finish simultaneously by going into the same `if`/`else` branch.
+```cpp
+__global__ void mathKernel2(void) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    float a, b;
+    a = 123.0;
+    b = 456.0;
+    if ((tid / warpSize) % 2 == 0) {
+        c[tid] = (a*a + b*b) / (a+b); // time-consuming
+    } else {
+        c[tid] = a + b; // easy to compute
+    }
+}
+```
 
 ## CUDA C++ extensions and code
 
@@ -164,13 +223,3 @@ some_CPU_method();  // cpu work can be run in parallel
 cudaMemcpyAsync ( host4, dev4, size, D2H, stream4 ) ;
 ```
 
-## Profiling
-
-### Performance check by `nvtop`
-
-`nvtop` is a GUI Nvidia GPU tool that monitors general GPU performance.
-
-Install by (If found any err, do `sudo apt-get update` and manually install dependencies)
-```bash
-sudo apt-get install nvtop
-```

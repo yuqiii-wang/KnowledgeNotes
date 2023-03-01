@@ -41,6 +41,30 @@ return std::move(w);// Moving version of makeWidget
                     // move w into return value
                     // (don't do this!)
 }
+```    
+
+### Default Move On Return Value (Since C++17)
+
+Compiler guarantees copy elision (since c++17).
+
+```cpp
+struct C {
+  C() {}
+  C(const C&) { std::cout << "A copy was made.\n"; }
+};
+ 
+C f() {
+  return C(); //Definitely performs copy elision
+}
+C g() {
+    C c;
+    return c; //Maybe performs copy elision
+}
+ 
+int main() {
+  std::cout << "Hello World!\n";
+  C obj = f(); //Copy constructor isn't called
+}
 ```
 
 ## Small String Optimization (SSO)

@@ -9,6 +9,7 @@ __global__ void kernelSum(int n, float a, float *x, float *y)
         y[i] = a * x[i] + y[i];
 }
 
+
 int main(void)
 {
     int N = 1 << 20;

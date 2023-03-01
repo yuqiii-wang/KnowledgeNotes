@@ -205,3 +205,7 @@ As a result, underwriters take risks when not having such securities sold; or ea
 * Leveraged Buyout (LBO) 杠杆收购
 
 A leveraged buyout (LBO) is the acquisition of another company using a significant amount of borrowed money (bonds or loans) to meet the cost of acquisition. 
+
+* Tenor
+
+Tenor refers to the length of time remaining before a financial contract expires.

@@ -77,7 +77,7 @@ class SolutionByPattern
             return s;
 
         string retS;
-        retS.resize(s.size()+10);
+        retS.resize(s.size());
 
         int remainCharNums = s.size()%(numRows*2-2);
 

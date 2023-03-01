@@ -86,6 +86,44 @@ weak1 is expired
 weak2 value is 5
 ```
 
+### `weak_ptr` and `lock`
+
+`weak_ptr::lock` returns a shared pointer if the owner object is still valid; return false if the pointed object is expired/demised.
+
+In the example below, `std::weak_ptr<int> gw;` is created via a shared pointer.
+The following `observe()` says it has count equal to 1. 
+Then `gw` is demised due to out of scope, and the use count is zero that outputs `"gw is expired"`
+```cpp
+#include <iostream>
+#include <memory>
+ 
+std::weak_ptr<int> gw;
+ 
+void observe()
+{
+    std::cout << "gw.use_count() == " << gw.use_count() << "; ";
+    // we have to make a copy of shared pointer before usage:
+    if (std::shared_ptr<int> spt = gw.lock()) {
+        std::cout << "*spt == " << *spt << '\n';
+    }
+    else {
+        std::cout << "gw is expired\n";
+    }
+}
+ 
+int main()
+{
+    {
+        auto sp = std::make_shared<int>(42);
+        gw = sp;
+ 
+        observe();
+    }
+ 
+    observe();
+}
+```
+
 ## Prefer `std::make_unique` and `std::make_shared` to direct use of `new`
 
 Rule of thumb: Try to use standard tools as much as possible, otherwise, you risk program failure when OS or compiler upgrade to a higher version.

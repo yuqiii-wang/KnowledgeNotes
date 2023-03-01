@@ -72,9 +72,10 @@ std::sort(arr, arr + n_items, Comparator());
 
 ## `noexcept`
 
-Compiler uses *flow graph* to optimize machine code generation. A flow graph consists of what are generally called "blocks" of the function (areas of code that have a single entrance and a single exit) and edges between the blocks to indicate where flow can jump to. `Noexcept` alters the flow graph (simplifies flow graph not to cope with any error handling)
+Compiler uses *flow graph* to optimize machine code generation. A flow graph consists of what are generally called "blocks" of the function (areas of code that have a single entrance and a single exit) and edges between the blocks to indicate where flow can jump to. `noexcept` alters the flow graph (simplifies flow graph not to cope with any error handling)
 
-For example, code below using containers might throw `std::bad_alloc` error for lack of memory, and compiler needs attaching `std::terminate()` when error was thrown, hence adding complexity to flow graph. Remember, there are many errors a function can throw, and error handling code blocks can be many in a flow graph. By `noexcept`, flow graph is trimmed. 
+For example, code below using containers might throw `std::bad_alloc` error for lack of memory, adding complexity to flow graph. 
+There are many errors a function can throw, and error handling code blocks can be many in a flow graph. By `noexcept`, flow graph is trimmed such that only `std::terminate()` is invoked when error throws. 
 ```cpp
 double compute(double x) noexcept {
     std::string s = "Courtney and Anya";
@@ -83,5 +84,13 @@ double compute(double x) noexcept {
 }
 ```
 
-## Curiously Recurring Template Pattern (CRTP)
+Another example is that, containers such as `std::vector` will move their elements if the elements' move constructor is `noexcept`, 
+and copy otherwise (unless the copy constructor is not accessible, but a potentially throwing move constructor is, in which case the strong exception guarantee is waived).
 
+### `noexcept` Best Practices
+
+Use `noexcept` in below scenarios:
+* move constructor
+* move assignment
+* destructor (since C++11, they are by default `noexcept`)
+* 
