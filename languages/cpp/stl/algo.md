@@ -2,6 +2,8 @@
 
 ## Algorithms
 
+### `std::all_of`, `std::any_of` and `std::none_of`
+
 `std::all_of`, `std::any_of` and `std::none_of` can used to compute an expression over a range of vars. 
 ```cpp
 std::vector<int> v(10, 2);
@@ -42,6 +44,10 @@ constexpr bool none_of(InputIt first, InputIt last, UnaryPredicate p)
     return std::find_if(first, last, p) == last;
 }
 ```
+
+### `std::erase_if` (since C++20) and `std::remove_if`
+
+
 
 ## Tools
 

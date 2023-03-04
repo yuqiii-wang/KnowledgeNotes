@@ -120,6 +120,13 @@ __global__ void mathKernel2(void) {
 }
 ```
 
+### Warp vs Stream Processor
+
+Each CUDA core is also known as a Streaming Processor or shader unit sigh.
+
+From a hardware perspective, hardware groups threads that execute the same instruction in to warps. Several warps constitute a thread block. 
+Several thread blocks are assigned to a Streaming Multiprocessor (SM). Several SM constitute the whole GPU unit (which executes the whole Kernel Grid).
+
 ## CUDA C++ extensions and code
 
 `__global__ void func<<<numBlocks, threadsPerBlock>>>` is the CUDA device kernel function c++ extension syntax that runs on CUDA for parallel computation.
@@ -168,6 +175,8 @@ Given a `kernel<<<Dg,Db,Ns,S>>>(args**)`, there is
 * `__global__`
 
 * `__device__`
+
+* `__shared__`
 
 ## Async
 
