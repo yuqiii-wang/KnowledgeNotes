@@ -18,3 +18,6 @@ private:
     ~Singleton(){}
 };
 ```
+
+## Singleton and Thread Safety
+

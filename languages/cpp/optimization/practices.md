@@ -40,6 +40,17 @@ auto lambdaPerThread = [&](int threadId; int threadTotalNum)
 
 However, it might reduce performance if misused, for increased cache misses and thrashing.
 
+### `inline` Implementation
+
+Inline expansion is similar to macro expansion as the compiler places a new copy of the function in each place it is called. 
+Inlined functions run a little faster than the normal functions as function-calling-overheads are saved.
+
+Inline expansion is used to eliminate the time overhead (excess time) when a function is called.
+
+Without inline functions, the compiler decides which functions to inline.
+
+Ordinarily, when a function is invoked, control is transferred to its definition by a branch or call instruction. With inlining, control drops through directly to the code for the function, without a branch or call instruction.
+
 `inline` does not work for virtual function nor recursion.
 
 ### Implicit `inline`
@@ -69,6 +80,10 @@ struct Comparator {
 
 std::sort(arr, arr + n_items, Comparator());
 ```
+
+### `inline` vs Macro
+
+Inline expansion  occurs during compilation, without changing the source code (the text), while macro expansion occurs prior to compilation.
 
 ## `noexcept`
 

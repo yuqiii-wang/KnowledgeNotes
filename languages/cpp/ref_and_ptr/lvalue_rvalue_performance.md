@@ -156,7 +156,53 @@ Below is a failure as a braced initializer needs implicit conversion.
 fwd({ 1, 2, 3 }); // error! doesn't compile
 ```
 
-## Move Failure
+## Move Implementation
+
+The standard template provides this implementation.
+
+```cpp
+template<typename T>
+constexpr std::remove_reference_t<T>&& move(T&& t) noexcept
+{
+    return static_cast<std::remove_reference_t<T>&&>(t);
+}
+```
+
+It’s essentially a `static_cast`: take in some reference – lvalue or rvalue, const or non-const – and casting it to an rvalue reference.
+
+When write `Type obj = std::move(other_obj);`, overload resolution should call the move constructor `Type(Type&& other)` instead of the copy constructor `Type(const Type& other)`.
+
+### `noexcept` and Move
+
+Compiler would not use the move constructor of an object if that can throw an exception. 
+This is because if an exception is thrown in the move then the data that was being processed could be lost, where as in a copy constructor the original will not be changed.
+
+In code, `noexcept` should be added for move to be selected in use.
+```cpp
+class A {
+public:
+    A(A&& _A) noexcept {}
+};
+
+class B {
+public:
+    B(A&& _B) {}
+};
+
+int main() {
+    std::vector<A> va;
+    A a;
+    va.push_back(a); // call move constructor
+
+    std::vector<B> vb;
+    B b;
+    vb.push_back(b); // call copy constructor
+}
+
+```
+
+### Move Failure
 
 * Move pointer: move cannot work on pointer (the pointed object does not change before and after move operation)
 * Return Value Optimization may have different implementations of whether it uses default/copy/move constructor
+* When constructor could throw error, by default copy constructor is called

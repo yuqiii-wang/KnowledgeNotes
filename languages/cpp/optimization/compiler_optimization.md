@@ -17,6 +17,80 @@ https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
 
 ### `-O2` Optimization
 
+`-O2` performs nearly all supported optimizations that do not involve a space-speed tradeoff. 
+
+Some `-O2` included optimization flags are shown as below.
+
+* `inline` optimization: automatically set `inline` to some functions
+```bash
+-finline-functions 
+-finline-small-functions 
+```
+
+* Auto detect undefined behavior
+
+```bash
+-fisolate-erroneous-paths-dereference
+```
+
+For example, `*x` could trigger undefined behavior if `a` is equal to zero
+```cpp
+int* foo (int a) {
+  int *x;
+  if (a)      
+    x = nullptr; 
+  else
+    x = new int(5);
+  return *x;  // if a == 0, `*x` points to nothing
+}
+```
+
+Instead, code could be optimized as such
+```cpp
+int* foo (int a) {
+  if (a)
+    abort ();
+  int* x = 5
+  return x;
+}
+```
+
+* Vectorization
+
+```bash
+-fvect-cost-model=very-cheap
+-fsimd-cost-model=dynamic
+-ftree-vectorize
+```
+
+The very cheap model enables vectorization if the scalar iteration count is a multiple of four $(32=4 \times 8)$.
+In other words, in a loop, every four elements are retrieved simultaneously and computed. 
+
+
+Similar to element vectorization in a loop, `-ftree-vectorize` vectorizes tree data structure's elements.
+
+The `model` argument in `-fsimd-cost-model=model` should be one of ‘unlimited’, ‘dynamic’, ‘cheap’. 
+They describe how SIMD should be used.
+
+* Bound check : do not check if iterator goes out of bound.
+
+```bash
+-ftree-vrp
+```
+
+### `-O3`
+
+* Smart adjustment of `for` loop
+
+```bash
+-fpeel-loops
+-fsplit-loops
+```
+
+Peels loops for which there is enough information that they do not roll much (from profile feedback or static.
+
+Split a loop into two if it contains a condition that’s always true for one side of the iteration space and false for the other.
+
 
 
 ## Return Value 
@@ -132,15 +206,83 @@ void* memcpy_v3(void* dst, const void* src, size_t len) {
 
 ## Exception Handling
 
-Cost of using exceptions:
-* 
+### Typical `try`/`catch` Cost
 
-Advantages of using exceptions:
-* Object constructor does not have return value, exception can help show error
+Typical error handling overheads are
 
+* try-block
+
+Data and code associated with each try-block or catch clause.
+
+* regular functions
+
+Data and code associated with the normal execution of
+functions that would not be needed had exceptions not existed, such as missed
+optimization opportunities.
+
+* throw-expression
+
+Data and code associated with throwing an exception.
+
+### Exception Handling Implementation: "code" approach, where code is associated with each try-block
+
+Need to dynamically maintain auxiliary data structures to manage the capture and transfer of the execution contexts, plus other
+dynamic data structures involved in tracking the objects that need to be unwound in the
+event of an exception.
+
+Overheads (when no exception occurs) are
+* Stack the execution context change when entering/leaving the `try`/`catch`
+* If a function in `try` has an exception-specification, register it for checking
+
+### Exception Handling Implementation (**Preferred**): “table” approach, which uses compiler-generated static tables
+
+Generate read-only tables for
+determining the current execution context, locating catch clauses and tracking objects
+needing destruction.
+
+Tables can be placed in ROM or, on hosted systems with virtual memory, can remain swapped out until an exception is actually thrown,
+so that there is no overhead if there is no exception occurs.
+
+## Copy Elision
+
+Omits copy and move (since C++11) constructors, resulting in zero-copy pass-by-value semantics.
+
+```cpp
+T f()
+{
+    return T();
+}
+ 
+f(); // only one call to default constructor of T
+```
 
 ## Kernel Scheduler Prioritizing handling I/O
 
 ### struct padding
 
 ## RDMA (Remote Direct Memory Access)
+
+## Overheads Related to Inheritance
+
+A `class` without a `virtual` function requires exactly as much space to represent as a
+`struct` with the same data members.
+
+### Representation Overheads of A Polymorphic `class`
+
+* A polymorphic `class` (a `class` that has one or more `virtual` functions) incurs a per-object space overhead of one pointer, plus a per-class space overhead of a “virtual function table”.
+
+* In addition, a per-class space overhead of a “type information object” (also called “run-time type information” or RTTI) is typically about 40 bytes per class, consisting of a name string, a couple of words of other information
+
+### Dynamic Cast
+
+Given a pointer to an object of a polymorphic class, a cast to a pointer to another base
+sub-object of the same derived class object can be done using a dynamic_cast . 
+In principle, this operation involves finding the virtual function table, through that find the most-derived class object, then adjust the `this` pointer to the newly cast object.
+
+* An up-cast (cast from derived class to base class) can be compiled into a simple
+`this` pointer adjustment. An up-cast should be fast.
+
+* A down-cast (from base class to derived class) involves checking the virtual table and adjusting `this` pointer.
+
+* Cross-casts (casts from one branch of a multiple inheritance hierarchy to
+another): operations take a down-cast then an up-cast.

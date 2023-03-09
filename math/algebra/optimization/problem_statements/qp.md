@@ -34,7 +34,7 @@ subject to
 $$
 A\bold{x} \le \bold{b}
 $$
-where $Q=R^TR$ follows from the Cholesky decomposition of $Q$ and $\bold{c}=-R^T\bold{d}$.
+where $Q=R^TR$ follows from the Cholesky decomposition of $Q$ and $\bold{c}=-R^\top \bold{d}$.
 
 ## KKT Conditions
 
@@ -46,7 +46,7 @@ In other words, it is the precondition to establish a solution to be optimal in 
 
 For a typical equality constraint optimization, there is
 $$
-min \quad f(\bold{x})
+\min \quad f(\bold{x})
 $$
 subject to
 $$
@@ -61,9 +61,9 @@ $$
 Stationary points $\bold{x}^*$ are computed on the conditions when derivatives are zeros:
 $$
 \begin{align*}
-\triangledown_x L &= \frac{\partial L}{\partial \bold{x}} = \triangledown f + \lambda \triangledown g = \bold{0}
+\nabla_x L &= \frac{\partial L}{\partial \bold{x}} = \nabla f + \lambda \nabla g = \bold{0}
 \\
-\triangledown_{\lambda} L &= \frac{\partial L}{\partial \lambda} = g(\bold{x}) = 0
+\nabla_{\lambda} L &= \frac{\partial L}{\partial \lambda} = g(\bold{x}) = 0
 \end{align*}
 $$
 
@@ -73,7 +73,7 @@ KKT condition generalizes the use of Langrage Multipliers to inequality constrai
 
 Here $g(\bold{x})$ has inequality constraints such as
 $$
-min \quad f(\bold{x})
+\min \quad f(\bold{x})
 $$
 subject to
 $$
@@ -86,13 +86,13 @@ For feasible region $K=\bold{x} \in \mathbb{R}^n | g_j(\bold{x}) = 0, h(\bold{x}
 
 * $h(\bold{x^*}) \lt 0$, $\bold{x^*}$ is named *interior solution*, that $\bold{x^*}$ resides inside feasible region $K$
 
-$g(\bold{x^*})$ serves no constraints so that $\bold{x}^*$ can be computed via $\triangledown f = 0$ and $\lambda = 0$.
+$g(\bold{x^*})$ serves no constraints so that $\bold{x}^*$ can be computed via $\nabla f = 0$ and $\lambda = 0$.
 
 * $g(\bold{x^*}) = 0$ or $h(\bold{x^*}) = 0$, $\bold{x^*}$ is named *boundary solution*, that $\bold{x^*}$ resides on the edge of feasible region $K$
 
 This draws similarity with Langrage Multipliers having equality constraints, so that
 $$
-\triangledown f = -\lambda \triangledown g
+\nabla f = -\lambda \nabla g
 $$
 
 Here defines Langrage function:
@@ -108,14 +108,20 @@ KKT conditions are defined as below having the four clauses:
 
 * Stationarity
 $$
-\triangledown_x L = \frac{\partial L}{\partial \bold{x}} = \triangledown f + \lambda \triangledown g + \mu \triangledown h = \bold{0}
+\nabla_x L = \frac{\partial L}{\partial \bold{x}} = \nabla f + \lambda \nabla g + \mu \nabla h = \bold{0}
 $$
+
+This means that $L$ must have at least one optimal point where its derivative is zero.
+
 * Primal feasibility
 $$
 g(\bold{x}) = 0
 \\
 h(\bold{x}) \le 0
 $$
+
+This means the constraints must be feasible 
+
 * Dual feasibility
 $$
 \mu \ge 0

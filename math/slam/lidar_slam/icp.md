@@ -306,3 +306,6 @@ The distance $|\bold{d}_i - {\bold{s}}_i|$ is minimized when $\big( (\bold{d}_i 
       <img src="imgs/point_to_plain_icp.png" width="40%" height="40%" alt="point_to_plain_icp">
 </div>
 </br>
+
+## Normal ICP
+

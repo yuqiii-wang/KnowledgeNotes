@@ -70,7 +70,7 @@ protected:
 	std::unique_ptr<Person> person;
 };
 
-class ProfessorBuiler : public PersonBuilder {
+class ProfessorBuilder : public PersonBuilder {
 public:
 	void buildProfessor(std::string name, int age, int numPapers) {
 		person->setName(name);
@@ -79,7 +79,7 @@ public:
 	}
 };
 
-class StudentBuiler : public PersonBuilder {
+class StudentBuilder : public PersonBuilder {
 public:
 	void buildStudent(std::string name, int age, int grade) {
 		person->setName(name);
@@ -90,8 +90,8 @@ public:
 
 int main(){
 	PersonMother pm;
-	StudentBuiler sb("SB", 18, 90);
-	ProfessorBuiler pb("PB", 45, 10);
+	StudentBuilder sb("SB", 18, 90);
+	ProfessorBuilder pb("PB", 45, 10);
 
 	pm.giveBirthPerson(&sb);
 	pm.giveBirthPerson(&pb);

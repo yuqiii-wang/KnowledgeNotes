@@ -209,3 +209,18 @@ int main()
     return 0;
 }
 ```
+
+### `auto&&` vs `const auto&`
+
+```cpp
+auto forwarder1 = [&](const auto& e) {
+     std::cout << std::forward<decltype(e)>(e) << std::endl;
+};
+auto forwarder2 = [&]( auto&& e) {
+     std::cout << std::forward<decltype(e)>(e) << std::endl;
+};
+
+int e = 1;
+    
+forwarder1(std::move(e)); // working because legal to bind const lvalue reference to rvalue
+```

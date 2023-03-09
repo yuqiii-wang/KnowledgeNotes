@@ -209,3 +209,8 @@ A leveraged buyout (LBO) is the acquisition of another company using a significa
 * Tenor
 
 Tenor refers to the length of time remaining before a financial contract expires.
+
+* Prospectus 
+
+A prospectus is a formal document required by and filed with the Securities and Exchange Commission (SEC) that provides details about an investment offering to the public. 
+A prospectus is filed for offerings of stocks, bonds, and mutual funds.

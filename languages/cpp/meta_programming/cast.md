@@ -90,7 +90,7 @@ D* pd = static_cast<D*>(pb); // unsafe, downcast to its base
 ```
 
 
-`static_cast` happens at compile time. As a result, no safety check is performed during runtime to check if the object being converted is in fact a full object of the destination type. 
+`static_cast` happens at compile time (Type info at compile time). As a result, no safety check is performed during runtime to check if the object being converted is in fact a full object of the destination type. 
 
 ### `dynamic_cast<new-type>(expression)` 
 

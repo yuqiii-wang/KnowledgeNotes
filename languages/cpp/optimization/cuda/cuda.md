@@ -172,19 +172,100 @@ Given a `kernel<<<Dg,Db,Ns,S>>>(args**)`, there is
 
 ### Common extension usage
 
-* `__global__`
+* `__global__` vs `__device__`
 
-* `__device__`
+`__global__` is called from host/CPU but executed in GPU;
+`__device__` is called and executed in GPU
+
+For example, to compute amplitude and phase of some arrays of data (real and imaginary parts), 
+`__global__` is mainly focused on arranging data access (load and store), while `__device__` handles actual computations.
+```cpp
+__device__ float calculateAmplitude(float re1, float im1, float re2,float im2)
+{
+    re1 = re1*re1+ im1*im1;
+	return sqrtf(re1);
+}
+
+__device__ float calculatePhase(float re1, float im1, float re2,float im2)
+{
+	register float x,y;
+	y = im1*re2 - re1*im2;
+	x = re1*re2 + im1*im2;
+	return atan2f(y,x);
+}
+
+__global__ void calculateAmpPhase(...)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    float re1 = relArr1[idx];
+    float re2 = relArr2[idx];
+    float im1 = imArr1[idx];
+    float im2 = imArr2[idx];
+
+    float amp = calculateAmplitude(re1, im1, re2,im2) ;
+    ampArr[idx] = amp;
+
+    float phase = calculatePhase(re1, im1, re2, im2) ;
+    phaseArr[idx] = phase;
+}
+```
 
 * `__shared__`
 
+Shared memory is shared by all threads in a thread block. 
+
+For shared memory to be useful, should know whether kernel functions would access the same block of memory multiple times.
+The reason of this requirement is that reading it into shared memory first would require 1 global memory read and 1 shared memory read, which takes longer, only shared data is read multiple times can it be cost-efficient.
+
+For example, assumed block dimension `(1024, 1, 1)` and grid dimension `(1, 1, 1)`, 
+the requirement is to compute array element neighbors' mean value: `(arr[i-1]+arr[i+1])/2.0`.
+
+This requires repeated accesses to local data, and `__shared__` can help.
+Remember to add `__syncthreads();` to wait to load data.
+```cpp
+__global__ void compute_it(float *data)
+{
+   int tid = threadIdx.x;
+   __shared__ float myblock[1024];
+   float tmp;
+
+   // load the thread's data element into shared memory
+   myblock[tid] = data[tid];
+
+   // ensure that all threads have loaded their values into
+   // shared memory; otherwise, one thread might be computing
+   // on uninitialized data.
+   __syncthreads();
+
+   // compute the average of this thread's left and right neighbors
+   tmp = (myblock[tid > 0 ? tid - 1 : 1023] + myblock[tid < 1023 ? tid + 1 : 0]) * 0.5f;
+   // square the previousr result and add my value, squared
+   tmp = tmp*tmp + myblock[tid] * myblock[tid];
+
+   // write the result back to global memory
+   data[tid] = tmp;
+}
+```
+
+* `__constant__`
+
+Constant sets data to read-only.
+
+To use it, set variable to constant then copy to gpu by `cudaMemcpyToSymbol`.
+`__constant__` declared variables must be **in a global scope in the host code**, cannot be referenced from host function.
+```cpp
+__constant__ Sphere s[NumSpheres];
+
+cudaMemcpyToSymbol(s, src_s, sizeof(Sphere)*NumSpheres);
+```
+
+CUDA constant improves performance by conducting read operation "broadcasting" to threads in the same warp.
+When CUDA reads data from constant memory, it sends data to half warp containing 16 threads, and the constant data is kept in shared cache within a thread block.
+As a result, there is no repeated request to global data block but retrieving data from local cache.
+Read-only access facilitates parallelism.
+
 ## Async
-
-### Kernel calls
-
-Kernel calls are asynchronous from the point of view of the CPU so if you call 2 kernels in succession the second one will be called without waiting for the first one to finish. It only means that the control returns to the CPU immediately.
-
-On the GPU side, if you haven't specified different streams to execute the kernel they will be executed by the order they were called (if you don't specify a stream they both go to the default stream and are executed serially). Only after the first kernel is finished the second one will execute.
 
 ### Streams
 
@@ -232,3 +313,28 @@ some_CPU_method();  // cpu work can be run in parallel
 cudaMemcpyAsync ( host4, dev4, size, D2H, stream4 ) ;
 ```
 
+## CUDA Texture
+
+CUDA texture is in **global** memory that are accessed through a dedicated read-only cache, 
+and that the cache includes hardware filtering which can perform linear floating point interpolation as part of the read process. 
+
+In other words, `texture`-compiled data is physically close in hardware, and is set to read-only, hence it is fast in access.
+Besides, there are builtin floating point operations that can facilitate texture data computation along side with data retrieval.
+
+In practice, `texture` acts like a wrapper to normal cuda allocated memory data by binding `dev_inSrc` $\leftrightarrow$ `devTex_inSrc` through the function `cudaBindTexture2D`.
+
+Access to matrix cell can be directly by `tex2D(devTex_inSrc, x, y)`, where `(x,y)` is the coordinate of a cell in the matrix.
+```cpp
+texture<float, 2> devTex_inSrc;
+
+cudaMalloc((void**)&dev_inSrc, ImageWidth*ImageHeight*sizeof(float));
+
+cudaBindTexture2D(NULL, devTex_inSrc, dev_inSrc, descFloat, ImageWidth, ImageHeight, ImageWidth*sizeof(float) );
+
+// cuda kernel code
+int x = threadIdx.x + blockIdx.x * blockDim.x;
+int y = threadIdx.y + blockIdx.y * blockDim.y;
+self = tex2D(devTex_inSrc, x, y);
+```
+
+## CUDA Atomicity

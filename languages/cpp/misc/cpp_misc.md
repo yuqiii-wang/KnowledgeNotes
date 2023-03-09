@@ -204,3 +204,12 @@ namespace myModule
 
 * Concepts
 
+`concept` is used to contain a template.
+For example, below code dictates the input argument must be a signed integer.
+ 
+```cpp
+concept SignedIntegralT = std::is_integral_v<T> && std::is_signed_v<T>;
+
+template <SignedIntegralT T>
+T get(T& t) {return t;}
+```

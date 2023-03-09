@@ -9,7 +9,7 @@ private:
 	int age;
 public:
 	Person();
-	~Person();
+	virtual ~Person();
 	void setName(std::string& name) {this->name = name;}
 	int getAge() {return this->age;}
 	void setAge(int age) {this->age = age;}

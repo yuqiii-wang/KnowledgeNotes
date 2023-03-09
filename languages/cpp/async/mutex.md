@@ -41,7 +41,9 @@ where `CMPXCHG` performs comparison between the value in the AL, AX, EAX, or RAX
 
 `LOCK` assembly is an instruction prefix, which applies to read-modify-write instructions such as `INC`, `XCHG`, `CMPXCHG`. 
 
-The `LOCK` prefix ensures that the CPU has exclusive ownership of the appropriate cache line for the duration of the operation, and provides certain additional ordering guarantees. This may be achieved by asserting a bus lock, but the CPU will avoid this where possible. If the bus is locked then it is only for the duration of the locked instruction.
+The `LOCK` prefix ensures that the CPU has exclusive ownership of the appropriate cache line for the duration of the operation, and provides certain additional ordering guarantees. 
+This may be achieved by asserting a bus lock, but the CPU will avoid this where possible. 
+If the bus is locked then it is only for the duration of the locked instruction.
 
 ## `mutex` and `spin_lock`
 

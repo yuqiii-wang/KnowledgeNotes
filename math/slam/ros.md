@@ -65,6 +65,64 @@ sudo apt-get install liblua5.3-dev
 ```
 Comments: should have the suffix `-dev` to include libraries and header files.
 
+
+## ROS Launch
+
+ROS launch describes how to launch ros as a whole system.
+
+Example: `euroc.launch` from VINS
+```bash
+# It not yet compiled
+cd ~/catkin_ws
+catkin_make
+
+# Remember ros env setup first
+source ~/catkin_ws/devel/setup.bash
+
+roslaunch vins_estimator euroc.launch 
+```
+
+Each node is an individual process, whose communications with other processes are managed by ROS APIs such as `subscribe` and `advertise`.
+
+Typical node attributes are
+* `respawn = "true"` whether this node restarts when exits/dies
+* `required ="true"` whether the whole ros service exits if this node dies
+* `pkg ="mypackage"` serves as a namespace to manage topics
+* `type ="nodetype"`
+* `output ="log | screen"` log to file or to screen
+
+Typical node sub-elements are
+* `<rosparam>`
+* `<param>`
+
+Example: `euroc.launch` from VINS
+```xml
+<!-- euroc.launch -->
+<launch>
+    <arg name="config_path" default = "$(find feature_tracker)/../config/euroc/euroc_config.yaml" />
+	  <arg name="vins_path" default = "$(find feature_tracker)/../config/../" />
+    
+    <node name="feature_tracker" pkg="feature_tracker" type="feature_tracker" output="log">
+        <param name="config_file" type="string" value="$(arg config_path)" />
+        <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <node name="vins_estimator" pkg="vins_estimator" type="vins_estimator" output="screen">
+       <param name="config_file" type="string" value="$(arg config_path)" />
+       <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <node name="pose_graph" pkg="pose_graph" type="pose_graph" output="screen">
+        <param name="config_file" type="string" value="$(arg config_path)" />
+        <param name="visualization_shift_x" type="int" value="0" />
+        <param name="visualization_shift_y" type="int" value="0" />
+        <param name="skip_cnt" type="int" value="0" />
+        <param name="skip_dis" type="double" value="0" />
+    </node>
+
+</launch>
+```
+
 ## ROS API
 
 A simple single-thread ros program looks like this.

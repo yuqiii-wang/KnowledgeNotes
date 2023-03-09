@@ -154,3 +154,37 @@ int main()
     s.push(3);
 }
 ```
+
+## `memmove()` vs `memcopy()`
+
+`void *memcpy (void * restrict dst ,const void * src ,size_t n);` copies `n` bytes from memory from `src` location to memory pointed to `dst`.  
+If `dst` and `src` area overlaps then behavior is undefined. 
+
+Implementation shows as below as simply copying bytes by moving pointer `*(dst++) = *(src++);`.
+It could be a problem if `dst` and `src` point to the same addr, resulting in undefined behavior.
+```cpp
+while(n) //till n
+{
+    //Copy byte by byte
+    *(dst++) = *(src++);
+    --n;
+}
+```
+
+`void memmove(void *dst, const void *src, size_t n);` copies `n` bytes from `src` area to `dst` area.
+These two areas might overlap; the copy process always done in a non-destructive manner.
+
+Implementation shows as below that a temporary pointer is introduced, that takes care of the scenario when `src` and `dst` point to the same addr.
+```cpp
+char *tmp  = (char *)malloc(sizeof(char ) * n);
+for(i =0; i < n ; ++i)
+{
+    *(tmp + i) = *(src + i);
+}
+//copy tmp to dest
+for(i =0 ; i < n ; ++i)
+{
+    *(dst + i) = *(tmp + i);
+}
+free(tmp);
+```
