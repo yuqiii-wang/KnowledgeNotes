@@ -75,3 +75,39 @@ PublicClass::~PublicClass() = default;
 |It de-allocates the memory dynamically.	|It destroys the memory at the runtime.|
 |It should only be used either for the pointers pointing to the memory allocated using the new operator or for a `NULL` pointer.	|It should only be used either for the pointers pointing to the memory allocated using `malloc()` or for a `NULL` pointer.|
 |This operator calls the destructor after it destroys the allocated memory. 	|This function only frees the memory from the heap. It does not call the destructor.|
+
+## Pointer Optimization Difficulty
+
+Compared to reference, pointer is difficult for compiler to perform optimization,
+for compiler does not know what object/memory a pointer actually points to, that compiler has to forfeit many optimization tricks.
+
+For example, given two pointers `int *p` and `int *q` to perform their sum after increment operations,
+```cpp
+int f(int *p, int *q) { 
+  *p += 1; 
+  *q += 1; 
+  return *p + *q; 
+} 
+```
+compiler can allocate two registers `r1` and `r2` then just add them up
+```x86asm
+INCR r1
+INCR r2
+ADD r1, r2
+```
+
+However, if `p` and `q` are referring to the same memory address, the above assembly is wrong.
+Instead, should load first then perform arithmetic operations.
+
+```x86asm
+LDR r1, p    ; load p pointed int to r1
+INCR r1
+LDR r2, q    ; load q pointed int to r2
+INCR r2
+ADD r1, r2
+```
+
+A solution is to add `restrict` that indicates within the scope restrict pointers cannot point to the same address.
+```cpp
+int f(int *restrict p, int *restrict q);
+```

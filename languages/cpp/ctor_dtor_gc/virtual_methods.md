@@ -65,7 +65,7 @@ virtual ~derived(){ cout << "Destructing derived\n"; }
 
 ## Virtual Constructor
 
-
+Constructor cannot be virtual, because when a constructor of a class is executed there is no virtual table in the memory, means no virtual pointer defined yet.
 
 ## Virtual method table
 
