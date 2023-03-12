@@ -263,6 +263,271 @@ void TrajectoryBuilderStub::RunLocalSlamResultsReader(
 }
 ```
 
+`RangeData` is used to record how rays are radiated from one `origin` (just a 3d pose) and ended at `returns` (of a `PointCloud` type used to record many reflected laser rays, and where these rays are reflected are treated as the poses of points) when hitting obstacles.
+`PointCloud` is composed of `std::vector<PointType> points_;` and its corresponding point intensities `std::vector<float> intensities_;`.
+```cpp
+// Rays begin at 'origin'. 'returns' are the points where obstructions were
+// detected. 'misses' are points in the direction of rays for which no return
+// was detected, and were inserted at a configured distance. It is assumed that
+// between the 'origin' and 'misses' is free space.
+struct RangeData {
+  Eigen::Vector3f origin;
+  PointCloud returns;
+  PointCloud misses;
+};
+
+// Stores 3D positions of points together with some additional data, e.g.
+// intensities.
+class PointCloud {
+public:
+  using PointType = RangefinderPoint;
+
+  PointCloud();
+  explicit PointCloud(std::vector<PointType> points);
+  PointCloud(std::vector<PointType> points, std::vector<float> intensities);
+
+  ...
+
+private:
+  // For 2D points, the third entry is 0.f.
+  std::vector<PointType> points_;
+  // Intensities are optional. If non-empty, they must have the same size as
+  // points.
+  std::vector<float> intensities_;
+};
+```
+
+
+## Trajectory
+
+Trajectory first receives range data by `range_data_collator_` that sorts each laser ray by (linear approximated) timestamp.
+Then for each laser ray, add a corresponding pose by `extrapolator_->ExtrapolatePose(...)`, where extrapolated poses can be from IMU or odometry.
+
+`(hit_in_local.position - origin_in_local).norm()` computes the 3d Euclidean distance of a point from its origin, and will be discarded for distance being too short or too long.
+
+Finally, range data is added by `AddAccumulatedRangeData`, where `ScanMatch` takes the current active submap, in which pose optimization is performed (will be discussed later).
+The ceres optimization residual is recorded for performance measurement.
+
+Also in the final stage `AddAccumulatedRangeData`, with the obtained estimated pose from `ScanMatch`, 
+the range data as well as the pose are inserted into the current active submap by `InsertIntoSubmap(...)` that returns the result of insertion `std::unique_ptr<InsertionResult> insertion_result`.
+
+```cpp
+std::unique_ptr<LocalTrajectoryBuilder2D::MatchingResult>
+LocalTrajectoryBuilder2D::AddRangeData(...)
+{
+    auto synchronized_data =
+      range_data_collator_.AddRangeData(sensor_id, unsynchronized_data);
+
+    // from other sensor such as IMU to get a pose estimate prior
+    std::vector<transform::Rigid3f> range_data_poses;
+    for (const auto& range : synchronized_data.ranges) {
+        range_data_poses.push_back(
+          extrapolator_->ExtrapolatePose(time_point).cast<float>());
+    }
+
+    // Drop any returns below the minimum range and convert returns beyond the
+    // maximum range into misses.
+    for (size_t i = 0; i < synchronized_data.ranges.size(); ++i) {
+        const Eigen::Vector3f delta = hit_in_local.position - origin_in_local;
+        const float range = delta.norm(); // `norm` is the 3d vector length
+        if (range >= options_.min_range()) {
+            if (range <= options_.max_range()) {
+              accumulated_range_data_.returns.push_back(hit_in_local);
+            } else {
+              hit_in_local.position =
+                  origin_in_local +
+                  options_.missing_data_ray_length() / range * delta;
+              accumulated_range_data_.misses.push_back(hit_in_local);
+            }
+        }
+    }
+    ++num_accumulated_;
+
+    // when having accumulated enough data, add them by `AddAccumulatedRangeData`
+    if (num_accumulated_ >= options_.num_accumulated_range_data()) {
+        return AddAccumulatedRangeData(
+          time,
+          TransformToGravityAlignedFrameAndFilter(
+              gravity_alignment.cast<float>() * range_data_poses.back().inverse(),
+              accumulated_range_data_),
+          gravity_alignment, sensor_duration);
+    }
+}
+
+std::unique_ptr<LocalTrajectoryBuilder2D::MatchingResult>
+LocalTrajectoryBuilder2D::AddAccumulatedRangeData(...)
+{
+    // Computes a gravity aligned pose prediction.
+    const transform::Rigid3d non_gravity_aligned_pose_prediction =
+        extrapolator_->ExtrapolatePose(time);
+    const transform::Rigid2d pose_prediction = transform::Project2D(
+        non_gravity_aligned_pose_prediction * gravity_alignment.inverse());
+
+    // point cloud to voxel
+    const sensor::PointCloud& filtered_gravity_aligned_point_cloud =
+      sensor::AdaptiveVoxelFilter(gravity_aligned_range_data.returns,
+                                  options_.adaptive_voxel_filter_options());
+
+    // local map frame <- gravity-aligned frame
+    std::unique_ptr<transform::Rigid2d> pose_estimate_2d =
+            ScanMatch(time, pose_prediction, filtered_gravity_aligned_point_cloud);
+    const transform::Rigid3d pose_estimate =
+          transform::Embed3D(*pose_estimate_2d) * gravity_alignment;
+      extrapolator_->AddPose(time, pose_estimate);
+
+    // `InsertIntoSubmap` inserts range data to the current trajectory attached active submap 
+    // ->`LocalTrajectoryBuilder2D::InsertIntoSubmap(...)`
+    // ->`active_submaps_.InsertRangeData(range_data_in_local);` 
+    // ->`submap->InsertRangeData(range_data, range_data_inserter_.get());`
+    sensor::RangeData range_data_in_local =
+        TransformRangeData(gravity_aligned_range_data,
+                           transform::Embed3D(pose_estimate_2d->cast<float>()));
+    std::unique_ptr<InsertionResult> insertion_result = InsertIntoSubmap(
+        time, range_data_in_local, filtered_gravity_aligned_point_cloud,
+        pose_estimate, gravity_alignment.rotation());
+
+    return absl::make_unique<MatchingResult>(
+      MatchingResult{time, pose_estimate, std::move(range_data_in_local),
+                     std::move(insertion_result)});
+}
+
+std::unique_ptr<transform::Rigid2d> LocalTrajectoryBuilder2D::ScanMatch(...)
+{
+    std::shared_ptr<const Submap2D> matching_submap =
+      active_submaps_.submaps().front();
+
+    if (options_.use_online_correlative_scan_matching()) {
+    const double score = real_time_correlative_scan_matcher_.Match(...);
+    } 
+
+    auto pose_observation = absl::make_unique<transform::Rigid2d>();
+    ceres::Solver::Summary summary;
+    ceres_scan_matcher_.Match(pose_prediction.translation(), initial_ceres_pose,
+                              filtered_gravity_aligned_point_cloud,
+                              *matching_submap->grid(), pose_observation.get(),
+                              &summary);
+
+    ...
+
+    return pose_observation;
+}
+```
+
+`InsertionResult` and `MatchingResult` are part of trajectory.
+
+```cpp
+// Wires up the local SLAM stack (i.e. pose extrapolator, scan matching, etc.)
+// without loop closure.
+class LocalTrajectoryBuilder2D {
+ public:
+  struct InsertionResult {
+    std::shared_ptr<const TrajectoryNode::Data> constant_data;
+    std::vector<std::shared_ptr<const Submap2D>> insertion_submaps;
+  };
+  struct MatchingResult {
+    common::Time time;
+    transform::Rigid3d local_pose;
+    sensor::RangeData range_data_in_local;
+    // 'nullptr' if dropped by the motion filter.
+    std::unique_ptr<const InsertionResult> insertion_result;
+  };
+  ...
+};
+```
+
+In the above `ScanMatch`, there is an option that fast produces a matching score.
+This serves as precomputed scores for `PrecomputationGrid2D` that is used in branch-and-bound method during loop closure.
+```cpp
+const double score = real_time_correlative_scan_matcher_.Match(...)
+```
+
+Trajectory builder collectively computes range data and inserts the matching results into submaps.
+It builds pose graph alongside taking range and other sensor data (e.g., IMU).
+
+One trajectory is made up of one loop closure.
+
+```cpp
+int MapBuilderStub::AddTrajectoryBuilder(
+    const std::set<SensorId>& expected_sensor_ids,
+    const mapping::proto::TrajectoryBuilderOptions& trajectory_options,
+    LocalSlamResultCallback local_slam_result_callback) {
+
+    proto::AddTrajectoryRequest request;
+    request.set_client_id(client_id_);
+    *request.mutable_trajectory_builder_options() = trajectory_options;
+    for (const auto& sensor_id : expected_sensor_ids) {
+      *request.add_expected_sensor_ids() = cloud::ToProto(sensor_id);
+    }
+
+    async_grpc::Client<handlers::AddTrajectorySignature> client(
+      client_channel_, common::FromSeconds(kChannelTimeoutSeconds),
+      async_grpc::CreateLimitedBackoffStrategy(
+          common::FromMilliseconds(kRetryBaseDelayMilliseconds),
+          kRetryDelayFactor, kMaxRetries));
+    CHECK(client.Write(request));
+
+    // Construct trajectory builder stub.
+    trajectory_builder_stubs_.emplace(
+        std::piecewise_construct,
+        std::forward_as_tuple(client.response().trajectory_id()),
+        std::forward_as_tuple(make_unique<TrajectoryBuilderStub>(
+            client_channel_, client.response().trajectory_id(), client_id_,
+            local_slam_result_callback)));
+    return client.response().trajectory_id();
+
+  }
+```
+
+```cpp
+// An individual submap, which has a 'local_pose' in the local map frame, keeps
+// track of how many range data were inserted into it, and sets
+// 'insertion_finished' when the map no longer changes and is ready for loop
+// closing.
+class Submap {
+public:
+  Submap(const transform::Rigid3d& local_submap_pose)
+      : local_pose_(local_submap_pose) {}
+
+  bool insertion_finished() const { return insertion_finished_; }
+  void set_insertion_finished(bool insertion_finished) {
+    insertion_finished_ = insertion_finished;
+  }
+
+  void InsertRangeData(
+    const sensor::RangeData& range_data,
+    const RangeDataInserterInterface* range_data_inserter) {
+      CHECK(!insertion_finished());
+      range_data_inserter->Insert(range_data, grid_.get()); // further calls `castRay`
+      set_num_range_data(num_range_data() + 1);
+  }
+};
+
+// Once a certain number of range data have been inserted, the new submap is
+// considered initialized: the old submap is no longer changed, the "new" submap
+// is now the "old" submap and is used for scan-to-map matching. Moreover, a
+// "new" submap gets created. The "old" submap is forgotten by this object.
+class ActiveSubmaps2D {
+    ...
+};
+
+
+std::vector<std::shared_ptr<const Submap2D>> ActiveSubmaps2D::InsertRangeData(
+    const sensor::RangeData& range_data) {
+  if (submaps_.empty() ||
+      submaps_.back()->num_range_data() == options_.num_range_data()) {
+    AddSubmap(range_data.origin.head<2>());
+  }
+  for (auto& submap : submaps_) {
+    submap->InsertRangeData(range_data, range_data_inserter_.get());
+  }
+  if (submaps_.front()->num_range_data() == 2 * options_.num_range_data()) {
+    submaps_.front()->Finish();
+  }
+  return submaps();
+}
+```
+
+
 ## Scan Match and Pose Optimization
 
 Basically, just use laser scan cloud points' world frame position `transform * point` matching against the contour `grid_.limits()` of the existing map.
@@ -357,6 +622,85 @@ class OccupiedSpaceCostFunction2D {
     };
 
 };
+```
+
+### Fast Scan Match and Score Computation for Precomputed Probability Grid
+
+`GenerateExhaustiveSearchCandidates(search_parameters);` takes config from manually set parameters to see by what steps and bound to generate some scan candidates.
+
+Then `ScoreCandidates(grid, discrete_scans, search_parameters, &candidates);` is executed to  get the score of a candidate.
+
+The scoring mechanism is basically 
+
+```c++
+double RealTimeCorrelativeScanMatcher2D::Match(...)
+{
+    ...
+
+    std::vector<Candidate2D> candidates =
+      GenerateExhaustiveSearchCandidates(search_parameters);
+    ScoreCandidates(grid, discrete_scans, search_parameters, &candidates);
+
+    const Candidate2D& best_candidate =
+        *std::max_element(candidates.begin(), candidates.end());
+    *pose_estimate = transform::Rigid2d(
+        {initial_pose_estimate.translation().x() + best_candidate.x,
+         initial_pose_estimate.translation().y() + best_candidate.y},
+        initial_rotation * Eigen::Rotation2Dd(best_candidate.orientation));
+    return best_candidate.score;
+}
+
+
+std::vector<Candidate2D>
+RealTimeCorrelativeScanMatcher2D::GenerateExhaustiveSearchCandidates(...)
+{
+  std::vector<Candidate2D> candidates;
+  candidates.reserve(num_candidates);
+  for (int scan_index = 0; scan_index != search_parameters.num_scans;
+       ++scan_index) {
+    for (int x_index_offset = search_parameters.linear_bounds[scan_index].min_x;
+         x_index_offset <= search_parameters.linear_bounds[scan_index].max_x;
+         ++x_index_offset) {
+      for (int y_index_offset =
+               search_parameters.linear_bounds[scan_index].min_y;
+           y_index_offset <= search_parameters.linear_bounds[scan_index].max_y;
+           ++y_index_offset) {
+        candidates.emplace_back(scan_index, x_index_offset, y_index_offset,
+                                search_parameters);
+      }
+    }
+  }
+  CHECK_EQ(candidates.size(), num_candidates);
+  return candidates;
+}
+
+void RealTimeCorrelativeScanMatcher2D::ScoreCandidates(...)
+{
+    candidate.score = ComputeCandidateScore(
+            static_cast<const ProbabilityGrid&>(grid),
+            discrete_scans[candidate.scan_index], candidate.x_index_offset,
+            candidate.y_index_offset);
+    candidate.score *=
+        std::exp(-common::Pow2(std::hypot(candidate.x, candidate.y) *
+                                   options_.translation_delta_cost_weight() +
+                               std::abs(candidate.orientation) *
+                                   options_.rotation_delta_cost_weight()));
+}
+
+float ComputeCandidateScore(...) 
+{
+  float candidate_score = 0.f;
+  for (const Eigen::Array2i& xy_index : discrete_scan) {
+    const Eigen::Array2i proposed_xy_index(xy_index.x() + x_index_offset,
+                                           xy_index.y() + y_index_offset);
+    const float probability =
+        probability_grid.GetProbability(proposed_xy_index);
+    candidate_score += probability;
+  }
+  candidate_score /= static_cast<float>(discrete_scan.size());
+  CHECK_GT(candidate_score, 0.f);
+  return candidate_score;
+}
 ```
 
 ## Laser Ray Process
@@ -474,6 +818,66 @@ void FinishUpdate() {
 
 ## Probability Grid
 
+The probability grid is first init with cells' probability set to some manually config values, such as 
+```lua
+probability_grid_range_data_inserter = {
+  insert_free_space = true,
+  hit_probability = 0.55,
+  miss_probability = 0.49,
+}
+```
+
+Then the hit and miss probabilities are transformed to correspondence cost as well as some look-up table init.
+
+```cpp
+ProbabilityGridRangeDataInserter2D::ProbabilityGridRangeDataInserter2D(
+    const proto::ProbabilityGridRangeDataInserterOptions2D& options)
+    : options_(options),
+      hit_table_(ComputeLookupTableToApplyCorrespondenceCostOdds(
+          Odds(options.hit_probability()))),
+      miss_table_(ComputeLookupTableToApplyCorrespondenceCostOdds(
+          Odds(options.miss_probability()))) {}
+
+// Sets the probability of the cell at 'cell_index' to the given
+// 'probability'. Only allowed if the cell was unknown before.
+void ProbabilityGrid::SetProbability(const Eigen::Array2i& cell_index,
+                                     const float probability) {
+    uint16& cell =
+        (*mutable_correspondence_cost_cells())[ToFlatIndex(cell_index)];
+    cell =
+        CorrespondenceCostToValue(ProbabilityToCorrespondenceCost(probability));
+
+    mutable_known_cells_box()->extend(cell_index.matrix());
+}
+```
+
+
+The probability update is in accordance to 
+$$
+M_{new}(x) = \text{clamp}\Big(
+    \frac{1}{
+    \text{odds} \big( \text{odds}\big(M_{old}(x)\big) \cdot \text{odds}(p_{hit}) \big)}
+\Big)
+$$
+
+```cpp
+inline float Odds(float probability) {
+  return probability / (1.f - probability);
+}
+
+// Clamps 'value' to be in the range ['min', 'max'].
+template <typename T>
+T Clamp(const T value, const T min, const T max) {
+  if (value > max) {
+    return max;
+  }
+  if (value < min) {
+    return min;
+  }
+  return value;
+}
+```
+
 The cell in a probability grid is located by `const Eigen::Array2i& cell_index` (for 2d) setting to value `const float probability`.
 
 To save storage space, cell probability uses `uint16` mapping $[1,32767]$ to $[b_{lower}, b_{upper}]$, where $0 \le b_{lower} \le b_{upper} \le 1$.
@@ -486,18 +890,7 @@ A lookup table `kValueToCorrespondenceCost` is precomputed to do direct mapping 
 Cost can be used to measure a cell's score if this cell meet a good scan match: $probability = 1.0 - cost$.
 
 
-
 ```cpp
-void ProbabilityGrid::SetProbability(const Eigen::Array2i& cell_index,
-                                     const float probability) {
-    uint16& cell =
-        (*mutable_correspondence_cost_cells())[ToFlatIndex(cell_index)];
-    cell =
-        CorrespondenceCostToValue(ProbabilityToCorrespondenceCost(probability));
-
-    mutable_known_cells_box()->extend(cell_index.matrix());
-}
-
 inline uint16 BoundedFloatToValue(const float float_value,
                                   const float lower_bound,
                                   const float upper_bound) {
@@ -526,198 +919,16 @@ float SlowValueToBoundedFloat(const uint16 value, const uint16 unknown_value,
 }
 ```
 
-## Trajectory
-
-```cpp
-std::unique_ptr<LocalTrajectoryBuilder2D::MatchingResult>
-LocalTrajectoryBuilder2D::AddRangeData(...)
-{
-    auto synchronized_data =
-      range_data_collator_.AddRangeData(sensor_id, unsynchronized_data);
-
-    // from other sensor such as IMU to get a pose estimate prior
-    std::vector<transform::Rigid3f> range_data_poses;
-    for (const auto& range : synchronized_data.ranges) {
-        range_data_poses.push_back(
-          extrapolator_->ExtrapolatePose(time_point).cast<float>());
-    }
-
-    // Drop any returns below the minimum range and convert returns beyond the
-    // maximum range into misses.
-    for (size_t i = 0; i < synchronized_data.ranges.size(); ++i) {
-        const Eigen::Vector3f delta = hit_in_local.position - origin_in_local;
-        const float range = delta.norm(); // `norm` is the 3d vector length
-        if (range >= options_.min_range()) {
-            if (range <= options_.max_range()) {
-              accumulated_range_data_.returns.push_back(hit_in_local);
-            } else {
-              hit_in_local.position =
-                  origin_in_local +
-                  options_.missing_data_ray_length() / range * delta;
-              accumulated_range_data_.misses.push_back(hit_in_local);
-            }
-        }
-    }
-    ++num_accumulated_;
-
-    // when having accumulated enough data, add them by `AddAccumulatedRangeData`
-    if (num_accumulated_ >= options_.num_accumulated_range_data()) {
-        return AddAccumulatedRangeData(
-          time,
-          TransformToGravityAlignedFrameAndFilter(
-              gravity_alignment.cast<float>() * range_data_poses.back().inverse(),
-              accumulated_range_data_),
-          gravity_alignment, sensor_duration);
-    }
-}
-
-std::unique_ptr<LocalTrajectoryBuilder2D::MatchingResult>
-LocalTrajectoryBuilder2D::AddAccumulatedRangeData(...)
-{
-    // Computes a gravity aligned pose prediction.
-    const transform::Rigid3d non_gravity_aligned_pose_prediction =
-        extrapolator_->ExtrapolatePose(time);
-    const transform::Rigid2d pose_prediction = transform::Project2D(
-        non_gravity_aligned_pose_prediction * gravity_alignment.inverse());
-
-    // point cloud to voxel
-    const sensor::PointCloud& filtered_gravity_aligned_point_cloud =
-      sensor::AdaptiveVoxelFilter(gravity_aligned_range_data.returns,
-                                  options_.adaptive_voxel_filter_options());
-
-    // local map frame <- gravity-aligned frame
-    std::unique_ptr<transform::Rigid2d> pose_estimate_2d =
-            ScanMatch(time, pose_prediction, filtered_gravity_aligned_point_cloud);
-    const transform::Rigid3d pose_estimate =
-          transform::Embed3D(*pose_estimate_2d) * gravity_alignment;
-      extrapolator_->AddPose(time, pose_estimate);
-
-    // `InsertIntoSubmap` inserts range data to the current trajectory attached active submap 
-    // ->`LocalTrajectoryBuilder2D::InsertIntoSubmap(...)`
-    // ->`active_submaps_.InsertRangeData(range_data_in_local);` 
-    // ->`submap->InsertRangeData(range_data, range_data_inserter_.get());`
-    sensor::RangeData range_data_in_local =
-        TransformRangeData(gravity_aligned_range_data,
-                           transform::Embed3D(pose_estimate_2d->cast<float>()));
-    std::unique_ptr<InsertionResult> insertion_result = InsertIntoSubmap(
-        time, range_data_in_local, filtered_gravity_aligned_point_cloud,
-        pose_estimate, gravity_alignment.rotation());
-
-    return absl::make_unique<MatchingResult>(
-      MatchingResult{time, pose_estimate, std::move(range_data_in_local),
-                     std::move(insertion_result)});
-}
-```
-
-`InsertionResult` and `MatchingResult` are part of trajectory.
-
-```cpp
-// Wires up the local SLAM stack (i.e. pose extrapolator, scan matching, etc.)
-// without loop closure.
-class LocalTrajectoryBuilder2D {
- public:
-  struct InsertionResult {
-    std::shared_ptr<const TrajectoryNode::Data> constant_data;
-    std::vector<std::shared_ptr<const Submap2D>> insertion_submaps;
-  };
-  struct MatchingResult {
-    common::Time time;
-    transform::Rigid3d local_pose;
-    sensor::RangeData range_data_in_local;
-    // 'nullptr' if dropped by the motion filter.
-    std::unique_ptr<const InsertionResult> insertion_result;
-  };
-  ...
-};
-```
-
-Trajectory builder collectively computes range data and inserts the matching results into submaps.
-It builds pose graph alongside taking range and other sensor data (e.g., IMU).
-
-One trajectory is made up of one loop closure.
-
-```cpp
-int MapBuilderStub::AddTrajectoryBuilder(
-    const std::set<SensorId>& expected_sensor_ids,
-    const mapping::proto::TrajectoryBuilderOptions& trajectory_options,
-    LocalSlamResultCallback local_slam_result_callback) {
-
-    proto::AddTrajectoryRequest request;
-    request.set_client_id(client_id_);
-    *request.mutable_trajectory_builder_options() = trajectory_options;
-    for (const auto& sensor_id : expected_sensor_ids) {
-      *request.add_expected_sensor_ids() = cloud::ToProto(sensor_id);
-    }
-
-    async_grpc::Client<handlers::AddTrajectorySignature> client(
-      client_channel_, common::FromSeconds(kChannelTimeoutSeconds),
-      async_grpc::CreateLimitedBackoffStrategy(
-          common::FromMilliseconds(kRetryBaseDelayMilliseconds),
-          kRetryDelayFactor, kMaxRetries));
-    CHECK(client.Write(request));
-
-    // Construct trajectory builder stub.
-    trajectory_builder_stubs_.emplace(
-        std::piecewise_construct,
-        std::forward_as_tuple(client.response().trajectory_id()),
-        std::forward_as_tuple(make_unique<TrajectoryBuilderStub>(
-            client_channel_, client.response().trajectory_id(), client_id_,
-            local_slam_result_callback)));
-    return client.response().trajectory_id();
-
-  }
-```
-
-```cpp
-// An individual submap, which has a 'local_pose' in the local map frame, keeps
-// track of how many range data were inserted into it, and sets
-// 'insertion_finished' when the map no longer changes and is ready for loop
-// closing.
-class Submap {
-public:
-  Submap(const transform::Rigid3d& local_submap_pose)
-      : local_pose_(local_submap_pose) {}
-
-  bool insertion_finished() const { return insertion_finished_; }
-  void set_insertion_finished(bool insertion_finished) {
-    insertion_finished_ = insertion_finished;
-  }
-
-  void InsertRangeData(
-    const sensor::RangeData& range_data,
-    const RangeDataInserterInterface* range_data_inserter) {
-      CHECK(!insertion_finished());
-      range_data_inserter->Insert(range_data, grid_.get()); // further calls `castRay`
-      set_num_range_data(num_range_data() + 1);
-  }
-};
-
-// Once a certain number of range data have been inserted, the new submap is
-// considered initialized: the old submap is no longer changed, the "new" submap
-// is now the "old" submap and is used for scan-to-map matching. Moreover, a
-// "new" submap gets created. The "old" submap is forgotten by this object.
-class ActiveSubmaps2D {
-    ...
-};
-
-
-std::vector<std::shared_ptr<const Submap2D>> ActiveSubmaps2D::InsertRangeData(
-    const sensor::RangeData& range_data) {
-  if (submaps_.empty() ||
-      submaps_.back()->num_range_data() == options_.num_range_data()) {
-    AddSubmap(range_data.origin.head<2>());
-  }
-  for (auto& submap : submaps_) {
-    submap->InsertRangeData(range_data, range_data_inserter_.get());
-  }
-  if (submaps_.front()->num_range_data() == 2 * options_.num_range_data()) {
-    submaps_.front()->Finish();
-  }
-  return submaps();
-}
-```
-
 ## Branch and Bound
+
+Branch and Bound is used in loop closure to fine-tune the pose graph.
+Basically, just launch a candidate pose search window containing many candidate poses;
+then find the candidate pose with the highest score.
+
+The score is precomputed by the below function and stored for submaps.
+```cpp
+const double score = real_time_correlative_scan_matcher_.Match(...)
+```
 
 Branch and Bound method uses a precomputed grid where each cell's score (`score = 1.f - cost`) is computed.
 

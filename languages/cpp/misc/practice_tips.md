@@ -210,4 +210,6 @@ int main() {
 }
 ```
 
-However, there are scenarios when programmer does not want the c++ compiler mangle function names. For instance, in a large project, mangling may cause function to wrongly link function definition. As a result, it might be convenient to provide a keyword `extern "C"` which tells the C++ compiler not to mangle function names such as by `extern "C" void printMe(int a);`.
+However, there are scenarios when programmer does not want the c++ compiler mangle function names. 
+For instance, in a large project, mangling may cause function to wrongly link function definition. 
+As a result, it might be convenient to provide a keyword `extern "C"` which tells the C++ compiler not to mangle function names such as by `extern "C" void printMe(int a);`.

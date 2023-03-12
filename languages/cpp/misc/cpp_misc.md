@@ -1,12 +1,5 @@
 # Some C++ Knowledge
 
-### STL Container Thread-Safe Access and Modification
-
-STL containers are made thread safety to each element modification, such as `std::vector<Element>`, that
-* simultaneous reads of the same object/element are OK
-* simultaneous read/writes of different objects/elements of a container are OK
-
-`std::vector<bool>` has each element occupying one bit of space, not necessary in contiguous space. 
 
 ### Throw exception vs return error code
 
@@ -153,6 +146,12 @@ int main () {
 ```
 
 However, if `Foo`'s constructor is defined `explicit`, the above invocation is forbidden, only `DoBar (Foo (42))` is allowed.
+
+### `static`
+
+`static` is basically a global variable.
+
+It is init **before** entering `main()`.
 
 ## C++ 11
 

@@ -113,7 +113,8 @@ A matched book is also known as "asset/liability management" or "cash matching."
 
 * Bullet Loan vs Amortizing Loan
 
-A typical amortizing loan schedule requires the gradual repayment of the loan principal over the borrowing term. However, a bullet loan requires one lump sum repayment of the loan principal on the date of the maturity.
+A typical amortizing loan schedule requires the gradual repayment of the loan principal over the borrowing term. 
+However, a bullet loan requires one lump sum repayment of the loan principal on the date of the maturity.
 
 ## Businesses
 
@@ -122,3 +123,7 @@ A typical amortizing loan schedule requires the gradual repayment of the loan pr
 When the bond price goes up the interest rate goes down, and vice versa. If a bond matures at a price $110, initial purchase price is $100; the interest rate is 10%. If the initial purchase price is $105, the interest rate is lower than 5%.
 
 When bonds are in high demand, the spot price rises, and the interest rate drops. Central bank can bulk purchase bonds so that interest rates are low, and companies and individuals are motivated to spend money rather than purchasing bonds as savings.
+
+### Convertible Bond
+
+A convertible bond or convertible note or convertible debt (or a convertible debenture if it has a maturity of greater than 10 years) is a type of bond that the holder can convert into a specified number of shares of common stock in the issuing company or cash of equal value.

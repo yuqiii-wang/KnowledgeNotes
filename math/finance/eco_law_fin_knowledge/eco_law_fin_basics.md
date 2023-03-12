@@ -214,3 +214,58 @@ Tenor refers to the length of time remaining before a financial contract expires
 
 A prospectus is a formal document required by and filed with the Securities and Exchange Commission (SEC) that provides details about an investment offering to the public. 
 A prospectus is filed for offerings of stocks, bonds, and mutual funds.
+
+* EBITDA
+
+Earnings before interest, taxes, depreciation, and amortization (EBITDA)
+
+* depreciation vs amortization
+
+Depreciation: a company’s **tangible** fixed assets deteriorating over time, such as physical equipment.
+
+Amortization: a company’s **intangible** fixed assets deteriorating over time, such as patent lifetime.
+
+* EBIT
+
+Earnings before interest and taxes (EBIT) is a measure of a firm's profit that includes all incomes and expenses (operating and non-operating) except interest expenses (borrowed money cost) and income tax expenses.
+
+EBIT = (net income) + interest + taxes = EBITDA – (depreciation and amortization expenses)
+
+* Mark-to-market (MTM or M2M)
+
+Mark-to-market (MTM or M2M) or fair value accounting is accounting for the "fair value" of an asset or liability based on the current market price, or the price for similar assets and liabilities, or based on another objectively assessed "fair" value.
+
+* Environmental, Social, and Governance (ESG)
+
+Investors are increasingly applying these non-financial factors as part of their analysis process to identify material risks and growth opportunities. 
+
+* P/E ratio
+
+Price-earnings ratio is defined as
+$$
+P/E = \frac{SharePrice}{EarningsPerShare}
+$$
+
+* Preferred vs. Common Stock
+
+The main difference between preferred and common stock is that preferred stock gives no voting rights to shareholders while common stock does.
+
+Preferred shareholders have priority over a company's income, meaning they are paid dividends before common shareholders.
+
+Common stockholders are last in line when it comes to company assets, which means they will be paid out after creditors, bondholders, and preferred shareholders.
+
+* Basel Accords
+
+The Basel Accords are a series of three sequential banking regulation agreements (Basel I, II, and III) set by the Basel Committee on Bank Supervision (BCBS).
+
+In the wake of the Lehman Brothers collapse of 2008, Basel III was proposed to better regulate the banking industry, including methods such as requiring banks to have a minimum amount of common equity and a minimum liquidity ratio.
+
+* Tier 1 Common Capital
+
+Tier 1 common capital ratio is a measurement of a bank's core equity capital, compared with its total risk-weighted assets, and signifies a bank's financial strength. 
+
+It is composed of weighted components such as cash, credit lines, mortgages and personal loans. 
+
+* Tier 2 Common Capital
+
+Tier 2 is designated as the second or supplementary layer of a bank's capital and is composed of items such as revaluation reserves, hybrid instruments, and subordinated term debt. 
