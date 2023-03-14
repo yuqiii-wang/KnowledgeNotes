@@ -108,4 +108,79 @@ Use `noexcept` in below scenarios:
 * move constructor
 * move assignment
 * destructor (since C++11, they are by default `noexcept`)
-* 
+
+## Elapsed Time Measurement by Time Stamp Counter (TSC)
+
+The Time Stamp Counter (TSC) is a 64-bit register present on all x86 processors since the Pentium. 
+It counts the number of CPU cycles since its reset. The instruction `RDTSC` returns the `TSC` in `EDX:EAX`.
+
+### The `clock_gettime`
+
+Normal `std::chrono` implementations will use an OS-provided function like POSIX `clock_gettime()` that depending on config, for example, `CLOCK_PROCESS_CPUTIME_ID` and `CLOCK_THREAD_CPUTIME_ID` uses RDTSC, while some other config may trigger clock hardware interrupt.
+Nevertheless, there is overhead associating with this method, typically $0.2$-$0.3$ micro secs.
+As a result, for nano sec level time measurement, should use `RDTSC`, otherwise, for micro sec level or above, can just use `std::chrono`.
+
+`clock_gettime` retrieves the time of the specified clock `clk_id`, and set to `tp`. 
+```cpp
+int clock_gettime(clockid_t clk_id, struct timespec *tp);
+
+struct timespec {
+        time_t   tv_sec;        /* seconds */
+        long     tv_nsec;       /* nanoseconds */
+};
+```
+
+There are four types of clock:
+
+* `CLOCK_REALTIME`
+    System-wide realtime clock. Setting this clock requires appropriate privileges. 
+* `CLOCK_MONOTONIC`
+    Clock that cannot be set and represents monotonic time since some unspecified starting point. 
+* `CLOCK_PROCESS_CPUTIME_ID`
+    High-resolution per-process timer from the CPU. 
+* `CLOCK_THREAD_CPUTIME_ID`
+    Thread-specific CPU-time clock.
+
+Performance shown as below
+```
+----------------------------------------------------------
+Benchmark                Time             CPU   Iterations
+----------------------------------------------------------
+BM_REALTIME           16.6 ns         16.6 ns     45458598
+BM_MONOTONIC          17.2 ns         17.2 ns     40920728
+BM_PROC_CPUTIME        672 ns          672 ns      1010758
+BM_THR_CPUTIME         660 ns          660 ns      1019584
+``` 
+
+Fine-grained timing comes from a fixed-frequency counter that counts "reference cycles" regardless of turbo, power-saving, or clock-stopped idle, and this can be obtained from `rdtsc`, or `__rdtsc()` in C/C++.
+
+### Practices
+
+FIrst check if CPU is enabled RDTSC by `grep tsc /proc/cpuinfo`, where check
+* constant_tsc
+* nonstop_tsc
+
+Then, just read TSC by `__rdtsc`.
+```cpp
+#ifdef _MSC_VER
+#include <intrin.h>
+#else
+#include <x86intrin.h>
+#endif
+
+// optional wrapper if you don't want to just use __rdtsc() everywhere
+inline
+unsigned long long readTSC() {
+    // _mm_lfence();  // optionally wait for earlier insns to retire before reading the clock
+    return __rdtsc();
+    // _mm_lfence();  // optionally block later instructions until rdtsc retires
+}
+```
+
+The above read just needs 7 nano secs of processing time.
+```
+----------------------------------------------------------
+Benchmark                Time             CPU   Iterations
+----------------------------------------------------------
+BM_READ_TSC           7.20 ns         7.20 ns     93764177
+```

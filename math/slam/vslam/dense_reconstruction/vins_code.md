@@ -158,3 +158,13 @@ void Estimator::processImage(const map<int, vector<pair<int, Eigen::Matrix<doubl
     
 }
 ```
+
+## Optimization
+
+```cpp
+void Estimator::optimization()
+{
+    ceres::Problem problem;
+    ceres::LossFunction *loss_function = new ceres::CauchyLoss(1.0);
+}
+```

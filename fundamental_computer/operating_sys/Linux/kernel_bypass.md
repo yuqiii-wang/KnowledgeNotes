@@ -7,5 +7,6 @@ Besides TCP handling, system calls without privileged execution all exposed in t
 ## Zero copy
 
 "Zero-copy" describes computer operations in which the CPU does not perform the task of copying data from one memory area to another or in which unnecessary data copies are avoided.
+The data copy work can be delegated to DMA.
 
 Zero-copy programming techniques can be used when exchanging data within a user space process (i.e. between two or more threads, etc.) and/or between two or more processes (see also producer–consumer problem) and/or when data has to be accessed / copied / moved inside kernel space or between a user space process and kernel space portions of operating systems (OS).

@@ -62,9 +62,9 @@ Derived *ptr = &base_obj;
 
 ### Summary
 
-* For strict "value casting" you can use `static_cast<new-type>`. 
-* If you want run-time polymorphic casting of pointers use `dynamic_cast<new-type>`. 
-* If you really want to forget about types, you can use `reintrepret_cast<new-type>`. 
+* For strict "value casting", use `static_cast<new-type>`. 
+* For run-time polymorphic casting of pointers, use `dynamic_cast<new-type>`. 
+* Direct bit representation, use `reintrepret_cast<new-type>`. 
 * To just throw const out the window there is `const_cast<new-type>`.
 
 ### `static_cast<new-type>(expression)` 
@@ -175,6 +175,13 @@ double* p2 = reinterpret_cast<double*>(p);
 // and is "pointer to arr"
 int* p3 = reinterpret_cast<int*>(&arr); 
 ```
+
+* `reinterpret_cast` vs `static_cast`
+
+In `static_cast`, for example, to convert between `int(12)` to `unsigned float (12.0f)`, needs to compute the underlying bit representation of the two type patterns, and make bit changes.
+
+In `reinterpret_cast`, CPU does not invoke any calculations. 
+It just treats a set of bits in the memory like if it had another type. 
 
 ### `const_cast<new-type>(expression)`
 
