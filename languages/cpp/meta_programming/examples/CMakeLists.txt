@@ -14,5 +14,6 @@ set(CMAKE_CXX_FLAGS "-fsanitize=address -fpermissive")
 
 
 add_executable(crtp src/crtp.cpp)
+add_executable(crtp_covariant src/crtp_covariant.cpp)
 add_executable(sfinae_concept_test src/sfinae_concept_test.cpp)
 add_executable(template_get_private src/template_get_private.cpp)

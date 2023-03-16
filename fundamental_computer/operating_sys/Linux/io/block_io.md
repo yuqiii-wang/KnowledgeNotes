@@ -19,7 +19,8 @@ The difference comes down to whether the device accesses data in random or in or
 
 ### Buffer
 
-When a block is stored in memory — say, after a read or pending a write—it is stored in a *buffer*. Each buffer is associated with exactly one block. The buffer serves as the object that represents a disk block in memory.
+When a block is stored in memory — say, after a read or pending a write—it is stored in a *buffer*. 
+Each buffer is associated with exactly one block. The buffer serves as the object that represents a disk block in memory.
 
 Each buffer has an associated *descriptor* named *buffer head*.
 ```cpp

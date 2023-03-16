@@ -136,4 +136,12 @@ auto sum(T1 x, T2 y) -> decltype(x + y)
 }
 ```
 
+## Template Instantiation
+
+Template instantiation happens when there is explicit use of the template.
+For example,
+```cpp
+
+```
+
 ## Variadic Template

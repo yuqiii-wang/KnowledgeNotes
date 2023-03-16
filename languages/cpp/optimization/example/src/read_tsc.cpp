@@ -1,4 +1,6 @@
 #include <time.h>
+#include <chrono>
+#include <ctime>
 #include <benchmark/benchmark.h>
 
 #ifdef _MSC_VER
@@ -59,6 +61,18 @@ static void BM_THR_CPUTIME(benchmark::State& state) {
 }
 
 BENCHMARK(BM_THR_CPUTIME);
+
+static void BM_CHRONO_API(benchmark::State& state) {
+
+    for (auto _ : state)
+    {
+        std::chrono::time_point<std::chrono::system_clock> now =
+                                        std::chrono::system_clock::now();    
+    }
+    
+}
+
+BENCHMARK(BM_CHRONO_API);
 
 static void BM_READ_TSC(benchmark::State& state) {
 

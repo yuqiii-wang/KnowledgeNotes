@@ -146,7 +146,7 @@ where $\sigma(.)$ is a sigmoid function.
 
 For overlapping labels in grid cells, $softmax$ imposes the assumption that each box has exactly one class which is often not the case.
 
-Remediation is using independent logistic classifiers. 
+Remediation is using independent logistic classifiers $\sigma\big(p_i(c)\big)$. 
 During training, use binary cross-entropy loss for class predictions.
 
 ### Predictions Across Scales by Pyramid
