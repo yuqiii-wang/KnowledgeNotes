@@ -114,6 +114,11 @@ Context switching, the switching from one runnable task to another, is handled b
 * Calls `switch_mm()` , which is declared in `<asm/mmu_context.h>` , to switch the virtual memory mapping from the previous process’s to that of the new process.
 * Calls `switch_to()` , declared in `<asm/system.h>` , to switch the processor state from the previous process’s to the current’s.This involves saving and restoring stack information and the processor registers and any other architecture-specific state that must be managed and restored on a per-process basis.
 
+### Context Switch
+
+Linux needs to store the current task's information in *Process Control Block* (PCB) prior to switching to a new task.
+PCB might be stored on a per-process stack **in kernel memory**, as opposed to the **user-mode** call stack.
+
 ## Real-time Scheduling 
 
 Linux provides two real-time scheduling policies, `SCHED_FIFO` and `SCHED_RR` .The normal, not real-time scheduling policy is `SCHED_NORMAL`. Real-time policies are managed not by the Completely Fair Scheduler (CFS).

@@ -13,6 +13,17 @@ The state field of the process descriptor describes the current condition of the
 * TASK_INTERRUPTIBLE: process is sleeping/blocked, waiting for some conditions to wake up
 * TASK_UNINTERRUPTIBLE: state is identical to TASK_INTERRUPTIBLE except that it does not wake up and become runnable if it receives a signal. 
 
+In `top` define the below process statuses:
+
+* D：uninterruptible sleep (usually IO)
+* R：running or runnable (on run queue)
+* S：interruptible sleep (waiting for an event to complete)
+* T：stopped by job control signal
+* t：stopped by debugger during the tracing
+* W：paging (not valid since the 2.6.xx kernel)
+* X：dead (should never be seen)
+* Z：defunct ("zombie") process, terminated but not - reaped by its parent
+
 ### Process context
 
 Normal program execution occurs in user-space.When a program executes a system call or triggers an exception, it enters kernel-space.

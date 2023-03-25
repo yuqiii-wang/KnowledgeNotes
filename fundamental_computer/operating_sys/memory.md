@@ -136,6 +136,13 @@ Virtual memory is maintained by a memory mapping table that maps virtual memory 
 
 When a page is not found, OS throws a page fault exception, then goes to kernel space allocating/locating physical memory and updating the memory mapping table, then resumed on user space process.
 
+`ps` can help check page fault:
+for example, `ps -o min_flt,maj_flt,cmd,args,uid,gid 1` gives the major and minor page fault information about the process `1`.
+```
+ MINFL  MAJFL CMD                         COMMAND                       UID   GID
+ 64648    160 /sbin/init splash           /sbin/init splash               0     0
+```
+
 * Minor Page Fault (Soft Page Fault)
 
 The to-be accessed memory exist in physical memory, but not in virtual memory.

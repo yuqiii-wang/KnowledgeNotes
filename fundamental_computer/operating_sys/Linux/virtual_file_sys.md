@@ -1,6 +1,6 @@
 # Virtual File System
 
-Linux treats external devices/peripherals (e.g. Disk, Flash, I/O, Display Monitor) as abstract files so that they can be managed by some unified file operations such as`open`、`close`、`read`、`write`.
+Linux treats external devices/peripherals (e.g. Disk, Flash, I/O, Display Monitor) as abstract files so that they can be managed by some unified file operations such as `open`、`close`、`read`、`write`.
 
 The virtual file system is some like the Registry in Windows. It manages the OS configs as well.
 

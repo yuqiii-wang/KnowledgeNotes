@@ -2,7 +2,10 @@
 
 It attempts to add dimensionality (constructing a hyperplane by a kernel function $\phi$) for a dataset that cannot be linearly separated in the source data space, but be separable in higher dimensional space.
 
-![svm](imgs/svm.png "svm")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/svm.png" width="40%" height="40%" alt="svm">
+</div>
+</br>
 
 ## Definition
 
@@ -26,7 +29,7 @@ $$
 
 To achieve best separation, we want to maximize $\frac{2}{||\bold{w}||}$, which means
 $$
-arg \space \underset{\bold{w}}{min} ||\bold{w}||
+\arg \space \underset{\bold{w}}{\text{min}} ||\bold{w}||
 $$
 subject to
 $$
@@ -37,7 +40,45 @@ $$
 
 $x_i = (x_{i,1}, x_{i,2})$ is a two-dimensional sample. We want to maximize $\frac{b}{||\bold{w}||}$
 
-![svm_theory](imgs/svm_theory.png "svm_theory")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/svm_theory.png" width="40%" height="40%" alt="svm_theory">
+</div>
+</br>
+
+## Soft-Margin, $\lambda$ and $C$
+
+Consider a *Hinge Loss* $\xi_i$ applied to the above separation problem:
+$$
+\xi_i = 
+\max \big(0, 1 - y_i (\bold{w}^\top \bold{x}_i) - b \big)
+$$
+
+Since $y_i(\bold{w}^Tx_i-b) \ge 1$ if all $x_i$ are correctly predicted,  there is $\xi_i = 0$ if all samples are correctly labelled.
+
+Define the cost $L$ that sums up all samples' error $\xi_i$:
+
+$$
+\begin{align*}
+\min_{\bold{w}, b, \bold{\xi}}
+L &= 
+    \lambda \big|\big|\bold{w}\big|\big|^2 +
+    \Bigg( 
+    \frac{1}{n}\sum_{i=1}^n \big(0, 1 - y_i (\bold{w}^\top \bold{x}_i) - b \big) 
+    \Bigg)
+\\ &=
+    \lambda \big|\big|\bold{w}\big|\big|^2 +
+    C \sum_{i=1}^n \xi_i
+\\ \text{subject to } 
+\\ &
+1 - y_i (\bold{w}^\top \bold{x}_i - b) \ge 1 - \xi_i
+, \quad\quad
+\xi_i \ge 0, \space \forall i \in \{1,2,...,n\}
+\end{align*}
+$$
+where $\lambda$ is a scaling factor for minimizing $\big|\big|\bold{w}\big|\big|^2$ which makes the separation margin as wide as possible; $C$ is an overall error tolerance factor for the summed error $\sum_{i=1}^n \xi_i$.
+
+It can tell that $\lambda$ and $C$ are inversely related such that, 
+if $\lambda$ is large and $C$ is small, the SVM algorithm would try to separate the samples as wide as possible and have little tolerance to errors, but could fail to converge for constraints being too strict (there is no support vector weights $\bold{w}$ that satisfies $1 - y_i (\bold{w}^\top \bold{x}_i - b) \ge 1 - \xi_i$).
 
 
 ## Kernel Tricks

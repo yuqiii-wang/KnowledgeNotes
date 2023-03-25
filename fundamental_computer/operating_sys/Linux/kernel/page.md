@@ -18,11 +18,6 @@ traversing page tables requires the `page_table_lock`.
 
 ![page_table](imgs/page_table.png "page_table")
 
-## Page Cache
-
-*Page Cache* is to miminize disk I/O by storing data in physical memory that would otherwise require disk access.
-
-*Page writeback* refers to the process by which changes to the page cache are propagated back to disk.
 
 ### Strategies
 
@@ -79,3 +74,10 @@ In detail, there are the below settings
 |dirty_ratio|As a percentage of total memory, the number of pages a process generates before it begins writeback of dirty data.|
 |dirty_writeback_interval|In milliseconds, how often a flusher thread should wake up to write data back out to disk.|
 |laptop_mode|A Boolean value controlling laptop mode. See the following section.|
+
+## Page Cache
+
+
+*Page Cache* is to minimize disk I/O by storing data in physical memory that would otherwise require disk access.
+
+*Page writeback* refers to the process by which changes to the page cache are propagated back to disk.

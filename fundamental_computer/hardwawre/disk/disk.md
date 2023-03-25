@@ -40,3 +40,9 @@ In computer file systems, a cluster (sometimes also called allocation unit or bl
 ext4 journaling file system or fourth extended filesystem is a journaling file system for Linux. 
 
 It supports volumes with sizes up to 1 exbibyte (EiB) and single files with sizes up to 16 tebibytes (TiB) with the standard 4 KiB block size.
+
+## NVM Express (NVMe/nvme)
+
+Non-Volatile Memory Express (NVMe/nvme) is an open, logical-device interface specification for accessing a computer's non-volatile storage media usually attached via PCI Express (PCIe) bus.
+
+Non-volatile memory is often NAND such as  solid-state drives (SSDs).

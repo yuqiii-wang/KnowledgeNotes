@@ -1,2 +1,0 @@
-# Memory Brief Summary
-
