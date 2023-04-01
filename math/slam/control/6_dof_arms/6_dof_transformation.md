@@ -250,6 +250,11 @@ $$
 
 Consider a rotation around $\overrightarrow{v}=\overrightarrow{i} + \overrightarrow{j} + \overrightarrow{k}$ with a rotation angle of $\theta=\frac{2\pi}{3}$. The length of $\overrightarrow{v}$ is $\sqrt{3}$.
 
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/quat_rotation.png" width="40%" height="30%" alt="quat_rotation" />
+</div>
+</br>
+
 Hence
 $$
 \begin{align*}
@@ -264,6 +269,8 @@ cos\frac{\pi}{3} + sin\frac{\pi}{3} \cdot \frac{\overrightarrow{i} + \overrighta
 \frac{1+\overrightarrow{i} + \overrightarrow{j} + \overrightarrow{k}}{2}
 \end{align*}
 $$
+
+This result's Euler angle is $(\frac{\pi}{2}, 0, \frac{\pi}{2})$.
 
 ### Quaternion Derivation
 
@@ -314,7 +321,7 @@ $$
 \bold{q}_a \bold{q}_b^{\oplus}
 $$
 
-Define a spacial point represented in quaternion $\bold{p}=[0,\bold{v}_p] \in \mathbb{R}^3$ whose rotation is $\bold{p}'=\bold{q}\bold{p}\bold{q}^{-1}$, where $\bold{p}^{-1}$ is the matrix normalization term, there is
+Define a spacial point represented in quaternion $\bold{p}=[0,\bold{v}_p] \in \mathbb{R}^3$ whose rotation is $\bold{p}'=\bold{q}\bold{p}\bold{q}^{-1}$, where $\bold{q}^{-1}$ is the matrix normalization term, there is
 $$
 \begin{align*}
     \bold{p}'&=\bold{q}\bold{p}\bold{q}^{-1}
@@ -378,13 +385,13 @@ According to *Rodrigues' rotation formula*, $\theta$ can be computed as
 $$
 \begin{align*}
     
-\theta &= arccos \bigg(
+\theta &= \arccos \bigg(
       \frac{tr(R)-1}{2}
 \bigg)
 \\ &=
-arccos(2s^2-1)
+\arccos(2s^2-1)
 \\ &=
-2 \space arccos \space s
+2 \space \arccos \space s
 
 \end{align*}
 $$

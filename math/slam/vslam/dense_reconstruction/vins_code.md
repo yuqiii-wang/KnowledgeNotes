@@ -155,7 +155,7 @@ $$
 \\
 \bold{a}_{t} &= \frac{1}{2} (\hat{\bold{a}}_{t,t-1} + \hat{\bold{a}}_{t,t})
 \\
-\bold{p}_{j, t} &= \bold{p}_{j, t-1} + \bold{v}_{j, t} \cdot \delta t + \frac{1}{2} \bold{a}_{t} (\delta t)^2
+\bold{p}_{j, t} &= \bold{p}_{j, t-1} + \bold{v}_{j, t-1} \cdot \delta t + \frac{1}{2} \bold{a}_{t} (\delta t)^2
 \\
 \bold{v}_{j, t} &= \bold{v}_{j, t-1} + \bold{a}_{j, t} \cdot \delta t 
 \end{align*}
@@ -935,7 +935,35 @@ public:
 
 ### IMU Noise and Covariance Propogation
 
-IMU noises are simulated as below
+IMU noises $\bold{N}_{18 \times 18}$ are simulated as below
+
+$$
+\bold{N}_{ma} = \begin{bmatrix}
+    n_{ma} & 0 & 0 \\
+    0 &  n_{ma} & 0 \\
+    0 & 0 & n_{ma} \\
+\end{bmatrix}
+, \qquad
+\bold{N}_{m\omega} = \begin{bmatrix}
+    n_{m\omega} & 0 & 0 \\
+    0 &  n_{m\omega} & 0 \\
+    0 & 0 & n_{m\omega} \\
+\end{bmatrix}
+\\
+\space
+\\
+\bold{N}_{ba} = \begin{bmatrix}
+    n_{ba} & 0 & 0 \\
+    0 &  n_{ba} & 0 \\
+    0 & 0 & n_{ba} \\
+\end{bmatrix}
+, \qquad
+\bold{N}_{b\omega} = \begin{bmatrix}
+    n_{b\omega} & 0 & 0 \\
+    0 &  n_{b\omega} & 0 \\
+    0 & 0 & n_{b\omega} \\
+\end{bmatrix}
+$$
 
 ```cpp
 // acc_n: 0.08          # accelerometer measurement noise standard deviation. #0.2   0.04
@@ -955,7 +983,7 @@ noise.block<3, 3>(15, 15) =  (GYR_W * GYR_W) * Eigen::Matrix3d::Identity();
 IMU readings get processed in `processIMU(...)` and `slideWindow()` where IMU readings are `push_back`ed to preintegration.
 One IMU reading is comprised of `linear_acceleration` and `angular_velocity` as well as the elapsed time `dt` to next IMU reading.
 
-`push_back`/`propagate` takes this time IMU reading `_acc_1` and `_gyr_1` and the previous time reading `acc_0` and `gyr_0` to compute the differences between this and the previous: `result_delta_p, result_delta_q, result_delta_v, result_linearized_ba, result_linearized_bg` for $\Delta \bold{p}, \Delta \bold{\theta}, \Delta \bold{v}, \Delta \bold{b}_a, \Delta \bold{b}_\omega$, representing changes of position, orientation, velocity, linear acceleration bias and angular/gyro velocity bias.
+`push_back`/`propagate` takes this time IMU reading `_acc_1` $\hat{\bold{a}}_{t}$ and `_gyr_1` $\hat{\bold{\omega}}_{t}$ and the previous time reading (after preintegration correction) `acc_0` ${\bold{a}}_{t-1}$ and `gyr_0` ${\bold{\omega}}_{t}$ to compute the differences between this and the previous: `result_delta_p, result_delta_q, result_delta_v, result_linearized_ba, result_linearized_bg` for $\Delta \bold{p}, \Delta \bold{\theta}, \Delta \bold{v}, \Delta \bold{b}_a, \Delta \bold{b}_\omega$, representing changes of position, orientation, velocity, linear acceleration bias and angular/gyro velocity bias.
 
 ```cpp
 void Estimator::processIMU(double dt, const Vector3d &linear_acceleration, const Vector3d &angular_velocity)
@@ -1003,12 +1031,183 @@ void IntegrationBase::propagate(double _dt, const Eigen::Vector3d &_acc_1, const
 where `midPointIntegration(...)` computes $\Delta \bold{p}, \Delta \bold{\theta}, \Delta \bold{v}, \Delta \bold{b}_a, \Delta \bold{b}_\omega$ and the Jacobian $\bold{J}$ as well as covariance.
 
 
-Covariance update is 
 $$
-\bold{\Sigma}_j = 
-\Delta\hat{\bold{R}}_{j-1,j}^\top \bold{\Sigma}_{j-1} \Delta\hat{\bold{R}}_{j-1,j}
+\begin{align*}
+    \hat{\bold{a}}_{t, t-1} &= (\Delta \bold{\omega}_{t-1})_\mathbf{H} (\bold{a}_{t-1} - \bold{b}_{a})
+    \qquad&& (.)_\mathbf{H} \text{ denotes quaternion rotating a vector}
+\\
+    \bold{\omega}_t &= \frac{1}{2} (\bold{\omega}_{t-1} + \hat{\bold{\omega}}_{t}) - \bold{b}_{\omega}
+\\
+    \Delta \bold{\theta}_{t} &= \Delta \bold{\theta}_{t-1} \otimes \begin{bmatrix}
+        1 \\
+        \frac{1}{2} \bold{\omega}_t \cdot \delta t
+    \end{bmatrix} 
+    \qquad&& \otimes \text{ denotes quaternion multiplication}
+    \\ & && \frac{1}{2} \bold{\omega}_t \cdot \delta t \text{ is right perturbation}
+\\
+    \hat{\bold{a}}_{t,t} &= (\Delta \bold{\theta}_{t})_{\mathbf{H}} (\hat{\bold{a}}_{t} - \bold{b}_a)
+\\
+    \bold{a}_{t} &= \frac{1}{2} (\hat{\bold{a}}_{t,t} + \hat{\bold{a}}_{t, t-1})
+\\
+    \Delta\bold{p}_{j, t} &= \Delta \bold{p}_{j, t-1} + \Delta \bold{v}_{j, t-1} \cdot \delta t + \frac{1}{2} \bold{a}_{t} (\delta t)^2
+\\
+    \Delta \bold{v}_{j, t} &= \Delta \bold{v}_{j, t-1} + \bold{a}_{j, t} \cdot \delta t 
+\end{align*}
+$$
+
+Rewrite some vectors to matrix representations
+$$
+\begin{align*}
+R_{\omega} &= \begin{bmatrix}
+    0 & -{\omega}_z & {\omega}_y \\
+    {\omega}_z & 0 & -{\omega}_x \\
+    -{\omega}_y & {\omega}_x & 0 \\
+\end{bmatrix}
+,\qquad
+R_{a,t-1} = \begin{bmatrix}
+    0 & -{a}_{t-1,z} & {a}_{t-1,y} \\
+    {a}_{t-1,z} & 0 & -{a}_{t-1,x} \\
+    -{a}_{t-1,y} & {a}_{t-1,x} & 0 \\
+\end{bmatrix}
+,\qquad
+R_{a,t} = \begin{bmatrix}
+    0 & -{a}_{t,z} & {a}_{t,y} \\
+    {a}_{t,z} & 0 & -{a}_{t,x} \\
+    -{a}_{t,y} & {a}_{t,x} & 0 \\
+\end{bmatrix}
+\\
+\space\\
+R_{\Delta \theta} :&= \text{Quaternion }\Delta \theta \rightarrow \text{RotationMatrix } R_{\Delta \theta} 
+\end{align*}
+$$
+
+The Jacobian $\bold{J}$ is updated such as $\bold{J}_{t}=\bold{F}\bold{J}_{t-1}= \big(\bold{I}+\hat{\bold{J}}_t \cdot(\delta t) \big)\bold{J}_{t-1}$,
+where $\hat{\bold{J}}$ is the Jacobian, and $\delta t$ is the time interval between two IMU readings.
+
+$$
+\hat{\bold{J}} = \begin{bmatrix}
+    \frac{\partial \Delta\bold{p}}{\partial \Delta\bold{p}} 
+    & \frac{\partial \Delta\bold{p}}{\partial \Delta\bold{\theta}} 
+    & \frac{\partial \Delta\bold{p}}{\partial \Delta\bold{v}} 
+    & \frac{\partial \Delta\bold{p}}{\partial \bold{b}_a} 
+    & \frac{\partial \Delta\bold{p}}{\partial \bold{b}_\omega} 
+\\
+    \frac{\partial \Delta\bold{\theta}}{\partial \Delta\bold{p}} 
+    & \frac{\partial \Delta\bold{\theta}}{\partial \Delta\bold{\theta}} 
+    & \frac{\partial \Delta\bold{\theta}}{\partial \Delta\bold{v}} 
+    & \frac{\partial \Delta\bold{\theta}}{\partial \bold{b}_a} 
+    & \frac{\partial \Delta\bold{\theta}}{\partial \bold{b}_\omega} 
+\\
+    \frac{\partial \Delta\bold{v}}{\partial \Delta\bold{p}} 
+    & \frac{\partial \Delta\bold{v}}{\partial \Delta\bold{\theta}} 
+    & \frac{\partial \Delta\bold{v}}{\partial \Delta\bold{v}} 
+    & \frac{\partial \Delta\bold{v}}{\partial \bold{b}_a} 
+    & \frac{\partial \Delta\bold{v}}{\partial \bold{b}_\omega} 
+\\
+    \frac{\partial \bold{b}_a}{\partial \Delta\bold{p}} 
+    & \frac{\partial \bold{b}_a}{\partial \Delta\bold{\theta}} 
+    & \frac{\partial \bold{b}_a}{\partial \Delta\bold{v}} 
+    & \frac{\partial \bold{b}_a}{\partial \bold{b}_a} 
+    & \frac{\partial \bold{b}_a}{\partial \bold{b}_\omega} 
+\\
+    \frac{\partial \bold{b}_{\omega}}{\partial \Delta\bold{p}} 
+    & \frac{\partial \bold{b}_{\omega}}{\partial \Delta\bold{\theta}} 
+    & \frac{\partial \bold{b}_{\omega}}{\partial \Delta\bold{v}} 
+    & \frac{\partial \bold{b}_{\omega}}{\partial \bold{b}_a} 
+    & \frac{\partial \bold{b}_{\omega}}{\partial \bold{b}_\omega} 
+\end{bmatrix}
+$$
+
+Accordingly, $\bold{F}$ can be computed as below
+$$
+\bold{F}_{15 \times 15} = \begin{bmatrix}
+    \bold{I}_{3 \times 3} 
+    & -\frac{1}{4} \Big( R_{\Delta \theta, t-1} R_{a,t-1} +  R_{\Delta \theta, t} R_{a,t} \big(\bold{I}_{3 \times 3} - R_{\omega}\cdot (\delta t) \big) \Big) \cdot (\delta t)^2 
+    & \bold{I}_{3 \times 3} \cdot (\delta t)
+    & -\frac{1}{4} (R_{\Delta \theta, t-1} + R_{\Delta \theta,t} ) \cdot (\delta t)^2 
+    & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot (-\delta t)
+\\
+    \bold{0}_{3 \times 3}
+    & \bold{I}_{3 \times 3} - R_{\omega}\cdot (\delta t)
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & - \bold{I}_{3 \times 3} \cdot (\delta t)
+\\
+    \bold{0}_{3 \times 3}
+    & -\frac{1}{2} \Big(R_{\Delta \theta, t-1} R_{a,t-1} + R_{\Delta \theta, t} R_{a,t} \big(\bold{I}_{3 \times 3} - R_{\omega}\cdot (\delta t) \big) \Big) \cdot (\delta t)
+    & \bold{I}_{3 \times 3} 
+    & -\frac{1}{2} (R_{\Delta \theta, t-1} + R_{\Delta \theta,t} ) \cdot (\delta t)
+    & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot (-\delta t)
+\\
+    \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{I}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+\\
+    \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{I}_{3 \times 3}
+\end{bmatrix}
+$$
+
+VINS uses the below list of linear approximations to integrate noises over the time $\tau \in \delta t$ between two IMU readings.
+
+* Acceleration measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row first-col position of $\bold{V}_{15 \times 18}$ in below) is done by the previous rotation change: $\big( \frac{1}{4} R_{\Delta \theta, t-1} \cdot (\delta t)^2 \big) \bold{N}_{ma}   = \int \int_{\tau \in \delta t} \big( R_{\Delta \theta, t-1}\bold{N}_{ma} \big) d\tau^2$
+* Rotation measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row second-col position of $\bold{V}_{15 \times 18}$ in below) is done by the previous halfway rotation change multiplying the current acceleration: $\big( \frac{1}{4} R_{\Delta \theta, t} \cdot (\delta t)^2 \big) \bold{N}_{m\omega} = \int \int_{\tau \in \delta t} \big(-R_{\Delta \theta, t} R_{a,t} \cdot \frac{1}{2}\delta t \bold{N}_{m\omega} \big) d\tau^2$
+* ... (the same rules go with other noise terms)
+* Acceleration bias noise approximation for acceleration bias itself over the time $\tau \in \delta t$ is simply the linear increment $\big( \bold{I}_{3 \times 3} \cdot (\delta t) \big) \bold{N}_{ba} = \int_{\tau \in \delta t} \bold{N}_{ba} d\tau$
+* Similarly for rotation bias noise approximation, there is $\big( \bold{I}_{3 \times 3} \cdot (\delta t) \big) \bold{N}_{b\omega} = \int_{\tau \in \delta t} \bold{N}_{b\omega} d\tau$
+
+Take away the noise terms $\bold{N}$, the noise approximation matrix $\bold{V}$ can be expressed as below.
+
+$$
+\bold{V}_{15 \times 18} = \begin{bmatrix}
+    \frac{1}{4} R_{\Delta \theta, t-1} \cdot (\delta t)^2 
+    & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot \frac{1}{2}\delta t
+    & \frac{1}{4} R_{\Delta \theta, t} \cdot (\delta t)^2
+    & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot \frac{1}{2}\delta t
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+\\
+    \bold{0}_{3 \times 3}
+    & \frac{1}{2} \bold{I}_{3 \times 3} \cdot (\delta t)
+    & \bold{0}_{3 \times 3}
+    & \frac{1}{2} \bold{I}_{3 \times 3} \cdot (\delta t)
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+\\
+    \frac{1}{2}R_{\Delta \theta, t-1} \cdot (\delta t)
+    & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot \frac{1}{2}\delta t
+    & \frac{1}{2} R_{\Delta \theta, t} \cdot (\delta t)
+    & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot \frac{1}{2}\delta t
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+\\
+    \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{I}_{3 \times 3} \cdot (\delta t)
+    & \bold{0}_{3 \times 3}
+\\
+    \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{0}_{3 \times 3}
+    & \bold{I}_{3 \times 3} \cdot (\delta t)
+\end{bmatrix}
+$$
+
+Covariance update is (when started, the covariance is set to zero to begin with $\bold{\Sigma}_0=\bold{0}$)
+$$
+\bold{\Sigma}_t = 
+\bold{F} \bold{\Sigma}_{t-1} \bold{F}^\top
 + 
-\bold{J}_{r,j-1}^\top \bold{\Sigma}_{\bold{\eta}_{\bold{\omega},j-1}} \bold{J}_{r,j-1} 
+\bold{V} \bold{N} \bold{V}^{\top}
 $$
 
 ```cpp
@@ -1091,7 +1290,26 @@ void IntegrationBase::midPointIntegration(double _dt,
 
 ### IMU Residuals and Jacobians
 
+$$
+\min_{\mathcal{X}}
+\underbrace{\sum_{k_i \in \mathcal{B}} 
+\Big|\Big|
+    \bold{r}_\mathcal{B} ( \hat{\bold{z}}_{\tiny{BK}} ,\bold{\mathcal{X}} )
+\Big|\Big|^2}_{
+\text{IMU measurement residuals}}
+$$
+
 ```cpp
+enum StateOrder
+{
+    O_P = 0,
+    O_R = 3,
+    O_V = 6,
+    O_BA = 9,
+    O_BG = 12
+};
+
+
 class IMUFactor : public ceres::SizedCostFunction<15, 7, 9, 7, 9> {
     virtual bool Evaluate(double const *const *parameters, double *residuals, double **jacobians) const {
 
