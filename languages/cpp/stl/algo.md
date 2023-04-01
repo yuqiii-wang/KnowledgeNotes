@@ -2,6 +2,26 @@
 
 ## Algorithms
 
+
+### `std::find_if`
+
+```cpp
+template <class InputIterator, class UnaryPredicate>   
+InputIterator find_if (InputIterator first, InputIterator last, UnaryPredicate pred);
+```
+
+Returns an iterator to the first element in the range `[first,last)` for which `pred` returns `true`; if not found, return `last`.
+
+For example, below code defines `pred` as a lambda that iterates the whole `features` to see if there is matched feature id.
+The return `auto it` is the iterator pointing to `FeaturePerId`.
+```cpp
+auto it = find_if(features.begin(), features.end(), 
+                    [to_be_matched_feature_id](const FeaturePerId &it)
+                    {
+                        return it.feature_id == to_be_matched_feature_id;
+                    });
+```
+
 ### `std::all_of`, `std::any_of` and `std::none_of`
 
 `std::all_of`, `std::any_of` and `std::none_of` can used to compute an expression over a range of vars. 
@@ -44,6 +64,7 @@ constexpr bool none_of(InputIt first, InputIt last, UnaryPredicate p)
     return std::find_if(first, last, p) == last;
 }
 ```
+
 
 ### `std::erase_if` (since C++20) and `std::remove_if`
 

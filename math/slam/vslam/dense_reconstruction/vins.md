@@ -192,7 +192,7 @@ $$
 \underbrace{\big|\big|
     \bold{r}_p - H_p \bold{\mathcal{X}}
 \big|\big|^2}_{
-\text{Marginalization residual}}
+\text{Marginalization residuals}}
 +
 \underbrace{\sum_{k_i \in \mathcal{B}} 
 \Big|\Big|

@@ -3,7 +3,7 @@
 It attempts to add dimensionality (constructing a hyperplane by a kernel function $\phi$) for a dataset that cannot be linearly separated in the source data space, but be separable in higher dimensional space.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/svm.png" width="40%" height="40%" alt="svm">
+      <img src="imgs/svm.png" width="40%" height="40%" alt="svm" />
 </div>
 </br>
 
@@ -41,7 +41,7 @@ $$
 $x_i = (x_{i,1}, x_{i,2})$ is a two-dimensional sample. We want to maximize $\frac{b}{||\bold{w}||}$
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/svm_theory.png" width="40%" height="40%" alt="svm_theory">
+      <img src="imgs/svm_theory.png" width="40%" height="40%" alt="svm_theory" />
 </div>
 </br>
 

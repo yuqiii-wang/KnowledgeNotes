@@ -10,7 +10,7 @@ An OS process should have three states: *Running*, *Ready* and *Blocked*.
 For example, a process sends an I/O request to OS, it will be blocked at a `read()` instruction, until OS responds with some data.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/process_three_states.png" width="40%" height="40%" alt="process_three_states">
+      <img src="imgs/process_three_states.png" width="40%" height="40%" alt="process_three_states" />
 </div>
 </br>
 
@@ -27,7 +27,7 @@ In detail, in Linux, a typical I/O process is
 Below is example of Linux I/O arch for TCP/IP communication.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/linux_tcp_socket.jpg" width="40%" height="40%" alt="linux_tcp_socket">
+      <img src="imgs/linux_tcp_socket.jpg" width="40%" height="40%" alt="linux_tcp_socket" />
 </div>
 </br>
 

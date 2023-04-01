@@ -7,7 +7,7 @@ Two principal curvatures at a given point of a surface are the maximum and minim
 They measure how the surface bends by different amounts in different directions at that point.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/principal_curvature.png" width="40%" height="40%" alt="principal_curvature">
+      <img src="imgs/principal_curvature.png" width="40%" height="40%" alt="principal_curvature" />
 </div>
 </br>
 

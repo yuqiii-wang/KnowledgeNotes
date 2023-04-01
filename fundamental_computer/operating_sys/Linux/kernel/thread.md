@@ -21,7 +21,7 @@ Resources unique to threads:
 * a group of CPU registers
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/thread_mem.png" width="40%" height="40%" alt="thread_mem">
+      <img src="imgs/thread_mem.png" width="40%" height="40%" alt="thread_mem" />
 </div>
 </br>
 

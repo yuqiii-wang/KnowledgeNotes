@@ -31,7 +31,7 @@ $\nabla h$ is the velocity $r'$, hence, $L_\bold{f} h = \nabla h \bold{f}$ is th
 Remember, $r'$ is a scalar having no direction.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/lie_derivative.png" width="30%" height="30%" alt="lie_derivative">
+      <img src="imgs/lie_derivative.png" width="30%" height="30%" alt="lie_derivative" />
 </div>
 </br>
 
@@ -54,7 +54,7 @@ Set $\bold{e}_x=[1 \quad 0]^\text{T}$ and $\bold{e}_y=[0 \quad 1]^\text{T}$ as t
 Vector field $\bold{u}$ (marked by green arrows below) has constant flow along the $\bold{u}=\begin{bmatrix}      1 & 0 \end{bmatrix}\begin{bmatrix}      \bold{e}_x & \bold{e}_y \end{bmatrix}$, and $\bold{v}$ (marked by purple arrows below) is growing defined as $\bold{v}=\begin{bmatrix}      0 & x \end{bmatrix}\begin{bmatrix}      \bold{e}_x & \bold{e}_y \end{bmatrix}$. The size of arrows represents the length of a vector.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/two_overlapping_vec_fields.png" width="20%" height="20%" alt="two_overlapping_vec_fields">
+      <img src="imgs/two_overlapping_vec_fields.png" width="20%" height="20%" alt="two_overlapping_vec_fields" />
 </div>
 </br>
 
@@ -63,7 +63,7 @@ The orange curve is the integral result of a vector $\overrightarrow{R}$ of a pa
 The tangent $\frac{d \overrightarrow{R}}{d \lambda}$ on the orange curve (marked by light sky blue arrows) indicates the curve change rate, defined as the derivatives with respect to the $x$- and $y$- axis.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/overlapping_vector_field.png" width="30%" height="30%" alt="overlapping_vector_field">
+      <img src="imgs/overlapping_vector_field.png" width="30%" height="30%" alt="overlapping_vector_field" />
 </div>
 </br>
 
@@ -191,7 +191,7 @@ The result $[\bold{u}, \bold{v}]=\bold{e}_y$ refers to the non-closed vector fie
 
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/two_overlapping_vec_fields_traversed.png" width="30%" height="30%" alt="two_overlapping_vec_fields_traversed">
+      <img src="imgs/two_overlapping_vec_fields_traversed.png" width="30%" height="30%" alt="two_overlapping_vec_fields_traversed" />
 </div>
 </br>
 
@@ -203,7 +203,7 @@ Here $\mathcal{E}=0$ indicates that the Lie algebra is precisely defined at the 
 Any point on $\mathcal{M}$ has a an exponential definition such as $e^{\tau_2}$ that should have a corresponding Lie algebra mapping: $e^{\tau_2} \mapsto \tau_2$.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/lie_algebra_sphere.png" width="30%" height="30%" alt="lie_algebra_sphere">
+      <img src="imgs/lie_algebra_sphere.png" width="30%" height="30%" alt="lie_algebra_sphere" />
 </div>
 </br>
 

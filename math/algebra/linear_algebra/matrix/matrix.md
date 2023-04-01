@@ -237,7 +237,27 @@ C =
 \end{bmatrix}
 $$
 
-Finding adjoint of a matrix is same as applying a linear transformation which brings the coordinates of $i$ and $j$ to a square of area equal to the determinant of that matrix.
+Finding classical adjoint of a matrix is same as applying a linear transformation which brings the coordinates of $i$ and $j$ to a square of area equal to the determinant of that matrix.
+
+## Adjoint of A Matrix (Hermitian Adjoint)
+
+The adjoint of a matrix (Hermitian Adjoint) and classical adjoint are two different things, do not confuse.
+
+Consider a linear map $A: H_1 \rightarrow H_2$ between Hilbert spaces, the adjoint operator is the linear operator $A^\dag: H_2 \rightarrow H_1$ satisfying
+$$
+\langle A h_1, h_2 \rangle_{H_2}
+=
+\langle h_1, A^\dag h_2 \rangle_{H_1}
+$$
+where $\langle \space . \space, \space . \space \rangle_{H_i}$ is the inner product in the Hilbert space $H_i$, and $\space^\dag$ is the notation for Hermitian/conjugate transpose.
+
+### Self-Adjoint Matrix
+
+A matrix $A$ is self-adjoint if it equals its adjoint $A = A^\dag$.
+For real matrices, this means that the matrix is symmetric: it equals its transpose $A = A^\top$.
+
+Eigen-decomposition of a real self-adjoint matrix is $A = V\Sigma V^{-1}$ where $\Sigma$ is a diagonal matrix whose diagonal elements are real eigenvalues., and $V$ is composed of eigenvectors by columns.
+Hurthermore, $V$ is unitary, meaning that its invverse is equal to its adjoint $V^{-1}=V^{\dag}$.
 
 ## Covariance Matrix
 

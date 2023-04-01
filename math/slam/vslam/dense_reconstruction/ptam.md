@@ -104,7 +104,7 @@ $$
 where it has a minimum at $x=-\frac{c}{\sqrt{5}}$ and a maximum at $x=\frac{c}{\sqrt{5}}$. In other words, $c$ is used to horizontally scale the Tukey's biweight loss function.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/tukey_biweight.png" width="30%" height="30%" alt="tukey_biweight">
+      <img src="imgs/tukey_biweight.png" width="30%" height="30%" alt="tukey_biweight" />
 </div>
 </br>
 

@@ -99,6 +99,6 @@ The first steps for both steepest descent and conjugate descent are by steepest 
 Steepest descent continues descending along with $\frac{\bold{r}_k^T \bold{r}_k}{\bold{r}_k^T A \bold{r}_k} \triangledown f$, while conjugate descent uses orthogonality of residual $\bold{r}$ for descent route.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/conjugate_gradient.png" width="35%" height="35%" alt="conjugate_gradient">
+      <img src="imgs/conjugate_gradient.png" width="35%" height="35%" alt="conjugate_gradient" />
 </div>
 </br>

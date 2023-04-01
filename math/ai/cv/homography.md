@@ -173,7 +173,7 @@ Both are used to find correspondance points between two camera views, but homogr
 $d( \space . \space, \space . \space )$ is the Euclidean distance between two matches. $H$ is the homography transform.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/transfer_vs_reproj_err.png" width="40%" height="40%" alt="transfer_vs_reproj_err">
+      <img src="imgs/transfer_vs_reproj_err.png" width="40%" height="40%" alt="transfer_vs_reproj_err" />
 </div>
 </br>
 

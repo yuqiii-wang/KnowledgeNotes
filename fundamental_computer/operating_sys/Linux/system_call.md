@@ -89,7 +89,7 @@ int main ()
 Interrupt is signal to processor that there is an urgent task required handling.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/irq.png" width="40%" height="40%" alt="irq">
+      <img src="imgs/irq.png" width="40%" height="40%" alt="irq" />
 </div>
 </br>
 

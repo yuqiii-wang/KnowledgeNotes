@@ -214,3 +214,7 @@ ac.sendGoal(goal);
 //wait for the action to return, set 30 sec rimeout
 bool finished_before_timeout = ac.waitForResult(ros::Duration(30.0));
 ```
+
+## ROS2
+
+DDS (Data Distribution System) is an open-standard connectivity framework.

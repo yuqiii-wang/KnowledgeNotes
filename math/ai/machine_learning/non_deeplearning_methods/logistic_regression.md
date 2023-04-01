@@ -1,7 +1,7 @@
 # Logistic Regression
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/lr.png" width="40%" height="40%" alt="lr">
+      <img src="imgs/lr.png" width="40%" height="40%" alt="lr" />
 </div>
 </br>
 

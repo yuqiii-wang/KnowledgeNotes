@@ -15,6 +15,6 @@ Total: $(k \times k) \times \frac{m \times n}{s \times s} \times l$
 ## AlexNet
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/alexnet.png" width="30%" height="60%" alt="alexnet">
+      <img src="imgs/alexnet.png" width="30%" height="60%" alt="alexnet" />
 </div>
 </br>

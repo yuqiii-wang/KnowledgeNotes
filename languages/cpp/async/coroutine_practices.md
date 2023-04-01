@@ -29,7 +29,7 @@ Asynchronous coroutines are resumed in background, by worker threads (callback a
 |only top-level coroutine function can be suspended|can suspend from helper functions|
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/coroutine_stackless_stackful.png" width="40%" height="40%" alt="coroutine_stackless_stackful">
+      <img src="imgs/coroutine_stackless_stackful.png" width="40%" height="40%" alt="coroutine_stackless_stackful" />
 </div>
 </br>
 

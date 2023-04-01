@@ -237,7 +237,7 @@ GDB can help find the deadlock:
 
 Below is a result from `thread apply all bt`, that both thread 2 and thread 2 are in a lock state.
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/deadlock_debug_all_threads.png" width="40%" height="40%" alt="deadlock_debug_all_threads">
+      <img src="imgs/deadlock_debug_all_threads.png" width="40%" height="40%" alt="deadlock_debug_all_threads" />
 </div>
 </br>
 

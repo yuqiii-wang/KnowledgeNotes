@@ -36,7 +36,7 @@ $$
 $$
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/chain_rule.png" width="15%" height="15%" alt="chain_rule">
+      <img src="imgs/chain_rule.png" width="15%" height="15%" alt="chain_rule" />
 </div>
 </br>
 
@@ -224,7 +224,7 @@ $$
 $$
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/auto_diff_graph_example.png" width="40%" height="40%" alt="auto_diff_graph_example">
+      <img src="imgs/auto_diff_graph_example.png" width="40%" height="40%" alt="auto_diff_graph_example" />
 </div>
 </br>
 

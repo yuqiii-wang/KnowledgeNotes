@@ -1,11 +1,13 @@
-# Dense Reconstruction
+# Dense Reconstruction/Structure from Motion (SfM)
+
+Structure from Motion (SfM) is the process of estimating the 3-D structure of a scene from a set of 2-D images.
 
 Mapping is to use visual/lidar and other sensors to create a map about the environment. One key aspect is object depth estimation. Dense reconstruction is about depth estimation (reconstruct the environment with depth information).
 
 Dense reconstruction tries to recover the environment as much as possible, in contrast to sparse reconstruction that only takes interest in corner features.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/sparse_vs_dense_reconstruction.png" width="30%" height="30%" alt="sparse_vs_dense_reconstruction">
+      <img src="imgs/sparse_vs_dense_reconstruction.png" width="30%" height="30%" alt="sparse_vs_dense_reconstruction" />
 </div>
 </br>
 
@@ -27,7 +29,7 @@ The inverse depth parametrization of the point's position is a 6D vector $\bold{
 In detail, $\phi$ is the azimuth, $\theta$ is the elevation/altitude angle, and $\rho=\frac{1}{||\bold{p}-\bold{c}_0||}$ is the inverse depth of $\bold{p}$ at the first observation.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/inverse_depth_param.png" width="30%" height="30%" alt="inverse_depth_param">
+      <img src="imgs/inverse_depth_param.png" width="30%" height="30%" alt="inverse_depth_param" />
 </div>
 </br>
 
@@ -60,7 +62,7 @@ The depth estimation of $P$ has an error between the length $p$ and $p'$ from th
 In other words, if $p_2 p_2'$ is one pixel,  how long is $p'$ and $p$.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/epipolar_gauss_err.png" width="30%" height="30%" alt="epipolar_gauss_err">
+      <img src="imgs/epipolar_gauss_err.png" width="30%" height="30%" alt="epipolar_gauss_err" />
 </div>
 </br>
 
@@ -92,6 +94,9 @@ $$
 \sigma_{obs} = ||p|| - ||p'||
 $$
 
+## Structure from Motion (SfM) 
+
+SfM is the process of estimating the 3-D structure of a scene from a set of 2-D images.
 
 ## Method Summary
 

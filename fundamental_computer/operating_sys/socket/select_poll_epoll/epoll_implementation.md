@@ -15,7 +15,7 @@ If there are multiple socket connections, associate multiple number of `fd`s.
 
 Below gives a detailed socket structure defined in kernel.
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/kernel_socket.png" width="60%" height="60%" alt="kernel_socket">
+      <img src="imgs/kernel_socket.png" width="60%" height="60%" alt="kernel_socket" />
 </div>
 </br>
 

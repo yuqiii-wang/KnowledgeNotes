@@ -158,7 +158,8 @@ First, permutation takes place moving $\bold{x}_1$- related landmark elements to
 Then perform marginalization. Denote the permuted sub matrices (marked as slash-shaded areas) as $\bold{B}'=\bold{\Lambda}_{p_{11}}, \bold{E}'=[\bold{\Lambda_{mp_{1,1:m}}} \quad \bold{\Lambda_{pp_{m,1:m}}}]$, 
 and $\bold{C}'$ describes the remaining of the original $\bold{\Lambda}$ (the non-slash-shaded area): $\bold{C}'=\{ \forall \lambda_{ij} \in \bold{\Lambda}, \forall \lambda_{ij} \notin \bold{B}', \forall \lambda_{ij} \notin \bold{E}', \forall \lambda_{ij} \notin \bold{E}'^\text{T} \}$.
 
-Schur trick works on this linear system, where $\bold{v}'$ refers to permuted noises about $\bold{x}_1$. The marginalization aims to compute $\Delta \bold{x}_{{\bold{x}_1 } \notin \bold{x}}$.
+Schur trick works on this linear system, where $\bold{v}'$ refers to permuted noises about $\bold{x}_1$. 
+The marginalization aims to compute $\Delta \bold{x}_{{\bold{x}_1 } \notin \bold{x}}$.
 $$
 \begin{bmatrix}
     \bold{B}' & \bold{E}' \\

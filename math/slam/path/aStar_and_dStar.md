@@ -8,7 +8,7 @@ An undirected graph $G$ can have many spanning trees.
 Given the example below, all vertices are traversed/connected. Of course, there are many ways to traverse every vertex in this graph.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/spanning_tree_example.png" width="20%" height="20%" alt="spanning_tree_example">
+      <img src="imgs/spanning_tree_example.png" width="20%" height="20%" alt="spanning_tree_example" />
 </div>
 </br>
 
@@ -20,7 +20,7 @@ $S$ is used to denote the visited vertices.
 
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/dijkstra_pseudo.png" width="40%" height="40%" alt="dijkstra_pseudo">
+      <img src="imgs/dijkstra_pseudo.png" width="40%" height="40%" alt="dijkstra_pseudo" />
 </div>
 </br>
 

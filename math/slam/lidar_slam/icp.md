@@ -303,7 +303,7 @@ If $(\bold{d}_i - {\bold{s}}_i)$ and $\bold{n}_d$ are perpendicular, the $\bold{
 The distance $|\bold{d}_i - {\bold{s}}_i|$ is minimized when $\big( (\bold{d}_i - {\bold{s}}_i) \cdot \bold{n}_d \big)^2$ is minimized.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/point_to_plain_icp.png" width="40%" height="40%" alt="point_to_plain_icp">
+      <img src="imgs/point_to_plain_icp.png" width="40%" height="40%" alt="point_to_plain_icp" />
 </div>
 </br>
 

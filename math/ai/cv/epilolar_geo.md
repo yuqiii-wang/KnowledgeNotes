@@ -4,7 +4,10 @@ Epipolar geometry is the geometry of stereo vision. When two cameras view a 3D s
 
 ## Image Formulation
 
-![epipolar_geo](imgs/epipolar_geo.png "epipolar_geo")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/epipolar_geo.png" width="40%" height="40%" alt="epipolar_geo" />
+</div>
+</br>
 
 
 ### Epipolar Geo

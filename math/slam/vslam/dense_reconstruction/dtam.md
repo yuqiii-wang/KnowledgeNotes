@@ -30,7 +30,7 @@ Indicated in the figure below, each pixel of the reference frame $\bold{u}_r$ ha
 The $C_r$ space is discretized into $M \times N \times S$ voxels that help optimization solution search.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/dense_tracking_and_mapping.png" width="40%" height="40%" alt="dense_tracking_and_mapping">
+      <img src="imgs/dense_tracking_and_mapping.png" width="40%" height="40%" alt="dense_tracking_and_mapping" />
 </div>
 </br>
 
@@ -69,7 +69,7 @@ Point $a$'s photometric errors are very chaotic while $b$ exhibits a clear error
 This shows that feature points' depth are easy to estimate, while featureless points are noisy.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/noisy_inverse_depth.png" width="80%" height="40%" alt="noisy_inverse_depth">
+      <img src="imgs/noisy_inverse_depth.png" width="80%" height="40%" alt="noisy_inverse_depth" />
 </div>
 </br>
 

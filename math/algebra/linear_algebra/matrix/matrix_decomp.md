@@ -303,7 +303,7 @@ $$
 The figure below describes the above projection with this notation substitution $\bold{a}_k=\bold{v}_k$ to $proj_{\bold{u}}(\bold{v})$.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/Gram–Schmidt_process.svg.png" width="30%" height="30%" alt="Gram–Schmidt_process">
+      <img src="imgs/Gram–Schmidt_process.svg.png" width="30%" height="30%" alt="Gram–Schmidt_process" />
 </div>
 </br>
 
@@ -372,7 +372,7 @@ The $\bold{x}$'s reflection based on the hyperplane $\bold{z}$ is $(I-2\bold{u}\
 
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/householder_transform.png" width="30%" height="30%" alt="householder_transform">
+      <img src="imgs/householder_transform.png" width="30%" height="30%" alt="householder_transform" />
 </div>
 </br>
 

@@ -71,6 +71,6 @@ $$
 
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/lagrange_mul_example.png" width="30%" height="30%" alt="lagrange_mul_example">
+      <img src="imgs/lagrange_mul_example.png" width="30%" height="30%" alt="lagrange_mul_example" />
 </div>
 </br>

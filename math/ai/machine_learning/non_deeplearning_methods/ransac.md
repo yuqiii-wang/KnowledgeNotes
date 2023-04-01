@@ -3,7 +3,7 @@
 Random sample consensus (RANSAC) is an iterative method to estimate model parameters when outliers are to be accorded no influence on the values of the estimates. In other words, it is an outlier detection method.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/ransac.png" width="40%" height="40%" alt="irq">
+      <img src="imgs/ransac.png" width="40%" height="40%" alt="irq" />
 </div>
 </br>
 

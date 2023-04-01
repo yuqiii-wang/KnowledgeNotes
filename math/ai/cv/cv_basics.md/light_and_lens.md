@@ -263,3 +263,8 @@ w\begin{bmatrix}
 \end{bmatrix}
 $$
 where $p_1, p_2$ are tangent distortion coefficients.
+
+## Triangulation and Parallax
+
+Triangulation is an indirect method of measuring the distance to an object by imagining a triangle between the observer at two positions and the object. 
+Parallax, as used in this activity, is the apparent motion of a relatively close object when viewed by the observer from two different positions.

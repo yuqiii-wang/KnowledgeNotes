@@ -128,7 +128,7 @@ sudo /opt/nvidia/nsight-compute/2023.1.0/target/linux-desktop-glibc_2_11_3-x64/n
 ```
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/cuda_nsight_start.png" width="40%" height="40%" alt="cuda_nsight_start">
+      <img src="imgs/cuda_nsight_start.png" width="40%" height="40%" alt="cuda_nsight_start" />
 </div>
 </br>
 
@@ -189,7 +189,7 @@ Consider a camera/2d image radiating many rays into a 3d world.
 Each ray represents from its pixel origin what it sees in the 3d world (when a ray hits an obstacle, it is assumed that it sees an object).
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/ray_tracing.png" width="40%" height="40%" alt="ray_tracing">
+      <img src="imgs/ray_tracing.png" width="40%" height="40%" alt="ray_tracing" />
 </div>
 </br>
 
@@ -231,7 +231,7 @@ cudaMalloc((void**)&sphGpu, sizeof(Sphere)*SphereNums);
 Below is the result.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/ray_tracing_result.png" width="40%" height="40%" alt="ray_tracing_result">
+      <img src="imgs/ray_tracing_result.png" width="40%" height="40%" alt="ray_tracing_result" />
 </div>
 </br>
 
@@ -243,7 +243,7 @@ Heat flows from high temperature to low temperature.
 2d simulation can be simplified to such as below, that the center point $(m,n)$ is considered low temperature, receiving heat from its neighbor points.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/heat_transfer_2d_simulation.png" width="30%" height="30%" alt="heat_transfer_2d_simulation">
+      <img src="imgs/heat_transfer_2d_simulation.png" width="30%" height="30%" alt="heat_transfer_2d_simulation" />
 </div>
 </br>
 

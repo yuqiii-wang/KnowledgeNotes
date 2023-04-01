@@ -7,7 +7,7 @@ $$
 
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/svd.png" width="40%" height="40%" alt="svd">
+      <img src="imgs/svd.png" width="40%" height="40%" alt="svd" />
 </div>
 </br>
 
@@ -94,7 +94,7 @@ Given a least squares problem:
 for a residual $\bold{r} = A \bold{x} - \bold{b}$, we attempt to minimize
 $$
 arg \space \underset{\bold{x}}{min} \space
-||A \bold{x} - \bold{b}||^2_2
+||A \bold{x} - \bold{b}||^2
 =
 r_1^2 + r_2^2 + ... + r^2_m
 $$
@@ -102,20 +102,22 @@ $$
 Process:
 $$
 \begin{align*}
-& ||A \bold{x} - \bold{b}||^2_2
+& ||A \bold{x} - \bold{b}||^2
 \\ =& 
-||U \Sigma V^\text{T} \bold{x} - \bold{b}||^2_2
+||U \Sigma V^\text{T} \bold{x} - \bold{b}||^2
 \\ =&
-||U^\text{T}(U \Sigma V^\text{T} \bold{x} - \bold{b})||^2_2
+||U^\text{T}(U \Sigma V^\text{T} \bold{x} - \bold{b})||^2
 \\ =& 
-||U^\text{T}U \Sigma V^\text{T} \bold{x} - U^\text{T}\bold{b}||^2_2
+||U^\text{T}U \Sigma V^\text{T} \bold{x} - U^\text{T}\bold{b}||^2
 \quad U\text{ is orthoganal that } U^\text{T}U=I
 \\ =&
-||\Sigma V^\text{T} \bold{x} - U^\text{T}\bold{b}||^2_2
+||\Sigma V^\text{T} \bold{x} - U^\text{T}\bold{b}||^2
 \\ =&
-||\Sigma \bold{y} - U^\text{T}\bold{b}||^2_2
+||\Sigma \bold{y} - U^\text{T}\bold{b}||^2
+\quad \text{denote } \bold{y}=V^\top\bold{x} 
+\text{ and } \bold{z}=U^\top\bold{b} 
 \\ =&
-\bigg|\bigg|
+\Bigg|\Bigg|
 \begin{bmatrix}
     \sigma_1 & & & \\
      & \ddots & & \\
@@ -123,7 +125,7 @@ $$
     & & & \bold{0}
 \end{bmatrix}
 \bold{y} - \bold{z}
-\bigg|\bigg|^2_2
+\Bigg|\Bigg|^2
 \end{align*}
 $$
 

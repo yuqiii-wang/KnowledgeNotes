@@ -16,7 +16,7 @@ For $3$ keyframes (possibly related or unrelated), there are $N=7$ possible rout
 
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/loop_closure_naive_approach.png" width="40%" height="40%" alt="loop_closure_naive_approach">
+      <img src="imgs/loop_closure_naive_approach.png" width="40%" height="40%" alt="loop_closure_naive_approach" />
 </div>
 </br>
 
@@ -27,7 +27,7 @@ The purpose of Bag-of-Words (BoWs) is to describe an image in terms of "what kin
 Define $n$ features/attributes that describe an image, such as the presence or absence of a traffic light at which cell out of a segmented image, etc. 
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/traffice_light_BoWs.png" width="40%" height="40%" alt="traffice_light_BoWs">
+      <img src="imgs/traffice_light_BoWs.png" width="40%" height="40%" alt="traffice_light_BoWs" />
 </div>
 </br>
 

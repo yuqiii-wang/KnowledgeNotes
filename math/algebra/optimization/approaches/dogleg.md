@@ -8,7 +8,7 @@ If such a local minimum sees sufficient decrease (good convergence) in objective
 otherwise (bad convergence), shrinks the trust region and re-compute the local minimum until observed good convergence.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/trust_region.png" width="35%" height="35%" alt="trust_region">
+      <img src="imgs/trust_region.png" width="35%" height="35%" alt="trust_region" />
 </div>
 </br>
 
@@ -110,6 +110,6 @@ The first step $\bold{p}^U$ is same as Cauchy point's method following the direc
 If $H_k$ is positive-definite, the extremum $\bold{p}^{C*}_k$ exists inside the trust region. Starting from $\bold{p}^{C*}_k$, compute the second step $\bold{p}^B=-H_k\nabla\bold{f}_k$
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/dogleg.png" width="35%" height="35%" alt="dogleg">
+      <img src="imgs/dogleg.png" width="35%" height="35%" alt="dogleg" />
 </div>
 </br>

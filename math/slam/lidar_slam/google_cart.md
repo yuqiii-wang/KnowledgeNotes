@@ -21,7 +21,7 @@ $p_{hit}$ and $p_{miss}$ are computed by the number of hits and misses over tota
 If $M(x)$ has not yet been observed, it is assigned $p_{hit}$ or $p_{miss}$; if $M(x)$ is observed, it can be updated.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/google_cart_scan.png" width="40%" height="40%" alt="google_cart_scan">
+      <img src="imgs/google_cart_scan.png" width="40%" height="40%" alt="google_cart_scan" />
 </div>
 </br>
 

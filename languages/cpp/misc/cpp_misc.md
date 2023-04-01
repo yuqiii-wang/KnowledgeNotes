@@ -159,6 +159,21 @@ It is init **before** entering `main()`.
 
 * `auto` and `decltype`
 
+`decltype` gives the declared type of the expression that is passed to it. 
+`auto` does the same thing as template type deduction.
+
+for example, given a function returns a reference, `auto` will still be a value (need `auto&` to get a reference), but `decltype` will be exactly the type of the return value.
+
+```cpp
+int a = 1;
+int& foo() {
+  return a;
+}
+
+decltype(foo()) a = foo(); //a is an `int&`
+auto b = foo(); //b is an `int`
+```
+
 * Deleted and Defaulted Functions
 
 When a function is declared `default`, compiler generates the function; When a function is declared `delete`, compiler does not generate the function.

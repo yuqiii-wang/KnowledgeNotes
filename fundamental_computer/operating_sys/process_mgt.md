@@ -261,3 +261,43 @@ $$
 $$
 Need_i = Need_i– Request_i
 $$
+
+## Calling Convention: Invocation between Caller and Callee Function
+
+Below is a typical program memory layout, where stack is located at the bottom of the memory.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/program_mem_layout.png" width="30%" height="60%" alt="program_mem_layout" />
+</div>
+</br>
+
+
+A calling convention governs how functions on a particular architecture and operating system interact.
+
+It is hardware specific; below is for *AMD64 ABI*: https://software.intel.com/sites/default/files/article/402129/mpx-linux64-abi.pdf
+
+By GCC C compiler on x86 Linux, 
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/caller_callee_stack.png" width="40%" height="70%" alt="caller_callee_stack" />
+</div>
+</br>
+
+When a caller function invokes a callee function
+1. from the caller function push arguments into register/stack
+   * if fit in a single machine word (64 bits/8 bytes) such as `struct small { char a1, a2; }`, push to a single register
+   * otherwise, if fit in two to four machine words (16–32 bytes), push to some sequential registers
+   * otherwise, push to a stack
+2. from the caller function push caller next instruction to a stack
+3. jump to callee function for execution
+
+The callee function starts running with resetting base pointer to a new stack pointer
+1. `push %ebp` push the existing bash pointer to stack
+2. `mov %esp, %ebp` set `%ebp` to the top of the stack
+3. executing instructions until returned
+
+When a callee returns
+1. take the return value from `%eax`
+2. `pop` some data from registers/stack
+3. `mov %ebp, %esp` restore base pointer to caller stack top
+4. `pop %ebp` restore caller function stack bottom

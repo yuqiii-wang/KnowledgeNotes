@@ -9,7 +9,7 @@ In NUMA architecture, each CPU has its own assigned memory (different from cache
 If one variable is not found in one CPU assigned memory, it queries other CPUs' assigned RAM memory.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/numa.png" width="40%" height="30%" alt="numa">
+      <img src="imgs/numa.png" width="40%" height="30%" alt="numa" />
 </div>
 </br>
 

@@ -5,7 +5,7 @@
 Line integral is used for vector field function. Intuitively, line integral works on curve that does not flow along with integral direction, but  takes integral with respect to each integral direction.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/line_integral.jpg" width="30%" height="30%" alt="line_integral">
+      <img src="imgs/line_integral.jpg" width="30%" height="30%" alt="line_integral" />
 </div>
 </br>
 

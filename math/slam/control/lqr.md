@@ -11,7 +11,7 @@ $$
 for $\bold{x}(0)=\bold{x}_0 \ne \bold{0}$.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/lqr.png" width="40%" height="40%" alt="lqr">
+      <img src="imgs/lqr.png" width="40%" height="40%" alt="lqr" />
 </div>
 </br>
 

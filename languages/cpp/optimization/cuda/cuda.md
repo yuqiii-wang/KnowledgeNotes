@@ -53,7 +53,7 @@ Each thread block has shared memory visible to all threads of the block and with
 
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/cuda_thread_struct.png" width="40%" height="40%" alt="cuda_thread_struct">
+      <img src="imgs/cuda_thread_struct.png" width="40%" height="40%" alt="cuda_thread_struct" />
 </div>
 </br>
 
@@ -69,7 +69,7 @@ It is declared in `__constant__`.
 * Each block has its own shared-memory; threads within the same block can access the same shared memory.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/cuda_mem_struct.png" width="40%" height="40%" alt="cuda_mem_struct">
+      <img src="imgs/cuda_mem_struct.png" width="40%" height="40%" alt="cuda_mem_struct" />
 </div>
 </br>
 

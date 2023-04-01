@@ -65,7 +65,7 @@ Below example shows user mode switching to kernel mode for I/O waiting. Mode swi
 I/O work is a typical kernel task, and user mode needs to copy the I/O data from kernel mode to its user space. One salient example is socket programming.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/context_switch.png" width="40%" height="40%" alt="context_switch">
+      <img src="imgs/context_switch.png" width="40%" height="40%" alt="context_switch" />
 </div>
 </br>
 

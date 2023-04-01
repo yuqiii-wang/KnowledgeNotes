@@ -12,7 +12,7 @@ $$
 
 IOU (Intersection Over Union) is simply computed by taking the overlapping area percentage of the total union area.
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/iou.png" width="20%" height="20%" alt="iou">
+      <img src="imgs/iou.png" width="20%" height="20%" alt="iou" />
 </div>
 </br>
 
@@ -32,7 +32,7 @@ Hence, predictions/outputs from the final dense layer are encoded in an $S \time
 Below is an example that in PASCAL VOC dataset, config is $S=7, B=2, C=20$.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/yolo.png" width="40%" height="30%" alt="yolo">
+      <img src="imgs/yolo.png" width="40%" height="30%" alt="yolo" />
 </div>
 </br>
 
@@ -43,7 +43,7 @@ Darknet53 is a CNN with below specifications for YOLOv3.
 Darknet53 takes advantage of residual mechanism and adds more layers than YOLOv2 using Darknet19.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/darknet53.png" width="30%" height="50%" alt="darknet53">
+      <img src="imgs/darknet53.png" width="30%" height="50%" alt="darknet53" />
 </div>
 </br>
 
@@ -138,7 +138,7 @@ $$
 where $\sigma(.)$ is a sigmoid function.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/yolov3_anchor_box.png" width="30%" height="30%" alt="yolov3_anchor_box">
+      <img src="imgs/yolov3_anchor_box.png" width="30%" height="30%" alt="yolov3_anchor_box" />
 </div>
 </br>
 

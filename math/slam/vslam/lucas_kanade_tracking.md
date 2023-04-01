@@ -12,7 +12,7 @@ $$
 It can be used to find the offset between two chronologically sequential images, inside which moving objects' features are recorded. By these features, objects' poses can be estimated.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/sparse_optical_flow_example.png" width="40%" height="40%" alt="sparse_optical_flow_example">
+      <img src="imgs/sparse_optical_flow_example.png" width="40%" height="40%" alt="sparse_optical_flow_example" />
 </div>
 </br>
 
