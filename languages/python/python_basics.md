@@ -1,8 +1,16 @@
 # Python Notes
 
-## Python interpreter
+## Python Interpreter
 
 * Cython vs Jython
+
+* Spawn vs Fork
+
+Forking and spawning are two different start methods for new processes. Fork is the default on Linux (it isn’t available on Windows), while Windows and MacOS use spawn by default.
+
+When a process is forked the child process inherits all the same variables in the same state as they were in the parent. Each child process then continues independently from the forking point. The pool divides the args between the children and they work though them sequentially.
+
+On the other hand, when a process is spawned, it begins by starting a new Python interpreter. The current module is reimported and new versions of all the variables are created. 
 
 ## Builtin types
 

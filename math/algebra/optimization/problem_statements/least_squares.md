@@ -126,17 +126,17 @@ $$
 \end{align*}
 $$
 
-Minimized $\bold{e}$ should see $\frac{\partial \bold{r}^2(\bold{x})}{\partial \bold{x}}=0$, so that
+Minimized $\bold{e}$ should see $\frac{\partial \bold{r}^2(\bold{x})}{\partial \bold{x}}=0$, Set the optimal as $\bold{x}^*$, so that
 $$
 \begin{align*}
 \frac{\partial \bold{r}^2(\bold{x})}{\partial \bold{x}}
 &= 0 
 \\
-2A^\text{T}A{\bold{x}} - 2A^\text{T}\bold{b} &= 0
+2A^\text{T}A{\bold{x}^*} - 2A^\text{T}\bold{b} &= 0
 \\
-A^\text{T}A{\bold{x}} &= A^\text{T}\bold{b}
+A^\text{T}A{\bold{x}^*} &= A^\text{T}\bold{b}
 \\
-\bold{x}=\frac{A^\text{T}\bold{b}}{A^\text{T}A}
+\bold{x}^*=\frac{A^\text{T}\bold{b}}{A^\text{T}A}
 \end{align*}
 $$
 
@@ -144,5 +144,5 @@ When $A$ is
 * each column is linearly independent
 * $A^\text{T}A$ is invertible
 
-
+Then, for $A^\text{T}A{\bold{x}^*} = A^\text{T}\bold{b}$, can use typical matrix decomposition methods such as Cholesky decomposition to solve this linear equations for $\bold{x}^*$
  

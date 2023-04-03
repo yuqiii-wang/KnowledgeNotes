@@ -589,6 +589,332 @@ void ResidualBlockInfo::Evaluate()
 }
 ```
 
+### Optimized Parameter Mapping
+
+`para_Pose` and `para_SpeedBias` are the two parameter blocks for ceres that have the below mapping relationship to `Rs[j]` $\bold{R}_j$, `Ps[j]` $\bold{p}_j$ and `Vs[j]` $\bold{v}_j$ `Bas` $\bold{b}_a$ and `Bgs` $\bold{b}_g$.
+
+```cpp
+Rs[i] = rot_diff * Quaterniond(para_Pose[i][6], para_Pose[i][3], para_Pose[i][4], para_Pose[i][5]).normalized().toRotationMatrix();
+        
+Ps[i] = rot_diff * Vector3d(para_Pose[i][0] - para_Pose[0][0],
+                        para_Pose[i][1] - para_Pose[0][1],
+                        para_Pose[i][2] - para_Pose[0][2]) + origin_P0;
+
+Vs[i] = rot_diff * Vector3d(para_SpeedBias[i][0],
+                            para_SpeedBias[i][1],
+                            para_SpeedBias[i][2]);
+
+Bas[i] = Vector3d(para_SpeedBias[i][3],
+                  para_SpeedBias[i][4],
+                  para_SpeedBias[i][5]);
+
+Bgs[i] = Vector3d(para_SpeedBias[i][6],
+                  para_SpeedBias[i][7],
+                  para_SpeedBias[i][8]);
+```
+
+## Visual Initial Alignment
+
+`visualInitialAlign()` prepares some initial guesses for `para_Pose` and `para_SpeedBias` to be optimized.
+
+```cpp
+bool Estimator::visualInitialAlign()
+{
+    TicToc t_g;
+    VectorXd x;
+    bool result = VisualIMUAlignment(all_image_frame, Bgs, g, x);
+
+    // change state
+    for (int i = 0; i <= frame_count; i++)
+    {
+        Matrix3d Ri = all_image_frame[Headers[i].stamp.toSec()].R;
+        Vector3d Pi = all_image_frame[Headers[i].stamp.toSec()].T;
+        Ps[i] = Pi;
+        Rs[i] = Ri;
+        all_image_frame[Headers[i].stamp.toSec()].is_key_frame = true;
+    }
+
+    VectorXd dep = f_manager.getDepthVector();
+    f_manager.triangulate(Ps, &(TIC_TMP[0]), &(RIC[0]));
+
+    double s = (x.tail<1>())(0);
+    for (int i = 0; i <= WINDOW_SIZE; i++)
+    {
+        pre_integrations[i]->repropagate(Vector3d::Zero(), Bgs[i]);
+    }
+    for (int i = frame_count; i >= 0; i--)
+        Ps[i] = s * Ps[i] - Rs[i] * TIC[0] - (s * Ps[0] - Rs[0] * TIC[0]);
+
+    int kv = -1;
+    map<double, ImageFrame>::iterator frame_i;
+    for (frame_i = all_image_frame.begin(); frame_i != all_image_frame.end(); frame_i++)
+    {
+        if(frame_i->second.is_key_frame)
+        {
+            kv++;
+            Vs[kv] = frame_i->second.R * x.segment<3>(kv * 3);
+        }
+    }
+
+    for (auto &it_per_id : f_manager.feature)
+    {
+        it_per_id.used_num = it_per_id.feature_per_frame.size();
+        if (!(it_per_id.used_num >= 2 && it_per_id.start_frame < WINDOW_SIZE - 2))
+            continue;
+        it_per_id.estimated_depth *= s;
+    }
+
+    Matrix3d R0 = Utility::g2R(g);
+    double yaw = Utility::R2ypr(R0 * Rs[0]).x();
+    R0 = Utility::ypr2R(Eigen::Vector3d{-yaw, 0, 0}) * R0;
+    g = R0 * g;
+    //Matrix3d rot_diff = R0 * Rs[0].transpose();
+    Matrix3d rot_diff = R0;
+    for (int i = 0; i <= frame_count; i++)
+    {
+        Ps[i] = rot_diff * Ps[i];
+        Rs[i] = rot_diff * Rs[i];
+        Vs[i] = rot_diff * Vs[i];
+    }
+}
+```
+
+`VisualIMUAlignment()` consists of two steps `solveGyroscopeBias(...)` that computes an initial guess of `delta_bg` $\bold{b}_{\omega}$, and `LinearAlignment(...)`
+
+* `solveGyroscopeBias(...)`
+
+Define the $i$-th and $j$-th frame rotation difference (the $j$-th frame is the next frame to the $i$-th's: $j=i+1$): `q_ij` by $R_{ij}=R_{i}^\top R_{j}$.
+
+Then define $A\bold{x}=\bold{b}$ such that
+$$
+\begin{align*}
+A_{3 \times 3} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \bold{b}_{\omega}}\Big)^\top \frac{\partial R_j}{\partial \bold{b}_{\omega}}
+\\
+\bold{b}_{3 \times 1} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \bold{b}_{\omega}}\Big)^\top \big( 2 \Delta R_j R_{ij} \big)
+\end{align*}
+$$
+
+LDLT solves $A\bold{x}=\bold{b}$, where $\bold{x}$ refers to $\Delta \bold{b}_{\omega}$
+
+* `LinearAlignment(...)`
+
+Define $A_{\text{tmp, i}} \in \mathbb{R}^{6 \times 10}$ as the Jacobian partial on position and velocity, and $\bold{b}_{\text{tmp, i}} \in \mathbb{R}^{6}$ as the residuals of position and velocity, where $i$ denotes the $i$-th frame.
+
+$$
+\begin{align*}
+A_{\text{tmp, i}} &= 
+\begin{bmatrix}
+    \frac{\partial \bold{p}}{\partial \bold{p}}
+    & \frac{\partial \bold{p}}{\partial \bold{v}}
+    & \frac{\partial \bold{p}}{\partial \bold{a}}
+    & \frac{\partial \bold{p}}{\partial s}
+\\
+    \frac{\partial \bold{v}}{\partial \bold{p}}
+    & \frac{\partial \bold{v}}{\partial \bold{v}}
+    & \frac{\partial \bold{v}}{\partial \bold{a}}
+    & \frac{\partial \bold{v}}{\partial s}
+\end{bmatrix}
+\\ &=
+\begin{bmatrix}
+    -\bold{I}_{3 \times 3} \cdot (\delta t)
+    & \bold{0}_{3 \times 3}
+    & \frac{1}{2} R_i^\top \cdot (\delta t)^2
+    & \frac{1}{100} R_i^\top (\bold{t}_j - \bold{t}_i)
+\\
+    -\bold{I}_{3 \times 3}
+    & R_i^\top R_j
+    & R_i^\top \cdot (\delta t)
+    & \bold{0}_{3 \times 3}
+\end{bmatrix}
+\\
+\space
+\\
+\bold{b}_{\text{tmp, i}} &= 
+\begin{bmatrix}
+    \Delta \bold{p}_j + R_i^\top R_j \bold{t}_c - \bold{t}_c
+\\
+    \Delta \bold{v}_j
+\end{bmatrix}
+\end{align*}
+$$
+where $\bold{t}_c$ is camera extrinsics.
+
+Then define $A\bold{x}=\bold{b}$, where $A \in \mathbb{R}^{\big((n \times 3) + 3 + 1\big) \times \big((n \times 3) + 3 + 1\big)}$ and $\bold{b} \in \mathbb{R}^{(n \times 3) + 3 + 1}$ $n$ is the total number of frames.
+
+$$
+\begin{align*}
+A &= 
+\begin{bmatrix}
+    \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 1:3} 
+    & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 4:6} 
+    & \bold{0}_{3 \times 3} & & & & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 7:10} 
+\\
+    \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 1:3} 
+    & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 4:6} + \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 1:3} 
+    & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 4:6} 
+    & & & 
+    & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 7:10} +  \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 7:10} 
+\\
+    \bold{0}_{3 \times 3} & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 1:3} 
+    & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 4:6} + \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{1:3, 1:3} 
+    & & & 
+    & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 7:10} +  \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{1:3, 7:10} 
+\\
+\space
+\\
+    & & & & \ddots & & & 
+\\ 
+\space
+\\
+    \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{7:10, 1:3} 
+    & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{7:10, 4:6} +  \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{7:10, 1:3}
+    & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{7:10, 4:6} +  \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{7:10, 1:3}
+    & & & 
+    & \sum_i \Big( A_{\text{tmp, i}}^\top A_{\text{tmp, i}} \Big)_{7:10, 7:10} 
+\end{bmatrix}
+\\
+\bold{b} &= 
+\begin{bmatrix}
+    \bold{b}_{\text{tmp, 1}, 1:3} \\
+    \bold{b}_{\text{tmp, 1}, 4:6} + \bold{b}_{\text{tmp, 2}, 1:3} \\
+    \bold{b}_{\text{tmp, 2}, 4:6} + \bold{b}_{\text{tmp, 3}, 1:3} \\
+    \vdots \\
+    \sum_i \bold{b}_{\text{tmp, i}, 7:10}
+\end{bmatrix}
+\end{align*}
+$$
+
+LDLT solves $A\bold{x}=\bold{b}$, where $\bold{x}$ refers to $[\bold{p}_1, \bold{p}_2, ..., \bold{p}_n, \bold{a}, s]$
+
+```cpp
+bool VisualIMUAlignment(map<double, ImageFrame> &all_image_frame, Vector3d* Bgs, Vector3d &g, VectorXd &x)
+{
+    solveGyroscopeBias(all_image_frame, Bgs);
+    LinearAlignment(all_image_frame, g, x);
+}
+
+void solveGyroscopeBias(map<double, ImageFrame> &all_image_frame, Vector3d* Bgs)
+{
+    for (frame_i = all_image_frame.begin(); next(frame_i) != all_image_frame.end(); frame_i++) {
+        frame_j = next(frame_i);
+        ...
+        Eigen::Quaterniond q_ij(frame_i->second.R.transpose() * frame_j->second.R);
+        tmp_A = frame_j->second.pre_integration->jacobian.template block<3, 3>(O_R, O_BG);
+        tmp_b = 2 * (frame_j->second.pre_integration->delta_q.inverse() * q_ij).vec();
+        A += tmp_A.transpose() * tmp_A;
+        b += tmp_A.transpose() * tmp_b;
+    }
+    delta_bg = A.ldlt().solve(b);
+
+    for (int i = 0; i <= WINDOW_SIZE; i++)
+        Bgs[i] += delta_bg;
+}
+
+// camera extrinsic rotation
+std::vector<Eigen::Matrix3d> RIC;
+// camera extrinsic translation
+std::vector<Eigen::Vector3d> TIC;
+
+bool LinearAlignment(map<double, ImageFrame> &all_image_frame, Vector3d &g, VectorXd &x)
+{
+  int all_frame_count = all_image_frame.size();
+    int n_state = all_frame_count * 3 + 3 + 1;
+
+    MatrixXd A{n_state, n_state};
+    A.setZero();
+    VectorXd b{n_state};
+    b.setZero();
+
+    map<double, ImageFrame>::iterator frame_i;
+    map<double, ImageFrame>::iterator frame_j;
+    int i = 0;
+    for (frame_i = all_image_frame.begin(); next(frame_i) != all_image_frame.end(); frame_i++, i++)
+    {
+        frame_j = next(frame_i);
+
+        MatrixXd tmp_A(6, 10);
+        tmp_A.setZero();
+        VectorXd tmp_b(6);
+        tmp_b.setZero();
+
+        double dt = frame_j->second.pre_integration->sum_dt;
+
+        tmp_A.block<3, 3>(0, 0) = -dt * Matrix3d::Identity();
+        tmp_A.block<3, 3>(0, 6) = frame_i->second.R.transpose() * dt * dt / 2 * Matrix3d::Identity();
+        tmp_A.block<3, 1>(0, 9) = frame_i->second.R.transpose() * (frame_j->second.T - frame_i->second.T) / 100.0;     
+        tmp_b.block<3, 1>(0, 0) = frame_j->second.pre_integration->delta_p + frame_i->second.R.transpose() * frame_j->second.R * TIC[0] - TIC[0];
+        //cout << "delta_p   " << frame_j->second.pre_integration->delta_p.transpose() << endl;
+        tmp_A.block<3, 3>(3, 0) = -Matrix3d::Identity();
+        tmp_A.block<3, 3>(3, 3) = frame_i->second.R.transpose() * frame_j->second.R;
+        tmp_A.block<3, 3>(3, 6) = frame_i->second.R.transpose() * dt * Matrix3d::Identity();
+        tmp_b.block<3, 1>(3, 0) = frame_j->second.pre_integration->delta_v;
+        //cout << "delta_v   " << frame_j->second.pre_integration->delta_v.transpose() << endl;
+
+        Matrix<double, 6, 6> cov_inv = Matrix<double, 6, 6>::Zero();
+        //cov.block<6, 6>(0, 0) = IMU_cov[i + 1];
+        //MatrixXd cov_inv = cov.inverse();
+        cov_inv.setIdentity();
+
+        MatrixXd r_A = tmp_A.transpose() * cov_inv * tmp_A;
+        VectorXd r_b = tmp_A.transpose() * cov_inv * tmp_b;
+
+        A.block<6, 6>(i * 3, i * 3) += r_A.topLeftCorner<6, 6>();
+        b.segment<6>(i * 3) += r_b.head<6>();
+
+        A.bottomRightCorner<4, 4>() += r_A.bottomRightCorner<4, 4>();
+        b.tail<4>() += r_b.tail<4>();
+
+        A.block<6, 4>(i * 3, n_state - 4) += r_A.topRightCorner<6, 4>();
+        A.block<4, 6>(n_state - 4, i * 3) += r_A.bottomLeftCorner<4, 6>();
+    }
+    A = A * 1000.0;
+    b = b * 1000.0;
+    x = A.ldlt().solve(b);
+
+    g = x.segment<3>(n_state - 4);
+    RefineGravity(all_image_frame, g, x);
+    s = (x.tail<1>())(0) / 100.0;
+}
+
+```
+
+`triangulate(...)` estimates depth of a 3d world point by two corresponding two points from two chronologically sequential frames.
+The result is removed of scale `it_per_id.estimated_depth = svd_V[2] / svd_V[3];`.
+In the later part of `visualInitialAlign()`, the scale is multiplied back `it_per_id.estimated_depth *= s;`, where the scale `s` is the result from `LinearAlignment(...)`.
+
+```cpp
+void FeatureManager::triangulate(Vector3d Ps[], Vector3d tic[], Matrix3d ric[])
+{
+    for (auto &it_per_id : feature)
+    {
+        int imu_i = it_per_id.start_frame;
+        int imu_j = imu_i - 1;
+        Eigen::MatrixXd svd_A(2 * it_per_id.feature_per_frame.size(), 4);
+
+        for (auto &it_per_frame : it_per_id.feature_per_frame)
+        {
+            imu_j++;
+
+            Eigen::Vector3d t1 = Ps[imu_j] + Rs[imu_j] * tic[0];
+            Eigen::Matrix3d R1 = Rs[imu_j] * ric[0];
+            Eigen::Vector3d t = R0.transpose() * (t1 - t0);
+            Eigen::Matrix3d R = R0.transpose() * R1;
+            Eigen::Matrix<double, 3, 4> P;
+            P.leftCols<3>() = R.transpose();
+            P.rightCols<1>() = -R.transpose() * t;
+            Eigen::Vector3d f = it_per_frame.point.normalized();
+            svd_A.row(svd_idx++) = f[0] * P.row(2) - f[2] * P.row(0);
+            svd_A.row(svd_idx++) = f[1] * P.row(2) - f[2] * P.row(1);
+
+            if (imu_i == imu_j)
+                continue;
+        }
+
+        Eigen::Vector4d svd_V = Eigen::JacobiSVD<Eigen::MatrixXd>(svd_A, Eigen::ComputeThinV).matrixV().rightCols<1>();
+        it_per_id.estimated_depth = svd_V[2] / svd_V[3];
+    }
+}
+```
 
 ## Marginalization
 
@@ -933,6 +1259,11 @@ public:
 }
 ```
 
+In `estimator`, `IntegrationBase` is stored in a list where each integration term takes the current IMU reading `acc_0, gyr_0`
+```cpp
+    pre_integrations[WINDOW_SIZE] = new IntegrationBase{acc_0, gyr_0, Bas[WINDOW_SIZE], Bgs[WINDOW_SIZE]};
+```
+
 ### IMU Noise and Covariance Propogation
 
 IMU noises $\bold{N}_{18 \times 18}$ are simulated as below
@@ -1033,8 +1364,8 @@ where `midPointIntegration(...)` computes $\Delta \bold{p}, \Delta \bold{\theta}
 
 $$
 \begin{align*}
-    \hat{\bold{a}}_{t, t-1} &= (\Delta \bold{\omega}_{t-1})_\mathbf{H} (\bold{a}_{t-1} - \bold{b}_{a})
-    \qquad&& (.)_\mathbf{H} \text{ denotes quaternion rotating a vector}
+    \hat{\bold{a}}_{t, t-1} &= (\Delta \bold{\omega}_{t-1})_\mathbf{Q} (\bold{a}_{t-1} - \bold{b}_{a})
+    \qquad&& (.)_\mathbf{Q} \text{ denotes quaternion rotating a vector}
 \\
     \bold{\omega}_t &= \frac{1}{2} (\bold{\omega}_{t-1} + \hat{\bold{\omega}}_{t}) - \bold{b}_{\omega}
 \\
@@ -1045,7 +1376,7 @@ $$
     \qquad&& \otimes \text{ denotes quaternion multiplication}
     \\ & && \frac{1}{2} \bold{\omega}_t \cdot \delta t \text{ is right perturbation}
 \\
-    \hat{\bold{a}}_{t,t} &= (\Delta \bold{\theta}_{t})_{\mathbf{H}} (\hat{\bold{a}}_{t} - \bold{b}_a)
+    \hat{\bold{a}}_{t,t} &= (\Delta \bold{\theta}_{t})_{\mathbf{Q}} (\hat{\bold{a}}_{t} - \bold{b}_a)
 \\
     \bold{a}_{t} &= \frac{1}{2} (\hat{\bold{a}}_{t,t} + \hat{\bold{a}}_{t, t-1})
 \\
@@ -1155,8 +1486,8 @@ $$
 
 VINS uses the below list of linear approximations to integrate noises over the time $\tau \in \delta t$ between two IMU readings.
 
-* Acceleration measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row first-col position of $\bold{V}_{15 \times 18}$ in below) is done by the previous rotation change: $\big( \frac{1}{4} R_{\Delta \theta, t-1} \cdot (\delta t)^2 \big) \bold{N}_{ma}   = \int \int_{\tau \in \delta t} \big( R_{\Delta \theta, t-1}\bold{N}_{ma} \big) d\tau^2$
-* Rotation measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row second-col position of $\bold{V}_{15 \times 18}$ in below) is done by the previous halfway rotation change multiplying the current acceleration: $\big( \frac{1}{4} R_{\Delta \theta, t} \cdot (\delta t)^2 \big) \bold{N}_{m\omega} = \int \int_{\tau \in \delta t} \big(-R_{\Delta \theta, t} R_{a,t} \cdot \frac{1}{2}\delta t \bold{N}_{m\omega} \big) d\tau^2$
+* Acceleration measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row first-col position of $\bold{V}$ in below) is done by integrating the previous rotation change: $\big( \frac{1}{4} R_{\Delta \theta, t-1} \cdot (\delta t)^2 \big) \bold{N}_{ma}   = \int \int_{\tau \in \delta t} \big( R_{\Delta \theta, t-1}\bold{N}_{ma} \big) d\tau^2$
+* Rotation measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row second-col position of $\bold{V}$ in below) is done by integrating the previous halfway rotation change multiplying the current acceleration: $\big( \frac{1}{4} R_{\Delta \theta, t} \cdot (\delta t)^2 \big) \bold{N}_{m\omega} = \int \int_{\tau \in \delta t} \big(-R_{\Delta \theta, t} R_{a,t} \cdot \frac{1}{2}\delta t \bold{N}_{m\omega} \big) d\tau^2$
 * ... (the same rules go with other noise terms)
 * Acceleration bias noise approximation for acceleration bias itself over the time $\tau \in \delta t$ is simply the linear increment $\big( \bold{I}_{3 \times 3} \cdot (\delta t) \big) \bold{N}_{ba} = \int_{\tau \in \delta t} \bold{N}_{ba} d\tau$
 * Similarly for rotation bias noise approximation, there is $\big( \bold{I}_{3 \times 3} \cdot (\delta t) \big) \bold{N}_{b\omega} = \int_{\tau \in \delta t} \bold{N}_{b\omega} d\tau$
@@ -1219,7 +1550,6 @@ void IntegrationBase::midPointIntegration(double _dt,
                         Eigen::Vector3d &result_delta_p, Eigen::Quaterniond &result_delta_q, Eigen::Vector3d &result_delta_v,
                         Eigen::Vector3d &result_linearized_ba, Eigen::Vector3d &result_linearized_bg, bool update_jacobian)
 {
-    //ROS_INFO("midpoint integration");
     Vector3d un_acc_0 = delta_q * (_acc_0 - linearized_ba);
     Vector3d un_gyr = 0.5 * (_gyr_0 + _gyr_1) - linearized_bg;
     result_delta_q = delta_q * Quaterniond(1, un_gyr(0) * _dt / 2, un_gyr(1) * _dt / 2, un_gyr(2) * _dt / 2);
@@ -1263,7 +1593,6 @@ void IntegrationBase::midPointIntegration(double _dt,
         F.block<3, 3>(6, 12) = -0.5 * result_delta_q.toRotationMatrix() * R_a_1_x * _dt * -_dt;
         F.block<3, 3>(9, 9) = Matrix3d::Identity();
         F.block<3, 3>(12, 12) = Matrix3d::Identity();
-        //cout<<"A"<<endl<<A<<endl;
 
         MatrixXd V = MatrixXd::Zero(15,18);
         V.block<3, 3>(0, 0) =  0.25 * delta_q.toRotationMatrix() * _dt * _dt;
@@ -1279,8 +1608,6 @@ void IntegrationBase::midPointIntegration(double _dt,
         V.block<3, 3>(9, 12) = MatrixXd::Identity(3,3) * _dt;
         V.block<3, 3>(12, 15) = MatrixXd::Identity(3,3) * _dt;
 
-        //step_jacobian = F;
-        //step_V = V;
         jacobian = F * jacobian;
         covariance = F * covariance * F.transpose() + V * noise * V.transpose();
     }
@@ -1297,6 +1624,94 @@ $$
     \bold{r}_\mathcal{B} ( \hat{\bold{z}}_{\tiny{BK}} ,\bold{\mathcal{X}} )
 \Big|\Big|^2}_{
 \text{IMU measurement residuals}}
+$$
+
+The residual `Eigen::Matrix<double, 15, 1> residuals;` $\bold{r} \in \mathbb{R}^{15}$ is defined as the differences between two preintegrated IMU results from two frames: the $i$-th and the $j$-th frame.
+The parameters to be optimized:
+$$
+\bold{p}_i \in \mathbb{R}^3, \qquad
+\bold{\theta}_i \in \mathbb{R}^4, \qquad
+\bold{v}_i \in \mathbb{R}^3, \qquad
+\bold{b}_{a,i} \in \mathbb{R}^3, \qquad
+\bold{b}_{\omega,i} \in \mathbb{R}^3
+\\
+\bold{p}_j \in \mathbb{R}^3, \qquad
+\bold{\theta}_j \in \mathbb{R}^4, \qquad
+\bold{v}_j \in \mathbb{R}^3, \qquad
+\bold{b}_{a,j} \in \mathbb{R}^3, \qquad
+\bold{b}_{\omega,j} \in \mathbb{R}^3
+$$
+
+From `jacobian` get
+$$
+    \frac{\partial \bold{p}}{\partial \bold{b}_a} = \bold{J}_{1:3, 10:12}
+, \qquad
+    \frac{\partial \bold{p}}{\partial \bold{b}_\omega} = \bold{J}_{1:3, 13:15}
+, \qquad
+    \frac{\partial \bold{\theta}}{\partial \bold{b}_\omega} = \bold{J}_{4:6, 13:15}
+, \qquad
+    \frac{\partial \bold{v}}{\partial \bold{b}_a} = \bold{J}_{7:9, 10:12}
+, \qquad
+    \frac{\partial \bold{v}}{\partial \bold{b}_\omega} = \bold{J}_{7:9, 13:15}
+, \qquad
+    \Delta\bold{b}_a = 
+, \qquad
+    \Delta\bold{b}_\omega = 
+$$
+
+Compute the corrected $\Delta\bold{\theta}, \Delta\bold{v}, \Delta\bold{p}$ considered linearized acceleration and gyro biases.
+$$
+\Delta\bold{\theta} = \Delta\hat{\bold{\theta}} \frac{\partial \bold{\theta}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+,\qquad
+\Delta\bold{v} = \Delta\hat{\bold{v}} + \frac{\partial \bold{v}}{\partial \bold{b}_a} \Delta\bold{b}_a + \frac{\partial \bold{v}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+, \qquad
+\Delta\bold{p} = \Delta\hat{\bold{p}} + \frac{\partial \bold{p}}{\partial \bold{b}_a} \Delta\bold{b}_a + \frac{\partial \bold{p}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+$$
+
+The residual
+
+$$
+\begin{align*}
+\bold{r}_{1:3} &= 
+(\bold{\theta}_{i}^{-1} )_{\mathbf{Q}} \big(
+    \frac{1}{2} \bold{g}_{earth} (\delta t)^2 + \bold{p}_j - \bold{p}_i - \bold{v}_i \cdot (\delta t)
+\big)
+&& (.)_{\mathbf{Q}} \text{ means quaternion operation}
+\\
+\bold{r}_{4:6} &= 
+\Big((\Delta\bold{\theta})_\mathbf{Q} (\bold{\theta}_{i}^{-1} )_{\mathbf{Q}} (\bold{\theta}_{j} )_{\mathbf{Q}}\Big)_{\mathbf{E}}
+&& \text{ Quaternion } (.)_{\mathbf{Q}}  \text{ to Euler } (.)_{\mathbf{E}}: \quad \mathbb{R}^4 \rightarrow \mathbb{R}^3
+\\
+\bold{r}_{7:9} &= 
+(\bold{\theta}_{i}^{-1} )_{\mathbf{Q}} \big(
+    \bold{g}_{earth} (\delta t) + \bold{v}_j - \bold{v}_i - \Delta\bold{v}
+\big)
+\\
+\bold{r}_{10:12} &= \bold{b}_{a,j} - \bold{b}_{a,i}
+\\
+\bold{r}_{13:15} &= \bold{b}_{\omega,j} - \bold{b}_{\omega,i}
+\end{align*}
+$$
+
+For the $i$-th frame
+$$
+\bold{J}_{p,i} = \begin{bmatrix}
+    \frac{\partial \bold{p}_i}{\partial \bold{p}_i}
+    & \frac{\partial \bold{p}_i}{\partial \bold{\theta}_i}
+    & \bold{0}_{1 \times 3}
+\\
+    \bold{0}_{3 \times 3}
+    & \frac{\partial \bold{\theta}_i}{\partial \bold{\theta}_i}
+    & \bold{0}_{1 \times 3}
+\\ 
+    \bold{0}_{3 \times 3}
+    & \frac{\partial \bold{v}_i}{\partial \bold{\theta}_i}
+    & \bold{0}_{1 \times 3}
+\\ 
+    \bold{0}_{6 \times 3}
+    & \bold{0}_{6 \times 3}
+    & \bold{0}_{1 \times 3}
+\end{bmatrix}
 $$
 
 ```cpp
@@ -1329,11 +1744,90 @@ class IMUFactor : public ceres::SizedCostFunction<15, 7, 9, 7, 9> {
         Eigen::Vector3d Bgj(parameters[3][6], parameters[3][7], parameters[3][8]);
 
         Eigen::Map<Eigen::Matrix<double, 15, 1>> residual(residuals);
+        // IntegrationBase::evaluate(...)
         residual = pre_integration->evaluate(Pi, Qi, Vi, Bai, Bgi,
                                             Pj, Qj, Vj, Baj, Bgj);
 
+        // Standard Cholesky decomposition (LL^T) of a matrix and associated features.
         Eigen::Matrix<double, 15, 15> sqrt_info = Eigen::LLT<Eigen::Matrix<double, 15, 15>>(pre_integration->covariance.inverse()).matrixL().transpose();
         residual = sqrt_info * residual;
+
+        double sum_dt = pre_integration->sum_dt;
+        Eigen::Matrix3d dp_dba = pre_integration->jacobian.template block<3, 3>(O_P, O_BA);
+        Eigen::Matrix3d dp_dbg = pre_integration->jacobian.template block<3, 3>(O_P, O_BG);
+
+        Eigen::Matrix3d dq_dbg = pre_integration->jacobian.template block<3, 3>(O_R, O_BG);
+
+        Eigen::Matrix3d dv_dba = pre_integration->jacobian.template block<3, 3>(O_V, O_BA);
+        Eigen::Matrix3d dv_dbg = pre_integration->jacobian.template block<3, 3>(O_V, O_BG);
+
+        if (jacobians[0])
+        {
+            Eigen::Map<Eigen::Matrix<double, 15, 7, Eigen::RowMajor>> jacobian_pose_i(jacobians[0]);
+            jacobian_pose_i.setZero();
+ 
+            jacobian_pose_i.block<3, 3>(O_P, O_P) = -Qi.inverse().toRotationMatrix();
+            jacobian_pose_i.block<3, 3>(O_P, O_R) = Utility::skewSymmetric(Qi.inverse() * (0.5 * G * sum_dt * sum_dt + Pj - Pi - Vi * sum_dt));
+
+            Eigen::Quaterniond corrected_delta_q = pre_integration->delta_q * Utility::deltaQ(dq_dbg * (Bgi - pre_integration->linearized_bg));
+            jacobian_pose_i.block<3, 3>(O_R, O_R) = -(Utility::Qleft(Qj.inverse() * Qi) * Utility::Qright(corrected_delta_q)).bottomRightCorner<3, 3>();
+
+            jacobian_pose_i.block<3, 3>(O_V, O_R) = Utility::skewSymmetric(Qi.inverse() * (G * sum_dt + Vj - Vi));
+
+            jacobian_pose_i = sqrt_info * jacobian_pose_i;
+
+            if (jacobian_pose_i.maxCoeff() > 1e8 || jacobian_pose_i.minCoeff() < -1e8)
+            {
+                ROS_WARN("numerical unstable in preintegration");
+                //std::cout << sqrt_info << std::endl;
+                //ROS_BREAK();
+            }
+        }
+        if (jacobians[1])
+        {
+            Eigen::Map<Eigen::Matrix<double, 15, 9, Eigen::RowMajor>> jacobian_speedbias_i(jacobians[1]);
+            jacobian_speedbias_i.setZero();
+            jacobian_speedbias_i.block<3, 3>(O_P, O_V - O_V) = -Qi.inverse().toRotationMatrix() * sum_dt;
+            jacobian_speedbias_i.block<3, 3>(O_P, O_BA - O_V) = -dp_dba;
+            jacobian_speedbias_i.block<3, 3>(O_P, O_BG - O_V) = -dp_dbg;
+
+            jacobian_speedbias_i.block<3, 3>(O_R, O_BG - O_V) = -Utility::Qleft(Qj.inverse() * Qi * pre_integration->delta_q).bottomRightCorner<3, 3>() * dq_dbg;
+
+            jacobian_speedbias_i.block<3, 3>(O_V, O_V - O_V) = -Qi.inverse().toRotationMatrix();
+            jacobian_speedbias_i.block<3, 3>(O_V, O_BA - O_V) = -dv_dba;
+            jacobian_speedbias_i.block<3, 3>(O_V, O_BG - O_V) = -dv_dbg;
+
+            jacobian_speedbias_i.block<3, 3>(O_BA, O_BA - O_V) = -Eigen::Matrix3d::Identity();
+
+            jacobian_speedbias_i.block<3, 3>(O_BG, O_BG - O_V) = -Eigen::Matrix3d::Identity();
+
+            jacobian_speedbias_i = sqrt_info * jacobian_speedbias_i;
+        }
+        if (jacobians[2])
+        {
+            Eigen::Map<Eigen::Matrix<double, 15, 7, Eigen::RowMajor>> jacobian_pose_j(jacobians[2]);
+            jacobian_pose_j.setZero();
+
+            jacobian_pose_j.block<3, 3>(O_P, O_P) = Qi.inverse().toRotationMatrix();
+
+            Eigen::Quaterniond corrected_delta_q = pre_integration->delta_q * Utility::deltaQ(dq_dbg * (Bgi - pre_integration->linearized_bg));
+            jacobian_pose_j.block<3, 3>(O_R, O_R) = Utility::Qleft(corrected_delta_q.inverse() * Qi.inverse() * Qj).bottomRightCorner<3, 3>();
+
+            jacobian_pose_j = sqrt_info * jacobian_pose_j;
+        }
+        if (jacobians[3])
+        {
+            Eigen::Map<Eigen::Matrix<double, 15, 9, Eigen::RowMajor>> jacobian_speedbias_j(jacobians[3]);
+            jacobian_speedbias_j.setZero();
+
+            jacobian_speedbias_j.block<3, 3>(O_V, O_V - O_V) = Qi.inverse().toRotationMatrix();
+
+            jacobian_speedbias_j.block<3, 3>(O_BA, O_BA - O_V) = Eigen::Matrix3d::Identity();
+
+            jacobian_speedbias_j.block<3, 3>(O_BG, O_BG - O_V) = Eigen::Matrix3d::Identity();
+
+            jacobian_speedbias_j = sqrt_info * jacobian_speedbias_j;
+        }
     }
 }
 
@@ -1366,3 +1860,157 @@ Eigen::Matrix<double, 15, 1> IntegrationBase::evaluate(const Eigen::Vector3d &Pi
     return residuals;
 }
 ```
+
+## Reprojection Error
+
+```cpp
+ProjectionFactor::ProjectionFactor(const Eigen::Vector3d &_pts_i, const Eigen::Vector3d &_pts_j) : 
+    pts_i(_pts_i), pts_j(_pts_j) {};
+
+void Estimator::optimization()
+{
+    ...
+    for (auto &it_per_id : f_manager.feature) {
+        for (auto &it_per_frame : it_per_id.feature_per_frame) {
+            ...
+            ProjectionFactor *f = new ProjectionFactor(pts_i, pts_j);   
+            problem.AddResidualBlock(f, loss_function, para_Pose[imu_i], para_Pose[imu_j], para_Ex_Pose[0], para_Feature[feature_index]);
+            ... 
+        }
+    }
+    ...
+}
+```
+
+Optionally, 
+```cpp
+ProjectionTdFactor(const Eigen::Vector3d &_pts_i, const Eigen::Vector3d &_pts_j,
+    				   const Eigen::Vector2d &_velocity_i, const Eigen::Vector2d &_velocity_j,
+    				   const double _td_i, const double _td_j, const double _row_i, const double _row_j);
+
+void Estimator::optimization()
+{
+    ...
+    for (auto &it_per_id : f_manager.feature) {
+        for (auto &it_per_frame : it_per_id.feature_per_frame) {
+            ...
+            ProjectionTdFactor *f_td = new ProjectionTdFactor(pts_i, pts_j, 
+                                                    it_per_id.feature_per_frame[0].velocity, it_per_frame.velocity,
+                                                    it_per_id.feature_per_frame[0].cur_td, it_per_frame.cur_td,
+                                                    it_per_id.feature_per_frame[0].uv.y(), it_per_frame.uv.y());
+            problem.AddResidualBlock(f_td, loss_function, para_Pose[imu_i], para_Pose[imu_j], para_Ex_Pose[0], 
+                                    para_Feature[feature_index], para_Td[0]);
+            ... 
+        }
+    }
+    ...
+}
+```
+
+```cpp
+// tic, ric, sqrt_info, td are defined as static/global variables
+for (int i = 0; i < NUM_OF_CAM; i++)
+{
+    tic[i] = TIC[i];
+    ric[i] = RIC[i];
+}
+f_manager.setRic(ric);
+ProjectionFactor::sqrt_info = FOCAL_LENGTH / 1.5 * Matrix2d::Identity();
+ProjectionTdFactor::sqrt_info = FOCAL_LENGTH / 1.5 * Matrix2d::Identity();
+td = TD;
+
+bool ProjectionFactor::Evaluate(double const *const *parameters, double *residuals, double **jacobians) const
+{
+    TicToc tic_toc;
+    Eigen::Vector3d Pi(parameters[0][0], parameters[0][1], parameters[0][2]);
+    Eigen::Quaterniond Qi(parameters[0][6], parameters[0][3], parameters[0][4], parameters[0][5]);
+
+    Eigen::Vector3d Pj(parameters[1][0], parameters[1][1], parameters[1][2]);
+    Eigen::Quaterniond Qj(parameters[1][6], parameters[1][3], parameters[1][4], parameters[1][5]);
+
+    Eigen::Vector3d tic(parameters[2][0], parameters[2][1], parameters[2][2]);
+    Eigen::Quaterniond qic(parameters[2][6], parameters[2][3], parameters[2][4], parameters[2][5]);
+
+    double inv_dep_i = parameters[3][0];
+
+    Eigen::Vector3d pts_camera_i = pts_i / inv_dep_i;
+    Eigen::Vector3d pts_imu_i = qic * pts_camera_i + tic;
+    Eigen::Vector3d pts_w = Qi * pts_imu_i + Pi;
+    Eigen::Vector3d pts_imu_j = Qj.inverse() * (pts_w - Pj);
+    Eigen::Vector3d pts_camera_j = qic.inverse() * (pts_imu_j - tic);
+    Eigen::Map<Eigen::Vector2d> residual(residuals);
+
+
+    double dep_j = pts_camera_j.z();
+    residual = (pts_camera_j / dep_j).head<2>() - pts_j.head<2>();
+
+    residual = sqrt_info * residual;
+
+    if (jacobians)
+    {
+        Eigen::Matrix3d Ri = Qi.toRotationMatrix();
+        Eigen::Matrix3d Rj = Qj.toRotationMatrix();
+        Eigen::Matrix3d ric = qic.toRotationMatrix();
+        Eigen::Matrix<double, 2, 3> reduce(2, 3);
+
+        reduce << 1. / dep_j, 0, -pts_camera_j(0) / (dep_j * dep_j),
+            0, 1. / dep_j, -pts_camera_j(1) / (dep_j * dep_j);
+        reduce = sqrt_info * reduce;
+
+        if (jacobians[0])
+        {
+            Eigen::Map<Eigen::Matrix<double, 2, 7, Eigen::RowMajor>> jacobian_pose_i(jacobians[0]);
+
+            Eigen::Matrix<double, 3, 6> jaco_i;
+            jaco_i.leftCols<3>() = ric.transpose() * Rj.transpose();
+            jaco_i.rightCols<3>() = ric.transpose() * Rj.transpose() * Ri * -Utility::skewSymmetric(pts_imu_i);
+
+            jacobian_pose_i.leftCols<6>() = reduce * jaco_i;
+            jacobian_pose_i.rightCols<1>().setZero();
+        }
+
+        if (jacobians[1])
+        {
+            Eigen::Map<Eigen::Matrix<double, 2, 7, Eigen::RowMajor>> jacobian_pose_j(jacobians[1]);
+
+            Eigen::Matrix<double, 3, 6> jaco_j;
+            jaco_j.leftCols<3>() = ric.transpose() * -Rj.transpose();
+            jaco_j.rightCols<3>() = ric.transpose() * Utility::skewSymmetric(pts_imu_j);
+
+            jacobian_pose_j.leftCols<6>() = reduce * jaco_j;
+            jacobian_pose_j.rightCols<1>().setZero();
+        }
+        if (jacobians[2])
+        {
+            Eigen::Map<Eigen::Matrix<double, 2, 7, Eigen::RowMajor>> jacobian_ex_pose(jacobians[2]);
+            Eigen::Matrix<double, 3, 6> jaco_ex;
+            jaco_ex.leftCols<3>() = ric.transpose() * (Rj.transpose() * Ri - Eigen::Matrix3d::Identity());
+            Eigen::Matrix3d tmp_r = ric.transpose() * Rj.transpose() * Ri * ric;
+            jaco_ex.rightCols<3>() = -tmp_r * Utility::skewSymmetric(pts_camera_i) + Utility::skewSymmetric(tmp_r * pts_camera_i) +
+                                     Utility::skewSymmetric(ric.transpose() * (Rj.transpose() * (Ri * tic + Pi - Pj) - tic));
+            jacobian_ex_pose.leftCols<6>() = reduce * jaco_ex;
+            jacobian_ex_pose.rightCols<1>().setZero();
+        }
+        if (jacobians[3])
+        {
+            Eigen::Map<Eigen::Vector2d> jacobian_feature(jacobians[3]);
+            jacobian_feature = reduce * ric.transpose() * Rj.transpose() * Ri * ric * pts_i * -1.0 / (inv_dep_i * inv_dep_i);
+
+        }
+    }
+    sum_t += tic_toc.toc();
+
+    return true;
+}
+```
+
+## Feature Tracking
+
+Recall that VINS subsribes the below two topics:
+```cpp
+ros::Subscriber sub_image = n.subscribe("/feature_tracker/feature", 2000, feature_callback);
+ros::Subscriber sub_restart = n.subscribe("/feature_tracker/restart", 2000, restart_callback);
+```
+
+## Loop Closure
+

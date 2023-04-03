@@ -301,3 +301,10 @@ When a callee returns
 2. `pop` some data from registers/stack
 3. `mov %ebp, %esp` restore base pointer to caller stack top
 4. `pop %ebp` restore caller function stack bottom
+
+## Process Launching New Threads
+
+In theory, one process can use up to 2 GB memory;
+one thread stack has 1MB memory.
+As a result, one process can have up to 2048 threads.
+
