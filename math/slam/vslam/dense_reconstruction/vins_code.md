@@ -731,13 +731,13 @@ A_{\text{tmp, i}} &=
 \\
 \bold{b}_{\text{tmp, i}} &= 
 \begin{bmatrix}
-    \Delta \bold{p}_j + R_i^\top R_j \bold{t}_c - \bold{t}_c
+    \Delta \bold{p}_j + R_i^\top R_j \bold{t}_{ce} - \bold{t}_{ce}
 \\
     \Delta \bold{v}_j
 \end{bmatrix}
 \end{align*}
 $$
-where $\bold{t}_c$ is camera extrinsics.
+where $\bold{t}_{ce}$ is camera extrinsics.
 
 Then define $A\bold{x}=\bold{b}$, where $A \in \mathbb{R}^{\big((n \times 3) + 3 + 1\big) \times \big((n \times 3) + 3 + 1\big)}$ and $\bold{b} \in \mathbb{R}^{(n \times 3) + 3 + 1}$ $n$ is the total number of frames.
 
@@ -1695,7 +1695,7 @@ $$
 
 For the $i$-th frame
 $$
-\bold{J}_{p,i} = \begin{bmatrix}
+\frac{\partial \bold{r}}{\partial (\bold{p}_i, \bold{\theta}_i)} = \begin{bmatrix}
     \frac{\partial \bold{p}_i}{\partial \bold{p}_i}
     & \frac{\partial \bold{p}_i}{\partial \bold{\theta}_i}
     & \bold{0}_{1 \times 3}
@@ -1863,6 +1863,9 @@ Eigen::Matrix<double, 15, 1> IntegrationBase::evaluate(const Eigen::Vector3d &Pi
 
 ## Reprojection Error
 
+Reprojection cost function takes two frames' estimated 3d world points `pts_i` and `pts_j`, transformed by camera extrinsics and relative transform betweeb the $i$-th and $j$-th poses, should see the two points `pts_i` and `pts_j` have the same pixel location $(u, v)$.
+The difference is the residual, to be reduced by adjusting IMU poses.
+
 ```cpp
 ProjectionFactor::ProjectionFactor(const Eigen::Vector3d &_pts_i, const Eigen::Vector3d &_pts_j) : 
     pts_i(_pts_i), pts_j(_pts_j) {};
@@ -1871,8 +1874,12 @@ void Estimator::optimization()
 {
     ...
     for (auto &it_per_id : f_manager.feature) {
+        int imu_i = it_per_id.start_frame;
+        int imu_j = imu_i - 1;
+        Vector3d pts_i = it_per_id.feature_per_frame[0].point;
         for (auto &it_per_frame : it_per_id.feature_per_frame) {
             ...
+            Vector3d pts_j = it_per_frame.point;
             ProjectionFactor *f = new ProjectionFactor(pts_i, pts_j);   
             problem.AddResidualBlock(f, loss_function, para_Pose[imu_i], para_Pose[imu_j], para_Ex_Pose[0], para_Feature[feature_index]);
             ... 
@@ -1882,30 +1889,46 @@ void Estimator::optimization()
 }
 ```
 
-Optionally, 
+Optionally, VINS provides `ProjectionTdFactor(...)` that takes into account camera extrinsics besides adjusting for IMU poses.
 ```cpp
 ProjectionTdFactor(const Eigen::Vector3d &_pts_i, const Eigen::Vector3d &_pts_j,
     				   const Eigen::Vector2d &_velocity_i, const Eigen::Vector2d &_velocity_j,
     				   const double _td_i, const double _td_j, const double _row_i, const double _row_j);
-
-void Estimator::optimization()
-{
-    ...
-    for (auto &it_per_id : f_manager.feature) {
-        for (auto &it_per_frame : it_per_id.feature_per_frame) {
-            ...
-            ProjectionTdFactor *f_td = new ProjectionTdFactor(pts_i, pts_j, 
-                                                    it_per_id.feature_per_frame[0].velocity, it_per_frame.velocity,
-                                                    it_per_id.feature_per_frame[0].cur_td, it_per_frame.cur_td,
-                                                    it_per_id.feature_per_frame[0].uv.y(), it_per_frame.uv.y());
-            problem.AddResidualBlock(f_td, loss_function, para_Pose[imu_i], para_Pose[imu_j], para_Ex_Pose[0], 
-                                    para_Feature[feature_index], para_Td[0]);
-            ... 
-        }
-    }
-    ...
-}
 ```
+
+$$
+\begin{align*}
+\bold{x}_{imu,i} &= (\bold{\theta}_{ce})_{\mathbf{Q}} (\bold{x}_{cam,i} / d_i) + \bold{t}_{ce}
+\\    
+\bold{X}_{world} &= (\bold{\theta}_i)_{\mathbf{Q}} \bold{x}_{imu,i} + \bold{p}_i
+\\
+\bold{x}_{imu,j} &= (\bold{\theta}_j^{-1})_{\mathbf{Q}} (\bold{X}_{world} - \bold{p}_j)
+\\
+\hat{\bold{x}}_{cam,j} &= (\bold{\theta}_{ce}^{-1})_{\mathbf{Q}} (\bold{x}_{imu,j} - \bold{t}_{ce})
+\end{align*}
+$$
+
+The residual is defined as $\bold{r}_{proj,cam,j} = \big(d_j\hat{\bold{x}}_{cam,j} - \bold{x}_{cam,j} \big)_{1:2}$, where $\space_{1:2}$ represents taking the first two elements $(u, v)$. 
+
+$$
+R_r = \begin{bmatrix}
+    1/d_j & 0 & \hat{\bold{x}}_{cam,j}.x / (d_j^2) \\
+    0 & 1/d_j & \hat{\bold{x}}_{cam,j}.y / (d_j^2)
+\end{bmatrix}
+\in \mathbb{R}^{2 \times 3}
+$$
+
+$$
+\frac{\partial \bold{r}_{proj,cam,j} }{\partial (\bold{p}_j, \bold{\theta}_j)} \in \mathbb{R}^{2 \times 7} = 
+R_r 
+\begin{bmatrix}
+    R_{ec}^{\top} R_j^{\top} 
+    & R_{ec}^{\top} R_j^{\top} R_i  \bold{x}_{imu,i}^{\wedge}
+    & \bold{0}_{2 \times 1}
+\end{bmatrix}
+$$
+where $(\bold{p}_j, \bold{\theta}_j) \in \mathbb{R}^{7}$ consists of 3d translation elements and 4d quaternion for rotation.
+The 4d rotation representation by quaternion is here replaced with rotation matrix that gives a 3d vector, hence the last col is $\bold{0}_{2 \times 1}$.
 
 ```cpp
 // tic, ric, sqrt_info, td are defined as static/global variables
@@ -2010,6 +2033,153 @@ Recall that VINS subsribes the below two topics:
 ```cpp
 ros::Subscriber sub_image = n.subscribe("/feature_tracker/feature", 2000, feature_callback);
 ros::Subscriber sub_restart = n.subscribe("/feature_tracker/restart", 2000, restart_callback);
+```
+
+Feature tracking is done in another process
+```cpp
+int main(int argc, char **argv)
+{
+    ros::init(argc, argv, "feature_tracker");
+    ros::NodeHandle n("~");
+
+    ...
+
+    ros::Subscriber sub_img = n.subscribe(IMAGE_TOPIC, 100, img_callback);
+
+    pub_img = n.advertise<sensor_msgs::PointCloud>("feature", 1000);
+    pub_match = n.advertise<sensor_msgs::Image>("feature_img",1000);
+    pub_restart = n.advertise<std_msgs::Bool>("restart",1000);
+
+    ros::spin();
+    return 0;
+}
+```
+
+The `void img_callback(const sensor_msgs::ImageConstPtr &img_msg)` handles the image streaming data, having done some checking then finds feature points and publishes them.
+
+Checking includes 
+* camera streaming frames should come in order
+* only process a certain number of camera frames per second, and discard the redundant
+* encode the camera frames in opencv `uchar` encoding
+
+`readImage(...)` is the core function that analyzes/reads feature points from a camera frame and track them.
+
+Finally, the discovered feature points are published.
+
+```cpp
+void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
+{
+    // detect unstable camera stream
+    if (img_msg->header.stamp.toSec() - last_image_time > 1.0 || img_msg->header.stamp.toSec() < last_image_time) {    
+        ...
+    }
+    // frequency control
+    if (round(1.0 * pub_count / (img_msg->header.stamp.toSec() - first_image_time)) <= FREQ) {
+        ...
+    }
+    // encoding
+    if (img_msg->encoding == "8UC1") {
+        ...
+    }
+
+    for (int i = 0; i < NUM_OF_CAM; i++) {
+        ...
+        trackerData[i].readImage(ptr->image.rowRange(ROW * i, ROW * (i + 1)), img_msg->header.stamp.toSec());
+        ...
+    }
+
+    if (PUB_THIS_FRAME) {
+        for (int i = 0; i < NUM_OF_CAM; i++) {
+            auto &ids = trackerData[i].ids;
+            for (unsigned int j = 0; j < ids.size(); j++) {
+                ...
+                geometry_msgs::Point32 p;
+                p.x = un_pts[j].x;
+                p.y = un_pts[j].y;
+                p.z = 1;
+
+                feature_points->points.push_back(p);
+            }
+        }
+        pub_img.publish(feature_points);
+    }
+}
+```
+
+`FeatureTracker::readImage(...)` is used to find feature points.
+
+
+
+```cpp
+void FeatureTracker::readImage(const cv::Mat &_img, double _cur_time)
+{
+    cv::Mat img;
+    TicToc t_r;
+    cur_time = _cur_time;
+
+    if (EQUALIZE)
+    {
+        cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE(3.0, cv::Size(8, 8));
+        TicToc t_c;
+        clahe->apply(_img, img);
+        ROS_DEBUG("CLAHE costs: %fms", t_c.toc());
+    }
+    else
+        img = _img;
+
+    ...
+
+    if (cur_pts.size() > 0)
+    {
+        TicToc t_o;
+        vector<uchar> status;
+        vector<float> err;
+        cv::calcOpticalFlowPyrLK(cur_img, forw_img, cur_pts, forw_pts, status, err, cv::Size(21, 21), 3);
+
+        for (int i = 0; i < int(forw_pts.size()); i++)
+            if (status[i] && !inBorder(forw_pts[i]))
+                status[i] = 0;
+        reduceVector(prev_pts, status);
+        reduceVector(cur_pts, status);
+        reduceVector(forw_pts, status);
+        reduceVector(ids, status);
+        reduceVector(cur_un_pts, status);
+        reduceVector(track_cnt, status);
+        ROS_DEBUG("temporal optical flow costs: %fms", t_o.toc());
+    }
+
+    for (auto &n : track_cnt)
+        n++;
+
+    if (PUB_THIS_FRAME)
+    {
+        rejectWithF();
+
+        TicToc t_m;
+        setMask();
+
+        TicToc t_t;    
+        int n_max_cnt = MAX_CNT - static_cast<int>(forw_pts.size());
+        if (n_max_cnt > 0)
+        {
+            if(mask.empty())
+                cout << "mask is empty " << endl;
+            if (mask.type() != CV_8UC1)
+                cout << "mask type wrong " << endl;
+            if (mask.size() != forw_img.size())
+                cout << "wrong size " << endl;
+            cv::goodFeaturesToTrack(forw_img, n_pts, MAX_CNT - forw_pts.size(), 0.01, MIN_DIST, mask);
+        }
+        else
+            n_pts.clear();
+
+        TicToc t_a;
+        addPoints();
+    }
+
+    ...
+    undistortedPoints();
+}
 ```
 
 ## Loop Closure

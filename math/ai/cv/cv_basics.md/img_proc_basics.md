@@ -1,12 +1,45 @@
 # Basic Image Process
 
+## Histogram Equalization
+
+*Histogram equalization* is a technique for adjusting image intensities to enhance contrast.
+It is useful when an image has narrow range of pixel intensities, that by mapping to wider intensity range, the image quality with respect to contrast can be improved. 
+Good quality image intensity (a.k.a brightness) typically ranges from $0$ to $255$.
+
+Consider a discrete grayscale image $\{\bold{x}\}$ and let $n_i$ be the number of occurrences of gray level $i$. 
+The probability of an occurrence of a pixel of level $i$ in the image is
+$$
+p_x(i) = p(x=i) = \frac{n_i}{n}
+, \qquad 0 \le i \le L
+$$
+where $L$ is the total number of gray levels in the image (typically $255$), $n$ is the total number of pixels in the image, 
+and $p_x(i)$ being in fact the image's histogram for pixel value $i$, normalized to $[0,1]$.
+
+Define the cumulative distribution function corresponding to $i$ as
+$$
+c_x(i) = \sum_{j=0}^{i}  p(x=j)
+$$
+
+To map back to $[0,255]$, simply do linear scaling $\text{round} \big(L \cdot c_x(i) \big)$, where $L=255$ and $\text{round(.)}$ rounds a number to its nearest integer.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/hist_equa.png" width="40%" height="40%" alt="hist_equa" />
+</div>
+</br>
+
+Intuition: for a normalized intensity value $\sum_{j=0}^{i} \frac{n_i}{n}$, for a large number of $n_i$ of a particular level $i$, the corresponding $j<i$ would see decreased intensity, while $j>i$ would see increased intensity, hence making the nearby intensity level $j \approx i$ have diverged levels away from $i$.
+
 ## Erosion and Dilation
 
 Given binary image (pixel value being either $0$ for black and $1$ for white), *erode* shrinks image object "thickness"; *dilate* "enlarges" image objects.
 
-For example, the left hand side is src image, the upper right hand side is dilation result; the lower right hand side is erision result.
+For example, the left hand side is src image, the upper right hand side is dilation result; the lower right hand side is erosion result.
 
-![erode_and_dilate](imgs/erode_and_dilate.png "erode_and_dilate")
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/erode_and_dilate.png" width="40%" height="40%" alt="erode_and_dilate" />
+</div>
+</br>
 
 * Erode
 
