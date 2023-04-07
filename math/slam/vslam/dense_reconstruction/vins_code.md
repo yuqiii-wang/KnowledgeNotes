@@ -2108,7 +2108,43 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
 
 `FeatureTracker::readImage(...)` is used to find feature points.
 
+* `cv::createCLAHE(...);` is used to perform *histogram equalization* that enhances image quality by improving contrast.
 
+```cpp
+Ptr<CLAHE> cv::createCLAHE	( double clipLimit = 40.0, Size 	tileGridSize = Size(8, 8) )		
+```
+
+* `cv::calcOpticalFlowPyrLK(...)` tracks the feature points by calculating an optical flow for a sparse feature set using the iterative Lucas-Kanade method with pyramids.
+
+```cpp
+void cv::calcOpticalFlowPyrLK (	InputArray 	prevImg, InputArray nextImg, InputArray prevPts, InputOutputArray nextPts,
+                                OutputArray status, OutputArray err, Size 	winSize = Size(21, 21), int maxLevel = 3,
+                                TermCriteria criteria = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 0.01), int flags = 0, double minEigThreshold = 1e-4 )	
+```
+
+* `cv::goodFeaturesToTrack(...)` finds good features to track by 
+  * performs corner quality measure at every source image pixel by *Harris operator*
+  * performs a non-maximum suppression (the local maximums in $3 \times 3$ neighborhood are retained)
+  * performs sorting on the features, and discard low-quality features
+
+```cpp
+void cv::goodFeaturesToTrack ( InputArray image, OutputArray corners, int maxCorners, double qualityLevel,
+                                double 	minDistance, InputArray mask = noArray(), int blockSize = 3, bool useHarrisDetector = false,
+                                double 	k = 0.04 )	
+```
+
+* `FeatureTracker::rejectWithF()` (that calls `cv::findFundamentalMat(...)`) finds the fundamental matrix from feature points from two images `InputArray points1, InputArray points2`, then discards those feature points fail the fundamental matrix.
+VINS uses RANSAC to find the fundamental matrix (the number of feature points should be greater/equal than/to $8$ for the most of time).
+    * `FM_7POINT` for a 7-point algorithm. $N=7$
+    * `FM_8POINT` for an 8-point algorithm. $N \ge 8$
+    * `FM_RANSAC` for the RANSAC algorithm. $N \ge 8$
+
+```cpp
+Mat cv::findFundamentalMat ( InputArray points1, InputArray points2, int method, double ransacReprojThreshold,
+                            double confidence, int maxIters, OutputArray mask = noArray() )	
+```
+
+The `FeatureTracker::readImage(...)` goes as such below
 
 ```cpp
 void FeatureTracker::readImage(const cv::Mat &_img, double _cur_time)
@@ -2182,5 +2218,55 @@ void FeatureTracker::readImage(const cv::Mat &_img, double _cur_time)
 }
 ```
 
+### BRIEF Features
+
+VINS uses BRIEF Features.
+In `pose_graph_node`, BRIEF vacabularies are loaded into `BriefDatabase db;`.
+
+`DBoW2`
+
+```cpp
+/// BRIEF Vocabulary
+typedef DBoW2::TemplatedVocabulary<DBoW2::FBrief::TDescriptor, DBoW2::FBrief> 
+  BriefVocabulary;
+
+/// BRIEF Database
+typedef DBoW2::TemplatedDatabase<DBoW2::FBrief::TDescriptor, DBoW2::FBrief> 
+  BriefDatabase;
+
+// The BRIEF Vocabulary and Database are defined in `PoseGraph`
+class PoseGraph {
+public:
+    void loadVocabulary(std::string voc_path)
+    {
+        voc = new BriefVocabulary(voc_path);
+        db.setVocabulary(*voc, false, 0);
+    }
+    ...
+private:
+	BriefDatabase db;
+	BriefVocabulary* voc;
+    ...
+}
+
+// At the beginning of this node running, the BRIEF vocabulary db is loaded
+int main(int argc, char **argv)
+{
+    ros::init(argc, argv, "pose_graph");
+    ros::NodeHandle n("~");
+    posegraph.registerPub(n);
+
+    ...
+
+    string vocabulary_file = pkg_path + "/../support_files/brief_k10L6.bin";
+    posegraph.loadVocabulary(vocabulary_file);
+
+    ...
+}
+```
+
 ## Loop Closure
 
+```cpp
+
+```

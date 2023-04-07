@@ -116,8 +116,8 @@ $$
 
 Intuitively,
 * $\lambda_+ >> \lambda_-$, the window found feature is an edge
-* Both $\lambda_+ $ and $ \lambda_-$ are large, the window found feature is a corner
-* Both $\lambda_+ $ and $ \lambda_-$ are small, the window found feature is flat
+* Both $\lambda_+$ and $\lambda_-$ are large, the window found feature is a corner
+* Both $\lambda_+$ and $\lambda_-$ are small, the window found feature is flat
 
 ### Harris operator
 
