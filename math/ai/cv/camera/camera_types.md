@@ -55,9 +55,22 @@ Not dependant on other sensors' input.
 
 High computation cost; complicated calibration.
 
-## RGB-D camera
+## RGB-D (RGB-Depth) Camera
 
 RGB-D camera uses infrared light or Time-of-Flight (ToF) that a camera actively radiates light and accordingly receives light signals. It computes the elapsed time between two infrared light signals, by light speed, gives the results of depth/length to the camera.
+
+### Depth Estimation Methods
+
+There are two solutions of estimating depth:
+
+* *structured infrared light*
+
+Camera calculates the distance between the object and itself based on the returned structured light pattern.
+
+* *time-of-flight* (ToF)
+
+Camera emits a light pulse to the target
+and then determines the distance according to the beam’s time of flight.
 
 ### Visual Feature Mapping
 
@@ -73,8 +86,32 @@ Low depth computation resources, since a depth camera gives depth information di
 
 Highly dependant on infrared results, that infrared might be prone to errors for strong ambient light disturbance, incapability/difficult of/to penetrating some materials (such as dust and mist) to give depth results of distant object.
 
-## 3D and 2D Visual Feature Mapping
+## Catadioptric Optical System 
 
-If one set is 3D and one set is 2D, we get some 3D points and their projection
-positions on the camera, and we can also estimate the camera’s pose. This
-problem is solved by PnP.
+A catadioptric optical system is one where refraction and reflection are combined in an optical system, usually via lenses (dioptrics) and curved mirrors (catoptrics). 
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/catadioptric_cam.png" width="30%" height="30%" alt="catadioptric_cam" />
+</div>
+</br>
+
+## Equidistant Optical System (Fisheye Model)
+
+Equidistant projection is used in wide-angle lenses like a fisheye lens. It bends straight lines but can provide more than $180$ degrees of lens FOV (field-of-view). Moreover, this projection saves angles. 
+
+All points along a given azimuth will project along a straight line from the center, and the angle $\theta$ that the line subtends from the vertical is the azimuth angle.
+The distance from the center point to another projected point $\rho$ is the arc length along a great circle between them on the globe.
+The Cartesian coordinate $(x,y)$ is computed as below.
+
+$$
+x = \rho \sin \theta,
+\qquad
+y = -\rho \cos \theta
+$$
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/equidistant_azimuth_proj.png" width="30%" height="30%" alt="equidistant_azimuth_proj" />
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="imgs/equidistant_proj_earth.png" width="30%" height="30%" alt="equidistant_proj_earth" />
+</div>
+</br>

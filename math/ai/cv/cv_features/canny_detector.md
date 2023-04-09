@@ -15,6 +15,8 @@ $$
 \end{bmatrix}
 $$
 
+Gaussian blur can remove noises of an image so that next steps finding edges can be reliable without highlighting pixel gradient sudden changes due to the present noises.
+
 ## Find the intensity gradient
 
 The next step is to use *Sobel* masks to find the edge gradient strength and direction for each pixel.

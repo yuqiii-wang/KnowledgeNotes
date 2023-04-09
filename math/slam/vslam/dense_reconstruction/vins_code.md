@@ -2035,7 +2035,7 @@ ros::Subscriber sub_image = n.subscribe("/feature_tracker/feature", 2000, featur
 ros::Subscriber sub_restart = n.subscribe("/feature_tracker/restart", 2000, restart_callback);
 ```
 
-Feature tracking is done in another process
+Feature tracking is done in `feature_tracker` node
 ```cpp
 int main(int argc, char **argv)
 {
@@ -2249,7 +2249,7 @@ private:
     ...
 }
 
-// At the beginning of this node running, the BRIEF vocabulary db is loaded
+// At the beginning of pose_graph node running, the BRIEF vocabulary db is loaded
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "pose_graph");
@@ -2265,8 +2265,1122 @@ int main(int argc, char **argv)
 }
 ```
 
-## Loop Closure
+`computeBRIEFPoint()` first finds some good features to track (if none then initiate some by FAST).
+`extractor` is used to extract features by BRIEF patterns, and stores the extracted results in `keypoints`.
+
+The `BRIEF::compute(...);` is a DBoW2 provided API to perform binary test with results stored in `descriptors`.
 
 ```cpp
+void BriefExtractor::operator() (const cv::Mat &im, vector<cv::KeyPoint> &keys, vector<BRIEF::bitset> &descriptors) const {
+  m_brief.compute(im, keys, descriptors);
+}
+```
 
+`liftProjective(...)` "lift"s image pixel `const Eigen::Vector2d& p` to a normalized 3d world coordinate `Eigen::Vector3d& P`, by first normalizing the 2d point then compute $\theta$ and $\phi$ as to find out the 3d world coordinate ($P_{\text{distorted}} \rightarrow P(X_c, Y_c, Z_c)$).
+This process is same as fisheye undistortion work.
+
+Finally, normalize the keypoints such that $(\frac{X_c}{Z_c}, \frac{Y_c}{Z_c}, 1)$
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/fisheye_proj.png" width="30%" height="30%" alt="fisheye_proj" />
+</div>
+</br>
+
+```cpp
+void
+EquidistantCamera::liftProjective(const Eigen::Vector2d& p, Eigen::Vector3d& P) const
+{
+    // Lift points to normalised plane
+    Eigen::Vector2d p_u;
+    p_u << m_inv_K11 * p(0) + m_inv_K13,
+           m_inv_K22 * p(1) + m_inv_K23;
+
+    // Obtain a projective ray
+    double theta, phi;
+    backprojectSymmetric(p_u, theta, phi);
+
+    P(0) = sin(theta) * cos(phi);
+    P(1) = sin(theta) * sin(phi);
+    P(2) = cos(theta);
+}
+
+void KeyFrame::computeBRIEFPoint()
+{
+	BriefExtractor extractor(BRIEF_PATTERN_FILE.c_str());
+	const int fast_th = 20; // corner detector response threshold
+	if(1)
+		cv::FAST(image, keypoints, fast_th, true);
+	else
+	{
+		vector<cv::Point2f> tmp_pts;
+		cv::goodFeaturesToTrack(image, tmp_pts, 500, 0.01, 10);
+		for(int i = 0; i < (int)tmp_pts.size(); i++)
+		{
+		    cv::KeyPoint key;
+		    key.pt = tmp_pts[i];
+		    keypoints.push_back(key);
+		}
+	}
+	extractor(image, keypoints, brief_descriptors);
+	for (int i = 0; i < (int)keypoints.size(); i++)
+	{
+		Eigen::Vector3d tmp_p;
+		m_camera->liftProjective(Eigen::Vector2d(keypoints[i].pt.x, keypoints[i].pt.y), tmp_p);
+		cv::KeyPoint tmp_norm;
+		tmp_norm.pt = cv::Point2f(tmp_p.x()/tmp_p.z(), tmp_p.y()/tmp_p.z());
+		keypoints_norm.push_back(tmp_norm);
+	}
+}
+
+void KeyFrame::computeWindowBRIEFPoint()
+{
+	BriefExtractor extractor(BRIEF_PATTERN_FILE.c_str());
+	for(int i = 0; i < (int)point_2d_uv.size(); i++)
+	{
+	    cv::KeyPoint key;
+	    key.pt = point_2d_uv[i];
+	    window_keypoints.push_back(key);
+	}
+	extractor(image, window_keypoints, window_brief_descriptors);
+}
+```
+
+In `pose_graph` node launched `measurement_process = std::thread(process);`, there is `new KeyFrame(...);`, and
+`computeBRIEFPoint()` is computed when creating a new keyframe.
+
+`computeWindowBRIEFPoint()` simply computes BRIEF pattern matching against the keyframe's `point_2d_uv`/`window_keypoints`.
+
+```cpp
+class KeyFrame
+{
+public:
+    ...
+    vector<cv::Point3f> point_3d; 
+	vector<cv::Point2f> point_2d_uv;
+	vector<cv::Point2f> point_2d_norm;
+	vector<double> point_id;
+	vector<cv::KeyPoint> keypoints;
+	vector<cv::KeyPoint> keypoints_norm;
+	vector<cv::KeyPoint> window_keypoints;
+	vector<BRIEF::bitset> brief_descriptors;
+	vector<BRIEF::bitset> window_brief_descriptors;
+
+    // create keyframe online
+    KeyFrame::KeyFrame(double _time_stamp, int _index, Vector3d &_vio_T_w_i, Matrix3d &_vio_R_w_i, cv::Mat &_image,
+		           vector<cv::Point3f> &_point_3d, vector<cv::Point2f> &_point_2d_uv, vector<cv::Point2f> &_point_2d_norm,
+		           vector<double> &_point_id, int _sequence)
+    {
+        ...
+        point_3d = _point_3d;
+    	point_2d_uv = _point_2d_uv;
+    	point_2d_norm = _point_2d_norm;
+    	point_id = _point_id;
+
+        computeWindowBRIEFPoint();
+    	computeBRIEFPoint();
+    }
+}
+
+void process()
+{
+    ...
+    KeyFrame* keyframe = new KeyFrame(pose_msg->header.stamp.toSec(), frame_index, T, R, image,
+                                   point_3d, point_2d_uv, point_2d_normal, point_id, sequence);  
+    m_process.lock();
+    posegraph.addKeyFrame(keyframe, 1);
+    m_process.unlock(); 
+}
+```
+
+### Feature Publish
+
+In `pose_graph` node launched `measurement_process = std::thread(process);` calling `PoseGraph::addKeyFrame(...)`, there is `cur_kf->findConnection(old_kf)` that finds matching BRIEF features, as well as publishing these features.
+
+The published data is of `sensor_msgs::PointCloud`.
+```cpp
+pub_match_points = n.advertise<sensor_msgs::PointCloud>("match_points", 100);
+```
+
+The keypoints are stored in `matched_2d_old_norm` computed from `searchByBRIEFDes(...)`.
+
+```cpp
+bool KeyFrame::findConnection(KeyFrame* old_kf)
+{
+    ...
+  	searchByBRIEFDes(matched_2d_old, matched_2d_old_norm, status, 
+                    old_kf->brief_descriptors, old_kf->keypoints, old_kf->keypoints_norm);
+
+    if ((int)matched_2d_cur.size() > MIN_LOOP_NUM)
+	{
+        ...
+        sensor_msgs::PointCloud msg_match_points;
+        msg_match_points.header.stamp = ros::Time(time_stamp);
+        for (int i = 0; i < (int)matched_2d_old_norm.size(); i++)
+        {
+              geometry_msgs::Point32 p;
+              p.x = matched_2d_old_norm[i].x;
+              p.y = matched_2d_old_norm[i].y;
+              p.z = matched_id[i];
+              msg_match_points.points.push_back(p);
+        }
+        Eigen::Vector3d T = old_kf->T_w_i; 
+        Eigen::Matrix3d R = old_kf->R_w_i;
+        Quaterniond Q(R);
+        sensor_msgs::ChannelFloat32 t_q_index;
+        t_q_index.values.push_back(T.x());
+        t_q_index.values.push_back(T.y());
+        t_q_index.values.push_back(T.z());
+        t_q_index.values.push_back(Q.w());
+        t_q_index.values.push_back(Q.x());
+        t_q_index.values.push_back(Q.y());
+        t_q_index.values.push_back(Q.z());
+        t_q_index.values.push_back(index);
+        msg_match_points.channels.push_back(t_q_index);
+        pub_match_points.publish(msg_match_points);
+    }
+}
+```
+
+`window_brief_descriptors` is the current frame's BRIEF features that are iterated through and comparedd against the old BRIEF features by Hamming distance `int dis = HammingDis(window_descriptor, descriptors_old[i]);`.
+The most similar (having the shortest Hamming distance) feature's index is recorded.
+
+The best match as well as its normalizaed value is stored in `pt` and `pt_norm`, then `push_back`ed to `matched_2d_old` and `matched_2d_old_norm`.
+
+```cpp
+void KeyFrame::searchByBRIEFDes(std::vector<cv::Point2f> &matched_2d_old,
+								std::vector<cv::Point2f> &matched_2d_old_norm,
+                                std::vector<uchar> &status,
+                                const std::vector<BRIEF::bitset> &descriptors_old,
+                                const std::vector<cv::KeyPoint> &keypoints_old,
+                                const std::vector<cv::KeyPoint> &keypoints_old_norm)
+{
+    for(int i = 0; i < (int)window_brief_descriptors.size(); i++)
+    {
+        cv::Point2f pt(0.f, 0.f);
+        cv::Point2f pt_norm(0.f, 0.f);
+        if (searchInAera(window_brief_descriptors[i], descriptors_old, keypoints_old, keypoints_old_norm, pt, pt_norm))
+          status.push_back(1);
+        else
+          status.push_back(0);
+        matched_2d_old.push_back(pt);
+        matched_2d_old_norm.push_back(pt_norm);
+    }
+
+}
+
+
+bool KeyFrame::searchInAera(const BRIEF::bitset window_descriptor,
+                            const std::vector<BRIEF::bitset> &descriptors_old,
+                            const std::vector<cv::KeyPoint> &keypoints_old,
+                            const std::vector<cv::KeyPoint> &keypoints_old_norm,
+                            cv::Point2f &best_match,
+                            cv::Point2f &best_match_norm)
+{
+    cv::Point2f best_pt;
+    int bestDist = 128;
+    int bestIndex = -1;
+    for(int i = 0; i < (int)descriptors_old.size(); i++)
+    {
+
+        int dis = HammingDis(window_descriptor, descriptors_old[i]);
+        if(dis < bestDist)
+        {
+            bestDist = dis;
+            bestIndex = i;
+        }
+    }
+    if (bestIndex != -1 && bestDist < 80)
+    {
+      best_match = keypoints_old[bestIndex].pt;
+      best_match_norm = keypoints_old_norm[bestIndex].pt;
+      return true;
+    }
+    else
+      return false;
+}
+```
+
+## Pose Graph and Loop Closure
+
+The start of `pose_graph` node is shown as below, where two threads are spwaned: `keyboard_command_process` receives commands from keyboard: keyboard button `s` means saving, and `n` starts a new pose gragh task,
+while `measurement_process` does the below:
+* Pop out msgs: `pose_msg`, `image_msg`, `point_msg` from buffers
+* Building a keyframe:
+  * from `pose_msg` compute `Vector3d T` and `Matrix3d R`
+  * publish `point_msg` 
+  * Take `Vector3d T` and `Matrix3d R`, and `image_msg`, `point_msg` to build a new keyframe
+
+```cpp
+// declared as a global var
+PoseGraph posegraph;
+
+int main(int argc, char **argv)
+{
+    ros::init(argc, argv, "pose_graph");
+    ros::NodeHandle n("~");
+    posegraph.registerPub(n);
+
+    ... // some config params reading
+
+    // read BRIEF features
+    string vocabulary_file = pkg_path + "/../support_files/brief_k10L6.bin";
+    posegraph.loadVocabulary(vocabulary_file);
+    
+    ros::Subscriber sub_i1mu_forward = n.subscribe("/vins_estimator/imu_propagate", 2000, imu_forward_callback);
+    ros::Subscriber sub_vio = n.subscribe("/vins_estimator/odometry", 2000, vio_callback);
+    ros::Subscriber sub_image = n.subscribe(IMAGE_TOPIC, 2000, image_callback);
+    ros::Subscriber sub_pose = n.subscribe("/vins_estimator/keyframe_pose", 2000, pose_callback);
+    ros::Subscriber sub_extrinsic = n.subscribe("/vins_estimator/extrinsic", 2000, extrinsic_callback);
+    ros::Subscriber sub_point = n.subscribe("/vins_estimator/keyframe_point", 2000, point_callback);
+    ros::Subscriber sub_relo_relative_pose = n.subscribe("/vins_estimator/relo_relative_pose", 2000, relo_relative_pose_callback);
+
+    pub_match_img = n.advertise<sensor_msgs::Image>("match_image", 1000);
+    pub_camera_pose_visual = n.advertise<visualization_msgs::MarkerArray>("camera_pose_visual", 1000);
+    pub_key_odometrys = n.advertise<visualization_msgs::Marker>("key_odometrys", 1000);
+    pub_vio_path = n.advertise<nav_msgs::Path>("no_loop_path", 1000);
+    pub_match_points = n.advertise<sensor_msgs::PointCloud>("match_points", 100);
+
+    std::thread measurement_process;
+    std::thread keyboard_command_process;
+
+    measurement_process = std::thread(process);
+    keyboard_command_process = std::thread(command);
+
+    ros::spin();
+
+    return 0;
+}
+```
+
+The `process()` goes as below.
+
+```cpp
+void process()
+{
+    if (!LOOP_CLOSURE)
+        return;
+    while (true)
+    {
+        sensor_msgs::ImageConstPtr image_msg = NULL;
+        sensor_msgs::PointCloudConstPtr point_msg = NULL;
+        nav_msgs::Odometry::ConstPtr pose_msg = NULL;
+
+        ... // align timestamps before pop out msg
+        m_buf.lock();
+        pose_msg = pose_buf.front();
+        pose_buf.pop();
+        image_msg = image_buf.front();
+        image_buf.pop();
+        point_msg = point_buf.front();
+        point_buf.pop();
+        m_buf.unlock();
+
+        if (pose_msg != NULL)
+        {
+            cv_bridge::CvImageConstPtr ptr = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::MONO8);
+            cv::Mat image = ptr->image;
+
+            // build keyframe
+            Vector3d T = Vector3d(pose_msg->pose.pose.position.x,
+                                  pose_msg->pose.pose.position.y,
+                                  pose_msg->pose.pose.position.z);
+            Matrix3d R = Quaterniond(pose_msg->pose.pose.orientation.w,
+                                     pose_msg->pose.pose.orientation.x,
+                                     pose_msg->pose.pose.orientation.y,
+                                     pose_msg->pose.pose.orientation.z).toRotationMatrix();
+            if((T - last_t).norm() > SKIP_DIS)
+            {
+                vector<cv::Point3f> point_3d; 
+                vector<cv::Point2f> point_2d_uv; 
+                vector<cv::Point2f> point_2d_normal;
+                vector<double> point_id;
+
+                for (unsigned int i = 0; i < point_msg->points.size(); i++)
+                {
+                    cv::Point3f p_3d;
+                    p_3d.x = point_msg->points[i].x;
+                    p_3d.y = point_msg->points[i].y;
+                    p_3d.z = point_msg->points[i].z;
+                    point_3d.push_back(p_3d);
+
+                    cv::Point2f p_2d_uv, p_2d_normal;
+                    double p_id;
+                    p_2d_normal.x = point_msg->channels[i].values[0];
+                    p_2d_normal.y = point_msg->channels[i].values[1];
+                    p_2d_uv.x = point_msg->channels[i].values[2];
+                    p_2d_uv.y = point_msg->channels[i].values[3];
+                    p_id = point_msg->channels[i].values[4];
+                    point_2d_normal.push_back(p_2d_normal);
+                    point_2d_uv.push_back(p_2d_uv);
+                    point_id.push_back(p_id);
+
+                    //printf("u %f, v %f \n", p_2d_uv.x, p_2d_uv.y);
+                }
+
+                KeyFrame* keyframe = new KeyFrame(pose_msg->header.stamp.toSec(), frame_index, T, R, image,
+                                   point_3d, point_2d_uv, point_2d_normal, point_id, sequence);   
+                m_process.lock();
+                start_flag = 1;
+                posegraph.addKeyFrame(keyframe, 1);
+                m_process.unlock();
+                frame_index++;
+                last_t = T;
+            }
+        }
+        std::chrono::milliseconds dura(5);
+        std::this_thread::sleep_for(dura);
+    }
+}
+```
+
+### Data Visulization and Buffer Storage Callbacks
+
+* `void imu_forward_callback(const nav_msgs::Odometry::ConstPtr &forward_msg)`
+
+Visualize IMU readings, that `imu_forward_callback` receives IMU from the topic `"/vins_estimator/imu_propagate"` then adds the IMU data to `CameraPoseVisualization cameraposevisual` which publishes the data.
+
+```cpp
+void CameraPoseVisualization::publish_by( ros::Publisher &pub, const std_msgs::Header &header ) {
+
+	visualization_msgs::MarkerArray markerArray_msg;
+
+	for(auto& marker : m_markers) {
+		marker.header = header;
+		markerArray_msg.markers.push_back(marker);
+	}
+  
+	pub.publish(markerArray_msg);
+}
+
+void imu_forward_callback(const nav_msgs::Odometry::ConstPtr &forward_msg)
+{
+    if (VISUALIZE_IMU_FORWARD)
+    {
+        Vector3d vio_t(forward_msg->pose.pose.position.x, forward_msg->pose.pose.position.y, forward_msg->pose.pose.position.z);
+        Quaterniond vio_q;
+        vio_q.w() = forward_msg->pose.pose.orientation.w;
+        vio_q.x() = forward_msg->pose.pose.orientation.x;
+        vio_q.y() = forward_msg->pose.pose.orientation.y;
+        vio_q.z() = forward_msg->pose.pose.orientation.z;
+
+        vio_t = posegraph.w_r_vio * vio_t + posegraph.w_t_vio;
+        vio_q = posegraph.w_r_vio *  vio_q;
+
+        vio_t = posegraph.r_drift * vio_t + posegraph.t_drift;
+        vio_q = posegraph.r_drift * vio_q;
+
+        Vector3d vio_t_cam;
+        Quaterniond vio_q_cam;
+        vio_t_cam = vio_t + vio_q * tic;
+        vio_q_cam = vio_q * qic;        
+
+        cameraposevisual.reset();
+        cameraposevisual.add_pose(vio_t_cam, vio_q_cam);
+        cameraposevisual.publish_by(pub_camera_pose_visual, forward_msg->header);
+    }
+}
+```
+
+* `void vio_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)`
+
+Visualize VIO pose results, that `vio_callback` takes `pose_msg` to `key_odometrys.points.push_back(pose_marker);` and publishes it.
+
+```cpp
+void vio_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)
+{
+    //ROS_INFO("vio_callback!");
+    Vector3d vio_t(pose_msg->pose.pose.position.x, pose_msg->pose.pose.position.y, pose_msg->pose.pose.position.z);
+    Quaterniond vio_q;
+    vio_q.w() = pose_msg->pose.pose.orientation.w;
+    vio_q.x() = pose_msg->pose.pose.orientation.x;
+    vio_q.y() = pose_msg->pose.pose.orientation.y;
+    vio_q.z() = pose_msg->pose.pose.orientation.z;
+
+    vio_t = posegraph.w_r_vio * vio_t + posegraph.w_t_vio;
+    vio_q = posegraph.w_r_vio *  vio_q;
+
+    vio_t = posegraph.r_drift * vio_t + posegraph.t_drift;
+    vio_q = posegraph.r_drift * vio_q;
+
+    Vector3d vio_t_cam;
+    Quaterniond vio_q_cam;
+    vio_t_cam = vio_t + vio_q * tic;
+    vio_q_cam = vio_q * qic;        
+    
+    odometry_buf.push(vio_t_cam);
+
+    visualization_msgs::Marker key_odometrys;
+    ... // define `key_odometrys`
+
+    for (unsigned int i = 0; i < odometry_buf.size(); i++)
+    {
+        geometry_msgs::Point pose_marker;
+        Vector3d vio_t;
+        vio_t = odometry_buf.front();
+        odometry_buf.pop();
+        pose_marker.x = vio_t.x();
+        pose_marker.y = vio_t.y();
+        pose_marker.z = vio_t.z();
+        key_odometrys.points.push_back(pose_marker);
+        odometry_buf.push(vio_t);
+    }
+    pub_key_odometrys.publish(key_odometrys);
+
+    ...
+}
+```
+
+* `void pose_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)`
+
+Just store poses to buffer.
+
+```cpp
+void pose_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)
+{
+    if(!LOOP_CLOSURE)
+        return;
+    m_buf.lock();
+    pose_buf.push(pose_msg);
+    m_buf.unlock();
+}
+```
+
+* `void point_callback(const sensor_msgs::PointCloudConstPtr &point_msg)`
+
+Just store points to buffer.
+
+```cpp
+void point_callback(const sensor_msgs::PointCloudConstPtr &point_msg)
+{
+    if(!LOOP_CLOSURE)
+        return;
+    m_buf.lock();
+    point_buf.push(point_msg);
+    m_buf.unlock();
+}
+```
+
+### Relocalization
+
+Topic `"/vins_estimator/relo_relative_pose"` sends relocation pose msg to the `pose_graph` node that if the relative transform is small (judged by `if (abs(_loop_info(7)) < 30.0 && Vector3d(_loop_info(0), _loop_info(1), _loop_info(2)).norm() < 20.0)`).
+The correction is passed to `yaw_drift`, `r_drift` and `t_drift`, that are computed in `PoseGraph::addKeyFrame(...)` to set the pose in a keyframe.
+
+```cpp
+void relo_relative_pose_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)
+{
+    Vector3d relative_t = Vector3d(pose_msg->pose.pose.position.x,
+                                   pose_msg->pose.pose.position.y,
+                                   pose_msg->pose.pose.position.z);
+    Quaterniond relative_q;
+    relative_q.w() = pose_msg->pose.pose.orientation.w;
+    relative_q.x() = pose_msg->pose.pose.orientation.x;
+    relative_q.y() = pose_msg->pose.pose.orientation.y;
+    relative_q.z() = pose_msg->pose.pose.orientation.z;
+    double relative_yaw = pose_msg->twist.twist.linear.x;
+    int index = pose_msg->twist.twist.linear.y;
+    //printf("receive index %d \n", index );
+    Eigen::Matrix<double, 8, 1 > loop_info;
+    loop_info << relative_t.x(), relative_t.y(), relative_t.z(),
+                 relative_q.w(), relative_q.x(), relative_q.y(), relative_q.z(),
+                 relative_yaw;
+    posegraph.updateKeyFrameLoop(index, loop_info);
+}
+
+
+void PoseGraph::updateKeyFrameLoop(int index, Eigen::Matrix<double, 8, 1 > &_loop_info)
+{
+    KeyFrame* kf = getKeyFrame(index);
+    kf->updateLoop(_loop_info);
+    if (abs(_loop_info(7)) < 30.0 && Vector3d(_loop_info(0), _loop_info(1), _loop_info(2)).norm() < 20.0)
+    {
+        if (FAST_RELOCALIZATION)
+        {
+            KeyFrame* old_kf = getKeyFrame(kf->loop_index);
+            Vector3d w_P_old, w_P_cur, vio_P_cur;
+            Matrix3d w_R_old, w_R_cur, vio_R_cur;
+            old_kf->getPose(w_P_old, w_R_old);
+            kf->getVioPose(vio_P_cur, vio_R_cur);
+
+            Vector3d relative_t;
+            Quaterniond relative_q;
+            relative_t = kf->getLoopRelativeT();
+            relative_q = (kf->getLoopRelativeQ()).toRotationMatrix();
+            w_P_cur = w_R_old * relative_t + w_P_old;
+            w_R_cur = w_R_old * relative_q;
+            double shift_yaw;
+            Matrix3d shift_r;
+            Vector3d shift_t; 
+            shift_yaw = Utility::R2ypr(w_R_cur).x() - Utility::R2ypr(vio_R_cur).x();
+            shift_r = Utility::ypr2R(Vector3d(shift_yaw, 0, 0));
+            shift_t = w_P_cur - w_R_cur * vio_R_cur.transpose() * vio_P_cur; 
+
+            m_drift.lock();
+            yaw_drift = shift_yaw;
+            r_drift = shift_r;
+            t_drift = shift_t;
+            m_drift.unlock();
+        }
+    }
+}
+```
+
+### Loop Closure Detection
+
+Generally speaking, loop closure is done by checking in BRIEF database if the recent frames have seen similar features in some old frames.
+
+`db.query(keyframe->brief_descriptors, ret, 4, frame_index - 50);` does the checking: whether there is any old frame `frame_index - 50` (50 frames earlier) that have similar BRIEF features of the current keyframe `keyframe->brief_descriptors`.
+If yes, then find the top `4` best matching images/frames stored in `ret`.
+
+`db.add(keyframe->brief_descriptors);` adds this keyframe's features to the BRIEF database.
+
+`if (ret.size() >= 1 && ret[0].Score > 0.05) {...}` says that if there exist at least one similar frame and the best matching frame's score is greater than `0.05` (recall that in DBoW2, `ret` is sorted by score, so that `ret[0]` maps to the top matching frame/image), it can be said `find_loop = true;`, and returns `min_index = ret[i].Id;`
+
+The `min_index` will be used in `addKeyFrame(...)` to locate the previous matching keyframe/image by keyframe id.
+
+```cpp
+class PoseGraph
+{
+    ... 
+private:
+	BriefDatabase db;
+	BriefVocabulary* voc;
+}
+
+int PoseGraph::detectLoop(KeyFrame* keyframe, int frame_index)
+{
+    // put image into image_pool; for visualization
+    cv::Mat compressed_image;
+    if (DEBUG_IMAGE)
+    {
+        int feature_num = keyframe->keypoints.size();
+        cv::resize(keyframe->image, compressed_image, cv::Size(376, 240));
+        putText(compressed_image, "feature_num:" + to_string(feature_num), cv::Point2f(10, 10), CV_FONT_HERSHEY_SIMPLEX, 0.4, cv::Scalar(255));
+        image_pool[frame_index] = compressed_image;
+    }
+
+    TicToc tmp_t;
+    //first query; then add this frame into database!
+    QueryResults ret;
+    TicToc t_query;
+    db.query(keyframe->brief_descriptors, ret, 4, frame_index - 50);
+
+    TicToc t_add;
+    db.add(keyframe->brief_descriptors);
+    bool find_loop = false;
+    cv::Mat loop_result;
+    if (DEBUG_IMAGE)
+    {
+        loop_result = compressed_image.clone();
+        if (ret.size() > 0)
+            putText(loop_result, "neighbour score:" + to_string(ret[0].Score), cv::Point2f(10, 50), CV_FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255));
+    }
+    // visual loop result 
+    if (DEBUG_IMAGE)
+    {
+        for (unsigned int i = 0; i < ret.size(); i++)
+        {
+            int tmp_index = ret[i].Id;
+            auto it = image_pool.find(tmp_index);
+            cv::Mat tmp_image = (it->second).clone();
+            putText(tmp_image, "index:  " + to_string(tmp_index) + "loop score:" + to_string(ret[i].Score), cv::Point2f(10, 50), CV_FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255));
+            cv::hconcat(loop_result, tmp_image, loop_result);
+        }
+    }
+    // a good match with its nerghbour
+    if (ret.size() >= 1 &&ret[0].Score > 0.05)
+        for (unsigned int i = 1; i < ret.size(); i++)
+        {
+            if (ret[i].Score > 0.015)
+            {          
+                find_loop = true;
+                int tmp_index = ret[i].Id;
+                if (DEBUG_IMAGE && 0)
+                {
+                    auto it = image_pool.find(tmp_index);
+                    cv::Mat tmp_image = (it->second).clone();
+                    putText(tmp_image, "loop score:" + to_string(ret[i].Score), cv::Point2f(10, 50), CV_FONT_HERSHEY_SIMPLEX, 0.4, cv::Scalar(255));
+                    cv::hconcat(loop_result, tmp_image, loop_result);
+                }
+            }
+
+        }
+
+    if (find_loop && frame_index > 50)
+    {
+        int min_index = -1;
+        for (unsigned int i = 0; i < ret.size(); i++)
+        {
+            if (min_index == -1 || (ret[i].Id < min_index && ret[i].Score > 0.015))
+                min_index = ret[i].Id;
+        }
+        return min_index;
+    }
+    else
+        return -1;
+
+}
+```
+
+### Loop Closure Correction
+
+In `process()`, a new `KeyFrame` is added to `posegraph` if there is a gap `(T - last_t).norm() > SKIP_DIS` between this pose and the last pose.
+
+```cpp
+void process() 
+{
+    ...
+    if((T - last_t).norm() > SKIP_DIS)
+    {
+        ...
+        KeyFrame* keyframe = new KeyFrame(pose_msg->header.stamp.toSec(), frame_index, T, R, image,
+                                       point_3d, point_2d_uv, point_2d_normal, point_id, sequence);   
+        m_process.lock();
+        start_flag = 1;
+        posegraph.addKeyFrame(keyframe, 1);
+        m_process.unlock();
+        frame_index++;
+    }
+}
+```
+
+During `addKeyFrame(...)`, by loop closure detection `loop_index = detectLoop(cur_kf, cur_kf->index);`, an old keyframe that co-observes some similar features is located `KeyFrame* old_kf = getKeyFrame(loop_index);`.
+
+`cur_kf->findConnection(old_kf)` computes the relative transform from the `old_kf` and `cur_kf`, then `relative_t = cur_kf->getLoopRelativeT();` and `relative_q = (cur_kf->getLoopRelativeQ()).toRotationMatrix();` get the transform, that are applied correction on the old frame pose `w_P_cur = w_R_old * relative_t + w_P_old;` and `w_R_cur = w_R_old * relative_q;`.
+
+The corrected current pose is saved to path `path[sequence_cnt].poses.push_back(pose_stamped);`.
+
+`keyframelist.push_back(cur_kf);` saves the current keyframe.
+
+```cpp
+void PoseGraph::addKeyFrame(KeyFrame* cur_kf, bool flag_detect_loop)
+{
+    //shift to base frame
+    Vector3d vio_P_cur;
+    Matrix3d vio_R_cur;
+    if (sequence_cnt != cur_kf->sequence)
+    {
+        sequence_cnt++;
+        sequence_loop.push_back(0);
+        w_t_vio = Eigen::Vector3d(0, 0, 0);
+        w_r_vio = Eigen::Matrix3d::Identity();
+        m_drift.lock();
+        t_drift = Eigen::Vector3d(0, 0, 0);
+        r_drift = Eigen::Matrix3d::Identity();
+        m_drift.unlock();
+    }
+    
+    cur_kf->getVioPose(vio_P_cur, vio_R_cur);
+    vio_P_cur = w_r_vio * vio_P_cur + w_t_vio;
+    vio_R_cur = w_r_vio *  vio_R_cur;
+    cur_kf->updateVioPose(vio_P_cur, vio_R_cur);
+    cur_kf->index = global_index;
+    global_index++;
+	int loop_index = -1;
+    if (flag_detect_loop)
+    {
+        TicToc tmp_t;
+        loop_index = detectLoop(cur_kf, cur_kf->index);
+    }
+    else
+    {
+        addKeyFrameIntoVoc(cur_kf);
+    }
+	if (loop_index != -1)
+	{
+        //printf(" %d detect loop with %d \n", cur_kf->index, loop_index);
+        KeyFrame* old_kf = getKeyFrame(loop_index);
+
+        if (cur_kf->findConnection(old_kf))
+        {
+            if (earliest_loop_index > loop_index || earliest_loop_index == -1)
+                earliest_loop_index = loop_index;
+
+            Vector3d w_P_old, w_P_cur, vio_P_cur;
+            Matrix3d w_R_old, w_R_cur, vio_R_cur;
+            old_kf->getVioPose(w_P_old, w_R_old);
+            cur_kf->getVioPose(vio_P_cur, vio_R_cur);
+
+            Vector3d relative_t;
+            Quaterniond relative_q;
+            relative_t = cur_kf->getLoopRelativeT();
+            relative_q = (cur_kf->getLoopRelativeQ()).toRotationMatrix();
+            w_P_cur = w_R_old * relative_t + w_P_old;
+            w_R_cur = w_R_old * relative_q;
+            double shift_yaw;
+            Matrix3d shift_r;
+            Vector3d shift_t; 
+            shift_yaw = Utility::R2ypr(w_R_cur).x() - Utility::R2ypr(vio_R_cur).x();
+            shift_r = Utility::ypr2R(Vector3d(shift_yaw, 0, 0));
+            shift_t = w_P_cur - w_R_cur * vio_R_cur.transpose() * vio_P_cur; 
+            // shift vio pose of whole sequence to the world frame
+            if (old_kf->sequence != cur_kf->sequence && sequence_loop[cur_kf->sequence] == 0)
+            {  
+                w_r_vio = shift_r;
+                w_t_vio = shift_t;
+                vio_P_cur = w_r_vio * vio_P_cur + w_t_vio;
+                vio_R_cur = w_r_vio *  vio_R_cur;
+                cur_kf->updateVioPose(vio_P_cur, vio_R_cur);
+                list<KeyFrame*>::iterator it = keyframelist.begin();
+                for (; it != keyframelist.end(); it++)   
+                {
+                    if((*it)->sequence == cur_kf->sequence)
+                    {
+                        Vector3d vio_P_cur;
+                        Matrix3d vio_R_cur;
+                        (*it)->getVioPose(vio_P_cur, vio_R_cur);
+                        vio_P_cur = w_r_vio * vio_P_cur + w_t_vio;
+                        vio_R_cur = w_r_vio *  vio_R_cur;
+                        (*it)->updateVioPose(vio_P_cur, vio_R_cur);
+                    }
+                }
+                sequence_loop[cur_kf->sequence] = 1;
+            }
+            m_optimize_buf.lock();
+            optimize_buf.push(cur_kf->index);
+            m_optimize_buf.unlock();
+        }
+	}
+	m_keyframelist.lock();
+    Vector3d P;
+    Matrix3d R;
+    cur_kf->getVioPose(P, R);
+    P = r_drift * P + t_drift;
+    R = r_drift * R;
+    cur_kf->updatePose(P, R);
+    Quaterniond Q{R};
+    geometry_msgs::PoseStamped pose_stamped;
+    pose_stamped.header.stamp = ros::Time(cur_kf->time_stamp);
+    pose_stamped.header.frame_id = "world";
+    pose_stamped.pose.position.x = P.x() + VISUALIZATION_SHIFT_X;
+    pose_stamped.pose.position.y = P.y() + VISUALIZATION_SHIFT_Y;
+    pose_stamped.pose.position.z = P.z();
+    pose_stamped.pose.orientation.x = Q.x();
+    pose_stamped.pose.orientation.y = Q.y();
+    pose_stamped.pose.orientation.z = Q.z();
+    pose_stamped.pose.orientation.w = Q.w();
+    path[sequence_cnt].poses.push_back(pose_stamped);
+    path[sequence_cnt].header = pose_stamped.header;
+
+    if (SAVE_LOOP_PATH)
+    {
+        ofstream loop_path_file(VINS_RESULT_PATH, ios::app);
+        loop_path_file.setf(ios::fixed, ios::floatfield);
+        loop_path_file.precision(0);
+        loop_path_file << cur_kf->time_stamp * 1e9 << ",";
+        loop_path_file.precision(5);
+        loop_path_file  << P.x() << ","
+              << P.y() << ","
+              << P.z() << ","
+              << Q.w() << ","
+              << Q.x() << ","
+              << Q.y() << ","
+              << Q.z() << ","
+              << endl;
+        loop_path_file.close();
+    }
+    //draw local connection
+    if (SHOW_S_EDGE)
+    {
+        list<KeyFrame*>::reverse_iterator rit = keyframelist.rbegin();
+        for (int i = 0; i < 4; i++)
+        {
+            if (rit == keyframelist.rend())
+                break;
+            Vector3d conncected_P;
+            Matrix3d connected_R;
+            if((*rit)->sequence == cur_kf->sequence)
+            {
+                (*rit)->getPose(conncected_P, connected_R);
+                posegraph_visualization->add_edge(P, conncected_P);
+            }
+            rit++;
+        }
+    }
+    if (SHOW_L_EDGE)
+    {
+        if (cur_kf->has_loop)
+        {
+            //printf("has loop \n");
+            KeyFrame* connected_KF = getKeyFrame(cur_kf->loop_index);
+            Vector3d connected_P,P0;
+            Matrix3d connected_R,R0;
+            connected_KF->getPose(connected_P, connected_R);
+            //cur_kf->getVioPose(P0, R0);
+            cur_kf->getPose(P0, R0);
+            if(cur_kf->sequence > 0)
+            {
+                //printf("add loop into visual \n");
+                posegraph_visualization->add_loopedge(P0, connected_P + Vector3d(VISUALIZATION_SHIFT_X, VISUALIZATION_SHIFT_Y, 0));
+            }
+            
+        }
+    }
+    //posegraph_visualization->add_pose(P + Vector3d(VISUALIZATION_SHIFT_X, VISUALIZATION_SHIFT_Y, 0), Q);
+
+	keyframelist.push_back(cur_kf);
+    publish();
+	m_keyframelist.unlock();
+}
+```
+
+### Global Pose Graph Optimization 
+
+In `PoseGraph::PoseGraph()` constructor, there is `t_optimization = std::thread(&PoseGraph::optimize4DoF, this);` that launches a thread dedicated to perform global pose graph optimization.
+
+Generally speaking, the global pose optimization adds all poses from `keyframelist` by `problem.AddParameterBlock(euler_array[i], 1, angle_local_parameterization);` and `problem.AddParameterBlock(t_array[i], 3);` to ceres problem, 
+whose residuals are `FourDOFError` and `FourDOFWeightError`, for local and loop closure pose optimization, respectively.
+
+For `FourDOFError` for local pose optimization, for each keyframe `i`, get the recent 4 frames `for (int j = 1; j < 5; j++) {...}` and compute the transforms between these four poses.
+They should be as tightly linked to each other as possible in chronological order, hence the residual is defined as the gap between the chronologically linked poses to be as small as possible.
+
+For `FourDOFWeightError` for loop closure, for a pose that sees loop closure `if((*it)->has_loop)`, it performs optimization on the loop closure correction transform with `relative_t = (*it)->getLoopRelativeT();` and `double relative_yaw = (*it)->getLoopRelativeYaw();`
+If two poses see some similar features/scenes, they should be close to each other.
+As a result, the gap between the two loop closure poses should be small.
+
+```cpp
+void PoseGraph::optimize4DoF()
+{
+    ... // some safe check such as pose buffer should not be empty
+
+    while(true)
+    {
+        TicToc tmp_t;
+        m_keyframelist.lock();
+        KeyFrame* cur_kf = getKeyFrame(cur_index);
+
+        int max_length = cur_index + 1;
+
+        // w^t_i   w^q_i
+        double t_array[max_length][3];
+        Quaterniond q_array[max_length];
+        double euler_array[max_length][3];
+        double sequence_array[max_length];    
+
+        ceres::Problem problem;
+        ceres::Solver::Options options;
+        options.linear_solver_type = ceres::SPARSE_NORMAL_CHOLESKY;
+        options.max_num_iterations = 5;
+        ceres::Solver::Summary summary;
+        ceres::LossFunction *loss_function;
+        loss_function = new ceres::HuberLoss(0.1);
+        ceres::LocalParameterization* angle_local_parameterization =
+            AngleLocalParameterization::Create();
+
+        list<KeyFrame*>::iterator it;
+
+        int i = 0;
+        for (it = keyframelist.begin(); it != keyframelist.end(); it++)
+        {
+            (*it)->local_index = i;
+            Quaterniond tmp_q;
+            Matrix3d tmp_r;
+            Vector3d tmp_t;
+            (*it)->getVioPose(tmp_t, tmp_r);
+            tmp_q = tmp_r;
+            t_array[i][0] = tmp_t(0);
+            t_array[i][1] = tmp_t(1);
+            t_array[i][2] = tmp_t(2);
+            q_array[i] = tmp_q;
+
+            Vector3d euler_angle = Utility::R2ypr(tmp_q.toRotationMatrix());
+            euler_array[i][0] = euler_angle.x();
+            euler_array[i][1] = euler_angle.y();
+            euler_array[i][2] = euler_angle.z();
+
+            sequence_array[i] = (*it)->sequence;
+
+            problem.AddParameterBlock(euler_array[i], 1, angle_local_parameterization);
+            problem.AddParameterBlock(t_array[i], 3);
+
+            // if being the first keyframe
+            if ((*it)->index == first_looped_index || (*it)->sequence == 0)
+            {   
+                problem.SetParameterBlockConstant(euler_array[i]);
+                problem.SetParameterBlockConstant(t_array[i]);
+            }
+
+            //add edge
+            for (int j = 1; j < 5; j++)
+            {
+              if (i - j >= 0 && sequence_array[i] == sequence_array[i-j])
+              {
+                Vector3d euler_conncected = Utility::R2ypr(q_array[i-j].toRotationMatrix());
+                Vector3d relative_t(t_array[i][0] - t_array[i-j][0], t_array[i][1] - t_array[i-j][1], t_array[i][2] - t_array[i-j][2]);
+                relative_t = q_array[i-j].inverse() * relative_t;
+                double relative_yaw = euler_array[i][0] - euler_array[i-j][0];
+                ceres::CostFunction* cost_function = FourDOFError::Create( relative_t.x(), relative_t.y(), relative_t.z(),
+                                               relative_yaw, euler_conncected.y(), euler_conncected.z());
+                problem.AddResidualBlock(cost_function, NULL, euler_array[i-j], 
+                                        t_array[i-j], 
+                                        euler_array[i], 
+                                        t_array[i]);
+              }
+            }
+
+
+            //add loop edge
+            if((*it)->has_loop)
+            {
+                assert((*it)->loop_index >= first_looped_index);
+                int connected_index = getKeyFrame((*it)->loop_index)->local_index;
+                Vector3d euler_conncected = Utility::R2ypr(q_array[connected_index].toRotationMatrix());
+                Vector3d relative_t;
+                relative_t = (*it)->getLoopRelativeT();
+                double relative_yaw = (*it)->getLoopRelativeYaw();
+                ceres::CostFunction* cost_function = FourDOFWeightError::Create( relative_t.x(), relative_t.y(), relative_t.z(),
+                                                                           relative_yaw, euler_conncected.y(), euler_conncected.z());
+                problem.AddResidualBlock(cost_function, loss_function, euler_array[connected_index], 
+                                                              t_array[connected_index], 
+                                                              euler_array[i], 
+                                                              t_array[i]);
+            }
+            
+            if ((*it)->index == cur_index)
+                break;
+            i++;
+        }
+        m_keyframelist.unlock();
+
+        ceres::Solve(options, &problem, &summary);
+
+        m_keyframelist.lock();
+        i = 0;
+        for (it = keyframelist.begin(); it != keyframelist.end(); it++)
+        {
+            if ((*it)->index < first_looped_index)
+                continue;
+            Quaterniond tmp_q;
+            tmp_q = Utility::ypr2R(Vector3d(euler_array[i][0], euler_array[i][1], euler_array[i][2]));
+            Vector3d tmp_t = Vector3d(t_array[i][0], t_array[i][1], t_array[i][2]);
+            Matrix3d tmp_r = tmp_q.toRotationMatrix();
+            (*it)-> updatePose(tmp_t, tmp_r);
+
+            if ((*it)->index == cur_index)
+                break;
+            i++;
+        }
+
+        Vector3d cur_t, vio_t;
+        Matrix3d cur_r, vio_r;
+        cur_kf->getPose(cur_t, cur_r);
+        cur_kf->getVioPose(vio_t, vio_r);
+        m_drift.lock();
+        yaw_drift = Utility::R2ypr(cur_r).x() - Utility::R2ypr(vio_r).x();
+        r_drift = Utility::ypr2R(Vector3d(yaw_drift, 0, 0));
+        t_drift = cur_t - r_drift * vio_t;
+        m_drift.unlock();
+
+        it++;
+        for (; it != keyframelist.end(); it++)
+        {
+            Vector3d P;
+            Matrix3d R;
+            (*it)->getVioPose(P, R);
+            P = r_drift * P + t_drift;
+            R = r_drift * R;
+            (*it)->updatePose(P, R);
+        }
+        m_keyframelist.unlock();
+        updatePath();
+
+        std::chrono::milliseconds dura(2000);
+        std::this_thread::sleep_for(dura);
+    }
+}
+```
+
+`FourDOFError` and `FourDOFWeightError` are identical that both are defined the cost as the gap between two poses, except that `FourDOFWeightError` adds a weight (init at `weight = 1`) to linearly amplify the residuals.
+
+```cpp
+struct FourDOFError
+{
+	FourDOFError(double t_x, double t_y, double t_z, double relative_yaw, double pitch_i, double roll_i)
+				  :t_x(t_x), t_y(t_y), t_z(t_z), relative_yaw(relative_yaw), pitch_i(pitch_i), roll_i(roll_i){}
+
+	template <typename T>
+	bool operator()(const T* const yaw_i, const T* ti, const T* yaw_j, const T* tj, T* residuals) const
+	{
+		T t_w_ij[3];
+		t_w_ij[0] = tj[0] - ti[0];
+		t_w_ij[1] = tj[1] - ti[1];
+		t_w_ij[2] = tj[2] - ti[2];
+
+		// euler to rotation
+		T w_R_i[9];
+		YawPitchRollToRotationMatrix(yaw_i[0], T(pitch_i), T(roll_i), w_R_i);
+		// rotation transpose
+		T i_R_w[9];
+		RotationMatrixTranspose(w_R_i, i_R_w);
+		// rotation matrix rotate point
+		T t_i_ij[3];
+		RotationMatrixRotatePoint(i_R_w, t_w_ij, t_i_ij);
+
+		residuals[0] = (t_i_ij[0] - T(t_x));
+		residuals[1] = (t_i_ij[1] - T(t_y));
+		residuals[2] = (t_i_ij[2] - T(t_z));
+		residuals[3] = NormalizeAngle(yaw_j[0] - yaw_i[0] - T(relative_yaw));
+
+		return true;
+	}
+
+	static ceres::CostFunction* Create(const double t_x, const double t_y, const double t_z,
+									   const double relative_yaw, const double pitch_i, const double roll_i) 
+	{
+	  return (new ceres::AutoDiffCostFunction<
+	          FourDOFError, 4, 1, 3, 1, 3>(
+	          	new FourDOFError(t_x, t_y, t_z, relative_yaw, pitch_i, roll_i)));
+	}
+
+	double t_x, t_y, t_z;
+	double relative_yaw, pitch_i, roll_i;
+
+};
+
+
+struct FourDOFWeightError
+{
+	FourDOFWeightError(double t_x, double t_y, double t_z, double relative_yaw, double pitch_i, double roll_i)
+				  :t_x(t_x), t_y(t_y), t_z(t_z), relative_yaw(relative_yaw), pitch_i(pitch_i), roll_i(roll_i){
+				  	weight = 1;
+				  }
+
+	template <typename T>
+	bool operator()(const T* const yaw_i, const T* ti, const T* yaw_j, const T* tj, T* residuals) const
+	{
+		T t_w_ij[3];
+		t_w_ij[0] = tj[0] - ti[0];
+		t_w_ij[1] = tj[1] - ti[1];
+		t_w_ij[2] = tj[2] - ti[2];
+
+		// euler to rotation
+		T w_R_i[9];
+		YawPitchRollToRotationMatrix(yaw_i[0], T(pitch_i), T(roll_i), w_R_i);
+		// rotation transpose
+		T i_R_w[9];
+		RotationMatrixTranspose(w_R_i, i_R_w);
+		// rotation matrix rotate point
+		T t_i_ij[3];
+		RotationMatrixRotatePoint(i_R_w, t_w_ij, t_i_ij);
+
+		residuals[0] = (t_i_ij[0] - T(t_x)) * T(weight);
+		residuals[1] = (t_i_ij[1] - T(t_y)) * T(weight);
+		residuals[2] = (t_i_ij[2] - T(t_z)) * T(weight);
+		residuals[3] = NormalizeAngle((yaw_j[0] - yaw_i[0] - T(relative_yaw))) * T(weight) / T(10.0);
+
+		return true;
+	}
+
+	static ceres::CostFunction* Create(const double t_x, const double t_y, const double t_z,
+									   const double relative_yaw, const double pitch_i, const double roll_i) 
+	{
+	  return (new ceres::AutoDiffCostFunction<
+	          FourDOFWeightError, 4, 1, 3, 1, 3>(
+	          	new FourDOFWeightError(t_x, t_y, t_z, relative_yaw, pitch_i, roll_i)));
+	}
+
+	double t_x, t_y, t_z;
+	double relative_yaw, pitch_i, roll_i;
+	double weight;
+
+};
 ```

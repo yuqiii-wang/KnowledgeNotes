@@ -87,6 +87,7 @@ DBoW2 has pre-trained ORB and BRIEF features.
 ### Training BoW
 
 DBoW2 provides `TemplatedVocabulary<TDescriptor,F>::create(...)` to train a BoW, where `HKmeansStep(0, features, 1);` computes distances and assigns classes to features.
+The feature quality is measured by weight that is computed according to $\text{TF-IDF}$ in `setNodeWeights(training_features);`.
 
 ```cpp
 template<class TDescriptor, class F>
@@ -262,8 +263,66 @@ void TemplatedVocabulary<TDescriptor, F>::HKmeansStep (
 }
 ```
 
+Weights are set  in `m_words[i]->weight = log((double)NDocs / (double)Ni[i]);` in accordance to the aforementioned formulas.
 
-### Database and Leaf Node Search
+```cpp
+template<class TDescriptor, class F>
+void TemplatedVocabulary<TDescriptor,F>::setNodeWeights
+  (const std::vector<std::vector<TDescriptor> > &training_features)
+{
+  const unsigned int NWords = m_words.size();
+  const unsigned int NDocs = training_features.size();
+
+  if(m_weighting == TF || m_weighting == BINARY)
+  {
+    // idf part must be 1 always
+    for(unsigned int i = 0; i < NWords; i++)
+      m_words[i]->weight = 1;
+  }
+  else if(m_weighting == IDF || m_weighting == TF_IDF)
+  {
+    // IDF and TF-IDF: we calculte the idf path now
+
+    // Note: this actually calculates the idf part of the tf-idf score.
+    // The complete tf-idf score is calculated in ::transform
+
+    std::vector<unsigned int> Ni(NWords, 0);
+    std::vector<bool> counted(NWords, false);
+    
+    typename std::vector<std::vector<TDescriptor> >::const_iterator mit;
+    typename std::vector<TDescriptor>::const_iterator fit;
+
+    for(mit = training_features.begin(); mit != training_features.end(); ++mit)
+    {
+      fill(counted.begin(), counted.end(), false);
+
+      for(fit = mit->begin(); fit < mit->end(); ++fit)
+      {
+        WordId word_id;
+        transform(*fit, word_id);
+
+        if(!counted[word_id])
+        {
+          Ni[word_id]++;
+          counted[word_id] = true;
+        }
+      }
+    }
+
+    // set ln(N/Ni)
+    for(unsigned int i = 0; i < NWords; i++)
+    {
+      if(Ni[i] > 0)
+      {
+        m_words[i]->weight = log((double)NDocs / (double)Ni[i]);
+      }// else // This cannot occur if using kmeans++
+    }
+  
+  }
+}
+```
+
+### Database and Index
 
 DBoW2 has another concept "Database", that adds indexing for fast leaf node search.
 
@@ -273,11 +332,11 @@ For each leaf node record the corresponding images, so that during image recogni
 
 This is much faster than searching/matching feature top-down from tree root.
 
-In the code implementation below, `InvertedFile` is the total db, consisted of a vector of "row"s.
+In the code implementation below, `InvertedFile` is the whole db, consisted of a vector of "row"s.
 Each cell/entry in a row is an `IFPair` that contains the cell/entry id `entry_id` and its value `word_weight`.
 
-To get the inverted file of a word, there is `InvertedFile[word_id]`, where a row represents a vector of weights down from root to leaf node where each entry/node is the image's weight at this layer.
-The higher of `word_weight`, the higher the probability of exclusiveness of this feature distinguishing the image.
+To get the inverted file of a word, there is `InvertedFile[word_id]`, where a row represents a vector of images that contain this feature and the word/feature weight.
+The higher of `word_weight`, the higher the probability of exclusiveness of this feature distinguishing images.
 
 ```cpp
 template<class TDescriptor, class F>
@@ -334,7 +393,9 @@ void TemplatedDatabase<TDescriptor, F>::load(const cv::FileStorage &fs,
 * Direct index
 
 DBoW2 provides a searching facilitation mechanism that each image has a mapping direct index, where the image's BoW visited nodes are recorded, as well as those image features passing through these nodes.
+
 In code, it is defined as below, where `FeatureVector` contains many nodes labelled by `node_id` associated with the pass-through features `std::vector<feature_id>`.
+
 ```cpp
 template<class TDescriptor, class F>
 class TemplatedDatabase
@@ -352,10 +413,58 @@ class FeatureVector: public std::map<NodeId, std::vector<unsigned int> >
 
 For example, an image might have features belonged to the same class at some lower levels but diverge (different features classified to different classes) as approaching to leaf nodes.
 As a result, the near-to-root `node_id`s may associate many features, but the near-to-leaf `node_id`s may associate fewer features.
+
 <div style="display: flex; justify-content: center;">
       <img src="imgs/bow_direct_index.png" width="30%" height="30%" alt="bow_direct_index" />
 </div>
 </br>
+
+### Database Adding A New Image
+
+The new image vector add action on the direct and inverted file is shown as below.
+
+`EntryId entry_id = m_nentries++;` auto increments `entry_id` when a new image `const BowVector &v` comes in.
+Then, in direct file, `push_back`/add a key to `m_dfile` and `m_dBowfile`;
+in inverted file, iterate every feature in this image, and associate every feature with this image (the image id and feature weight) by `ifrow.push_back(IFPair(entry_id, word_weight));`.
+
+```cpp
+template<class TDescriptor, class F>
+EntryId TemplatedDatabase<TDescriptor, F>::add(const BowVector &v,
+  const FeatureVector &fv)
+{
+  EntryId entry_id = m_nentries++;
+
+  BowVector::const_iterator vit;
+  std::vector<unsigned int>::const_iterator iit;
+
+  if(m_use_di)
+  {
+    // update direct file
+    if(entry_id == m_dfile.size())
+    {
+      m_dfile.push_back(fv);
+      m_dBowfile.push_back(v);
+    }
+    else
+    {
+      m_dfile[entry_id] = fv;
+      m_dBowfile[entry_id] = v;
+    }
+  }
+  
+  // update inverted file
+  for(vit = v.begin(); vit != v.end(); ++vit)
+  {
+    const WordId& word_id = vit->first;
+    const WordValue& word_weight = vit->second;
+    
+    IFRow& ifrow = m_ifile[word_id];
+    ifrow.push_back(IFPair(entry_id, word_weight));
+  }
+  
+  return entry_id;
+}
+```
 
 Having done the training, the inverted index and direct index are saved such as below,
 where the inverted index stores `imageId` associated with `weight`; direct index stores `nodeId` and associated with passed-through features `*(const std::vector<int>*)(&features)`.
@@ -411,7 +520,8 @@ void TemplatedDatabase<TDescriptor, F>::save(cv::FileStorage &fs,
 
 ### Image to BoW Vector And Weight Assignment
 
-In DBoW2, weights $W$ are added to every features of an image vector representation $W\bold{v}$.
+In DBoW2, weights $W$ are added to every features (or to compressed version of the features, the leaf nodes) of an image vector representation $W\bold{v}$.
+So that only leaf nodes should get weighted.
 
 Building BoW vector from images' features is done by `transform(...)`, where leaf nodes are accumulated of weights and associated with features.
 Should know that `transform(*fit, id, w, &nid, levelsup);` only assigns weight to the final layer/leaf nodes, so that `v.addWeight(id, w);` only adds weights to the leaf node id.
@@ -478,15 +588,13 @@ void TemplatedVocabulary<TDescriptor, F>::transform
   // bow normalization v=v/|v|
   if (must) v.normalize(norm);
 }
-
 ```
 
 The `transform(*fit, id, w, &nid, levelsup);` that propagates through the tree is defined as below:
 
 It assigns weights and node ids alongside propagating the feature down from root to leaf
 nodes, the nodes' mean value closest to the feature are recorded.
-
-Remember, `weight` original definition derives from $\text{TF-IDF}$ assigned to leaf nodes.
+The final recorded `m_nodes[final_id]` should be the one closest to the mean value computed by `F::distance(feature, m_nodes[id].descriptor);`, where `feature` is the input feature, and `m_nodes[id].descriptor` is the mean value.
 
 ```cpp
 template<class TDescriptor, class F>
@@ -542,6 +650,9 @@ void TemplatedVocabulary<TDescriptor,F>::transform(const TDescriptor &feature,
 
 `addWeight(...)` and `addFeature(...)` are defined as below.
 
+Weights are accumulated by `vit->second += v;` when the node id is found, otherwise, insert a new.
+THe motivation of this weighting mechanism is that, since each weighting is computed as $\text{TF-IDF}$ that higher the value, more likely it is distinguishable, if there are some images have this feature of high $\text{TF-IDF}$, these images should be similar to each other, highly discriminant from other images.
+
 ```cpp
 // every image has a BoWVector
 // Used in TF-IDF or TF
@@ -577,6 +688,24 @@ void FeatureVector::addFeature(NodeId id, unsigned int i_feature)
     vit->second.push_back(i_feature);
   }
 }
+```
+where `lower_bound(const key_type& __x)` returns the first element of a subsequence of elements that matches the given key `__x`.
+
+```cpp
+/**
+ *  @brief Finds the beginning of a subsequence matching given key.
+ *  @param  __x  Key of (key, value) pair to be located.
+ *  @return  Read-only (constant) iterator pointing to first element
+ *           equal to or greater than key, or end().
+ *
+ *  This function returns the first element of a subsequence of elements
+ *  that matches the given key.  If unsuccessful it returns an iterator
+ *  pointing to the first element that has a greater value than given key
+ *  or end() if no such element exists.
+ */
+const_iterator
+lower_bound(const key_type& __x) const
+{ return _M_t.lower_bound(__x); }
 ```
 
 ### Image Recognition and Correspondence
@@ -650,11 +779,15 @@ double L1Scoring::score(const BowVector &v1, const BowVector &v2) const
 }
 ```
 
-Below is an example compute the L1 query of an image.
-The query result `QueryResults &ret` is an ordered vector of scores of features.
+### Best Image Feature Query
+
+Below is an example computing the L1 query of an input image `const BowVector &vec`, and returns the most matched some other images `QueryResults &ret`.
+The query result `QueryResults &ret` is an ordered vector of `std::map<EntryId, double>::iterator pit;` mapping image ids to their similarity scores $\text{s}$.
 
 The first loop `for(vit = vec.begin(); vit != vec.end(); ++vit)` iterates feature id and weight; the second loop `for(rit = row.begin(); rit != row.end(); ++rit)` finds the ids and weights of the image's feature as it goes through the BoW tree.
-The summed weight `pit->second += value;` is defined as the score such that `Result(pit->first, pit->second)` where `inline Result(EntryId _id, double _score): Id(_id), Score(_score){}`.
+The summed weight `pit->second += value;` is defined as the score such that `Result(pit->first, pit->second)` where `pit->second` is directly taken as the score value itself `inline Result(EntryId _id, double _score): Id(_id), Score(_score){}`.
+
+The result `QueryResults &ret` is resized to `ret.resize(max_results);` to only contain the best `max_results` number of `qit->Score`s.
 
 ```cpp
 template<class TDescriptor, class F>

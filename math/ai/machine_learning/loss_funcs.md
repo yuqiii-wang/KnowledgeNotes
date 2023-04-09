@@ -1,6 +1,7 @@
 # Loss/Cost Func
 
-A loss function is for a single training example. A cost function, on the other hand, is the average loss over the entire training dataset. 
+A loss function is for a single training example (scaling individual error output). 
+A cost function, on the other hand, is the average loss over the entire training dataset. 
 
 ## Regression
 
@@ -22,7 +23,9 @@ $$
 
 ### Huber Loss
 
-The Huber loss combines the best properties of MSE and MAE. It is quadratic for smaller errors and is linear otherwise (and similarly for its gradient). It is identified by its delta parameter $\delta$:
+The Huber loss combines the best properties of MSE and MAE. 
+It is quadratic for smaller errors and is linear otherwise (and similarly for its gradient). 
+It is identified by its delta parameter $\delta$:
 $$
 L_{\delta}(e)=
 \left\{
@@ -34,6 +37,14 @@ L_{\delta}(e)=
 \right.
 $$
 
+### Cauchy Loss
+
+Similar to Huber loss, but Cauchy loss provides smooth curve that error output grows significantly when small, grows slowly when large.
+
+$$
+L(e) = \log (1+e)
+$$
+
 ## Classification
 
 ### Categorical Cross-Entropy
@@ -42,12 +53,26 @@ $$
 \begin{align*}
 L_{CE}
 &=
--\sum_i^C t_i \space log(s_i)
+-\sum_i^C t_i \space \log(s_i)
 \\ &=
--\sum_i^C t_i \space log(\frac{e^{z_i}}{\sum^C_{j=1}e^{z_j}})
+-\sum_i^C t_i \space \log(\frac{e^{z_i}}{\sum^C_{j=1}e^{z_j}})
 \end{align*}
 $$
-where $t_i$ is the ground truth for a total of $C$ classes for prediction, and $s_i$ is the softmax score for the $i$-th class.
+where $t_i$ is the ground truth (one-hot encoded) for a total of $C$ classes for prediction, and $s_i$ is the softmax score for the $i$-th class.
+
+Cross-entropy outputs entropy of each class error, then sums them up.
+The one-hot encoding of $t_i$ means the prediction error $t_i \space \log(\frac{e^{z_i}}{\sum^C_{j=1}e^{z_j}})$ has non-zero value for $z_i$ corresponds to the $i$-th class prediction $i=c$.
+
+$$
+t_i=
+\left\{
+    \begin{array}{c}
+        1 &\quad i=c
+        \\
+        0 &\quad i \ne c
+    \end{array}
+\right.
+$$
 
 ### Hinge Loss
 
