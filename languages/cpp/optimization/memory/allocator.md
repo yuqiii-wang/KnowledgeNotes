@@ -14,7 +14,7 @@ int* p = alloc.allocate(1);  // space for one int
 alloc.deallocate(p, 1);      // and it is gone
 ```
 
-### Allocator Implementaion
+### Allocator Implementation
 
 * `address` (until C++20)
 
@@ -56,6 +56,11 @@ Calls `::new((void *)p) U(std::forward<Args>(args)...)`
  
 (public member function) destructs an object in allocated storage
 
+### `new` When Memory is Insufficient
+
+Linux attempts to swap data between disk and primary memory through paging mapping.
+
+`std::bad_alloc` can occur if allocation fails.
 
 ### Allocator with `placement new`
 

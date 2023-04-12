@@ -51,10 +51,18 @@ systemctl unmask firewalld
 systemctl start firewalld
 ```
 
-## Create a bootable usb
+## Process Communication
 
-```bash
-sudo umount /dev/sda1
-sudo dd if=/path/to/ubuntu.iso of=/dev/sda1 bs=1M
-```
+### Pipe 
 
+### FIFO
+
+### Message Queue
+
+### Shared Memory
+
+### Signal
+
+### Semaphore
+
+### Socket

@@ -100,6 +100,18 @@ Direct cost include
 
 Indirect cost mainly include CPU cache refresh.
 
+### Data To Be Backed Up During A Context Switch
+
+* Register values
+* Process Control Block (PCB):
+  * Process State i.e. new, ready, running, waiting or terminated.
+  * Process Number
+  * Program Counter,  the address of the next instruction that needs to be executed in the process
+  * List of Open Files
+  * CPU Scheduling Information, such as the process priority, pointers to scheduling queues etc
+  * Memory Management Information, such as the page tables or the segment tables
+* Memory Info: the ELF memory layout mappings, such as the process's stack in which where instruction section`.text`, readonly data section `.rodata` and symbol table section `.symtab` are located.
+
 ## Code
 
 * `thread_info`

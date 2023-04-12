@@ -44,3 +44,12 @@ We can download manually from browser and instally locally:
 ```bash
 sudo apt install ./path/to/deb
 ```
+
+
+* Create a bootable usb
+
+```bash
+sudo umount /dev/sda1
+sudo dd if=/path/to/ubuntu.iso of=/dev/sda1 bs=1M
+```
+

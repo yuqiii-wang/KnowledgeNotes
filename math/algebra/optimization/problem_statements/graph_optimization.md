@@ -44,7 +44,7 @@ where
 * $\bold{x}_k$ represents the set of parameters given the $k$-th constraints, such as the state of a robot at the $k$-th time
 * $\bold{z}_k$ is the measurements/observations.
 * $\Omega_k$ is the information matrix relating to $\bold{x}_k$, usually defined as inversed covariance matrix about $\bold{x}$ (do not confuse with Fisher information, just some config/constraint parameters to $\bold{x}_k$)
-* $\bold{e}_k(\bold{x}_k, \bold{z}_k)$ is a vector error function that measures how well the parameter block $\bold{x}_k$ satifies the observation $\bold{z}_k$
+* $\bold{e}_k(\bold{x}_k, \bold{z}_k)$ is a vector error function that measures how well the parameter block $\bold{x}_k$ satisfies the observation $\bold{z}_k$
 
 Minimization can be done by Gauss-Newton, Levenber-Marquardt, or dogleg methods.
 
@@ -133,7 +133,7 @@ $$
 
 Intuition: we want to minimize the error/gap between measured landmark distance and motion-based computed distance.
 
-### Code
+### G2O Builtin Functions
 
 An error function takes two inputs: $\bold{e}_t(\bold{x}_t, \bold{z}_t)$ for estimation and measurement. 
 They are defined in g2o internal classes `BaseVertex` and `BaseEdge`, respectively. Information $\bold{\Omega}_t$ (defined in `BaseEdge`) should be defined to take into consideration of covariances.
@@ -149,7 +149,7 @@ virtual void setToOriginImpl();
 
 `read` and `write`: for disk reading and writing, usually not used.
 
-`setToOriginImpl`: to init `_estimate`.
+`setToOriginImpl`: to init `_estimate` served as the initial value for start.
 
 `oplusImpl`: to do update $\bold{x}_{t+1}=\bold{x}_t \oplus \Delta\bold{x}_t$.
 
@@ -180,6 +180,11 @@ setInformation() // the information/covariance matrix
 The **two most important functions** are `computeError` and `linearizeOplus` that defines how a graph would converge.
 
 `_estimate`, `_measurement` and `_information` should be set by overridden virtual functions from their base classes.
+
+* $\hat{\bold{x}}_k$ init guess/estimate
+* $\bold{z}_k$: measurements/observations.
+* $\Omega_k$: information matrix, defined as inversed covariance matrix about $\bold{x}$.
+  
 ```cpp
 // BaseVertex
 void setEstimate(const EstimateType& et) {
@@ -198,6 +203,7 @@ void setInformation(const InformationType& information) {
 ```
 
 For optimization, `OptimizableGraph::Edge` has a pure vurtual function `computeError` awaiting being overridden for how you want to customize error calculation. The return errors are stored in `ErrorVector _error;` inside `BaseEdge`.
+
 ```cpp
 // class BaseVertex
 protected:
@@ -215,6 +221,8 @@ protected:
 public:
   virtual void computeError() = 0;
 ```
+
+### G2O Implementation of Robot State Estimation
 
 * Vertex Type definition
 
