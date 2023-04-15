@@ -169,3 +169,5 @@ G_y=\begin{bmatrix}
     +1 & +2 & +1 \\
 \end{bmatrix}
 $$
+
+## G2O Implementation

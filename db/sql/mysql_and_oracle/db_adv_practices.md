@@ -122,9 +122,12 @@ engine=memory; -- change engine type if required e.g myisam/innodb
 
 ### CTE (Common Table Expression)
 
-CTE is just a query block given defined table contexts. CTE can be fast since its operations are in RAM.  
+CTE is just a query block given defined table contexts. 
+CTE can be fast since its operations are in RAM.
 
 Below code uses `temporaryTable` for all subsequent queries. 
+`temporaryTable` has the limited scope indicated by `WITH` defined as `(SELECT avg(Salary) from Employee)`, whose results are persistent throughout the `WITH` scope.
+
 ```sql
 WITH temporaryTable(averageValue) as
     (SELECT avg(Salary)

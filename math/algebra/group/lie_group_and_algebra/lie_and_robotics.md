@@ -531,3 +531,94 @@ sim(3) &= \bigg\{
 \bigg\}
 \end{align*}
 $$
+
+### Solve $Sim(3)$ by Closed-form Solution of Absolute Orientation Using Unit Quaternions
+
+Take three map points from the left hand side camera $\{\bold{r}_{l,1}, \bold{r}_{l,2}, \bold{r}_{l,3}\}$; 
+three map points from the right hand side camera $\{\bold{r}_{r,1}, \bold{r}_{r,2}, \bold{r}_{r,3}\}$; 
+
+Take $\bold{r}_{l,1}$ as the origin for the left hand side coordinate, then define the estimates for three dimensions:
+* $\hat{\bold{x}}_l = {\bold{x}_l}/{||\bold{x}_l||},\qquad \bold{x}_l = \bold{r}_{l,2}-\bold{r}_{l,1}$
+* $\hat{\bold{y}}_l = {\bold{y}_l}/{||\bold{y}_l||},\qquad \bold{y}_l = (\bold{r}_{l,3}-\bold{r}_{l,1}) - \big( (\bold{r}_{l,3}-\bold{r}_{l,1}) \cdot \hat{\bold{x}}_l \big)\hat{\bold{x}}_l$
+* $\hat{\bold{z}}_l = {\bold{z}_l}/{||\bold{z}_l||},\qquad \bold{z}_l = \hat{\bold{x}}_l \times \hat{\bold{y}}_l$
+where $\big( (\bold{r}_{l,3}-\bold{r}_{l,1}) \cdot \hat{\bold{x}}_l \big)\hat{\bold{x}}_l$ is the projection on the $\hat{\bold{x}}_l$ axis.
+
+Set $M_l = [\hat{\bold{x}}_l, \hat{\bold{y}}_l, \hat{\bold{z}}_l]$ and $M_r = [\hat{\bold{x}}_r, \hat{\bold{y}}_r, \hat{\bold{z}}_r]$
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/sim3_computation.png" width="20%" height="20%" alt="sim3_computation" />
+</div>
+</br>
+
+For any vector on the left hand side coordinate $\bold{r}_l$, assume a transform such that $\bold{r}_r = M_r M_l^{\top} \bold{r}_l$.
+Denote $R=M_r M_l^{\top}$ as the rotation matrix.
+
+* Compute Translation
+
+For any vector $\bold{r}_{l,i}$, attempt to find $\hat{\bold{r}}_{r,i} = s R( \bold{r}_{l,i}) + \bold{t}$, where $\bold{t}$ is the translation offset from the left to right coordinate system.
+Here $s$ is a scale factor to rotation matrix $R( \bold{r}_{l,i})$ that has $\big|\big| R(\bold{r}_{l,i}) \big|\big|^2 = \big|\big| \bold{r}_{l,i} \big|\big|^2$ preserving the length during rotation operation ($\big|\big| \bold{r}_{l,i} \big|\big|^2=\bold{r}_{l,i} \cdot \bold{r}_{l,i}$).
+
+The residual of the least squared problem to find the optimal $\bold{t}^*$ is defined as below.
+$$
+\begin{align*}
+\bold{t}^* = \argmin_{\bold{t}} \bold{e}_i 
+&= 
+\bold{r}_{r,i} - \hat{\bold{r}}_{r,i} 
+\\ &= 
+\bold{r}_{r,i} - s R( \bold{r}_{l,i}) - \bold{t}    
+\end{align*}
+$$
+
+Now, compute centroids served as offsets.
+$$
+\overline{\bold{r}}_l = \frac{1}{n} \sum_{i=1}^n \bold{r}_{l,i}
+\qquad
+\overline{\bold{r}}_r = \frac{1}{n} \sum_{i=1}^n \bold{r}_{r,i}
+$$
+
+For any vector $\bold{r}_{l,i}$ or $\bold{r}_{r,i}$, move/offset their coordinates from the origin reference $\bold{r}_{l,1}$ and $\bold{r}_{r,1}$ to the above computed centroid, denote the new origin's vectors as $\bold{r}'_{l,i}$ and $\bold{r}'_{r,i}$.
+$$
+\bold{r}'_{l,i} = \bold{r}_{l,i} - \overline{\bold{r}}_l
+\qquad
+\bold{r}'_{r,i} = \bold{r}_{r,i} - \overline{\bold{r}}_r
+$$
+
+Apparently, the new centroid reference's vectors' sums should be zeros.
+$$
+\bold{r}'_{l,o} = \sum_{i=1}^n \bold{r}'_{l,i} = [0 \quad 0 \quad 0]^{\top}_l
+\qquad
+\bold{r}'_{r,o} = \sum_{i=1}^n \bold{r}'_{r,i} = [0 \quad 0 \quad 0]^{\top}_r
+$$
+
+Rewrite the residual,
+$$
+\bold{e}_i = \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') - \bold{t}'
+$$
+where
+$$
+\bold{t}' =  \bold{t} - \overline{\bold{r}}_r + sR(\overline{\bold{r}}_l)
+$$
+
+So that the least squared problem becomes finding the optimal $\bold{t}'$
+$$
+\begin{align*}
+\min_{\bold{t}'} \sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 
+&= 
+\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') - \bold{t}' \big|\big|^2
+\\ &=
+\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
+- \underbrace{2 \bold{t}' \cdot \sum_{i=1}^n \Big( \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \Big)}_{=\bold{0}}
++ n \big|\big| \bold{t}' \big|\big|^2
+\end{align*}
+$$
+
+The sum in the middle of this expression is zero since the measurements are referred to the centroid. 
+
+The first term does not depend on $\bold{t}'$, and the last term cannot be negative. 
+So that $\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2$ reaches its minimum when $\bold{t}'=\bold{0}$.
+
+Rewrite $\bold{t}' = \bold{0} = \bold{t} - \overline{\bold{r}}_r + sR(\overline{\bold{r}}_l)$, so that the optimal translation $\bold{t}^*$ in $Sim(3)$ is just the difference between $\overline{\bold{r}}_r$ and scaled rotation $sR(\overline{\bold{r}}_l)$.
+In other words, if $sR(\overline{\bold{r}}_l)$ is known, the $\bold{t}^*$ can easily computed.
+$$
+\bold{t}^* =  \overline{\bold{r}}_r - sR(\overline{\bold{r}}_l)
+$$
