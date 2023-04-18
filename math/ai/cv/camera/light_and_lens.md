@@ -37,12 +37,12 @@ where
 
 ### Pinhole Intrinsic Matrix $K$ Derivation
 
-Define image pixel $(x_p, y_p)$, camera translation of the origin $(x_c, y_c)$ from the real world point $(x_w, y_w)$, and two scaling factor $\alpha, \beta$ the mapping relationship is
+Define image pixel $(x_p, y_p)$, camera translation of the origin $(c_x, c_y)$ from the real world point $(x_w, y_w)$, and two scaling factor $\alpha, \beta$ the mapping relationship is
 $$
 \begin{align*}
-x_p &= \alpha x_w +x_c
+x_p &= \alpha x_w +c_x
 \\
-y_p &= \beta y_w +y_c
+y_p &= \beta y_w +c_y
 \end{align*}
 $$
 
@@ -99,7 +99,7 @@ $$
 \begin{align*}
 \begin{bmatrix}
       \bold{R} \\
-      \bold{T}
+      \bold{t}
 \end{bmatrix}_{4 \times 4}
 & =
 \begin{bmatrix}
@@ -111,7 +111,7 @@ $$
 \\
 \begin{bmatrix}
       \bold{R} \\
-      \bold{T}
+      \bold{t}
 \end{bmatrix}_{4 \times 3}
 & =
 \begin{bmatrix}
@@ -122,7 +122,7 @@ $$
 \end{bmatrix}
 \end{align*}
 $$
-where $R$ and $T$ are rotation and translation matrices that adjust a camera physical orientation and lateral position. Here we set $z=0$ to assume that both real world and camera frame are parallel to each other (no rotation but possible translation).
+where $R$ and $\bold{t}$ are rotation and translation matrices that adjust a camera physical orientation and lateral position. Here we set $z=0$ to assume that both real world and camera frame are parallel to each other (no rotation but possible translation).
 
 The mapping relationship from world points to image pixels can be expressed as
 $$
@@ -141,7 +141,7 @@ w
 \end{bmatrix}^\text{T}
 \begin{bmatrix}
       \bold{R} \\
-      \bold{T}
+      \bold{t}
 \end{bmatrix}
 _{4 \times 3}
 \begin{bmatrix}
@@ -172,26 +172,26 @@ Distortion correction formula:
 
 $$
 \begin{align*}
-x_u = & \space x_d+(x_d-x_c)(k_1r^2+k_2r^4+k_3r^6+...)
+x_u = & \space x_d+(x_d-c_x)(k_1r^2+k_2r^4+k_3r^6+...)
 \\ &+ 
-\big(p_1(r^2+2(x_d-x_c)^2)+2p_2(x_d-x_c)(y_d-y_c)\big)
+\big(p_1(r^2+2(x_d-c_x)^2)+2p_2(x_d-c_x)(y_d-c_y)\big)
 (1+p_3r^2+p_4r^4+...)
 \end{align*}
 \\
 \begin{align*}
-y_u = & \space y_d+(y_d-y_c)(k_1r^2+k_2r^4+k_3r^6+...)
+y_u = & \space y_d+(y_d-c_y)(k_1r^2+k_2r^4+k_3r^6+...)
 \\ &+ 
-\big(p_1(r^2+2p_2(x_d-x_c)(y_d-y_c))+2p_2(y_d-y_c)^2\big)
+\big(p_1(r^2+2p_2(x_d-c_x)(y_d-c_y))+2p_2(y_d-c_y)^2\big)
 (1+p_3r^2+p_4r^4+...)
 \end{align*}
 $$
 where 
 * $(x_d, y_d)$ is the distorted image pixel as projected on image plane using specified lens
 * $(x_u, y_u)$ is the undistorted image pixel after correction
-* $(x_c, y_c)$ is the distortion center
+* $(c_x, c_y)$ is the distortion center
 * $k_n$ is the $n$-th radial distortion coefficient
 * $p_n$ is the $n$-th tangential distortion coefficient
-* $r=\sqrt{(x_d-x_c)^2+(y_d-y_c)^2}$ is the Euclidean distance between the distorted image point and the distortion center
+* $r=\sqrt{(x_d-c_x)^2+(y_d-c_y)^2}$ is the Euclidean distance between the distorted image point and the distortion center
 
 Usually, for images of little distortions, $n=2$ can render good recovery result ($k_n$ s of higher $n$ are insignificant that $k_n \approx 0$). Greater the distortion, higher the power factor $n$ is required. In OpenCV, $n=4$ is used.
 
@@ -215,7 +215,7 @@ w
 \end{bmatrix}^\text{T}
 \begin{bmatrix}
       \bold{R} \\
-      \bold{T}
+      \bold{t}
 \end{bmatrix}
 _{4 \times 3}
 \begin{bmatrix}
@@ -243,7 +243,7 @@ where
 * $(x_d, y_d)$ is an ideal image projection (retaining fisheye distorted features) of a real-world point
 * $w$ is a scaling factor
 * $k_0, k_2, k_3, k_4$ are polynomial coefficients
-* $r=\sqrt{(x_d-x_c)^2+(y_d-y_c)^2}$ is the distance of a point from the image center
+* $r=\sqrt{(x_d-c_x)^2+(y_d-c_y)^2}$ is the distance of a point from the image center
 
 Consider tangent distortion for tilted planes, $(x_d, y_d)$ can have the below expression:
 $$
@@ -268,3 +268,6 @@ where $p_1, p_2$ are tangent distortion coefficients.
 
 Triangulation is an indirect method of measuring the distance to an object by imagining a triangle between the observer at two positions and the object. 
 Parallax, as used in this activity, is the apparent motion of a relatively close object when viewed by the observer from two different positions.
+
+## Viewing Frustum
+

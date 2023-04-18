@@ -195,6 +195,7 @@ Each ray represents from its pixel origin what it sees in the 3d world (when a r
 
 Now modelling this scene: ray tracing a sphere.
 For simplicity, this example does not concern any fisheye-like distortion, but only each ray representing one pixel parallel to each other, as if each pixel acts as an independent origin shooting out one ray into the 3d world. 
+This is referred to as *view frustum*/*conical frustum*.
 
 The sphere has centroid `(x,y,z)` and `radius`, and rgb color value `(r,g,b)`. The member function `hit(float ox, float oy, float *n)` means whether a ray from `(ox, oy)` interacts with this sphere object.
 ```cpp

@@ -216,11 +216,17 @@ For epipoles, there are $F \bold{e}_{\tiny{L}} = 0$ and $F^\text{T} \bold{e}_{\t
 
 In a common scenario, camera views start as the grey image planes, we can use two homographies to transform them into parallel camera views such as yellow image planes.
 
-![stereo_img_rectification](imgs/stereo_img_rectification.png "stereo_img_rectification")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/stereo_img_rectification.png" width="30%" height="30%" alt="stereo_img_rectification" />
+</div>
+</br>
 
 The below figure shows an example of such a rectification result.
 
-![homography_rectification](imgs/homography_rectification.png "homography_rectification")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/homography_rectification.png" width="30%" height="30%" alt="homography_rectification" />
+</div>
+</br>
 
 A pair of parallel camera views give simple essential matrix performing one-dimension translation such that
 $$
@@ -289,7 +295,10 @@ tv &= tv'
 \end{align*}
 $$
 
-![parallel_img_epi](imgs/parallel_img_epi.png "parallel_img_epi")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/parallel_img_epi.png" width="30%" height="30%" alt="parallel_img_epi" />
+</div>
+</br>
 
 ## Correspondence search
 
@@ -303,7 +312,10 @@ E_{ssd}(u,v)=\sum_{(x,y)\in\bold{W}_{m \times n}}
 \big]^2
 $$
 
-![scanline_match_epi](imgs/scanline_match_epi.png "scanline_match_epi")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/scanline_match_epi.png" width="30%" height="30%" alt="scanline_match_epi" />
+</div>
+</br>
 
 other error formulas are
 * SAD (Sum of Absolute Difference):

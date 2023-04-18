@@ -2,7 +2,7 @@
 
 ## dot product: scalar product
 $$
-u * v = |u| |v| cos\theta 
+u \cdot v = |u| |v| cos\theta 
 = v_1u_1 + v_2u_2 + v_3u_3 + ... + v_nu_n
 $$
 

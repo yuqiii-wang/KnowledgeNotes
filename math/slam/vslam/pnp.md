@@ -90,7 +90,11 @@ Its input data is 3 pairs of 3D-2D matching points.
 Define 3D points as $A=(X_A, Y_A, Z_A)$, $B=(X_B, Y_B, Z_B)$, $C=(X_C, Y_C, Z_C)$, 2D points as $a$, $b$, $c$, 
 where the point represented by the lowercase letter is the projection of the point on the camera image plane represented by the corresponding uppercase letter.
 
-![p3p](imgs/p3p.png "p3p")
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/p3p.png" width="30%" height="30%" alt="p3p" />
+</div>
+</br>
 
 * Known condition 1: length of $\overrightarrow{AB}, \overrightarrow{AC}, \overrightarrow{BC}$ given by
 $$
@@ -183,7 +187,14 @@ $$
 \end{align*}
 $$
 
-The two quadratic equations above can be solved via Wu's method for $x$ and $y$, that describe the ratio 
+The two quadratic equations above can be solved via Wu's method for $x$ and $y$.
+However, since both $x$ and $y$ have quadratic terms $(1-q)y^2$, $qx^2$, $(1-g)x^2$, and $gy^2$, the number of solutions for $x$ and $y$ would be four (the signs of $x$ and $y$ are unknown when perform square root operation).
+A fourth point is required to confirm the signs of $x$ and $y$.
+
+Given that $x=\frac{\overrightarrow{OA}}{\overrightarrow{OC}},  y=\frac{\overrightarrow{OB}}{\overrightarrow{OC}}$ are known, and the pixel locations on image $a=(u_a, v_a), b=(u_b, v_b), c=(u_c, v_c)$ are known as well, 
+
+In SLAM, the usual approach is to first estimate the camera pose using P3P/EPnP, 
+and then construct a least-squares optimization problem to adjust the estimated values (bundle adjustment).
 
 ### Constraint: $O, A, B, C$ should NOT be on the same plane
 

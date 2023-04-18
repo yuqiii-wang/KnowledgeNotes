@@ -807,7 +807,7 @@ N \mathring{\bold{q}} =
 \alpha_1 \lambda_1 \bold{v}_1 + \alpha_2 \lambda_2 \bold{v}_2 + \alpha_3 \lambda_3 \bold{v}_3 + \alpha_4 \lambda_4 \bold{v}_4
 $$
 
-So that
+and
 $$
 \mathring{\bold{q}}^{\top} N \mathring{\bold{q}} =
 \mathring{\bold{q}}^{\top} \cdot \big( N \mathring{\bold{q}} \big) =
@@ -816,7 +816,7 @@ $$
 
 Sort the eigenvalues so that $\lambda_1 \ge \lambda_2 \ge \lambda_3 \ge \lambda_4$.
 
-$\mathring{\bold{q}}^{\top} N \mathring{\bold{q}}$ reaches its maximum when $\alpha_2=\alpha_3=\alpha_4=0$.
+$\mathring{\bold{q}}^{\top} N \mathring{\bold{q}}$ reaches its maximum when $\alpha_1=1$ and $\alpha_2=\alpha_3=\alpha_4=0$.
 $$
 \mathring{\bold{q}}^{\top} N \mathring{\bold{q}} \le
 \alpha_1^2 \lambda_1 + \alpha_2^2 \lambda_1 + \alpha_3^2 \lambda_1 + \alpha_4^2 \lambda_1

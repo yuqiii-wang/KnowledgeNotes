@@ -594,9 +594,18 @@ The `transform(*fit, id, w, &nid, levelsup);` that propagates through the tree i
 
 It assigns weights and node ids alongside propagating the feature down from root to leaf
 nodes, the nodes' mean value closest to the feature are recorded.
+As the propagation goes on, node id grows, that means larger node id indicates higher layer/higher precision of a feature matching against the mean value of the node.
 The final recorded `m_nodes[final_id]` should be the one closest to the mean value computed by `F::distance(feature, m_nodes[id].descriptor);`, where `feature` is the input feature, and `m_nodes[id].descriptor` is the mean value.
 
 ```cpp
+/**
+* @brief
+* @param  features               Input features
+* @param  word_id		             To be extracted leaf node id (leaf node id, not tree branch node id)
+* @param  weight                 Weight
+* @param  nid                    Node id: direct indexing parent node id
+* @param  levelsup               Direct index on the L-th layer
+*/
 template<class TDescriptor, class F>
 void TemplatedVocabulary<TDescriptor,F>::transform(const TDescriptor &feature, 
   WordId &word_id, WordValue &weight, NodeId *nid, int levelsup) const

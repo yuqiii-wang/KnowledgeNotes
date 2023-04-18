@@ -140,16 +140,47 @@ $$
 This set of transform matrix is also known
 as the *special Euclidean group*:
 
+
 $$
 SE(3) = 
 \bigg\{
     T = 
     \begin{bmatrix}
-        R & T \\
-        0 & 1
+        R & \bold{t} \\
+        \bold{0} & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
-    |
-    R \in SO(3), T \in \mathbb{R}^3
+    \quad|\quad
+    R \in SO(3), \bold{t} \in \mathbb{R}^3
 \bigg\}
 $$
+
+## Transform Forward
+
+Given two transforms $R_1,\bold{t}_1$ and $R_2,\bold{t}_2$, the combined expression can be expressed as below
+$$
+\begin{align*}
+&&
+\bold{b} &= R_1 \bold{a} + \bold{t}_1
+\qquad
+\bold{c} = R_2 \bold{b} + \bold{t}_2
+\\ \Rightarrow &&
+\bold{c} &= R_2 (R_1 \bold{a} + \bold{t}_1) + \bold{t}_2
+\end{align*}
+$$
+
+## Inverse Transform
+
+$$
+\bigg\{
+    T^{-1} = 
+    \begin{bmatrix}
+        R^{\top} & -R^{\top}\bold{t} \\
+        \bold{0}^{\top} & 1
+    \end{bmatrix}
+    \in \mathbb{R}^{4 \times 4}
+    \quad|\quad
+    R^{\top} \in SO(3), -R^{\top}\bold{t} \in \mathbb{R}^3
+\bigg\}
+$$
+where $R^{-1}=R^{\top}$
