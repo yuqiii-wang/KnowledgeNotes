@@ -23,7 +23,7 @@ a_1 \\
 a_2 \\
 a_3
 \end{bmatrix}
-and
+\text{ and }
 \begin{bmatrix}
 a^{'}_1 \\
 a^{'}_2 \\

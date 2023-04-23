@@ -193,7 +193,7 @@ $$
 \end{align*}
 $$
 
-This is equivalent to $\min \frac{\big|\big| A\bold{X} \big|\big|^2}{\big|\big| \bold{X} \big|\big|^2}$.
+This is equivalent to $\min_{\bold{X}} \frac{\big|\big| A\bold{X} \big|\big|^2}{\big|\big| \bold{X} \big|\big|^2}$.
 The constraint $\big|\big| \bold{X} \big|\big|^2 = 1$ is introduced by setting the scaling to $s=1$.
 
 ### Rayleigh Quotient
@@ -201,7 +201,7 @@ The constraint $\big|\big| \bold{X} \big|\big|^2 = 1$ is introduced by setting t
 The above optimization problem can be solved by Rayleigh quotient.
 
 $$
-\min \frac{\big|\big| A\bold{X} \big|\big|^2}{\big|\big| \bold{X} \big|\big|^2} 
+\min_{\bold{X}} \frac{\big|\big| A\bold{X} \big|\big|^2}{\big|\big| \bold{X} \big|\big|^2} 
 =
 \frac{\bold{X}^\top A^\top A \bold{X}}{\bold{X}^\top \bold{X}}
 $$

@@ -483,6 +483,90 @@ void KeyFrame::UpdateBestCovisibles()
 }
 ```
 
+### Connected Keyframes vs Co-Visibility Keyframes
+
+Both are referring to the keyframe list about some keyframes sharing some observed feature points.
+The differences are 
+
+* `mvpOrderedConnectedKeyFrames` takes co-visible keyframes as elements when `if(mit->second>=th)` holds true, and is built after `sort(vPairs.begin(),vPairs.end());` meaning the elements are sorted by their observed shared feature points 
+* `mConnectedKeyFrameWeights` take direct definition from `KFcounter` and update the weights (number of shared observed feature points)
+
+```cpp
+set<KeyFrame*> KeyFrame::GetConnectedKeyFrames()
+{
+    unique_lock<mutex> lock(mMutexConnections);
+    set<KeyFrame*> s;
+    for(map<KeyFrame*,int>::iterator mit=mConnectedKeyFrameWeights.begin();mit!=mConnectedKeyFrameWeights.end();mit++)
+        s.insert(mit->first);
+    return s;
+}
+
+vector<KeyFrame*> KeyFrame::GetVectorCovisibleKeyFrames()
+{
+    unique_lock<mutex> lock(mMutexConnections);
+
+    // ...
+    // if(mit->second>=th)
+    // {
+    //     vPairs.push_back(make_pair(mit->second,mit->first));
+    //     (mit->first)->AddConnection(this,mit->second);
+    // }
+    // for(size_t i=0; i<vPairs.size();i++)
+    // {
+    //     lKFs.push_front(vPairs[i].second);
+    //     lWs.push_front(vPairs[i].first);
+    // }
+    // mvpOrderedConnectedKeyFrames = vector<KeyFrame*>(lKFs.begin(),lKFs.end());
+    return mvpOrderedConnectedKeyFrames;
+}
+```
+
+### Spanning Tree and Essential Graph
+
+Every keyframe has a `mpParent` which is a keyframe pointer `KeyFrame*` that shares the most feature points with the current keyframe.
+Then, the most co-visible keyframe `mpParent` adds the current keyframe `this` as its child.
+
+As more and more keyframes are created, a spanning tree can be constructed.
+If a keyframe represents a road intersection that a vehicle would repeatedly visit, this keyframe should have many children, otherwise, a keyframe might just have one child keyframe that is the neighbor of the keyframe.
+
+One keyframe just has one `mpParent`.
+One parent keyframe such as a road intersection can have many children.
+Some keyframes might not have any child.
+
+```cpp
+void KeyFrame::UpdateConnections()
+{
+    ...
+
+    // `mbFirstConnection` is init to true when a keyframe is created
+    // `mnId=nNextId++;` where `long unsigned int KeyFrame::nNextId=0;` which is a global var
+    if(mbFirstConnection && mnId!=0)
+    {
+        mpParent = mvpOrderedConnectedKeyFrames.front();
+        mpParent->AddChild(this);
+        mbFirstConnection = false;
+    }
+}
+
+void KeyFrame::AddChild(KeyFrame *pKF)
+{
+    unique_lock<mutex> lockCon(mMutexConnections);
+
+    // std::set<ORB_SLAM2::KeyFrame *> ORB_SLAM2::KeyFrame::mspChildrens
+    mspChildrens.insert(pKF);
+}
+```
+
+The spanning tree is exactly defined as one keyframe just has one `mpParent`.
+
+The Essential Graph contains the spanning tree, the subset of edges from the co-visibility graph with high co-visibility
+(should at least have $100$ co-visible features), and the loop closure edges, resulting in a strong network of cameras.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/orbslam_graphs.png" width="30%" height="30%" alt="orbslam_graphs" /> 
+</div>
+<br/>
+
 ## ORB Extractor
 
 Some `ORBextractor` init arguments are
@@ -3290,7 +3374,7 @@ First, it find some keyframes that share observed features by `DetectRelocalizat
 If the number of shared feature is greater than $15$, build `new PnPsolver(mCurrentFrame,vvpMapPointMatches[i]);` for the keyframes. 
 Record the number of to be PnP solved keyrames as `nCandidates`.
 
-For these shared-feature keyframes, run `pSolver->iterate(5,bNoMore,vbInliers,nInliers);` that runs five times RANSAC to update camera pose and find inliers (by checking projection error).
+For these shared-feature keyframes, run `pSolver->iterate(5,bNoMore,vbInliers,nInliers);` that runs five times RANSAC to update camera pose and find inliers (by checking projection error).`1
 
 Check the number of match points, if having too few match points, run `SearchByProjection(...)` to obtain more feature points to match.
 
@@ -3947,7 +4031,7 @@ $$
 \end{align*}
 $$
 
-```c++
+```cpp
 class  EdgeSE3ProjectXYZ: public  BaseBinaryEdge<2, Vector2d, VertexSBAPointXYZ, VertexSE3Expmap>{
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -4018,6 +4102,60 @@ void EdgeSE3ProjectXYZ::linearizeOplus() {
 }
 ```
 
+### Map Point Normal And Depth Update
+
+After setting a map point pose `pMP->SetWorldPos(...)`, should then update the normal and depth of the map point.
+
+The normal vector is the mean vector of one map point's all observations by different keyframes aligned to individual keyframe's camera pose, that is $\bold{n}=\frac{1}{n} \sum^n_i \frac{\bold{n}_i}{\big|\bold{n}_i\big|}$, where $\bold{n}_i$ is computed by `cv::Mat normali = mWorldPos - Owi;`.
+
+For map point depth, compute by `cv::Mat PC = Pos - pRefKF->GetCameraCenter();` then taking the length by `const float dist = cv::norm(PC);`.
+The depth's max and min estimate is scaled by keyframe's scale factor.
+
+```cpp
+void MapPoint::UpdateNormalAndDepth()
+{
+    map<KeyFrame*,size_t> observations;
+    KeyFrame* pRefKF;
+    cv::Mat Pos;
+    {
+        unique_lock<mutex> lock1(mMutexFeatures);
+        unique_lock<mutex> lock2(mMutexPos);
+        if(mbBad)
+            return;
+        observations=mObservations;
+        pRefKF=mpRefKF;
+        Pos = mWorldPos.clone();
+    }
+
+    if(observations.empty())
+        return;
+
+    cv::Mat normal = cv::Mat::zeros(3,1,CV_32F);
+    int n=0;
+    for(map<KeyFrame*,size_t>::iterator mit=observations.begin(), mend=observations.end(); mit!=mend; mit++)
+    {
+        KeyFrame* pKF = mit->first;
+        cv::Mat Owi = pKF->GetCameraCenter();
+        cv::Mat normali = mWorldPos - Owi;
+        normal = normal + normali/cv::norm(normali);
+        n++;
+    }
+
+    cv::Mat PC = Pos - pRefKF->GetCameraCenter();
+    const float dist = cv::norm(PC);
+    const int level = pRefKF->mvKeysUn[observations[pRefKF]].octave;
+    const float levelScaleFactor =  pRefKF->mvScaleFactors[level];
+    const int nLevels = pRefKF->mnScaleLevels;
+
+    {
+        unique_lock<mutex> lock3(mMutexPos);
+        mfMaxDistance = dist*levelScaleFactor;
+        mfMinDistance = mfMaxDistance/pRefKF->mvScaleFactors[nLevels-1];
+        mNormalVector = normal/n;
+    }
+}
+```
+
 ### Local Bundle Adjustment
 
 Local bundle adjustment takes care of keyframe from `pKF->GetVectorCovisibleKeyFrames();`.
@@ -4044,276 +4182,12 @@ void Optimizer::LocalBundleAdjustment(KeyFrame *pKF, bool* pbStopFlag, Map* pMap
 }
 ```
 
-## Essentail Graph and Covisibility
-
-```cpp
-void Optimizer::OptimizeEssentialGraph(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
-                                       const LoopClosing::KeyFrameAndPose &NonCorrectedSim3,
-                                       const LoopClosing::KeyFrameAndPose &CorrectedSim3,
-                                       const map<KeyFrame *, set<KeyFrame *> > &LoopConnections, const bool &bFixScale)
-{
-    // Setup optimizer
-    g2o::SparseOptimizer optimizer;
-    optimizer.setVerbose(false);
-    g2o::BlockSolver_7_3::LinearSolverType * linearSolver =
-           new g2o::LinearSolverEigen<g2o::BlockSolver_7_3::PoseMatrixType>();
-    g2o::BlockSolver_7_3 * solver_ptr= new g2o::BlockSolver_7_3(linearSolver);
-    g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(solver_ptr);
-
-    solver->setUserLambdaInit(1e-16);
-    optimizer.setAlgorithm(solver);
-
-    const vector<KeyFrame*> vpKFs = pMap->GetAllKeyFrames();
-    const vector<MapPoint*> vpMPs = pMap->GetAllMapPoints();
-
-    const unsigned int nMaxKFid = pMap->GetMaxKFid();
-
-    vector<g2o::Sim3,Eigen::aligned_allocator<g2o::Sim3> > vScw(nMaxKFid+1);
-    vector<g2o::Sim3,Eigen::aligned_allocator<g2o::Sim3> > vCorrectedSwc(nMaxKFid+1);
-    vector<g2o::VertexSim3Expmap*> vpVertices(nMaxKFid+1);
-
-    const int minFeat = 100;
-
-    // Set KeyFrame vertices
-    for(size_t i=0, iend=vpKFs.size(); i<iend;i++) {
-        KeyFrame* pKF = vpKFs[i];
-        if(pKF->isBad())
-            continue;
-        g2o::VertexSim3Expmap* VSim3 = new g2o::VertexSim3Expmap();
-
-        const int nIDi = pKF->mnId;
-
-        LoopClosing::KeyFrameAndPose::const_iterator it = CorrectedSim3.find(pKF);
-
-        if(it!=CorrectedSim3.end()) {
-            vScw[nIDi] = it->second;
-            VSim3->setEstimate(it->second);
-        }
-        else {
-            Eigen::Matrix<double,3,3> Rcw = Converter::toMatrix3d(pKF->GetRotation());
-            Eigen::Matrix<double,3,1> tcw = Converter::toVector3d(pKF->GetTranslation());
-            g2o::Sim3 Siw(Rcw,tcw,1.0);
-            vScw[nIDi] = Siw;
-            VSim3->setEstimate(Siw);
-        }
-
-        if(pKF==pLoopKF)
-            VSim3->setFixed(true);
-
-        VSim3->setId(nIDi);
-        VSim3->setMarginalized(false);
-        VSim3->_fix_scale = bFixScale;
-
-        optimizer.addVertex(VSim3);
-
-        vpVertices[nIDi]=VSim3;
-    }
-
-
-    set<pair<long unsigned int,long unsigned int> > sInsertedEdges;
-
-    const Eigen::Matrix<double,7,7> matLambda = Eigen::Matrix<double,7,7>::Identity();
-
-    // Set Loop edges
-    for(map<KeyFrame *, set<KeyFrame *> >::const_iterator mit = LoopConnections.begin(), mend=LoopConnections.end(); mit!=mend; mit++)
-    {
-        KeyFrame* pKF = mit->first;
-        const long unsigned int nIDi = pKF->mnId;
-        const set<KeyFrame*> &spConnections = mit->second;
-        const g2o::Sim3 Siw = vScw[nIDi];
-        const g2o::Sim3 Swi = Siw.inverse();
-
-        for(set<KeyFrame*>::const_iterator sit=spConnections.begin(), send=spConnections.end(); sit!=send; sit++)
-        {
-            const long unsigned int nIDj = (*sit)->mnId;
-            if((nIDi!=pCurKF->mnId || nIDj!=pLoopKF->mnId) && pKF->GetWeight(*sit)<minFeat)
-                continue;
-
-            const g2o::Sim3 Sjw = vScw[nIDj];
-            const g2o::Sim3 Sji = Sjw * Swi;
-
-            g2o::EdgeSim3* e = new g2o::EdgeSim3();
-            e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
-            e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-            e->setMeasurement(Sji);
-
-            e->information() = matLambda;
-
-            optimizer.addEdge(e);
-
-            sInsertedEdges.insert(make_pair(min(nIDi,nIDj),max(nIDi,nIDj)));
-        }
-    }
-
-    // Set normal edges
-    for(size_t i=0, iend=vpKFs.size(); i<iend; i++)
-    {
-        KeyFrame* pKF = vpKFs[i];
-
-        const int nIDi = pKF->mnId;
-
-        g2o::Sim3 Swi;
-
-        LoopClosing::KeyFrameAndPose::const_iterator iti = NonCorrectedSim3.find(pKF);
-
-        if(iti!=NonCorrectedSim3.end())
-            Swi = (iti->second).inverse();
-        else
-            Swi = vScw[nIDi].inverse();
-
-        KeyFrame* pParentKF = pKF->GetParent();
-
-        // Spanning tree edge
-        if(pParentKF)
-        {
-            int nIDj = pParentKF->mnId;
-
-            g2o::Sim3 Sjw;
-
-            LoopClosing::KeyFrameAndPose::const_iterator itj = NonCorrectedSim3.find(pParentKF);
-
-            if(itj!=NonCorrectedSim3.end())
-                Sjw = itj->second;
-            else
-                Sjw = vScw[nIDj];
-
-            g2o::Sim3 Sji = Sjw * Swi;
-
-            g2o::EdgeSim3* e = new g2o::EdgeSim3();
-            e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
-            e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-            e->setMeasurement(Sji);
-
-            e->information() = matLambda;
-            optimizer.addEdge(e);
-        }
-
-        // Loop edges
-        const set<KeyFrame*> sLoopEdges = pKF->GetLoopEdges();
-        for(set<KeyFrame*>::const_iterator sit=sLoopEdges.begin(), send=sLoopEdges.end(); sit!=send; sit++)
-        {
-            KeyFrame* pLKF = *sit;
-            if(pLKF->mnId<pKF->mnId)
-            {
-                g2o::Sim3 Slw;
-
-                LoopClosing::KeyFrameAndPose::const_iterator itl = NonCorrectedSim3.find(pLKF);
-
-                if(itl!=NonCorrectedSim3.end())
-                    Slw = itl->second;
-                else
-                    Slw = vScw[pLKF->mnId];
-
-                g2o::Sim3 Sli = Slw * Swi;
-                g2o::EdgeSim3* el = new g2o::EdgeSim3();
-                el->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pLKF->mnId)));
-                el->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-                el->setMeasurement(Sli);
-                el->information() = matLambda;
-                optimizer.addEdge(el);
-            }
-        }
-
-        // Covisibility graph edges
-        const vector<KeyFrame*> vpConnectedKFs = pKF->GetCovisiblesByWeight(minFeat);
-        for(vector<KeyFrame*>::const_iterator vit=vpConnectedKFs.begin(); vit!=vpConnectedKFs.end(); vit++)
-        {
-            KeyFrame* pKFn = *vit;
-            if(pKFn && pKFn!=pParentKF && !pKF->hasChild(pKFn) && !sLoopEdges.count(pKFn))
-            {
-                if(!pKFn->isBad() && pKFn->mnId<pKF->mnId)
-                {
-                    if(sInsertedEdges.count(make_pair(min(pKF->mnId,pKFn->mnId),max(pKF->mnId,pKFn->mnId))))
-                        continue;
-
-                    g2o::Sim3 Snw;
-
-                    LoopClosing::KeyFrameAndPose::const_iterator itn = NonCorrectedSim3.find(pKFn);
-
-                    if(itn!=NonCorrectedSim3.end())
-                        Snw = itn->second;
-                    else
-                        Snw = vScw[pKFn->mnId];
-
-                    g2o::Sim3 Sni = Snw * Swi;
-
-                    g2o::EdgeSim3* en = new g2o::EdgeSim3();
-                    en->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFn->mnId)));
-                    en->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-                    en->setMeasurement(Sni);
-                    en->information() = matLambda;
-                    optimizer.addEdge(en);
-                }
-            }
-        }
-    }
-
-    // Optimize!
-    optimizer.initializeOptimization();
-    optimizer.optimize(20);
-
-    unique_lock<mutex> lock(pMap->mMutexMapUpdate);
-
-    // SE3 Pose Recovering. Sim3:[sR t;0 1] -> SE3:[R t/s;0 1]
-    for(size_t i=0;i<vpKFs.size();i++)
-    {
-        KeyFrame* pKFi = vpKFs[i];
-
-        const int nIDi = pKFi->mnId;
-
-        g2o::VertexSim3Expmap* VSim3 = static_cast<g2o::VertexSim3Expmap*>(optimizer.vertex(nIDi));
-        g2o::Sim3 CorrectedSiw =  VSim3->estimate();
-        vCorrectedSwc[nIDi]=CorrectedSiw.inverse();
-        Eigen::Matrix3d eigR = CorrectedSiw.rotation().toRotationMatrix();
-        Eigen::Vector3d eigt = CorrectedSiw.translation();
-        double s = CorrectedSiw.scale();
-
-        eigt *=(1./s); //[R t/s;0 1]
-
-        cv::Mat Tiw = Converter::toCvSE3(eigR,eigt);
-
-        pKFi->SetPose(Tiw);
-    }
-
-    // Correct points. Transform to "non-optimized" reference keyframe pose and transform back with optimized pose
-    for(size_t i=0, iend=vpMPs.size(); i<iend; i++)
-    {
-        MapPoint* pMP = vpMPs[i];
-
-        if(pMP->isBad())
-            continue;
-
-        int nIDr;
-        if(pMP->mnCorrectedByKF==pCurKF->mnId)
-        {
-            nIDr = pMP->mnCorrectedReference;
-        }
-        else
-        {
-            KeyFrame* pRefKF = pMP->GetReferenceKeyFrame();
-            nIDr = pRefKF->mnId;
-        }
-
-
-        g2o::Sim3 Srw = vScw[nIDr];
-        g2o::Sim3 correctedSwr = vCorrectedSwc[nIDr];
-
-        cv::Mat P3Dw = pMP->GetWorldPos();
-        Eigen::Matrix<double,3,1> eigP3Dw = Converter::toVector3d(P3Dw);
-        Eigen::Matrix<double,3,1> eigCorrectedP3Dw = correctedSwr.map(Srw.map(eigP3Dw));
-
-        cv::Mat cvCorrectedP3Dw = Converter::toCvMat(eigCorrectedP3Dw);
-        pMP->SetWorldPos(cvCorrectedP3Dw);
-
-        pMP->UpdateNormalAndDepth();
-    }
-}
-```
-
 ## Local Mapping
 
 `LocalMapping` is a thread launched from `System::System(...)` when ORB-SLAM starts.
 Thread runs `ORB_SLAM2::LocalMapping::Run();` which is a `while(true)` loop that does the below tasks.
+
+Most importantly, it first triangulates building some map points in `CreateNewMapPoints();`, then perform local bundle ajdustment to find the optimal transform.
 
 ```cpp
 System::System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor,
@@ -4451,7 +4325,7 @@ y_p &= \frac{f_y}{Z} y_w +c_y
 \end{align*}
 $$
 
-$\cos\angle{\theta_{12}}<0.9998$ should hold true before performing triangulation, since lower the $\cos\angle{\theta_{12}}$, greater the $\angle{\theta_{12}}$ and better result/higher precision.
+$0 \le \cos\angle{\theta_{12}}<0.9998$ should hold true before performing triangulation, since lower the $\cos\angle{\theta_{12}}$, greater the $\angle{\theta_{12}}$ and better result/higher precision.
 
 For triangulation, here is the full formula.
 
@@ -4484,7 +4358,7 @@ s \underbrace{\begin{bmatrix}
     \end{bmatrix}=\begin{bmatrix}
         \bold{p}_1^\top \\
         \bold{p}_2^\top \\
-        \bold{p}_3^\top \\
+        \bold{p}_3^\top
     \end{bmatrix}
     }
 \underbrace{\begin{bmatrix}
@@ -4496,7 +4370,10 @@ s \underbrace{\begin{bmatrix}
 $$
 where $\bold{p}_1^\top=[p_1\quad p_2\quad p_3\quad p_4],\qquad \bold{p}_2^\top=[p_5\quad p_6\quad p_7\quad p_8], \qquad \bold{p}_3^\top=[p_9\quad p_{10}\quad p_{11}\quad p_{12}]$.
 
-Consider image pixels $(u, v)$ and $(u', v')$ for the two keyframes, there is $A\bold{X}=\bold{0}$:
+Consider image pixels $(u, v)$ and $(u', v')$ for the two keyframes, and the corresponding transform 
+$\bold{P} = \begin{bmatrix} \bold{p}_1^\top \\ \bold{p}_2^\top \\ \bold{p}_3^\top \end{bmatrix}$ 
+and $\bold{P}' = \begin{bmatrix} \bold{p'}_1^\top \\ \bold{p'}_2^\top \\ \bold{p'}_3^\top \end{bmatrix}$
+by triangulation rule, there is $A\bold{X}=\bold{0}$:
 
 $$
 \begin{bmatrix}
@@ -4522,6 +4399,47 @@ $$
 \end{bmatrix}
 $$
 
+The above equations are decomposed by SVD `cv::SVD::compute(A,w,u,vt,cv::SVD::MODIFY_A| cv::SVD::FULL_UV);`, where `vt` is the sorted eigenvectors, and `x3D = vt.row(3).t();` is the eigenvector corresponding to the smallest eigenvalue.
+By  Rayleigh quotient, this eigenvector `x3D` is the solution $\bold{X}=[X\quad Y\quad Z\quad 1]^{\top}$.
+`x3D = x3D.rowRange(0,3)/x3D.at<float>(3);` is the normalization term for the fourth element $1$.
+Denote `x3D` as $\bold{x}$.
+
+Denote the projection from the triangulated estimate map point as $(\hat{u},\hat{v})$, and keypoint observations $(u,v)$ from camera as the truth, compute the error.
+If the error passes the $\mathcal{X}^2$ test of $95\%$ confidence, the triangulated result $\bold{x}$ is good.
+$$
+\begin{align*}
+&&
+\hat{\bold{x}}_{1c} &= 
+\begin{bmatrix}
+    x_{1c} \\ y_{1c} \\ z_{1c}
+\end{bmatrix}
+ = R_1 \bold{x} + \bold{t}_1
+& &&\qquad
+\hat{\bold{x}}_{2c} &= 
+\begin{bmatrix}
+    x_{2c} \\ y_{2c} \\ z_{2c}
+\end{bmatrix}
+ = R_2 \bold{x} + \bold{t}_2
+\\ \text{Projection } \Rightarrow &&
+\hat{u}_{1} &= \frac{f_x}{z_{1c}} x_{1c} + c_x
+&\qquad
+\hat{v}_{1} = \frac{f_y}{z_{1c}} y_{1c} + c_y
+&&\qquad
+\hat{u}_{2} &= \frac{f_x}{z_{2c}} x_{2c} + c_x
+&\qquad
+\hat{v}_{2} = \frac{f_y}{z_{2c}} y_{2c} + c_y
+\\ \text{Error } \Rightarrow &&
+\bold{e}_1 &= \begin{bmatrix} \hat{u}_{1} \\ \hat{v}_{1} \end{bmatrix}
+- \begin{bmatrix} {u}_{1} \\ {v}_{1} \end{bmatrix}
+& &&\qquad
+\bold{e}_2 &= \begin{bmatrix} \hat{u}_{2} \\ \hat{v}_{2} \end{bmatrix}
+- \begin{bmatrix} {u}_{2} \\ {v}_{2} \end{bmatrix}
+\\ \mathcal{X}^2 \text{ test by } 95\% \text{ confidence } \Rightarrow &&
+\bold{e}_1 \bold{e}_1^{\top} &< 5.991
+& &&\qquad
+\bold{e}_2 \bold{e}_2^{\top} &< 5.991
+\end{align*}
+$$
 
 ```cpp
 void LocalMapping::CreateNewMapPoints()
@@ -4772,6 +4690,9 @@ void LocalMapping::CreateNewMapPoints()
 }
 ```
 
+`SearchForTriangulation(...)` finds feature points from two keyframes to compute triangulation.
+If two feature points have very small Hamming distance, they are regarded as referring to the same map point.
+
 Denote $C_1=[X_1\quad Y_1\quad Z_1]^{\top}$ as the keyframe `pKF1`'s  camera center, 
 the keyframe `pKF2`'s  camera center can be computed by $C_2=[X_2\quad Y_2\quad Z_2]^{\top}=R_2 C_1 + \bold{t}_2$.
 
@@ -4811,8 +4732,6 @@ if(CheckDistEpipolarLine(kp1,kp2,F12,pKF2))
     bestDist = dist;
 }
 ```
-
-
 
 Finally, apply rotation consistency.
 
@@ -5046,6 +4965,8 @@ bool ORBmatcher::CheckDistEpipolarLine(const cv::KeyPoint &kp1,const cv::KeyPoin
 `LoopClosing` is a thread launched from `System::System(...)` when ORB-SLAM starts.
 Thread runs `ORB_SLAM2::LoopClosing::Run();` which is a `while(true)` loop that does the below tasks.
 
+Generally speaking, it first performs `DetectLoop();`, then `CorrectLoop()`.
+
 ```cpp
 System::System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor,
                const bool bUseViewer):mSensor(sensor), mpViewer(static_cast<Viewer*>(NULL)), mbReset(false),mbActivateLocalizationMode(false),
@@ -5091,5 +5012,1088 @@ void LoopClosing::Run()
     }
 
     SetFinish();
+}
+```
+
+### `DetectLoop()`
+
+`DetectLoop()` uses BoW to compare similarities between the current keyframe and others from covisibility keyframes.
+
+Recall that covisibility keyframes of a keyframe are stored as a vector of keyframe pointers that are sorted by the number of co-observed features.
+```cpp
+void KeyFrame::UpdateBestCovisibles()
+{
+    ...
+    mvpOrderedConnectedKeyFrames = vector<KeyFrame*>(lKFs.begin(),lKFs.end());
+    mvOrderedWeights = vector<int>(lWs.begin(), lWs.end());  
+}  
+```
+
+In DBoW2, image similarity is measured by comparing BoW vector representations of the two keyframes, and a score is produced such that `float score = mpORBVocabulary->score(CurrentBowVec, BowVec);`.
+Higher the score, more similar the two images.
+$$
+\text{s}(\bold{v}_1, \bold{v}_2) =
+1 - \frac{1}{2}
+\Bigg| \frac{\bold{v}_1}{|\bold{v}_1|} - \frac{\bold{v}_2}{|\bold{v}_2|} \Bigg|
+$$
+
+`mpKeyFrameDB->DetectLoopCandidates(mpCurrentKF, minScore);` finds history keyframes that share visual features.
+Keyframes' score must be greater than `minScore` to be considered as loop candidate keyframes.
+```cpp
+vector<KeyFrame*> KeyFrameDatabase::DetectLoopCandidates(KeyFrame* pKF, float minScore)
+{
+    // extract each word/feature from this current keyframe
+    for(DBoW2::BowVector::const_iterator vit=pKF->mBowVec.begin(), vend=pKF->mBowVec.end(); vit != vend; vit++) {
+        list<KeyFrame*> &lKFs =   mvInvertedFile[vit->first];
+        // from each word/feature, find all keyframes having observed this feature
+        for(list<KeyFrame*>::iterator lit=lKFs.begin(), lend= lKFs.end(); lit!=lend; lit++) {
+            ... // record/count keyframes
+        }
+    }
+    ... // some engineering filter details, such as filtering out keyframes having scores too low, 
+        // do not include neighbor keyframes
+
+    ... // `list<pair<float,KeyFrame*> > lAccScoreAndMatch;` is used to store some best score keyframes
+    vector<KeyFrame*> vpLoopCandidates;
+    for(list<pair<float,KeyFrame*> >::iterator it=lAccScoreAndMatch.begin(), itend=lAccScoreAndMatch.end(); it!=itend; it++){
+        KeyFrame* pKFi = it->second;
+        vpLoopCandidates.push_back(pKFi);
+    }
+
+    return vpLoopCandidates;
+}
+```
+
+Then, for each loop candidate check consistency with previous loop candidates.
+For each candidate keyframe `KeyFrame* pCandidateKF = vpCandidateKFs[i];`, derive `set<KeyFrame*> spCandidateGroup = pCandidateKF->GetConnectedKeyFrames();`, which is a group of keyframes sharing some observed features with the current keyframe.
+Then, iterate through `std::vector<std::pair<std::set<ORB_SLAM2::KeyFrame *>, int>> mvConsistentGroups`, whose element is a pair that associates keyframe group with this group's the number of previous consistent keyframes.
+A consistency group's elements' key is a previous group `set<KeyFrame*> sPreviousGroup = mvConsistentGroups[iG].first;` that if `if(sPreviousGroup.count(*sit))` holds ture, it means a previous group has seen a candidate group `set<KeyFrame*>::iterator sit`, and it can be said the previous group is consistent.
+
+If is consistent, the consistent group is updated such as below.
+```cpp
+int nCurrentConsistency = nPreviousConsistency + 1;
+ConsistentGroup cg = make_pair(spCandidateGroup,nCurrentConsistency);
+vCurrentConsistentGroups.push_back(cg);
+```
+
+The full `DetectLoop()` goes as below.
+
+```cpp
+bool LoopClosing::DetectLoop()
+{
+    {
+        unique_lock<mutex> lock(mMutexLoopQueue);
+        mpCurrentKF = mlpLoopKeyFrameQueue.front();
+        mlpLoopKeyFrameQueue.pop_front();
+        // Avoid that a keyframe can be erased while it is being process by this thread
+        mpCurrentKF->SetNotErase();
+    }
+
+    //If the map contains less than 10 KF or less than 10 KF have passed from last loop detection
+    if(mpCurrentKF->mnId<mLastLoopKFid+10)
+    {
+        mpKeyFrameDB->add(mpCurrentKF);
+        mpCurrentKF->SetErase();
+        return false;
+    }
+
+    // Compute reference BoW similarity score
+    // This is the lowest score to a connected keyframe in the covisibility graph
+    // We will impose loop candidates to have a higher similarity than this
+    const vector<KeyFrame*> vpConnectedKeyFrames = mpCurrentKF->GetVectorCovisibleKeyFrames();
+    const DBoW2::BowVector &CurrentBowVec = mpCurrentKF->mBowVec;
+    float minScore = 1;
+    for(size_t i=0; i<vpConnectedKeyFrames.size(); i++)
+    {
+        KeyFrame* pKF = vpConnectedKeyFrames[i];
+        if(pKF->isBad())
+            continue;
+        const DBoW2::BowVector &BowVec = pKF->mBowVec;
+
+        float score = mpORBVocabulary->score(CurrentBowVec, BowVec);
+
+        if(score<minScore)
+            minScore = score;
+    }
+
+    // Query the database imposing the minimum score
+    vector<KeyFrame*> vpCandidateKFs = mpKeyFrameDB->DetectLoopCandidates(mpCurrentKF, minScore);
+
+    // If there are no loop candidates, just add new keyframe and return false
+    if(vpCandidateKFs.empty())
+    {
+        mpKeyFrameDB->add(mpCurrentKF);
+        mvConsistentGroups.clear();
+        mpCurrentKF->SetErase();
+        return false;
+    }
+
+    // For each loop candidate check consistency with previous loop candidates
+    // Each candidate expands a covisibility group (keyframes connected to the loop candidate in the covisibility graph)
+    // A group is consistent with a previous group if they share at least a keyframe
+    // We must detect a consistent loop in several consecutive keyframes to accept it
+    mvpEnoughConsistentCandidates.clear();
+
+    vector<ConsistentGroup> vCurrentConsistentGroups;
+    vector<bool> vbConsistentGroup(mvConsistentGroups.size(),false);
+    for(size_t i=0, iend=vpCandidateKFs.size(); i<iend; i++)
+    {
+        KeyFrame* pCandidateKF = vpCandidateKFs[i];
+
+        set<KeyFrame*> spCandidateGroup = pCandidateKF->GetConnectedKeyFrames();
+        spCandidateGroup.insert(pCandidateKF);
+
+        bool bEnoughConsistent = false;
+        bool bConsistentForSomeGroup = false;
+        for(size_t iG=0, iendG=mvConsistentGroups.size(); iG<iendG; iG++)
+        {
+            set<KeyFrame*> sPreviousGroup = mvConsistentGroups[iG].first;
+
+            bool bConsistent = false;
+            for(set<KeyFrame*>::iterator sit=spCandidateGroup.begin(), send=spCandidateGroup.end(); sit!=send;sit++)
+            {
+                if(sPreviousGroup.count(*sit))
+                {
+                    bConsistent=true;
+                    bConsistentForSomeGroup=true;
+                    break;
+                }
+            }
+
+            if(bConsistent)
+            {
+                int nPreviousConsistency = mvConsistentGroups[iG].second;
+                int nCurrentConsistency = nPreviousConsistency + 1;
+                if(!vbConsistentGroup[iG])
+                {
+                    ConsistentGroup cg = make_pair(spCandidateGroup,nCurrentConsistency);
+                    vCurrentConsistentGroups.push_back(cg);
+                    vbConsistentGroup[iG]=true; //this avoid to include the same group more than once
+                }
+                if(nCurrentConsistency>=mnCovisibilityConsistencyTh && !bEnoughConsistent)
+                {
+                    mvpEnoughConsistentCandidates.push_back(pCandidateKF);
+                    bEnoughConsistent=true; //this avoid to insert the same candidate more than once
+                }
+            }
+        }
+
+        // If the group is not consistent with any previous group insert with consistency counter set to zero
+        if(!bConsistentForSomeGroup)
+        {
+            ConsistentGroup cg = make_pair(spCandidateGroup,0);
+            vCurrentConsistentGroups.push_back(cg);
+        }
+    }
+
+    // Update Covisibility Consistent Groups
+    mvConsistentGroups = vCurrentConsistentGroups;
+
+
+    // Add Current Keyframe to database
+    mpKeyFrameDB->add(mpCurrentKF);
+
+    if(mvpEnoughConsistentCandidates.empty())
+    {
+        mpCurrentKF->SetErase();
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+
+    mpCurrentKF->SetErase();
+    return false;
+}
+```
+
+### `ComputeSim3()`
+
+`ComputeSim3()` in loop closure:
+1. find enough matching keypoints by `matcher.SearchByBoW(mpCurrentKF,pKF,vvpMapPointMatches[i]);`
+2. launch $Sim(3)$ solver for the transform between this current keyframe and some consistent loop candidate keyframes
+3. solve $Sim(3)$ by 5-point RANSAC `cv::Mat Scm  = pSolver->iterate(5,bNoMore,vbInliers,nInliers);`, that selects some map points to estimate the transform between two keyframes as well as validating the map points as inliers
+4. with the obtained transform, `matcher.SearchBySim3(mpCurrentKF,pKF,vpMapPointMatches,s,R,t,7.5);` associates map points observed from two keyframes by first transforming the two points from two keyframes to one global coordinate system, then try to merge them if they sit close to each other and have small Hamming distance
+5. perform fine-tuning $Sim(3)$ considering all inlier map points by `Optimizer::OptimizeSim3(mpCurrentKF, pKF, vpMapPointMatches, gScm, 10, mbFixScale);`
+6. derive this current keyframe pose by `mg2oScw = gScm*gSmw;`, where `gScm` is the transform between the current keyframe the a candidate keyframe, and `gSmw` is the candidate keyframe $Sim(3)$ pose
+7. finally, store the corrected $Sim(3)$ map points by `mvpLoopMapPoints.push_back(pMP);`
+
+```cpp
+bool LoopClosing::ComputeSim3()
+{
+    // For each consistent loop candidate we try to compute a Sim3
+
+    const int nInitialCandidates = mvpEnoughConsistentCandidates.size();
+
+    // We compute first ORB matches for each candidate
+    // If enough matches are found, we setup a Sim3Solver
+    ORBmatcher matcher(0.75,true);
+
+    vector<Sim3Solver*> vpSim3Solvers;
+    vpSim3Solvers.resize(nInitialCandidates);
+
+    vector<vector<MapPoint*> > vvpMapPointMatches;
+    vvpMapPointMatches.resize(nInitialCandidates);
+
+    vector<bool> vbDiscarded;
+    vbDiscarded.resize(nInitialCandidates);
+
+    int nCandidates=0; //candidates with enough matches
+
+    for(int i=0; i<nInitialCandidates; i++)
+    {
+        KeyFrame* pKF = mvpEnoughConsistentCandidates[i];
+
+        // avoid that local mapping erase it while it is being processed in this thread
+        pKF->SetNotErase();
+
+        if(pKF->isBad())
+        {
+            vbDiscarded[i] = true;
+            continue;
+        }
+
+        int nmatches = matcher.SearchByBoW(mpCurrentKF,pKF,vvpMapPointMatches[i]);
+
+        if(nmatches<20)
+        {
+            vbDiscarded[i] = true;
+            continue;
+        }
+        else
+        {
+            Sim3Solver* pSolver = new Sim3Solver(mpCurrentKF,pKF,vvpMapPointMatches[i],mbFixScale);
+            pSolver->SetRansacParameters(0.99,20,300);
+            vpSim3Solvers[i] = pSolver;
+        }
+
+        nCandidates++;
+    }
+
+    bool bMatch = false;
+
+    // Perform alternatively RANSAC iterations for each candidate
+    // until one is succesful or all fail
+    while(nCandidates>0 && !bMatch)
+    {
+        for(int i=0; i<nInitialCandidates; i++)
+        {
+            if(vbDiscarded[i])
+                continue;
+
+            KeyFrame* pKF = mvpEnoughConsistentCandidates[i];
+
+            // Perform 5 Ransac Iterations
+            vector<bool> vbInliers;
+            int nInliers;
+            bool bNoMore;
+
+            Sim3Solver* pSolver = vpSim3Solvers[i];
+            cv::Mat Scm  = pSolver->iterate(5,bNoMore,vbInliers,nInliers);
+
+            // If Ransac reachs max. iterations discard keyframe
+            if(bNoMore)
+            {
+                vbDiscarded[i]=true;
+                nCandidates--;
+            }
+
+            // If RANSAC returns a Sim3, perform a guided matching and optimize with all correspondences
+            if(!Scm.empty())
+            {
+                vector<MapPoint*> vpMapPointMatches(vvpMapPointMatches[i].size(), static_cast<MapPoint*>(NULL));
+                for(size_t j=0, jend=vbInliers.size(); j<jend; j++)
+                {
+                    if(vbInliers[j])
+                       vpMapPointMatches[j]=vvpMapPointMatches[i][j];
+                }
+
+                cv::Mat R = pSolver->GetEstimatedRotation();
+                cv::Mat t = pSolver->GetEstimatedTranslation();
+                const float s = pSolver->GetEstimatedScale();
+                matcher.SearchBySim3(mpCurrentKF,pKF,vpMapPointMatches,s,R,t,7.5);
+
+                g2o::Sim3 gScm(Converter::toMatrix3d(R),Converter::toVector3d(t),s);
+                const int nInliers = Optimizer::OptimizeSim3(mpCurrentKF, pKF, vpMapPointMatches, gScm, 10, mbFixScale);
+
+                // If optimization is succesful stop ransacs and continue
+                if(nInliers>=20)
+                {
+                    bMatch = true;
+                    mpMatchedKF = pKF;
+                    g2o::Sim3 gSmw(Converter::toMatrix3d(pKF->GetRotation()),Converter::toVector3d(pKF->GetTranslation()),1.0);
+                    mg2oScw = gScm*gSmw;
+                    mScw = Converter::toCvMat(mg2oScw);
+
+                    mvpCurrentMatchedPoints = vpMapPointMatches;
+                    break;
+                }
+            }
+        }
+    }
+
+    if(!bMatch)
+    {
+        for(int i=0; i<nInitialCandidates; i++)
+             mvpEnoughConsistentCandidates[i]->SetErase();
+        mpCurrentKF->SetErase();
+        return false;
+    }
+
+    // Retrieve MapPoints seen in Loop Keyframe and neighbors
+    vector<KeyFrame*> vpLoopConnectedKFs = mpMatchedKF->GetVectorCovisibleKeyFrames();
+    vpLoopConnectedKFs.push_back(mpMatchedKF);
+    mvpLoopMapPoints.clear();
+    for(vector<KeyFrame*>::iterator vit=vpLoopConnectedKFs.begin(); vit!=vpLoopConnectedKFs.end(); vit++)
+    {
+        KeyFrame* pKF = *vit;
+        vector<MapPoint*> vpMapPoints = pKF->GetMapPointMatches();
+        for(size_t i=0, iend=vpMapPoints.size(); i<iend; i++)
+        {
+            MapPoint* pMP = vpMapPoints[i];
+            if(pMP)
+            {
+                if(!pMP->isBad() && pMP->mnLoopPointForKF!=mpCurrentKF->mnId)
+                {
+                    mvpLoopMapPoints.push_back(pMP);
+                    pMP->mnLoopPointForKF=mpCurrentKF->mnId;
+                }
+            }
+        }
+    }
+
+    // Find more matches projecting with the computed Sim3
+    matcher.SearchByProjection(mpCurrentKF, mScw, mvpLoopMapPoints, mvpCurrentMatchedPoints,10);
+
+    // If enough matches accept Loop
+    int nTotalMatches = 0;
+    for(size_t i=0; i<mvpCurrentMatchedPoints.size(); i++)
+    {
+        if(mvpCurrentMatchedPoints[i])
+            nTotalMatches++;
+    }
+
+    if(nTotalMatches>=40)
+    {
+        for(int i=0; i<nInitialCandidates; i++)
+            if(mvpEnoughConsistentCandidates[i]!=mpMatchedKF)
+                mvpEnoughConsistentCandidates[i]->SetErase();
+        return true;
+    }
+    else
+    {
+        for(int i=0; i<nInitialCandidates; i++)
+            mvpEnoughConsistentCandidates[i]->SetErase();
+        mpCurrentKF->SetErase();
+        return false;
+    }
+
+}
+
+```
+
+### `CorrectLoop()`
+
+Having detected a loop, perform loop closure.
+
+First gather some keyframes that are co-visible to the current keyframe as a vector `mvpCurrentConnectedKFs`. 
+These keyframes are first corrected by `mg2oScw = gScm*gSmw;` from the previous `ComputeSim3()`.
+For all connected keyframes to this current keyframe, create the transform to this current keyframe `cv::Mat Tic = Tiw*Twc;`, 
+that is $T_{ic}=T^{-1}_{wi}T_{wc}$, where $\space_{wc}$ refers to transform from the camera frame to world frame (a.k.a. camera pose) for this current keyframe, and $\space_{wi}$ refers to one connected keyframe, and there exists $T^{-1}_{wi}=T_{iw}$.
+The connected keyframes are computed by `g2o::Sim3 g2oCorrectedSiw = g2oSic*mg2oScw;` and store them `CorrectedSim3[pKFi]=g2oCorrectedSiw;`.
+
+The other keyframes are directly put into `NonCorrectedSim3[pKFi]=g2oSiw;` from their original keyframes' poses.
+
+The `g2oCorrectedSiw` are regarded as initial estimates for those loop closure keyframes, leaving all remaining keyframes not yet transformed/corrected.
+All `mvpCurrentConnectedKFs` and the remaining ones will be optimized together in `Optimizer::OptimizeEssentialGraph(...)`.
+
+`g2o::Sim3::map(const Vector3d & xyz) const { return _r*xyz + _t; }` is defined to compute mapping the point `xyz` by the transform $[R|\bold{t}]$.
+Hence, a corrected map point is computed by `eigCorrectedP3Dw = g2oCorrectedSwi.map(g2oSiw.map(eigP3Dw));`, 
+that an existing map point is first transformed by old/not-yet-corrected keyframe camera pose's inverse `g2oSiw`, then by the after-corrected keyframe camera pose `g2oCorrectedSwi`.
+
+Scale $s$ is taken into consideration for translation: retrieve the scale by `double s = g2oCorrectedSiw.scale();`,
+then `eigt *=(1./s);` for $\frac{1}{s}\bold{t}$.
+
+`SearchAndFuse(CorrectedSim3);` basically fuse duplicate map points.
+
+Finally, having the corrected current keyframe's camera pose and map points, perform global bundle adjustment.
+
+```cpp
+void LoopClosing::CorrectLoop()
+{
+    ... // some init checking and thread sync work
+
+    // Ensure current keyframe is updated
+    mpCurrentKF->UpdateConnections();
+
+    // Retrive keyframes connected to the current keyframe and compute corrected Sim3 pose by propagation
+    mvpCurrentConnectedKFs = mpCurrentKF->GetVectorCovisibleKeyFrames();
+    mvpCurrentConnectedKFs.push_back(mpCurrentKF);
+
+    KeyFrameAndPose CorrectedSim3, NonCorrectedSim3;
+    CorrectedSim3[mpCurrentKF]=mg2oScw;
+    cv::Mat Twc = mpCurrentKF->GetPoseInverse();
+
+
+    {
+        // Get Map Mutex
+        unique_lock<mutex> lock(mpMap->mMutexMapUpdate);
+
+        for(vector<KeyFrame*>::iterator vit=mvpCurrentConnectedKFs.begin(), vend=mvpCurrentConnectedKFs.end(); vit!=vend; vit++)
+        {
+            KeyFrame* pKFi = *vit;
+
+            cv::Mat Tiw = pKFi->GetPose();
+
+            if(pKFi!=mpCurrentKF)
+            {
+                // `Tic` is the transform from `pKFi` to the current keyframe `mpCurrentKF`
+                cv::Mat Tic = Tiw*Twc;
+                cv::Mat Ric = Tic.rowRange(0,3).colRange(0,3);
+                cv::Mat tic = Tic.rowRange(0,3).col(3);
+                g2o::Sim3 g2oSic(Converter::toMatrix3d(Ric),Converter::toVector3d(tic),1.0);
+                g2o::Sim3 g2oCorrectedSiw = g2oSic*mg2oScw;
+                //Pose corrected with the Sim3 of the loop closure
+                CorrectedSim3[pKFi]=g2oCorrectedSiw;
+            }
+
+            cv::Mat Riw = Tiw.rowRange(0,3).colRange(0,3);
+            cv::Mat tiw = Tiw.rowRange(0,3).col(3);
+            g2o::Sim3 g2oSiw(Converter::toMatrix3d(Riw),Converter::toVector3d(tiw),1.0);
+            //Pose without correction
+            NonCorrectedSim3[pKFi]=g2oSiw;
+        }
+
+        // Correct all MapPoints obsrved by current keyframe and neighbors, so that they align with the other side of the loop
+        for(KeyFrameAndPose::iterator mit=CorrectedSim3.begin(), mend=CorrectedSim3.end(); mit!=mend; mit++)
+        {
+            KeyFrame* pKFi = mit->first;
+            g2o::Sim3 g2oCorrectedSiw = mit->second;
+            g2o::Sim3 g2oCorrectedSwi = g2oCorrectedSiw.inverse();
+
+            g2o::Sim3 g2oSiw =NonCorrectedSim3[pKFi];
+
+            vector<MapPoint*> vpMPsi = pKFi->GetMapPointMatches();
+            for(size_t iMP=0, endMPi = vpMPsi.size(); iMP<endMPi; iMP++)
+            {
+                MapPoint* pMPi = vpMPsi[iMP];
+                ... // bad point checking
+
+                // Project with non-corrected pose and project back with corrected pose
+                cv::Mat P3Dw = pMPi->GetWorldPos();
+                Eigen::Matrix<double,3,1> eigP3Dw = Converter::toVector3d(P3Dw);
+                Eigen::Matrix<double,3,1> eigCorrectedP3Dw = g2oCorrectedSwi.map(g2oSiw.map(eigP3Dw));
+
+                cv::Mat cvCorrectedP3Dw = Converter::toCvMat(eigCorrectedP3Dw);
+                pMPi->SetWorldPos(cvCorrectedP3Dw);
+                pMPi->mnCorrectedByKF = mpCurrentKF->mnId;
+                pMPi->mnCorrectedReference = pKFi->mnId;
+                pMPi->UpdateNormalAndDepth();
+            }
+
+            // Update keyframe pose with corrected Sim3. First transform Sim3 to SE3 (scale translation)
+            Eigen::Matrix3d eigR = g2oCorrectedSiw.rotation().toRotationMatrix();
+            Eigen::Vector3d eigt = g2oCorrectedSiw.translation();
+            double s = g2oCorrectedSiw.scale();
+
+            eigt *=(1./s); //[R t/s;0 1]
+
+            cv::Mat correctedTiw = Converter::toCvSE3(eigR,eigt);
+
+            pKFi->SetPose(correctedTiw);
+
+            // Make sure connections are updated
+            pKFi->UpdateConnections();
+        }
+
+        // Start Loop Fusion
+        // Update matched map points and replace if duplicated
+        for(size_t i=0; i<mvpCurrentMatchedPoints.size(); i++)
+        {
+            if(mvpCurrentMatchedPoints[i])
+            {
+                MapPoint* pLoopMP = mvpCurrentMatchedPoints[i];
+                MapPoint* pCurMP = mpCurrentKF->GetMapPoint(i);
+                if(pCurMP)
+                    pCurMP->Replace(pLoopMP);
+                else
+                {
+                    mpCurrentKF->AddMapPoint(pLoopMP,i);
+                    pLoopMP->AddObservation(mpCurrentKF,i);
+                    pLoopMP->ComputeDistinctiveDescriptors();
+                }
+            }
+        }
+
+    }
+
+    // Project MapPoints observed in the neighborhood of the loop keyframe
+    // into the current keyframe and neighbors using corrected poses.
+    // Fuse duplications.
+    SearchAndFuse(CorrectedSim3);
+
+
+    // After the MapPoint fusion, new links in the covisibility graph will appear attaching both sides of the loop
+    map<KeyFrame*, set<KeyFrame*> > LoopConnections;
+
+    for(vector<KeyFrame*>::iterator vit=mvpCurrentConnectedKFs.begin(), vend=mvpCurrentConnectedKFs.end(); vit!=vend; vit++)
+    {
+        KeyFrame* pKFi = *vit;
+        vector<KeyFrame*> vpPreviousNeighbors = pKFi->GetVectorCovisibleKeyFrames();
+
+        // Update connections. Detect new links.
+        pKFi->UpdateConnections();
+        LoopConnections[pKFi]=pKFi->GetConnectedKeyFrames();
+        for(vector<KeyFrame*>::iterator vit_prev=vpPreviousNeighbors.begin(), vend_prev=vpPreviousNeighbors.end(); vit_prev!=vend_prev; vit_prev++)
+        {
+            LoopConnections[pKFi].erase(*vit_prev);
+        }
+        for(vector<KeyFrame*>::iterator vit2=mvpCurrentConnectedKFs.begin(), vend2=mvpCurrentConnectedKFs.end(); vit2!=vend2; vit2++)
+        {
+            LoopConnections[pKFi].erase(*vit2);
+        }
+    }
+
+    // Optimize graph
+    Optimizer::OptimizeEssentialGraph(mpMap, mpMatchedKF, mpCurrentKF, NonCorrectedSim3, CorrectedSim3, LoopConnections, mbFixScale);
+
+    mpMap->InformNewBigChange();
+
+    // Add loop edge
+    mpMatchedKF->AddLoopEdge(mpCurrentKF);
+    mpCurrentKF->AddLoopEdge(mpMatchedKF);
+
+    // Launch a new thread to perform Global Bundle Adjustment
+    mbRunningGBA = true;
+    mbFinishedGBA = false;
+    mbStopGBA = false;
+    mpThreadGBA = new thread(&LoopClosing::RunGlobalBundleAdjustment,this,mpCurrentKF->mnId);
+
+    // Loop closed. Release Local Mapping.
+    mpLocalMapper->Release();    
+
+    mLastLoopKFid = mpCurrentKF->mnId;   
+}
+```
+
+To fuse duplicate map points that given the map points `cv::Mat p3Dw = pMP->GetWorldPos();`, 
+transform it to the camera coordinate system by `cv::Mat p3Dc = Rcw*p3Dw+tcw;`, then project it to as image pixel.
+
+There are some testsings before merging map points:
+* depth estimate should be contained in between min and max depth estimates
+* the projected image pixel must be in the central area of an image capture
+* within the neighbor area of its corresponding map point
+
+If merged, perform `vpReplacePoint[iMP] = pMPinKF;`, otherwise, create a new map point by `pMP->AddObservation(pKF,bestIdx);` and `pKF->AddMapPoint(pMP,bestIdx);`
+
+```cpp
+void LoopClosing::SearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap)
+{
+    ORBmatcher matcher(0.8);
+
+    for(KeyFrameAndPose::const_iterator mit=CorrectedPosesMap.begin(), mend=CorrectedPosesMap.end(); mit!=mend;mit++)
+    {
+        KeyFrame* pKF = mit->first;
+
+        g2o::Sim3 g2oScw = mit->second;
+
+        // *********************
+        //  cv::Mat Converter::toCvMat(const g2o::Sim3 &Sim3)
+        //  {
+        //      Eigen::Matrix3d eigR = Sim3.rotation().toRotationMatrix();
+        //      Eigen::Vector3d eigt = Sim3.translation();
+        //      double s = Sim3.scale();
+        //      return toCvSE3(s*eigR,eigt);
+        //  }
+        // *********************
+        //  cv::Mat Converter::toCvSE3(const Eigen::Matrix<double,3,3> &R, const Eigen::Matrix<double,3,1> &t)
+        //  {
+        //  cv::Mat cvMat = cv::Mat::eye(4,4,CV_32F);
+        //  for(int i=0;i<3;i++)
+        //  {
+        //    for(int j=0;j<3;j++)
+        //    {
+        //        cvMat.at<float>(i,j)=R(i,j);
+        //    }
+        //  }
+        //  for(int i=0;i<3;i++)
+        //  {
+        //    cvMat.at<float>(i,3)=t(i);
+        //  }
+        //  return cvMat.clone();
+        //  }
+        // *********************
+        cv::Mat cvScw = Converter::toCvMat(g2oScw);
+
+        vector<MapPoint*> vpReplacePoints(mvpLoopMapPoints.size(),static_cast<MapPoint*>(NULL));
+        matcher.Fuse(pKF,cvScw,mvpLoopMapPoints,4,vpReplacePoints);
+
+        // Get Map Mutex
+        unique_lock<mutex> lock(mpMap->mMutexMapUpdate);
+        const int nLP = mvpLoopMapPoints.size();
+        for(int i=0; i<nLP;i++)
+        {
+            MapPoint* pRep = vpReplacePoints[i];
+            if(pRep)
+            {
+                pRep->Replace(mvpLoopMapPoints[i]);;
+            }
+        }
+    }
+}
+
+int ORBmatcher::Fuse(KeyFrame *pKF, cv::Mat Scw, const vector<MapPoint *> &vpPoints, float th, vector<MapPoint *> &vpReplacePoint)
+{
+    // Get Calibration Parameters for later projection
+    const float &fx = pKF->fx;
+    const float &fy = pKF->fy;
+    const float &cx = pKF->cx;
+    const float &cy = pKF->cy;
+
+    // Decompose Scw
+    cv::Mat sRcw = Scw.rowRange(0,3).colRange(0,3);
+    const float scw = sqrt(sRcw.row(0).dot(sRcw.row(0)));
+    cv::Mat Rcw = sRcw/scw;
+    cv::Mat tcw = Scw.rowRange(0,3).col(3)/scw;
+    cv::Mat Ow = -Rcw.t()*tcw;
+
+    // Set of MapPoints already found in the KeyFrame
+    const set<MapPoint*> spAlreadyFound = pKF->GetMapPoints();
+
+    int nFused=0;
+
+    const int nPoints = vpPoints.size();
+
+    // For each candidate MapPoint project and match
+    for(int iMP=0; iMP<nPoints; iMP++)
+    {
+        MapPoint* pMP = vpPoints[iMP];
+
+        // Discard Bad MapPoints and already found
+        if(pMP->isBad() || spAlreadyFound.count(pMP))
+            continue;
+
+        // Get 3D Coords.
+        cv::Mat p3Dw = pMP->GetWorldPos();
+
+        // Transform into Camera Coords.
+        cv::Mat p3Dc = Rcw*p3Dw+tcw;
+
+        // Depth must be positive
+        if(p3Dc.at<float>(2)<0.0f)
+            continue;
+
+        // Project into Image
+        const float invz = 1.0/p3Dc.at<float>(2);
+        const float x = p3Dc.at<float>(0)*invz;
+        const float y = p3Dc.at<float>(1)*invz;
+
+        const float u = fx*x+cx;
+        const float v = fy*y+cy;
+
+        // Point must be inside the image
+        if(!pKF->IsInImage(u,v))
+            continue;
+
+        // Depth must be inside the scale pyramid of the image
+        const float maxDistance = pMP->GetMaxDistanceInvariance();
+        const float minDistance = pMP->GetMinDistanceInvariance();
+        cv::Mat PO = p3Dw-Ow;
+        const float dist3D = cv::norm(PO);
+
+        if(dist3D<minDistance || dist3D>maxDistance)
+            continue;
+
+        // Viewing angle must be less than 60 deg
+        cv::Mat Pn = pMP->GetNormal();
+
+        if(PO.dot(Pn)<0.5*dist3D)
+            continue;
+
+        // Compute predicted scale level
+        const int nPredictedLevel = pMP->PredictScale(dist3D,pKF);
+
+        // Search in a radius
+        const float radius = th*pKF->mvScaleFactors[nPredictedLevel];
+
+        const vector<size_t> vIndices = pKF->GetFeaturesInArea(u,v,radius);
+
+        if(vIndices.empty())
+            continue;
+
+        // Match to the most similar keypoint in the radius
+
+        const cv::Mat dMP = pMP->GetDescriptor();
+
+        int bestDist = INT_MAX;
+        int bestIdx = -1;
+        for(vector<size_t>::const_iterator vit=vIndices.begin(); vit!=vIndices.end(); vit++)
+        {
+            const size_t idx = *vit;
+            const int &kpLevel = pKF->mvKeysUn[idx].octave;
+
+            if(kpLevel<nPredictedLevel-1 || kpLevel>nPredictedLevel)
+                continue;
+
+            const cv::Mat &dKF = pKF->mDescriptors.row(idx);
+
+            int dist = DescriptorDistance(dMP,dKF);
+
+            if(dist<bestDist)
+            {
+                bestDist = dist;
+                bestIdx = idx;
+            }
+        }
+
+        // If there is already a MapPoint replace otherwise add new measurement
+        if(bestDist<=TH_LOW)
+        {
+            MapPoint* pMPinKF = pKF->GetMapPoint(bestIdx);
+            if(pMPinKF)
+            {
+                if(!pMPinKF->isBad())
+                    vpReplacePoint[iMP] = pMPinKF;
+            }
+            else
+            {
+                pMP->AddObservation(pKF,bestIdx);
+                pKF->AddMapPoint(pMP,bestIdx);
+            }
+            nFused++;
+        }
+    }
+
+    return nFused;
+}
+```
+
+### Essentail Graph Optimization
+
+Get keyframes `const vector<KeyFrame*> vpKFs = pMap->GetAllKeyFrames();` whose poses are set to be optimized `optimizer.addVertex(VSim3);`.
+All keyframes' poses are optimized except for some "truth" keyframes `if(pKF==pLoopKF)  VSim3->setFixed(true);`, where `pLoopKF` is computed in `LoopClosing::ComputeSim3()` if the keyframe's observed co-visible features are good.
+
+There are three types of edges:
+* `LoopConnections`: The keyframes in the area of loop closure, their transforms to each other are defined as edges
+* from `vpKFs` get `KeyFrame* pKF = vpKFs[i];`
+  * Spanning tree edge: `KeyFrame* pParentKF = pKF->GetParent();` when `if(pParentKF)` is true
+  * Loop edge: `sLoopEdges = pKF->GetLoopEdges();` the transform between the current keyframe and the loop closure matched keyframe
+  * Co-Visibility edge: `vpConnectedKFs = pKF->GetCovisiblesByWeight(minFeat);` every keyframe can have many associated highly co-visible keyframes, that the transforms are taken into consideration
+
+The edge/error goes like this: before the optimization, loop closure keyframes `if(pKF==pLoopKF)  VSim3->setFixed(true);` are set to fixed, and the transform between keyframes `e->setMeasurement(<transform>);` are believed truths,
+so that the non-loop-closure keyframes should have their poses aligned to the transforms.
+
+Finally, perform $SE(3)$ recovery: $\begin{bmatrix} sR & \bold{t} \\ 0 & 1 \end{bmatrix} \rightarrow \begin{bmatrix} R & \frac{1}{s}\bold{t} \\ 0 & 1 \end{bmatrix}$ and by the recovery to restore map points.
+
+```cpp
+void Optimizer::OptimizeEssentialGraph(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
+                                       const LoopClosing::KeyFrameAndPose &NonCorrectedSim3,
+                                       const LoopClosing::KeyFrameAndPose &CorrectedSim3,
+                                       const map<KeyFrame *, set<KeyFrame *> > &LoopConnections, const bool &bFixScale)
+{
+    // Setup optimizer
+    g2o::SparseOptimizer optimizer;
+    optimizer.setVerbose(false);
+    g2o::BlockSolver_7_3::LinearSolverType * linearSolver =
+           new g2o::LinearSolverEigen<g2o::BlockSolver_7_3::PoseMatrixType>();
+    g2o::BlockSolver_7_3 * solver_ptr= new g2o::BlockSolver_7_3(linearSolver);
+    g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(solver_ptr);
+
+    solver->setUserLambdaInit(1e-16);
+    optimizer.setAlgorithm(solver);
+
+    const vector<KeyFrame*> vpKFs = pMap->GetAllKeyFrames();
+    const vector<MapPoint*> vpMPs = pMap->GetAllMapPoints();
+
+    const unsigned int nMaxKFid = pMap->GetMaxKFid();
+
+    vector<g2o::Sim3,Eigen::aligned_allocator<g2o::Sim3> > vScw(nMaxKFid+1);
+    vector<g2o::Sim3,Eigen::aligned_allocator<g2o::Sim3> > vCorrectedSwc(nMaxKFid+1);
+    vector<g2o::VertexSim3Expmap*> vpVertices(nMaxKFid+1);
+
+    const int minFeat = 100;
+
+    // Set KeyFrame vertices
+    for(size_t i=0, iend=vpKFs.size(); i<iend;i++) {
+        KeyFrame* pKF = vpKFs[i];
+        if(pKF->isBad())
+            continue;
+        g2o::VertexSim3Expmap* VSim3 = new g2o::VertexSim3Expmap();
+
+        const int nIDi = pKF->mnId;
+
+        LoopClosing::KeyFrameAndPose::const_iterator it = CorrectedSim3.find(pKF);
+
+        if(it!=CorrectedSim3.end()) {
+            vScw[nIDi] = it->second;
+            VSim3->setEstimate(it->second);
+        }
+        else {
+            Eigen::Matrix<double,3,3> Rcw = Converter::toMatrix3d(pKF->GetRotation());
+            Eigen::Matrix<double,3,1> tcw = Converter::toVector3d(pKF->GetTranslation());
+            g2o::Sim3 Siw(Rcw,tcw,1.0);
+            vScw[nIDi] = Siw;
+            VSim3->setEstimate(Siw);
+        }
+
+        if(pKF==pLoopKF)
+            VSim3->setFixed(true);
+
+        VSim3->setId(nIDi);
+        VSim3->setMarginalized(false);
+        VSim3->_fix_scale = bFixScale;
+
+        optimizer.addVertex(VSim3);
+
+        vpVertices[nIDi]=VSim3;
+    }
+
+
+    set<pair<long unsigned int,long unsigned int> > sInsertedEdges;
+
+    const Eigen::Matrix<double,7,7> matLambda = Eigen::Matrix<double,7,7>::Identity();vScw
+
+    // Set Loop edges
+    for(map<KeyFrame *, set<KeyFrame *> >::const_iterator mit = LoopConnections.begin(), mend=LoopConnections.end(); mit!=mend; mit++)
+    {
+        KeyFrame* pKF = mit->first;
+        const long unsigned int nIDi = pKF->mnId;
+        const set<KeyFrame*> &spConnections = mit->second;
+        const g2o::Sim3 Siw = vScw[nIDi];
+        const g2o::Sim3 Swi = Siw.inverse();
+
+        for(set<KeyFrame*>::const_iterator sit=spConnections.begin(), send=spConnections.end(); sit!=send; sit++)
+        {
+            const long unsigned int nIDj = (*sit)->mnId;
+            if((nIDi!=pCurKF->mnId || nIDj!=pLoopKF->mnId) && pKF->GetWeight(*sit)<minFeat)
+                continue;
+
+            const g2o::Sim3 Sjw = vScw[nIDj];
+            const g2o::Sim3 Sji = Sjw * Swi;
+
+            g2o::EdgeSim3* e = new g2o::EdgeSim3();
+            e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
+            e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
+            e->setMeasurement(Sji);
+
+            e->information() = matLambda;
+
+            optimizer.addEdge(e);
+
+            sInsertedEdges.insert(make_pair(min(nIDi,nIDj),max(nIDi,nIDj)));
+        }
+    }
+
+    // Set normal edges
+    for(size_t i=0, iend=vpKFs.size(); i<iend; i++)
+    {
+        KeyFrame* pKF = vpKFs[i];
+
+        const int nIDi = pKF->mnId;
+
+        g2o::Sim3 Swi;
+
+        LoopClosing::KeyFrameAndPose::const_iterator iti = NonCorrectedSim3.find(pKF);
+
+        if(iti!=NonCorrectedSim3.end())
+            Swi = (iti->second).inverse();
+        else
+            Swi = vScw[nIDi].inverse();
+
+        KeyFrame* pParentKF = pKF->GetParent();
+
+        // Spanning tree edge
+        if(pParentKF)
+        {
+            int nIDj = pParentKF->mnId;
+
+            g2o::Sim3 Sjw;
+
+            LoopClosing::KeyFrameAndPose::const_iterator itj = NonCorrectedSim3.find(pParentKF);
+
+            if(itj!=NonCorrectedSim3.end())
+                Sjw = itj->second;
+            else
+                Sjw = vScw[nIDj];
+
+            g2o::Sim3 Sji = Sjw * Swi;
+
+            g2o::EdgeSim3* e = new g2o::EdgeSim3();
+            e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
+            e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
+            e->setMeasurement(Sji);
+
+            e->information() = matLambda;
+            optimizer.addEdge(e);
+        }
+
+        // Loop edges
+        const set<KeyFrame*> sLoopEdges = pKF->GetLoopEdges();
+        for(set<KeyFrame*>::const_iterator sit=sLoopEdges.begin(), send=sLoopEdges.end(); sit!=send; sit++)
+        {
+            KeyFrame* pLKF = *sit;
+            if(pLKF->mnId<pKF->mnId)
+            {
+                g2o::Sim3 Slw;
+
+                LoopClosing::KeyFrameAndPose::const_iterator itl = NonCorrectedSim3.find(pLKF);
+
+                if(itl!=NonCorrectedSim3.end())
+                    Slw = itl->second;
+                else
+                    Slw = vScw[pLKF->mnId];
+
+                g2o::Sim3 Sli = Slw * Swi;
+                g2o::EdgeSim3* el = new g2o::EdgeSim3();
+                el->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pLKF->mnId)));
+                el->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
+                el->setMeasurement(Sli);
+                el->information() = matLambda;
+                optimizer.addEdge(el);
+            }
+        }
+
+        // Covisibility graph edges
+        const vector<KeyFrame*> vpConnectedKFs = pKF->GetCovisiblesByWeight(minFeat);
+        for(vector<KeyFrame*>::const_iterator vit=vpConnectedKFs.begin(); vit!=vpConnectedKFs.end(); vit++)
+        {
+            KeyFrame* pKFn = *vit;
+            if(pKFn && pKFn!=pParentKF && !pKF->hasChild(pKFn) && !sLoopEdges.count(pKFn))
+            {
+                if(!pKFn->isBad() && pKFn->mnId<pKF->mnId)
+                {
+                    if(sInsertedEdges.count(make_pair(min(pKF->mnId,pKFn->mnId),max(pKF->mnId,pKFn->mnId))))
+                        continue;
+
+                    g2o::Sim3 Snw;
+
+                    LoopClosing::KeyFrameAndPose::const_iterator itn = NonCorrectedSim3.find(pKFn);
+
+                    if(itn!=NonCorrectedSim3.end())
+                        Snw = itn->second;
+                    else
+                        Snw = vScw[pKFn->mnId];
+
+                    g2o::Sim3 Sni = Snw * Swi;
+
+                    g2o::EdgeSim3* en = new g2o::EdgeSim3();
+                    en->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFn->mnId)));
+                    en->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
+                    en->setMeasurement(Sni);
+                    en->information() = matLambda;
+                    optimizer.addEdge(en);
+                }
+            }
+        }
+    }
+
+    // Optimize!
+    optimizer.initializeOptimization();
+    optimizer.optimize(20);
+
+    unique_lock<mutex> lock(pMap->mMutexMapUpdate);
+
+    // SE3 Pose Recovering. Sim3:[sR t;0 1] -> SE3:[R t/s;0 1]
+    for(size_t i=0;i<vpKFs.size();i++)
+    {
+        KeyFrame* pKFi = vpKFs[i];
+
+        const int nIDi = pKFi->mnId;
+
+        g2o::VertexSim3Expmap* VSim3 = static_cast<g2o::VertexSim3Expmap*>(optimizer.vertex(nIDi));
+        g2o::Sim3 CorrectedSiw =  VSim3->estimate();
+        vCorrectedSwc[nIDi]=CorrectedSiw.inverse();
+        Eigen::Matrix3d eigR = CorrectedSiw.rotation().toRotationMatrix();
+        Eigen::Vector3d eigt = CorrectedSiw.translation();
+        double s = CorrectedSiw.scale();
+
+        eigt *=(1./s); //[R t/s;0 1]
+
+        cv::Mat Tiw = Converter::toCvSE3(eigR,eigt);
+
+        pKFi->SetPose(Tiw);
+    }
+
+    // Correct points. Transform to "non-optimized" reference keyframe pose and transform back with optimized pose
+    for(size_t i=0, iend=vpMPs.size(); i<iend; i++)
+    {
+        MapPoint* pMP = vpMPs[i];
+
+        if(pMP->isBad())
+            continue;
+
+        int nIDr;
+        if(pMP->mnCorrectedByKF==pCurKF->mnId)
+        {
+            nIDr = pMP->mnCorrectedReference;
+        }
+        else
+        {
+            KeyFrame* pRefKF = pMP->GetReferenceKeyFrame();
+            nIDr = pRefKF->mnId;
+        }
+
+
+        g2o::Sim3 Srw = vScw[nIDr];
+        g2o::Sim3 correctedSwr = vCorrectedSwc[nIDr];
+
+        cv::Mat P3Dw = pMP->GetWorldPos();
+        Eigen::Matrix<double,3,1> eigP3Dw = Converter::toVector3d(P3Dw);
+        Eigen::Matrix<double,3,1> eigCorrectedP3Dw = correctedSwr.map(Srw.map(eigP3Dw));
+
+        cv::Mat cvCorrectedP3Dw = Converter::toCvMat(eigCorrectedP3Dw);
+        pMP->SetWorldPos(cvCorrectedP3Dw);
+
+        pMP->UpdateNormalAndDepth();
+    }
+}
+```
+
+The $Sim(3)$ transform error is defined as below.
+
+`Sim3 C(_measurement);` is the measurement transform between two keyframes, 
+`v1->estimate()*v2->estimate().inverse()` is the estimate transform between the two keyframes. 
+The transform error is scaled by logorithm `error_.log();`.
+
+As used in `Optimizer::OptimizeEssentialGraph(...)` where loop closure keyframes `if(pKF==pLoopKF)  VSim3->setFixed(true);` are set to fixed, and the transform between keyframes `e->setMeasurement(<transform>);` are believed truths that go to `Sim3 C(_measurement);`,
+the optimization would go optimizing the non-loop-closure keyframes to have their poses aligned to the transforms.
+
+```cpp
+class EdgeSim3 : public BaseBinaryEdge<7, Sim3, VertexSim3Expmap, VertexSim3Expmap>
+{
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+  EdgeSim3();
+  virtual bool read(std::istream& is);
+  virtual bool write(std::ostream& os) const;
+  void computeError()
+  {
+    const VertexSim3Expmap* v1 = static_cast<const VertexSim3Expmap*>(_vertices[0]);
+    const VertexSim3Expmap* v2 = static_cast<const VertexSim3Expmap*>(_vertices[1]);
+
+    Sim3 C(_measurement);
+    Sim3 error_=C*v1->estimate()*v2->estimate().inverse();
+    _error = error_.log();
+  }
+
+  virtual double initialEstimatePossible(const OptimizableGraph::VertexSet& , OptimizableGraph::Vertex* ) { return 1.;}
+  virtual void initialEstimate(const OptimizableGraph::VertexSet& from, OptimizableGraph::Vertex* /*to*/)
+  {
+    VertexSim3Expmap* v1 = static_cast<VertexSim3Expmap*>(_vertices[0]);
+    VertexSim3Expmap* v2 = static_cast<VertexSim3Expmap*>(_vertices[1]);
+    if (from.count(v1) > 0)
+        v2->setEstimate(measurement()*v1->estimate());
+    else
+        v1->setEstimate(measurement().inverse()*v2->estimate());
+  }
+};
+
+template <int D, typename E>
+class BaseEdge : public OptimizableGraph::Edge
+{
+public:
+    ...
+    virtual void setMeasurement(const Measurement& m) { _measurement = m;}
 }
 ```
