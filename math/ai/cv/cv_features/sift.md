@@ -40,7 +40,10 @@ Besides, candidate keypoints with too little differences between $D$ of differen
 
 The principal curvature across the edge $x_{+}$ would be much larger than the principal curvature along it $x_{-}$. 
 
-![eigen_feat_detection](imgs/eigen_feat_detection.png "eigen_feat_detection")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/eigen_feat_detection.png" width="20%" height="20%" alt="eigen_feat_detection">
+</div>
+</br>
 
 Finding these principal curvatures amounts to solving for the eigenvalues of the second-order Hessian matrix.
 $$
@@ -89,4 +92,15 @@ Collect pixels' magnitude and direction, and form a circular window ($8 \times 8
 
 The $8$ magnitudes and angles of this window can be used for describing this window's feature.
 
-![sift](imgs/sift.png "sift")
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/sift.png" width="40%" height="40%" alt="sift">
+</div>
+</br>
+
+
+## Fast Library for Approximate Nearest Neighbors (FLANN)
+
+The SIFT is used to find the feature keypoints and descriptors.
+A FLANN based matcher with KNN is used to match the descriptors in both images.
+In other words, FLANN is a C++ library for approximate nearest neighbor search.

@@ -2,14 +2,9 @@ project(cv_tutorials)
 MESSAGE("Project source dir: " ${PROJECT_SOURCE_DIR}) 
 
 cmake_minimum_required(VERSION 3.16)
-set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD 14)
 
 find_package( OpenCV REQUIRED )
-MESSAGE("OpenCV version: " ${OpenCV_VERSION})
-MESSAGE("OpenCV location: " ${OpenCV_INCLUDE_DIRS})
-IF (${OpenCV_VERSION} LESS_EQUAL 4.5 OR ${OpenCV_VERSION} STREQUAL "")
-    MESSAGE( FATAL_ERROR "Some old OpenCV versions have patent issues, please install the latest one" )
-ENDIF()
 
 find_package(PCL REQUIRED)
 find_package(Eigen REQUIRED)

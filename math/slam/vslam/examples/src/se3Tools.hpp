@@ -15,7 +15,7 @@
 #include "g2o/core/base_vertex.h"
 #include "g2o/core/base_binary_edge.h"
 
-#include <glog/logging.h>
+// #include <glog/logging.h>
 
 
 #ifndef SE3_TOOLS

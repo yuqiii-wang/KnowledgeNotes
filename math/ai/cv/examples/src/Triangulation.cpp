@@ -79,7 +79,7 @@ int main(){
   }
 
   cv::Mat src;
-  cv::hconcat(imageL, imageR, src);
+  cv::hconcat(imageL, imageR, src); // horizontal concatenation
   for(int i = 0; i < inlier_match_points1.size(); i++) {
     cv::line( src, inlier_match_points1[i],
               cv::Point2f(inlier_match_points2[i].x + imageL.cols, inlier_match_points2[i].y),
@@ -150,6 +150,7 @@ int main(){
     point.r = 0;
     point.g = 0;
     point.b = 255;
+    std::cout << "x: " << point.x << " y: " << point.y << " z: " << point.z << std::endl;
   }
 
   viewer.addPointCloud(cloud, "Triangulated Point Cloud");
