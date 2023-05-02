@@ -198,6 +198,20 @@ int main(){
 
     std::cout << "============== Started Triangulation Computation ==============" << std::endl;
 
+
+    // void cv::sfm::triangulatePoints	(	InputArrayOfArrays 	points2d,
+    // InputArrayOfArrays 	projection_matrices,
+    // OutputArray 	points3d 
+    // )		
+    // #include <opencv2/sfm/triangulation.hpp>
+
+    // Reconstructs bunch of points by triangulation.
+
+    // Parameters
+    // points2d	Input vector of vectors of 2d points (the inner vector is per image). Has to be 2 X N.
+    // projection_matrices	Input vector with 3x4 projections matrices of each image.
+    // points3d	Output array with computed 3d points. Is 3 x N.
+
     std::cout << "============== Finished Triangulation Computation ==============" << std::endl;
 
 

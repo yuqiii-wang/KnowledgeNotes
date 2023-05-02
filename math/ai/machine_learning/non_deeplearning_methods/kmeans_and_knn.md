@@ -4,6 +4,8 @@
 
 *K-means* is a clustering algorithm that tries to partition a set of points into K sets (clusters) such that the points in each cluster tend to be near each other. 
 
+The number of clusters is unknown in the beginning, and this is different from KNN that the number of clusters is known as a prior.
+
 ### Definition
 
 Given a set of observations $[\bold{x}_1, \bold{x}_2, ..., \bold{x}_n]$, where each observation is a $d$-dimensional real vector,  k-means clustering aims to partition the $n$ observations into $k \le n$ sets $S = \{S_1, S_2, ..., S_k\}$.
@@ -31,7 +33,7 @@ Repeat the 2nd and 3rd steps, until it converges.
 
 ## KNN
 
-*K-nearest neighbors* (KNN) is a classification (or regression) algorithm that in order to determine the classification of a point, combines the classification of the K nearest points.
+*K-nearest neighbors* (KNN) is a classification (or regression) algorithm that in order to determine the classification of a point, combines the classification of the $K$ nearest points.
 
 ### Example
 
