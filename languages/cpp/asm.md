@@ -6,6 +6,36 @@ Read ASM from compiled c++ code by `g++ -S main.cpp -o main.asm`.
 
 asm-declaration gives the ability to embed assembly language source code within a C++ program.
 
+For example, in the below code, ` : "=a" (add) ` means return value, `: "a" (val1) , "b" (val2) ` means value assignments to `%%ebx, %%eax`, respectively.
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int val1,val2, add, sub, mul;
+  
+    val1=100;
+    val2=20;
+    asm( "addl %%ebx, %%eax;" : "=a" (add) : "a" (val1) , "b" (val2) );
+    asm( "subl %%ebx, %%eax;" : "=a" (sub) : "a" (val1) , "b" (val2) );
+    asm( "imull %%ebx, %%eax;" : "=a" (mul) : "a" (val1) , "b" (val2) );
+
+    printf( "%d + %d = %d\n ", val1, val2, add );
+    printf( "%d - %d = %d\n", val1,val2, sub );
+    printf( "%d * %d = %d ", val1, val2, mul );
+  
+  return 0;
+}
+```
+
+Output:
+```bash
+100 + 20 = 120
+100 - 20 = 80
+100 * 20 = 2000
+```
+
 ## Basics
 
 `mov dest src`
