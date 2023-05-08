@@ -33,7 +33,7 @@ The flow is similar to the regular Authorization Code grant type, but the client
 
 ![oauth2-authz](imgs/oauth2-authz-pkce.svg "oauth2-authz")
 
-### Client Credential
+### Client Credentials
 
 Client Credentials grant is used when the client is also the resource owner and it is accessing its own data instead of acting in behalf of a user.
 
@@ -48,6 +48,21 @@ curl -X POST https://localhost:8080/.../access_token
   --data-urlencoded "client_id=myid" \
   --data-urlencoded "client_secret=abc123" \
   --data-urlencoded "scope=basic email"
+```
+
+If succeeded, auth server should reply an access token.
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+ "access_token":"2YotnFZFEjr1zCsicMWpAA",
+ "token_type":"example",
+ "expires_in":3600,
+ "example_parameter":"example_value"
+}
 ```
 
 ### Use of Nonce

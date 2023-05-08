@@ -1,4 +1,6 @@
-# Squid Proxy
+# Some Server Softwares
+
+## Squid Proxy
 
 Squid is a caching and forwarding HTTP web proxy, acting NIC (network interface controller/card) to control requests, and responsbile for caching frequentlly used data, etc.
 
@@ -15,7 +17,7 @@ acl liquidweb src 10.1.10.0/24
 acl liquidweb time M T W T F 9:00-17:00
 ```
 
-## Squid vs Nginx
+### Squid vs Nginx
 
 * Squid 
 
@@ -24,3 +26,7 @@ A "normal" proxy, such as squid http proxy, socks, etc. fetches content on end u
 * Nginx 
 
 When run as a reverse proxy, sits in front of server endpoints, usually load balancing between them.... therefore "reverse"... do not applicable to your needs.
+
+## VNC
+
+VNC Server is the software used to do VNC (Virtual Network Computing) desktops on Linux environments.

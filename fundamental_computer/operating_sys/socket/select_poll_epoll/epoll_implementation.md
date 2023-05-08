@@ -213,7 +213,7 @@ static void __sched __schedule(void)
 
 ### `rdllist` Received New Data
 
-Start from TCP receiving data by`tcp_queue_rcv`.
+Start from TCP receiving data by `tcp_queue_rcv`.
 In `sock_init_data` with the defined `sk_data_ready`, sock sets a data reception handling function to `sock_def_readable`, that uses `ep_poll_callback` for epoll callback.
 
 `ep_poll_callback` takes `epitem` from a wait queue to the eventpoll ready list `list_add_tail(&epi->rdllink, &ep->rdllist);`.
@@ -265,3 +265,4 @@ check_events:
     ep_send_events(ep, events, maxevents);
 }
 ```
+

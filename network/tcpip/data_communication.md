@@ -12,6 +12,10 @@ An Internet Protocol (IP) (Layer 3/4) address is a unique identifier given to a 
 
 MAC address is supposedly unique to each network interface card while an IP address is usually replaced.
 
+### MAC and ARP
+
+
+
 ## IPC socket
 
 A Unix domain socket or IPC socket (inter-process communication socket) is a data communications endpoint for exchanging data between processes executing on the same host operating system. All communication occurs entirely within the operating system kernel, rather than via network protocol.

@@ -4,7 +4,7 @@ By default, OAuth access tokens are so called bearer tokens. This means they are
 
 Proof-of-Possession (short PoP) tokens are bound to the client that requested the token. I
 
-Generally, there are two appraoches:
+Generally, there are two approaches:
 
 ## JWK-Based Proof-of-Possession
 

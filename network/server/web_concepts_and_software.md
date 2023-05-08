@@ -19,7 +19,8 @@ Sec-WebSocket-Protocol: chat, superchat
 Sec-WebSocket-Version: 13
 Origin: http://example.com
 ```
-And the server's response is 
+
+The server's response is 
 ```yaml
 HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
@@ -28,10 +29,12 @@ Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
 Sec-WebSocket-Protocol: chat
 ```
 
+The advantage of websocket is that it maintains a long term connection for data transmission,
+in constrast to
 
 ## Nginx
 
-Originally designed to solve C10k problem (the problem of optimising network sockets to handle a large number of clients at the same time).
+Originally designed to solve C10k problem (the problem of optimizing network sockets to handle a large number of clients at the same time).
 
 The below is an example of a server configuration.
 ```conf
