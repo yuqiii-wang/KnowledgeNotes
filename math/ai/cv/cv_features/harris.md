@@ -10,7 +10,7 @@ E_{ssd}(u,v)=\sum_{(x,y)\in {W}_{m \times n}}
 \big]^2
 $$
 
-By first order approximation (this implies that the window slding step $(u,v)$ should be small), there is this expression ($I_x$ and $I_y$ are just shorthand notations).
+By first order approximation (this implies that the window slding step $(u,v)$ should be small), there is this expression ($I_{dx}$ and $I_{dy}$ are just shorthand notations of $\frac{\partial I}{\partial x}$ and $\frac{\partial I}{\partial y}$, respectively).
 $$
 \begin{align*}
 I(x+u, y+v) &\approx
@@ -20,7 +20,7 @@ I(x,y)
 \\ &\approx
 I(x,y) + 
 \begin{bmatrix}
-    I_x & I_y
+    I_{dx} & I_{dy}
 \end{bmatrix}
 \begin{bmatrix}
     u \\
@@ -43,7 +43,7 @@ E_{ssd}(u,v)
 \bigg[
     I(x,y) + 
 \begin{bmatrix}
-    I_x & I_y
+    I_{dx} & I_{dy}
 \end{bmatrix}
 \begin{bmatrix}
     u \\
@@ -55,7 +55,7 @@ E_{ssd}(u,v)
 \sum_{(x,y)\in {W}_{m \times n}} 
 \bigg(
 \begin{bmatrix}
-    I_x & I_y
+    I_{dx} & I_{dy}
 \end{bmatrix}
 \begin{bmatrix}
     u \\
@@ -69,8 +69,8 @@ E_{ssd}(u,v)
 \bigg(
 \sum_{(x,y)\in {W}_{m \times n}} 
 \begin{bmatrix}
-    I_x^2 & I_xI_y \\
-    I_yI_x & I_y^2
+    I_{dx}^2 & I_{dx}I_{dy} \\
+    I_{dy}I_{dx} & I_{dy}^2
 \end{bmatrix}
 \bigg)
 \begin{bmatrix}
@@ -87,8 +87,8 @@ $$
 H=
 \sum_{(x,y)\in {W}_{m \times n}} 
 \begin{bmatrix}
-    I_x^2 & I_xI_y \\
-    I_yI_x & I_y^2
+    I_{dx}^2 & I_{dx}I_{dy} \\
+    I_{dy}I_{dx} & I_{dy}^2
 \end{bmatrix}
 $$
 

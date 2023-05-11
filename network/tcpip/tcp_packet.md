@@ -4,6 +4,25 @@ A tcp packet for IPv4 is shown as below.
 
 ![tcp_packet](imgs/tcp_packet.png "tcp_packet")
 
+## Three Way Handshake
+
+1. The first host (Alice) sends the second host (Bob) a "synchronize" (SYN) message with its own sequence number $x$
+
+2. Bob replies with a synchronize-acknowledgment (SYN-ACK) message with its own sequence number $y$ and acknowledgement number $x+1$
+
+3. Alice replies with an acknowledgment (ACK) message with acknowledgement number $y+1$
+
+4. Data transmission starts
+
+![tcp_handshake](imgs/tcp_handshake.png "tcp_handshake")
+
+### 4-Way TCP Goodbye Handshake
+
+`close` is invoked in both server and client who send `FIN` and expect receiving `ACK`
+
+![tcp_goodbye_handshake](imgs/tcp_goodbye_handshake.png "tcp_goodbye_handshake")
+
+
 ## TCP windows
 
 The throughput of a TCP communication is limited by two windows: the *congestion window* and the *receive window*. 

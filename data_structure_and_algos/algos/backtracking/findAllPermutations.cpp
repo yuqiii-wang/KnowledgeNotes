@@ -16,11 +16,11 @@ private:
         }
 
         for (int i = depth; i < len; i++) {
+            swap(nums[i], nums[depth]);
             tmp_nums.push_back(nums[depth]);
             dfs(nums, tmp_nums, ans, depth+1, nums.size());
             tmp_nums.pop_back();
-            if (i+1 < len)
-                swap(nums[i], nums[(i+1)]);
+            swap(nums[i], nums[depth]);
         }
 
         return;

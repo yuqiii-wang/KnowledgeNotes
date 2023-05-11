@@ -14,7 +14,9 @@ MAC address is supposedly unique to each network interface card while an IP addr
 
 ### MAC and ARP
 
+Address Resolution Protocol (ARP) is a procedure for mapping a dynamic IP address to a permanent physical machine address in a local area network (LAN). The physical machine address is also known as a media access control (MAC) address.
 
+When a new computer joins a LAN, it is assigned a unique IP address to use for identification and communication. When an incoming packet destined for a host machine on a particular LAN arrives at a gateway, the gateway asks the ARP program to find a MAC address that matches the IP address. A table called the ARP cache maintains a record of each IP address and its corresponding MAC address.
 
 ## IPC socket
 
@@ -22,8 +24,8 @@ A Unix domain socket or IPC socket (inter-process communication socket) is a dat
 
 Usually, there are two types:
 
-* SOCK_STREAM (compare to TCP) – for a stream-oriented socket
-* SOCK_DGRAM (compare to UDP) – for a datagram-oriented socket that preserves message boundaries (as on most UNIX implementations, UNIX domain datagram sockets are always reliable and don't reorder datagrams)
+* `SOCK_STREAM` (compare to TCP) – for a stream-oriented socket
+* `SOCK_DGRAM` (compare to UDP) – for a datagram-oriented socket that preserves message boundaries (as on most UNIX implementations, UNIX domain datagram sockets are always reliable and don't reorder datagrams)
 
 ### An Architectural Overview of TCP Unix Socket
 
@@ -38,26 +40,6 @@ Flow control is the process of managing the rate of data transmission between tw
 * For UDP socket, the server side will just start dropping packets after the receive buffer is filled.
 
 * For TCP, server's socket decreases kernel window size when receiving data exceeds server processing capacity, and rejects incoming TCP Datagrams when window size is zero.
-
-## TCP
-
-### Handshake
-
-1. The first host (Alice) sends the second host (Bob) a "synchronize" (SYN) message with its own sequence number $x$
-
-2. Bob replies with a synchronize-acknowledgment (SYN-ACK) message with its own sequence number $y$ and acknowledgement number $x+1$
-
-3. Alice replies with an acknowledgment (ACK) message with acknowledgement number $y+1$
-
-4. Data transmission starts
-
-![tcp_handshake](imgs/tcp_handshake.png "tcp_handshake")
-
-### 4-Way TCP Goodbye Handshake
-
-`close` is invoked in both server and client who send `FIN` and expect receiving `ACK`
-
-![tcp_goodbye_handshake](imgs/tcp_goodbye_handshake.png "tcp_goodbye_handshake")
 
 
 ## QUIC
@@ -78,3 +60,4 @@ QUIC:
 1. prepares key exchange for TLS during initial handshake, hence reducing connection overhead
 2. uses multiplexing UDP communication so that different protocols can continue receiving data despite some of data streams might be broken (paralellism).
 3. includes connection identifier that reduces re-connection time when an end user changes local network (such as jump between different wifi hotspots)
+

@@ -41,7 +41,7 @@ For example, the left hand side is src image, the upper right hand side is dilat
 </div>
 </br>
 
-* Erode
+### Erode
 
 Take $min$ operation on a pixel's neighbour peixls, such as
 $$
@@ -54,15 +54,30 @@ min\bigg(
 \end{bmatrix} \bigg)
 $$
 
-* Dilate
+### Dilate
 
 Take $max$ operation on a pixel's neighbour peixls, such as
 $$
 p_{x,y}=
-max\bigg(
+\max \bigg(
 \begin{bmatrix}
       p_{x-1,y-1} & p_{x,y-1} & p_{x,y+1} \\
       p_{x-1,y} & p_{x,y} & p_{x+1,y} \\
       p_{x-1,y+1} & p_{x,y+1} & p_{x+1,y+1}
 \end{bmatrix} \bigg)
 $$
+
+### Contour
+
+Erosion and dilation can be used in
+`cv::findContours(...)` to find contours in a binary image.
+
+```cpp
+void cv::findContours	(	InputArray 	image,
+                              OutputArrayOfArrays 	contours,
+                              OutputArray 	hierarchy,
+                              int 	mode,
+                              int 	method,
+                              Point 	offset = Point() 
+                              )	
+```

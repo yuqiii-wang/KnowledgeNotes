@@ -13,8 +13,6 @@ set(CMAKE_BUILD_TYPE debug)
 set(CMAKE_CXX_FLAGS "-fsanitize=address")
 
 
-add_executable(binary_tree_run data_structs/tree/binary_tree_run.cpp)
-
 add_executable(findMedianFromTwoSortedVectors algos/binary_search/findMedianFromTwoSortedVectors.cpp)
 
 add_executable(zigzagConversion data_structs/vector/zigzagConversion.cpp)
