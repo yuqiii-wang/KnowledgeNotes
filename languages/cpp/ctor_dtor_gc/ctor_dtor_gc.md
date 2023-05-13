@@ -125,7 +125,6 @@ Base::Base(Foo& foo_, Bar& bar_) {
 };
 ```
 
-
 ## Destructor
 
 A `destructor` is a member function that is invoked automatically when the object goes out of scope or is explicitly destroyed by a call to delete. 
@@ -152,3 +151,68 @@ virtual ~base(){};
 ### `delete` vs `delete[]`
 
 `delete[]` calls each element's destructor (synonym: array version of a single `delete`)
+
+## Construction and Destruction Execution Order
+
+Construction happens from base to derived; destruction happens from derived to base.
+
+For base destructor, with or without `virtual`, it gets called nevertheless,
+because without a declared virtual destructor, the compiler will decide to bind directly to the Base destructor regardless of the values' runtime type.
+
+```cpp
+#include <iostream>
+class base1
+{
+	int n;
+public:
+	base1(int a){
+		std::cout<<"constructing base1 class with a number="<<a<<std::endl;
+		n=a;
+	}
+	virtual ~base1(){std::cout<<"destructing base1 class"<< std::endl;}
+};
+class base2
+{
+	int n;
+public:
+	base2(int a){
+		std::cout<<"constructing base2 class with a number="<<a<<std::endl;
+		n=a;
+	}
+	~base2(){std::cout<<"destructing base2 class"<< std::endl;}
+};
+class derive : public base1, public base2
+{
+	int m;
+	public:
+	derive(int a,int b) : base1(a), base2(a){
+		std::cout <<"constructing derive class with a number="<<b<<std::endl;
+	}
+	~derive(){std::cout<<"destructing derive class"<<std::endl;}
+};
+int main()
+{
+	derive d(1,2);
+	return 0;
+}
+```
+that outputs
+```
+constructing base1 class with a number=1
+constructing base2 class with a number=1
+constructing derive class with a number=2
+destructing derive class
+destructing base2 class
+destructing base1 class
+```
+
+## The Three-Five Rule of Constructor and Destructor
+
+* If defined a destructor, must define copy constructor and copy assignment function
+* If defined a copy constructor, must define copy assignment function
+* If defined a move constructor, must define move assignment function
+* If defined a copy constructor and a copy assignment function, must define move constructor and move assignment function
+
+Reasons:
+If used default copy constructor, and there are pointer members, only pointers are copied (called shallow copy).
+When one object is called destructor, it frees its pointer members, then other live object would see segmentation fault when accessing their pointer members.

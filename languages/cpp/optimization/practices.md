@@ -184,3 +184,87 @@ Benchmark                Time             CPU   Iterations
 ----------------------------------------------------------
 BM_READ_TSC           7.20 ns         7.20 ns     93764177
 ```
+
+### x86 CPU Specifications
+
+x86 since *Pentium* has introduced `TSC`:
+
+* `rdtsc`: Read Time-Stamp Counter
+* `rdtscp`: Read Time-Stamp Counter and Processor ID
+
+Assembly implementation:
+
+RDTSC instruction, once called, overwrites the `EAX` and `EDX` registers.
+```cpp
+unsigned cycles_low0, cycles_high0, cycles_low1, cycles_high1;
+
+preempt_disable(); /*we disable preemption on our CPU*/
+unsigned long flags;
+raw_local_irq_save(flags); /*we disable hard interrupts on our CPU*/
+/*at this stage we exclusively own the CPU*/
+
+asm volatile (
+          "RDTSC\n\t"
+          "mov %%edx, %0\n\t"
+          "mov %%eax, %1\n\t": "=r" (cycles_high0), "=r" (cycles_low0)
+);
+
+... // some code to run
+
+asm volatile (
+          "RDTSC\n\t"
+          "mov %%edx, %0\n\t"
+          "mov %%eax, %1\n\t": "=r" (cycles_high1), "=r" (cycles_low1)
+);
+
+raw_local_irq_restore(flags);
+/*we enable hard interrupts on our CPU*/
+preempt_enable();/*we enable preemption*/
+```
+
+The purely assembly implementation has almost the same time as that of by reading `__rdtsc();`.
+```
+----------------------------------------------------------
+Benchmark                Time             CPU   Iterations
+----------------------------------------------------------
+BM_READ_ASM_TSC       6.97 ns         6.97 ns    104420355
+```
+
+Microsoft Visual C++ and Linux & gcc provides the API reading the TSC's value:
+
+* Microsoft Visual C++:
+```cpp
+unsigned __int64 __rdtsc();
+unsigned __int64 __rdtscp( unsigned int * AUX );
+```
+
+* Linux & gcc :
+```cpp
+extern __inline unsigned long long
+__attribute__((__gnu_inline__, __always_inline__, __artificial__))
+__rdtsc (void) {
+  return __builtin_ia32_rdtsc ();
+}
+
+extern __inline unsigned long long
+__attribute__((__gnu_inline__, __always_inline__, __artificial__))
+__rdtscp (unsigned int *__A)
+{
+  return __builtin_ia32_rdtscp (__A);
+}
+```
+
+Limitations (especially for old CPUs):
+
+* Must be CPU-specific in testing (same CPU version): checking by `cpuid` if `CPUID.80000001H:EDX.RDTSCP[bit 27]` is `1`
+* Must re-calibrate the counter if power-saving measures taken by the OS or BIOS or overclocking happens
+
+Remediation to the downclocking/overclocking limitation:
+
+Recent Intel processors include a constant rate TSC (identified by the `kern.timecounter.invariant_tsc` sysctl on FreeBSD or by the "constant_tsc" flag in Linux's `/proc/cpuinfo`).
+
+With these processors, the TSC ticks at the processor's nominal frequency, regardless of the actual CPU clock frequency due to turbo or power saving states. Hence TSC ticks are counting the passage of time, not the number of CPU clock cycles elapsed.
+
+ARM Specifications:
+
+P.S., ARMv7 provides the *Cycle Counter Register* (`CCNT` instruction) to read and write the counter, but the instruction is privileged.

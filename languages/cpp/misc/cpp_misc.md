@@ -153,6 +153,12 @@ However, if `Foo`'s constructor is defined `explicit`, the above invocation is f
 
 It is init **before** entering `main()`.
 
+### `struct` vs `union`
+
+A Structure `struct` does not have a shared location for all of its members. It makes the size of a Structure to be greater than or equal to the sum of the size of its data members (disregarding memory alignment).
+
+A Union `union` does not have a separate location for every member in it. It makes its size equal to the size of the largest member among all the data members.
+
 ## C++ 11
 
 * Lambda

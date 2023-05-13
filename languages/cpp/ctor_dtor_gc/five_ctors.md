@@ -11,6 +11,8 @@ class A {
 };
 ```
 
+Invoked by `A a;`
+
 ### Copy Constructor
 
 A copy constructor is used to init a new class by taking an existing class members and copying to the new class object.
@@ -81,6 +83,12 @@ class A {
         return *this = A(a);
     }
 };
+
+int main()
+{
+    A a1, a2;
+    a2 = std::move(a1);
+}
 ```
 
 ## Move Constructor vs Copy Constructor

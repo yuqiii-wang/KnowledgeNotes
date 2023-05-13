@@ -85,4 +85,22 @@ static void BM_READ_TSC(benchmark::State& state) {
 
 BENCHMARK(BM_READ_TSC);
 
+
+static void BM_READ_ASM_TSC(benchmark::State& state) {
+
+    unsigned cycles_low0, cycles_high0;
+    
+    for (auto _ : state)
+    {
+        asm volatile (
+            "RDTSC\n\t"
+            "mov %%edx, %0\n\t"
+            "mov %%eax, %1\n\t": "=r" (cycles_high0), "=r" (cycles_low0)
+        );
+    }
+    
+}
+
+BENCHMARK(BM_READ_ASM_TSC);
+
 BENCHMARK_MAIN();

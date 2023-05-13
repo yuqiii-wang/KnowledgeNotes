@@ -1,7 +1,5 @@
 # Optimizations
 
-# MYSQL Optimization
-
 ## Configs
 
 To locate conf file:

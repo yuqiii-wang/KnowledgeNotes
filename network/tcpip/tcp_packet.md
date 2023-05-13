@@ -53,7 +53,11 @@ The congestion window tries not to exceed the capacity of the network (congestio
 
 In rfc7323 - TCP Extensions for High Performance, TCP header uses a 16-bit field to report the receive window
 size to the sender.  Therefore, the largest window that can be
-used is $2^{16} = 64 kb$.
+used is $2^{16} = 64 \text{kb}$.
+
+### TCP Packet Loss
+
+
 
 ## Recovery
 

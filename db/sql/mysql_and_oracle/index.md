@@ -112,3 +112,18 @@ For example, if the first value is
 
 `SHOW INDEX FROM <tablename>;` can show defined indices in a table. 
 
+## Index Failure Cases
+
+* When using index, should apply to full string match against partial match
+
+prefer
+
+```sql
+SELECT * FROM Person
+WHERE PersonName = 'Jack'
+```
+over
+```sql
+SELECT * FROM Person
+WHERE PersonName LIKE '%Jack%'
+```

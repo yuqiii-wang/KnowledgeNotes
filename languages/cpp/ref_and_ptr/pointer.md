@@ -111,3 +111,16 @@ A solution is to add `restrict` that indicates within the scope restrict pointer
 ```cpp
 int f(int *restrict p, int *restrict q);
 ```
+
+## Raw Pointer Management and RAII
+
+Raw pointer is often hard to manage for its lifecycle and content access management can be complex, especially in big project where there might be many threads accessing the pointer simultaneously.
+
+### Base Class and Derived Class
+
+In common business logic, once base class is demised, derived class's allocated pointers should be freed as well.
+In base class destructor 
+
+### Pointer Vector
+
+### Mutex for Raw Pointer

@@ -196,3 +196,5 @@ FROM   #T T1
                     WHERE  T2.A > T1.A
                     ORDER  BY T2.A) CA 
 ```
+
+## Bulk Insertion and Performance Optimization
