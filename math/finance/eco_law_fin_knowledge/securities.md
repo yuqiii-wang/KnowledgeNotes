@@ -2,6 +2,8 @@
 
 A fungible, negotiable financial instrument that holds some type of monetary value.
 
+## Security Types
+
 Other than most typical underlying asset such as cash flow, stock, commodity, they are more:
 
 * Asset-Backed Security (ABS)
@@ -25,3 +27,13 @@ A subprime mortgage is one that’s normally issued to borrowers with low credit
 Collateral that is not a specified security but of a defined
 homogenous credit quality, for example UK gilts or AA-rated
 sterling Eurobonds.
+
+## Settlement Type
+
+* FOP (Free of Payment)
+
+Free of payment is a settlement method for a securities transaction in which the delivery or reception of the securities is not linked to a corresponding transfer of funds.
+
+* DVP (Delivery vs Payment)
+
+Delivery versus payment (DVP) is a securities industry settlement method that guarantees the transfer of securities only happens after payment has been made.

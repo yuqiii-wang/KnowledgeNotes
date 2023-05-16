@@ -198,3 +198,4 @@ FROM   #T T1
 ```
 
 ## Bulk Insertion and Performance Optimization
+

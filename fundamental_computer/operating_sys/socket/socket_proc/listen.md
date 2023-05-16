@@ -1,6 +1,6 @@
 # Listen
 
-listen() marks the socket referred to by sockfd as a passive socket.
+listen() marks the socket referred to by `sockfd` as a passive socket.
 
 ```cpp
 #include <sys/socket.h>

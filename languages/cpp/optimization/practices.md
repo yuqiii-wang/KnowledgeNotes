@@ -32,6 +32,10 @@ auto lambdaPerThread = [&](int threadId; int threadTotalNum)
 }
 ```
 
+### Large Matrix Computation Optimization
+
+When performing 
+
 ## Inline
 
 `inline` function are faster in execution( compared to normal function) due to overhead saved by removal of

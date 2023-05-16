@@ -82,7 +82,7 @@ void doSomething() {
 }
 ```
 
-## SFINAE Remediations
+## SFINAE Remediation
 
 ### With `std::decay`
 

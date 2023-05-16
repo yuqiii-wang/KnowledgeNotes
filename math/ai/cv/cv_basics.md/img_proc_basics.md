@@ -29,6 +29,51 @@ To map back to $[0,255]$, simply do linear scaling $\text{round} \big(L \cdot c_
 
 Intuition: for a normalized intensity value $\sum_{j=0}^{i} \frac{n_i}{n}$, for a large number of $n_i$ of a particular level $i$, the corresponding $j<i$ would see decreased intensity, while $j>i$ would see increased intensity, hence making the nearby intensity level $j \approx i$ have diverged levels away from $i$.
 
+## Sharpening and Blurring
+
+* Sharpening
+
+$$
+k_{\text{sharpening}} = 
+\begin{bmatrix}
+      -1 & -1 & -1 \\
+      -1 & 9 & -1 \\
+      -1 & -1 & -1 \\
+\end{bmatrix}
+$$
+
+* Blurring
+
+$$
+k_{\text{blurring}} = 
+\frac{1}{9}
+\begin{bmatrix}
+      1 & 1 & 1 \\
+      1 & 1 & 1 \\
+      1 & 1 & 1 \\
+\end{bmatrix}
+$$
+
+## Noises
+
+* Salt and pepper noise (sparse light and dark disturbances, impulse noise)
+
+The defining characteristic is that the value of a noisy pixel bears no relation to the color of surrounding pixels.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/salt_and_pepper_noise.png" width="30%" height="30%" alt="salt_and_pepper_noise" />
+</div>
+</br>
+
+* Gaussian noise
+
+Each pixel in the image is changed from its original value by a (usually) small amount.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/gaussian_noise.png" width="30%" height="30%" alt="gaussian_noise" />
+</div>
+</br>
+
 ## Erosion and Dilation
 
 Given binary image (pixel value being either $0$ for black and $1$ for white), *erode* shrinks image object "thickness"; *dilate* "enlarges" image objects.

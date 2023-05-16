@@ -1,4 +1,4 @@
-# Mutex Under the hood
+# Mutex Under the Hood
 
 ## Mutex 
 
@@ -45,9 +45,13 @@ The `LOCK` prefix ensures that the CPU has exclusive ownership of the appropriat
 This may be achieved by asserting a bus lock, but the CPU will avoid this where possible. 
 If the bus is locked then it is only for the duration of the locked instruction.
 
-## `mutex` and `spin_lock`
+### `mutex` and `spin_lock`
 
-`Spinlock` is a lock which causes a thread trying to acquire it to simply wait in the loop and repeatedly check for its availability. In contrast, a `mutex` is a program object that is created so that multiple processes can take turns sharing the same resource. 
+`Spinlock` is a lock which causes a thread trying to acquire it to simply wait in the loop and repeatedly check for its availability. 
+In contrast, a `mutex` is a program object that is created so that multiple processes can take turns sharing the same resource. 
+
+* Mutex: when critical resource was used by other threads, it goes to sleep, release CPU to other threads
+* Spinlock: when critical resource was used by other threads, it just wait, will NOT give CPU to other threads
 
 A thread reached `mutex` immediately goes to sleep, until waken by `mutex.unlock()`; while for `spinlock`, a thread periodically checks it.
 
@@ -278,4 +282,107 @@ class ThreadSafeCounter {
   mutable std::shared_mutex mutex_;
   unsigned int value_ = 0;
 };
+```
+
+## Mutex Example on `i++`
+
+`i++` (assumed that `i` is a static variable) can be compiled to the below assembly code.
+```asm
+MOV [idx], %eax
+INC %eax
+MOV %eax, [idx]
+```
+
+Without CPU pipelining, to get the right result, there should be
+|Thread 1|Thread 2|
+|-|-|
+|`MOV [idx], %eax`||
+|`INC %eax`||
+|`MOV %eax, [idx]`||
+||`MOV [idx], %eax`|
+||`INC %eax`|
+||`MOV %eax, [idx]`|
+
+However, likely there might be 
+|Thread 1|Thread 2|
+|-|-|
+|`MOV [idx], %eax`||
+||`MOV [idx], %eax`|
+||`INC %eax`|
+||`MOV %eax, [idx]`|
+|`INC %eax`||
+|`MOV %eax, [idx]`||
+
+where `[idx]` is a global variable while `%eax` is CPU/thread specific.
+
+### Read/Write Lock
+
+Intuitively speaking, read lock is required when reading, write lock is required when writing.
+
+```cpp
+static int i;
+pthread_rwlock_t rwlock;
+
+// below code in multi-threading
+{
+    pthread_rwlock_wrlock(&rwlock);
+    i++;
+    pthread_rwlock_unlock(&rwlock);   
+}
+```
+
+### Spinlock
+
+Spinlock can be used as below
+
+```cpp
+static int i;
+pthread_spinlock_t spinlock;
+
+// below code in multi-threading
+{
+    pthread_spin_lock(&spinlock);
+    i++;
+    pthread_spin_unlock(&spinlock);   
+}
+```
+
+### Atomic Operation
+
+Atomic operation refers to CPU supported instructions that can be handled atomically (code being compiled into one assembly instruction).
+
+For example, below `i++` implementation can be handled by one 
+```cpp
+int inc(int *value, int add) {
+    int old;
+    __asm__ volatile (
+    "lock; xaddl %2, %1;" 
+    : "=a" (old)
+    : "m" (*value), "a" (add)
+    : "cc", "memory"
+    );
+    return old;
+}
+
+// from multi thread access
+static int i;
+inc(i, 1);
+```
+
+Compare and Swap (CAS) is another typical use of `lock` x86 assembly to replace `if(a==b) a=c;` to avoid comparison test and the swap action might experience CPU-level async.
+
+```cpp
+//  Perform atomic 'compare and swap' operation on the pointer.
+//  The pointer is compared to 'cmp' argument and if they are
+//  equal, its value is set to 'val'. Old value of the pointer is returned.
+inline T *cas (T *cmp_, T *val_)
+{
+	T *old;
+	__asm__ volatile (
+		"lock; cmpxchg %2, %3"
+		: "=a" (old), "=m" (ptr)
+		: "r" (val_), "m" (ptr), "0" (cmp_)
+		: "cc");
+	return old;
+}
 ```

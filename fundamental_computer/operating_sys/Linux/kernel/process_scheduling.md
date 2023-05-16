@@ -108,6 +108,13 @@ pick_next_task(struct rq *rq)
 }
 ```
 
+## Shortest Job First (SJF)
+
+The Preemptive version of *Shortest Job First* (SJF) scheduling is known as *Shortest Remaining Time First* (SRTF).
+The process having the smallest amount of time remaining until completion is selected first to execute.
+
+In the SRTF scheduling algorithm, the execution of any process can be stopped after a certain amount of time. On arrival of every process, the short-term scheduler schedules those processes from the list of available processes & running processes that have the least remaining burst time.
+
 ## Preemption and Context Switch
 
 Context switching, the switching from one runnable task to another, is handled by the `context_switch()` function defined in `kernel/sched.c` . It is called by `schedule()` when a new process has been selected to run. It does two basic jobs:
