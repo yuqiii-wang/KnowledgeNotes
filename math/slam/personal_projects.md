@@ -5,6 +5,8 @@
 By the image frame retrieval timestamp (5 Hz), collect all IMU and wheel odometry data starting from the last image frame retrieval timestamp.
 Then, use linear interpolation of rotation and translation as the model motion prediction results assigned to each IMU and wheel odometry reading.
 
+
+
 ## Hand Eye Calibration
 
 The hand eye calibration problem estimates the transformation between a camera ("eye") mounted on a robot gripper ("hand").
@@ -19,7 +21,8 @@ There should be at least two transformations $i \ne j$ for both $i,j \ge 2$ to c
 </br>
 
 ```cpp
-void cv::calibrateHandEye	(	InputArrayOfArrays 	R_gripper2base,
+void cv::calibrateHandEye	(
+                            InputArrayOfArrays 	R_gripper2base,
                             InputArrayOfArrays 	t_gripper2base,
                             InputArrayOfArrays 	R_target2cam,
                             InputArrayOfArrays 	t_target2cam,
@@ -29,16 +32,199 @@ void cv::calibrateHandEye	(	InputArrayOfArrays 	R_gripper2base,
                             )	
 ```
 
-### Camera
+To estimate $\space^{g}T_{c}$, the robot gripper is moved to some distance in order to acquire several poses.
+Gripper poses $\space^{b}T_{g}^{(i)}$ should be recorded (in AGV, they are fused robot state from sensors such as IMU and odometry),
+and target to camera transform $\space^{c}T_{t}^{(i)}$ should be estimated as well (such as posting some chessboards around environment walls, and by `cv::calibrateCamera(...)` that returns the estimated $\space^{c}\hat{T}_{t}^{(i)}$, which is of course very corse ..., would be lucky if precision error is below 10 cm (measured by re-projection error)).
 
-To estimate the pose of camera, chessboard can be used to estimate $\space^{c}T_{t}$,
-and IMU and odometry can be used to estimate $\space^{b}T_{g}$.
-Having collected many $\space^{c}T_{t}$ and $\space^{b}T_{g}$, run `cv::calibrateHandEye(...)` to compute $\space^{g}T_{c}$.
+```cpp
+std::vector<cv::Mat> R_gripper2base, t_gripper2base;
+std::vector<cv::Mat> R_target2cam, t_target2cam;
 
-### Lidar
+cv::Rect rotation_rect(0,0,3,3);
+cv::Rect translation_rect(3,0,1,3);
 
-By ICP, the lidar device movements can be computed $\space^{c}T_{t}$, then use IMU and odometry can be used to estimate $\space^{b}T_{g}$.
-Finally by `cv::calibrateHandEye(...)` compute $\space^{g}T_{c}$.
+for (auto& pose : robotPoses) {
+      rotation_rect = pose.r;
+      translation_rect = pose.t;
+      R_gripper2base.push_back(rotation);
+      t_gripper2base.push_back(translation);
+}
+for (auto& camTransform : camTransforms) {
+      rotation_rect = camTransform.r;
+      translation_rect = camTransform.t;
+      R_target2cam.push_back(rotation);
+      t_target2cam.push_back(translation);
+}
+
+// Calibrate
+cv::Mat R_cam2gripper, t_cam2gripper;
+cv::calibrateHandEye(R_gripper2base, t_gripper2base, R_target2cam, t_target2cam, R_cam2gripper, t_cam2gripper);
+```
+
+### The $AX=XB$ System
+
+As in the figure below, $X$ that represents $\space^{g}T_{c}$ is the extrinsic to be computed.
+Given at least two transforms $i \ne j$, for known target to camera transforms $\space^{c}T_{t}^{(i)}$ there is $A= A_i A_j^{-1}$, and for known robot state transforms $\space^{b}T_{g}^{(i)}$ there is $B = B^{-1}_i B_j$.
+Constrained by the geometry, finally there is $AX=XB$.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/hand_eye_cali_ax_xb.png" width="40%" height="40%" alt="hand_eye_cali_ax_xb" />
+</div>
+</br> 
+
+Further decompose the homogeneous transforms to translation and rotation, there is
+$$\begin{align*}
+&&&
+AX=XB
+\\ \Rightarrow &&&
+A_i A_j^{-1} X=X B^{-1}_i B_j
+\\ \Rightarrow &&&
+\space^{c}T_{t}^{(i)} \Big(\space^{c}T_{t}^{(j)}\Big)^{-1} X=X \Big(\space^{b}T_{g}^{(i)}\Big)^{-1} \space^{b}T_{g}^{(j)}
+\\ \Rightarrow &&&
+\begin{bmatrix}
+    \space^{c}R_{t}^{(ij)} & \space^{c}\bold{t}_{t}^{(ij)} \\
+    \bold{0} & 1
+\end{bmatrix}   
+\begin{bmatrix}
+    \space^{g}R_{c} & \space^{g}\bold{t}_{c} \\
+    \bold{0} & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+    \space^{g}R_{c} & \space^{g}\bold{t}_{c} \\
+    \bold{0} & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \space^{b}R_{g}^{(ij)} & \space^{b}\bold{t}_{g}^{(ij)} \\
+    \bold{0} & 1
+\end{bmatrix}
+\\ \Rightarrow &&&
+\left\{
+    \begin{align*}
+      \space^{c}R_{t}^{(ij)} \space^{g}R_{c} &= \space^{g}R_{c} \space^{b}R_{g}^{(ij)}
+      \\
+      \space^{c}R_{t}^{(ij)} \space^{g}\bold{t}_{c} + \space^{c}\bold{t}_{t}^{(ij)} &=
+        \space^{g}R_{c} \space^{b}\bold{t}_{g}^{(ij)} + \space^{g}\bold{t}_{c}
+    \end{align*}
+\right.
+\\ \Rightarrow &&&
+\left\{
+    \begin{align*}
+      \space^{c}R_{t}^{(ij)} \space^{g}R_{c} &= \space^{g}R_{c} \space^{b}R_{g}^{(ij)}
+      \\
+      (\space^{c}R_{t}^{(ij)} - I) \space^{g}\bold{t}_{c} &=
+        \space^{g}R_{c} \space^{b}\bold{t}_{g}^{(ij)} - \space^{c}\bold{t}_{t}^{(ij)} 
+    \end{align*}
+\right.
+\end{align*}
+$$
+
+### The Sai-Lenz Method
+
+The Sai-Lenz method is used to compute the above $AX=XB$ equation for $\space^{g}R_{c}$ and $\space^{g}\bold{t}_{c}$.
+
+1. By Rodrigues to convert matrix to rotation vector:
+
+$$
+\left\{
+    \begin{align*}
+       \space^{c}\bold{r}_{t}^{(ij)} = \text{rodrigues}(\space^{c}R_{t}^{(ij)}) \\
+       \space^{b}\bold{r}_{g}^{(ij)} = \text{rodrigues}(\space^{b}R_{g}^{(ij)})    
+    \end{align*}
+\right.
+$$
+
+2. Rodrigues Corrections for $\space^{c}\bold{r}_{t}^{*(ij)}$ and $\space^{b}\bold{r}_{g}^{*(ij)}$ by normalized vector $\space^{c}\bold{n}_{t}^{(ij)}$ and $\space^{b}\bold{n}_{g}^{(ij)}$ converting from matrix to vector format
+
+$$
+\left\{
+    \begin{align*}
+        \space^{c}\bold{r}_{t}^{*(ij)} = 2 \sin \Big( \frac{\big|\big|\space^{c}\bold{r}_{t}^{(ij)}\big|\big|_2}{2} \Big) \space^{c}\bold{n}_{t}^{(ij)}
+        , \qquad \text{where }
+        \space^{c}\bold{n}_{t}^{(ij)} = \frac{\space^{c}\bold{r}_{t}^{(ij)}}{\big|\big|\space^{c}\bold{r}_{t}^{(ij)}\big|\big|_2}
+        \\ 
+        \space^{b}\bold{r}_{g}^{*(ij)} = 2 \sin \Big( \frac{\big|\big|\space^{b}\bold{r}_{g}^{(ij)}\big|\big|_2}{2} \Big) \space^{b}\bold{n}_{g}^{(ij)}
+        , \qquad \text{where }
+        \space^{b}\bold{n}_{g}^{(ij)} = \frac{\space^{b}\bold{r}_{g}^{(ij)}}{\big|\big|\space^{b}\bold{r}_{g}^{(ij)}\big|\big|_2}
+    \end{align*}
+\right.
+$$
+
+3. Construct the linear equation $A\bold{x}=\bold{b}$ to compute the initial estimate of rotation $\space^{g}\hat{\bold{r}}_{c}$
+
+$$
+\big( \space^{c}\bold{r}_{t}^{*(ij)} + \space^{b}\bold{r}_{g}^{*(ij)} \big)^{\wedge} \space^{g}\hat{\bold{r}}_{c} 
+= \space^{b}\bold{r}_{g}^{*(ij)} - \space^{c}\bold{r}_{t}^{*(ij)}
+$$
+where $\space^{\wedge}$ represents the skew-symmetric representation of a vector.
+
+4. Compute $\space^{g}R_{c}$
+
+Set $\space^{g}\bold{u}_{c}$ as the normalized rotation vector $\space^{g}\bold{u}_{c}=\frac{2 \space^{g}\hat{\bold{r}}_{c}}{\sqrt{1+|\space^{g}\hat{\bold{r}}_{c}|^2}}$, by Rodrigues' formula $I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top} + \bold{u}^{\wedge}\sin\theta$ , the rotation matrix rotating about $\bold{u}$ by $\theta$ can be expressed as
+$$
+\space^{g}R_{c} = \Big( 1 - \frac{|\space^{g}\bold{u}_{c}|^2}{2} \Big) I 
++ \frac{1}{2}\big( \space^{g}\bold{u}_{c} \space^{g}\bold{u}_{c}^{\top} + \sqrt{4-|\space^{g}\bold{u}_{c}|^2}\space^{g}\bold{u}_{c}^{\wedge} \big)
+$$
+
+```cpp
+for (int i = 0; i < nStatus; i++)
+{ 
+  cv::Rodrigues(Rgij, rgij);
+  cv::Rodrigues(Rcij, rcij);
+
+  theta_gij = cv::norm(rgij);
+  theta_cij = cv::norm(rcij);
+
+  rngij = rgij / theta_gij;
+  rncij = rcij / theta_cij;
+
+  Pgij = 2 * sin(theta_gij / 2)*rngij;
+  Pcij = 2 * sin(theta_cij / 2)*rncij;
+
+  tempA = cv::skew(Pgij + Pcij);
+  tempb = Pcij - Pgij;
+
+  A.push_back(tempA);
+  b.push_back(tempb);
+}
+
+cv::invert(A, pinA, DECOMP_SVD);
+
+Pcg_prime = pinA * b;
+Pcg = 2 * Pcg_prime / sqrt(1 + cv::norm(Pcg_prime) * cv::norm(Pcg_prime));
+PcgTrs = Pcg.t();   
+Rcg = (1 - cv::norm(Pcg) * cv::norm(Pcg) / 2) * eyeM + \
+    0.5 * (Pcg * PcgTrs + sqrt(4 - cv::norm(Pcg)*cv::norm(Pcg))*cv::skew(Pcg));
+```
+
+5. translation $\space^{g}\bold{t}_{c}$ should be easy to compute simply by solving the below over-determined linear system
+
+$$
+(\space^{c}R_{t}^{(ij)} - I) \space^{g}\bold{t}_{c} =
+\space^{g}R_{c} \space^{b}\bold{t}_{g}^{(ij)} - \space^{c}\bold{t}_{t}^{(ij)} 
+$$
+
+```cpp
+for (int i = 0; i < nStatus; i++)
+{
+  tempAA = Rgij - eyeM;
+  tempbb = Rcg * tcij - tgij;
+
+  AA.push_back(tempAA);
+  bb.push_back(tempbb);
+}
+
+cv::invert(AA, pinAA, DECOMP_SVD);
+cv::Mat Tcg = pinAA * bb;
+```
+
+## Lidar Extrinsic Calibration
+
+### Lidar Point Sampling
+
+### Time Offset as an Optimization Variable
+
+### Point-To-Plane ICP
 
 ## Lidar and ORB Feature Data Fusion
 

@@ -88,10 +88,10 @@ $$
 
 ## Quaternion Example
 
-Consider a rotation around $\overrightarrow{v}=\overrightarrow{i} + \overrightarrow{j} + \overrightarrow{k}$ with a rotation angle of $\theta=\frac{2\pi}{3}$. The length of $\overrightarrow{v}$ is $\sqrt{3}$.
+Consider a rotation $\overrightarrow{{u}}$ around $\overrightarrow{v}=\overrightarrow{i} + \overrightarrow{j} + \overrightarrow{k}$ with a rotation angle of $\theta=\frac{2\pi}{3}$. The length of $\overrightarrow{v}$ is $\sqrt{3}$.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/quat_rotation.png" width="40%" height="30%" alt="quat_rotation" />
+      <img src="imgs/quat_rotation.png" width="20%" height="20%" alt="quat_rotation" />
 </div>
 </br>
 
@@ -235,4 +235,6 @@ $$
 
 \end{align*}
 $$
+
+## Quaternion Derivative
 

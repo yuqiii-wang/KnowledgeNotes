@@ -130,3 +130,13 @@ When $p$ is set to $1$, the calculation is the same as the Manhattan distance.
 When $p$ is set to $2$, it is the same as the Euclidean distance.
 Intermediate values provide a controlled balance between the two measures.
 
+## Errors
+
+
+### Root mean Square Deviation (RMSD)
+
+For $n$ samples of pairs $\{ y_i, x_i \}$ for a system $f(.)$, RMSD can be computed by
+
+$$
+L = \sqrt{\frac{1}{n} \sum_{i=1}^n \big( y_i - f(x_i) \big)}
+$$

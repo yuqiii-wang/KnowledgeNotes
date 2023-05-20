@@ -78,7 +78,8 @@ int main(){
     cv::Mat cameraMatrix; // instrinsic parameters
     cv::Mat distCoeffs; // distortion coefficients
     cv::Mat R,T; // extrinsic parameters: rotation and translation
-    double reprojError = cv::calibrateCamera(objpoints, imgpoints, 
+    double reprojError = 0; // Root Mean Square Error
+    reprojError = cv::calibrateCamera(objpoints, imgpoints, 
                                         cv::Size(grayImgs[0].rows,grayImgs[0].cols), 
                                         cameraMatrix, distCoeffs, R, T);
 
@@ -86,6 +87,7 @@ int main(){
     std::cout << "distCoeffs : " << distCoeffs << std::endl;
     std::cout << "Rotation vector : " << R << std::endl;
     std::cout << "Translation vector : " << T << std::endl;
+    std::cout << "Reprojection Error : " << reprojError << std::endl;
 
     // undistort images
     cv::Mat hImage;

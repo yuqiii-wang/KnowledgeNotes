@@ -101,3 +101,8 @@ compiler might throw linker error since compiler could not resolve `base::~base(
 main.cpp:(.text._ZN7derivedD2Ev[_ZN7derivedD2Ev]+0x11): undefined reference to `base::~base()'
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
+
+## Virtual Functions From A Compiler Perspective
+
+A virtual table is built at compile time, but it is called/looked up at runtime to determine polymorphism.
+

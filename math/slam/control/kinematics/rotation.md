@@ -1,6 +1,75 @@
 # Rotation
 
-## Rodrigues' rotation formula
+## Vector Representation of Rotations
+
+Different from Euler's formula that describes rotation according to the three axis $x$-th, $y$-th and $z$-th as $\theta_{roll}$, $\theta_{pitch}$ and $\theta_{yaw}$, 
+the vector representation first defines a unit rotation vector $\bold{u}$ and an angle $\theta$. 
+A spatial point $\bold{p}$ rotates about $\bold{u}$ by $\theta$, and the result $\bold{p}^*$ can be found as below.
+
+For rotation about non-unit vector $\bold{r}$, should first normalize it: $\bold{u}=\frac{\bold{r}}{||\bold{r}||}$.
+
+Then, decompose $\bold{p}$ to two orthogonal vectors $\bold{a}$ (along the direction of $\bold{u}$) and $\bold{b}$ (perpendicular to $\bold{u}$):
+$$
+\begin{align*}
+\bold{a} &= \bold{u}\bold{u}^{\top}\bold{p}
+\\
+\bold{b} &= \bold{p} - \bold{a} = (1-\bold{u}\bold{u}^{\top})\bold{p}    
+\end{align*}
+$$
+
+For rotation has no effect on $\bold{a}$, but rotates $\bold{b}$ by $\theta$ to $\bold{b}'$, here define the $\bold{c}$ perpendicular to $\bold{b}$ on the same rotation plane.
+$$
+\bold{c} = \bold{u} \times \bold{p}
+$$
+
+So that the after rotation spatial point $\bold{p}'$ can be computed by *Rodrigues' formula*
+$$
+\begin{align*}
+\bold{p}' &= \bold{a} + \bold{b}'
+\\ &=
+\bold{a} + \bold{b}\cos\theta + \bold{c}\sin\theta
+\\ &=
+\bold{u}\bold{u}^{\top}\bold{p} + (1-\bold{u}\bold{u}^{\top})\bold{p}\cos\theta + \bold{u} \times \bold{p}\sin\theta
+\\ &=
+\big( I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top} + \bold{u}^{\wedge}\sin\theta \big) \bold{p}
+\end{align*}
+$$
+where $\space^{\wedge}$ is denoted as the skew-symmetric representation of a vector.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/rodrigues_formula_derivation.png" width="30%" height="30%" alt="rodrigues_formula_derivation" />
+</div>
+</br>
+
+The rotation $I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top} + \bold{u}^{\wedge}\sin\theta$ has two terms:
+$I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top}$ is symmetric, and $\bold{u}^{\wedge}\sin\theta$ is anti-symmetric.
+
+So that in $R-R^{\top}$, the symmetric term  is canceled out for $\Big(I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top}\Big) - \Big(I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top}\Big)^{\top} = 0$, leaving only $\bold{u}^{\wedge}\sin\theta$ untouched.
+$$
+\begin{align*}
+R - R^{-1} &= R - R^{\top}
+\\ &= 
+2\bold{u}^{\wedge}\sin\theta
+\\ &= 2 \begin{bmatrix}
+    0 & -u3 & u_2 \\
+    u_3 & 0 & -u_1 \\
+    -u_2 & u_1 & 0
+\end{bmatrix}
+\sin\theta
+\\ &= 2 \begin{bmatrix}
+    0 & -p_3 & p_2 \\
+    p_3 & 0 & -p_1 \\
+    -p_2 & p_1 & 0
+\end{bmatrix}
+\end{align*}
+$$
+
+The vector $[p_1\quad p_2\quad p_3]$ has the norm of $\sin\theta$ aligned to the $\bold{u}$'s direction.
+
+Given a typical rotation matrix $R=\begin{bmatrix} r_{11} & r_{12} & r_{13} \\ r_{21} & r_{22} & r_{23} \\ r_{31} & r_{32} & r_{33} \end{bmatrix}$, there is $\text{tr}(R) = r_{11} + r_{22} + r_{33} = 2 \cos\theta + 1$, where $\theta$ represents the angle of the rotation in axis/angle form (for derivation see below *Angle Computation* for Rodrigues' formula).
+
+
+## Rodrigues' Rotation Formula
 
 This formula provides a shortcut to compute exponential map from $so(3)$ (*Special Orthogonal Group*), the Lie algebra of $SO(3)$, to $SO(3)$ without actually computing the full matrix exponential.
 
@@ -59,6 +128,8 @@ $$
 =
 \bold{v} cos\theta + (\bold{k} \times \bold{v})sin\theta + \bold{k}(\bold{k} \cdot \bold{v})(1-cos\theta)
 $$
+
+The rotation of $\bold{v}$ about $\bold{k}$ by an angle $\theta$ follows the right hand rule
 
 * Matrix Form
 
@@ -226,5 +297,22 @@ S([1\quad 0\quad 0]) &= \begin{bmatrix}
 && \frac{d}{d\theta} R_y(\theta) &= S([0\quad 1\quad 0]) R_y(\theta)
 \\
 && \frac{d}{d\theta} R_z(\theta) &= S([0\quad 0\quad 1]) R_z(\theta)
+\end{align*}
+$$
+
+In conclusion, the derivative of a rotation matrix with respects to the $x$-th, $y$-th and $z$-th axis is some signs' changes to their respective cells, 
+such as 
+$$
+\begin{align*}
+    \frac{d}{d\theta} R_x(\theta) &= S([1\quad 0\quad 0]) R_x(\theta) 
+    \\ &= 
+    \begin{bmatrix} 0 & 0 & 0 \\ 
+    0 & 0 & -1 \\ 
+    0 & 1 & 0 
+    \end{bmatrix} 
+    \begin{bmatrix} 1 & 0 & 0 \\ 
+    0 & \cos\theta & -\sin\theta \\ 
+    0 & \sin\theta & \cos\theta 
+    \end{bmatrix}
 \end{align*}
 $$
