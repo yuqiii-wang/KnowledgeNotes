@@ -71,7 +71,7 @@ $$
     \lim_{\epsilon \rightarrow 0} \frac{(x+\epsilon)^2+(x+\epsilon)y}{\epsilon}
     \\ && &=
     \lim_{\epsilon \rightarrow 0} \frac{ \underbrace{x^2+xy}_{=f(x,y)}
-    +(2x+y)\epsilon+\epsilon^2}{\epsilon}
+    +(2x+y)\epsilon+\epsilon^2}{\underbrace{\epsilon}_{\frac{d \epsilon}{d \epsilon}=1}}
     \\ \begin{matrix}
         \text{By L'Hôpital's rule, there is} \\
         \lim_{(x,y)\rightarrow (1,3)} f(x,y)=0

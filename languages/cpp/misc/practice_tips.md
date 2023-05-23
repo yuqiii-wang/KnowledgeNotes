@@ -183,6 +183,14 @@ for (int i = 1; i <= 5; ++i)
 }
 ```
 
+* `extern`
+
+Usually, global vars are declared in `.h` referenced by `#include`; 
+the `extern` can be used ysed to reference global vars in another `.c` file.
+
+`extern` vars in compilation does not immediately has definition.
+
+
 * `extern "C"`
 
 C++ uses `extern "C"` to prevent mangling.

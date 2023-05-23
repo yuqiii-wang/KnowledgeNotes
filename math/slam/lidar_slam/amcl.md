@@ -1,6 +1,5 @@
 # Lidar Localization - AMCL Adaptive Monte Carlo Localization
 
-
 Localization problem is described as estimating a posterior belief of the robot’s pose at present moment conditioned on the whole history of available data.
 Generic Problem
 For a 2-d localization problem, to estimate the state of the robot at the current time-step $k$. Given knowledge about the initial state $x_0$ and all measurements $z^k = \{ Z_k, i = 1:k \}$, to work out $\bold{x}=[x,y,\theta]^T$
@@ -60,3 +59,9 @@ Combine the information from step B and C, $p(\bold{z_k}|\bold{x_k})p(\bold{x_k}
 "Adaptive" here means using an adaptive particle filter which converges much faster and is computationally much more efficient than a basic particle filter.
 
 It uses KL-Distance to measure the relative entropy between true posterior $p$ and max likelihood estimated probability $\hat{p}$, and make sure that the relative entropy is smaller than a threshold $\epsilon$. Otherwise, the number of particles should increase.
+
+In other words, during global relocalization or localization init, a large number of sample particles should be used.
+Once particles are clustered/converged, once a small number of particles are required to track a moving robot.
+
+### Kullback-Leibler Divergence (KLD)
+

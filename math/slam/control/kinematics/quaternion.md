@@ -112,6 +112,96 @@ $$
 
 This result's Euler angle is $(\frac{\pi}{2}, 0, \frac{\pi}{2})$.
 
+## Quaternion Derivative
+
+Rotation change about the instantaneous axis $\bold{u}=\frac{\bold{\omega}}{||\bold{\omega}||}$ through $\theta=||\bold{\omega}||\Delta t$ can be described by
+$$
+\begin{align*}
+\Delta \bold{q} &= \cos\frac{\theta}{2} + \bold{u} \sin\frac{\theta}{2}
+\\ &=
+\cos\frac{||\bold{\omega}||\Delta t}{2} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2}
+\end{align*}
+$$
+
+By the nature of quaternion rotation, there is $\bold{q}(t+\Delta t)=\Delta\bold{q}\bold{q}(t)$.
+Then, define the difference:
+$$
+\begin{align*}
+\bold{q}(t+\Delta t)-\bold{q}(t) &= 
+\Big( \cos\frac{||\bold{\omega}||\Delta t}{2} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2}
+ \Big) \bold{q} - \bold{q}
+\\ &=
+\Big( \cos\frac{||\bold{\omega}||\Delta t}{2} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2}
+ - 1 \Big) \bold{q}
+\\ &=
+\Big( -2\sin^2\frac{||\bold{\omega}||\Delta t}{4} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2}
+\Big) \bold{q}
+\end{align*}
+$$
+where, for quaternion $\bold{q} \in \mathbb{H}^4$ multiplying with angular velocity $\bold{\omega} \in \mathbb{R}^3$, here redefines $\bold{\omega}=[0\quad \omega_x\quad \omega_y\quad \omega_z] \in \mathbb{H}^4$.
+
+Finally, develop the time-derivative of the quaternions.
+$$
+\begin{align*}
+\frac{d\bold{q}}{d\Delta t} &= \lim_{\Delta t \rightarrow 0} \frac{\bold{q}(t+\Delta t)-\bold{q}(t)}{\Delta t}
+\\ &=
+\lim_{\Delta t \rightarrow 0}\frac{1}{\Delta t}
+\Big( -2\sin^2\frac{||\bold{\omega}||\Delta t}{4} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2}
+\Big) \bold{q}
+\\ &=
+\Big(0 + \frac{\bold{\omega}}{||\bold{\omega}||} \frac{||\bold{\omega}||}{2} \Big) \bold{q}
+&\qquad \text{Apply L'Hopital's Rule, there are } \lim_{x \rightarrow 0}\frac{\sin^2(x)}{x}=0 \text{ and } \lim_{x \rightarrow 0}\frac{\sin(x)}{x}=1
+\\ &=
+\frac{1}{2} \bold{\omega} \bold{q}
+\end{align*}
+$$
+
+Define the skew-symmetric of $\bold{\omega}$, such that
+$$
+\Omega(\bold{\omega}) = 
+\begin{bmatrix}
+    0 & -\bold{\omega}^{\top} \\
+    \bold{\omega} & \bold{\omega}^{\wedge}
+\end{bmatrix}
+=\begin{bmatrix}
+    0 & -\omega_x & -\omega_y & -\omega_z \\
+    \omega_x & 0 & \omega_z & -\omega_y \\
+    \omega_y & -\omega_z & 0 & -\omega_x \\
+    \omega_z & \omega_y & -\omega_x & 0\\
+\end{bmatrix}
+$$
+
+The quaternion derivative can be expressed as $\frac{d\bold{q}}{d\Delta t}=\frac{1}{2} \Omega(\bold{\omega}) \bold{q}$
+
+## Quaternion Integral
+
+The $\bold{q}(t+\Delta t)=\bold{q}_{t+1}$ can be derived from Taylor series 
+$$
+\begin{align*}
+\bold{q}_{t+1} &= \bold{q}_t + \frac{d\bold{q}_{t}}{d\Delta t} \Delta t
++ \frac{1}{2!}\frac{d^2\bold{q}_{t}}{d\Delta t^2} \Delta t^2
++ \frac{1}{3!}\frac{d^3\bold{q}_{t}}{d\Delta t^3} \Delta t^3 + ...
+\\ &=
+\Big( I_{4 \times 4} + \frac{1}{2} \Omega(\bold{\omega})\Delta t
++ \frac{1}{2!} \big(\frac{1}{2} \Omega(\bold{\omega})\Delta t\big)^2 
++ \frac{1}{3!} \big(\frac{1}{2} \Omega(\bold{\omega}) \Delta t \big)^3 + ... \Big) \bold{q}_t
+&& \qquad \text{Apply } \frac{d\bold{q}}{d\Delta t}=\frac{1}{2} \Omega(\bold{\omega}) \bold{q} \text{ to all derivatives recursively to all degrees}
+\\ &\qquad +
+\frac{1}{4} \frac{d\Omega(\omega)}{d\Delta t}\Delta t^2 \bold{q}_t
++ \Big( \frac{1}{12}\frac{d\Omega(\omega)}{d\Delta t}\Omega(\omega) 
++ \frac{1}{24}\Omega(\omega)\frac{d\Omega(\omega)}{d\Delta t} 
++ \frac{1}{12} \frac{d^2\Omega(\omega)}{d\Delta t^2} \Big) \Delta t^3 \bold{q}_t + ...
+\\ &=
+\Big( I_{4 \times 4} + \frac{1}{2} \Omega(\bold{\omega})\Delta t
++ \frac{1}{2!} \big(\frac{1}{2} \Omega(\bold{\omega})\Delta t\big)^2 
++ \frac{1}{3!} \big(\frac{1}{2} \Omega(\bold{\omega}) \Delta t \big)^3 + ... \Big) \bold{q}_t
+&& \qquad \text{Angular velocity is assumed constant } \frac{d\Omega(\omega)}{d\Delta t}=0
+\\ &=
+\Big( I_{4 \times 4} + \frac{1}{2} \Omega(\bold{\omega})\Delta t \Big) \bold{q}_t
+&& \qquad \text{Removed higher order terms}
+\end{align*}
+$$
+
 ## Quaternion Derivation
 
 Define $\bold{q}^+$ and $\bold{q}^{\oplus}$ as the matrix representation of quaternion.
@@ -235,6 +325,4 @@ $$
 
 \end{align*}
 $$
-
-## Quaternion Derivative
 

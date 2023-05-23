@@ -21,4 +21,10 @@ Shared objects are one form of output from the link-edit phase. Shared objects a
 
 ## Static Linker
 
+In pure g++, compile file to `.o` then build linking by `ar src`.
+```bash
+g++ -c MyStaticLib.cpp
+ar src libMyStatic.a MyStaticLib.o
+```
+
 In cmake, `add_library()` denotes `STATIC` for the compiled library.

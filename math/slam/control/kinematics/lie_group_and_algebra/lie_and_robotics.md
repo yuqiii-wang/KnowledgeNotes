@@ -244,7 +244,7 @@ e^{\xi^\wedge} &=
     \\
     0 & 1
 \end{bmatrix}
-\\ &= t
+\\ &= T
 \end{align*}
 $$
 where
@@ -295,7 +295,7 @@ $$
 |-|-|-|-|-|
 |$SO(3) \\ R=e^{\phi^\wedge} \in \mathbb{R}^{3 \times 3}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\bold{v}=\bold{v}$|$\rightarrow$|$so(3) \\ \phi \in \mathbb{R}^3$|
 ||$\leftarrow$|Exponential mapping: $e^{\theta \bold{v}^\wedge}$|$\leftarrow$||
-|$SE(3) \\ t \in \mathbb{R}^{4 \times 4}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\bold{v}=\bold{v} \\ \bold{t}=J\rho$|$\rightarrow$|$se(3) \\ \xi=[\phi^\wedge \quad \rho] \in \mathbb{R}^6$|
+|$SE(3) \\ T \in \mathbb{R}^{4 \times 4}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\bold{v}=\bold{v} \\ \bold{t}=J\rho$|$\rightarrow$|$se(3) \\ \xi=[\phi^\wedge \quad \rho] \in \mathbb{R}^6$|
 ||$\leftarrow$|Exponential mapping: $e^{\xi^\wedge}$|$\leftarrow$||
 
 
@@ -338,7 +338,7 @@ lim_{ \psi \rightarrow 0} \frac{e^{\phi^{\wedge}}e^{\psi^{\wedge}}\bold{p} - e^{
 \end{align*}
 $$
 
-In practice, we set $\Delta R = 10^{-6}$. When applied perturbation to $R$, $\frac{\partial R\bold{p}}{\partial R}$ is nearly unaffected and remained the most of the derivative.
+In practice, we set $\Delta R = [10^{-6}\quad 10^{-6}\quad 10^{-6}]^{\wedge}$. When applied perturbation to $R$, $\frac{\partial R\bold{p}}{\partial R}$ is nearly unaffected and remained the most of the derivative.
 
 ### BCH Formula and its Approximation
 
@@ -477,3 +477,9 @@ $$
 $$
 
 ### Perturbation Model vs Derivative Model
+
+The derivative model uses $e^{(\Delta \phi + \phi)^{\wedge}}=e^{(J_l \Delta \phi)^{\wedge}}e^{\phi^{\wedge}}$ to represent the increment result.
+$J_l$'s computation needs Taylor expansion and is complicated.
+
+The perturbation model adds a trivial disturbance $e^{\psi^{\wedge}}e^{\phi^{\wedge}}\approx(I+\psi^{\wedge})e^{\phi^{\wedge}}$ such as $\Delta R=[10^{-6}\quad 10^{-6}\quad 10^{-6}]^{\wedge}$ to $R$ that gives the result $\Delta R R$ to see the change of the result relative to the disturbance.
+Intuitively speaking, the added disturbance has little effect on the existing $R$, so that $\Delta R R$ is little changed.

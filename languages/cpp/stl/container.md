@@ -142,11 +142,13 @@ By using `emplace_back`, only `MyKlass` constructor is called. This is the objec
 std::array<int, 3> a {1, 2, 3};
 ```
 
-## `std::deque`
+## Queue
+
+### Deque
 
 `std::deque` (double-ended queue) is an indexed sequence container that allows fast insertion and deletion at both its beginning and its end.
 
-Deque implements pointer to the queue's first and end elements, while elements inside are chopped into chunks, each chunk is a vector, linked through a map:
+`std::deque` implements pointer to the queue's first and end elements, while elements inside are chopped into chunks, each chunk is a vector, linked through a map:
 
 ![deque](imgs/deque.png "deque")
 
@@ -157,6 +159,13 @@ Deque implements pointer to the queue's first and end elements, while elements i
 `queue`: insert only in one end and remove from the other (first in first out)
 
 `stack`: LIFO context (last-in first-out)
+
+### Priority Queue
+
+In `std::priority_queue`, the first element of the queue is either the greatest or the smallest of all elements in the queue, and elements are sorted by descending/ascending order.
+By default, the queue is by descending order, and the top element is the max element.
+
+Priority queues are built on the top of the max heap and use an array or vector as an internal structure. 
 
 ## `std::bitset`
 

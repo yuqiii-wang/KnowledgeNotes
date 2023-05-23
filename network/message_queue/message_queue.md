@@ -39,6 +39,10 @@ Directory service tells `App A` how to reach `App D` (assumed no direct message 
 </div>
 </br>
 
+### Formatting vs Serialization (`printf` vs `std::cout`)
+
+
+
 ## Message Queue and Multi-Threading
 
 ### From Linux TCP to Socket

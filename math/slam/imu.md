@@ -40,6 +40,10 @@ by which the zero offset and coefficient matrix can be computed.
 
 Other calibration considerations include adjusting the aforementioned parameters by temperature and atmospheric pressure if ambient conditions change significantly.
 
+### Orthogonal Calibration
+
+
+
 ### Zero Offset and Zero Drift
 
 Zero offset is the output of the gyroscope when the input angular velocity is zero, ideally is the component of the angular velocity of the earth’s rotation.

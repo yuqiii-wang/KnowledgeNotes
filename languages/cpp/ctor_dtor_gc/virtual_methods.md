@@ -102,7 +102,47 @@ main.cpp:(.text._ZN7derivedD2Ev[_ZN7derivedD2Ev]+0x11): undefined reference to `
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
 
-## Virtual Functions From A Compiler Perspective
+## Virtual Table Types
 
 A virtual table is built at compile time, but it is called/looked up at runtime to determine polymorphism.
 
+Many compilers place the virtual table pointer as the last member of the object; 
+other compilers place it as the first; portable source code works either way.[2] For example, g++ previously placed the pointer at the end of the object.
+
+### Category 0: Trivial
+Structure:
+* No virtual base classes.
+* No virtual functions.
+
+Such a class has no associated virtual table, and an object of such a class contains no virtual pointer.
+
+### Category 1: Leaf
+Structure:
+* No inherited virtual functions.
+* No virtual base classes.
+* Declares virtual functions.
+
+The virtual table contains offset-to-top and RTTI fields followed by virtual function pointers. 
+There is one function pointer entry for each virtual function declared in the class, in declaration order, with any implicitly-defined virtual destructor pair last.
+
+### Category 2: Non-Virtual Bases Only
+
+Structure:
+* Only non-virtual proper base classes.
+* Inherits virtual functions.
+
+The class has a virtual table for each proper base class that has a virtual table. 
+
+### Category 3: Virtual Bases Only
+
+Structure:
+* Only virtual base classes (but those may have non-virtual bases).
+* The virtual base classes are neither empty nor nearly empty.
+
+The class has a virtual table for each virtual base class that has a virtual table.
+In other words, it has one virtual table and another one `vtt` manages virtual table 
+
+## Virtual tables During Object Construction
+
+During the construction of a class object, the object assumes the type of each of its proper base classes, as each base class subobject is constructed. 
+RTTI queries in the base class constructor will return the type of the base class, and virtual calls will resolve to member functions of the base class rather than the complete class. 

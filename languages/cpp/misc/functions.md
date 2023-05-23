@@ -1,6 +1,82 @@
-# Lambda
+# Functions
 
-## Anonymous Function
+* Function Pointers - These are a feature of the C language and so form part of the C++ standard. A function pointer allows a pointer to a function to be passed as a parameter to another function.
+
+* Function Objects (Functors) - C++ allows the function call operator() to be overloaded, such that an object instantiated from a class can be "called" like a function.
+
+* Lambda - Anonymous function.
+
+* C++11 `<function>` - C++11 brought new changes to how functors were handled. In addition, anonymous functions (lambdas) are now supported.
+
+## Function Pointer
+
+In the code below, inside `binary_op(...)`, `(*f)` can take either `add(..)` or `multiply(...)`.
+
+```cpp
+double add(double left, double right) {
+    return left + right;
+}
+
+double multiply(double left, double right) {
+    return left * right;
+}
+
+double binary_op(double left, double right, double (*f)(double, double)) {
+    return (*f)(left, right);
+}
+
+int main() {
+    double a = 5.0;
+    double b = 10.0;
+
+    binary_op(a, b, add);
+    binary_op(a, b, multiply);
+
+    return 0;
+}
+```
+
+### Brain Teaser: Order of Execution
+
+```cpp
+int (*((*ptr(int, int)))) (int); 
+```
+
+Explain:
+```cpp
+// function return to a pointer
+*ptr(int, int)
+
+// take the return pointer as an arg
+(*ptr(int, int))
+
+// extra parentheses does not make any difference
+((*ptr(int, int)))
+
+// function pointer to pointer
+*((*ptr(int, int)))
+
+// function pointer to int pointer
+int (*((*ptr(int, int))))
+```
+
+## Function Object
+
+Overloading `operator()` to make a function objetc.
+
+```cpp
+struct A {
+   int x; // state member can even be made private! Instance per functor possible
+   int operator()(int y) { return x+y }
+};
+```
+
+The lambda can be a function object as well
+```cpp
+auto lambda = [&x](int y) { return x+y };
+```
+
+## Lambda: Anonymous Function
 
 ```cpp
 float x[5] = {5,4,3,2,1};
@@ -64,7 +140,7 @@ auto func = [pw = std::move(pw)] {
             };
 ```
 
-## `std::bind`
+### `std::bind`
 
 `std::bind` generates a forwarding call wrapper for `f`. Calling this wrapper is equivalent to invoking f with some of its arguments bound to args:
 ```cpp
@@ -123,3 +199,5 @@ int main()
 ### `std::function` performance issues
 
 Reference source: https://blog.demofox.org/2015/02/25/avoiding-the-performance-hazzards-of-stdfunction/
+
+## 
