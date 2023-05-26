@@ -200,6 +200,27 @@ use of `std::move`.
 
 * Regular expression library
 
+## C++17
+
+* `std::optional`
+
+`std::optional` manages an optional contained value, i.e. a value that may or may not be present.
+
+For example, the below code replaces `{}` with `"empty"` for the `std::optional` set to false.
+```cpp
+// optional can be used as the return type of a factory that may fail
+std::optional<std::string> create(bool b) {
+    if (b) return "Godzilla";
+    return {};
+}
+ 
+int main() {
+    std::cout << "create(false) returned "
+              << create(false).value_or("empty") << '\n';
+    return 0;
+}
+```
+
 ## c++20
 
 * module

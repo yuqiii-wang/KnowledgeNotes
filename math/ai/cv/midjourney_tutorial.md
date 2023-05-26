@@ -1,2 +1,0 @@
-# A Short Midjoutney Tutorial
-

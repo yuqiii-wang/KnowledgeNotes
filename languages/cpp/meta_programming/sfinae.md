@@ -177,3 +177,54 @@ void doSomething() {
   inc_counter(cntUI32);
 }
 ```
+
+## SFINAE Real World Example `is_std_string_like`
+
+The below code checks if `T` is `std::string`-like type. 
+
+```cpp
+template <typename T> class is_std_string_like {
+  template <typename U>
+  static auto check(U* p)
+      -> decltype((void)p->find('a'), p->length(), (void)p->data(), int());
+  template <typename> static void check(...);
+
+ public:
+  static constexpr const bool value =
+      is_string<T>::value ||
+      std::is_convertible<T, std_string_view<char>>::value ||
+      !std::is_void<decltype(check<T>(nullptr))>::value; 
+};
+```
+
+`std::string`-like type is defined by the three conditions (`value` should be true):
+* same as `std::string` asserted by `is_string<T>::value`
+* can be converted to `std::string_view` by `std::is_convertible<T, std_string_view<char>>::value`
+* `!std::is_void<decltype(check<T>(nullptr))>::value`
+    * `p->find('a');`
+    * `p->length();`
+    * `p->data();`
+
+
+```cpp
+static auto check(U* p)
+      -> decltype((void)p->find('a'), p->length(), (void)p->data(), int());
+```
+
+Since C++20 supporting `concept`, the below code can do the same work.
+```cpp
+template<typename T>
+concept check = requires(T* p) {
+    p->find('a');
+    p->length();
+    p->data();
+}
+
+template<typename T>
+struct is_std_string_like {
+    static constexpr const bool value = 
+        is_string<T>::value ||
+        std::is_convertible<T, std_string_view<char>>::value ||
+        check<T>;
+};
+```

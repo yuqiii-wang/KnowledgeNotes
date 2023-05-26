@@ -67,3 +67,11 @@ When either the stop or limit price is reached and the order is executed, the ot
 * Upper/Bottom Limit Trigger Stop
 
 Simple stop (force sell) when reaching a limit.
+
+## Common Trading Strategies
+
+### Leg
+
+A leg is one piece of a multi-part trade, often a derivatives trading strategy, in which a trader combines multiple options or futures contracts, to hedge a position, to benefit from arbitrage, or to profit from a spread widening or tightening. 
+
+When entering into a multi-leg position, it is known as "legging-in" to the trade. Exiting such a position, meanwhile, is called "legging-out". Note that the cash flows exchanged in a swap contract may also be referred to as legs.

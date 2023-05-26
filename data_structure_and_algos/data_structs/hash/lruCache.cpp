@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include <list>
+#include <deque>
 
 struct DLinkedNode {
     int key, value;
@@ -85,3 +86,49 @@ public:
         }
     }
 };
+
+/**********************************/
+
+#include <iostream>
+#include <unordered_map>
+#include <deque>
+
+using namespace std;
+
+
+
+struct LRUCache
+{
+    LRUCache(int _capacity):capacity(_capacity){};
+    ~LRUCache();
+
+    deque<int> queue;
+    unordered_map<int, int>mapToQueueIdx; 
+    int capacity;
+
+    int get(int key){
+        if (mapToQueueIdx.find(key) == mapToQueueIdx.end()) {
+            return -1;
+        }
+        return queue[mapToQueueIdx[key]];
+    };
+    int put(int key, int val) {
+        if (mapToQueueIdx.find(key) == mapToQueueIdx.end()) {
+            if (mapToQueueIdx.size() > capacity) {
+                queue.pop_front();
+                queue.push_back(val);
+                mapToQueueIdx[key]=mapToQueueIdx.size()-1;
+            }
+            else {
+                queue[mapToQueueIdx[key]];
+            }
+        }
+    };
+};
+
+int main() {
+    // char str[3];
+    // std::cin>>str;
+    std::cout << "hello world" << std::endl;
+    return 0;
+}
