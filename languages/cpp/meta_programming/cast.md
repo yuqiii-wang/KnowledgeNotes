@@ -183,6 +183,15 @@ In `static_cast`, for example, to convert between `int(12)` to `unsigned float (
 In `reinterpret_cast`, CPU does not invoke any calculations. 
 It just treats a set of bits in the memory like if it had another type. 
 
+* `reinterpret_cast` Use Cases
+
+It can be used to source raw bit data then reinterpret it to a new data type directly by the underlying bit format.
+
+```cpp
+char c = 'a';
+int val = *reinterpret_cast<int*>(&c); // val = 97 or 0110 0001
+```
+
 ### `const_cast<new-type>(expression)`
 
 `const_cast<new-type>(expression)` may be used to cast away (remove) constness or volatility, such as
@@ -191,3 +200,6 @@ int i = 3;                 // i is not declared const
 const int& rci = i; 
 const_cast<int&>(rci) = 4; // OK: modifies i
 ```
+
+Remember, `const` variables are simply labelled as "read-only" by compiler, not something hard coded in assembly.
+Instead, `constexpr` makes code to assembly hence not modifiable.

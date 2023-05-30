@@ -24,6 +24,10 @@ in which `myArray`'s element is not readable/writable.
 
 ## Volatile
 
+`volatile` is used to refer to objects that are shared with "non-C++" code or hardware that does not follow the C++ memory model.
+
+For example, `const volatile long clock;` talks about a hardware register recording a clock, that `clock` can change value without user's control.
+
 Compiler guarantees that
 
 * Compiler does not remove `volatile`-declared variables, nor changes the order of execution, no matter what optimization flag is set
@@ -71,11 +75,16 @@ Memory barrier is thread safe that demands data must be retrieved from the main 
 
 ## Memory Compare and Exchange
 
-Compare-and-exchange atomically compares the object representation (until C++20)/value representation (since C++20) of `*this` with that of `expected`, and if those are bitwise-equal, replaces the former with `desired` (performs read-modify-write operation). Otherwise, loads the actual value stored in `*this` into `expected` (performs load operation).
+Compare-and-exchange atomically compares the object representation (until C++20)/value representation (since C++20) of `*this` with that of `expected`, and if those are bitwise-equal, replaces the former with `desired` (performs read-modify-write operation). 
+Otherwise, loads the actual value stored in `*this` into `expected` (performs load operation).
 
-Strong and weak versions refer to performance and safety, that `strong` guarantees successful compare-and-exchange, but slow in execution, while `weak` has the opposite performance.
+Strong and weak versions refer to performance and safety, that `strong` guarantees successful compare-and-exchange, but slow in execution, while `weak` has some level lower performance.
 
-`order` is about the memory synchronization ordering for both operations.
+* `expected` - reference to the value expected to be found in the atomic object. Gets stored with the actual value of `*this` if the comparison fails.
+
+* `desired` - the value to store in the atomic object if it is as expected
+
+* `order` is about the memory synchronization ordering for both operations.
 
 ```cpp
 // since c++11
@@ -88,13 +97,24 @@ bool compare_exchange_weak( T& expected, T desired,
                                 std::memory_order_seq_cst ) noexcept;
 ```
 
+The function returns `true` if the underlying atomic value was successfully changed, `false` otherwise.
+
 ### Example
 
 Compare-and-exchange operations are often used as basic building blocks of *lockfree* data structures.
 
-Suppose there is a list of nodes linked by `next`. There might be multiple threads setting nodes as new heads to the list.
+Suppose there is a list of nodes linked by `this->next`. 
+There might be multiple threads setting nodes as new heads to the list.
 `head.compare_exchange_weak` is used here to guarantee atomicity of setting the current node as a new head at the time when compare-and-exchange happens.
 
+In the code below,
+1. `new_node` is just created as in `node<T>* new_node = new node<T>(data);` in different threads
+2. for each thread, put the current value of head into `new_node->next` by `new_node->next = head.load();`
+3. `head` of a thread-shared list has the same addr across various threads, but `new_node` and `new_node->next` have different addresses (values might be the same though, since previously in each thread there is `new_node->next = head.load();`)
+4. in `while(!head.compare_exchange_weak(new_node->next, new_node);`, if `head == new_node->next` is true (no update for this thread, `compare_exchange_weak(...)` returns false, the `while` loop continues), it means another thread has already updated the list's `head`; 
+5. check again if `head == new_node->next` is false; if false, then perform `new_node->next = new_node;`; Remember, `compare_exchange_weak(...)` is atomic, that means either `head == new_node->next` is true, or the whole compare/exchange task finishes for this thread.
+6. `new_node->next = head;` means there is value update, and `compare_exchange_weak(...)` return true; the `while` loop breaks.
+ 
 ```cpp
 #include <atomic>
 template<typename T>

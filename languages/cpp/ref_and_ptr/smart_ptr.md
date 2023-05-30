@@ -33,9 +33,37 @@ int main()
 }
 ```
 
-### Shared Pointer counter
+### Shared Pointer Counter
 
 Depending on materialization, for `boost::shared_ptr`, a counter is defined in `private` in a `shared_ptr` container, in which it `new`s a counter. As a result, a `shared_ptr` counter resides in heap.
+
+### Shared Pointer Counter Thread Safety When Incrementing/Decreasing Counter
+
+The counting is done via `compare_exchange`.
+
+Below is GNU implementation.
+
+```cpp
+template<>
+inline bool
+_Sp_counted_base<_S_atomic>::
+_M_add_ref_lock_nothrow() noexcept
+{
+    // Perform lock-free add-if-not-zero operation.
+    _Atomic_word __count = _M_get_use_count();
+    do
+    {
+        if (__count == 0)
+        return false;
+        // Replace the current counter value with the old value + 1, as
+        // long as it's not changed meanwhile.
+    }
+    while (!__atomic_compare_exchange_n(&_M_use_count, &__count, __count + 1,
+                                        true, __ATOMIC_ACQ_REL,
+                                        __ATOMIC_RELAXED));
+    return true;
+}
+```
 
 ### Shared Pointer Passing Cost
 

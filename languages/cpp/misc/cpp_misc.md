@@ -65,6 +65,38 @@ int main() {
 * Protected — Only members of this class or subclasses of this class can access this member.
 * Private — Only this class can access this member; subclass members cannot.
 
+
+### `restrict`
+
+`restrict` tells the compiler that a pointer is not *aliased*, that is, not referenced by any other pointers. This allows the compiler to perform additional optimizations. It is the opposite of `volatile`.
+
+For example, 
+```cpp
+// ManyMemberStruct has many members
+struct ManyMemberStruct {
+    int a = 0;
+    int b = 0;
+    // ...
+    int z = 0;
+};
+
+// manyMemberStructPtr is a restrict pointer
+ManyMemberStruct* restrict manyMemberStructPtr = new ManyMemberStruct();
+
+// Assume there are many operations on the pointer manyMemberStructPtr.
+// Code below might be optimized by compiler.
+// since the memory of manyMemberStructPtr is only pointed by manyMemberStructPtr,
+// no other pointer points to the memory.
+// Compiler might facilitate operations without 
+// worrying about such as concurrency read/write by other pointers
+manyMemberStructPtr.a = 1;
+manyMemberStructPtr.b = 2;
+// ...
+manyMemberStructPtr.z = 26;
+
+delete manyMemberStructPtr;
+```
+
 ### `noexcept`
 
 `noexcept` is used to forbid exception `throw`, that
@@ -200,6 +232,41 @@ use of `std::move`.
 
 * Regular expression library
 
+* `noexcept` replaced `throw()`
+
+In the code below, `throw ()` is an exception specifier that declares that `what()` will never throw an exception. 
+This is deprecated in C++11 in favor of `noexcept`.
+
+```cpp
+struct MyException : public exception
+{
+  const char * what () const throw ()
+  {
+    return "C++ Exception";
+  }
+};
+```
+
+* Compare and Exchange Primitives
+
+```cpp
+// since c++11
+bool compare_exchange_strong( T& expected, T desired,
+                              std::memory_order order =
+                                  std::memory_order_seq_cst ) noexcept;
+// since c++11
+bool compare_exchange_weak( T& expected, T desired,
+                            std::memory_order order =
+                                std::memory_order_seq_cst ) noexcept;
+```
+
+* `constexpr`
+
+The `constexpr` specifier declares that it is possible to evaluate the value of the function or variable at compile time.
+
+## C++14
+
+
 ## C++17
 
 * `std::optional`
@@ -254,3 +321,36 @@ concept SignedIntegralT = std::is_integral_v<T> && std::is_signed_v<T>;
 template <SignedIntegralT T>
 T get(T& t) {return t;}
 ```
+
+* Atomicity and Memory Order
+
+Defined in header `<atomic>`
+
+Since c++11:
+```cpp
+typedef enum memory_order {
+    memory_order_relaxed,
+    memory_order_consume,
+    memory_order_acquire,
+    memory_order_release,
+    memory_order_acq_rel,
+    memory_order_seq_cst
+} memory_order;
+```
+
+Since c++20:
+```cpp
+enum class memory_order : /* unspecified */ {
+    relaxed, consume, acquire, release, acq_rel, seq_cst
+};
+inline constexpr memory_order memory_order_relaxed = memory_order::relaxed;
+inline constexpr memory_order memory_order_consume = memory_order::consume;
+inline constexpr memory_order memory_order_acquire = memory_order::acquire;
+inline constexpr memory_order memory_order_release = memory_order::release;
+inline constexpr memory_order memory_order_acq_rel = memory_order::acq_rel;
+inline constexpr memory_order memory_order_seq_cst = memory_order::seq_cst;
+```
+
+## C++23
+
+* flat map

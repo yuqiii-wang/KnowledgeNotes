@@ -247,6 +247,8 @@ so that there is no overhead if there is no exception occurs.
 
 Omits copy and move (since C++11) constructors, resulting in zero-copy pass-by-value semantics.
 
+In the code below, no copy nor move constructor will be called, but only default constructor is called.
+
 ```cpp
 T f()
 {
@@ -255,6 +257,8 @@ T f()
  
 f(); // only one call to default constructor of T
 ```
+
+In a return statement or a throw-expression, if the compiler cannot perform copy elision but the conditions for copy elision are met or would be met, except that the source is a function parameter, the compiler will attempt to use the move constructor even if the object is designated by an lvalue.
 
 ## Kernel Scheduler Prioritizing handling I/O
 

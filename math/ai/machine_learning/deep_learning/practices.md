@@ -22,3 +22,10 @@ Hence, the total result $\frac{\partial h_{k+1}}{\partial h_k}=\text{diag}\big( 
 * Use Adam
 
 ## Saddle Point Escape
+
+* Data Augmentation: manually introduced some noises to source training data
+* batch size: 
+
+Large batch size can facilitate training by bulk processing by GPU, and has better generalization.
+
+Small batch size has the opposite effect. One alien sample can be obvious in error but this can lead to saddle point escape.

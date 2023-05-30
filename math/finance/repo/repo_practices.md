@@ -2,7 +2,9 @@
 
 ## Repo Types
 
-### Classic Repo
+### Classic Repo/Specified Delivery
+
+Required the delivery of a pre-specified bond at the onset, and at maturity of the contractual period. 
 
 One party “sells” bonds to the other while simultaneously
 agreeing to repurchase them or receive them back at a
@@ -10,12 +12,14 @@ specified future date.
 
 Also known as allocation trade for bonds as the underlying security should be allocated.
 
-### Hold-In-Custody (HIC) Repo
+### Held-In-Custody (HIC) Repo
 
 In a held-in-custody repo, the seller receives cash for the sale of the security, but holds the security in a custodial account (might not immediately accessible to the buyer) for the buyer. 
 This type of agreement is even less common because there is a risk the seller may become insolvent and the borrower may not have access to the collateral.
 
 ### Tri-Party Repo
+
+Basically a basket form of transaction and allows for a wider range of instruments in the basket or pool. 
 
 Tri-party repo is a type of repo contract where a third entity (apart from the borrower and lender), called a Tri-Party Agent, acts as an intermediary between the two parties to the repo to facilitate services like collateral selection, payment and settlement, custody and management during the life of the transaction.
 
@@ -39,6 +43,22 @@ Traders; financing bond positions, etc
 
 Flexibility and ease of trading makes this a market for almost any type of firm
 involved in borrowing or lending collateralized cash
+
+## Business Motivations
+
+* United States Federal Reserve Used Repo for Federal Funds Rate (FFR) Adjustment
+
+Repurchase agreements add reserves to the banking system and then after a specified period of time withdraw them; 
+reverse repos initially drain reserves and later add them back. 
+This tool can also be used to stabilize interest rates (FFR).
+
+* Relationship Between Repo and SOFR
+
+Secured Overnight Financing Rate (SOFR) is a broad measure of the cost of borrowing cash overnight collateralized by Treasury securities with a diverse set of borrowers and lenders;.
+It is based entirely on transactions (not estimates), hence serving a good alternative to London Inter-Bank Offered Rate (LIBOR).
+
+SOFR reflects transactions in the Treasury repo market, that in the Treasury repo market, people borrow
+money using Treasury debt as collateral. 
 
 ## Risks
 

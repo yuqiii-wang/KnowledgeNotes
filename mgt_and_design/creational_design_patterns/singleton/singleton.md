@@ -9,7 +9,7 @@ public:
     static Singleton &Instance()
     {
         // This line only runs once, thus creating the only instance in existence
-        static std::auto_ptr<Singleton> instance( new Singleton );
+        static std::shared_ptr<Singleton> instance( new Singleton );
         // always returns the same instance
         return *instance; 
     }

@@ -39,9 +39,15 @@ Directory service tells `App A` how to reach `App D` (assumed no direct message 
 </div>
 </br>
 
-### Formatting vs Serialization (`printf` vs `std::cout`)
+### Formatting and Serialization (`printf` vs `std::cout`)
 
+Serialization is a method converting objects into binary format.
 
+`std::cout` is an object of class `ostream` that represents the standard output stream oriented to narrow characters (of type char). 
+It corresponds to the C stream stdout.
+It needs overloading `operator <<` abuse of `iostream`, this adds complexity but provides good extensibility.
+
+`printf` is fast (fewer lines of compiled assembly code) and portable friendly.
 
 ## Message Queue and Multi-Threading
 
@@ -56,11 +62,8 @@ Once a TCP packet finishes processing by Linux, it would be stored in one of the
 Then, when `recv(int sockfd, void *buf, size_t len, int flags);` gets called, 
 TCP packet's data is copied from kernel TCP queues' buffer to the user defined buffer `buf` by user specified number  of bytes `len`.
 
-### Lock-Free Message Queue
+### Lock-Free Message Queue (Array)
 
-Lock-free message queue usually refers to using *Compare And Swap* (CAS) `compare_exchange_weak(...)` to guarantee thread safety avoid lock-introduced, kernel space/user space switch, and thread-switch related costs.
-
-The design is that
 
 ## Protobuf
 

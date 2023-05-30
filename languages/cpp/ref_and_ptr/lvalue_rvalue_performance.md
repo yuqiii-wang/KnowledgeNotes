@@ -205,4 +205,22 @@ int main() {
 
 * Move pointer: move cannot work on pointer (the pointed object does not change before and after move operation)
 * Return Value Optimization may have different implementations of whether it uses default/copy/move constructor
+
+Bad for copy elision:
+```cpp
+S f()
+{
+  S result;
+  return std::move(result);
+}
+```
+
+Good:
+```cpp
+S f()
+{
+  S result;
+  return result;
+}
+```
 * When constructor could throw error, by default copy constructor is called

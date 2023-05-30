@@ -22,6 +22,12 @@
 
 ## MQ as Middleware Caching Data
 
+## Security
+
+### OAuth
+
+### DDoS
+
 ## DB
 
 ### DB Redundancy Backup

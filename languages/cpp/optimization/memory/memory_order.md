@@ -47,6 +47,18 @@ int main ()
 }
 ```
 
+## `std::atomic<T>::fetch_add`
+
+Atomically replaces the current value with the result of arithmetic addition of the `value` and `arg`. 
+
+```cpp
+T fetch_add( T arg,
+             std::memory_order order = std::memory_order_seq_cst ) noexcept;
+
+atomic<int> value{0};
+value = value.fetch_add(1, std::memory_order_relaxed);
+```
+
 ## Memory Order Types
 
 ### Memory Ordering Modes
@@ -58,6 +70,9 @@ They only guarantee atomicity and modification order consistency.
 
 For example, the code below produces true for `r1 == r2 == 99 ` if thread 1 and thread 2 run synchronously.
 The side-effect of event $D$ on `y` could be visible to the load $A$ in thread 1, while the side effect of $B$ on `x` could be visible to the load $C$ in thread 2.
+
+This means that for atomic modification pair action `load` and `store` (for $A$ and $D$ for `y`, for $B$ and $D$ for `x`), if thread 1 sees `y.load()`, it must see a corresponding `y.store(...)` then it can proceed next action.
+
 ```cpp
 // Both defined in thread 1 and thread 2
 std::atomic<int> x (0);
