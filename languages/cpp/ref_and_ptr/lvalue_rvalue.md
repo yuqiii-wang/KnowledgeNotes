@@ -176,9 +176,7 @@ int main(){
 }
 ```
 
-### Example
-
-
+### Example: Forward Test
 
 ```cpp
 #include <iostream>
@@ -209,6 +207,26 @@ int main()
     return 0;
 }
 ```
+
+### Example: `std::string`
+
+In the code below, `str2(std::move(str));` makes the original `str` invalidated to become a null string, while `std::move(str)` without other move constructor invocation does not make the original `str` null.
+
+```cpp
+std::string str("hello");
+std::cout << "before: " << str << std::endl;
+std::string str2(std::move(str));
+std::cout << "after: " << str << std::endl; // null str
+
+std::string str("hello");
+std::cout << "before: " << str << std::endl;
+std::cout << "middle: " << std::move(str) << std::endl; // "hello"
+std::cout << "after: " << str << std::endl; // "hello"
+```
+
+Explained: `std::move` is just a right value casting and nothing more.
+The casting operation itself does not change anything.
+However, in `str2(std::move(str));`, the default `std::string` move constructor replaced the data pointer from `str`'s to `str2`'s, hence the previous `str`'s data pointer is a `nullptr`.
 
 ### `auto&&` vs `const auto&`
 

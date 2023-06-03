@@ -4,7 +4,11 @@
 
 Same function name with different arguments
 
-On the same scope/class
+On the same scope/class.
+
+Implementation: name mangling 
+(Name mangling is the encoding of function and variable names into unique names so that linkers can separate common names in the language.
+The compiler generates function names with an encoding of the types of the function arguments when the module is compiled. )
 
 ## Override
 
@@ -13,6 +17,8 @@ Different scope (parent/children during inheritance)
 Same function name and arguments
 
 Base/parent class must declare `virtual`
+
+Implementation: virtual table
 
 ## Overwrite
 

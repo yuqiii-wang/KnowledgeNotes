@@ -140,3 +140,11 @@ where $(1)$ is derived by taking out $E[g_n]$ from the summation and the remaini
 As a result, bias correction is done by cancelling the term $1-\beta_1^n$ with $\hat{m}_{n} = \frac{m_{n}}{1-\beta_1^n}$.
 
 $v_n$ takes similar deduction result and has the correction term $\hat{v}_{n} = \frac{v_{n}}{1-\beta_2^n}$
+
+### Loss Function Scaling Impact on ADAM
+
+For SGD, by multiplying $0.5$ to loss function, the learning rate is reduced to half.
+However, for ADAM, this is not true.
+
+For $\frac{\partial\space Loss}{\partial\space W_{n}} \rightarrow m_{n+1}$ and $(\frac{\partial\space Loss}{\partial\space W_{n}})^2 \rightarrow v_{n+1}$, and finally for $\Delta W_{n+1} = \eta \frac{\hat{m}_{n+1}}{\sqrt{\hat{v}_{n+1}}+\epsilon}$, the square root operation cancels out the $0.5$ effect on the loss function.
+In conclusion, scaling on loss function has no effect on ADAM learning/weight update.
