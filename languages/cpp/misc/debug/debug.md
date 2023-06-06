@@ -29,7 +29,17 @@ gcc -g hello.cc -o hello
 
 Add a break point to code.
 
-### Example: A coredump
+### Checking A Core Dump
+
+1. `gdb path/to/the/binary path/to/the/core/dump/file`
+
+2. `bt` (backtrace) to get the stack trace when the program crashed
+
+3. `list` to see code around the function
+
+4. `info locals` to check local variables
+
+### Example: GDB Run Live
 
 ```cpp
 #include <iostream>

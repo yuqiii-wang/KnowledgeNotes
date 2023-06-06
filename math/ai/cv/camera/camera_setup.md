@@ -1,7 +1,5 @@
 # Stereo Camera Calibration and Rectification
 
-![camera_cali_proc](imgs/camera_cali_proc.png "camera_cali_proc")
-
 ## Basic camera calibration and undistortion
 
 `findChessboardCorners` takes a src image (this image can distorted) and finds the corners stored in `corners`.
@@ -111,9 +109,14 @@ double cv::calibrateCamera(
 
 ## Stereo camera calibration
 
-`objectPoints`: chessboard points in the real world such as `(0,0,0), (0,1,0) ... (n,m,0)`
+`objectPoints`: chessboard points in the real world coordinate system such as `(0,0,0), (0,1,0) ... (n,m,0)`
 
 `imagePoints1` and `imagePoints2`
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/camera_cali_proc.png" width="40%" height="70%" alt="camera_cali_proc" />
+</div>
+</br>
 
 ```cpp
 double stereoCalibrate( InputArrayOfArrays objectPoints,

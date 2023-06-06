@@ -1,4 +1,4 @@
-# Lidar Camera Calibration
+# Lidar Camera Calibration and Simple Fusion
 
 Lidar-camera calibration is about finding the right transform between camera and lidar.
 The calibration process is usually done through matching against chessboards.
@@ -21,3 +21,7 @@ Ideally, the lidar and camera outputs would fuse into one by the calibrated extr
 </div>
 </br>
 
+
+## Find the right transform between camera and lidar
+
+## 

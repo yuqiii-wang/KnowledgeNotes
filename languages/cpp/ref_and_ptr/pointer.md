@@ -124,3 +124,34 @@ In base class destructor
 ### Pointer Vector
 
 ### Mutex for Raw Pointer
+
+### Pointer set to null after `delete`
+
+In the code below, after `delete a_;`, there is additional `callback_(this);` that references the already demised `_a`, and this is troubling.
+
+```cpp
+#include <iostream>
+
+class A
+{
+public:
+    int *a_;
+    void (*callback_)(const A *);
+    A() : a_(new int(32)) {}
+    ~A() {
+        delete a_;
+        callback_(this);
+    }
+};
+
+int main()
+{
+    auto i = new A;
+    i->callback_ = [](const A *sender) {
+        std::cout << sender->a_ << "," << *sender->a_ << std::endl;
+    };
+    delete i; 
+
+    return 0;
+}
+```

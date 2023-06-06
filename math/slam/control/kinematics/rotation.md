@@ -227,11 +227,92 @@ e^{\bold{K}\theta}
 \end{align*}
 $$
 
-## Derivative of A Rotation Matrix
+## Derivative of Rotation Over Time: Angular Velocity $\overrightarrow{\bold{\omega}}$ and Linear Velocity $\overrightarrow{\bold{v}}$
+
+Vector rotation rotating $\overrightarrow{\bold{r}}$ about the $Z$-th axis over some degree $\theta$ can be described as below.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/rotation_trigonometry.png" width="30%" height="30%" alt="rotation_trigonometry" />
+</div>
+</br>
+
+Compute the trigonometry of rotation for $\Delta \theta$ to approximate the angular velocity as $\Delta t \rightarrow 0$
+$$
+\begin{align*}
+    {\bold{\omega}} =
+    \lim_{\Delta t \rightarrow 0}\Delta \theta
+    &= 
+    \Big|\Big|\overrightarrow{\bold{r}} \Big|\Big| \tan(\frac{d \theta}{dt} \Delta t)
+    \\ &=
+    \Big|\Big| \overrightarrow{\bold{r}} \Big|\Big| \frac{\sin(\frac{d \theta}{dt} \Delta t)}{\cos(\frac{d \theta}{dt} \Delta t)}
+    \\ &\approx
+    \Big|\Big| \overrightarrow{\bold{r}} \Big|\Big| \frac{\frac{d \theta}{dt}}{1}
+    && \qquad \text{for } \lim_{t \rightarrow 0} \sin(\theta t) = \theta \text{ and } \lim_{t \rightarrow 0} \cos(\theta t) = 1
+    \\ &=
+    \Big|\Big| \overrightarrow{\bold{r}} \Big|\Big| \frac{d \theta}{dt}
+\end{align*}
+$$
+
+
+The linear velocity is defined $\overrightarrow{\bold{v}}={\bold{\omega}} \overrightarrow{\bold{d}}$, 
+where $\overrightarrow{\bold{d}}$ is the rotation direction computed by the normalized cross product $\overrightarrow{\bold{d}}= \frac{1}{||\overrightarrow{\bold{r}}||} \big( Z \times \overrightarrow{\bold{r}} \big)$.
+
+$$
+\begin{align*}
+    \overrightarrow{\bold{v}} &= {\bold{\omega}} \overrightarrow{\bold{d}}
+    \\ &=
+    \Big|\Big| \overrightarrow{\bold{r}} \Big|\Big| \frac{d \theta}{dt} 
+    \cdot \frac{1}{||\overrightarrow{\bold{r}}||} \big( Z \times \overrightarrow{\bold{r}} \big)
+    \\ &= 
+    \underbrace{\frac{d \theta}{dt} Z}_{=\overrightarrow{\bold{\omega}}=\frac{d \theta}{dt} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}} 
+    \times \overrightarrow{\bold{r}}  
+\end{align*}
+$$
+
+This indicates that the angular velocity has a direction pointing upward as $Z$ such that $\overrightarrow{\bold{\omega}}=\frac{d \theta}{dt} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}$.
+Linear velocity $\overrightarrow{\bold{v}}$ is perpendicular to $\overrightarrow{\bold{r}}$.
+
+### Matrix Representation
+
+Rotating $\overrightarrow{\bold{r}}$ from its origin position $\overrightarrow{\bold{r}}_0$ at the angular speed $\overrightarrow{\bold{\omega}}$ is basically to compute $\overrightarrow{\bold{r}}(t)=R(t) \overrightarrow{\bold{r}}_0$,
+where $R(t) = \exp(\overrightarrow{\bold{\omega}}^{\wedge}t)$.
+
+Recall Rodrigues' rotation formula, here decomposes $\overrightarrow{\bold{\omega}}t = \frac{\overrightarrow{\bold{\omega}}}{||\overrightarrow{\bold{\omega}}||} \cdot ||\overrightarrow{\bold{\omega}}||t$, where $Z=\frac{\overrightarrow{\bold{\omega}}}{||\overrightarrow{\bold{\omega}}||}$ is the $Z$-th rotation axis, and $\theta=||\overrightarrow{\bold{\omega}}||t$ is the scalar rotation angle.
+
+$$
+\begin{align*}
+&&
+\bold{Q} =
+e^{\bold{K}\theta}
+&=
+\bold{I}+\bold{K}sin(\theta)+\bold{K}^2\big(1-cos(\theta)\big)
+\\ \text{Substitutions } \Rightarrow &&
+R(t) =
+\exp(\overrightarrow{\bold{\omega}}^{\wedge}t)
+&=
+\bold{I} + Z^{\wedge} \sin(||\overrightarrow{\bold{\omega}}||t) + \big(1-\cos(||\overrightarrow{\bold{\omega}}||t)\big) Z^{\wedge} Z^{\wedge} 
+\end{align*}
+$$
+where $Z^{\wedge}=\begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & -1 & 0 \end{bmatrix}$ is the skew matrix representation of $Z = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}$.
+
+To get the first order derivative of $\dot{R}(t)$, when $t \rightarrow 0$, there are $\sin(||\overrightarrow{\bold{\omega}}||t) \rightarrow ||\overrightarrow{\bold{\omega}}||$ and $\cos(||\overrightarrow{\bold{\omega}}||t) \rightarrow 1$, so that
+$$
+\dot{R}(t) = \frac{d \space R(t)}{dt} 
+= \bold{I} + Z^{\wedge} ||\overrightarrow{\bold{\omega}}||
+$$
+
+## Derivative of Rotation Over $\theta$
 
 Consider a rotation matrix $R_x(\theta)$ on the $x$-axis.
 $$
-R_x(\theta) = \begin{bmatrix}
+R_x(\theta) = 
+\exp \Bigg( \theta \begin{bmatrix}
+    0 & 0 & 0 \\
+    0 & 0 & -1 \\
+    0 & 1 & 0
+\end{bmatrix} \Bigg)
+=
+\begin{bmatrix}
     1 & 0 & 0 \\
     0 & \cos\theta & -\sin\theta \\
     0 & \sin\theta & \cos\theta

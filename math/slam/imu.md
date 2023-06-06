@@ -256,6 +256,59 @@ $$
 \end{align*}
 $$
 
+### Summary and Approximation Error Discussions
+
+Start from kinematics for rotation ${\bold{R}}$, velocity ${\bold{v}}$ and position ${\bold{p}}$, assumed the true values can be decomposed of subtracting zero drifts and Gaussian noises from reading.
+
+$$
+\begin{align*}
+    {\bold{R}}(t_0+\Delta t) 
+    &= \bold{R}(t_0) e^{\bold{\omega}^\wedge(t_0)\Delta t} \\
+    &= \bold{R}(t_0)
+    e^{ \big(\hat{\bold{\omega}}(t_0)- \bold{b}_\bold{\omega} - \bold{\eta}_\bold{\omega} \big)^\wedge \Delta t} 
+    \\
+    {\bold{v}}(t_0+\Delta t) &= \bold{v}(t_0) + \bold{g}_\text{earth} \Delta t
+    + \bold{a}\Delta t \\
+    &= \bold{v}(t_0) + \bold{g}_\text{earth} \Delta t
+    + \bold{R}(t_0) \cdot \big( \hat{\bold{a}}(t_0) - \bold{b}_\bold{a}(t_0) - \bold{\eta}_\bold{a}(t_0) \big) \Delta t
+    \\
+    {\bold{p}}(t_0+\Delta t) 
+    &= \bold{p}(t_0) + \bold{v}(t_0)\Delta t + \frac{1}{2} \bold{a}(t_0) \Delta t^2 \\
+    &= \bold{p}(t_0) + \bold{v}(t_0)\Delta t +
+    \frac{1}{2} \bold{g}_{\text{earth}} \Delta t^2
+    + \bold{R}(t_0) \cdot \big( \hat{\bold{a}}(t_0) - \frac{1}{2} \bold{b}_\bold{a}(t_0) - \bold{\eta}_\bold{a}(t_0) \big) \Delta t^2
+\end{align*}
+$$
+
+Approximate the true value by first order (BCH in Lie algebra), so that the true value for rotation change ${\Delta{\bold{R}}_{ij}}$ can be expressed as the reading ${\Delta\hat{\bold{R}}_{ij}}$ removing the noise $\text{Exp} \big( -\delta\bold{\phi}_{ij} \big)$.
+
+$$
+    {\Delta{\bold{R}}_{ij}}
+=
+    {\Delta\hat{\bold{R}}_{ij}}
+    \prod^{j-1}_{k=i} 
+    \text{Exp} \big(
+    -{\Delta\hat{\bold{R}}_{k+1,k+2}}  \bold{J}_{rk} \bold{\eta}_{\bold{\omega},k} \Delta t \big)
+=
+    {\Delta\hat{\bold{R}}_{ij}}
+    \text{Exp} \big( -\delta\bold{\phi}_{ij} \big)
+, \qquad
+  \text{where } \Delta\hat{\bold{R}}_{ij} =
+  \prod^{j-1}_{k=i}
+  e^{ \big( (\hat{\bold{\omega}}_k- \bold{b}_{\bold{\omega},k})\Delta t 
+  \big)^\wedge }
+$$
+
+Similarly, velocity and position changes can be expressed as $\Delta{\bold{v}}_{ij} = \Delta\hat{\bold{v}}_{ij} - \delta \bold{v}_{ij}$ and $\Delta{\bold{p}}_{ij} = \Delta\hat{\bold{p}}_{ij} + \delta \bold{p}_{ij}$.
+
+The approximation error is shown as below:
+
+* The rotation is approximated by the first order BCH $e^{(\bold{\phi}+\Delta\bold{\phi})^\wedge} \approx e^{(\bold{J}_l\Delta\bold{\phi})^\wedge} e^{\bold{\phi}^\wedge}$.
+The higher order errors are discarded.
+
+* When $\delta\bold{\phi}$ is small, there is approximation $\exp(\delta\bold{\phi}^\wedge) \approx \bold{I}+\delta\bold{\phi}^\wedge$.
+This approximation derives from $\sin(||\overrightarrow{\bold{\omega}}||t) \rightarrow ||\overrightarrow{\bold{\omega}}||$ and $\cos(||\overrightarrow{\bold{\omega}}||t) \rightarrow 1$, hence the error grows as $\delta\bold{\phi}$ grows, which means that if IMU reading interval is large, the approximation result is not accurate.
+
 ### Preliminaries and Some Notations
 
 Lie algebra to Lie group mapping is an exponential mapping $so(3) \rightarrow SO(3)$:
@@ -271,7 +324,7 @@ $$
 Baker-Campbell-Hausdorff (BCH) formula describes the relationship between Lie algebra plus/minus operations and Lie group multiplication.
 $$
 e^{(\bold{\phi}+\Delta\bold{\phi})^\wedge}
-=
+\approx
 e^{(\bold{J}_l\Delta\bold{\phi})^\wedge}
 e^{\bold{\phi}^\wedge}
 =
@@ -557,7 +610,7 @@ $$
 $\Delta\hat{\bold{R}}_{ij}, \Delta\hat{\bold{v}}_{ij}, \Delta\hat{\bold{p}}_{ij}$ can be computed from taking the sum of all IMU's sensor readings indexed at $k=i,i+1,i+2,...,j$.
 The right hand side expressions are direct computation on the "gap" between two timestamp $k=i$ and $k=j$ plus some noises.
 
-### Pre-integration Noise Modelling
+### Pre-integration Zero Drift Noise Modelling
 
 Recall the noise definition for rotation:
 $$
