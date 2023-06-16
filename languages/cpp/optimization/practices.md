@@ -272,3 +272,35 @@ With these processors, the TSC ticks at the processor's nominal frequency, regar
 ARM Specifications:
 
 P.S., ARMv7 provides the *Cycle Counter Register* (`CCNT` instruction) to read and write the counter, but the instruction is privileged.
+
+## Compute $n$ Points' Pair Distances
+
+There are $n=10^9$ 3d points $\bold{p}_i \in \mathbb{R}^3$, compute the distances of point pairs.
+
+$$
+d_{i,j} = \sqrt{(\bold{p}_{i} - \bold{p}_{j})^2}
+$$
+
+First, do decomposition: ${(\bold{p}_{i} - \bold{p}_{j})^2} = \bold{p}_{i}^2 + \bold{p}_{j}^2 - 2\bold{p}_{i}\bold{p}_{j}$.
+Here $\bold{p}_{i}$ and $\bold{p}_{j}$ share different memory, so that rather than $\bold{p}_{i} - \bold{p}_{j}$, performing $\bold{p}_{i}^2$ and $\bold{p}_{j}^2$ can better exploit memory locality.
+
+```python
+import numpy as np
+import time
+
+def good(a, b):
+    """faster"""
+    a2 = np.sum(a*a, axis=-1)
+    b2 = np.sum(b*b, axis=-1)
+    ab = a @ b.T
+    return np.sqrt(a2[:, None] + b2[None, :] - 2 * ab)
+
+def bad(a, b):
+    """slower"""
+    a = a[:, None, :]
+    b = b[None, :, :]
+    e = a - b
+    return np.sqrt(np.sum(e*e, axis=-1))
+```
+
+In C++, consider SIMD and locality. Use Eigen if possible.

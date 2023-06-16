@@ -129,6 +129,8 @@ In base class destructor
 
 In the code below, after `delete a_;`, there is additional `callback_(this);` that references the already demised `_a`, and this is troubling.
 
+Remediation can be adding `a_ = nullptr` after `delete a_;`, and conducting a check `if (a_ != nullptr)` when referencing `a_`.
+
 ```cpp
 #include <iostream>
 
