@@ -5,6 +5,7 @@ $$
 A=U \Sigma V^\text{T}
 $$
 
+SVD generalizes the eigen-decomposition of a square normal matrix with an orthonormal eigen basis to any $m \times n$ matrix. 
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/svd.png" width="40%" height="40%" alt="svd" />
@@ -91,9 +92,9 @@ $$
 ## SVD for least squares problem
 
 Given a least squares problem:
-for a residual $\bold{r} = A \bold{x} - \bold{b}$, we attempt to minimize
+for a residual $\bold{r} = A \bold{x} - \bold{b}$, where $A \in \mathbb{R}^{m \times n}$ (assumed $A$ is full rank that $n = \text{rank}(A)$), and there is $m > n$, here attempts to minimize
 $$
-arg \space \underset{\bold{x}}{min} \space
+\space \underset{\bold{x}}{\text{min}} \space
 ||A \bold{x} - \bold{b}||^2
 =
 r_1^2 + r_2^2 + ... + r^2_m
@@ -126,6 +127,9 @@ $$
 \end{bmatrix}
 \bold{y} - \bold{z}
 \Bigg|\Bigg|^2
+\\ =&
+\sum^{n}_{i=1} \big( \sigma_i {y}_i - \bold{u}^{\top}_i \bold{b} \big)^2
++ \sum^{m}_{i=n+1} \big( \bold{u}^{\top}_i \bold{b} \big)^2
 \end{align*}
 $$
 
@@ -134,24 +138,27 @@ $$
 y_i=
 \left\{
     \begin{array}{cc}
-        \sigma_i &\quad \sigma_i \ne 0 
+        \frac{\bold{u}^{\top}_i \bold{b}}{\sigma_i} &\quad \sigma_i \ne 0 \text{ same as } i \le n
         \\
-        0 &\quad \sigma_i = 0 
+        \text{any value} &\quad \sigma_i = 0 \text{ same as } i > n
     \end{array}
 \right.
 $$
 
-Then, it is easy to find $\bold{x}$ by
-$$
-\bold{x} = V\bold{y}
-$$
+Then, it is easy to find $\bold{x}$ by $\bold{x} = V\bold{y}$.
+
+The residual is $\sum^{m}_{i=n+1} \big( \bold{u}^{\top}_i \bold{b} \big)^2$.
+
+### Proof
 
 ## SVD vs Eigen Decomposition
 
-SVD generalizes the eigen decomposition of a square normal matrix with an orthonormal eigen basis to any $m \times n$ matrix.
+* SVD generalizes the eigen decomposition of a square normal matrix with an orthonormal eigen basis to any $m \times n$ matrix.
+
+* Eigen decomposition: not necessarily orthonormal vs SVD: orthonormal
 
 Here defines a typical linear system $A\bold{x}=\bold{b}$.
 Consider the eigen decomposition $A = P\Lambda P^{-1}$ and $A=U\Sigma V^\text{T}$.
 
-Eigen decomposition only takes one basis $P$ in contrast to SVD using two bases $U$ and $V$. Besides, $P$ might not be orthogonal but $U$ and $V$ are orthogonal.
+Eigen decomposition only takes one basis $P$ in contrast to SVD using two bases $U$ and $V$. Besides, $P$ might not be orthogonal but $U$ and $V$ are orthonormal (orthogonal + unitary).
 

@@ -1,8 +1,8 @@
 # Repo Practices
 
-## Repo Types
+## Repo Types by Collateral Ownership
 
-### Classic Repo/Specified Delivery
+* Classic Repo/Specified Delivery
 
 Required the delivery of a pre-specified bond at the onset, and at maturity of the contractual period. 
 
@@ -12,12 +12,12 @@ specified future date.
 
 Also known as allocation trade for bonds as the underlying security should be allocated.
 
-### Held-In-Custody (HIC) Repo
+* Held-In-Custody (HIC) Repo
 
 In a held-in-custody repo, the seller receives cash for the sale of the security, but holds the security in a custodial account (might not immediately accessible to the buyer) for the buyer. 
 This type of agreement is even less common because there is a risk the seller may become insolvent and the borrower may not have access to the collateral.
 
-### Tri-Party Repo
+* Tri-Party Repo
 
 Basically a basket form of transaction and allows for a wider range of instruments in the basket or pool. 
 
@@ -28,6 +28,26 @@ Collateral is held in an independent third-party account.
 The tri-party agent is also custodian, manages exchange of collateral and cash internally
 
 Tri-party repo rate is usually higher than the delivery repo rate, but lower than HIC repo.
+
+## Repo Types by Duration and Business Value
+
+||Governing Document|Underlying Asset|Tenor|Legal Title Transfer|Margining|Business|
+|-|-|-|-|-|-|-|
+|Typical Repo/Reverse Repo|GMRA|Government, Credit, Equity|Open, Overnight ~ 5 years|Yes|Daily|Repo: Deploy bond/equity for cash borrow; Reverse repo: Collateralized cash lending for interest|
+|Cross Currency Repo|GMRA|Government, Credit|Open, Overnight ~ 5 years|Yes|Daily|Mostly USD funding to meet US reserve requirements|
+|Extendible Repo|GMRA|Government, Credit, Equity|3 month start with 1 month increment, 1 year start with 1 month increment, etc|Yes|Daily|Extendible agreement periods, typically every 3 months to renew repo termination date|
+|Evergreen Repo|GMRA|Government, Credit, Equity|Notice period > 30 days|Yes|Daily|Even greater flexible to renew repo termination date|
+|Triparty Repo|GMRA|Government, Credit, Equity|Open, Overnight ~ 5 years|Yes|Daily|Triparty agency handles trade and collateral operations, provided additional trust/credit|
+|Total Return Swap|ISDA/CSA|Government, Credit, Equity|Open, Overnight ~ 1 years|No|Daily|By Repo + Credit Default Swap (CDS) as the reference asset, borrower can leverage much more money by only paying interest to repo and premium to reference asset third party agency|
+|Bond Forward|ISDA/CSA|Government, Credit|Overnight ~ 8 years|Yes|Daily|Bonds are agreed to be sold at a pre-determined price in the future/mark-to-market value at the forward date. This can mitigate the risk associated with bond price volatility between spot and forward dates. |
+|Unsecured Bond Borrowing|GMRA|Government, Credit, Equity|Overnight ~ 1 years|No|None|Borrower borrows money without providing collateral; they are charged high repo interests|
+
+* Document Explained
+
+Global Master Repurchase Agreement (GMRA) is the principal master agreement for cross-border repos globally, as well as for many domestic repo markets containing standard provisions such as minimum delivery periods.
+
+A Credit Support Annex (CSA) is a document that defines the terms for the provision of collateral by the parties in derivatives transactions, developed by the International Swaps and Derivatives Association (ISDA).
+
 
 ## Repo Market Players
 
@@ -97,21 +117,6 @@ assets denominated in a different currency
 ||BBB|Baa2|
 ||BBB-|Baa3|
 
-### Risk Remediation
-
-* Formal binding legal agreements 
-
-list obligations as much as possible to avoid unstated risks
-
-* Default arrangements; netting 
-
-if default happens, how to arrange collaterals to pay off borrowing
-* Margining 
-
-A discount of security fair value acted as a safe margin/buffer.
-
-For example, settled collateral is worth of $100, a discount of 5% means lending $95 only.
-
 ## Trading and Hedging Strategies
 
 * Yield Curve Arbitrage
@@ -124,11 +129,20 @@ Buy both so that future yield would be neutral to avoid drastic rises or falls i
 Gov bonds usually have high credibility.
 They can be used to hedge risks.
 
+Typically, use SOFR (for USD treasury bond) or LIBOR (for British treasury bond) as the benchmark to measure the risk of a bond. 
+A haircut/spread/added floating rate can be applied on top of SOFR or LIBOR as the risk hedging quantified strategy.
+
 * Matched Book Trading
 
 Make sure underlying securities have its value as stated by daily monitoring.
+
+Counterparties are monitored as well. 
+
+Consider *Prime*: prime bonds/trades/clients are private agreements that establish good trust-worthy relationships with the counterparties.
+The prime agreements offer good repo rate to counterparties. 
 
 * Derivative Market Anticipation
 
 Demand for short-term cash is often correlated to the derivative market.
 High volatility market means that people are rush to raise funds to short/long derivatives.
+

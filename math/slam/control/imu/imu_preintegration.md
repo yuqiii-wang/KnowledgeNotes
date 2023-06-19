@@ -137,7 +137,17 @@ $$
 \bold{J}_{r,j-1}^\top \bold{\Sigma}_{\bold{\eta}_{\bold{\omega},j-1}} \bold{J}_{r,j-1} 
 $$
 
-For dynamic biases, convert the biases to a true value plus Gaussian noise: $\hat{\bold{b}}_{\bold{\omega},k} \rightarrow \bold{b}_{\bold{\omega},k} + \delta\bold{b}_{\bold{\omega},k}$
+For dynamic biases, convert the biases to a true value plus Gaussian noise: $\hat{\bold{b}}_{\bold{\omega},k} \rightarrow \bold{b}_{\bold{\omega},k} + \delta\bold{b}_{\bold{\omega},k}$ and $\hat{\bold{b}}_{\bold{a},k} \rightarrow \bold{b}_{\bold{a},k} + \delta\bold{b}_{\bold{a},k}$.
+Then, compute the corrected $\Delta\bold{R}, \Delta\bold{v}, \Delta\bold{p}$ considered linearized acceleration and gyro biases.
+
+In other words, $\delta\bold{b}_{\bold{\omega},k}$ and $\delta\bold{b}_{\bold{a},k}$ are approximated by first order derivative increment.
+$$
+\Delta\hat{\bold{R}}  = \Delta\bold{R} \frac{\partial \bold{R}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+,\qquad
+\Delta\hat{\bold{v}} = \Delta\bold{v} + \frac{\partial \bold{v}}{\partial \bold{b}_a} \Delta\bold{b}_a + \frac{\partial \bold{v}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+, \qquad
+\Delta\hat{\bold{p}} = \Delta\bold{p} + \frac{\partial \bold{p}}{\partial \bold{b}_a} \Delta\bold{b}_a + \frac{\partial \bold{p}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+$$
 
 ## Definition
 
@@ -752,3 +762,7 @@ In conclusion, the residual $[\bold{r}_{\Delta \bold{R}_{ij}}  \quad \bold{r}_{\
 and these errors are collectively optimized by graph optimization by updating $\bold{R}_i, \bold{v}_i, \bold{p}_i$.
 
 To make the graph optimization better converge, need to compute the Jacobians of the residual $[\bold{r}_{\Delta \bold{R}_{ij}}  \quad \bold{r}_{\Delta \bold{v}_{ij}} \quad \bold{r}_{\Delta \bold{p}_{ij}}]^\top$. The Jacobian can be computed by Lie algebra perturbation model.
+
+If used dynamic bias model, the biases should be computed as an optimization item in the above least squares problem.
+Its Jacobians should be computed for convergence.
+

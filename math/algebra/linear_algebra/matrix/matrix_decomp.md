@@ -589,4 +589,4 @@ This is in stark contrast to the transformation by Gram–Schmidt process that $
 
 For the full-rank case LU factorization is cheaper.  
 
-QR is good for rank-deficient least-squares cases, since each QR step solves for one column, disregarding the number of rows. In least squares cases, often $rowNum \gg colNum$.
+QR is good for rank-deficient least-squares cases, since each QR step solves for one column, disregarding the number of rows. In least squares cases, often $\text{rowNum} \gg \text{colNum}$.
