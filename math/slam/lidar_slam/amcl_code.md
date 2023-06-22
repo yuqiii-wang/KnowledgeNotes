@@ -12,6 +12,10 @@
 </div>
 </br>
 
+## Config Tips
+
+
+
 ## Particle Filter Process
 
 `laserReceived(...)` is the callback when a new laser scan arrives.
@@ -141,6 +145,101 @@ bool AMCLOdom::UpdateAction(pf_t *pf, AMCLSensorData *data)
 
 `UpdateSensor(...)` provides four types of laser update models: `LASER_MODEL_BEAM`, `LASER_MODEL_LIKELIHOOD_FIELD` and `LASER_MODEL_LIKELIHOOD_FIELD_PROB`.
 
+The beam-based model has the following considerations:
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/beam_proximity_scenarios.png" width="30%" height="30%" alt="beam_proximity_scenarios" />
+</div>
+</br>
+
+The four considerations can be measured by the four proximity models
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/beam_proximity_model1.png" width="40%" height="20%" alt="beam_proximity_model1" />
+</div>
+</br>
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/beam_proximity_model2.png" width="40%" height="20%" alt="beam_proximity_model2" />
+</div>
+</br>
+
+Together, the beam-based model has the below output.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/beam_proximity_model_mixed.png" width="40%" height="20%" alt="beam_proximity_model_mixed" />
+</div>
+</br>
+
+The beam-based model drawbacks:
+
+* Computation-intensive in ray casting/matching.
+
+* Not smooth: since each ray contributes as an individual detection not considering its spatial surrounding, overall the beam-based model is sensitive to detecting small obstacle and small robot pose change
+
+The likelihood field model goes as below to address the beam-based model's problem (2d map for a particle $m$ with the $k$-th laser beam for instance):
+
+For robot pose $(x, y)$ given its orientation $\theta$, the predicted robot pose $(x_{z^{k}_{t}}, y_{z^{k}_{t}})$ corresponding to laser length $z^{k}_{t}$ and the laser's direction $\theta_k$ can be computed as below
+$$
+\begin{bmatrix}
+  x_{z^{k}_{t}} \\ y_{z^{k}_{t}}
+\end{bmatrix}
+=
+\underbrace{\begin{bmatrix}
+  x \\ y
+\end{bmatrix}
+}_{\text{translation by robot pose}}
++
+\underbrace{\begin{bmatrix}
+  \cos \theta & -\sin \theta \\
+  \sin \theta & \cos \theta
+\end{bmatrix}
+\begin{bmatrix}
+  x_{k} \\ y_{k}
+\end{bmatrix}
+}_{ 
+  \text{aligned with } \\ 
+  \text{robot pose orientation}
+}
++
+\underbrace{z^{k}_{t}
+\begin{bmatrix}
+  \cos (\theta+\theta_{k}) \\ \sin (\theta+\theta_{k})
+\end{bmatrix}
+}_{ \text{laser length decomposed into the } x \text{- and } y \text{-axis}}
+$$
+
+Each laser $z^{k}_{t}$ predicted robot pose should stay as close as possible to the overall estimated robot pose $(\hat{x}, \hat{y})$
+
+$$
+\text{dist} = \min_{\hat{x}, \hat{y}}
+\Big( \sqrt{(x_{z^{k}_{t}}-\hat{x})^2+(y_{z^{k}_{t}}-\hat{y})^2} \quad\big|\quad
+\langle \hat{x}, \hat{y} \rangle \text{ occupied in } m \Big)
+$$
+
+Each laser should see assumed Gaussian distribution $\text{prob}(\text{dist}, \sigma_{\text{hit}}) \sim N(\text{dist}, \sigma_{\text{hit}})$.
+Laser-obstacle hit measurement only takes binary value $z_{\text{hit}} \in \{0, 1\}$.
+Here $q$ serves as the accumulated weight for the particle $m$. In other words, $m.\text{weight}=\prod^K_{k=1} q_k$.
+$$
+q = q \cdot
+\Big( z_{\text{hit}} \cdot \text{prob}(\text{dist}, \sigma_{\text{hit}}) 
++ \frac{z_{\text{random}}}{z_{\text{max}}} \Big)
+$$
+
+In conclusion, the likelihood field algo goes as below.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/likelihood_field_algo.png" width="40%" height="30%" alt="likelihood_field_algo" />
+</div>
+</br>
+
+Beam-based occupancy model vs likelihood model:
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/scan_match_beam_vs_likelihood.png" width="30%" height="30%" alt="scan_match_beam_vs_likelihood" />
+</div>
+</br>
+
 ```cpp
 // Apply the laser sensor model
 bool AMCLLaser::UpdateSensor(pf_t *pf, AMCLSensorData *data)
@@ -166,8 +265,13 @@ Take `LASER_MODEL_LIKELIHOOD_FIELD` for example.
 Compute laser beam $x$ and $y$ coord by `hit.v[0] = pose.v[0] + obs_range * cos(pose.v[2] + obs_bearing);` and `hit.v[1] = pose.v[1] + obs_range * sin(pose.v[2] + obs_bearing);` (of course there are some assertions such as filtering out out-of-max-limit laser beams).
 The map coords are mapped by index `z = self->map->cells[MAP_INDEX(self->map,mi,mj)].occ_dist;`.
 
+`pz += self->z_hit * exp(-(z * z) / z_hit_denom);` corresponds to $z_{\text{hit}} \cdot \text{prob}(\text{dist}, \sigma_{\text{hit}})$
+
+`pz += self->z_rand * z_rand_mult;`  corresponds to $\frac{z_{\text{random}}}{z_{\text{max}}}$.
+
 `pz` is the individual sample's each laser beam probability by Gaussian model.
 `p += pz*pz*pz;` is the total of one sample's weight `sample->weight *= p;`.
+
 
 ```cpp
 double AMCLLaser::LikelihoodFieldModel(AMCLLaserData *data, pf_sample_set_t* set)
