@@ -478,6 +478,14 @@ int MapBuilderStub::AddTrajectoryBuilder(
   }
 ```
 
+`Submap` takes some range data and forms a local map.
+One submap has one local pose `local_pose_`, which is `transform::Rigid3d local_pose = transform::ToRigid3(response.local_pose());` then `local_slam_result_callback(..., local_pose, range_data, std::move(insertion_result));` in `void TrajectoryBuilderStub::RunLocalSlamResultsReader(...)` reading client's data `client->StreamRead(&response)` containing range and pose results.
+Remember that `local_slam_result_callback(...)` is invoked when accumulated enough range data.
+
+An active submap continues receiving range data and performs pose optimization based on scan match.
+
+A finished submap produces a probability grid `grid_ = grid_->ComputeCroppedGrid();`
+
 ```cpp
 // An individual submap, which has a 'local_pose' in the local map frame, keeps
 // track of how many range data were inserted into it, and sets
@@ -524,6 +532,14 @@ std::vector<std::shared_ptr<const Submap2D>> ActiveSubmaps2D::InsertRangeData(
     submaps_.front()->Finish();
   }
   return submaps();
+}
+
+
+void Submap2D::Finish() {
+  CHECK(grid_);
+  CHECK(!insertion_finished());
+  grid_ = grid_->ComputeCroppedGrid();
+  set_insertion_finished(true);
 }
 ```
 
@@ -918,6 +934,95 @@ float SlowValueToBoundedFloat(const uint16 value, const uint16 unknown_value,
   return value * kScale + (lower_bound - kScale);
 }
 ```
+
+### Probability Grid Construction
+
+A probability takes a resolution defining a cell size and a `conversion_tables`.
+
+A `conversion_tables` is a lookup table for mapping from a uint16 value to a float/probability in $[$ `lower_bound`, `upper_bound` $]$ (the conversion is simply for storage convenience that uint16 occupies less space than float).
+
+```cpp
+/* ------------------- ProbabilityGrid ------------------*/
+
+mapping::ProbabilityGrid CreateProbabilityGrid(
+    const double resolution,
+    mapping::ValueConversionTables* conversion_tables) {
+  constexpr int kInitialProbabilityGridSize = 100;
+  Eigen::Vector2d max =
+      0.5 * kInitialProbabilityGridSize * resolution * Eigen::Vector2d::Ones();
+  return mapping::ProbabilityGrid(
+      mapping::MapLimits(resolution, max,
+                         mapping::CellLimits(kInitialProbabilityGridSize,
+                                             kInitialProbabilityGridSize)),
+      conversion_tables);
+}
+
+// Returns the probability of the cell with 'cell_index'.
+float ProbabilityGrid::GetProbability(const Eigen::Array2i& cell_index) const {
+  if (!limits().Contains(cell_index)) return kMinProbability;
+  return CorrespondenceCostToProbability(ValueToCorrespondenceCost(
+      correspondence_cost_cells()[ToFlatIndex(cell_index)]));
+}
+
+ProbabilityGrid::ProbabilityGrid(const MapLimits& limits,
+                                 ValueConversionTables* conversion_tables)
+    : Grid2D(limits, kMinCorrespondenceCost, kMaxCorrespondenceCost,
+             conversion_tables),
+      conversion_tables_(conversion_tables) {}
+
+
+std::unique_ptr<Grid2D> ProbabilityGrid::ComputeCroppedGrid() const {
+  Eigen::Array2i offset;
+  CellLimits cell_limits;
+  ComputeCroppedLimits(&offset, &cell_limits);
+  const double resolution = limits().resolution();
+  const Eigen::Vector2d max =
+      limits().max() - resolution * Eigen::Vector2d(offset.y(), offset.x());
+  std::unique_ptr<ProbabilityGrid> cropped_grid =
+      absl::make_unique<ProbabilityGrid>(
+          MapLimits(resolution, max, cell_limits), conversion_tables_);
+  for (const Eigen::Array2i& xy_index : XYIndexRangeIterator(cell_limits)) {
+    if (!IsKnown(xy_index + offset)) continue;
+    cropped_grid->SetProbability(xy_index, GetProbability(xy_index + offset));
+  }
+
+  return std::unique_ptr<Grid2D>(cropped_grid.release());
+}
+
+/* ------------------- ValueConversionTables ------------------*/
+
+// Performs lazy computations of lookup tables for mapping from a uint16 value
+// to a float in ['lower_bound', 'upper_bound']. The first element of the table
+// is set to 'unknown_result'.
+class ValueConversionTables {
+ public:
+  const std::vector<float>* GetConversionTable(float unknown_result,
+                                               float lower_bound,
+                                               float upper_bound);
+
+ private:
+  std::map<const std::tuple<float /* unknown_result */, float /* lower_bound */,
+                            float /* upper_bound */>,
+           std::unique_ptr<const std::vector<float>>>
+      bounds_to_lookup_table_;
+};
+
+const std::vector<float>* ValueConversionTables::GetConversionTable(
+    float unknown_result, float lower_bound, float upper_bound) {
+  std::tuple<float, float, float> bounds =
+      std::make_tuple(unknown_result, lower_bound, upper_bound);
+  auto lookup_table_iterator = bounds_to_lookup_table_.find(bounds);
+  if (lookup_table_iterator == bounds_to_lookup_table_.end()) {
+    auto insertion_result = bounds_to_lookup_table_.emplace(
+        bounds, PrecomputeValueToBoundedFloat(0, unknown_result, lower_bound,
+                                              upper_bound));
+    return insertion_result.first->second.get();
+  } else {
+    return lookup_table_iterator->second.get();
+  }
+}
+```
+
 
 ## Branch and Bound
 
