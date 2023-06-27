@@ -127,3 +127,7 @@ When bonds are in high demand, the spot price rises, and the interest rate drops
 ### Convertible Bond
 
 A convertible bond or convertible note or convertible debt (or a convertible debenture if it has a maturity of greater than 10 years) is a type of bond that the holder can convert into a specified number of shares of common stock in the issuing company or cash of equal value.
+
+## Bond Trading Platforms
+
+* CFETS (China Foreign Exchange Trade System) is a major global trading platform and pricing center for RMB and related products.

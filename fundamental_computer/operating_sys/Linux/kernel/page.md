@@ -1,5 +1,14 @@
 # Page
 
+## Translation Process
+
+The memory management unit (MMU) inside the CPU stores a cache of recently used mappings from the operating system's page table. 
+This is called the translation lookaside buffer (TLB), which is an associative cache.
+
+1. If of TLB hit, directly output physical addr
+2. If of TLB miss, look up the address mapping in the page table; if found, output physical addr
+3. If of page table miss, page fault occurs, and OS establishes the mapping between physical addr and page table
+
 ## Page Table
 
 When an application accesses a virtual memory address, it must first be converted to a physical address before the processor can resolve the request. 
@@ -16,8 +25,16 @@ Each process has its own page tables (threads share them, of course). The `pgd` 
 the memory descriptor points to the process’s page global directory. Manipulating and
 traversing page tables requires the `page_table_lock`.
 
-![page_table](imgs/page_table.png "page_table")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/page_table.png" width="60%" height="20%" alt="page_table" />
+</div>
+</br>
 
+This is useful since often the top-most parts and bottom-most parts of virtual memory are used in running a process - the top is often used for text and data segments while the bottom for stack, with free memory in between. 
+
+A typical implementation is $1024$-entry $4$ KB pages that cover $4$ MB of virtual memory ($4$ bytes per one pointer/entry).
+
+$4$ GB ($2^{32}$ bytes) space with a page size of $4$ KB ($2^{12}$ bytes) needs $2^{20}$ pages.
 
 ### Strategies
 
@@ -75,8 +92,16 @@ In detail, there are the below settings
 |dirty_writeback_interval|In milliseconds, how often a flusher thread should wake up to write data back out to disk.|
 |laptop_mode|A Boolean value controlling laptop mode. See the following section.|
 
-## Page Cache
+## Page Fault
 
+The page table lookup may fail, triggering a page fault, for two reasons:
+
+*  No translation available for the virtual address, meaning that virtual address is invalid; typically segmentation fault
+*  Page is currently not resident in physical memory. 
+This will occur if the requested page has been moved out of physical memory to make room for another page (such as stored in disk rather than RAM).
+Swap happens.
+
+## Page Cache
 
 *Page Cache* is to minimize disk I/O by storing data in physical memory that would otherwise require disk access.
 

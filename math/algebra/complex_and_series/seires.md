@@ -75,7 +75,7 @@ e^x =
 \end{align*}$$
 where $i$ represents imaginary part of a complex number.
 
-## Intuition about $e^{Ax}$ 
+### Intuition about $e^{Ax}$ 
 
 Given $e^{Ax}$ where $A$ is a matrix, for example
 $$
@@ -154,3 +154,56 @@ $$
 $$
 x(t) = e^{At}x_0
 $$
+
+## Riemann Series Theorem (also known as Riemann Rearrangement Theorem)
+
+If an infinite series of real numbers is conditionally convergent, then its terms can be arranged in a permutation so that the new series converges to an arbitrary real number, or diverges. 
+
+* Conditional Convergence: sum of series is a finite number disregarding its element rearrangement:
+
+Example: alternating harmonic series
+$$
+\begin{align*}
+& 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - ... = \ln 2
+\\
+& 1 + (- \frac{1}{2} + \frac{1}{3}) + (- \frac{1}{4} + \frac{1}{5}) - ... = \frac{3}{2} \ln 2
+\end{align*}
+$$
+
+Example: alternating sign unit sum
+$$
+\begin{align*}
+& 1 - 1 + 1 - 1 + 1 - ... = 0
+\\
+& 1 + (- 1 + 1) + (- 1 + 1) - ... = 1
+\end{align*}
+$$
+
+* The new series converges to an arbitrary real number, or diverges
+
+For example, for $1 - 1 + 1 - 1 + 1 - ...$, the result can be an arbitrary real number.
+$$
+\begin{align*}
+& 1 - 1 + 1 - 1 + 1 - ... = 0
+\\
+& 1 + (- 1 + 1) + (- 1 + 1) - ... = 1
+\\
+& 1 + 1 + 1 + 1 + (-1 - 1 - 1 - 1) + (1 + 1 + 1 + 1) - ... = 4
+\\
+& -1 - 1 - 1 - 1 + (1 + 1 + 1 + 1) + (-1 - 1 - 1 - 1) - ... = -4
+\end{align*}
+$$
+
+* Funny Application: given two sets: $S_1=[-1, 0]$ and $S_2=[0, 1]$, the sum of the two sets might not be zero, but undefined: $\sum_{x_{1i} \in S_1}x_{1i} + \sum_{x_{2i} \in S_2}x_{2i}=\text{arbitrary}$
+
+Intuition: 
+
+Set $x_1 \in [-1, 0)$, there is $0.9 - \frac{x_1}{10} \in (0.9, 1]$.
+
+So that $x_1 + 0.9 - \frac{x_1}{10} \in [0, 0.9)$ is greater than/equal to zero.
+
+Easy to say the sum of elements in $[-1, 0)$ and $(0.9, 1]$ is greater than/equal to zero.
+
+Consider all elements in $(0, 0.9]$ are greater than zero, so that for $S_2=(0, 0.9] \cup (0.9, 1]$, easy to say $\sum_{x_{1i} \in S_1}x_{1i} + \sum_{x_{2i} \in S_2}x_{2i} > 0$.
+
+Actually by Riemann Series Theorem, the $\sum_{x_{1i} \in S_1}x_{1i} + \sum_{x_{2i} \in S_2}x_{2i}$ is undefined.

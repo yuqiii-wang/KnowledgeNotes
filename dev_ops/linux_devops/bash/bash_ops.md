@@ -1,4 +1,4 @@
-# Bash common ooperations
+# Bash common Operations
 
 ## Cheat sheets： 
 

@@ -83,3 +83,19 @@ nameserver 8.8.4.4
 * `/etc` vs `/var`
 
 `/etc` (etcetera) is used to store config, while `/var` (variable) stores frequently changed data such as logs.
+
+* `modprobe`
+
+The Linux kernel has a modular design. 
+A kernel module, or often referred to as a driver, is a piece of code that extends the kernel’s functionality. 
+
+Modules can be manually loaded by `modprobe`, or automatically at boot time using /etc/modules or /etc/modules-load.d/*.conf files.
+
+To load a module
+`modprobe <module_name>`
+
+To check a module
+`lsmod | grep <module_name>`
+
+To remove a module
+`modprobe -r <module_name>`
