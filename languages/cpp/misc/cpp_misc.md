@@ -288,6 +288,10 @@ int main() {
 }
 ```
 
+* `std::any`
+
+
+
 ## c++20
 
 * module

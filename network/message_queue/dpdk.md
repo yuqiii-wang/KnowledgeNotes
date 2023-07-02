@@ -23,6 +23,9 @@ DPDK has the below advantages:
 
 * UIO (User-space IO) TCP/UDP Process
 
+Linux has two separate spaces: user space and kernel space. For example, in Linux socket, tcp packets received from NIC first arrives at kernel space then copied to user space. 
+Kernel bypass means no engagement of kernel operations but directly retrieving data from NIC to user space. 
+
 Linux: NIC hardware interrupt -> DMA copying hardware TCP/UPD data to kernel space for kernel thread handling -> software interrupt -> kernel space process by TCP/UDP standard -> notify user to get the data -> copy to user space (retrievable by `recv`)
 
 DPDK: NIC hardware interrupt -> user space through UIO mapping directly accessing the hardware TCP/UPD data -> user space process by TCP/UDP standard -> user can now use the TCP/UDP data
@@ -174,7 +177,7 @@ It has the below additional implementations
 * Padding for memory alignment
 * local cache that when having received many access requests, temporarily hold them in cache, then perform bulk updates on ring buffer. Otherwise, for each one request locking one ring buffer element, it would be time-consuming
 
-### Poll Mode Driver
+### Poll Mode Driver (PMD)
 
 A Poll Mode Driver (PMD) consists of APIs, provided through the BSD driver running in user space, to configure the devices and their respective queues. 
 In addition, a PMD accesses the RX and TX descriptors directly without any interrupts (with the exception of Link Status Change interrupts) to quickly receive, process and deliver packets in the user’s application.
@@ -202,3 +205,48 @@ The main data structure is built using the following elements
 (for packet forwarding, for broadcast there is no need of keeping too granular detail of IP, only $24$ bits are enough to maintain the lookup table in CPU's cache):
 * A table with $2^{24}$ entries.
 * A number of tables (RTE_LPM_TBL8_NUM_GROUPS) with $2^8$ entries.
+
+The LPM algorithm is used to implement Classless Inter-Domain Routing (CIDR) strategy used by routers implementing IPv4 forwarding.
+
+### Packet Load Balancer/Distributor
+
+The logical cores in use are to be considered in two roles: 
+* firstly a distributor lcore, which is responsible for load balancing or distributing packets
+* a set of worker lcores which are responsible for receiving the packets from the distributor and operating on them.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/dpdk_packet_distributor.png" width="40%" height="40%" alt="dpdk_packet_distributor" />
+</div>
+</br>
+
+1. Packets are passed to the distributor component by having the distributor lcore thread call the `rte_distributor_process()` API
+2. The worker lcores all share a single cache line with the distributor core in order to pass messages and packets to and from the worker.
+3. Distributor examines the “tag” – stored in the RSS hash field in the `mbuf` – for each packet and records what tags are being processed by each worker.
+
+### Thread safety issues:
+* safe if each thread performs I/O on a different NIC queue
+* not safe if multiple threads are to use the same hardware queue on the same NIC port, locking is required
+* It is recommended that DPDK libraries are initialized in the main thread at application startup rather than subsequently in the forwarding threads.
+
+### Quality of Service (QoS)
+
+In a complex scenario where threads are only used to dedicate handling one task, the pipeline design can be shown as below.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/dpdk_qos.png" width="70%" height="40%" alt="dpdk_qos" />
+</div>
+</br>
+
+* Policer: packet metering
+* Droppper: congestion management when congestion is experienced, lower priority packets are dropped first.
+* Sched: packet sending scheduling such as by Round Robin
+
+## Practices
+
+For specific functions that are called often, it is also a good idea to provide a self-made optimized function, which should be declared as static inline.
+
+It is better to use a memory pool of fixed-size objects.
+The `rte_malloc()` function provides several services that increase performance, such as memory alignment of objects, lockless access to objects, NUMA awareness, bulk get/put and per-lcore cache.
+
+
+## ANS (Accelerated Network Stack)

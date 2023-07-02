@@ -62,8 +62,23 @@ Once a TCP packet finishes processing by Linux, it would be stored in one of the
 Then, when `recv(int sockfd, void *buf, size_t len, int flags);` gets called, 
 TCP packet's data is copied from kernel TCP queues' buffer to the user defined buffer `buf` by user specified number  of bytes `len`.
 
-### Lock-Free Message Queue (Array)
+### Lock-Free Message Queue 
 
+Lock-free message queue usually refers to using *Compare And Swap* (CAS) `compare_exchange_weak(...)` to guarantee thread safety avoid lock-introduced, kernel space/user space switch, and thread-switch related costs.
+
+`compare_exchange_weak` compares `*this` with that of expected
+```cpp
+// since c++11
+bool compare_exchange_weak( T& expected, T desired,
+                            std::memory_order order =
+                                std::memory_order_seq_cst ) noexcept;
+```
+
+* Lock-Free Message Queue (Array)
+
+
+
+* Lock-Free Message Queue (List)
 
 ## Protobuf
 
