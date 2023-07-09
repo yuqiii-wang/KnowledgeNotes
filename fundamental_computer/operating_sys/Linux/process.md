@@ -161,6 +161,15 @@ int shmget(key_t key, size_t size, int flag);
 void *shmat(int shm_id, const void *addr, int flag);
 ```
 
+* Linux implementation details:
+
+Every process has its own virtual memory space. 
+
+Creating shared memory (by `shmget`) allocates a chunk of memory that does not belong to any particular process.
+
+A process has to request access to it – that's the role of `shmat`. 
+By doing that, kernel maps the shared memory into process' virtual memory space. 
+
 ### Signal
 
 Typically served as a soft interrupt. For example, `CTRL+C` is a `kill` signal to terminate a running program.

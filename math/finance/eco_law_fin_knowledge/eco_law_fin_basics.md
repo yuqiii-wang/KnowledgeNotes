@@ -269,3 +269,7 @@ It is composed of weighted components such as cash, credit lines, mortgages and 
 * Tier 2 Common Capital
 
 Tier 2 is designated as the second or supplementary layer of a bank's capital and is composed of items such as revaluation reserves, hybrid instruments, and subordinated term debt. 
+
+* Commodity Trading Advisor (CTA)
+
+A commodity trading advisor (CTA) is an individual or firm that provides personalized advice regarding the buying and selling of futures contracts, options on futures, and retail off-exchange forex contracts or swaps.

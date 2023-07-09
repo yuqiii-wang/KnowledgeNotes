@@ -290,7 +290,36 @@ int main() {
 
 * `std::any`
 
+It describes a type-safe container for single values of any copy constructible type.
 
+It is used with `std::any_cast` that inits the value type later after the variable is declared by `std::any`.
+
+```cpp
+// any type
+std::any a = 1;
+std::cout << a.type().name() << ": " << std::any_cast<int>(a) << '\n';
+a = 3.14;
+std::cout << a.type().name() << ": " << std::any_cast<double>(a) << '\n';
+a = true;
+std::cout << a.type().name() << ": " << std::any_cast<bool>(a) << '\n';
+
+// bad cast
+try {
+    a = 1;
+    std::cout << std::any_cast<float>(a) << '\n';
+}
+catch (const std::bad_any_cast& e) {
+    std::cout << e.what() << '\n';
+}
+```
+
+that outputs
+```txt
+int: 1
+double: 3.14
+bool: true
+bad any_cast
+```
 
 ## c++20
 

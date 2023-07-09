@@ -195,3 +195,20 @@ std::tuple<int,double,string> t3 = {1, 2.0, "3"};
 int i; double d; std::string s;
 std::tie(i, d, s) = t3;
 ```
+
+## Iterator Invalidation
+
+When the container to which an Iterator points changes shape internally, i.e. when elements are moved from one position to another, and the initial iterator still points to the old invalid location, then it is called Iterator invalidation.
+
+For example, the code below may output `1 5 10 15 20 -1 -1` having duplicated `-1`.
+This is caused by when having too many `push_back`, vector triggers memory re-allocation.
+```cpp
+// Creating a sample vector
+vector<int> v = { 1, 5, 10, 15, 20 };
+
+// Changing vector while iterating over it
+// (This causes iterator invalidation)
+for (auto it = v.begin(); it != v.end(); it++)
+    if ((*it) == 5)
+        v.push_back(-1);
+```

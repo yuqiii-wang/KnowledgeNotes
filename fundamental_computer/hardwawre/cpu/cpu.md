@@ -14,3 +14,9 @@
       <img src="imgs/cpu_vs_processor.png" width="60%" height="30%" alt="cpu_vs_processor" />
 </div>
 </br>
+
+## Processor Microarchitecture
+
+## Intel VTune Profiler
+
+Intel® VTune™ Profiler can help identify and analyze performance bottlenecks in your serial or parallel application by performing a series of steps in a workflow. 

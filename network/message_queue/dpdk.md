@@ -248,5 +248,120 @@ For specific functions that are called often, it is also a good idea to provide 
 It is better to use a memory pool of fixed-size objects.
 The `rte_malloc()` function provides several services that increase performance, such as memory alignment of objects, lockless access to objects, NUMA awareness, bulk get/put and per-lcore cache.
 
+There is a trade-off between throughput and latency.
+DPDK uses a default 16-packet burst transmit against sending packet one by one.
+
+### Profiling for Performance Analysis
+
+Intel processors provide performance counters to monitor events (Intel VTune).
+
+The main situations that should be monitored through event counters are:
+* Cache misses
+* Branch mis-predicts
+* DTLB misses
+* Long latency instructions and exceptions
 
 ## ANS (Accelerated Network Stack)
+
+ANS(accelerated network stack) is DPDK native TCP/IP stack.
+It has supports for UDP, ICMP as well.
+
+It is NOT an open-source project.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/dpdk-ans.png" width="40%" height="40%" alt="dpdk-ans" />
+</div>
+</br>
+
+The use of ANS' APIs is similar to a typical socket programming.
+
+Below is a UDP example sending/receiving data between two hosts `10.0.0.2` and `10.0.0.10`.
+
+```cpp
+/*initialize thread bind cpu*/
+cpu_set_t cpus;
+
+CPU_ZERO(&cpus);
+CPU_SET((unsigned)core, &cpus);
+sched_setaffinity(0, sizeof(cpus), &cpus);  
+
+int ret = anssock_init(NULL);
+
+/* create epoll socket */
+int epfd = anssock_epoll_create(0);
+
+int fd = anssock_socket(AF_INET, SOCK_DGRAM, 0);
+
+struct sockaddr_in addr_in;  
+memset(&addr_in, 0, sizeof(addr_in));      
+addr_in.sin_family = AF_INET;  
+addr_in.sin_port   = htons(8888);  
+addr_in.sin_addr.s_addr = inet_addr("10.0.0.2"); 
+ret =  anssock_bind(fd, (struct sockaddr *)&addr_in, sizeof(addr_in) );
+
+struct sockaddr_in remote_addr;  
+memset(&remote_addr, 0, sizeof(remote_addr));      
+remote_addr.sin_family = AF_INET;  
+remote_addr.sin_port   = htons(9999);  
+remote_addr.sin_addr.s_addr = inet_addr("10.0.0.10");
+
+struct epoll_event event;
+event.data.fd = fd;  
+event.events = EPOLLIN | EPOLLET;  
+ret = anssock_epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &event);
+
+int event_num = 0;
+memset(send_data, 0, sizeof(send_data));
+
+while(1)
+{
+      event_num = anssock_epoll_wait (epfd, events, 20, -1);
+      if(event_num <= 0) {
+          printf("epoll_wait failed \n");
+          continue;
+      }
+          
+      for(i = 0; i < event_num; i++) {
+            if ((events[i].events & EPOLLERR) || (events[i].events & EPOLLHUP) || (!(events[i].events & EPOLLIN))) {  
+                printf("dpdk socket(%d) error\n", events[i].data.fd);
+                anssock_close (events[i].data.fd);  
+                continue;  
+            } 
+            
+            if (events[i].events & EPOLLIN) {
+                  while(1) {
+                        recv_len = anssock_recvfrom(events[i].data.fd, recv_buf, 2048, 0, NULL, NULL);
+
+                        if(recv_len > 0) {  
+                            printf("Recv: %s \n", recv_buf);
+
+                            data_num++;
+                            sprintf(send_data, "Hello, linux_udp, num:%d !", data_num);
+
+                            anssock_sendto(events[i].data.fd, send_data, strlen(send_data) + 1, 0, (struct sockaddr *)&remote_addr,  sizeof(remote_addr));
+                        } 
+                        else if(recv_len < 0) {
+                              if (errno == ANS_EAGAIN) {
+                                  break;
+                              }
+                              else {
+                                  printf("remote close the socket, errno %d \n", errno);
+                                  anssock_close(events[i].data.fd);
+                                  break;
+                              }
+                        }
+                        else {
+                              printf("remote close the socket, len %d \n", recv_len);
+                              anssock_close(events[i].data.fd);
+                              break;
+                        }
+                  }
+            }
+            else {
+                printf("unknow event %x, fd:%d \n", events[i].events, events[i].data.fd);
+            }
+      }
+}
+anssock_close(fd);
+anssock_close(epfd);
+```
