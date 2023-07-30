@@ -273,3 +273,9 @@ Tier 2 is designated as the second or supplementary layer of a bank's capital an
 * Commodity Trading Advisor (CTA)
 
 A commodity trading advisor (CTA) is an individual or firm that provides personalized advice regarding the buying and selling of futures contracts, options on futures, and retail off-exchange forex contracts or swaps.
+
+* SONIA (Sterling Overnight Index Average)
+
+SONIA is based on actual transactions and reflects the average of the interest rates that banks pay to borrow sterling overnight from other financial institutions and other institutional investors.
+
+It is administered by Bank of England.

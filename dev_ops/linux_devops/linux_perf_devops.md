@@ -38,7 +38,7 @@ Some commonly monitored stats are shown as below
 * PID     = Process Id             
 * USER    = Effective User Name    
 * PR      = Priority               
-* NI      = Nice Value             
+* NI      = Nice Value (represent priority)         
 * VIRT    = Virtual Image (KiB)    
 * RES     = Resident Size (KiB)    
 * SHR     = Shared Memory (KiB)    
@@ -61,6 +61,30 @@ Some commonly monitored stats are shown as below
    7377 yuqi      20   0   36.5g 217660  71008 S   2.0   1.3  11:57.26 code                                                                                                          
   74945 yuqi      20   0 4290536 419972 240356 S   1.7   2.6   3:46.02 firefox                                                                                                       
    2660 systemd+  20   0 2604092 121480  59904 S   1.3   0.8   1:46.05 mongod                   
+```
+
+* `VIRT` virtual memory
+    * Virtual mem "required" by process, including libs, code and data, affected by `malloc`, `new`, etc.
+    * If a process requests 100m, but only 10m is used, then its virtual mem grows by 100m.
+Hence, it does not represent the actual mem usage.
+    * `VIRT` = `SWAP` + `RES`
+* `RES` resident memory
+    * Represent the actual mem usage
+    * Include shared mem with other processes
+    * correlated to `%MEM` indicating the actual percentage of physical memory usage
+    * `RES` = `CODE` + `DATA`
+* `SHR` sharable memory
+    * sharable memory with other processes, such as `libc`
+    * Physical memory usage: `RES` - `SHR`
+
+For example, `new` only increases `VIRT` but no `RES` for it allocates mem only;
+`memset` consumes mem and this reflects in `RES`.
+```cpp
+// allocated 512m mem, VIRT jumps to 512m, but RES records no mem usage
+char * p = new char [1024*1024*512];
+
+// used 10m mem, VIRT remains at 512m, but RES records 10m mem usage
+memset(p, 0, 1024 * 1024 * 10);
 ```
 
 ### By `vmstat`
