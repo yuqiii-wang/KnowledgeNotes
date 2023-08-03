@@ -218,9 +218,6 @@ public class AnimalTrainer {
 2. Upcasting is always safe and never fails.
 3. Downcasting can risk throwing a ClassCastException, so the instanceof operator is used to check type before casting.
 
-* java class
-
-The `Object` class is the parent class of all the classes in java by default. It provides useful methods such as `toString()`. It is defined in `Java.lang.Object`.
 
 * Inner Class
 
@@ -252,11 +249,14 @@ public class S extends C.D {}
 
 There are several differences between `HashMap` and `Hashtable` in Java:
 
-`Hashtable` is synchronized, whereas HashMap is not. This makes `HashMap` better for non-threaded applications, as unsynchronized Objects typically perform better than synchronized ones.
+`Hashtable` is synchronized, whereas HashMap is not. 
+This makes `HashMap` better for non-threaded applications, as unsynchronized Objects typically perform better than synchronized ones.
 
-`Hashtable` does not allow null keys or values. `HashMap` allows one null key and any number of null values.
+`Hashtable` does not allow null keys or values. 
+`HashMap` allows one null key and any number of null values.
 
-Since synchronization is not an issue for you, use `HashMap`. If synchronization becomes an issue, you may also look at `ConcurrentHashMap`.
+Since synchronization is not an issue for you, use `HashMap`. 
+If synchronization becomes an issue, use `ConcurrentHashMap`.
 
 **Why HashMap is not thread-safe**:
 
@@ -289,3 +289,69 @@ In computing based on the Java Platform, `JavaBeans` are classes that encapsulat
 
 The JavaBeans functionality is provided by a set of classes and interfaces in the java.beans package. Methods include info/description for this bean.
 
+## Java NIO (Non Blocking IO) and EPoll
+
+Traditionally, one thread manages one request/response.
+This is wasteful since threads might get blocked by I/O operation.
+
+Java NIO is the wrapper of Linux EPoll.
+
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+public class NioServer {
+
+
+    public static void main(String[] args) throws IOException {
+      
+        // NIO serverSocketChannel
+        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        serverSocketChannel.bind(new InetSocketAddress(19002));
+
+        // set non-blocking mode
+        serverSocketChannel.configureBlocking(false);
+
+        // launch epoll
+        Selector selector = Selector.open();
+        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+        while (true) {
+            selector.select();
+            Set<SelectionKey> selectionKeys = selector.selectedKeys();
+            Iterator<SelectionKey> selectionKeyIterator = selectionKeys.iterator();
+            while (selectionKeyIterator.hasNext()) {
+                SelectionKey selectionKey = selectionKeyIterator.next();
+                // onConnect
+                if (selectionKey.isAcceptable()) {
+                    ServerSocketChannel serverSocket= (ServerSocketChannel) selectionKey.channel();
+                    SocketChannel socketChannel=serverSocket.accept();
+                    socketChannel.configureBlocking(false);
+                    socketChannel.register(selector,SelectionKey.OP_READ);
+                    System.out.println("Connection established.");
+                } else if (selectionKey.isReadable()) {
+                    // onMessage
+                    SocketChannel socketChannel= (SocketChannel) selectionKey.channel();
+                    ByteBuffer byteBuffer=ByteBuffer.allocate(128);
+                    int len=socketChannel.read(byteBuffer);
+                    if (len>0){
+                        System.out.println("Msg from client: " + new String(byteBuffer.array()));
+                    }else if (len==-1){
+                        System.out.println("Client disconnected: " + socketChannel.isConnected());
+                        socketChannel.close();
+                    }
+               }
+                selectionKeyIterator.remove();
+            }
+        }
+    }
+}
+```
