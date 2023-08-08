@@ -308,3 +308,6 @@ In theory, one process can use up to 2 GB memory;
 one thread stack has 1MB memory.
 As a result, one process can have up to 2048 threads.
 
+## Daemon Thread
+
+

@@ -140,3 +140,17 @@ Interest rates are negotiable, usually paid either twice a year or at maturity, 
 ## Bond Trading Platforms
 
 * CFETS (China Foreign Exchange Trade System) is a major global trading platform and pricing center for RMB and related products.
+
+## Flat Bond
+
+When a bond does not yield any interest.
+
+* Flat Trading
+
+A situation in which a market or security is neither rising nor declining in price or valuation.
+
+* Default
+
+* Payment-in-kind
+
+Payment-in-kind (PIK) is the use of a good or service as payment instead of cash.

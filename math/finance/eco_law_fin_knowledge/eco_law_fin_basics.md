@@ -279,3 +279,7 @@ A commodity trading advisor (CTA) is an individual or firm that provides persona
 SONIA is based on actual transactions and reflects the average of the interest rates that banks pay to borrow sterling overnight from other financial institutions and other institutional investors.
 
 It is administered by Bank of England.
+
+* CLD (Currency Linked Deposit)
+
+A currency-linked investment product is a structured investment product that consists of a time deposit (in the deposit currency) with currency option (derivatives).

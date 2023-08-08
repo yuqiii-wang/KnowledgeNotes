@@ -91,7 +91,9 @@ Both `==` and `equals()` can be overriden.
 
 * `equals()` vs `hashCode()`
 
+Objects that are equal (according to their `equals()`) must return the same hash code.
 
+`hashCode()` has usage in hash map serving as the key.
 
 ### `getClass()`, `forName(...)` and Reflection
 
@@ -210,7 +212,7 @@ public class BeanFactory {
 ## `final`, `finally` and `finalize`
 
 `final` is used to declare a variable as immutable. 
-Similar to c++'s `const`.
+Similar to c++'s `const`, except that `final` cannot be inherited.
 
 `finally` is used in `try`-`catch`-`finally` logic.
 
@@ -294,3 +296,32 @@ x[0] = new Integer(0);
 ```
 
 ## Blocking and Non-Blocking vs Sync and Async
+
+## Java Threading and Runnable
+
+`java.lang.Runnable` is an interface that is to be implemented by a class whose instances are intended to be executed by a thread. 
+
+```java
+public class RunnableDemo {
+ 
+    public static void main(String[] args) {
+        System.out.println("Main thread is- "
+                        + Thread.currentThread().getName());
+        Thread t1 = new Thread(new RunnableDemo().new RunnableImpl());
+        t1.start();
+    }
+ 
+    private class RunnableImpl implements Runnable {
+ 
+        public void run() {
+            System.out.println(Thread.currentThread().getName()
+                             + ", executing run() method!");
+        }
+    }
+}
+```
+that outputs 
+```txt
+Main thread is- main
+Thread-0, executing run() method!
+```
