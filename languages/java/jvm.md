@@ -159,20 +159,36 @@ The parallel method is just the multi-threading version of the serial GC.
 It attempts to **minimize the pauses due to garbage collection** by doing most of the garbage collection work concurrently with the application threads. 
 Due to this reason, the CMS collector uses more CPU than other GCs. 
 
+The process goes as below that
+* It traversal starts from roots to each of the objects and check their dependencies, and marks relevant areas called *cards* as dirty if there is change in dependencies
+* It sweeps out unused objects
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/jvm_cms_preclean.png" width="20%" height="30%" alt="jvm_cms_preclean" />
+</div>
+</br>
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/jvm_cms_clean.png" width="20%" height="30%" alt="jvm_cms_clean" />
+</div>
+</br>
+
 Advantages: concurrent GC with low pauses/latency
 
 Disadvantages: create lots of memory holes, resulting in memory not being continuous (consider using `-XX:+CMSFullGCsBeforeCompaction` to re-arrange memory holes after a number of CMS GC)
 
 If there are too many memory holes, JVM might have trouble of finding enough memory if it attempts to allocate mem for a large object, hence forced to perform GC immediately.
 
-* G1
+* G1 `-XX:+UnlockExperimentalVMOptions` and `-XX:+UseG1GC`
 
 Improvements: 
 
     * predictable pauses
     * Memory allocation optimization
 
-### ZGC (The Z Garbage Collector)
+G1 redefines heap layout that is segmented to many *regions*.
+
+G1 has a built prediction algorithm that estimates what sizes of objects at what time they will be demised, so that it can better arrange regions into a continuous memory area.
 
 ### Log
 
@@ -231,7 +247,7 @@ JVM is tuned for either server or client services.
 
 `-client` JVM provides great support for GUI applications, fast app startup time, etc.
 
-### `jstat`
+### To Show JVM Statistics: `jstat`
 
 jstat (JVM statistics Monitoring) monitors the on-going JVM statistics.
 

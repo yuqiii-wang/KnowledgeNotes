@@ -1,53 +1,5 @@
 # Java Practices
 
-## `concurrentHashMap` thread safety
-
-## `aop` concept
-
-## Basic Java Data Types and Wrapper
-
-In java, every thing is an object, even for the basic data types.
-
-|Primitive|Wrapper|
-|-|-|
-|boolean | Boolean |
-|byte | Byte |
-|char | Character |
-|float | Float |
-|int | Integer |
-|long | Long |
-|short | Short |
-|double | Double |
-
-For example:
-```java
-Integer x = 1; // wrapping Integer.valueOf(1)
-int y = x; // invoked X.intValue()
-```
-
-String is immutable/final for the stored data in `final char value[];`.
-When a new string is constructed (via concatenation or some other methods), the original string object actually constructs a new `final char value[];` then points to the new char array.
-
-Immutable char array is good for constant hash and multi-threading, 
-and is stored in constant memory area in JVM as cache so that next time the char array's constructed/destroyed/read, there is no need of reallocating memory.
-
-```java
-public final class String
-    implements java.io.Serializable, Comparable<String>, CharSequence {
-    /** The value is used for character storage. */
-    private final char value[];
-​
-    /** Cache the hash code for the string */
-    private int hash; // Default to 0
-}
-```
-
-The number of constructed objects by `new String("hello")` is two:
-* `"hello"` is constructed at compile time stored as a char string object in a constant var pool
-* `new` constructs  string object in heap
-
-Since Java 9, `char[]` is changed to `byte[]` to save memory for char storage.
-
 ## Typical Object Methods
 
 The `Object` class is the parent class of all the classes in java by default. 
@@ -207,6 +159,100 @@ public class BeanFactory {
 }
 ```
 
+## Pass-By-Value vs Pass-By-Reference
+
+* Pass by value: The method parameter values are copied to another variable and then the copied object is passed to the method. The method uses the copy.
+* Pass by reference: An alias or reference to the actual parameter is passed to the method. The method accesses the actual parameter.
+
+Technically, **Java is always pass by value**.
+
+* For primitives such as `int` and `float`, the pass-by-value behavior does not alter the original value of the primitives.
+For example, `setFoo(int bar)` does not change `int foo = 1;`.
+```java
+public class Run {
+
+    public static void main(String args[]){
+        int foo = 1;
+        System.out.println(foo); // this will print "1"
+
+        setFoo(foo);
+        System.out.println(foo); // this will still print "1"
+    }
+
+    public static void setFoo(int bar){
+        bar = 2;
+    }
+}
+```
+
+* For non-primitives, the pass-by-value simply means copying *reference value* (similar to c++ pointer).
+The passed object in another function stack actually shares the same pointed heap area.
+
+In other words, objects from the same `new` operator despite being passed to diff stacks, have the same members residing in the same heap area. 
+
+For instance, `Mug myMug = new Mug("Tea");` sees its member `this.contents` updated by function `spill(myMug);`. 
+```java
+public class Mug {
+
+    private String contents;
+
+    public Mug(String contents) { this.contents = contents; }
+
+    public void setContents(String contents) { this.contents = contents; }
+    public String getContents() { return contents; }
+}
+
+public class Run {
+
+    public static void spill(Mug mugToBeSpilled) {
+        mugToBeSpilled.setContents("Nothing");
+    }
+
+    public static void main(String args[]) {
+        Mug myMug = new Mug("Tea"); // myMug contains "Tea".
+        System.out.println(myMug.getContents());
+
+        spill(myMug);  // myMug now contains "Nothing".
+        System.out.println(myMug.getContents());
+
+    }
+}
+```
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/java_obj_reference1.png" width="40%" height="30%" alt="java_obj_reference1" />
+</div>
+</br>
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/java_obj_reference2.png" width="40%" height="30%" alt="java_obj_reference2" />
+</div>
+</br>
+
+### Clone vs Copy Constructor
+
+Copy constructor is generally preferred over clone although they serve the same purpose.
+
+The reason is that the `clone()` method of `java.lang.Object` has many assumptions such as that class must implement `Cloneable`, and parent class must invoke `super.clone()`, etc.
+
+A copy function should `new` an object and set its fields.
+
+```java
+Foo copyFoo (Foo foo){
+  Foo f = new Foo();
+  //for all properties in Foo
+  f.set(foo.get());
+  return f;
+}
+```
+
+Standard java containers have default copy constructor such as below.
+
+```java
+List<Double> original = new List<Double>{1.0, 2.0};
+List<Double> copy = new ArrayList<Double>(original);
+```
+
 ## Numbers and Default Values
 
 ## `final`, `finally` and `finalize`
@@ -295,33 +341,28 @@ Object x[] = new String[3];
 x[0] = new Integer(0);
 ```
 
-## Blocking and Non-Blocking vs Sync and Async
 
-## Java Threading and Runnable
+## JUnit Test
 
-`java.lang.Runnable` is an interface that is to be implemented by a class whose instances are intended to be executed by a thread. 
+A JUnit test is a method contained in a class which is only used for testing. This is called a Test class. To define that a certain method is a test method, annotate it with the `@Test` annotation.
+
+The following code shows a JUnit test using the JUnit 5 version. This test assumes that the MyClass class exists and has a multiply(int, int) method.
 
 ```java
-public class RunnableDemo {
- 
-    public static void main(String[] args) {
-        System.out.println("Main thread is- "
-                        + Thread.currentThread().getName());
-        Thread t1 = new Thread(new RunnableDemo().new RunnableImpl());
-        t1.start();
-    }
- 
-    private class RunnableImpl implements Runnable {
- 
-        public void run() {
-            System.out.println(Thread.currentThread().getName()
-                             + ", executing run() method!");
-        }
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+public class MyTests {
+
+    @Test
+    public void multiplicationOfZeroIntegersShouldReturnZero() {
+        MyClass tester = new MyClass(); // MyClass is tested
+
+        // assert statements
+        assertEquals(0, tester.multiply(10, 0), "10 x 0 must be 0");
+        assertEquals(0, tester.multiply(0, 10), "0 x 10 must be 0");
+        assertEquals(0, tester.multiply(0, 0), "0 x 0 must be 0");
     }
 }
-```
-that outputs 
-```txt
-Main thread is- main
-Thread-0, executing run() method!
-```
+``` 

@@ -94,3 +94,17 @@ ln -s [OPTIONS] FILE LINK
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 echo $distribution
 ```
+
+* `grep` find files and keyword location
+
+For example,
+```bash
+grep -iR -A50 -B50 -n "ABC" *
+```
+search by the rules
+
+    * `-A50 -B50`: only print the above and below 50 lines
+    * `ABC`: keyword matching pattern 
+    * `-iR`: recursively and case-insensitive
+    * `-n`: printing line number
+    * The ending `*`: regex search by all filenames.

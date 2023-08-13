@@ -1,95 +1,15 @@
 # Some Advanced JAVA Topics
 
-* Multithreading
 
-A lifecycle of Java multithreading object shows as below.
-![java_multithreading_lifecycle](imgs/java_multithreading_lifecycle.png "java_multithreading_lifecycle")
+## Annotation
 
-1. As a first step, you need to implement a run() method provided by a Runnable interface. This method provides an entry point for the thread and you will put your complete business logic inside this method. 
+Annotation is a function prior to being executed before a function.
 
-2. As a second step, you will instantiate a Thread object using the following constructor.
+It can help compiler perform checking and value initialization.
 
-3. Once a Thread object is created, you can start it by calling start() method, which executes a call to run( ) method.
+* All attributes of annotations are defined as methods, and default values can also be provided.
 
-```java
-class RunnableDemo implements Runnable {
-   private Thread t;
-   private String threadName;
-   
-   RunnableDemo( String name) {
-      threadName = name;
-      System.out.println("Creating " +  threadName );
-   }
-   
-   public void run() {
-      System.out.println("Running " +  threadName );
-      try {
-         for(int i = 4; i > 0; i--) {
-            System.out.println("Thread: " + threadName + ", " + i);
-            // Let the thread sleep for a while.
-            Thread.sleep(50);
-         }
-      } catch (InterruptedException e) {
-         System.out.println("Thread " +  threadName + " interrupted.");
-      }
-      System.out.println("Thread " +  threadName + " exiting.");
-   }
-   
-   public void start () {
-      System.out.println("Starting " +  threadName );
-      if (t == null) {
-         t = new Thread (this, threadName);
-         t.start ();
-      }
-   }
-}
-
-public class TestThread {
-
-   public static void main(String args[]) {
-      RunnableDemo R1 = new RunnableDemo( "Thread-1");
-      R1.start();
-      
-      RunnableDemo R2 = new RunnableDemo( "Thread-2");
-      R2.start();
-   }   
-}
-```
-
-* Java Lock and Synchronized
-
-Java provides a way of creating threads and synchronizing their task by using synchronized blocks. Synchronized blocks in Java are marked with the synchronized keyword. A synchronized block in Java is synchronized on some object. All synchronized blocks synchronized on the same object can only have one thread executing inside them at a time. All other threads attempting to enter the synchronized block are blocked until the thread inside the synchronized block exits the block.
-
-```java
-public class Obj{
-   Obj(){}
-}
-
-// Only one thread can process Obj at a time
-synchronized(Obj.class){  
-   // doSomething();
-}    
-```
-
-* Annotation
-
-One word to explain annotation is metadata and are only metadata and do not contain any business logic. 
-The usage of annotation is mainly about decoupling of different parts of a project and avoids xml configuration.
-
-For example,
-
-```java
-@Override
-public String toString() {
-   return "This is String Representation of current object.";
-}
-```
-
-`@Override` tells the compiler that this method is an overridden method (metadata about the method), and if any such method does not exist in a parent class, then throw a compiler error (method does not override a method from its super class). 
-
-All attributes of annotations are defined as methods, and default values can also be provided.
-
-Here is an example.
+Here is an example, that `@Todo` inits some value before `incompleteMethod1` performs further business works.
 
 ```java
 @Target(ElementType.METHOD)
@@ -109,6 +29,38 @@ public void incompleteMethod1() {
    //But it’s not complete yet
 }
 ```
+
+### Common Annotations
+
+* `@Override`
+
+`@Override` tells the compiler that this method is an overridden method (metadata about the method), and if any such method does not exist in a parent class, then throw a compiler error (method does not override a method from its super class). 
+
+```java
+@Override
+public String toString() {
+   return "This is String Representation of current object.";
+}
+```
+
+* `@Test`
+
+The `@Test` annotation tells JUnit that the public void method to which it is attached can be run as a test case. 
+To run the method, JUnit first constructs a fresh instance of the class then invokes the annotated method. 
+Any exceptions thrown by the test will be reported by JUnit as a failure. 
+If no exceptions are thrown, the test is assumed to have succeeded.
+
+A simple test looks like this:
+```java
+public class Example {
+  @Test
+  public void method() {
+     org.junit.Assert.assertTrue( new ArrayList().isEmpty() );
+  }
+}
+```
+
+## Interview Questions
 
 * Question: Integer equal comparison
 
@@ -139,42 +91,15 @@ public static Integer valueOf(int i) {
 }
 ```
 
-* Package real purposes
+* Package purposes
 
 It only serves as a path by which a compiler can easily find the right definitions.
 
 Namespace management
 
-* Force garbage collection
-
-When a reference has no object to refer, this reference is retreated. Forced reference deallocation can be by NULL: `ref = null;`.
-
-Objects instantiated by `new` are often by reference when passed, while primitive types, string and constants are passed by value.
-
 * Filename is often the contained class name
 
 One filename should only have one class.
-
-* Variable Init
-
-Local variables inside a method of a class are not init and programmer should manually init them; while class-level variables have default init values.
-
-* Constructor has no return type
-
-Given this consideration, `box()` is not a constructor.
-```java
-class box{
-   public void box(){}
-}
-```
-
-* static
-
-When using `static` to modify a variable, it should go with `final` to make it a constant.
-
-Avoid using `static` to make a variable global.
-
-`static` loads when a java class loads.
 
 * Type Casting
 
@@ -245,43 +170,6 @@ public class C
 // Multiple class inheritance example by inner class
 public class S extends C.D {} 
 ```
-* HashMap vs HashTable
-
-There are several differences between `HashMap` and `Hashtable` in Java:
-
-`Hashtable` is synchronized, whereas HashMap is not. 
-This makes `HashMap` better for non-threaded applications, as unsynchronized Objects typically perform better than synchronized ones.
-
-`Hashtable` does not allow null keys or values. 
-`HashMap` allows one null key and any number of null values.
-
-Since synchronization is not an issue for you, use `HashMap`. 
-If synchronization becomes an issue, use `ConcurrentHashMap`.
-
-**Why HashMap is not thread-safe**:
-
-A hash map is based on an array, where each item represents a bucket. As more keys are added, the buckets grow and at a certain threshold the array is recreated with a bigger size, its buckets rearranged so that they are spread more evenly (performance considerations). It means that sometimes `HashMap#put()` will internally call `HashMap#resize()` to make the underlying array bigger. `HashMap#resize()` assigns the table field a new empty array with a bigger capacity and populates it with the old items. During re-polulation, when a thread accesses this HashMap, this HashMap may return `null`.
-
-```java
-final Map<Integer, String> map = new HashMap<>();
-
-final Integer targetKey = 0b1111_1111_1111_1111; // 65 535, forced JVM to resize and populate
-final String targetValue = "v";
-map.put(targetKey, targetValue);
-
-new Thread(() -> {
-    IntStream.range(0, targetKey).forEach(key -> map.put(key, "someValue"));
-}).start(); // start another thread to add key/value pairs
-
-
-while (true) {
-    if (!targetValue.equals(map.get(targetKey))) {
-        throw new RuntimeException("HashMap is not thread safe."); // throw err
-    }
-}
-```
-
-* Java Container
 
 * Java Bean Concept
 
@@ -355,3 +243,68 @@ public class NioServer {
     }
 }
 ```
+
+## Generics
+
+Similar to template in cpp
+
+```java
+ public class GenericMethodTest {
+   // generic method printArray
+   public static < E > void printArray( E[] inputArray ) {
+      // Display array elements
+      for(E element : inputArray) {
+         System.out.printf("%s ", element);
+      }
+      System.out.println();
+   }
+
+   public static void main(String args[]) {
+      // Create arrays of Integer, Double and Character
+      Integer[] intArray = { 1, 2, 3, 4, 5 };
+      Double[] doubleArray = { 1.1, 2.2, 3.3, 4.4 };
+      Character[] charArray = { 'H', 'E', 'L', 'L', 'O' };
+
+      System.out.println("Array integerArray contains:");
+      printArray(intArray);   // pass an Integer array
+
+      System.out.println("\nArray doubleArray contains:");
+      printArray(doubleArray);   // pass a Double array
+
+      System.out.println("\nArray characterArray contains:");
+      printArray(charArray);   // pass a Character array
+   }
+}
+```
+
+```java
+public class MaximumTest {
+   // determines the largest of three Comparable objects
+   
+   public static <T extends Comparable<T>> T maximum(T x, T y, T z) {
+      T max = x;   // assume x is initially the largest
+      
+      if(y.compareTo(max) > 0) {
+         max = y;   // y is the largest so far
+      }
+      
+      if(z.compareTo(max) > 0) {
+         max = z;   // z is the largest now                 
+      }
+      return max;   // returns the largest object   
+   }
+   
+   public static void main(String args[]) {
+      System.out.printf("Max of %d, %d and %d is %d\n\n", 
+         3, 4, 5, maximum( 3, 4, 5 ));
+
+      System.out.printf("Max of %.1f,%.1f and %.1f is %.1f\n\n",
+         6.6, 8.8, 7.7, maximum( 6.6, 8.8, 7.7 ));
+
+      System.out.printf("Max of %s, %s and %s is %s\n","pear",
+         "apple", "orange", maximum("pear", "apple", "orange"));
+   }
+}
+```
+
+## Aspect-Oriented Programming (AOP)

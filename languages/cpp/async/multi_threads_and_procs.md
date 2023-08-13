@@ -1,4 +1,6 @@
-# Threads
+# Multi Threads and Processes
+
+## Threads
 
 *Join* in the context of thread refers to returning to the main thread when the branched thread ends. Every `std::thread` object is in one of two states: *joinable* or *unjoinable*.
 
@@ -13,7 +15,7 @@ longer corresponds to the underlying thread of execution that has finished runni
 * `std::thread`s that have been detached. A detach severs the connection
 between a std::thread object and the underlying thread of execution it corresponds to.
 
-## Implicit Join/Detach
+## Thread Implicit Join/Detach
 
 Implicit join occurs if a thread runs out of lifecycle without explicitly finished running `join`, such as code below that `t` is implicitly joined when `doWork` returns.
 
@@ -36,7 +38,7 @@ underlying asynchronous thread of execution to complete. You might see this thre
 * An implicit detach. In this case, a std::thread’s destructor would sever the
 connection between the std::thread object and its underlying thread of execution.
 
-### Explicitly join a thread
+### Explicitly joining a thread
 
 It is a good idea to force joining a thread defined in a class destructor when the thread's scope ends.
 
@@ -52,6 +54,10 @@ It is a good idea to force joining a thread defined in a class destructor when t
     }
 }
 ```
+
+## Multi Processes
+
+### Shared memory, MPI and Queuing systems
 
 ## barrier and latch
 

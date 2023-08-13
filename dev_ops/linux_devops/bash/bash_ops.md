@@ -62,12 +62,11 @@ condition reference:
 ![alt text](imgs/bash_conditions.png "bash_conditions")
 
 5. ./ vs source
+`./script` runs the script as an executable file, launching a new shell to run it.
 
-    `./script` runs the script as an executable file, launching a new shell to run it.
+`source script` reads and executes commands from filename in the current shell environment
 
-    `source script` reads and executes commands from filename in the current shell environment
-
-    *Note*: `./script` is not `. script`, but `. script` == `source script`
+*Note*: `./script` is not `. script`, but `. script` == `source script`
 
 6. current shell vs sub shell
 
