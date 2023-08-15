@@ -4,7 +4,7 @@ The `java.util.concurrent` package provides tools for creating concurrent applic
 
 ## Runnable and Multi-Threading
 
-`java.lang.Runnable` is an interface that is to be implemented by a class whose instances are intended to be executed by a thread. 
+`java.lang.Runnable` is an interface that is to be implemented by a class whose instances are intended to be executed by a thread.
 
 A lifecycle of Java multithreading object shows as below.
 
@@ -65,7 +65,7 @@ It helps decouple between a task actually that actually runs and the task submis
 
 For example, rather than by `new Thread(new(RunnableTask())).start()`, should try
 ```java
-Executor executor = anExecutor;
+Executor executor = new Executor();
 executor.execute(new RunnableTask1());
 executor.execute(new RunnableTask2());
 ...
@@ -144,6 +144,8 @@ public class IncrementWithSync {
 }
 ```
 
+In fact, for `getSum() + 1`, the `int sum` should have been defined `AtomicInteger`, and the increment can be done by `getAndIncrement();`.
+
 ### JUC Lock and Condition
 
 Similar to c++ mutex and conditional_variable.
@@ -169,17 +171,17 @@ public interface Lock {
 public interface Condition {
     // Make the current thread wait until notified or interrupted
     void await() throws InterruptedException;
-    // 与前者的区别是，当等待过程中被中断时，仍会继续等待，直到被唤醒，才会设置中断状态
+    // Same as `await()`, but continue waiting even being interrupted
     void awaitUninterruptibly();
-    // 让当前线程等待，直到它被告知或中断，或指定的等待时间已经过。
+    // Same as `await()` but added timeout
     boolean await(long time, TimeUnit unit) throws InterruptedException;
-    // 与上面的类似，让当前线程等待，不过时间单位是纳秒
+    // Same as above `await(long time, TimeUnit unit)`, but time unit is nanosec
     long awaitNanos(long nanosTimeout) throws InterruptedException;
-    // 让当前线程等待到确切的指定时间，而不是时长
+    // wait by a deadline, not duration
     boolean awaitUntil(Date deadline) throws InterruptedException;
-    // 唤醒一个等待当前condition的线程，有多个则随机选一个
+    // wake up a thread associated with this condition
     void signal();
-    // 唤醒所有等待当前condition的线程
+    // wake up ALL threads associated with this condition
     void signalAll();
 }
 ```
@@ -202,18 +204,164 @@ class X {
 }
 ```
 
-A `Semaphore` maintains a set of permits. 
-Each `acquire()` blocks if necessary until a permit is available, and then takes it. 
-Each `release()` adds a permit, potentially releasing a blocking acquirer. 
+A `Semaphore` maintains a set of permits.
+Each `acquire()` blocks if necessary until a permit is available, and then takes it.
+Each `release()` adds a permit, potentially releasing a blocking acquirer.
 
 Semaphores are often used to restrict the number of threads than can access some (physical or logical) resource. 
-For example, here is a class that uses a semaphore to control access to a pool of items:
+For example, here is a class that uses a semaphore to control access to a pool of items.
+
+```java
+class ItemQueueUsingSemaphore {
+
+    private Semaphore semaphore;
+
+    public ItemQueueUsingSemaphore(int slotLimit) {
+        // set the num of threads that can simultaneously access the semaphore-controlled resources
+        semaphore = new Semaphore(slotLimit); 
+    }
+
+    boolean tryItem() {
+        return semaphore.tryAcquire();
+    }
+
+    void releaseItem() {
+        semaphore.release();
+    }
+
+    int availableSlots() {
+        return semaphore.availablePermits();
+    }
+
+}
+```
 
 
+### Producer-Consumer Multi-Threading Message Queue Example
+
+Below code is an example of how a message queue cache `BoundedBuffer` of 100 element buffer size can be `put` and `get` via lock acquire/release.
+
+The `put` and `get` are assumed used in multi-threaded env, where blocking takes place `notFull.await();` for `put` when the 100-element size buffer is full;
+and `notEmpty.await();` for `get` if empty.
+
+```java
+package yuqiexample;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
+
+
+class BoundedBuffer {
+    final Lock lock = new ReentrantLock();
+    final Condition notFull  = lock.newCondition();
+    final Condition notEmpty = lock.newCondition();
+
+    final Object[] items = new Object[100];
+    int putptr, takeptr, count;
+
+    public void put(Object x) throws InterruptedException {
+        lock.lock();
+        try {
+            while (count == items.length)
+                notFull.await();
+            items[putptr] = x;
+            if (++putptr == items.length) putptr = 0;
+            ++count;
+            notEmpty.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public Object get() throws InterruptedException {
+        lock.lock();
+        try {
+            while (count == 0)
+                notEmpty.await();
+            Object x = items[takeptr];
+            if (++takeptr == items.length) takeptr = 0;
+            --count;
+            notFull.signal();
+            return x;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+The usage of the `BoundedBuffer` in the below example serves as a message queue.
+Elements are taken out and stored in `ArrayBlockingQueue<Integer> q` and `ArrayList<Integer> a`.
+
+The result is that, `q` can receive all 1000 elements, while `a` fails for not supporting multi-threaded `add`.
+
+```java
+package yuqiexample;
+
+import java.util.ArrayList;
+import java.util.concurrent.*;
+import java.util.stream.IntStream;
+
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService servicePut = Executors.newFixedThreadPool(3);
+        ExecutorService serviceGet = Executors.newFixedThreadPool(3);
+        BoundedBuffer boundedBuffer = new BoundedBuffer();
+
+        IntStream.range(0, 1000)
+            .forEach(count -> servicePut.submit(() -> {
+                try{
+                    boundedBuffer.put(1);
+                }
+                catch (InterruptedException e) {
+                    System.out.println(e.toString());
+                }
+                finally {}
+            }));
+
+        ArrayBlockingQueue<Integer> q = new ArrayBlockingQueue<Integer>(2000);
+        ArrayList<Integer> a = new ArrayList<Integer>();
+        IntStream.range(0, 1000)
+            .forEach(count -> serviceGet.submit(() -> {
+                try{
+                    Integer objInt = (Integer) boundedBuffer.get();
+                    q.put(objInt);
+                    a.add(objInt);
+                }
+                catch (InterruptedException e) {
+                    System.out.println(e.toString());
+                }
+                finally {}
+            }));
+
+        try {
+            servicePut.awaitTermination(1000, TimeUnit.MILLISECONDS);
+            serviceGet.awaitTermination(1000, TimeUnit.MILLISECONDS);
+        }
+        catch (InterruptedException e) {
+            System.out.println(e.toString());
+        }
+        finally {
+            System.out.println("ArrayBlockingQueue size: " + q.size());
+            System.out.println("ArrayList size: " + a.size());
+            servicePut.shutdown();
+            serviceGet.shutdown();
+        }
+    }
+}
+```
+
+### Dead Lock
+
+* During `synchronized` and `reentrantLock.lock()` acquring a lock
 
 ## Thread Pool
 
 ## Daemon Thread
+
+Daemon is a concept referring to backend services independent from user services, and is used to provide assistance to the user services.
 
 Java offers two types of threads: *user threads* and *daemon threads*.
 
@@ -222,7 +370,41 @@ Daemon thread handles low-priority tasks such as garbage collection that is ofte
 A daemon thread is launched via setting a normal thread to `setDaemon(true);`.
 
 ```java
-NewThread daemonThread = new NewThread();
-daemonThread.setDaemon(true);
-daemonThread.start();
+package yuqiexamples;
+
+public class DaemonExample {
+	public static void main(String[] args) {
+		ThreadDemo threaddemo = new ThreadDemo();
+		Thread threadson = new Thread(threaddemo);
+		// set daemon
+		threadson.setDaemon(true);
+		// start thread
+		threadson.start();
+		System.out.println("bbb");
+	}
+}
+class ThreadDemo implements Runnable{
+	
+	@Override
+	public void run() {
+		System.out.println("aaa");
+        // if this thread is of user, shall never die; if of daemon, will die after the parent thread dies
+		while(true); 
+	}
+	
+}
 ```
+
+When user threads are dead, daemon threads will be soon dead as well.
+
+The code above prints
+```txt
+bbb
+aaa
+```
+
+
+### Use Case in Servlet
+
+In servlet, there are many spawned threads handling requests/responses.
+

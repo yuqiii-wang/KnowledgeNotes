@@ -1,5 +1,68 @@
 # Some Advanced JAVA Topics
 
+* Core Java vs Advanced Java
+
+Core Java: Java Fundamentals, OOP, Collections, JDBC (Basic Database Connections)
+
+Advanced Java: Client-Server architecture (Spring + Hibernate), Data Science (Hadoop, cloud-native)
+
+## Callable vs Runnable
+
+Classes implemented `Callable` and `Runnable` interfaces are supposed to be executed by another thread.
+
+* A callable interface is more about getting a return result, that throws the checked exception.
+* A runnable interface is more about using a thread running a snippet of code, does not return a result and cannot throw a checked exception.
+
+```java
+@FunctionalInterface
+public interface Runnable {
+    /**
+     * When an object implementing interface <code>Runnable</code> is used
+     * to create a thread, starting the thread causes the object's
+     * <code>run</code> method to be called in that separately executing
+     * thread.
+     * <p>
+     * The general contract of the method <code>run</code> is that it may
+     * take any action whatsoever.
+     *
+     * @see     java.lang.Thread#run()
+     */
+    public abstract void run();
+}
+@FunctionalInterface
+public interface Callable<V> {
+    /**
+     * Computes a result, or throws an exception
+     *
+     * @return computed result
+     * @throws Exception if unable to compute a result
+     */
+    V call() throws Exception;
+}
+```
+
+For example,
+
+```java
+package yuqiexample;
+
+// RunnableDemo class implementing
+// Runnable interface
+public class RunnableDemo implements Runnable {
+    public static void main(String[] args) {
+        RunnableDemo ob1 = new RunnableDemo();
+        Thread thread = new Thread(ob1);
+        thread.start(); // execute `run();`
+        System.out.println("Output for code outside the thread");
+    }
+    public void run() {
+        System.out.println("Output for the part running inside the thread ");
+    }
+}
+```
+
+Both are applicable in `ExecutorService` for multi-threading execution via
+`ExecutorService.submit(Runnable task)` and `ExecutorService.submit(Callable<T>task)`
 
 ## Annotation
 
@@ -26,7 +89,7 @@ Here is an example, that `@Todo` inits some value before `incompleteMethod1` per
 @Todo(priority = Todo.Priority.MEDIUM, author = "author_name", status = Todo.Status.STARTED)
 public void incompleteMethod1() {
    //Some business logic is written
-   //But it’s not complete yet
+   //But it's not complete yet
 }
 ```
 
@@ -34,7 +97,7 @@ public void incompleteMethod1() {
 
 * `@Override`
 
-`@Override` tells the compiler that this method is an overridden method (metadata about the method), and if any such method does not exist in a parent class, then throw a compiler error (method does not override a method from its super class). 
+`@Override` tells the compiler that this method is an overridden method (metadata about the method), and if any such method does not exist in a parent class, then throw a compiler error (method does not override a method from its super class).
 
 ```java
 @Override
@@ -232,7 +295,7 @@ public class NioServer {
                     int len=socketChannel.read(byteBuffer);
                     if (len>0){
                         System.out.println("Msg from client: " + new String(byteBuffer.array()));
-                    }else if (len==-1){
+                    } else if (len==-1){
                         System.out.println("Client disconnected: " + socketChannel.isConnected());
                         socketChannel.close();
                     }

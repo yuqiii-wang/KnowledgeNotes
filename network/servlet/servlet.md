@@ -6,6 +6,18 @@ A servlet is a Java technology-based Web component (java class), managed by a co
 
 For detailed servlet specification, please refer to Oracle Java website.
 
+### Web Container
+
+A *web container* is responsible for managing the lifecycle of servlets, mapping a URL to a particular servlet and ensuring that the URL requester has the correct access-rights.
+
+Apache Tomcat (formerly Jakarta Tomcat) is a popular open source web container.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/webcontainer_market_share.png" width="40%" height="30%" alt="webcontainer_market_share" />
+</div>
+</br>
+
+
 ## Life Cycle
 
 1. Loading and Instantiation

@@ -64,3 +64,7 @@ It is a good idea to force joining a thread defined in a class destructor when t
 `std::barrier`
 
 The class template `std::barrier` provides a thread-coordination mechanism that allows at most an expected number of threads to block until the expected number of threads arrive at the barrier. 
+
+## OpenMP 
+
+OpenMP (Open Multi-Processing) is an application programming interface (API) that supports multi-platform shared-memory multiprocessing programming in C, C++.

@@ -6,6 +6,43 @@ The `Object` class is the parent class of all the classes in java by default.
 It provides useful methods such as `toString()`. 
 It is defined in `Java.lang.Object`.
 
+### Method/Scope Resolution Operator `::` vs `.`
+
+`.` is a generic member resolution, while `::` is method reference operator directly referencing a class method.
+
+For example, the below lambda expression `->` is same as using `::` operator.
+
+```java
+package yuqiexample;
+
+import java.util.stream.*;
+
+class GFG {
+
+private void printItem(String s) 
+{
+    System.out.println(s);
+}
+
+public static void main(String[] args)
+{
+    // Get the stream
+    Stream<String> stream
+        = Stream.of("Geeks", "For",
+                    "Geeks", "A",
+                    "Computer",
+                    "Portal");
+
+    // Print the stream
+    stream.forEach(s -> System.out.println(s));
+
+    // Print the stream
+    stream.forEach((new GFG())::printItem);
+
+}
+}
+```
+
 ### `equals()` vs `==`, and `hashCode`
 
 By default, the hash of an object is computed by its memory location.

@@ -2,7 +2,10 @@
 
 Services in tomcat by servlets are shown below.
 
-![servlets_in_tomcat](imgs/servlets_in_tomcat.png "servlets_in_tomcat")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/servlets_in_tomcat.png" width="30%" height="30%" alt="servlets_in_tomcat" />
+</div>
+</br>
 
 `Service` is the outer layer interface receiving requests, such as opening a socket listening a port
 
@@ -24,7 +27,52 @@ ServletContext is responsible for servlet lifecycle management.
 
 On every HTTP request, ServletContext retrieves one thread from a thread pool. After the service finished, it returns to the thread pool.
 
-ServletContext can handle decoding data, such as a customized protocol.
+As illustrated below, when a webcontainer starts, there is one `ServletContext` launched to manage all servlets.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/servlet_context.png" width="40%" height="30%" alt="servlet_context" />
+</div>
+</br>
+
+A good use case of the shared resource management is live session count.
+
+
+
+### `ServletContextListener`
+
+Below code wants `SimpleTimerTask` be sceduled to run every 5 secs.
+
+
+```java
+package yuqiexamples;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+public class StartCycleRunTask implements ServletContextListener ...{
+    private Timer timer;
+    // `contextDestroyed` runs when webcontainer stops
+    public void contextDestroyed(ServletContextEvent arg0) ...{
+        System.out.println("`contextDestroyed` runs when webcontainer stops ...");
+    }
+    // `contextInitialized` run when webcontainer starts
+    public void contextInitialized(ServletContextEvent arg0) ...{
+        System.out.println("`contextInitialized` runs when webcontainer starts ...");
+        timer = new Timer(); // Timer is a daemon thread that will die once servlet is shutdown
+        TimerTask task = new SimpleTimerTask();
+        timer.schedule(task, 1000L, 5000L); // register a task
+    }
+}
+class SimpleTimerTask extends TimerTask ...{
+    private int count;
+    public void run() ...{
+        System.out.println((++count)+"execute task..."+(new Date()));
+    }
+}
+```
 
 ## Servlet Definition
 
@@ -140,4 +188,7 @@ public abstract class HttpServlet extends GenericServlet implements java.io.Seri
 }
 ```
 
-![request_to_servlet](imgs/request_to_servlet.png "request_to_servlet")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/request_to_servlet.png" width="50%" height="30%" alt="request_to_servlet" />
+</div>
+</br>

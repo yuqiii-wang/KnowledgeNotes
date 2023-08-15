@@ -11,6 +11,9 @@ It is a specification where diff companies have their own implementations, e.g. 
 </div>
 </br>
 
+* HotSpot JVM
+
+HotSpot, released as Java HotSpot Performance Engine is the most widely used Java virtual machine (JVM).
 
 ## JVM Start
 
@@ -92,6 +95,33 @@ A stack frame is a data structure that contains the thread, Each frame contains 
 Java Native Interface (JNI) calls the native stack.
 
 Java through this can call C/C++ code.
+
+To use it, basically decalre a class that loads binary libs by `System.loadLibrary`, and invoke by `public native String getSystemTime();`.
+
+```java
+public class DateTimeUtils {
+    public native String getSystemTime();
+
+    static {
+        System.loadLibrary("nativedatetimeutils");
+    }
+}
+```
+
+In java, it is done via the below cpp implementation.
+
+```cpp
+JNIEXPORT void JNICALL
+Java_java_nio_MappedByteBuffer_force0(JNIEnv *env, jobject obj, jobject fdo,
+                                      jlong address, jlong len)
+{
+    void* a = (void *)jlong_to_ptr(address);
+    int result = msync(a, (size_t)len, MS_SYNC);
+    if (result == -1) {
+        JNU_ThrowIOExceptionWithLastError(env, "msync failed");
+    }
+}
+```
 
 ### MetaSpace/Permanent Generation
 
