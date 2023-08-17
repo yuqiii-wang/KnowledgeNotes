@@ -290,3 +290,9 @@ It is administered by Bank of England.
 * CLD (Currency Linked Deposit)
 
 A currency-linked investment product is a structured investment product that consists of a time deposit (in the deposit currency) with currency option (derivatives).
+
+* RQFII/QFII (RMB Qualified Foreign Institutional Investor)
+
+Established in 2011, the Renminbi Qualified Foreign Institutional Investor (RQFII) program is a policy initiative that allows foreign investors who hold the RQFII quota to invest directly in Mainland China’s bond and equity markets.
+
+It is a step for China to loosen capital controls and internationalize RMB.

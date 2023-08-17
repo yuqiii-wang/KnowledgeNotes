@@ -408,3 +408,7 @@ aaa
 
 In servlet, there are many spawned threads handling requests/responses.
 
+If the main web container dies, all spawned threads should terminates as well.
+Besides, in web container, there should be a high-priority thread that schedules what requests go to what thread, and the actual processing threads are of low-priority,
+
+By the above consideration, the spawned threads can be set to daemons.

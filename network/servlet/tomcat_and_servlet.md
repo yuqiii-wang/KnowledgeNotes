@@ -21,27 +21,86 @@ Services in tomcat by servlets are shown below.
 
 Each `Wrapper` corresponds to one servlet.
 
-## ServletContext
+### Tomcat Start
 
-ServletContext is responsible for servlet lifecycle management.
+When Tomcat starts, it analyzes `web.xml`, retrieve the definitions for servlet, filter, listener, etc.
+
+Having found `ServletContextListener` from `listener`, it initializes the servlet context via `contextInitialize`; when the servlet context dies, it calls `contextDestroyed`.
+
+## Servlet Context
+
+`ServletContext` is responsible for servlet lifecycle management.
 
 On every HTTP request, ServletContext retrieves one thread from a thread pool. After the service finished, it returns to the thread pool.
 
 As illustrated below, when a webcontainer starts, there is one `ServletContext` launched to manage all servlets.
+
+In other words, `ServletContext` provides resources/memory sharing across servlets.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/servlet_context.png" width="40%" height="30%" alt="servlet_context" />
 </div>
 </br>
 
-A good use case of the shared resource management is live session count.
+A good use case of the shared resource management is website access count, 
+that in the code below, when a user visits `http://<host:port>/Login`, there is a `nums++;`.
 
+Remember for shared `HttpServlet`'s context, the `nums` is shareable.
+From another page `http://<host:port>/Counter/Manager`, the `nums` can be read.
 
+```java
+package yuqiexamples;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "AccessCountWriteServlet", urlPatterns = {"/Login"})
+public class AccessCountWriteServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        response.setContentType("text/html;charset=utf-8");
+        ServletContext servletContext = this.getServletContext();
+        int nums = 0;
+        try {
+            nums = Integer.parseInt((String) servletContext.getAttribute("nums"));
+        } catch (Exception e) {
+            nums = 0;
+        }
+        nums += 1;
+        servletContext.setAttribute("nums", String.valueOf(nums));
+        response.sendRedirect("/Counter/Manager");
+    }
+}
+
+@WebServlet(name = "AccessCountReadServlet", urlPatterns = {"/Counter/Manager"})
+public class AccessCountReadServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    response.setContentType("text/html;charset=utf-8");
+    PrintWriter out = response.getWriter();
+    out.println("<h1>Management Portal</h1>");       
+    ServletContext servletContext = this.getServletContext();
+    String nums = (String) servletContext.getAttribute("nums");
+    out.println("This page was visited " + nums + "times");
+    }
+}
+```
 
 ### `ServletContextListener`
 
-Below code wants `SimpleTimerTask` be sceduled to run every 5 secs.
+`ServletContextListener` is used to listen events when a servlet context is created/destroyed.
 
+Below code wants `SimpleTimerTask` be scheduled to run every 5 secs.
+The scheduler is created in `contextInitialized(...)`, terminated in `contextDestroyed(...)`.
 
 ```java
 package yuqiexamples;

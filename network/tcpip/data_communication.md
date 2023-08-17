@@ -1,8 +1,11 @@
 # Data Communication
 
-The IOS Data COmmunication Model
+The IOS Data COmmunication Mode
 
-![osi-model-7-layers-1](imgs/osi-model-7-layers-1.png "osi-model-7-layers-1")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/osi-model-7-layers-1.png" width="30%" height="70%" alt="osi-model-7-layers-1" />
+</div>
+</br>
 
 ## MAC vs IP 
 
@@ -61,3 +64,17 @@ QUIC:
 2. uses multiplexing UDP communication so that different protocols can continue receiving data despite some of data streams might be broken (paralellism).
 3. includes connection identifier that reduces re-connection time when an end user changes local network (such as jump between different wifi hotspots)
 
+## URI vs URL
+
+|URL (Uniform Resource Locator)|URI (Uniform Resource Identifier)|
+|-|-|
+|URL links a web page/component|URI is used to distinguish one resource |
+|URL is a subset of URI|URI is the superset of URL.|
+|Example: https://www.geeksforgeeks.org/ (this is just a server addr, not indicative of any resource, can only said to be a URL)|Example: https://media.geeksforgeeks.org/wp-content/uploads/20200205203241/gfg30.jpg (this can be said URL as well as URI for it contains the addr of an actual resource: a `.jpg` image)|
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/uri_vs_url.png" width="30%" height="30%" alt="uri_vs_url" />
+</div>
+</br>
+
+URN (Uniform Resource Name).

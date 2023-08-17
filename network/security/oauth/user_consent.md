@@ -1,6 +1,8 @@
 # User Consent
 
-When a client requests a scope combination, AM checks if the user has already consented each scope within the combination. If AM can find the scopes across multiple saved consent entries, AM will not require the user to consent. If part of the requested scope combination is not found in any entry, AM will require the user to consent. 
+When a client requests a scope combination, AM checks if the user has already consented each scope within the combination. 
+If AM can find the scopes across multiple saved consent entries, AM will not require the user to consent. 
+If part of the requested scope combination is not found in any entry, AM will require the user to consent. 
 
 
 ## Remote Consent Service
