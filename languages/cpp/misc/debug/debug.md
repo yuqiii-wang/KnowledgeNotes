@@ -80,6 +80,8 @@ run `where` to find at which line it fails.
 where
 ```
 
+To check the failure reason/OS termination signal, use `print$_siginfo`.
+
 ### Use `launch.json` for vs code
 
 Install GDB and config `launch.json`

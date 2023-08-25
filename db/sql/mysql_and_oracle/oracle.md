@@ -1,5 +1,16 @@
 # Oracle knowledge
 
+Oracle vs MySQL
+
+|Oracle|MySQL|
+|-|-|
+|Proprietary, expensive|Free|
+|Enterprise friendly (good admin management, cyber security, snapshot and backup, etc)|Community friendly (supported running in less popular OS such as Symbian)|
+|Temp table: explicit deletion required|Temp table: deleted once a session ends|
+|Variables: supported `CHAR`, `NCHAR`, `VARCHAR2` and `NVARCHAR2;`|Variables: supported `CHAR` and `VARCHAR`|
+|Show some lines: `LIMIT`|Show some lines: `ROWNUM`|
+|Other minor tech diffs...|Other minor tech diffs...|
+
 ## Redo log
 
 In the Oracle RDBMS environment, *redo log*s comprise files in a proprietary format which log a history of all changes made to the database. 

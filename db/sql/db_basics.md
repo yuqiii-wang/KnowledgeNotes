@@ -120,6 +120,9 @@ Benefits include
 * Maintenance - easy deployment of table structure changes
 * Business-friendly - alias hide complex query logic and present to users as a simple view API
 
+The most popular use of `VIEW` is having prepared a pre-compiled/optimized complex SQL for repeated execution, 
+rather than the plain same SQL sent to DB that needs compiling and optimizing every time when received the SQL.
+
 ### Trigger
 
 A SQL trigger is a database object which fires when an event occurs in a database. We can execute a SQL query that will "do something" in a database when a change occurs on a database table such as a record is inserted or updated or deleted. 

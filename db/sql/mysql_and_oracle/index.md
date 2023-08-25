@@ -2,7 +2,7 @@
 
 Rule of thumb: always remember to make most selective columns as keys.
 
-## Key Summary
+## Summary
 
 * `PRIMARY KEY (a)`: The partition key is a.
 * `PRIMARY KEY (a, b)`: The partition key is a, the clustering key is b.
@@ -36,13 +36,19 @@ CREATE TABLE Orders (
 ); 
 ```
 
+`KEY` and `INDEX` are synonyms, though `INDEX` should be preferred (as `INDEX` is ISO SQL compliant, while `KEY` is MySQL-specific)
+
 ## B-Tree Indexing
 
 MYSQL engine uses *B-Tree* indexing, where key/index columns are used as the reference to sort data entries in order.
 
-B-Tree indexes work well for lookups by the full key value, a key range, or a key prefix.
-
 Indexing does not work when non-indexed columns are used as search condition (e.g., by `WHERE`)
+
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/btree_indexing.png" width="50%" height="40%" alt="btree_indexing" />
+</div>
+</br>
 
 ## Hash Indexing
 
@@ -63,11 +69,16 @@ CREATE TABLE testhash (
 
 * clustered index
 
-A clustered index defines the order in which data is physically stored in a table (by which column it constructs a tree). Table data can be sorted in only way, therefore, there can be only one clustered index per table.
+A clustered index defines the order in which data is physically stored in a table (by which column it constructs a tree). 
+Table data can be sorted in only way, therefore, there can be only one clustered index per table.
 
 For example, given a B-tree physical storage structure below, entry rows have individual index column (marked as shadow rectangle), which is a pointer linked to relevant `WHERE` condition rows (as specified in `KEY`).
 
-![clustered_indexing](imgs/clustered_indexing.png "clustered_indexing")
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/clustered_indexing.png" width="40%" height="30%" alt="clustered_indexing" />
+</div>
+</br>
 
 * non-clustered index
 
@@ -105,6 +116,21 @@ CREATE TABLE t (
 );
 ```
 
+## Composite Indexing (Multiple-Column Index)
+
+```sql
+CREATE TABLE table_name (
+    c1 data_type PRIMARY KEY,
+    c2 data_type,
+    c3 data_type,
+    c4 data_type,
+    INDEX index_name (c2,c3,c4)
+);
+```
+
+There are a total of three indexes created `(c1)`, `(c1,c2)`, `(c1,c2,c3)` 
+
+
 ## Packed (Prefix-Compressed) Indexes
 
 For example, if the first value is
@@ -114,16 +140,73 @@ For example, if the first value is
 
 ## Index Failure Cases
 
-* When using index, should apply to full string match against partial match
+* Full string match against partial match
 
-prefer
-
+Index search success case:
 ```sql
 SELECT * FROM Person
 WHERE PersonName = 'Jack'
 ```
-over
+Index search failure case:
 ```sql
 SELECT * FROM Person
 WHERE PersonName LIKE '%Jack%'
+```
+
+* Implicit Type Conversion
+
+For example, set an index `userId varchar(32) NOT NULL`.
+Only string type index would use the index.
+
+Below search would fail:
+```sql
+SELECT * FROM USER WHERE userId = 123;
+```
+Below search would succeed:
+```sql
+SELECT * FROM USER WHERE userId = '123';
+```
+
+Another scenario is encoding.
+
+For example, GB2312 is a popular Chinese character encoding, JIS is for Japanese.
+The below SQL fails indexing even if `NAME`s are set index for both tables but having diff encodings.
+A good solution is using UTF8.
+```SQL
+SELECT * FROM CHINESE_USER, JAPANESE_USER
+WHERE CHINESE_USER.NAME = JAPANESE_USER.NAME
+```
+
+* `OR` or `IN (...)`
+
+If there are non-index `OR` columns or too items in `IN (...)`, indexing fails.
+
+* Composite Index by Left Match Rule
+
+For a composite index such as `(a,b,c)`, SQL compiler actually creates three composite indecies `(a)`, `(a,b)` and `(a,b,c)`.
+They should be referenced as a whole, otherwise failed.
+
+For example, `KEY idx_userid_name (user_id,name)` is a composite index, that should be referenced as a whole.
+
+```sql
+CREATE TABLE user (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id varchar(32) NOT NULL,
+  age  varchar(16) NOT NULL,
+  name varchar (255) NOT NULL,
+  PRIMARY KEY (id),
+  KEY idx_userid_name (user_id,name) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+If by only referencing one column, the indexing fails.
+```sql
+SELECT * FROM user WHERE name ='Jack';
+```
+
+* Additional Operations Such As `+`, `-`, `<>`, `=` and Functions on Index Columns
+
+Failure case:
+```sql
+SELECT * FROM USER WHERE DATE_ADD(login_time, INTERVAL 1 DAY) = '2023-10-01 00:00:00';
 ```

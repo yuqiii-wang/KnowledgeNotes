@@ -177,9 +177,11 @@ This shows the number of running threads with respects to various functionalitie
 
 ## SQL Insights
 
-* `ALTER TABLE`: making an empty table with the desired new structure, inserting all the data from the old table into the new one, and deleting the old table. Locks are applied to a varied degree.
+### `ALTER TABLE`: 
 
-* `WHERE`
+Make an empty table with the desired new structure, inserting all the data from the old table into the new one, and deleting the old table. Locks are applied to a varied degree.
+
+### `WHERE`
 
 • Apply the conditions to the index lookup operation to eliminate non-matching
 rows. This happens at the storage engine layer.
@@ -189,6 +191,152 @@ and filter out non-matching rows after retrieving each result from the index. Th
 happens at the server layer, but it doesn’t require reading rows from the table.
 
 • Retrieve rows from the table, then filter non-matching rows (“Using where” in the Extra column). This happens at the server layer and requires the server to read rows from the table before it can filter them.
+
+### `JOIN`'s Coverage and Merge Fashions
+
+Given two tables, that `PK = 1` is a row both `Table_A` and `Table_B`, and `PK = 2` only exists in `Table_A` while `PK = 3` only exists in `Table_B`.
+Different `JOIN` fashions see joining `ON A.PK = B.PK;` having diff results.
+
+```sql
+SELECT * FROM Table_A ORDER BY PK ASC;
+```
+```txt
++----+----------------+     
+| PK | Value          |
++----+----------------+
+|  1 | both ab from a |
+|  2 |         only a |
++----+----------------+  
+```
+and
+```sql
+SELECT * FROM Table_B ORDER BY PK ASC;
+```
+```txt
++----+----------------+     
+| PK | Value          |
++----+----------------+
+|  1 | both ab from b |
+|  3 |         only b |
++----+----------------+  
+```
+
+* `INNER JOIN` 
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/inner_join_intersection.png" width="20%" height="10%" alt="inner_join_intersection" />
+</div>
+</br>
+
+Only `ON PK = 1` rows exist in both tables are returned.
+
+```txt
++------+------+----------------+----------------+
+| A_PK | B_PK |        A_Value |        B_Value |
++------+------+----------------+----------------+
+|    1 |    1 | both ab from a | both ab from b |
++------+------+----------------+----------------+
+```
+
+* `LEFT JOIN` 
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/left_join_intersection.png" width="20%" height="10%" alt="left_join_intersection" />
+</div>
+</br>
+
+`ON PK = 1` rows and all rows in `Table_A` (the left table) are returned.
+Empty columns are filled with `NULL`.
+
+```txt
++------+------+----------------+----------------+
+| A_PK | B_PK |        A_Value |        B_Value |
++------+------+----------------+----------------+
+|    1 |    1 | both ab from a | both ab from b |
+|    2 | NULL |         only a |           NULL |
++------+------+----------------+----------------+
+```
+
+
+* `RIGHT JOIN` 
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/right_join_intersection.png" width="20%" height="10%" alt="right_join_intersection" />
+</div>
+</br>
+
+`ON PK = 1` rows and all rows in `Table_B` (the right table) are returned.
+Empty columns are filled with `NULL`.
+
+```txt
++------+------+----------------+----------------+
+| A_PK | B_PK |        A_Value |        B_Value |
++------+------+----------------+----------------+
+|    1 |    1 | both ab from a | both ab from b |
+| NULL |    3 |           NULL |         only b |
++------+------+----------------+----------------+
+```
+
+* `FULL OUTER JOIN` 
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/outer_join_intersection.png" width="20%" height="10%" alt="outer_join_intersection" />
+</div>
+</br>
+
+Outer joining is supposed to return all rows in both tables.
+Empty columns are filled with `NULL`.
+
+```txt
++------+------+----------------+----------------+
+| A_PK | B_PK |        A_Value |        B_Value |
++------+------+----------------+----------------+
+|    1 |    1 | both ab from a | both ab from b |
+|    2 | NULL |         only a |           NULL |
+| NULL |    3 |           NULL |         only b |
++------+------+----------------+----------------+
+```
+
+* `CROSS JOIN`
+
+Cross join returns Cartesian product.
+
+For `Table_A` and `Table_B` both containing two rows of data, this should give $4 = 2 \times 2$ rows of cross product result.
+
+```txt
++------+------+----------------+----------------+
+| A_PK | B_PK |        A_Value |        B_Value |
++------+------+----------------+----------------+
+|    1 |    1 | both ab from a | both ab from b |
+|    1 |    3 | both ab from a |         only b |
+|    2 |    1 |         only a | both ab from b |
+|    2 |    3 |         only a |         only b |
++------+------+----------------+----------------+
+```
+
+### `JOIN` Algorithms
+
+* Driver table concept
+
+For example of the below statement
+```sql
+SELECT * FROM A
+JOIN B ON A.id = B.id;
+```
+
+The table `A` is called left/driver table if there is no defined index.
+The table with index of smaller range is the driver table.
+
+Driver table is first selected data rows that are to be compared to the other to-be-joined table.
+
+Below are algos for `JOIN`.
+
+* Nested-Loop Join (NLJ)
+  * Simple NLJ: takes rows one by one to do `ON A.id = B.id` by full table scan
+  * Index NLJ: the index version of the simple NLJ
+  * Block NLJ, BNL JOIN: buffer/block read version of the simple NLJ, that to be compared data rows are prefetched in a buffer rather than reading disk every time for full table scan, and the buffer can be used repeatedly when there are multiple `JOIN`s.
+* Batched Key Access (BKA) Join
+  * BNL Join + indexing with Multi-Range Read (MRR) optimization, that besides applied buffering and indexing, MRR is used to sort buffered data rows so that the `ON A.id = B.id` can be done sequentially rather than by random access.
 
 ## Replication
 
@@ -211,3 +359,4 @@ When the replica reads the event from the relay log and executes it, it is reexe
 
 Row-based replication records the actual data
 changes in the binary log.
+

@@ -83,3 +83,15 @@ reference:
 https://download.oracle.com/otn-pub/jcp/servlet-2.4-fr-spec-oth-JSpec/servlet-2_4-fr-spec.pdf?AuthParam=1659722181_7ae40afa61c65c1aa2f1448c000e4623
 
 `WEB-INF` folder's files are used by servlet java code but not visible to public.
+
+## HTTP and HTTPS in Servlet
+
+### HTTP Forward vs Redirect
+
+In code, they have the same delivery results, but in business, they serve diff logics.
+```java
+request.getRequestDispatcher("new.jsp").forward(request, response);// by forward
+response.sendRedirect("new.jsp"); // by redirect 
+```
+
+* 

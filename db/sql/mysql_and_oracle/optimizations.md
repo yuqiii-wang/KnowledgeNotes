@@ -61,9 +61,9 @@ Since table refers to a large set of data, read/write operation can be costly.
 
 Instead, use multiple transactions to get sub-task data at a time, benefits are
 
-• reduce lock contention
+* reduce lock contention
 
-• efficient caching
+* efficient caching
 
 * take business into consideration (Schema Normalization, each fact is
 represented once and only once, no duplicate data) for optimal read/write operation, for example,
@@ -148,3 +148,29 @@ Building a temp table can help alleviate repeatedly scanning major tables.
 
 Use `INNER JOIN`, since it returns rows existed in both left and right tables
 
+## `limit` Paging Performance Issues
+
+The `LIMIT` has the below usage such as:
+to search rows between 6-15 
+```sql
+SELECT * FROM table LIMIT 5,10; -- to search rows between 6-15 
+```
+
+The performance issue lies on 
+
+```sql
+CREATE TABLE account (
+  id int(11) NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  name varchar(255) DEFAULT NULL COMMENT 'Account',
+  balance int(11) DEFAULT NULL COMMENT 'Balance',
+  create_time datetime NOT NULL COMMENT 'Create time',
+  update_time datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update Time',
+  PRIMARY KEY (id),
+  KEY idx_name (name),
+  KEY idx_create_time (create_time)
+) ENGINE=InnoDB AUTO_INCREMENT=1570068 DEFAULT CHARSET=utf8 ROW_FORMAT=REDUNDANT COMMENT='Balance Sheet';
+```
+
+```sql
+SELECT id,name,balance FROM account WHERE create_time > '2020-09-19' LIMIT 100000, 10;
+```

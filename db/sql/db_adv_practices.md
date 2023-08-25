@@ -63,6 +63,10 @@ Before `COMMIT`, DML changes are only visible to the user session. There is a de
 
 Once applied `COMMIT`, the changes are permanent to DB, not in the user session lifecycle.
 
+## Dirty Page and The `redo` Log
+
+
+
 ## Replication and Latency
 
 MySQL supports two kinds of replication: *statement-based* replication and *row-based* replications.

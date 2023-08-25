@@ -1,1 +1,1 @@
-# MYSQL Clustering
+# MYSQL Clustering/Distribution and Sharding
