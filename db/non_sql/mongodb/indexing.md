@@ -53,3 +53,7 @@ An index can be said to cover a
 query if all the data required by the query resides in the index itself.
  
 Covered index queries are also known as index-only queries because these queries are served without having to reference the indexed documents themselves.
+
+## Data Model
+
+MongoDB uses B-Tree for data storage.

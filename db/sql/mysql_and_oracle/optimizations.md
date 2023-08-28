@@ -18,6 +18,23 @@ Common configs are
 
 * low_priority_updates: assign different level priority to `INSERT` , `REPLACE` , `DELETE` , and `UPDATE` queries against `SELECT` since read should have higher priority than write.
 
+### Identify Bad Performance SQLs
+
+Use `SHOW PROCESSLIST` to check the current ongoing SQLs as well as their elapsed time.
+Locate the slow SQLs from the outputs.
+
+Then use `SHOW PROFILE` OR `EXPLAIN` to further check in detail of the slow SQLs.
+
+## `EXPLAIN`
+
+|Columns|Descriptions|
+|-|-|
+|id|Represent a SELECT operation sequence|
+|select_type|For example, SIMPLE means no JOIN or subquery|
+|type|ALL: full table scan; INDEX: by index scan; range: index range scan|
+|possible_keys|SQL optimizer considered index keys; not necessarily used though|
+|key|SQL optimizer actually used keys; if NULL, no keys are used|
+
 ## Data Types
 
 * Small: less space, better for cache, better for CPU concurrency
@@ -31,6 +48,11 @@ Common configs are
 * `DECIMAL` supports exact math rather than `DOUBLE` for higher precision results.
 
 * MYSQL supports int of different bit widths, such as `TINYINT` (2 bytes) and `BIGINT` (8 bytes)
+
+* Use small data type, such as `mediumint` is better than `int`
+
+* Use `enum` for options, such as `0, 1` to replace `female, male` of `VARCHAR`.
+
 
 ### String
 
@@ -53,13 +75,15 @@ in YYYYMMDDHHMMSS format, displayed such as 2008-01-16 22:37:08 by ANSI standard
 
 * Identifier (such as unique index), choose integers as identifier as they work with `AUTO_INCREMENT`, do not use string as it increases random access, creates memory splits
 
+* Prefer Bulk insertion rather than one by one; because one row by one row insertion incurs too many connections and transactions
+
 * MYSQL engine is row-major, so that if each row has many columns, it adds pressure on CPU for query/copy, etc.
 
-* use less `JOIN`s, 
+* `LIMIT 1`: In business sometimes only need checking if a record exists by looking for the presence of at least one row of data. This scenario should use `LIMIT 1`, which prevents full table scan and returns immediately once a record is found.
 
-Since table refers to a large set of data, read/write operation can be costly.
+* Use `UNION ALL`: by default, `UNION`'s results are applied `DISTINCT`. This results in additional duplicate row checking. If duplicate rows are allowed, use `UNION ALL` instead.
 
-Instead, use multiple transactions to get sub-task data at a time, benefits are
+* Use `ORDER BY NULL`: by default, `GROUP BY`'s results are sorted; to prevent the default sorting, append `ORDER BY NULL` to the `GROUP BY` statement.
 
 * reduce lock contention
 
@@ -122,55 +146,34 @@ Use `EXIST` rather than `IN`
 
 Filter out not used data rows before applying `GROUP BY`
 
-## `DISTINCT`
-
-Optimize `DISTINCT` with `GROUP BY`
-
 ## Use of procedure
 
 Procedures are already optimized and stored in DB, hence it saved compilation/optimization time for a sql query.
 
-## Data Type
-
-Use small data type, such as `mediumint` is better than `int`
-
-Use `enum` for options, such as `0, 1` to replace `female, male` of `VARCHAR`.
 
 ## Multiple tables and `JOIN`
 
-SQL compiler takes long time to compile multiple `JOIN` statement.
+Every `JOIN` statement needs one table scan of the to-be-joined tables.
+Multiple `JOIN`s incur multiple scans of tables.
 
 There is a temp table in memory for each `JOIN` statement.
 
 Building a temp table can help alleviate repeatedly scanning major tables. 
 
-### Inner, left and right join
+## `LIMIT` Paging Performance Issues
 
-Use `INNER JOIN`, since it returns rows existed in both left and right tables
+The performance issue lies on row offset having **full row data return**.
+For example, the below SQL finds rows between 300001 to 300005.
 
-## `limit` Paging Performance Issues
-
-The `LIMIT` has the below usage such as:
-to search rows between 6-15 
 ```sql
-SELECT * FROM table LIMIT 5,10; -- to search rows between 6-15 
+SELECT * FROM test WHERE val=4 LIMIT 300000,5; -- to search rows between 300001 and 300005.
 ```
 
-The performance issue lies on 
+SQL would return **all** rows from `SELECT * FROM test WHERE val=4` before reaching the 300005-th row met the condition `val=4`.
+This puts burden on I/O.
 
+Instead, include a subquery first selecting the index `id` then `JOIN` to the original table `test` aliased as `a`.
+This only loads the `id` column from the `test` table for the whole 300005 rows of search.
 ```sql
-CREATE TABLE account (
-  id int(11) NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  name varchar(255) DEFAULT NULL COMMENT 'Account',
-  balance int(11) DEFAULT NULL COMMENT 'Balance',
-  create_time datetime NOT NULL COMMENT 'Create time',
-  update_time datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update Time',
-  PRIMARY KEY (id),
-  KEY idx_name (name),
-  KEY idx_create_time (create_time)
-) ENGINE=InnoDB AUTO_INCREMENT=1570068 DEFAULT CHARSET=utf8 ROW_FORMAT=REDUNDANT COMMENT='Balance Sheet';
-```
-
-```sql
-SELECT id,name,balance FROM account WHERE create_time > '2020-09-19' LIMIT 100000, 10;
+SELECT * FROM test a INNER JOIN (SELECT id FROM test WHERE val=4 LIMIT 300000,5) b on a.id=b.id;
 ```

@@ -37,7 +37,7 @@ $$
 Bf=z(x-x')
 $$
 
-Hence, if we know the two optical center vector $B$, focus length (vector from camera view plane to optical center) $f$, two object correspondance points (left and right) on camera views relative to epipoles, we can compute the real world object point $X$ represented by $z$.
+Hence, if we know the two optical center vector $B$, focal length (vector from camera view plane to optical center) $f$, two object correspondance points (left and right) on camera views relative to epipoles, we can compute the real world object point $X$ represented by $z$.
 
 ### Visual Feature Mapping
 
@@ -113,5 +113,43 @@ $$
       <img src="imgs/equidistant_azimuth_proj.png" width="30%" height="30%" alt="equidistant_azimuth_proj" />
       &nbsp;&nbsp;&nbsp;&nbsp;
       <img src="imgs/equidistant_proj_earth.png" width="30%" height="30%" alt="equidistant_proj_earth" />
+</div>
+</br>
+
+## Telephoto vs Wide Angle
+
+A telephoto lens makes the objects in the background look bigger and closer to the foreground objects.
+The background objects are blurred.
+
+Wide lenses do the opposite and make background objects look smaller and further away from the camera.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/telephoto_vs_wide_angle.png" width="30%" height="30%" alt="telephoto_vs_wide_angle" />
+</div>
+</br>
+
+### Telephoto
+
+Telephoto cameras are good at capturing objects in distance such as wildlife animals.
+It provides good background blurring to highlight the objects of interest.
+
+The longer the focal length, the darker the image is (lens is long and opening is small, hence less light comes into camera).
+To solve this, some higher-end telephoto lenses are integrated with a wider maximum aperture or iris opening to allow more light to enter the lens.
+
+Telephoto lens focal length is typically **greater than 80 mm**.
+
+### Wide Angle
+
+Wide angle cameras are often used as the main rear camera for it provides indiscriminate image quality between foreground and background objects in most daily life scenarios.
+Wide angle cameras are good at capturing ultra-near objects (object distance shorter than $10$ cm from camera).
+
+Wide angle focal length is typically **smaller than 80 mm**.
+
+### Example: iPhone 13 Pro
+
+iPhone 13 Pro has a wide-angle lens (Main rear camera, labelled as $\small{\times}1.0$), an ultra-wide lens (labelled as $\small{\times}0.5$), and a telephoto lens (depending on actual focal length and image quality the phone switches to using a telephoto lens, usually labelled as $\small{\times}5.0+$). 
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/iphone13pro_cameras.png" width="35%" height="30%" alt="iphone13pro_cameras" />
 </div>
 </br>

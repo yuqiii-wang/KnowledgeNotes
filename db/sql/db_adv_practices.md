@@ -29,6 +29,15 @@ A compromised page level is taken with overhead and conflict levels between row-
 
 When a deadlock is detected, InnoDB automatically rolls back a transaction.
 
+## Sub Query: Select-From-Where
+
+Selected columns are by a WHERE condition which is derived from another select. For example:
+```sql
+select ename,deptno,sal
+from emp
+where deptno=(select deptno from dept where loc='NEW YORK')
+```
+
 ## Transaction commit
 
 ### Explicit transactions

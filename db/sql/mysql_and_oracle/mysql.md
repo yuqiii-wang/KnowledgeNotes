@@ -107,12 +107,16 @@ MyISAM is the default storage engine for MySQL.
 
 ### InnoDB Overview
 
+InnoDB is by default the **transaction engine**.
+
 InnoDB stores its data in a series of one or more data files that are collectively known as a *tablespace*.
 
 It defaults to the REPEATABLE READ isolation level, and it has a
 next-key locking strategy that prevents phantom reads in this isolation level (InnoDB locks gaps in the index structure)
 
 ### MyISAM Overview
+
+MyISAM is by default the **storage engine**.
 
 MyISAM typically stores each table in two files: a data file and an index file.
 
@@ -325,16 +329,27 @@ JOIN B ON A.id = B.id;
 ```
 
 The table `A` is called left/driver table if there is no defined index.
-The table with index of smaller range is the driver table.
+The table with index of smaller range is the driver tables.
 
 Driver table is first selected data rows that are to be compared to the other to-be-joined table.
+
+* A naive approach of `A JOIN B ON A.id = B.id` gives $O(n^2)$ complexity
+
+```cpp
+for (auto& idx_a : A.id) {
+  for (auto& idx_b : B.id) {
+    if (idx_a == idx_b)
+      return_rows.push_back(...);
+  }
+}
+```
 
 Below are algos for `JOIN`.
 
 * Nested-Loop Join (NLJ)
   * Simple NLJ: takes rows one by one to do `ON A.id = B.id` by full table scan
   * Index NLJ: the index version of the simple NLJ
-  * Block NLJ, BNL JOIN: buffer/block read version of the simple NLJ, that to be compared data rows are prefetched in a buffer rather than reading disk every time for full table scan, and the buffer can be used repeatedly when there are multiple `JOIN`s.
+  * Block NLJ, or BNL JOIN: buffer/block read version of the simple NLJ, that to be compared data rows are prefetched in a buffer rather than reading disk every time for full table scan, and the buffer can be used repeatedly when there are multiple `JOIN`s.
 * Batched Key Access (BKA) Join
   * BNL Join + indexing with Multi-Range Read (MRR) optimization, that besides applied buffering and indexing, MRR is used to sort buffered data rows so that the `ON A.id = B.id` can be done sequentially rather than by random access.
 

@@ -44,13 +44,29 @@ MYSQL engine uses *B-Tree* indexing, where key/index columns are used as the ref
 
 Indexing does not work when non-indexed columns are used as search condition (e.g., by `WHERE`)
 
+### B+ Tree
+
+In the case of B-Tree each key is stored once, either in a non-leaf node or in a leaf node. 
+In the case of B+ Trees all keys are present in the leaf nodes and the non-leaf nodes contain duplicates.
+
+* Leaf nodes: actual data
+* Non-leaf nodes: sorted index values
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/btree_indexing.png" width="50%" height="40%" alt="btree_indexing" />
+      <img src="imgs/btree_indexing.png" width="50%" height="30%" alt="btree_indexing" />
 </div>
 </br>
 
-## Hash Indexing
+The multi-index version of B+ tree is by representing indexes as tuples.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/btree_multi_indexing.png" width="50%" height="40%" alt="btree_multi_indexing" />
+</div>
+</br>
+
+## Index Types 
+
+### Hash Indexing
 
 Engine may compute a hash value for one or a set of keys and store it into a hash table. The hash value maps to a pointer to the row entry.
 
@@ -65,7 +81,7 @@ CREATE TABLE testhash (
 ) ENGINE=MEMORY;
 ```
 
-## Clustered/Non-clustered index
+### Clustered/Non-clustered index
 
 * clustered index
 
@@ -86,11 +102,11 @@ A non-clustered index is stored at one place (separately as a reference list (al
 
 Query over non-clustered indices needs to first look over a reference list then to fetch row data, hence slower than clustered indexed query.
 
-## Covered index
+### Covered index
 
 In contrast to non-clustered index that uses a lookup table to find the memory addresses of rows then further locate the `WHERE` column values, covered index has `WHERE` columns values directly attached to the lookup table, saving the time of performing additional row data access.
 
-## Multi Indexing
+### Multi Indexing
 
 The `UNION` operator is used to combine the result-set of two or more SELECT statements. Columns being `SELECT`ed should have same name and similar datatype across tables.
 
@@ -116,7 +132,7 @@ CREATE TABLE t (
 );
 ```
 
-## Composite Indexing (Multiple-Column Index)
+### Composite Indexing (Multiple-Column Index)
 
 ```sql
 CREATE TABLE table_name (
@@ -131,7 +147,7 @@ CREATE TABLE table_name (
 There are a total of three indexes created `(c1)`, `(c1,c2)`, `(c1,c2,c3)` 
 
 
-## Packed (Prefix-Compressed) Indexes
+### Packed (Prefix-Compressed) Indexes
 
 For example, if the first value is
 “perform” and the second is “performance,” the second value will be stored analogously to “7,ance”.
@@ -181,10 +197,15 @@ WHERE CHINESE_USER.NAME = JAPANESE_USER.NAME
 
 If there are non-index `OR` columns or too items in `IN (...)`, indexing fails.
 
+For sequential/range read, use `BETWEEN` such as
+```sql
+SELECT id FROM t WHERE num BETWEEN 1 AND 5；
+```
+
 * Composite Index by Left Match Rule
 
 For a composite index such as `(a,b,c)`, SQL compiler actually creates three composite indecies `(a)`, `(a,b)` and `(a,b,c)`.
-They should be referenced as a whole, otherwise failed.
+They should be referenced as a whole, otherwise failed (e.g., by just referencing the `b` column, there will be no applied indexing).
 
 For example, `KEY idx_userid_name (user_id,name)` is a composite index, that should be referenced as a whole.
 

@@ -271,3 +271,36 @@ Parallax, as used in this activity, is the apparent motion of a relatively close
 
 ## Viewing Frustum
 
+## Exposure Triangle: Sensor ISO, Aperture and Shutter Speed 
+
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/iso_aperture_shutter_triangle.png" width="40%" height="20%" alt="iso_aperture_shutter_triangle" />
+</div>
+</br>
+
+* ISO
+
+ISO is an international standard describing the sensitivity to light as pertains to either film or a digital sensor. 
+
+It affects image granularity such as noises and brightness.
+
+A large ISO value should be used at night time or in cloudy weather (ISO $> 500$);
+a small ISO value should be used on a sunny day (ISO $<100$)
+
+* Aperture
+
+Aperture is a hole or an opening through which light travels. 
+It is expressed as $\text{f}/\text{stop} = \text{focal length}/\text{diameter of aperture}$
+
+It affects focal length.
+
+* Shutter Speed
+
+Shutter is a device that allows light to pass for a determined period.
+
+Shutter Speed says about how fast the shutter is closed.
+It is expressed as fractions of a second, so $1/50$ means $20$ ms.
+
+Slow shutter speed renders image blurred for moving objects.
+Slow speed allows more light come into camera, resulted in over-exposure (this can be re-balanced by histogram equalization).
