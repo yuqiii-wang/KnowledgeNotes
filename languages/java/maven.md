@@ -1,6 +1,6 @@
 # Maven
 
-## .m2 Config
+## .m2 Config and `~/.m2/setting.xml`
 
 Make sure `M2_HOME` (for maven repository) set properly for Maven
 

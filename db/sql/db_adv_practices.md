@@ -29,6 +29,35 @@ A compromised page level is taken with overhead and conflict levels between row-
 
 When a deadlock is detected, InnoDB automatically rolls back a transaction.
 
+### Optimistic vs. Pessimistic locking
+
+* Optimistic locking: lock used only on row write/`UPDATE`, not used on read/`SELECT` (good performance, but inconsistency happens for simultaneous read and write)
+* Pessimistic locking: lock used both on row write/`UPDATE`, and on read/`SELECT` (bad performance, but guaranteed consistency)
+
+It is user-discretionary to say if read/write business is safe to apply optimistic or pessimistic lock.
+
+For example, assume the below transactions are run in parallel multiple times.
+It risks write skew.
+```sql
+START TRANSACTION;
+SELECT * FROM test WHERE test.id > 10 AND test.id < 100;
+UPDATE test SET val = 1 WHERE test.id > 10 AND test.id < 100;
+```
+
+The solution is by appending `FOR UPDATE` to `SELECT` (read is not available as the row might be undergoing `UPDATE`).
+For index records the search encounters, `SELECT ... FOR UPDATE` locks the rows and any associated index entries.
+```sql
+START TRANSACTION;
+SELECT * FROM test WHERE test.id > 10 AND test.id < 100 FOR UPDATE;
+UPDATE test SET val = 1 WHERE test.id > 10 AND test.id < 100;
+```
+
+Similarly, there is `SELECT ... FOR SHARE`.
+Other sessions can read in this mode, but to write have to wait until this session ends its transaction.
+
+MySQL uses pessimistic locking by default.
+Pessimistic locking uses `SELECT ... FOR UPDATE` that locks not only the rows, **but also the index** to produce REPEATABLE READ.
+
 ## Sub Query: Select-From-Where
 
 Selected columns are by a WHERE condition which is derived from another select. For example:

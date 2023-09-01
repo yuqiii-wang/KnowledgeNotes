@@ -17,8 +17,8 @@ In java, every thing is an object, even for the basic data types.
 
 For example:
 ```java
-Integer x = 1; // wrapping Integer.valueOf(1)
-int y = x; // invoked X.intValue()
+Integer x = 1; // wrapping Integer.valueOf(1) implicitly
+int y = x; // invoked X.intValue() implicitly
 ```
 
 String is immutable/final for the stored data in `final char value[];`.
@@ -43,6 +43,94 @@ The number of constructed objects by `new String("hello")` is two:
 * `new` constructs  string object in heap
 
 Since Java 9, `char[]` is changed to `byte[]` to save memory for char storage.
+
+## Numbers
+
+### Numeric Promotion
+
+For primitive data types undergoing binary operation such as `+`/`-`/`*` and `==`, promotion is applied:
+
+```java
+class Test {
+    public static void main(String[] args) {
+        int i    = 0;
+        float f  = 1.0f;
+        double d = 2.0;
+        // First int*float is promoted to float*float, then
+        // float==double is promoted to double==double:
+        if (i * f == d) System.out.println("oops");
+		
+        // A char&byte is promoted to int&int:
+        byte b = 0x1f;
+        char c = 'G';
+        int control = c & b;
+        System.out.println(Integer.toHexString(control));
+		
+        // Here int:float is promoted to float:float:
+        f = (b==0) ? i : 4.0f;
+        System.out.println(1.0/f);
+    }
+}
+```
+
+### Decimal Precision and Use of `java.math.BigDecimal`
+
+There is loss of precision such as in the below computation cases.
+
+```java
+float x=2.0f;
+float y=1.9f;
+System.out.println("x-y = " + (x - y)); // print `x-y = 0.100000024`
+
+double x=2.0f;
+double y=1.9f;
+System.out.println("x-y = " + (x - y)); // print `x-y = 0.10000002384185791`
+```
+
+Instead, should have used `java.math.BigDecimal`.
+
+```java
+BigDecimal x = new BigDecimal("2");
+BigDecimal y = new BigDecimal("1.9");
+System.out.println("x-y = " +  x.subtract(y)); // print `x-y = 0.1`
+```
+
+### Comparison
+
+A numerical comparison operator (`<`, `<=`, `>`, `>=`, `==` and `!=`) must be a type that is convertible of the primitive, or the primitive itself:
+`boolean`, `byte`, `char`, `short`, `int`, `long`, `float`, `double`.
+
+Positive zero and negative zero are considered equal : `-0.0<0.0` is false, but `-0.0<=0.0` is true.
+
+* `==` vs `equals()`
+
+In numerical comparison, `==` simply means value comparison.
+
+In reference/object comparison, `==` means object heap memory value comparison; `equals()` is used with overriden method to perform object member value comparison.
+
+Analogously, `==` in C++ is 
+```cpp
+int* a = new int(1);
+int* b = a;
+if ((void *)a == (void *)b) 
+    std::cout << "Same obj." << std::endl;
+```
+
+`equals()` in C++ is
+```cpp
+class Example {
+private:
+    int val_a, val_b, val_c;
+public:
+    bool operator == (const Example &e){
+      if (val_a == e.val_a && val_b == e.val_a && val_c == e.val_a) {
+          std::cout << "Two objs have the same member values." << std::endl;
+          return true;
+      }
+      return false;
+    }
+}
+```
 
 ## Java Collections
 
@@ -140,7 +228,7 @@ class TestJavaCollection1{
 }  
 ```
 
-### HashMap vs HashTable
+### HashMap, HashTable and ConcurrentHashMap
 
 HashMap is non-synchronized and not thread-safe, can’t be shared between many threads without proper mutex,
 whereas Hashtable is synchronized, thread-safe and can be shared with many threads.
@@ -187,9 +275,10 @@ class JavaHashMapTable
 
 * Why HashMap is not thread-safe:
 
-A hash map is based on an array, where each item represents a bucket. 
-As more keys are added, the buckets grow and at a certain threshold the array is recreated with a bigger size, its buckets rearranged so that they are spread more evenly (performance considerations). 
-It means that sometimes `HashMap#put()` will internally call `HashMap#resize()` to make the underlying array bigger. `HashMap#resize()` assigns the table field a new empty array with a bigger capacity and populates it with the old items. During re-polulation, when a thread accesses this HashMap, this HashMap may return `null`.
+A hash map is based on an array, where each item represents a bucket (buckets stored as `std::vector<Bucket>` analogously in C++). 
+As more keys are added, the buckets grow and at a certain threshold the array is recreated with a bigger size, its buckets rearranged so that they are spread more evenly (performance considerations).
+
+It means that sometimes `HashMap#put()` will internally call `HashMap#resize()` to make the underlying array bigger. `HashMap#resize()` assigns the table field a new empty array with a bigger capacity and populates it with the old items. During re-population, when a thread accesses this HashMap, this HashMap may return `null`.
 
 ```java
 final Map<Integer, String> map = new HashMap<>();
@@ -207,5 +296,72 @@ while (true) {
     if (!targetValue.equals(map.get(targetKey))) {
         throw new RuntimeException("HashMap is not thread safe."); // throw err
     }
+}
+```
+
+* concurrentHashMap
+
+`concurrentHashMap` is a thread safe key/value pair Java container. Java 8 added CAS (Comparison And Swap) atomics, red/black tree replacing list, and other optimizations.
+
+Illustrated as below, the items in the orange-dotted rectangle are buckets, and buckets are contiguous in memory.
+In other words, buckets are stored as `std::vector<Bucket>` analogously in C++.
+The bucket vector grows when buckets contain too many items.
+
+Each bucket contains a list of items; items are list-linked to each other.
+If a list is long (searching items in this list can be time-consuming), the list is transformed into a red black tree.
+
+The average search time in a red black tree is $O(\log{n})$, in a list is $O(n/2)$.
+As a result, the list-to-tree transformation takes place when $O(n/2) > O(\log{n})$.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/concurrent_hash_map.png" width="50%" height="20%" alt="concurrent_hash_map" />
+</div>
+</br>
+
+The `get()` method does not use lock, and is thread safety, that is guaranteed by checking hash value `eh`, that diff `eh`s represent diff thread safety scenarios such as undergoing bucket vector expansion.
+
+```java
+public V get(Object key) {
+    Node<K,V>[] tab; Node<K,V> e, p; int n, eh; K ek;
+    int h = spread(key.hashCode()); // compute hash
+    if ((tab = table) != null && (n = tab.length) > 0 &&
+        (e = tabAt(tab, (n - 1) & h)) != null) { // retrieve the head node
+        if ((eh = e.hash) == h) { // return the node if the hash matches
+            if ((ek = e.key) == key || (ek != null && key.equals(ek)))
+                return e.val;
+        }
+        // eh=-1 means that the node is a ForwardingNode undergoing migration (bucket vector expansion)
+        // eh=-2 means that the node is a TreeBin, use red black tree for traversal
+        // eh>=0 means that the node is linked against a list of node, just traverse the list
+        else if (eh < 0)
+            return (p = e.find(h, key)) != null ? p.val : null;
+        while ((e = e.next) != null) { // Not a head node nor a ForwardingNode, just
+                                       // continue traversing the list till found a matched hash, then return
+            if (e.hash== h &&
+                ((ek = e.key) == key || (ek != null && key.equals(ek))))
+                return e.vale.val;
+        }
+    }
+    return null;
+}
+```
+
+Notice here that nodes and their values are set to `volatile`, which forces CPUs fetching data from memory instead of from L1/L2 cache.
+
+```java
+/**
+ * The array of bins. Lazily initialized upon first insertion.
+ * Size is always a power of two. Accessed directly by iterators.
+**/
+transient volatile Node<K,V>[] table;
+
+static class Node<K,V> implements Map.Entry<K,V> {
+    final int hash;
+    final K key;
+    
+    volatile V val;
+    volatile Node<K,V> next;
+
+    ...
 }
 ```

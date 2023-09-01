@@ -370,4 +370,68 @@ public class MaximumTest {
 }
 ```
 
+## JDBC (Java Database Connectivity) and ORM (Object-Relational Mapping)
+
+* JDBC is a driver managed raw SQL parse engine.
+
+```java
+Connection conn = DriverManager.getConnection(
+     "jdbc:somejdbcvendor:other data needed by some jdbc vendor",
+     "myLogin",
+     "myPassword");
+try {
+    Statement stmt = conn.createStatement();
+    stmt.executeUpdate("INSERT INTO MyTable(name) VALUES ('my name')");
+} finally {
+    try { 
+        conn.close();
+    } catch (Throwable e) {
+        logger.warn("Could not close JDBC Connection", e);
+    }
+}
+```
+
+Driver can be ODBC or native DB vendor APIs.
+
+* ORM is the use of Java class/object by OOP (Object Oriented Programming) philosophy to manage DB records/rows via `setField()`/`getField()` to represent SQL `UPDATE`/`SELECT` operations; create/delete object to represent `INSERT`/`DELETE`.
+
+For example,
+```java
+public class Employee {
+   private int id;
+   private String first_name; 
+   private String last_name;   
+   private int salary;  
+
+   public Employee() {}
+   public Employee(String fname, String lname, int salary) {
+      this.first_name = fname;
+      this.last_name = lname;
+      this.salary = salary;
+   }
+   
+   public int getId() {             return id; }
+   public String getFirstName() {   return first_name; }
+   public String getLastName() {    return last_name; }
+   public int getSalary() {         return salary; }
+
+   public void setFirstName(String _first_name) {   this._first_name = first_name; }
+   public void setLastName(String _last_name) {     this._last_name = last_name; }
+   public void setSalary(int _salary) {             this.salary = _salary; }
+}
+```
+
+```sql
+create table EMPLOYEE (
+   id INT NOT NULL auto_increment,
+   first_name VARCHAR(20) default NULL,
+   last_name  VARCHAR(20) default NULL,
+   salary     INT  default NULL,
+   PRIMARY KEY (id)
+);
+```
+
+The Java object to SQL mapping is through middleware.
+One popular middleware is *Hibernate*.
+
 ## Aspect-Oriented Programming (AOP)

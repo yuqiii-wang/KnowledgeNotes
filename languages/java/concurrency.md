@@ -15,6 +15,7 @@ A lifecycle of Java multithreading object shows as below.
 
 `Runnable` is a simple interface containing an `abstract void run();`.
 User should override `run()` adding user-defined logic into it.
+Once `Thread#start()` got executed, the code in `Thread#run()` starts executing as well.
 
 ```java
 @FunctionalInterface
@@ -50,11 +51,13 @@ public class ExampleClass implements Runnable {
 }  
 ```
 
+### Thread Local
+
+The `TheadLocal` construct stores data that will be accessible only by a specific thread.
+
+`ThreadLocal` instances are typically private static fields in classes that wish to associate state with a thread (e.g., a user ID or Transaction ID).
+
 ## Blocking and Non-Blocking vs Sync and Async
-
-## Java Container/Collection Thread Safety
-
-### `concurrentHashMap`, `HashMap` and `HashTable`
 
 
 
@@ -89,7 +92,42 @@ ExecutorService executor = Executors.newFixedThreadPool(10);
 
 ## Thread Interrupt
 
-`java.lang.Thread.interrupt()`
+Thread Interrupt is used to signal a spawned thread by `Thread#interrupt()` to terminate/preempt the running of the spawned thread. 
+The `Thread#interrupt()` sets a flag `Thread#interrupted = true`.
+
+The spawned thread checks `isInterrupted()` that checks if `Thread#interrupted = true`.
+
+When a thread is preempted by `Thread#interrupt()`, if this thread immediately checks if `Thread#interrupted = true` then exits, it shall be good.
+If still ongoing processing some other work such as `Thread.sleep(1000);`, the thread throws `InterruptedException e`.
+
+```java
+public class RightWayStopThreadWithSleep {
+    public static void main(String[] args) throws InterruptedException {
+        Runnable runnable = () -> {
+            int num = 0;
+            while (num <= 300 && !Thread.currentThread().isInterrupted()) {
+                if (num % 100 == 0) {
+                    System.out.println("Code is running");
+                }
+                num++;
+            }
+            try {
+                // sleep for 1 sec
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("Thread died");
+                e.printStackTrace();
+            }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+        Thread.sleep(500);
+        // signal the spawned thread to stop
+        thread.interrupt();
+    }
+}
+```
 
 ## Synchronized and Lock
 
@@ -355,9 +393,99 @@ public class Main {
 
 ### Dead Lock
 
-* During `synchronized` and `reentrantLock.lock()` acquring a lock
+A dead lock scenario refers to two or more threads waiting for lock release from each other, resulted in all threads blocking at the lock. 
 
-## Thread Pool
+For example, there are two balance accounts transferring money to each other (code shown as below).
+
+Dead lock happens as both `account1` and `account2` lock themselves via `synchronized (this)`.
+The next `synchronized (counterparty)` refers to the other account's lock, such as `account1`'s `synchronized (counterparty)` is `account2`'s `synchronized (this)`.
+They both waiting for the other account to release lock, hence reached the dead lock dilemma.
+
+```java
+public class Balance {
+
+private int amount;
+
+public Balance(int amount){
+   this.amount=amount;
+}
+
+public void transfer(Balance counterparty,int transferAmount){
+    synchronized (this){
+        synchronized (counterparty){
+            if(amount< transferAmount){
+                System.out.println("Withdrawal amount is greater than your remaining");
+            }else{
+                amount=amount-transferAmount;
+                counterparty.amount=counterparty.amount+transferAmount;
+            }
+        }
+    }
+}
+
+public static void main(String[] args) {
+    Balance account1 = new Balance(1000);
+    Balance account2 = new Balance(500);
+
+    Runnable counterparty1= ()->account1.transfer(account2,200);
+    Runnable counterparty2= ()->account2.transfer(account1,100);
+
+    new Thread(counterparty1).start();
+    new Thread(counterparty2).start();
+}
+
+}
+
+```
+
+The solution is using `tryLock()`.
+
+The diff between `tryLock()` and `lock()` is immediate return from `tryLock()` vs `lock()` blocking such as by `spinLock()` implementation to acquire a lock.
+
+In the code below, when `this.lock.tryLock()` fails acquiring a lock, it immediately returns following by `finally { this.lock.unlock(); }` releasing the lock, so that the another thread can succeed in `counterparty.lock.tryLock()`.
+Therefore, the dead lock scenario is avoided.
+
+```java
+public class Balance {
+
+...
+
+private final Lock lock = new ReentrantLock();
+
+public void transfer(Balance counterparty,int transferAmount) throws InterruptedException {
+    while (true) {
+        if (this.lock.tryLock()) {
+            try {
+                if (counterparty.lock.tryLock()) {
+                    try {
+                        if(amount< transferAmount){
+                            System.out.println("Withdrawal amount is greater than your remaining");
+                        }else{
+                            amount=amount-transferAmount;
+                            counterparty.amount=counterparty.amount+transferAmount;
+                        }
+                        break;
+                    } finally {
+                        counterparty.lock.unlock();
+                    }
+                }
+            } finally {
+                this.lock.unlock();
+            }
+        }
+        // set up a timeout clock so that the lock will be released nevertheless
+        Thread.sleep(1000+new Random(1000L).nextInt(1000));
+    }
+}
+
+public static void main(String[] args) {
+    ...
+}
+
+}
+
+```
+
 
 ## Daemon Thread
 

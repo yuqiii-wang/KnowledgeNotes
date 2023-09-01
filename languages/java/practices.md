@@ -290,8 +290,6 @@ List<Double> original = new List<Double>{1.0, 2.0};
 List<Double> copy = new ArrayList<Double>(original);
 ```
 
-## Numbers and Default Values
-
 ## `final`, `finally` and `finalize`
 
 `final` is used to declare a variable as immutable. 
@@ -403,3 +401,89 @@ public class MyTests {
     }
 }
 ``` 
+
+## Java I/O
+
+JAVA provides I/O services by the below classifications.
+
+* by word
+
+In `Reader`/`Writer` read/write two byte per time (or otherwise with implied encoding), interpretable to ASCII as well as Chinese characters. This mode is often used in `stdin` from keyboard, etc.
+
+```java
+import java.util.Scanner;
+
+// this is defined in `java.util.Scanner`
+public Scanner (@NotNull InputStream src) {
+  this(new InputStreamReader(src), WHITESPACE_PATTERN);
+}
+
+public class TestScanner {
+   public static void main(String[] args) {
+       Scanner scanner = new Scanner(System.in);
+       while (scanner.hasNextLine()){
+           System.out.println(scanner.nextLine());
+      }
+  }
+}
+```
+
+* by byte stream
+
+In `InputStream`/`OutputStream` read/write one byte per time. This mode is often used in file reading and writing.
+
+```java
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class CopyFileWithStream {
+   public static void main(String[] args) {
+       int b = 0;
+       String inFilePath = "D:\\wechat\\A.txt";
+       String outFilePath = "D:\\wechat\\B.txt";
+       try (FileInputStream in = new FileInputStream(inFilePath); 
+            FileOutputStream out = new FileOutputStream(outFilePath)) {
+           while ((b = in.read()) != -1) {
+               out.write(b);
+          }
+      } catch (IOException e) {
+           e.printStackTrace();
+      }
+  }
+}
+```
+
+* by buffer
+
+Added a buffer between program and disk file such as `BufferedInputStream` and `BufferedOutputStream`. The final read/write from/on a disk file is done by flush (or explicit read/write functions).
+
+The buffer works on top of an existing I/O stream.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/java_buffered_stream.jpeg" width="40%" height="15%" alt="java_buffered_stream" />
+</div>
+</br>
+
+```java
+import java.io.*;
+
+public class CopyFileWithBuffer {
+   public static void main(String[] args) throws Exception {
+       String inFilePath = "D:\\wechat\\A.txt";
+       String outFilePath = "D:\\wechat\\B.txt";
+       try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(inFilePath));
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outFilePath))) {
+           byte[] b = new byte[1024];
+           int off = 0;
+           while ((off = bis.read(b)) > 0) {
+               bos.write(b, 0, off);
+          }
+      }
+  }
+}
+```
+
+### Serialization and Deserialization
+
+`transient` in Java is used to indicate that a field should not be part of the serialization process.
