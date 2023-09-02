@@ -77,3 +77,9 @@ public class Employee {
 	}
 }
 ```
+
+## Data Access Object (DAO)
+
+DAO is used to isolate the application/business layer from the persistence layer (usually a relational database but could be any other persistence mechanism) using an abstract API that hides complex CRUD operations in the underlying storage mechanism.
+
+Jakarta Persistence API (JPA) is a popular specification of DAO.

@@ -75,3 +75,10 @@ Other enhancements to SACK
 1. Forward Acknowledgment (FACK)
 2. Duplicate Selective Acknowledgment (DSACK)
 3. Recent Acknowledgment (RACK)
+
+## TCP Packet Coalescing (粘包)
+
+TCP is a stream-based protocol.
+It doesn't preserve boundaries with respect to send/recv calls, hence custom delimiter is required in a custom protocol.
+
+For some reasons such as networking and bufferring, for a message composed of a sequence of TCP packets, there exists scenarios where two packets' payloads are overlapping/coalescing to each other.

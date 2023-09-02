@@ -57,6 +57,95 @@ The `TheadLocal` construct stores data that will be accessible only by a specifi
 
 `ThreadLocal` instances are typically private static fields in classes that wish to associate state with a thread (e.g., a user ID or Transaction ID).
 
+#### Example
+
+Given `Connection connect` (defined in `java.sql.Connection`) that is supposed to be shared among different threads, simply passing `Connection connect` across different threads is NOT thread safe.
+
+A naive solution is launching a new `Connection connect` in every thread, perform `connect.open();` when a thread picks up a task; perform `connect.close();` when a thread finishes a task (as typical in a thread pool working mechanism).
+Obviously, this is very time-consuming.
+
+By `ThreadLocal<Connection>` such as the code below, the `dbConnectionLocal` is a thread scope object.
+In other words, each thread maintains a independent `dbConnectionLocal`.
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConnectionManager {
+
+    private static final ThreadLocal<Connection> dbConnectionLocal = new ThreadLocal<Connection>() {
+        @Override
+        protected Connection initialValue() {
+            try {
+                return DriverManager.getConnection("", "", "");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    };
+
+    public Connection getConnection() {
+        return dbConnectionLocal.get();
+    }
+}
+```
+
+The implementation is by a `ThreadLocalMap` that takes the thread id as the key and the thread object addr as the value.
+So that the retrieved value/thread local object is unique per thread.
+
+```java
+public T get() {
+    Thread t = Thread.currentThread();
+    ThreadLocalMap threadLocals = getMap(t);
+    if (threadLocals != null) {
+        ThreadLocalMap.Entry e = threadLocals.getEntry(this);
+        if (e != null) {
+            @SuppressWarnings("unchecked")
+            T result = (T)e.value;
+            return result;
+        }
+    }
+    return setInitialValue();
+}
+```
+
+#### Thread Local Memory Leak
+
+`ThreadLocal<T>` must be used with `remove()` when a thread exits, otherwise memory leak happens.
+This is caused by `ThreadLocal<T>` being declared `static` that is out of a thread's scope, hence not being released by a thread.
+
+```java
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+public class ThreadLocalDemo {
+
+    // set up a thread pool
+    final static ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(5, 5, 1, TimeUnit.MINUTES,
+            new LinkedBlockingQueue<>());
+
+    // make localVariable as a `ThreadLocal<LocalVariable>`
+    static class LocalVariable {
+        private Long[] a = new Long[1024 * 1024];
+    }
+    final static ThreadLocal<LocalVariable> localVariable = new ThreadLocal<LocalVariable>();
+
+    // main: submit 50 tasks launching new `LocalVariable`
+    public static void main(String[] args) throws InterruptedException {
+        for (int i = 0; i < 50; ++i) {
+            poolExecutor.execute(new Runnable() {
+                public void run() {
+                    localVariable.set(new LocalVariable());
+                    localVariable.remove(); // `remove()` is mandatory, otherwise memory leak happens
+                }
+            });
+        }
+    }
+}
+```
 ## Blocking and Non-Blocking vs Sync and Async
 
 
