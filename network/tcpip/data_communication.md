@@ -1,11 +1,36 @@
 # Data Communication
 
-The IOS Data COmmunication Mode
+The IOS Data Communication Mode
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/osi-model-7-layers-1.png" width="30%" height="70%" alt="osi-model-7-layers-1" />
 </div>
 </br>
+
+* Frame: datalink layer
+* Cell: datalink layer
+* Packet: network layer
+* Datagram: network layer
+* Segment: transport layer
+* Message: usually referred to in application layer
+
+Packet vs Datagram 
+
+One is typically used for TCP containing sequence number and ack;
+another one is often used for UDP concerning only about delivery.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/packet_vs_datagram.png" width="40%" height="30%" alt="packet_vs_datagram" />
+</div>
+</br>
+
+## TCP vs UDP
+
+* TCP/IP needs ack for each sent packet, while UDP is not
+
+* TCP/IP is by design a stream-oriented protocol, while UDP is a packet-oriented protocol. 
+
+The "stream-based" indicates that, individual TCP packets on the recipient side should be coalesced/merged forming a message, different from UDP that one UDP packet itself is a message.
 
 ## MAC vs IP 
 

@@ -127,7 +127,7 @@ Java_java_nio_MappedByteBuffer_force0(JNIEnv *env, jobject obj, jobject fdo,
 
 Permanent Generation or “Perm Gen” (renamed to MetaSpace since Java 8) contains the application metadata required by the JVM to describe the classes and methods used in the application.
 
-### Young , Tenured and Perm generation
+### Young, Tenured and Perm generation
 
 All objects in the heap survive when they are being referenced. 
 When they're not more, the garbage collector (GC) will reclaim their memory.
@@ -155,7 +155,89 @@ The horizontal axis of the below figure is the degree of how likely an object ca
 </div>
 </br>
 
-### Common `OutOfMemoryError`
+### `OutOfMemoryError` (OOM Error) and Debug
+
+#### Heap Overflow
+
+`java.lang.OutOfMemoryError: Java heap space` happens when JVM cannot allocate a new space for object.
+
+Common causes could be generating too many memory holes or `-Xms` and `-Xmx` set too small.
+
+Example: in an infinite loop creating new objects.
+
+```java
+public class HeapOOM {
+
+   static class OOMObject {
+      private int val;
+   }
+
+   public static void main(String[] args) {
+     List<OOMObject> list = new ArrayList<OOMObject>();
+     // create many objects in an infinite loop
+     while (true) {
+        list.add(new OOMObject());
+     }
+   }
+}
+```
+
+#### PermGen/Meta Space Overflow
+
+`Caused by: java.lang.OutOfMemoryError: Metaspace` happens for PermGen/Meta space cannot hold enough memory to store class definition.
+
+For example, below code creates classes in a infinite loop that throws meta space overflow error.
+
+```java
+public class JavaMethodAreaOOM {
+ public static void main(String[] args) { 
+  while (true) {
+    Enhancer enhancer = new Enhancer();
+    enhancer.setSuperclass(OOMObject.class);
+    enhancer.setUseCache(false);
+    enhancer.setCallback(new MethodInterceptor() {
+      public Object intercept(Object obj, Method method,
+       Object[] args, MethodProxy proxy) throws Throwable {
+       return proxy.invokeSuper(obj, args);
+      }
+     });
+    enhancer.create();
+   }
+ }
+  static class OOMObject {
+    private int val;
+   }
+}
+```
+
+#### Stack Overflow
+
+If of `StackOverflowError`, check recursions are out of max limit.
+
+If of `OutOfMemoryError`, check is there is infinite loop launching new threads; check `-Xss`
+
+```java
+public class JavaVMStackOOM {
+ private void dontStop(){
+ while(true){
+
+}
+ }
+ public void stackLeakByThread(){
+ while(true){
+ Thread thread = new Thread(new Runnable(){
+ public void run() {
+                    dontStop();
+ }
+ });
+            thread.start();}
+ }
+ public static void main(String[] args) {
+ JavaVMStackOOM oom = new JavaVMStackOOM();
+        oom.stackLeakByThread();
+ }
+}
+```
 
 ## JVM Annotations
 

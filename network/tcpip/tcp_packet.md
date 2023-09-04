@@ -55,10 +55,6 @@ In rfc7323 - TCP Extensions for High Performance, TCP header uses a 16-bit field
 size to the sender.  Therefore, the largest window that can be
 used is $2^{16} = 64 \text{kb}$.
 
-### TCP Packet Loss
-
-
-
 ## Recovery
 
 TCP may experience poor performance when multiple packets are lost from one window of data. With the limited information available from cumulative acknowledgments, a TCP sender can only learn about a single lost packet per round trip time. 
@@ -76,9 +72,36 @@ Other enhancements to SACK
 2. Duplicate Selective Acknowledgment (DSACK)
 3. Recent Acknowledgment (RACK)
 
-## TCP Packet Coalescing (粘包)
+
+
+## TCP Packet Coalescing Loss (粘包)
 
 TCP is a stream-based protocol.
-It doesn't preserve boundaries with respect to send/recv calls, hence custom delimiter is required in a custom protocol.
+It does not preserve boundaries with respect to send/recv calls, hence custom delimiter is required.
 
-For some reasons such as networking and bufferring, for a message composed of a sequence of TCP packets, there exists scenarios where two packets' payloads are overlapping/coalescing to each other.
+### Nagle's Algorithm
+
+Angle's algorithm dissects a TCP message into small size segments.
+By 16-bit length as defined in TCP header, a TCP message should have a max of 65535 bytes.
+
+However, in practice, it should not be greater than MSS (Max Segment Size) = MTU (1500 bytes, Message Transmit Unit) - 20 bytes (IP head) - 20 bytes (TCP head).
+If a message is larger than 1500 bytes, segmentation happens.
+
+This is for Ethernet frame having roughly 1500 bytes (1500 bytes = 1518 bytes - 6 bytes (destination MAC addr) - 6 bytes (source MAC addr) - 2 bytes (protocol index code)), 
+and one TCP packet should conform this specification (as what Nagle's algorithm does) to reach optimal transmission speed over the internet.
+
+Nagle's algorithm has the below properties:
+* If packet length  > MSS, send the packet
+* If all small packets < MSS have received ACK, send new packets
+* If packet has `FIN`, send the packet
+* If timeout (> 200 ms), send the packet
+
+### TCP Packet Coalescing Loss Reason
+
+Since TCP packets should be coalesced/merged, there exists a possible problem where during coalescing, there are packets (partially) lost, or supposed independent messages merged into one semantically wrong message in business logic. 
+
+Coalescing loss happens when
+* recipient buffer is small resulted in partial loss
+* multi threading/async accessing the same buffer (I/O Multiplexing)
+
+Packet Coalescing issues can be addressed by adding custom delimiter.
