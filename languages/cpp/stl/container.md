@@ -51,15 +51,37 @@ typedef std::string	std::basic_string<char>
 typedef std::u8string td::basic_string<char8_t> // since c++20
 ```
 
-* `std::basic_string_view`
+* `std::string_view`
 
-The class template `basic_string_view` describes an object that can refer to a constant contiguous sequence of `char`-like objects with the first element of the sequence at position zero.
-
-A typical implementation holds only two members: a pointer to constant CharT and a size.
-
-Example:
+In the below code, `func(s)` passes `s` as `const std::string&s` that does not incur any cost.
+However, `func("haha");` would invoke implicit `std::string` constructor, whose product is a right value that has limited lifecycle, hence the `return s` is problematic.
 ```cpp
-std::string_view good_str{"a string literal"};
+std::string& func(const std::string&s){
+    std::cout << s << '\n';
+    return s;
+}
+
+int main(){
+    std::string s{"haha"};
+    func("haha");
+    func(s);
+}
+```
+
+The above issue can be solved by `std::string_view`.
+`std::string_view` only stores a pointer and the string size.  
+```cpp
+void func(std::string_view s){
+    std::cout << s << '\n';
+}
+
+int main(){
+    std::string s{"haha"};
+    const char* c = "haha";
+    func("haha");
+    func(s);
+    func(c);
+}
 ```
 
 * `std::iostream`

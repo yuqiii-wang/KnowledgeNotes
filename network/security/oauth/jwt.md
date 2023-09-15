@@ -29,7 +29,8 @@ HMACSHA256(
 ```
 
 A typical usage:
-`Authorization` in header of an https request for protected resources as specified in claims of this jwt. Cross-Origin Resource Sharing (CORS) won't be an issue as it doesn't use cookies
+`Authorization` in header of an https request for protected resources as specified in claims of this jwt. 
+Cross-Origin Resource Sharing (CORS) won't be an issue as it doesn't use cookies
 ```
 Authorization: Bearer <token>
 ```

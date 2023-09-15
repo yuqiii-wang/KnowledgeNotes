@@ -376,6 +376,44 @@ Object x[] = new String[3];
 x[0] = new Integer(0);
 ```
 
+### `throw` and `throws` in Java
+
+`throw` is used to explicitly throw an exception from a method or any block of code.
+
+```java
+// Java program to illustrate throws
+class test {
+    public static void main(String[] args)
+    {
+        throw new IllegalArgumentException("Invalid args: " + args);
+    }
+}
+```
+
+`throws` is used to output thrown exceptions to be caught in `catch`.
+
+```java
+// Java program to demonstrate working of throws
+class ThrowsExecp {
+ 
+    static void fun() throws IllegalAccessException
+    {
+        System.out.println("Inside fun(). ");
+        throw new IllegalAccessException("demo");
+    }
+ 
+    public static void main(String args[])
+    {
+        try {
+            fun();
+        }
+        catch (IllegalAccessException e) {
+            System.out.println("caught in main.");
+        }
+    }
+}
+```
+
 
 ## JUnit Test
 

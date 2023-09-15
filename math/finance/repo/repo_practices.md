@@ -66,7 +66,7 @@ involved in borrowing or lending collateralized cash
 
 ## Business Motivations
 
-* United States Federal Reserve Used Repo for Federal Funds Rate (FFR) Adjustment
+* The United States Federal Reserve Used Repo for Federal Funds Rate (FFR) Adjustment
 
 Repurchase agreements add reserves to the banking system and then after a specified period of time withdraw them; 
 reverse repos initially drain reserves and later add them back. 
@@ -79,6 +79,17 @@ It is based entirely on transactions (not estimates), hence serving a good alter
 
 SOFR reflects transactions in the Treasury repo market, that in the Treasury repo market, people borrow
 money using Treasury debt as collateral. 
+
+
+* The United States Federal Overnight Reverse Repo (O/N RRP)
+
+This is a cash liquidity management tool that attracts depository institutions to place money in the Fed who pays interests to the depository institutions, so that less funds are being lent in the market.
+
+The Federal Reserve manages *overnight interest rates* (the rates at which banks lend funds to each other at the end of the day in the overnight market to meet federally-mandated reserve requirements) by setting the *interest on reserve balances* (IORB) rate, which is the rate paid to depository institutions (e.g., banks) on balances maintained at Federal Reserve Banks.
+
+Every day, the Federal Reserve accepts overnight cash investments from banks, government-sponsored enterprises (the housing agencies plus the Federal Home Loan Banks), and money market mutual funds and provides Treasury securities (gov bonds) as collateral at its Overnight Reverse Repurchase Agreement (ON RRP) facility.
+
+The overnight means the repo has a duration of one night.
 
 ## Risks
 

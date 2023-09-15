@@ -22,7 +22,7 @@ for $i=1,2,...,K$ and $\bold{z}=(z_1, z_2, ..., z_K)\in \mathbb{R}^K$
 
 Now define $\bold{z}=\bold{x}^\text{T}\bold{w}$, there is
 $$
-softmax \space (y=j | \bold{x})
+\text{softmax} \space (y=j | \bold{x})
 =
 \frac{e^{\bold{x}^\text{T}\bold{w}_j}}{\sum^K_{k=1}e^{\bold{x}^\text{T}\bold{w}_k}}
 $$

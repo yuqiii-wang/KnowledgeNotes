@@ -113,13 +113,15 @@ Widget makeWidget()
 Widget w;
 return std::move(w);// Moving version of makeWidget
                     // move w into return value
-                    // (don't do this!)
+                    // (don't do this as unnecessary)
 }
 ```    
 
 ### Default Move On Return Value (Since C++17)
 
 Compiler guarantees copy elision (since c++17).
+
+The code below see no output prints for the copy constructor is not invoked.
 
 ```cpp
 struct C {
@@ -128,17 +130,106 @@ struct C {
 };
  
 C f() {
-  return C(); //Definitely performs copy elision
+  return C(); // Definitely performs copy elision (copy constructor isn't called, no "Copy constructor invoked\n" got printed)
 }
 C g() {
     C c;
-    return c; //Maybe performs copy elision
+    return c; // May perform copy elision (copy constructor isn't called, no "Copy constructor invoked\n" got printed) depending on c++ standard
 }
  
 int main() {
-  std::cout << "Hello World!\n";
-  C obj = f(); //Copy constructor isn't called
+  C obj1 = f(); // Copy constructor isn't called
+  C obj2 = g(); // Copy constructor isn't called
 }
+```
+
+### Effective and Ineffective `std::move` in Return
+
+In the code below, see `C g() { ...; return c; }` and `C h() { ...; return std::move(c); }`, 
+
+* `g()` implicitly calls move constructor by copy elision (it is implicit, so that no `"Move constructor invoked\n"` is displayed, but only default is enough).
+* The `std::move` in `h()` is unnecessary even negative optimization, that twice constructions happened (one for default, one for move), and this is redundant.
+
+A good optimization should only see one constructor called, hence the `h();` is a bad implementation.
+
+By checking `~C();`, the `h();` would see twice `"Destructor invoked\n"` since it creates two objects.
+
+```cpp
+struct C {
+  C() { std::cout << "Default constructor invoked\n"; }
+  C(const C&) { std::cout << "Copy constructor invoked\n"; }
+  C(const C&&) { std::cout << "Move constructor invoked\n"; }
+  ~C() { std::cout << "Destructor invoked\n"; }
+};
+ 
+C f() {
+  return C(); // Definitely performs copy elision (copy constructor isn't called, no "Copy constructor invoked\n" got printed)
+}
+C g() {
+    C c;
+    return c; // May perform copy elision (copy constructor isn't called, no "Copy constructor invoked\n" got printed) depending on c++ standard
+}
+C h() {
+    C c;
+    return std::move(c); // no need 
+}
+int main() {
+  C obj1 = f(); // print "Default constructor invoked"
+  std::cout << "===========\n";
+  C obj2 = g(); // print "Default constructor invoked"
+  std::cout << "===========\n";
+  C obj3 = h(); // print "Default constructor invoked\nMove constructor invoked\nDestructor invoked"
+  std::cout << "===========\n";
+} // print three times "Destructor invoked\n"
+```
+
+* Caution: the below is undefined behavior
+
+```cpp
+C&& f(){
+    C c;
+    return std::move(c);
+}
+```
+
+* Effective `std::move` in return: class member is not an implicit movable, hence `return` results in calling copy constructor. Explicit move constructor invocation is required.
+
+In the code below `C c;` is a member of `CWrapper`.
+In `CWrapper::h();`, the move constructor is only called once, and in `CWrapper::g();` there is no copy elision such that the copy constructor is called.
+
+```cpp
+struct C {
+  C() { std::cout << "Default constructor invoked\n"; }
+  C(const C&) { std::cout << "Copy constructor invoked\n"; }
+  C(const C&&) { std::cout << "Move constructor invoked\n"; }
+  ~C() { std::cout << "Destructor invoked\n"; }
+};
+
+struct CWrapper {
+    
+  C c;
+    
+  C f() {
+    return C(); 
+  }
+  C g() {
+      return c; 
+  }
+  C h() {
+      return std::move(c); // only called once
+  }
+};
+
+int main() {
+  CWrapper cWrapper; // print "Default constructor invoked"
+  std::cout << "===========\n";
+  C obj1 = cWrapper.f(); // print "Default constructor invoked"
+  std::cout << "===========\n";
+  C obj2 = cWrapper.g(); // print "Copy constructor invoked"
+  std::cout << "===========\n";
+  C obj3 = cWrapper.h(); // print "Move constructor invoked"
+  std::cout << "===========\n";
+} // print four times "Destructor invoked"
 ```
 
 ## Small String Optimization (SSO)

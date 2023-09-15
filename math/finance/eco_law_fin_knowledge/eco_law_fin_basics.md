@@ -296,3 +296,25 @@ A currency-linked investment product is a structured investment product that con
 Established in 2011, the Renminbi Qualified Foreign Institutional Investor (RQFII) program is a policy initiative that allows foreign investors who hold the RQFII quota to invest directly in Mainland China’s bond and equity markets.
 
 It is a step for China to loosen capital controls and internationalize RMB.
+
+* Buyout (股权收购)
+
+Pay in cash obtaining partial ownership of a company (buy stock).
+
+Management buyout: senior management people 
+
+Employee buyout: employees
+
+Leverage buyout: by borrowed money
+
+* Preferred vs Common stocks
+
+A common stocks offers voting rights to shareholders and the issuer may choose to pay shareholders dividends.
+
+A preferred stock pays stockholders set dividend payments on a regular schedule, but does not have voting rights or as much potential for capital appreciation as common stock.
+
+* Delivery by Value (DBV)
+
+DBV is a Euroclear UK and International collateral product that allows firms to borrow cash on a fully collateralised and secure basis.
+
+The term "by value" means the used collateral's value is calculated by Euroclear UK and International via marked to market (MTM) high liquidity stocks and bonds.

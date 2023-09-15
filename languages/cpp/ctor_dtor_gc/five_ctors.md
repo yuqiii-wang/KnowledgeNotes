@@ -2,6 +2,13 @@
 
 Given a class, there should be at least one constructor (if not defined, compiler would create one for you).
 
+The five constructors are
+* Default: `A() { ... };`
+* Copy Constructor: `A(const A& a) { ... };`
+* Copy Assignment: `A& operator=(const A& a) { ... };`
+* Move Constructor: `A(A&& other) noexcept { ... };`
+* Move Assignment: `A& operator=(A&& a) noexcept { ... };`
+
 ### Default 
 
 A default constructor does nothing when invoked, such as
