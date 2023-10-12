@@ -2,7 +2,7 @@
 
 ## Tokenization
 
-Tokenization is used in natural language processing (NLP) to split paragraphs and sentences into smaller units that can be more easily assigned meaning.   
+Tokenization is used in natural language processing (NLP) to split paragraphs and sentences into smaller units that can be more easily assigned semantics.   
 
 For example, in English, the sentence
 ```txt

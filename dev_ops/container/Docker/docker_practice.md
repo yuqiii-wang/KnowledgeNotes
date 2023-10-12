@@ -76,6 +76,37 @@ COPY [--chown=<user>:<group>] ["<src>",... "<dest>"]
 
 ```
 
+### Syntax Explained
+
+* `FROM ImageName`
+
+`FROM` creates a layer from the `ImageName` such as `ubuntu:22.04`.
+
+* `RUN <command>` vs `CMD command`
+
+`RUN` is an image build step, the state of the container after a RUN command will be committed to the container image. A Dockerfile can have many RUN steps that layer on top of one another to build the image.
+
+`CMD` is the command the container executes by default when you launch the built image.
+The `CMD` can be overridden when starting a container with `docker run $image $other_command`.
+
+* `ADD <src> <dest>` vs `COPY <src> <dest>`
+
+`COPY` simply copies files/directories from user's host machine to Docker image.
+
+`ADD` besides copying files/directories, can download from URl and extract zip/tar to Docker image.
+
+* `EXPOSE`
+
+It is used for port listening.
+
+## Docker Cmd
+
+### Volume
+
+ `docker volume create [OPTIONS] [VOLUME]`
+
+### Port Mapping
+
 ## Check Docker
 
 Check Docker

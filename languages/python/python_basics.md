@@ -84,3 +84,69 @@ def Bar(func, *args, **kwargs):
 
 Bar(Foo, x="1") # pass Foo as a func handle with kwargs["x"]
 ```
+
+## Call by Reference vs by Value
+
+* by value: immutable values such as immediate numbers, strings, tuples
+
+```python
+stringExample = "test"
+
+def testStr(str: string):
+    string = "test 2"
+    print(string)
+
+testStr(stringExample) # print "test 2"
+print(stringExample)   # print "test", shows that the original string does not change
+```
+
+* by reference: mutable values such as lists and dict
+
+```python
+listExample = [1,2,3]
+
+def testList(list: listExample):
+    listExample.append(4)
+    print(listExample)
+
+testList(listExample) # print "[1, 2, 3, 4]"
+print(listExample)   # print "[1, 2, 3, 4]", shows that the original list is updated.
+```
+
+To make a string pass-by-reference, a typical solution is wrapping the string in a list `[stringExample]`, then accessing/updating it by `[0] = [0] + " test"`.
+
+### Object Bindings and Containers
+
+For the same content such as two string objects containing the same chars, they are treated as containers to the source chars.
+
+For example, below strings `a` and `b` have the same addr/id.
+
+```python
+a = "test"
+b = "test"
+ 
+# Returns the actual location 
+# where the variable is stored
+print(id(a)) # print "140285250931248"
+print(id(b)) # print "140285250931248"
+ 
+# Returns true if both the variables
+# are stored in same location
+print(a is b) # print "True"
+```
+
+Below lists `a` and `b` have diff addrs/ids.
+
+```python
+a = [1,2,3]
+b = [1,2,3]
+ 
+# Returns the actual location 
+# where the variable is stored
+print(id(a)) # print "140285250915200"
+print(id(b)) # print "140285250930944"
+ 
+# Returns true if both the variables
+# are stored in same location
+print(a is b) # print "False"
+```
