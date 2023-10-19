@@ -32,6 +32,10 @@ auto lambdaPerThread = [&](int threadId; int threadTotalNum)
 }
 ```
 
+### Allowed Exception for Fast Access
+
+For example, for `std::vector<int> v;`, access by `v[0]` is preferred over `v.at(0)` for the `at(...)` method does additional safety checking.
+
 ### Large Matrix Computation Optimization
 
 When performing 

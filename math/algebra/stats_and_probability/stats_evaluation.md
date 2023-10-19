@@ -1,5 +1,18 @@
 # Prediction Performance Evaluation
 
+## Variability
+
+Variability is the extent to which data points in a statistical distribution or data set diverge.
+
+Variance is a measure of Variability.
+
+Given variability of sample distribution, there are
+* The value of the statistic varies from sample to sample.
+* The values of the statistic may not be exactly equal to the value of the parameter.
+* Larger random samples have smaller spreads/variability.
+* The variability of the sampling distribution of the sample mean decreases as the sample size grows.
+* The standard deviation of the sample mean decreases in proportion to the square root of the sample size.
+
 ## Statistical Significance
 
 ### T Test
