@@ -81,6 +81,7 @@ public class Salary extends Employee {}
 A class implements an `interface`, thereby inheriting the abstract methods of the interface.  
 It is a collection of abstract methods. It defines `abstract` type
 
+In C++, this is equivalent to 
 ```java
 interface Animal {
    public void eat();

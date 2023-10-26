@@ -195,9 +195,75 @@ int main()
 }
 ```
 
+### Function Pointer vs `std::function`
 
-### `std::function` performance issues
+A function pointer such as `double (*f)(double, double)` can be regarded as a purely pointer that does not carry any stored values/variables.
 
-Reference source: https://blog.demofox.org/2015/02/25/avoiding-the-performance-hazzards-of-stdfunction/
+`std::function` on the other hand, has many use cases:
 
-## 
+Given
+```cpp
+double addDouble(double a, double b) {
+    return a + b;
+}
+
+struct AddDouble {
+    double addDouble(double a, double b) {
+       return a + b;
+    }
+}
+```
+
+there are
+```cpp
+// function itself
+std::function<double(double, double)> f_addDouble = addDouble;
+f_addDouble(1.0, 2.0);
+
+// lambda expression
+std::function<double(double, double)> f_addDouble_lambda_1_2 = []() { addDouble(1.0, 2.0) };
+f_addDouble_lambda_1_2();
+
+// bind
+std::function<double(double, double)> f_addDouble_bind_1_2 = std::bind(addDouble, 1.0, 2.0);
+f_addDouble_bind_1_2();
+
+// pass `this` pointer
+std::function<double(const AddDouble&, double, double)> f_addDouble_this_1_2 = &AddDouble::addDouble;
+AddDouble addDoubleObj;
+f_addDouble_this_1_2(addDoubleObj, 1.0, 2.0);
+```
+
+### `std::function` Implementation and Dynamic Mem Allocation
+
+When a  `std::function` is call, the functor is created via either `new` or placement new.
+
+* Init
+
+```cpp
+// placement new
+static void _M_init_functor(_Any_data& __functor, const _Functor& __f) {
+    ::new (__functor._M_access()) _Functor(std::move(__f));
+}
+
+// new
+static void _M_init_functor(_Any_data& __functor, const _Functor& __f) {
+    __functor._M_access<Functor*>() = new _Functor(std::move(__f));
+}
+```
+
+Accordingly, when this function exits, the destructor is called releasing resources.
+
+* Destruction
+
+```cpp
+// Destroying a location-invariant object may still require destructor (a.k.a. placement new scenario)
+static void _M_destroy(_Any_data& __victim, true_type) {
+    __victim._M_access<_Functor>().~_Functor();
+}
+     
+// Destroying an object located on the heap.
+static void _M_destroy(_Any_data& __victim, false_type) {
+    delete __victim._M_access<_Functor*>();
+}
+```
