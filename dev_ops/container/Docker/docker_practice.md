@@ -10,7 +10,7 @@ Example run as a check to success of installation:
 docker run -d -p 80:80 docker/getting-started
 ```
 
-Cmd docker start:
+Cmd docker start (tested on ubuntu):
 ```bash
 # start docker
 service docker start
@@ -50,6 +50,9 @@ FROM ImageName
 # Environment variable substitution will use the same value for each variable throughout the entire instruction. 
 ENV abc=hello
 
+# Similar to ENV, but ARG is mutable while ENV is immutable
+ARG efg=world
+
 # (shell form, the command is run in a shell, which by default is /bin/sh -c on Linux or cmd /S /C on Windows)
 RUN <command> 
 # (exec form)
@@ -74,6 +77,8 @@ ADD [--chown=<user>:<group>] ["<src>",... "<dest>"]
 COPY [--chown=<user>:<group>] <src>... <dest>
 COPY [--chown=<user>:<group>] ["<src>",... "<dest>"]
 
+# Add key-value pairs to this container
+LABEL <key>=<value> <key>=<value> <key>=<value> ...
 ```
 
 ### Syntax Explained
@@ -95,11 +100,61 @@ The `CMD` can be overridden when starting a container with `docker run $image $o
 
 `ADD` besides copying files/directories, can download from URl and extract zip/tar to Docker image.
 
+* `LABEL` vs `ENV` vs `ARG`
+
+`LABEL` (for example, `LABEL version="1.0"`) sets image-level metadata, so it will be the same for all containers created from this image.
+
+It can be used to provide human-readable texts such as below use cases.
+
+```Dockerfile
+LABEL version="1.0"
+LABEL description="This is a hello world project."
+```
+
+`ENV` and `ARG` are used during image building for other instructions, such as variable substitution.
+
+```Dockerfile
+ENV binName=hello
+CMD $binName
+```
+
+`ENV` is immutable.
+For example, `ENV_VAR` cannot be updated.
+
+```Dockerfile
+ENV ENV_VAR=1
+ENV ENV_VAR=2
+```
+
+`ARG` is same as `ENV` except that it is mutable.
+For example, below `ARG_VAR` can be successfully updated.
+
+```Dockerfile
+ARG ARG_VAR=1
+ARG ARG_VAR=2
+```
+
 * `EXPOSE`
 
 It is used for port listening.
 
 ## Docker Cmd
+
+* `docker run <ImageName>` - This command is used to start a new Docker container from an image. `-it` option indicates stdin and psuedo-TTY terminal. In other words, it provides an interative terminal.
+* `docker ps` - This command is used to list all the running Docker containers. `-a` option displays history containers
+* `docker stop <ImageName>` - This command is used to stop a running container.
+* `docker rm <ImageName>` - This command is used to remove a Docker container.
+* `docker images` - This command is used to list all the Docker images that are currently available on your system.
+* `docker pull` - This command is used to download a Docker image from a registry.
+* `docker exec <ContainerName>` - This command is used to execute a command in a running container.
+
+Example:
+```bash
+# 
+docker run --name my_container -d -i -t alpine /bin/sh
+
+docker exec -it my_container sh -c "echo a && echo b"
+```
 
 ### Volume
 

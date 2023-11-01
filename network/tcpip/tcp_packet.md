@@ -72,7 +72,37 @@ Other enhancements to SACK
 2. Duplicate Selective Acknowledgment (DSACK)
 3. Recent Acknowledgment (RACK)
 
+### SACK
 
+Motivation:
+traditional req/ack mechanism is expensive as in the below example where seg 2 is lost, client keeps responding with ack 1 and server has to resend seg 2, 3 and 4, some of which have already received in the client's buffer.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tcp_normal_ack.png" width="30%" height="50%" alt="tcp_normal_ack" />
+</div>
+</br>
+
+The above seg 3 and 4 retransmissions are not necessary.
+
+Selective Acknowledgments (SACK) is an option in a tcp packet that indicates on which sequence number it acknowledged.
+
+By SACK, server only needs to send the missing packets not from the start of a normal ACK.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tcp_sack.png" width="30%" height="50%" alt="tcp_sack" />
+</div>
+</br>
+
+The content of an SACK is shown as below. In total, it has 78 bytes of size.
+
+78 = 14 Ethernet head + 20 IPv4 head + 44 TCP head (20 + 24 TCP Options）)
+
+It specifies the left and right edges of data that has been received beyond the packet's acknowledgment number.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tcp_sack_content.png" width="30%" height="40%" alt="tcp_sack_content" />
+</div>
+</br>
 
 ## TCP Packet Coalescing Loss (粘包)
 
@@ -115,23 +145,6 @@ If failed, there might be parially ended segments whose remaining parts are in n
 
 One issue in this implementation is that, as in `storeDataInSessionCache` there might be accumulating TCP payloads that lead to buffer overflow if there is one payload has a faulted segment, and this segment will never pass `checkDataValid(...)`.
 
-### Nagle's Algorithm
-
-Angle's algorithm dissects a TCP message into small size segments.
-By 16-bit length as defined in TCP header, a TCP message should have a max of 65535 bytes.
-
-However, in practice, it should not be greater than MSS (Max Segment Size) = MTU (1500 bytes, Message Transmit Unit) - 20 bytes (IP head) - 20 bytes (TCP head).
-If a message is larger than 1500 bytes, segmentation happens.
-
-This is for Ethernet frame having roughly 1500 bytes (1500 bytes = 1518 bytes - 6 bytes (destination MAC addr) - 6 bytes (source MAC addr) - 2 bytes (protocol index code)), 
-and one TCP packet should conform this specification (as what Nagle's algorithm does) to reach optimal transmission speed over the internet.
-
-Nagle's algorithm has the below properties:
-* If packet length  > MSS, send the packet
-* If all small packets < MSS have received ACK, send new packets
-* If packet has `FIN`, send the packet
-* If timeout (> 200 ms), send the packet
-
 ### TCP Packet Coalescing Loss Reason
 
 Since TCP packets should be coalesced/merged, there exists a possible problem where during coalescing, there are packets (partially) lost, or supposed independent messages merged into one semantically wrong message in business logic. 
@@ -141,3 +154,20 @@ Coalescing loss happens when
 * multi threading/async accessing the same buffer (I/O Multiplexing)
 
 Packet Coalescing issues can be addressed by adding custom delimiter.
+
+## Nagle's Algorithm
+
+Angle's algorithm disambbles a TCP message into small size segments for easy process by DataLink layer.
+By 16-bit length as defined in TCP header, a TCP message should have a max of 65535 bytes.
+
+However, in practice, it should not be greater than MSS (Max Segment Size) = MTU (1500 bytes, Message Transmit Unit) - 20 bytes (IP head) - 20 bytes (TCP head).
+If a message is larger than 1500 bytes, segmentation at DataLink layer happens.
+
+This is for Ethernet frame having roughly 1500 bytes (1500 bytes = 1518 bytes - 6 bytes (destination MAC addr) - 6 bytes (source MAC addr) - 2 bytes (protocol index code)), 
+and one TCP packet should conform this specification (as what Nagle's algorithm does) to reach optimal transmission speed over the internet.
+
+Nagle's algorithm has the below properties:
+* If packet length  > MSS, send the packet
+* If all small packets < MSS have received ACK, send new packets
+* If packet has `FIN`, send the packet
+* If timeout (> 200 ms), send the packet

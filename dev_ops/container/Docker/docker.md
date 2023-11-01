@@ -9,6 +9,12 @@ Docker can package an application and its dependencies in a virtual container on
 
 Docker images are "compiled" from Dockerfile; depending on the levels of inclusion, an image can be with or without dependencies such as SDKs.
 
+* Concept: Container vs Image
+
+Image is the template (aka *Dockerfile*) loaded onto the container to run it, like a set of instructions, created from software code, dependencies, libraries, and a Dockerfile.
+
+Container is a runnable software application or service, created from an image.
+
 ## Docker Image Lifecycle
 
 * Created: create a container from an image `docker create --name <container name> <image name>`
@@ -41,6 +47,35 @@ To remove all containers, use `sudo docker rm $sudo( docker ps -a -q)`
       <img src="imgs/docker_img_lifecycle.png" width="40%" height="30%" alt="docker_img_lifecycle" />
 </div>
 </br>
+
+## Docker Container Resource Isolation 
+
+### Namespace
+
+In Linux, namespace refers to Mount (mnt), Process ID (pid), User ID (user), etc.
+Such resource namespace only provides a high-level view of resource isolation; the underlying resources might be shared, such as `.so` files are mapped to the same physical memory space.
+
+Namespace in Docker is an isolation design that wraps Linux namespace implementation.
+
+Common Docker namespace types:
+* Process ID
+* Mount
+* IPC (Interprocess communication)
+* User
+* Network
+
+### `CGroups` (Control Groups)
+
+`CGroups` is used to limit resource consumption such as CPU and memory.
+
+Common Docker `CGroups` types:
+* CPU
+* Memory
+* Network Bandwidth
+* Disk
+* Priority
+
+For example, to lock one CPU core dedicated to running one docker, do it by `docker run -d --name='<ContainerName>' --cpuset-cpus=0 <ImageName>`.
 
 ## Docker Sock
 

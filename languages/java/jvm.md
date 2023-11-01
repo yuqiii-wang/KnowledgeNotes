@@ -304,6 +304,14 @@ G1 redefines heap layout that is segmented to many *regions*.
 
 G1 has a built prediction algorithm that estimates what sizes of objects at what time they will be demised, so that it can better arrange regions into a continuous memory area.
 
+* ZGC
+
+
+
+### G1 vs ZGC
+
+Generally speaking, G1 is for generic use, ZGC is for high throughput scenario.
+
 ### Log
 
 * `-verbose:gc-Xloggc:$CATALINA_HOME/logs/gc.log`
