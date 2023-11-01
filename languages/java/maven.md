@@ -29,3 +29,15 @@ This command compiles the java source classes of the maven project.
 This command builds the maven project and packages them into a JAR, WAR, etc.
 
 ## pom.xml
+
+A minimal `POM.xml`
+
+```xml
+<project>
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <groupId>com.mycompany.app</groupId>
+  <artifactId>my-app</artifactId>
+  <version>1</version>
+</project>
+```

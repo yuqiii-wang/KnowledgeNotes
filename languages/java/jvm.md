@@ -51,6 +51,8 @@ The original JVM was conceived as a bytecode interpreter.
 
 Java Just In Time (JIT) compiler takes to be executed byte code and compiles it into machine code at run time.
 
+In other words, the compiled `.class` files contain java byte code that is executable/compatible on multiple platforms; JIT converts the java byte code into machine code when the `.class` is loaded/executed.
+
 <div style="display: flex; justify-content: center;">
       <img src="imgs/java_jit_vs_jvm.png" width="40%" height="30%" alt="java_jit_vs_jvm" />
 </div>
@@ -218,24 +220,24 @@ If of `OutOfMemoryError`, check is there is infinite loop launching new threads;
 
 ```java
 public class JavaVMStackOOM {
- private void dontStop(){
- while(true){
-
-}
- }
- public void stackLeakByThread(){
- while(true){
- Thread thread = new Thread(new Runnable(){
- public void run() {
-                    dontStop();
- }
- });
-            thread.start();}
- }
- public static void main(String[] args) {
- JavaVMStackOOM oom = new JavaVMStackOOM();
-        oom.stackLeakByThread();
- }
+    private void dontStop(){
+        while(true){}
+    }
+    
+    public void stackLeakByThread(){
+        while(true){
+            Thread thread = new Thread(new Runnable(){
+            public void run() {
+                dontStop();
+            }
+        });
+        thread.start();}
+    }
+    
+    public static void main(String[] args) {
+    JavaVMStackOOM oom = new JavaVMStackOOM();
+           oom.stackLeakByThread();
+    }
 }
 ```
 

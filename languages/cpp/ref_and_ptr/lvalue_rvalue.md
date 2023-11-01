@@ -37,7 +37,7 @@ void foo(X&& x) { foo(x); }
 void foo(const X& x){}
 ```
 
-## Example
+## Examples
 
 ### lvalue reference must either be a const or take an addr
 

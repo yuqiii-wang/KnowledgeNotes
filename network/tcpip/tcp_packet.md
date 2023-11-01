@@ -79,6 +79,42 @@ Other enhancements to SACK
 TCP is a stream-based protocol.
 It does not preserve boundaries with respect to send/recv calls, hence custom delimiter is required.
 
+TCP hides underlying protocols extracting packets' payload so that all payloads are placed in user's buffer in a sequencial order, appeared as a "stream".
+
+For example, when buffer is full, there is partial data loss, that the recieved payloads appeared to be adhering something gibberish.
+
+### Example
+
+In the scenario of high throughput, often do not directly use HTTPS, but wrap TCP in a custom protocol, such as reading binary stream and dissecting by dilimiter.
+
+For example, there is a custom function `decode(data, length);` that decodes a TCP payload, inside which there are a number of custom segments. 
+The custom binary packets can be separated by delimiters.
+
+A easy psyudo code implementation is shown as below.
+
+```cpp
+std::vector<T> decode(char* data, int length, char delimiter)
+{
+    std::vector<T> decodedData;
+    if (!checkDataValid(data, length)) {
+        storeDataInSessionCache(data, length); // segments are stored in cache that will be coalesced with next TCP payload
+    }
+    else {
+        while (isRemainingData(data, length)) {
+            decodedData.push_back(extractOnePacket(data, length, delimiter));
+        }
+        clearBuffer(data);
+    }
+    return decodedData;
+}
+```
+
+Since there is no knowledge that packets in `data` are all valid, there should be a check. 
+If check is good, segments are extracted one by one in `extractOnePacket(...)`.
+If failed, there might be parially ended segments whose remaining parts are in next TCP payload, hence should cache the this TCP packet.
+
+One issue in this implementation is that, as in `storeDataInSessionCache` there might be accumulating TCP payloads that lead to buffer overflow if there is one payload has a faulted segment, and this segment will never pass `checkDataValid(...)`.
+
 ### Nagle's Algorithm
 
 Angle's algorithm dissects a TCP message into small size segments.
