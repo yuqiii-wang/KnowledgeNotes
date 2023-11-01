@@ -27,13 +27,13 @@ The main difference between one-tailed and two-tailed tests is that one-tailed t
 </div>
 </br>
 
-Two-tailed tests can be used in scenarios where 
+Two-tailed tests can be used in scenarios  
 
 ### Effect Size
 
 Effect size is a measure that describes the magnitude of a treatment effect/ phenomenon.
 
-It is quantitatively measured by *Cohen's d* such that $d=\frac{\text{mean difference}}{\text{standard deviation}(\sigma_X)}$ 
+It is quantitatively measured by *Cohen's d* such that $d=\frac{\text{mean difference}}{\text{standard deviation}(\sigma_X)}$ .
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/effect_size.png" width="30%" height="30%" alt="effect_size" />
