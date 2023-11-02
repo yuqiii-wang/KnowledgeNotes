@@ -82,6 +82,63 @@ where
 
 To check the failure reason/OS termination signal, use `print$_siginfo`.
 
+### Example: Examine Variables
+
+Assume there is a message that has two fields `a` and `c`, and a function `void MyLoading::loadTypeOneMsg(Msg *msg)` that loads this message.
+
+```cpp
+struct Msg {
+    int a;
+    int b;
+};
+```
+
+Need enabling address loading before start.
+```txt
+(gdb) set print address on
+```
+
+By GDB, there is a segmentation fault.
+
+First go by `where` locating the faulted function such as below
+```txt
+#0 0x00000000736a74 in std::string::length() const () from /lib64/lobstdc++.so.6
+#1 ...
+#2 0x00000000769d91 in operator== (lhs=..., rhs=...) at /opt/...
+#3 0x00000000812a23 in MyLoading::loadTypeOneMsg(this=0x104310ff, msg=0x289aa834) at MyLoading.cpp:78
+#4 0x00000000827d10 in MyLoading::tryGenericLoading(this=0x104310ff, msg=0x289aa834) at MyLoading.cpp:24
+...
+```
+
+To print the content of the `msg` referenced by the pointer `0x289aa834`:
+```txt
+(gdb) p *(class Msg*)0x289aa834
+$1 = { a = { data_ = 7 }, b = { data_ = 8 } }
+```
+
+To display a particular member of the object `msg`, there is 
+```txt
+(gdb) p (*(class Msg*)0x289aa834).a
+$2 = { a = { data_ = 7 } }
+```
+
+To further examine the which line of code failed, as shown above by `where` that the failed frame is `#3`, examine by `f 3`
+```txt
+(gdb) f 3
+#3 0x00000000812a23 in MyLoading::loadTypeOneMsg(this=0x104310ff, msg=0x289aa834) at MyLoading.cpp:78
+this->getCField() == "C" at MyLoading.cpp:83
+```
+
+To find the relavant local variables, examine by `info locals`.
+It can see `c = 0x0` that triggers segmentation fault.
+```txt
+(gdb) info locals
+parsedMsg = 0x289aa834
+a = {data_ = 7}
+b = {data_ = 8}
+c = 0x0
+```
+
 ### Use `launch.json` for vs code
 
 Install GDB and config `launch.json`
@@ -124,6 +181,11 @@ Install GDB and config `launch.json`
 gdb --args executablename arg1 arg2 arg3
 ```
 
+If `arg1` contains `-`, it might be misinterpreted as a gdb arg rather than the `executablename`'s arg.
+Use `"-arg1"` such as below so that `arg1` is considered an `executablename`'s arg.
+```bash
+gdb --args "executablename" "-arg1" "-arg2" "-arg3"
+```
 
 * Environment Vars: show, set and unset
 

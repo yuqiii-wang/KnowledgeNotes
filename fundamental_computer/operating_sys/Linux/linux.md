@@ -33,3 +33,11 @@ GNU Privacy Guard (GnuPG or GPG) is a hybrid-encryption software program.
 `yum` uses /etc/yum.repos.d to specify a URL for the GPG key used to verify packages in that repository. 
 
 use `rpm -K \path\to\rpm\file` to verify if key digest is valid.
+
+## Linux Is NOT Realtime
+
+A realtime OS mandates that a task must be completed before a deadline, even taking priority over other tasks.
+
+This is done by permitting higher-level priority interrupt handler triggered at anytime during another process's run.
+
+For example, 

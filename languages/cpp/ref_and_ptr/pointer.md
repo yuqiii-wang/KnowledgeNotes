@@ -10,7 +10,7 @@ Pointer is more versatile that it can point to many things, while array can be o
 
 ## Opaque pointer
 
-an opaque pointer is a special case of an opaque data type, a data type declared to be a pointer to a record or data structure of some unspecified type.
+An opaque pointer is a special case of an opaque data type, a data type declared to be a pointer to a record or data structure of some unspecified type.
 
 Opaque pointers are a way to hide the implementation details of an interface from ordinary clients, so that the implementation may be changed without the need to recompile the modules using it. 
 
@@ -123,7 +123,9 @@ In base class destructor
 
 ### Pointer Vector
 
-### Mutex for Raw Pointer
+### Mutex/Atomic for Raw Pointer
+
+Rather 
 
 ### Pointer set to null after `delete`
 
@@ -157,3 +159,15 @@ int main()
     return 0;
 }
 ```
+
+### Considerations When Raw Pointer Declared As A Class Member
+
+For default constructor, set the raw pointer to `nullptr` or instantiation with `new`.
+
+For move constructor, do pointer ownership transfer such as `this->pMember = oldObj.pMember;`.
+
+For copy constructor, launch a new object by `new` with member values all copied such as `this->pMember = new Member();`
+
+For destructor, do `delete this->pMember;`.
+
+For 

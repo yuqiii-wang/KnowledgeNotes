@@ -132,6 +132,8 @@ Significance Level: the probability level at which you will reject the null hypo
 * Type I error $\alpha$ (false positive): reject $H_0$ (accepting $H_1$) when in fact $H_0$ is true
 * Type II error $\beta$ (false negative): do not reject $H_0$ (accepting $H_0$) when in fact $H_1$ is true
 
+Having said a significance level such as $\alpha = 0.01$, 
+
 ### Significance Level
 
 Confidence intervals are usually calculated at $5\%$ or $1\%$ significance levels $\alpha$, such that out of $95\%$ or $99\%$ of samples, the estimates are correct.
