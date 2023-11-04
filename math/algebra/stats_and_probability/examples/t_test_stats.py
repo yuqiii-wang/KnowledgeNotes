@@ -7,7 +7,7 @@ from statsmodels.stats.power import TTestIndPower
 
 """sumary_line
 
-There are nine people joined a cholestrol reduction diet program.
+There are nine people joined a cholestrol reduction diet program for 60 days.
 Cholestrol data are recorded and categorized into first 30 day mean and second 30 day mean.
 
 Compute T test statistic and p value
