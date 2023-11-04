@@ -1,5 +1,19 @@
 # Python Notes
 
+## pip
+
+pip upgrade by tsinghua source
+
+```bash
+python -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
+```
+
+pip install by tsinghua source
+
+```bash
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple <package_name>
+```
+
 ## Python Interpreter
 
 * Cython vs Jython

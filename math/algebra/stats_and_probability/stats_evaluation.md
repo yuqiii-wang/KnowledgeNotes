@@ -13,6 +13,12 @@ Given variability of sample distribution, there are
 * The variability of the sampling distribution of the sample mean decreases as the sample size grows.
 * The standard deviation of the sample mean decreases in proportion to the square root of the sample size.
 
+Variance computation ($n$: sample size ($n-1$: Bassel's correction), $\overline{x}$: sample's mean):
+
+* standard deviation $\sigma = \sqrt{\frac{\sum_n (x_i - \overline{x})^2}{n-1}}$
+* variance $\sigma^2$
+* standard error of the mean $\sigma_{\overline{x}}=\frac{\sigma}{\sqrt{n}}$
+
 ## Inferential Statistics
 
 Concepts:
@@ -64,6 +70,77 @@ $$
 z=\frac{X-\mu}{\sigma}
 $$
 where $X$ is this sample value/score and $\mu$ is the population mean. $\sigma$ is the standard deviation for the population.
+
+### Independent T-test
+
+Consider two independent random samples selected from two normal distributions
+with means $\mu_A$ and $\mu_B$ and unknown variances $\sigma^2_A$ and $\sigma^2_B$.
+Given sample size $n_A$ and $n_B$, there is
+
+$$
+\overline{X}_A \sim N \Big( \mu_A, \frac{\sigma^2_A}{n_A} \Big)
+,\qquad
+\overline{X}_B \sim N \Big( \mu_A, \frac{\sigma^2_B}{n_B} \Big)
+$$
+
+If two samples are independent, there shoul be
+
+$$
+\overline{X}_A - \overline{X}_B
+\sim N \Big( \mu_A - \mu_B, \frac{\sigma^2_A}{n_A} + \frac{\sigma^2_B}{n_B} \Big)
+$$
+
+Transform to a standard normal distribution, there is
+
+$$
+Z = \frac{\overline{X}_A - \overline{X}_B - (\mu_A - \mu_B)}
+{\sqrt{\frac{\sigma^2_A}{n_A} + \frac{\sigma^2_B}{n_B}}}
+\sim N(0, 1)
+$$
+
+The $Z \approx 0$ means the two samples $A$ and $B$ are picked in the same population indepedently.
+
+Assume $\sigma_A^2 = \sigma_B^2$ (for example, academic tests done on the same group of students before and after a study improvement program being introduced, the before $B$ and after $A$ groups should have same $\sigma_A^2 = \sigma_B^2$.), the T distribution is
+
+$$
+T = \frac{\overline{X}_A - \overline{X}_B - (\mu_A - \mu_B)}
+{s_p\sqrt{\frac{1}{n_A} + \frac{1}{n_B}}}
+\sim t(n_A+n_B-2)
+$$
+
+where $s_p = \sqrt{\frac{(n_A-1)s_A^2+(n_B-1)s_B^2}{n_A+n_B-2}}$
+
+### Paired T-test
+
+Paired test assumes two samples' differences are meaningful for analysis.
+
+For example, the table below shows students' score before and after a study improvement program being introduced.
+The score gap $D$ indicates 9 out of 10 students seeing improvements (only student9 sees drop in score $ D_9=-4$ ), and the improvement program is likely effective.
+
+Assume $\pi = 0.7$ for there was a priliminary study that concludes $70\%$ of students see improvement after this program.
+The probability of 9 or all 10 students failing the program is $0.0001436$.
+$$
+P( N \ge 9) = 
+C^{9}_{10}(0.3)^9(0.7)^1 + C^{10}_{10}(0.3)^{10}(0.7)^0 = 0.0001436
+$$
+
+||Student1|Student2|Student3|Student4|Student5|Student6|Student7|Student8|Student9|Student10|
+|-|-|-|-|-|-|-|-|-|-|-|
+|$B$: Before |18|21|16|22|19|24|17|21|23|18|
+|$A$: After |22|25|17|24|20|29|20|23|19|20|
+|$D_i=A_i-B_i$|4|4|1|2|1|5|3|2|-4|2|
+
+
+Let sample $B$ represent before improvement and sample $A$ represent after improvement.
+
+Consider $D_i=A_i-B_i$, the paired T-test is
+
+$$
+T=\frac{\overline{X}_D-\mu_D}{\frac{s_D}{\sqrt{n}}}
+\sim t(n-1)
+$$
+
+where $t(n-1)$ is the T distribution.
 
 ### Bernoulli Trials and Confidence Interval
 
@@ -117,7 +194,7 @@ $$
 d = \frac{105-100}{15} = 0.33
 $$
 
-Cohen’s (1988) rule of thumb
+Cohen's (1988) rule of thumb
 
 |$d$|Evaluation of Effect Size|
 |-|-|
@@ -146,6 +223,10 @@ A *critical region*, also known as the rejection region, is a set of values for 
 
 The probability of rejecting a hypothesis $H_0$ when it is false is called *power*.
 In other words, power describes the confidence of a hypothesis for a test.
+
+$$
+\text{power} = P(\text{reject }H_0 \space|\space H_1 \text{ is true})
+$$
 
 * higher the significance level $\alpha$, higher the power
 * larger the effect size, higher the power
@@ -187,7 +268,18 @@ P(Z \le -1.7789) + P(Z \ge 1.7789) = 2 \times  P(Z \ge 1.7789)
 \approx 0.0753
 $$
 
-## Analysis of variance (ANOVA) 
+## Analysis of Variance (ANOVA) 
+
+let $X_{ij}$ represent the $j$-th observation in the $i$-th population (there are a total of $k$ population groups) having a normal distribution with mean $\mu_i$ and variance $\sigma_i^2$.
+
+$$
+X_{ij} \sim N (\mu_i, \sigma^2_i)
+$$
+
+ANOVA says
+
+* $H_0$: $\mu_1=\mu_2=...=\mu_k=\mu$
+* $H_1$: $\mu_i$ are not all equal 
 
 ### F Test
 

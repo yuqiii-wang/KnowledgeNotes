@@ -19,7 +19,7 @@ sudo service docker status
 ```
 
 To debug after failing to run `sudo service docker start`
-```baah
+```bash
 sudo dockerd --debug
 ```
 
