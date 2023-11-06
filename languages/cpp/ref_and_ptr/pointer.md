@@ -171,3 +171,11 @@ For copy constructor, launch a new object by `new` with member values all copied
 For destructor, do `delete this->pMember;`.
 
 For 
+
+## Array vs Pointer
+
+|Array|Pointer|
+|-|-|
+|Init by `char aChar[] = {'a', 'b', 'c'};`|Init by `char *pChar = new char('a')`|
+|Allocated at compile time on stack, fixed mem size|Allocated at run time on heap, dynamic mem size|
+|||

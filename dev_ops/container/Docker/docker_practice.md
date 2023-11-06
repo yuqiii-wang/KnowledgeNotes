@@ -149,11 +149,28 @@ It is used for port listening.
 * `docker exec <ContainerName>` - This command is used to execute a command in a running container.
 
 Example:
+Pull and launch a container from the image `ubuntu`.
 ```bash
-# 
-docker run --name my_container -d -i -t alpine /bin/sh
+# start docker (tested in ubuntu, in Mac or Windows, can just start docker from a Desktop version)
+service docker start
 
-docker exec -it my_container sh -c "echo a && echo b"
+# download the image
+docker pull ubuntu
+
+# get the image run in a container
+docker run -it --name yuqi_ubuntu_terminal ubuntu 
+```
+
+Open in another terminal.
+```bash
+# check the recently started running container
+docker ps | grep yuqi_ubuntu_terminal
+
+# try running a cmd in the ubuntu container
+docker exec yuqi_ubuntu_terminal bash -c "echo 'hello world'"
+
+# should see the container stopped in a few secs
+docker stop yuqi_ubuntu_terminal
 ```
 
 ### Volume
