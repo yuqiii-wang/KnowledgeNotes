@@ -32,6 +32,13 @@ $$
 where $\overline{x}$ is the sample mean.
 For $n$ independent observations in the sample, there are only $n − 1$ independent residuals, as they sum to $0$. 
 
+### Source of Inspiration and Bias
+
+The reason why there are only $n − 1$ independent residuals is that, for example, there is only one sample point $\bold{x} = \{ x_1 \}$.
+The mean is $\overline{x} = x_1$ and residual is always $x_1 - \overline{x} = 0$, that the residual is not independent when $n=1$.
+
+As a result, residual is always has degree of freedom of $n-1$.
+
 ## Central Limit Theorem
 
 The *central limit theorem* (CLT) establishes that, in many situations, for identically distributed independent samples, the standardized sample mean tends towards the standard normal distribution even if the original variables themselves are not normally distributed.

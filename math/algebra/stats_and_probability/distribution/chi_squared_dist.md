@@ -55,13 +55,15 @@ The surveyed results are shown as below.
 |Total|$150$|$150$|$200$|$150$|$650$|
 
 For a total of $349$ out of $650$ people reported to have white collar jobs city-wise, and for district $A$ there are $90$ out of $150$, there is
+
 $$
 150 \times \frac{349}{650} \approx 80.54
 $$
+
 then
+
 $$
-\frac{(observed-expected)^2}{expected}
-=
+\frac{(observed-expected)^2}{expected} =
 \frac{(90-80.54)^2}{80.54}
 \approx 1.11
 $$
@@ -69,6 +71,7 @@ $$
 This is one frequency for $A$ district people having white collar jobs. In total, there are $3 \times 4 = 12$ frequencies.
 
 Chi-squared $X^2$ sums up all frequencies, there is
+
 $$
 \begin{align*}
 X^2 &= \sum \frac{(observed-expected)^2}{expected}
