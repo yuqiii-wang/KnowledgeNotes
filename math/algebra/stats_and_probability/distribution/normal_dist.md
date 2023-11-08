@@ -38,3 +38,18 @@ a naive solution is to sum all $P(X=3501) + P(X=3502) + ... + P(X=4000)$.
 However, it can be approximated by converting to a standard normal distribution: $\mu=np=3200$ and $\sigma^2=np(1-p)=640$.
 Let $Y$ be this approximation: $Y \sim N(3200, 640)$.
 Then 
+
+
+## Studentized Range Distribution (q-Distribution)
+
+Studentized range distribution (q-distribution) selectively seeks extreme differences in sample data, rather than only sampling randomly.
+
+Let $X_{ij}$ represent the $j$-th observation in the $i$-th population (there are a total of $k$ population groups) having a normal distribution with mean $\mu_i$ and variance $\sigma_i^2$ (by equal variance assumption, there is $\sigma^2=\sigma^2_1=\sigma^2_2=...=\sigma^2_i...=\sigma^2_k$). 
+There is $X_{ij} \sim N (\mu_i, \sigma^2)$.
+
+Rather than randomly selecting samples from populations, q-distribution find the largest sample mean $\overline{X}_{max}$ and smallest sample mean $\overline{X}_{min}$.
+Set $s^2$ is the pooled sample variance from these samples.
+
+$$
+q = \frac{\overline{X}_{max}-\overline{X}_{min}}{\frac{s}{\sqrt{n}}}
+$$

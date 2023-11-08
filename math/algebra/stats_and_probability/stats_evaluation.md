@@ -22,6 +22,16 @@ Variance computation ($n$: sample size ($n-1$: Bassel's correction), $\overline{
 ## Inferential Statistics
 
 Concepts:
+
+* Treatment (实验组) vs Control (对照组)
+
+Treatment means the effect to be positive.
+
+Control means the effect to be negative.
+
+For example, there are two groups of students, one group $G_1$ (treatment group) had undergone a study improvement program, another group $G_2$ (control group) not.
+Study wants to prove effectiveness of the improvement program should show academic scores of $G_1$ higher than $G_2$.
+
 * Sample vs population: 
 
 Sample refers to a group of data points supporting a hypothesis, whereas population refers to all data points containing different hypotheses.
@@ -270,20 +280,130 @@ $$
 
 ## Analysis of Variance (ANOVA) 
 
-let $X_{ij}$ represent the $j$-th observation in the $i$-th population (there are a total of $k$ population groups) having a normal distribution with mean $\mu_i$ and variance $\sigma_i^2$.
+Let $X_{ij}$ represent the $j$-th observation in the $i$-th population (there are a total of $k$ population groups) having a normal distribution with mean $\overline{X}_i$ and variance $\sigma_i^2$ (by equal variance (homogeneity of variance) assumption, there is $\sigma^2=\sigma^2_1=\sigma^2_2=...=\sigma^2_i...=\sigma^2_k$).
 
 $$
-X_{ij} \sim N (\mu_i, \sigma^2_i)
+X_{ij} \sim N (\overline{X}_i, \sigma^2)
 $$
 
-ANOVA says
+One-Way ANOVA says
 
-* $H_0$: $\mu_1=\mu_2=...=\mu_k=\mu$
-* $H_1$: $\mu_i$ are not all equal 
+* $H_0$: $\overline{X}_1=\overline{X}_2=...=\mu_k=\mu$
+* $H_1$: $\overline{X}_i$ are not all equal 
+
+### Assumptions
+
+Only under these assumptions that T test and ANOVA hold true.
+
+* Normality: sample drawn from normal distribution
+* Equal Variance (homogeneity of variance) $\sigma^2=\sigma^2_1=\sigma^2_2=...=\sigma^2_i...=\sigma^2_k$: multiple samples drawn from the same population have the same variances
+* Independence: observations in each group of sample are independent from others
 
 ### F Test
 
+The F-test tests the null hypothesis $H_0$ that the samples have equal variances vs. the alternative hypothesis $H_1$ that the samples do not have equal variances.
 
+Assume there are $k$ populations where each population has $n_i$ data points that sum up to a total of $n$ data points, F-test statistic is computed by
+
+$$
+\begin{align*}
+  F(k-1, n-k) &= 
+    \frac{\text{treatment effect} + \text{sampling error}}{\text{sampling error}}
+    =\frac{\text{between-group variability}}{\text{in-group variability}}
+    \\ &=
+    \frac{\frac{1}{k-1}\sum^k_{i=1} n_i (\hat{X}_i-\overline{X})^2}
+        {\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\hat{X}_i)^2}
+\end{align*}
+$$
+
+where $k-1$ and $n-k$ are degree of freedom reflecting Bessel's correction.
+
+There is definition $\hat{X}_i := \overline{X}_i$ in the case of predicting $\overline{X}_i$ comparing means of different groups.
+
+Large $F$ means test is significant.
+* $H_0$: $F \approx 1$
+* $H_1$: $F \gg 1$
+
+### F Distribution and P-Value
+
+P-value of an F test can be said the probability of this test is negative (accept $H_0$, reject $H_1$).
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/f_distribution_pvalue.png" width="20%" height="10%" alt="f_distribution_pvalue" />
+</div>
+</br>
+
+F statistic takes two degree-of-freedom arguments: $k-1$ and $n-k$.
+They have different shapes such as below.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/f_distribution_df.png" width="20%" height="20%" alt="f_distribution_df" />
+</div>
+</br>
+
+
+### ANOVA Table
+
+||Sum of Squares (SS)|Degree of Freedom (df)|Mean Squares (MS)|F statistic|p value|
+|-|-|-|-|-|-|
+|Treatment|$SSR$|$df_r$|$MSR$|$\frac{MSR}{MSE}$|probability of $F(df_r, df_e)$ is true|
+|Error|$SSE$|$df_e$|$MSE$|||
+|Total|$SST$|$df_t$||||
+
+where
+
+* $SSR$: regression sum of squares $\sum^k_{i=1} n_i (\overline{X}_i-\overline{X})^2$
+* $SSE$: error sum of squares $\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}_i)^2$
+* $SST$: total sum of squares ($SST = SSR + SSE$)
+* $df_r$: regression degrees of freedom ($df_r = k-1$)
+* $df_e$: error degrees of freedom ($df_e = n-k$)
+* $df_t$: total degrees of freedom ($df_t = n-1$)
+* $MSR$: regression mean square ($MSR = SSR/df_r$)
+* $MSE$: error mean square ($MSE = SSE/df_e$)
+* $F$: The F test statistic ($F(df_r, df_e) = MSR/MSE$)
+* $p$: The p-value that corresponds to $F_{df_r, df_e}$
+
+### Post-Hoc Comparison and Tukey's HSD (Honestly Significant Difference) Test
+
+Post hoc in Latin means "after this" (after source data finished collection, analysis ensues).
+
+A post-hoc test is to identify which groups differ from each other. 
+Therefore, such tests are also called *multiple comparison tests*.
+
+Tukey's HSD test compares all possible pairs of means $\overline{X}_i - \overline{X}_j$, and identifies any difference between two means that is greater than the expected standard error.  
+
+### Linear Contrast
+
+A linear contrast is a linear combination of variables whose coefficients add up to zero, allowing comparison of different treatments (a set of groups, not just one group).
+
+Let $\bold{\theta}= \{ \theta_1, \theta_2, ..., \theta_k \}$ be a set of variables, either parameters or statistics, and $\bold{a} = \{ a_1, a_2, ..., a_k \}$ be known coefficients/constants.
+It is called *contrast* if $\sum^k_{i=1} a_i = 0$.
+
+A very typical use is test against means: $\theta_i := \overline{X}_i$, and $a_i$ is used to control "weights" of each $\theta_i$.
+There is a base reference that sees $a_t=1$ (treatment group), while others $a_{i \ne t} < 0$ (control groups).
+
+Example:
+* Group 1 vs. (Groups 2, 3, and 4): $\Psi = (1)\overline{X}_1 + (-\frac{1}{3})\overline{X}_2 + (-\frac{1}{3})\overline{X}_3 + (-\frac{1}{3})\overline{X}_4$
+
+* Group 1 vs. (Groups 2, and 3): $\Psi = (1)\overline{X}_1 + (-\frac{1}{2})\overline{X}_2 + (-\frac{1}{2})\overline{X}_3$
+
+* Group 2 vs Groups 3: $\Psi = (0)\overline{X}_1 + (1)\overline{X}_2 + (-1)\overline{X}_3 + (0)\overline{X}_4$
+
+Null hypothesis of linear contrast is
+* $H_0: \Psi = 0$, where $\Psi = \sum^k_{i=1} a_i \theta_i = 0$.
+
+Test statistic is (always take $df_r=1$)
+$$
+F = \frac{MSR_{contrast}}{MSE_{in-group}} 
+    = \frac{{\hat{\Psi}^2}/ \big({\sum_i^{k}(a_i^2/n_i)}\big)}{\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}_i)^2}
+    \sim F(1, n-k)
+$$
+
+By t test, there is
+$$
+t = \sqrt{\frac{MSR_{contrast}}{MSE_{in-group}} }
+    = \frac{\hat{\Psi}}{\sqrt{\Big(\sum_i^{k}(a_i^2/n_i)\Big)\Big( \frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}_i)^2 \Big)}}
+$$
 
 ## Confusion Matrix 
 
