@@ -148,3 +148,6 @@ However, for ADAM, this is not true.
 
 For $\frac{\partial\space Loss}{\partial\space W_{n}} \rightarrow m_{n+1}$ and $(\frac{\partial\space Loss}{\partial\space W_{n}})^2 \rightarrow v_{n+1}$, and finally for $\Delta W_{n+1} = \eta \frac{\hat{m}_{n+1}}{\sqrt{\hat{v}_{n+1}}+\epsilon}$, the square root operation cancels out the $0.5$ effect on the loss function.
 In conclusion, scaling on loss function has no effect on ADAM learning/weight update.
+
+## Bayesian Optimizer
+

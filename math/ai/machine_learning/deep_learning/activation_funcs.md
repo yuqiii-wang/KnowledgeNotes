@@ -54,3 +54,11 @@ $$
 $tanh$ maps input $(-\infty, +\infty)$ to output $(-1,1)$, that is good for features requiring both negative and positive gradients updating weights of neurons. 
 
 $tanh$ is a good activation function to tackling vanishing gradient issues.
+
+## Gaussian error linear unit  (GeLU)
+
+$$
+GeLU(x) = \frac{x}{2} \Big( 1 + \text{erf}\big( \frac{x}{\sqrt{2}} \big) \Big)
+$$
+
+where $\text{erf}(z)=\frac{2}{\sqrt{\pi}}\int^z_0 e^{-t^2} dt$ is called *Gauss error function*.

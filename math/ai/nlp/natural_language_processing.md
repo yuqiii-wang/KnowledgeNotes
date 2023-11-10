@@ -11,6 +11,23 @@ What restaurants are nearby?
 is tokenized to `What`, `restaurants`, `are` and `nearby`.
 Some tokenization strategies would consider punctuation marks such as in this sentence the question mark `?` is considered a token as well.
 
+### English Tokenization
+
+In English, tense can provide rich info about action/behavior.
+For example, for this sentence "A boy is playing football.", the word "playing" can be tokenized to two words `play` and `##ing`, where the prefix `##` is used to represent special tokenization by tense.
+
+||Representation|
+|-|-|
+|Simple|do/does|
+|Present|am, is, are doing|
+||have/has done|
+|Past|was, were doing|
+||had done|
+|Future|will/shall do|
+||am/is/are going to do|
+
+### Chinese Tokenization
+
 In Chinese, splitting directly by individual Chinese characters is a bad approach.
 Instead, need Chinese corpus to assist extracting semantic words rather than individual Chinese characters.
 
@@ -225,12 +242,7 @@ In transformer, ReLU is used.
 * The 1st attention heads: masked $Q K^{\top}$ is used to avoid interference of preceding input embeddings.
 * The 2nd attention heads: used encoder's key $K$ and value $V$, used previous layer (attention heads)'s query $Q$ as input
 
-## LLM (Large Language Model)
+## Training Strategies/Tasks
 
-A large language model (LLM) is a language model characterized by its large size.
-
-The trained corpus data often has sizes greater than 1000GBs.
-
-### Bidirectional Encoder Representations from Transformers (BERT)
-
-### ChatGPT
+* Masked language modeling (MLM)
+* Next sentence prediction (NSP)
