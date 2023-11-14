@@ -2,14 +2,18 @@
 
 ## Tokenization
 
-Tokenization is used in natural language processing (NLP) to split paragraphs and sentences into smaller units that can be more easily assigned semantics.   
+Tokenization is used in natural language processing (NLP) to split paragraphs and sentences into smaller units that can be more easily assigned semantics.
 
-For example, in English, the sentence
-```txt
-What restaurants are nearby?
-```
-is tokenized to `What`, `restaurants`, `are` and `nearby`.
-Some tokenization strategies would consider punctuation marks such as in this sentence the question mark `?` is considered a token as well.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tokenization_process.png" width="50%" height="50%" alt="tokenization_process" />
+</div>
+</br>
+
+where model refers to tokenizer model not LLM/transformer.
+Post-processor is tokenizer-added special process such as adding `[CLS]` and `[SPE]` to the start and end of a sentence.
+
+The general rule is that, exhaustively go through all corpus and find most common combinations of letters/characters/symbols that are believed containing rich semantics.
 
 ### English Tokenization
 
@@ -26,6 +30,10 @@ For example, for this sentence "A boy is playing football.", the word "playing" 
 |Future|will/shall do|
 ||am/is/are going to do|
 
+Roots and affixes contain rich semantics.
+
+For example, `bidirectional` can be split into `bi` (two-), `direction` and `al` (adjective indicator).
+
 ### Chinese Tokenization
 
 In Chinese, splitting directly by individual Chinese characters is a bad approach.
@@ -40,19 +48,77 @@ Given the below Chinese sentence for example, splitting character by character f
 The tokenization should ideally give these results: 
 `談到`, `貿易戰`, `的`, `長遠`, `影響`, `，`, `林行止`, `表示`, `貿易戰`, `促使`, `在`, `中國`, `的`, `工廠`, `搬遷`, `到`, `越南`, `、`, `寮國`, `、`, `印度`, `、`, `台灣`, `甚至`, `是`, `馬來西亞`, `，`, `以`, `避開`, `關稅` and `。`.
 
+### WordPiece Tokenization
+
+Wordpiece tokenizer is a type of subword tokenizer that splits words into subword units called *wordpieces*.
+
+It trains tokenization by word pair combination probability
+For example, `playing` by letter tokenization there is `p`, `l`, `a`, `y`, `i`, `n`, `g`;  after training on texts should see tokenization results `play` and `##ing` that are most likely observed letter combinations in corpus.
+
+$$
+\max_{\text{letter\_pair}} \text{score} =
+\frac{\text{frequency\_of\_pair}}{\text{frequency\_of\_first\_letter} \times \text{frequency\_of\_second\_letter}}
+$$
+
+Wordpiece has special symbols: `[PAD]`, `[UNK]`, `[CLS]` (sentence start), `[SEP]` (sentence end), `[MASK]` (word placeholder).
+
+Wordpiece is used in BERT covering a total of 30522 tokens.
+
+### Byte Pair Encoding (BPE) Tokenization
+
+Byte pair encoding (BPE): the most common pair of consecutive bytes of data is replaced with a byte that does not occur in that data.
+At each iterative step, BPE replaces symbols pair by pair (each substitution only contains two repeated symbols).
+
+#### BPE in English Vocab Tokenization
+
+Similarly, in NLP tokenization, BPE ensures that the most common words are represented in the vocabulary as a single token while the rare words are broken down into two or more sub-word token.
+
+Letter pairs are hashed until all hash representations combinations are unique.
+
+```txt
+This is a boy, and that is a toy.
+```
+
+First do normalization and pre-tokenization
+
+```py
+['this', 'is', 'a', 'boy', 'and', 'that', 'is', 'a', 'toy']
+```
+
+Count the letter pair combination:
+```py
+('t', 'h'): 2
+('h', 'i'): 1
+('i', 's'): 3
+('a'): 2
+('t', 'o'): 1
+('o', 'y'): 2
+('a', 'n'): 1
+('n', 'd'): 1
+('h', 'a'): 1
+('a', 't'): 1
+('b', 'o'): 1
+```
+
+Finally, the example text sentence is split into this list.
+
+```py
+['th', 'is', 'oy', 'a', 'h', 'b', 'n', 'd', 't']
+```
 
 ## Embeddings
 
 Embeddings mean information representation and compression.
 
-
 Typically, there are two embeddings in NLP:
+
 * Semantics/linguistics
-* Position 
+* Position
 
 ### Semantics/Linguistics
 
 For example, the word "restaurants" has the below attributes:
+
 * isNoun: $\{0, 0, 0, 1, 0\}$ for $\{\text{isVerb}, \text{isAdjective}, \text{isPronoun}, \text{isNoun}, \text{isAdverb}\}$
 * isPlural: $\{1\}$ for $\{\text{isPlural}\}$  
 * synonyms: $\{ 5623, 1850, 2639 \}$ (vocabulary index) for $\{ \text{hotel}, \text{bar}, \text{club} \}$
@@ -64,6 +130,7 @@ For example, the word "restaurants" has the below attributes:
   * $\text{Inverse Document Frequency}_{i} = \log \frac{\text{Total no. of documents}}{\text{No. of documents containing term i}}$
 
 Given the four sentences/documents,
+
 ```txt
 There are many popular restaurants nearby this church.
 Some restaurants offer breakfasts as early as 6:00 am to provide for prayers.
@@ -150,8 +217,9 @@ cbowModel = gensim.models.Word2Vec(data, min_count = 1,
 
 ## Transformer
 
-The transformer building blocks are scaled dot-product attention units.
+Transformer is the most popular component in LLM (Large Language Model) for NLP tasks.
 
+The transformer building blocks are scaled dot-product attention units.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/transformer.png" width="20%" height="40%" alt="transformer" />
@@ -229,7 +297,7 @@ The *Feed Forward* layer is a typical neural network layer such as below
 $$
 \text{FeedForward}(X) = \sigma(W_1^{\top} X + b_1)^{\top} W_2 + b_2
 $$
-where $\sigma(.)$ is an activation function.
+where $\sigma(X)$ is an activation function.
 In transformer, ReLU is used.
 
 ### Decoder
@@ -242,7 +310,23 @@ In transformer, ReLU is used.
 * The 1st attention heads: masked $Q K^{\top}$ is used to avoid interference of preceding input embeddings.
 * The 2nd attention heads: used encoder's key $K$ and value $V$, used previous layer (attention heads)'s query $Q$ as input
 
-## Training Strategies/Tasks
+## LLM Training Strategies/Tasks in NLP
+
+### Optimizer Considerations
+
+The source input of NLP is tokens from text vocabulary, and some vocabs are frequently used and some are rarely used.
+
+By input embedding layer such as BERT base's wordpiece embedding $\bold{x}: \mathbb{R}^{1 \times 768} \rightarrow \mathbb{R}^{30522 \times 768}$ then by normalization to ${\bold{x}}_{emb-norm} \in \mathbb{R}^{1 \times 768}$ then being fed to transformer, it is 
+
+### Training By NLP Tasks
+
+Models are trained in different tasks to build resilience against various inputs.
 
 * Masked language modeling (MLM)
+
+Randomly remove words (usually $15\%$) from a sentence.
+Train this model to predict the missing words.
+
 * Next sentence prediction (NSP)
+
+Train this model to predict a next sentence given a number of context sentences.

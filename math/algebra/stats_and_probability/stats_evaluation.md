@@ -1,4 +1,4 @@
-# Prediction Performance Evaluation
+# Statistics and Prediction Performance Evaluation
 
 ## Variability
 
@@ -7,6 +7,7 @@ Variability is the extent to which data points in a statistical distribution or 
 Variance is a measure of Variability.
 
 Given variability of sample distribution, there are
+
 * The value of the statistic varies from sample to sample.
 * The values of the statistic may not be exactly equal to the value of the parameter.
 * Larger random samples have smaller spreads/variability.
@@ -30,7 +31,7 @@ Treatment means the effect to be positive.
 Control means the effect to be negative.
 
 For example, there are two groups of students, one group $G_1$ (treatment group) had undergone a study improvement program, another group $G_2$ (control group) not.
-Study wants to prove effectiveness of the improvement program should show academic scores of $G_1$ higher than $G_2$.
+Study that wants to prove effectiveness of the improvement program should show academic scores of $G_1$ higher than $G_2$.
 
 * Sample vs population: 
 
@@ -56,11 +57,26 @@ A parameter is a number describing a whole population (e.g., population mean), w
 |Interval|Regression, arbitrary zero point| $=, \ne, <, >, +, -$|IQ|
 |Ratio|Regression where ratio is meaningful, absolute zero point| $=, \ne, <, >, +, -, \times, \div$|Salary (need to compare with colleagues to see salary is good)|
 
+* Paired Test vs Independent Test
+
+*Paired-samples t tests* compare scores on two different variables but for the same group of cases.
+
+For example,
+graduates had higher average salaries 10 years after graduation than they (same group of people) had 5 years after graduation($\overline{X}_{10-year-grad} > \overline{X}_{5-year-grad}$);
+people will listen longer to a female telephone marketer than the very SAME people will listen to a male telephone marketer ($\overline{X}_{listen-to-female} > \overline{X}_{listen-to-male}$).
+
+*Independent-samples t tests* compare scores on the same variable but for two different groups of cases
+
+For example,
+length of life, on average, is shorter for never-married persons than for ever-married persons ($\overline{X}_{not-married} > \overline{X}_{married}$);
+the mean years of schooling of city students are different than the mean years of schooling of country students ($\overline{X}_{city-student} \ne \overline{X}_{country-student}$).
+
 ### T Test and Z Test Statistic
 
 A statistical test that is used to compare the means of two groups. 
 
 The test assumes data:
+
 * all tests are independent
 * all tests are normally distributed
 * homogeneity of variance (each group of a hypothesis is of limited variance)
@@ -401,9 +417,33 @@ $$
 
 By t test, there is
 $$
-t = \sqrt{\frac{MSR_{contrast}}{MSE_{in-group}} }
+t = \sqrt{F} = \sqrt{\frac{MSR_{contrast}}{MSE_{in-group}} }
     = \frac{\hat{\Psi}}{\sqrt{\Big(\sum_i^{k}(a_i^2/n_i)\Big)\Big( \frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}_i)^2 \Big)}}
 $$
+
+## Pearson Correlation
+
+*Pearson correlation coefficient* measures linear correlation between two sets of data, defined as the ratio between the covariance of two variables and the product of their standard deviations.
+
+$$
+\rho_{X,Y} = 
+\frac{\text{cov}(X,Y)}{\sigma_X \sigma_Y} =
+\frac{E\big( (X - \overline{X}) \cdot (Y - \overline{Y}) \big)}{\sigma_X \sigma_Y}
+$$
+
+where $\cdot$ denotes element-wise multiplication that produces a vector of results that satisfies $\text{assert}\big(\text{len}(X) == \text{len}(Y) == \text{len} \big( (X - \overline{X}) \cdot (Y - \overline{Y}) \big) \big)$,
+and $E(...)$ is the expectation.
+$\sigma_X$ and $\sigma_Y$ are standard deviations.
+
+|Correlation Value Range|Semantics|
+|-|-|
+|$[0, 0.3)$|No correlation|
+|$[0.3, 0.5)$|Low correlation|
+|$[0.5, 0.7)$|Moderately correlated|
+|$[0.7, 0.9)$|Highly correlated|
+|$[0.9, 1]$|Very highly correlated|
+
+If values are negative, correlation is in a reverse order.
 
 ## Confusion Matrix 
 
@@ -414,5 +454,3 @@ $$
 ## F1 Score
 
 ## Receiver operating characteristic (ROC)
-
-## Pearson Correlation
