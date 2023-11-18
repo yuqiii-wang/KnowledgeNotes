@@ -10,8 +10,10 @@ safety/vetting:
 
 ## Preparation
 
+Most popular tools to be installed:
+
 ```bash
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple datasets transformers dill tqdm
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple datasets transformers dill tqdm ftfy
 ```
 
 ## Hugging Face
@@ -22,6 +24,8 @@ Its most famous product is `pip install transformers`.
 
 Hugging Face provides unified APIs of different AI tasks and model configs.
 
+### Download
+
 Go to HuggingFace website and find desired model.
 then download the files.
 
@@ -29,6 +33,40 @@ then download the files.
       <img src="imgs/huggingface_download.png" width="55%" height="50%" alt="huggingface_download" />
 </div>
 </br>
+
+`huggingface-cli` provides bash/cmd for download by `huggingface-cli download <model_name>`.
+
+However, in China, Hugging Face is blocked, should use a mirror site prior to downloading.
+
+```bash
+export HF_ENDPOINT=https://hf-mirror.com
+```
+
+
+* BERT
+
+To download `bert-base-uncased`, there is
+```bash
+huggingface-cli download --resume-download bert-base-uncased --local-dir bert-base-uncased
+```
+
+where `--resume-download <model_name>` uses already downloaded `.cache` files; `--local-dir <folder_name>` puts files in the named folder.
+
+* LLAMA
+
+Llama needs Facebook/Meta's permission (goto Hugging Face website, login, and request for download permission (need 1 or 2 days for operation procedure process)), otherwise this error flags when downloading.
+
+Once access granted, goto Hugging Face website, generate a token `https://huggingface.co/settings/tokens`, then use `--token hf_***` option for downloading.
+
+```bash
+huggingface-cli download --resume-download meta-llama/Llama-2-7b --token hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+```
+
+There are many fine-tuned LLAMA variants. For example, below is open-source no need of additional download permission.
+
+```bash
+huggingface-cli download --resume-download 01-ai/Yi-6B-200K --local-dir 01-ai/Yi-6B-200K
+```
 
 ### Pipeline
 
@@ -53,6 +91,38 @@ sum_pred = summarizer(
 print(sum_pred.summary)
 ```
 
+### `forward()` vs `generate()`
+
+A model's `forward()` methods overrides the `__call()__` that serves as a go-through of a neural network.
+It can be used in training as well as inference.
+
+A model's `generate()` methods uses `forward()` as its underlying implementation.
+It is only used in inference.
+
+### Common BERT Language Modeling (LM): Causal Language Modeling (CLM), Masked Language Modeling (MLM), and Sequence-to-Sequence (Seq2Seq)
+
+* Causal Language Modeling (CLM)
+
+CLM is trained to predict the next token in a sequence given the previous tokens.
+
+Architecture: autoregressive models like GPT
+
+CLM is well-suited for tasks such as text generation and summarization. 
+However, CLM models have unidirectional context (only consider past texts as input)
+
+* Masked Language Modeling (MLM)
+
+Some tokens in the input sequence are masked by `[MASK]`. MLM has the advantage of learning from bidirectional context.
+
+Architecture: encoder such as BERT
+
+MLM is useful in text classification, sentiment analysis, and named entity recognition.
+
+* Seq2Seq
+
+Seq2Seq models consist of an encoder-decoder architecture (e.g., T5, BART), where the encoder processes the input sequence and the decoder generates the output sequence.
+
+It is useful in machine translation, summarization, and question-answering.
 
 ## LangChain (LC) vs Semantic Kernel (SK)
 

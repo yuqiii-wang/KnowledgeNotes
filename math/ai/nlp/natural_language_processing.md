@@ -60,7 +60,17 @@ $$
 \frac{\text{frequency\_of\_pair}}{\text{frequency\_of\_first\_letter} \times \text{frequency\_of\_second\_letter}}
 $$
 
-Wordpiece has special symbols: `[PAD]`, `[UNK]`, `[CLS]` (sentence start), `[SEP]` (sentence end), `[MASK]` (word placeholder).
+Wordpiece has special symbols (defined in Hugging Face's `transformers.BertTokenizer`):
+
+* `unk_token` (string, optional, defaults to `[UNK]`, token_id = 100) – The unknown token. A token that is not in the vocabulary cannot be converted to an ID and is set to be this token instead.
+
+* `sep_token` (string, optional, defaults to `[SEP]`, token_id = 102) – The separator token, which is used when building a sequence from multiple sequences, e.g. two sequences for sequence classification or for a text and a question for question answering. It is also used as the last token of a sequence built with special tokens.
+
+* `pad_token` (string, optional, defaults to `[PAD]`, token_id = 0) – The token used for padding, for example when batching sequences of different lengths.
+
+* `cls_token` (string, optional, defaults to `[CLS]`, token_id = 101) – The classifier token which is used when doing sequence classification (classification of the whole sequence instead of per-token classification). It is the first token of the sequence when built with special tokens.
+
+* `mask_token` (string, optional, defaults to `[MASK]`, token_id = 103) – The token used for masking values. This is the token used when training this model with masked language modeling. This is the token which the model will try to predict.
 
 Wordpiece is used in BERT covering a total of 30522 tokens.
 
@@ -215,6 +225,59 @@ cbowModel = gensim.models.Word2Vec(data, min_count = 1,
                               vector_size = 100, window = 8)
 ```
 
+### Embedding by Deep Learning
+
+Above embedding designs contain rich semantics.
+However, embeddings can be trained by large corpus such as by BERT base there is embeddings $W_{EmbBertBase} \in \mathbb{R}^{30522 \times 768}$ corresponding to $30522$ tokens.
+
+Tokens are assigned a id such as $2023$ for "This", and it is one-hot encoded.
+
+$$
+\bold{t}_{i=2023} = \text{OneHotEncoding}(2023) = 
+[\underbrace{0, 0, 0, 0, 0, 0, 0, 0, ..., 0}_{\times 2022}, 1, \underbrace{0, 0, 0, 0, 0, 0, 0, 0, ..., 0}_{\times (30522 - 1 - 2022)}]
+$$
+
+By matrix multiplication, the token's embedding is retrieved from $E_{emb}$.
+
+$$
+W_{EmbBertBase}^{\top} \bold{t}_i \in \mathbb{R}^{1 \times 768}
+$$
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tokenization_then_embedding.png" width="30%" height="40%" alt="tokenization_then_embedding" />
+</div>
+</br>
+
+In Hugging face, there is
+
+```python
+from transformers import BertTokenizer, BertModel
+
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertModel.from_pretrained("bert-base-uncased")
+
+embedding_matrix = model.embeddings.word_embeddings.weight
+embedding_this = embedding_matrix[2023]
+print(embedding_this.size()) # print "torch.Size([768])"
+print(embedding_matrix[2023][:10]) # top 10 embs are tensor([-0.0571,  0.0153, -0.0047,  0.0105, -0.0279,  0.0218, -0.0006,  0.0224,
+                                   # 0.0225,  0.0135], grad_fn=<SliceBackward0>)
+```
+
+### Embedding Vector Similarity: Cosine Similarity
+
+*Cosine similarity* between two vector $\bold{v}_i, \bold{v}_j$ is define as
+
+$$
+similarity_{cos}(\bold{v}_i, \bold{v}_j) = \cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
+$$
+
+There is $\cos(\theta) \in [-1, 1]$, where $-1$ means being exactly opposite, $-1$ means being exactly the same, $0$ means orthogonality (being totally different).
+
+*Cosine distance* is simply $1 - \cos(\theta)$.
+
+Cosine similarity can be used for two embeddings' comparison.
+If predicted embeddings are very similar to an existing token's embedding, such embeddings can be said this token's representation.
+
 ## Transformer
 
 Transformer is the most popular component in LLM (Large Language Model) for NLP tasks.
@@ -309,6 +372,52 @@ In transformer, ReLU is used.
 
 * The 1st attention heads: masked $Q K^{\top}$ is used to avoid interference of preceding input embeddings.
 * The 2nd attention heads: used encoder's key $K$ and value $V$, used previous layer (attention heads)'s query $Q$ as input
+
+### Cross-Attention
+
+In self-attention, transformer works with the same input sequence.
+In cross-attention, transformer mixes two different input sequences.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/transformer_cross_attention.png" width="30%" height="35%" alt="transformer_cross_attention" />
+</div>
+</br>
+
+In hugging face, comparing between encoder vs decoder for BERT, the decoder needs `add_cross_attention=True` as config.
+
+```python
+model_enc = BertGenerationEncoder.from_pretrained(model_base_name, 
+                                            output_hidden_states=True,
+                                            output_attentions=True,
+                                            bos_token_id=tokenizer.get_vocab()["[CLS]"], 
+                                            eos_token_id=tokenizer.get_vocab()["[SEP]"])
+model_dec = BertGenerationDecoder.from_pretrained(model_base_name, 
+                                            add_cross_attention=True, 
+                                            is_decoder=True, 
+                                            output_hidden_states=True,
+                                            output_attentions=True,
+                                            bos_token_id=tokenizer.get_vocab()["[CLS]"], 
+                                            eos_token_id=tokenizer.get_vocab()["[SEP]"])
+```
+
+
+## Outputs
+
+### Logits
+
+*Logits* basically means raw predictions which come out of the last layer of a classification neural network.
+
+If the model is solving a multi-class classification problem (e.g., predict a token from $30522$ candidates), logits typically becomes an input to the softmax function.
+
+```python
+print(outputs.logits.size()) # print "torch.Size([1, 7, 30522])" for [batch_size, seq_len, vocab_size]
+
+# convert logits to token representation
+token_id = torch.argmax(torch.softmax(outputs.logits[0][0], dim=0))
+tokenizer.convert_ids_to_tokens(token_id)
+```
+
+
 
 ## LLM Training Strategies/Tasks in NLP
 

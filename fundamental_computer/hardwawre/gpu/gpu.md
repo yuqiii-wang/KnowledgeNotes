@@ -4,6 +4,14 @@
 
 ## How to Use
 
+### Quick PyTorch Install
+
+Goto `https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_local` to install driver.
+
+Download and install Anaconda (in China, goto `https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/`).
+
+Goto `https://pytorch.org/get-started/locally/` to install pytorch `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118` (Sometimes `--upgrade --force-reinstall` is required if in python `torch.cuda.is_available()` says no after repeated reinstalls).
+
 ### docker for nvidia
 
 1. **Add nvidia docker repo key to apt**
@@ -36,3 +44,17 @@ run `sudo apt update`
 5. **install docker**
 
 run `sudo apt-get install -y nvidia-docker2`
+
+## Nvidia GPU and Ubuntu Monitor Display (HDMI Signal)
+
+Incompatible Nvidia GPU driver versions can cause Ubuntu failed to detect HDMI signal (Monitor Display).
+This happens happens when just having installed/updated Anaconda, CUDA, PyTorch, or other GPU related software.
+
+Run below bash to re-install Nvidia driver. 
+
+```bash
+sudo ubuntu-drivers autoinstall
+
+## Optional fix
+sudo apt --fix-broken install
+```

@@ -80,13 +80,13 @@ bert_base_model = get_model(
 )
 ```
 
-The total of 110m (to be precise: 109,482,240) parameter breakdown is shown as below.
+The total of 110m (to be precise: 109,482,240) parameter breakdown is shown as below (for a typical Q&A task BERT encoder).
 
 ||Components|Shape|Count|Comments|
 |-|-|-|-|-|
 |Input Embeddings|embeddings.word_embeddings.weight|$30522 \times 768$|$23,440,896$|vocab size $\times$ wordpiece embedding|
 ||embeddings.position_embeddings.weight|$512 \times 768$|$393,216$|context sequence length $\times$ wordpiece embedding|
-||embeddings.token_type_embeddings.weight|$2 \times 768$|$1536$||
+||embeddings.token_type_embeddings.weight|$2 \times 768$|$1536$| In tasks like Q&A that feeds two sentences: first as passage and second for question (0’s for first segment and 1’s for second segment)|
 ||embedding layer normalization (weight and bias)|$768 + 768$|$1536$|embedding layer normalization weight $+$ bias|
 |Transformer $\times$ 12|encoder.layer.i.attention.self.query (weight and bias)|$(768 \times 768 + 768) \times 12$|$7,087,104$|query $Q$'s weight and bias|
 ||encoder.layer.i.attention.self.key (weight and bias)|$(768 \times 768 + 768) \times 12$|$7,087,104$|key $K$'s weight and bias|
@@ -98,20 +98,92 @@ The total of 110m (to be precise: 109,482,240) parameter breakdown is shown as b
 ||encoder layer normalization (weight and bias)|$(768 + 768) \times 12$|$18,432$|encoder layer normalization weight $+$ bias|
 |Pooler|pooler.dense (weight and bias)|$768 \times 768 + 768$|$7,087,104$|pooler layer's weight and bias|
 
-* Embedding layer: Gets the embeddings from one-hot encodings of the words
-* Encoder: This is the transformer with self attention heads
-* Pooler: It takes the output representation corresponding to a token (the output of size $1 \times 768$ from the final encoder layer), then linearly transforms it to a new vector representation of size $1 \times 768$.
+Shown as below, the $12 \times$ encoder produces `last_hidden_state` that is a context-aware token embedding of the size `(batch_size, seq_len, embedding_size_of_one_token)`.
 
-Finally, having obtained the token's vector representation from BERT $\hat{\bold{y}} \in \mathbb{R}^{1 \times 768}$, find the most similar token candidates from the total of $30522$ token vocabs, and choose the most similar one $\bold{y}$ as the vocab representation of the estimate $\hat{\bold{y}}$.
+The pooler output is of size $1 \times 768$ that serves as input to classification problem.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/bert_structure.png" width="50%" height="30%" alt="bert_structure" />
 </div>
 </br>
 
+Other BERT models for different tasks may have different structures, such as no `token_type_embeddings` for Seq2Seq model.
+
+#### Output: `last_hidden_state` vs `pooler_output`
+
+`last_hidden_state` contains the hidden representations for each token in each sequence of the batch. So the size is `(batch_size, seq_len, hidden_size)`.
+
+`pooler_output` contains a "representation" of each sequence in the batch, and is of size `(batch_size, hidden_size)`
+
+The pooler_layer is a $\text{tanh}$-applied activation on the output from the last hidden layer (the last layer of encoder): $\bold{y}_{p}=\text{tanh}(W_p\bold{x}_h+\bold{b}_p)$.
+The pooler layer's output $\bold{y}_{p} \in \mathbb{R}^{1 \times 768}$ can be considered as a "compressed" representation of the sequence of the last encoder's tokens $\bold{x}_{h} \in \mathbb{R}^{n_{seq} \times 768}$, where $n_{seq}$ is `sql_len`.
+
+$\bold{y}_{p}$ can be further used in tasks such as classification, while $\bold{x}_{h}$ can be used for token representation.
+
+#### Decoder
+
+A typical BERT decoder is simply the encoder version with inserted cross-attention.
+
+```txt
+BertGenerationDecoder(
+  (bert): BertGenerationEncoder(
+    (embeddings): BertGenerationEmbeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0-11): 12 x BertGenerationLayer(
+          (attention): BertGenerationAttention(
+            (self): BertGenerationSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertGenerationSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (crossattention): BertGenerationAttention(
+            (self): BertGenerationSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertGenerationSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertGenerationIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertGenerationOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+  )
+  (lm_head): BertGenerationOnlyLMHead(
+    (decoder): Linear(in_features=768, out_features=30522, bias=True)
+  )
+)
+```
+
 ### Source Input
 
-Token Embeddings: a Matrix of size $30000 \times 768$. Here, $30000$ is the vocabulary length after wordpiece tokenization, and $768$ is dimension of each vocab.
+Token Embeddings: a Matrix of size $30522 \times 768$. Here, $30000$ is the vocabulary length after wordpiece tokenization, and $768$ is dimension of each token.
 
 Positional embeddings: positions of words in a sequence (often it is a sentence, large model may consider article).
 
@@ -193,4 +265,5 @@ LLaMA (Large Language Model Meta AI)
 
 Alpaca is a fine-tuned model of LLaMA's 7B version.
 
-## ChatGPT
+## OpenAI GPT/ChatGPT
+
