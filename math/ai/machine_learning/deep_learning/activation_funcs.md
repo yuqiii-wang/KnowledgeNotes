@@ -26,6 +26,27 @@ $$
 
 $softmax$ is often used in the final layer of a classifier network that outputs each class energy.
 
+### Softmax Derivative
+
+
+Recall there is $\frac{\partial {\mathcal{L}}}{\partial \hat{y}_{i}} \frac{\partial \hat{y}_{i}}{\partial z_{i}} = \frac{1}{\hat{y}_{i}} \frac{\partial \hat{y}_{i}}{\partial z_{i}} = \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}_{i})}_{\hat{y}_{i}} \big) \Big)$,
+so that by simply moving $\hat{y}_{i}$ to the opposite side of the equal operator, there derives the derivative for $\text{softmax}$ such that
+
+$$
+\begin{align*}
+  \frac{\partial \hat{y}_{i}}{\partial z_{i}} &=
+  \hat{y}_{i} \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}_{i})}_{\hat{y}_{i}} \big) \Big) 
+\\ &=
+  \hat{y}_{i} \Big( \underbrace{\frac{e^{z_{t,j}}}{\sum_i^n e^{z_{i}}}}_{\hat{y}_{t,j}} - \frac{\partial z_{i}}{\partial z_{t,j}} \Big)
+\\ &=
+    \left\{ \begin{array}{r}
+        \hat{y}_{i} (\hat{y}_{t,j} - 1) \qquad i = j \\
+        \hat{y}_{i}\hat{y}_{t,j} \qquad i \ne j
+    \end{array}\right.
+\end{align*}
+$$
+
+
 ## ReLU
 
 $$

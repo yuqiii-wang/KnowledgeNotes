@@ -4,57 +4,38 @@ A large language model (LLM) is a language model characterized by its large size
 
 State-of-art LLMs use transformers/attention designs.
 
-* BERT by Google is the first of its kind using transformer.
 
-* LLaMa by Facebook/Meta is the most popular open-source LLM by the year 2023.
+## Common Language Modeling (LM): Causal Language Modeling (CLM), Masked Language Modeling (MLM), and Sequence-to-Sequence (Seq2Seq)
 
-* ChatGPT by OpenAI is the most commercially successful LLM.
+* Causal Language Modeling (CLM)
 
-## Attention Is All You Need
+CLM is trained to predict the next token in a sequence only given the previous tokens.
 
-* Attention
+Architecture: autoregressive models like GPT; given that the previous tokens are received by the decoder itself, no need of an encoder.
 
-Given $Q$ for query, $K$ for key, $V$ for value, a simple self-attention can be computed as
+CLM is well-suited for tasks such as text generation and summarization. 
+However, CLM models have unidirectional context (only consider past texts as input).
 
-$$
-\text{Attention}(Q,K,V) = \text{softmax} \Big( \frac{Q K^{\top}}{\sqrt{d_k}} \Big) V
-$$
-where $\text{softmax} (\bold{x}) = \frac{e^{\bold{x}}}{\sum^K_{k=1}e^{\bold{x}}}$ in which $\bold{x}=\frac{Q K^{\top}}{\sqrt{d_k}}$.
+* Masked Language Modeling (MLM)
 
-$d_k$ is the dimension of query $Q$ and key $K$.
-Define the dimension of value $V$ as $d_v$ (value is often regarded as outputs).
+Some tokens in the input sequence are masked by `[MASK]`. MLM has the advantage of learning from bidirectional context (`[MASK]` is at somewhere in the middle of a sentence, so that tokens preceding and succeeding this `[MASK]` are contextual info, hence it is a bidirectional task).
 
-* Multi-Head Attention
+Architecture: encoder such as BERT
 
-For multi-head attention, there is
+MLM is useful in text classification, sentiment analysis, and named entity recognition.
 
-$$
-\text{MultiHeadAttention}(Q,K,V) = \text{concat}(\text{head}_1, \text{head}_2, ..., \text{head}_h) W
-$$
-where $\text{head}_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)$.
+* Seq2Seq
 
-The weights are $W \in \mathbb{R}^{h \cdot d_v \times d_{model}}, W_i^Q \in \mathbb{R}^{d_{model} \times d_k}, W_i^K \in \mathbb{R}^{d_{model} \times d_k}, W_i^V \in \mathbb{R}^{d_{model} \times d_v}$, where $d_{model}$ is the dimension of one single-attention head.
+Seq2Seq models consist of an encoder-decoder architecture (e.g., T5, BART), where the encoder processes the input sequence and the decoder generates the output sequence.
 
-For example, in BERT base, there are $h=12$ attention heads ( $h = d_{model} / d_k = 768 / 64 = 12$); in BERT Large, there are $h=16$ attention heads ( $h = d_{model} / d_k = 1024 / 64 = 16$ ).
-The choice of $d_{model} = 768$ is the result of employing wordpiece embedding per vocab.
-
-* Feed-Forward Network (FFN)
-
-Define a Feed-Forward Network (FFN), which is a $4$-times dimension increased fully connected network, such as in BERT base, there is `feed_forward_dim=3072` by $3072 = 4 \times 768$.
-The activation function is a simple ReLU $\sigma(x) = max(0, x)$.
-
-$$
-FFN(\bold{x}) = \max(0, \bold{x}W_1 + \bold{b}_1)W_2 + \bold{b}_2
-$$
-
-where one token $\bold{x} \in \mathbb{R}^{1 \times d_{model}}$ is passed to $FFN(\bold{x})$, in which $W_1 \in \mathbb{R}^{4 d_{model} \times d_{model}}$ and $W_2 \in \mathbb{R}^{ d_{model} \times 4d_{model}}$. 
+It is useful in machine translation, summarization, and question-answering.
 
 ## Bidirectional Encoder Representations from Transformers (BERT)
 
 BERT is bidirectional, meaning that it can predict words by looking back (word sequence BEFORE a placeholder word) as well as looking ahead  (word sequence AFTER a placeholder word).
 
-For example, to predict `<placeholder>` in this sentence: `Jason is playing football on a <placeholder> with his football coach Jack.`.
-BERT can do/train prediction bidirectionally `Jason is playing football on a <placeholder>` and `<placeholder> with his football coach Jack` (answer is `<placeholder> = "playground"`).
+For example, to predict `[MASK]` in this sentence: `Jason is playing football on a [MASK] with his football coach Jack.`.
+BERT can do/train prediction bidirectionally `Jason is playing football on a [MASK]` and `[MASK] with his football coach Jack` (answer is `[MASK] = "playground"`).
 
 This requires dataset containing sequential info but not necessarily orderly (such as in LSTM prediction for chronologically ordered data).
 
@@ -107,7 +88,7 @@ The pooler output is of size $1 \times 768$ that serves as input to classificati
 </div>
 </br>
 
-Other BERT models for different tasks may have different structures, such as no `token_type_embeddings` for Seq2Seq model.
+Other BERT models for different tasks may have different structures, such as no `token_type_embeddings`, nor `Pooler` for Seq2Seq model, which needs `last_hidden_state` from encoder to decoder rather than the "collective pooler representation".
 
 #### Output: `last_hidden_state` vs `pooler_output`
 
@@ -205,9 +186,9 @@ Total input: Token Embeddings (768 per vocabulary) + Segment Embeddings + Positi
 #### Data Preparation/Augmentation
 
 * Full text prediction
-* $10\%$ partial word masking (replaced with empty value)
-* $10\%$ partial word random substitution (replaced with random work)
-* Mixed: $5\%$ partial word masking and $5\%$ random word substitution
+* $15\%$ partial word masking (replaced with empty value)
+* $15\%$ partial word random substitution (replaced with random work)
+* Mixed: $7.5\%$ partial word masking and $7.5\%$ random word substitution
 
 The above augmentation can build model resilience learning the right grammar and semantics.
 
@@ -246,6 +227,66 @@ The problem only happens with sequential learning, when new information disrupts
 Train a new neural network with all the old data to relearn the forgotten knowledge.
 
 Use small learning rates
+
+### BERT For Question and Answering
+
+The `BertForQuestionAnswering` is basically a BERT base model plus a linear output for token classification.
+
+The model produces predicted logits for tokens' start position and end position in reference to the context texts (in other words, answers must be from context texts).
+
+Cross entropy of the start and end positions is used for loss.
+
+```python
+class BertForQuestionAnswering(BertPreTrainedModel):
+   
+  def __init__(self, config):
+      super(BertForQuestionAnswering, self).__init__(config)
+      self.num_labels = config.num_labels
+
+      self.bert = BertModel(config)
+      self.qa_outputs = nn.Linear(config.hidden_size, config.num_labels)
+
+      self.init_weights()
+
+      ...
+
+  def forward(self, input_ids=None, attention_mask=None, token_type_ids=None, position_ids=None, head_mask=None, 
+              inputs_embeds=None, start_positions=None, end_positions=None):
+
+      ...
+
+      outputs = self.bert(
+          input_ids,
+          attention_mask=attention_mask,
+          token_type_ids=token_type_ids,
+          position_ids=position_ids,
+          head_mask=head_mask,
+          inputs_embeds=inputs_embeds,
+          output_attentions=output_attentions,
+          output_hidden_states=output_hidden_states,
+          return_dict=return_dict,
+      )
+
+      sequence_output = outputs[0]
+
+      sequence_output = self.dropout(sequence_output)
+      logits = self.classifier(sequence_output)
+
+      ...
+
+      loss_fct = CrossEntropyLoss(ignore_index=ignored_index)
+      start_loss = loss_fct(start_logits, start_positions)
+      end_loss = loss_fct(end_logits, end_positions)
+      total_loss = (start_loss + end_loss) / 2
+
+      return TokenClassifierOutput(
+            loss=loss,
+            logits=logits,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+      )
+```
+
 
 ## LLaMa
 

@@ -91,38 +91,13 @@ sum_pred = summarizer(
 print(sum_pred.summary)
 ```
 
-### `forward()` vs `generate()`
+### `forward(...)` vs `generate(...)`
 
-A model's `forward()` methods overrides the `__call()__` that serves as a go-through of a neural network.
+A model's `forward(...)` methods overrides the `__call()__` that serves as a go-through of a neural network.
 It can be used in training as well as inference.
 
-A model's `generate()` methods uses `forward()` as its underlying implementation.
+A model's `generate(...)` methods uses `forward(...)` as its underlying implementation.
 It is only used in inference.
-
-### Common BERT Language Modeling (LM): Causal Language Modeling (CLM), Masked Language Modeling (MLM), and Sequence-to-Sequence (Seq2Seq)
-
-* Causal Language Modeling (CLM)
-
-CLM is trained to predict the next token in a sequence given the previous tokens.
-
-Architecture: autoregressive models like GPT
-
-CLM is well-suited for tasks such as text generation and summarization. 
-However, CLM models have unidirectional context (only consider past texts as input)
-
-* Masked Language Modeling (MLM)
-
-Some tokens in the input sequence are masked by `[MASK]`. MLM has the advantage of learning from bidirectional context.
-
-Architecture: encoder such as BERT
-
-MLM is useful in text classification, sentiment analysis, and named entity recognition.
-
-* Seq2Seq
-
-Seq2Seq models consist of an encoder-decoder architecture (e.g., T5, BART), where the encoder processes the input sequence and the decoder generates the output sequence.
-
-It is useful in machine translation, summarization, and question-answering.
 
 ## LangChain (LC) vs Semantic Kernel (SK)
 

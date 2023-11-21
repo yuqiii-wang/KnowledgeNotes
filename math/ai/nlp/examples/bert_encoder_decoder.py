@@ -36,8 +36,8 @@ model_enc_dec = EncoderDecoderModel(encoder=model_enc, decoder=model_dec)
 
 ########### Prepare Data
 
-dataInputSentence = "Yuqi's friends said Yuqi loves life and AI. Besides, Yuqi participated in many AI knowledge sharing seminars."
-dataOutputSentence = "Yuqi is passionate about AI."
+dataInputSentence = "Yuqi's friends said Yuqi loves AI. He studied in university about this technology."
+dataOutputSentence = "Yuqi love AI."
 
 dataInput = tokenizer(
     dataInputSentence, add_special_tokens=True, return_tensors="pt"
@@ -79,7 +79,7 @@ for each_pred in model_manual_enc_dec_outputs.logits[0]:
 print("model_manual_enc_dec_forward_output_vec: ")
 print(tokenizer.decode(model_manual_enc_dec_forward_output_vec))
 
-############ Built-in Encoder Decoder (to verify the above results that they are identical)
+############ Built-in Encoder Decoder (to verify the above results)
 
 model_enc_dec_forward_output = model_enc_dec(input_ids=dataInput.input_ids, 
                                               decoder_input_ids=dataOutput.input_ids)
@@ -109,7 +109,7 @@ dataInputSentenceList.append("Yuqi was asked to participate in a computer skill 
 dataInputSentenceList.append("Friends of Yuqi are attractive to many good looking boys and girls.")
 dataOutputSentenceList = []
 dataOutputSentenceList.append(dataOutputSentence)
-dataOutputSentenceList.append("Yuqi loves sports.")
+dataOutputSentenceList.append("Yuqi loves football.")
 dataOutputSentenceList.append("Yuqi loves climbing.")
 dataOutputSentenceList.append("Yuqi is a programmer .")
 dataOutputSentenceList.append("Yuqi is a company representative .")
@@ -141,7 +141,7 @@ for i in range(200):
     if i % 10 == 0:
         print("epoch " + str(i) + " training loss: " + str(loss.item()))
 
-    if (last_loss * 1.2 < loss.item()):
+    if (last_loss * 1.1 < loss.item()):
         break
 
 ###

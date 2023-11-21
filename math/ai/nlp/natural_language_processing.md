@@ -86,35 +86,46 @@ Similarly, in NLP tokenization, BPE ensures that the most common words are repre
 Letter pairs are hashed until all hash representations combinations are unique.
 
 ```txt
-This is a boy, and that is a toy.
+This is a boy, and that is a toy, and that one is another toy.
 ```
 
 First do normalization and pre-tokenization
 
 ```py
-['this', 'is', 'a', 'boy', 'and', 'that', 'is', 'a', 'toy']
+['this', 'is', 'a', 'boy', 'and', 'that', 'is', 'a', 'toy', 'and', 'that', 'one', 'is', 'another', 'toy']
 ```
 
-Count the letter pair combination:
-```py
-('t', 'h'): 2
-('h', 'i'): 1
-('i', 's'): 3
-('a'): 2
-('t', 'o'): 1
-('o', 'y'): 2
-('a', 'n'): 1
-('n', 'd'): 1
-('h', 'a'): 1
-('a', 't'): 1
-('b', 'o'): 1
+Count the letter pair combinations, merge letter pairs with occurrences more than once,
+until all combinations are unique, or having covered the whole pre-token length:
+$$
+\begin{matrix}
+      \text{1st round counting} & \text{2nd round counting} & \text{3rd round counting} \\
+      (\text{t}, \text{h}): 4 & (\text{th}, \text{is}): 1 & (\text{th}, \text{is}): 1 \\
+      (\text{h}, \text{i}): 1 & (\text{th}, \text{at}): 2 & (\text{that}): 2 \\
+      (\text{i}, \text{s}): 4 & (\text{is}): 3 & (\text{is}): 2 \\
+      (\text{a}): 2      & (\text{a}): 2       & (\text{a}): 2 \\
+      (\text{t}, \text{o}): 2 & (\text{to}, \text{y}): 2 & (\text{toy}): 2 \\
+      (\text{o}, \text{y}): 3 & (\text{o}, \text{y}): 1 &  (\text{o}, \text{y}): 1 \\
+      (\text{a}, \text{n}): 3 & (\text{an}, \text{d}): 2 & (\text{and}): 2 \\
+      (\text{n}, \text{d}): 2 & (\text{th}, \text{e}): 1 & (\text{th}, \text{e}): 1 \\
+      (\text{h}, \text{a}): 2 & \\
+      (\text{a}, \text{t}): 2 & (\text{at}): 2 \\
+      (\text{b}, \text{o}): 1 & (\text{b}, \text{o}): 1 & (\text{b}, \text{o}): 1 \\
+      (\text{o}, \text{n}): 1 & (\text{o}, \text{n}): 1 & (\text{o}, \text{n}): 1 \\
+      (\text{n}, \text{e}): 1 & (\text{n}, \text{e}): 1 & (\text{n}, \text{e}): 1 \\
+      (\text{n}, \text{o}): 1 & (\text{n}, \text{o}): 1 & (\text{n}, \text{o}): 1 \\
+      (\text{o}, \text{t}): 1 & (\text{o}, \text{t}): 1 & (\text{o}, \text{t}): 1 \\
+      (\text{h}, \text{e}): 1 & (\text{h}, \text{e}): 1 & (\text{h}, \text{e}): 1 \\
+      (\text{e}, \text{r}): 1 & (\text{e}, \text{r}): 1 & (\text{e}, \text{r}): 1 \\
+\end{matrix}
+$$
+
+The example text sentence is split into this list.
+
+```python
+['that', 'is' 'toy', 'and', 'th', 'e', 'a', 'b', 'o', 'n', 'e', 't', 'h', 'r' ]
 ```
 
-Finally, the example text sentence is split into this list.
-
-```py
-['th', 'is', 'oy', 'a', 'h', 'b', 'n', 'd', 't']
-```
 
 ## Embeddings
 
@@ -290,13 +301,6 @@ The transformer building blocks are scaled dot-product attention units.
 </br>
 
 
-### Motivations and Inspirations of Attention
-
-The predecessor LSTM (Long Short Term Memory) and GRU (Gated Recurrent Unit) are capable of learning latent info about sequence but have some disadvantages.
-* have many step functions/gates that are not differentiable; this causes swings between on/off states that drop info; attention replaces with differentiable softmax
-* long sequence info drops for vanishing gradients over the sequence; attention implements residual addition to amplify errors.
-* LSTM has much more parameters to train, hence hard to train and difficult to explain/interpret the model
-
 ### Self-Attention and Multi-Head Attention
 
 Given $Q$ for query, $K$ for key, $V$ for value, a simple self-attention can be computed as
@@ -398,6 +402,27 @@ model_dec = BertGenerationDecoder.from_pretrained(model_base_name,
                                             output_attentions=True,
                                             bos_token_id=tokenizer.get_vocab()["[CLS]"], 
                                             eos_token_id=tokenizer.get_vocab()["[SEP]"])
+```
+
+To construct a encoder-decoder architecture, first put data `input_ids=dataInput.input_ids` to encoder, whose outputs serve as query $Q$ and key $K$ to decoder via `encoder_hidden_states=model_enc_outputs.last_hidden_state`.
+The value $V$ is `input_ids=dataOutput.input_ids` to decoder.
+
+Finally, `model_dec_outputs.logits` is the result probability distribution of all vocabs.
+The corresponding token can be found by softmax `token_id = torch.argmax(torch.softmax(outputs.logits[0][0], dim=0))`.
+
+```python
+model_enc_outputs = model_enc(                
+                input_ids=dataInput.input_ids,
+                attention_mask=dataInput.attention_mask,
+                )
+
+model_dec_outputs = model_dec(    
+            input_ids=dataOutput.input_ids,
+            attention_mask=dataOutput.attention_mask,
+            encoder_hidden_states=model_enc_outputs.last_hidden_state,
+            encoder_attention_mask=dataInput.attention_mask,
+            labels=None,
+            )
 ```
 
 
