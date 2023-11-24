@@ -21,6 +21,27 @@ In mathematics, an isomorphism is a structure-preserving mapping between two str
 
 Rotation and translation are two typical isomorphic mapping.
 
+## Similarity Transform And Diagonalizable Matrix
+
+For $A$ and $B$ are said to be similar if there exists an invertible if there is an invertible $P \in \mathbb{C}^{r \times r}$ and satisfies
+
+$$
+B = P^{-1}A P
+$$
+
+If two matrices are similar, then they have the same rank, trace, determinant and eigenvalues.
+
+### Diagonalizable Matrix
+
+Define $A \in \mathbb{C}^{r \times r}$, that $A$ is diagonalizable if and only if it is similar to a diagonal matrix $D$.
+
+$$
+D = P^{-1}A P
+$$
+
+To compute/diagonalize a matrix $A$, first check $\text{rank}(A)=r$ if it is full rank, then solve $\text{det}(\lambda I - A)=0$.
+The result $D$ is an eigenvalue-composed diagonal matrix, and $P$ is an eigenvector-composed matrix.
+
 ## Hermitian matrix
 
 A Hermitian matrix (or self-adjoint matrix) is a complex square matrix that is equal to its own conjugate transpose.
@@ -84,7 +105,7 @@ $$
 \\
 ... & ... & ... & ...
 \\
-\frac{\partial^2 f}{\partial x_n \partial x_1}  & \frac{\partial^2 f}{\partial x_n \partial x_2}  & ... & \frac{\partial f}{\partial x_n^2}
+\frac{\partial^2 f}{\partial x_n \partial x_1}  & \frac{\partial^2 f}{\partial x_n \partial x_2}  & ... & \frac{\partial f}{\partial x_n^2}R
 \end{bmatrix}
 $$
 
@@ -124,5 +145,84 @@ $$
 }{
       \partial \space B
 } =
-A^\text{T} C^\text{T}
+A^{\top} C^{\top}
+$$
+
+## Matrix Norms
+
+### p-norm
+
+Let $p \ge 1$ be a real number.
+The p-norm (a.k.a. $\mathcal{L}^p$ norm) of a vector $\bold{x} \in \mathbb{R}^n$ is
+
+$$
+||\bold{x}||_p := \Bigg( \sum^n_{i=1} |x_i|^p \Bigg)^{{\frac{1}{p}}}
+$$
+
+### Matrix p-norm
+
+Given a field $K$ of either real or complex numbers, and let $K^{m \times n}$ be the $K$'s vector space,
+a matrix norm is a norm on $K^{m \times n}$ denoted as $||A||$ that leads to $|| \space \cdot \space || : K^{m \times n} \rightarrow \mathbb{R}^1$.
+
+Suppose $A,B \in K^{m \times n}$, and vector norm $|| \space \cdot \space ||_{\alpha}$ on $K^n$ and $|| \space \cdot \space ||_{\beta}$ on $K^m$ are known.
+Any $m \times n$ matrix $A$ induces a linear operator transforming $\bold{x} \in K^n$ from $K^n$ to $K^m$.
+
+$$
+\begin{align*}
+    ||A||_{\alpha, \beta} &= 
+    \sup \{ ||A\bold{x}||_{\beta} : \bold{x} \in K^n \text{ with } ||\bold{x}||_{\alpha} = 1 \}
+\\ &=
+    \sup \{ \frac{||A\bold{x}||_{\beta}}{||\bold{x}||_{\alpha}} : \bold{x} \in K^n \text{ with } \bold{x} \ne \bold{0} \}
+\end{align*}
+$$
+
+where $\sup$ means supremum of the set. 
+
+For matrix norms induced by vector *p-norms* ($1 \le p +\infty$) that sees $\alpha=\beta=p$, there is
+
+$$
+||A||_p = \sup_{\bold{x} \ne \bold{0}}  \frac{||A\bold{x}||_{p}}{||\bold{x}||_{p}}
+$$
+
+$||A||_p$ is interesting for it can be considered the "degree" of how much $\bold{x}$ is stretched by $A$.
+* $||A||_p > 1$, the input vector $\bold{x}$ is increased in length
+* $||A||_p < 1$, the input vector $\bold{x}$ is shrunken in length
+* $||A||_p = 1$, the input vector $\bold{x}$ does not change in length
+
+### p=1 Matrix Norm
+
+p=1 matrix norm is simply the maximum absolute column sum of the matrix.
+
+$$
+||A||_1 = \max_{1 \le j \le n} \sum^{m}_{i=1} |a_{ij}|
+$$
+
+### p=2 Matrix Norm (Spectral Radius)
+
+In vectors, the $p=2$'s norm is named Euclidean norm ($\mathcal{l}_2$).
+In matrix, $||A||_2$ is named spectral norm ($\mathcal{L}_2$).
+
+Define $A^{\dagger}$ as $A$'s conjugate transpose, and $\Sigma(\space \cdot \space)$ is the eigenvalue matrix of $\space \cdot \space$, and $\max (\space \cdot \space)$ takes the maximum out of the matrix/vector argument, there is
+
+$$
+||A||_2 = \sqrt{\max \Big( \Sigma\big( A^{\dagger} A \big) \Big)} =
+\sigma_{max}(A)
+$$
+
+where $\sigma_{max}(A)$ represents the largest singular value of matrix $A$.
+
+Proof: https://math.stackexchange.com/questions/586663/why-does-the-spectral-norm-equal-the-largest-singular-value/586835#586835
+
+Also,
+
+$$
+||A^{\dagger} A||_2 = ||A A^{\dagger}||_2 = ||A||^2_2
+$$
+
+The *spectral radius* of a square matrix $A$ of $\text{rank}(A)=r$ is the maximum of the absolute values of its eigenvalues $||A||_2 = \sigma_{max}(A)=\max \{ |\lambda_1|, |\lambda_2|, ..., |\lambda_r| \}$.
+
+Spectral radius describes to what max length $\bold{x}$ can be stretched by a square matrix $A$, that the max length happens to be the max eigenvalue of $A$.
+
+$$
+||A\bold{x}|| \le \lambda_{max}||\bold{x}||
 $$

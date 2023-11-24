@@ -91,15 +91,15 @@ $$
 $\mathcal{L}_t \in \mathbb{R}^1$ is a scalar value, and $\bold{z}_t \in \mathbb{R}^n$ is the linear/dense class prediction output awaiting normalized by softmax.
 The first updates should be on $W_z$ and $\bold{b}_z$.
 
-With the applied learning rate $\eta$, they are updated by the below.
+With the applied learning rate $\eta$, they are updated by summing up all back-propagated errors over all steps $t \in \{ 1, 2, ..., \tau \}$.
 
 $$
 \begin{align*}
 W_z & \leftarrow 
-\sum_t^{\tau} \eta \frac{\partial \mathcal{L}_t}{\partial W_z} + W_z + \xi_{W_z}
+\sum_t^{\tau} \eta \frac{\partial \mathcal{L}_t}{\partial \bold{h}_z} + W_z + \xi_{W_z}
 && &
 \bold{b}_z & \leftarrow 
-\sum_t^{\tau} \eta \frac{\partial \mathcal{L}_t}{\partial \bold{b}_z} + \bold{b}_z + \xi_{\bold{b}_z}
+\sum_t^{\tau} \eta \frac{\partial \mathcal{L}_t}{\partial \bold{h}_z} + \bold{b}_z + \xi_{\bold{b}_z}
 \end{align*}
 $$
 
@@ -108,18 +108,13 @@ where $\xi_{W_z}$ and $\xi_{\bold{b}_z}$ are random noises required for SGD (Sto
 By chain rule, there should be
 
 $$
-\frac{\partial \mathcal{L}_t}{\partial W_z} = 
+\frac{\partial \mathcal{L}_t}{\partial \bold{h}_z} = 
 \frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t}
 \frac{\partial \hat{\bold{y}}_t}{\partial \bold{z}_t}
-\frac{\partial \bold{z}_t}{\partial W_z}
-\qquad
-\frac{\partial \mathcal{L}_t}{\partial \bold{b}_z} = 
-\frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t}
-\frac{\partial \hat{\bold{y}}_t}{\partial \bold{z}_t}
-\frac{\partial \bold{z}_t}{\partial \bold{b}_z}
+\frac{\partial \bold{z}_t}{\partial \bold{h}_z}
 $$
 
-$\frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t} \in \mathbb{R}^{1 \times n}$ is the derivative with respect to each class prediction probability.
+$\frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t} \in \mathbb{R}^{1 \times n}$ is the derivative with respect to each class prediction probability, where $n$ refers to the num of prediction classes, e.g., num of vocab such as $n=30522$ for BERT tokens.
 For each entry $i = 1,2,...,n$, there is
 
 $$
@@ -129,7 +124,16 @@ $$
 \text{ for } \bold{y}_{t} \text{ is one-hot encoded}
 $$
 
-$\frac{\partial \log \hat{\bold{y}}_t}{\partial \bold{z}_t} \in \mathbb{R}^{n \times n}$ is a Jacobian, where $n$ refers to the num of prediction classes, e.g., num of vocab such as $n=30522$ for BERT tokens. 
+For example, $\frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t}\Big|_{i=2023}$ assumes the $t$-step's true label is of $i=2023$, there is
+
+$$
+\frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t} = 
+[\underbrace{0, 0, 0, 0, 0, 0, 0, 0, ..., 0}_{\times 2022}, 
+\frac{\partial \log \hat{{y}}_{t,i=2023}}{\partial z_{t,j}},
+\underbrace{0, 0, 0, 0, 0, 0, 0, 0, ..., 0}_{\times (30522 - 1 - 2022)}]
+$$
+
+$\frac{\partial \log \hat{\bold{y}}_t}{\partial \bold{z}_t} \in \mathbb{R}^{n \times n}$ is a Jacobian. 
 For each entry there is 
 
 $$
@@ -164,30 +168,18 @@ So that
 
 $$
 \begin{align*}
-\frac{\partial \mathcal{L}_t}{\partial W_z} &= 
+\frac{\partial \mathcal{L}_t}{\partial \bold{h}_z} &= 
 \frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t}
 \frac{\partial \hat{\bold{y}}_t}{\partial \bold{z}_t}
-\frac{\partial \bold{z}_t}{\partial W_z}
-&&&
-\frac{\partial \mathcal{L}_t}{\partial \bold{b}_z} &= 
-\frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t}
-\frac{\partial \hat{\bold{y}}_t}{\partial \bold{z}_t}
-\frac{\partial \bold{z}_t}{\partial \bold{b}_z}
+\frac{\partial \bold{z}_t}{\partial \bold{h}_z}
 \\
 &=
 (\hat{\bold{y}}_{t} - \bold{1})
-\frac{\partial \bold{z}_t}{\partial W_z}
-&&&
-&=
-(\hat{\bold{y}}_{t} - \bold{1})
-\frac{\partial \bold{z}_t}{\partial \bold{b}_z}
+\frac{\partial \bold{z}_t}{\partial \bold{h}_z}
 \\
 &=
 (\hat{\bold{y}}_{t} - \bold{1})
-\bold{h}_t
-&&&
-&=
-\hat{\bold{y}}_{t} - \bold{1}
+W_z
 \end{align*}
 $$
 

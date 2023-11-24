@@ -1,5 +1,9 @@
 # Basic machine learning knowledge
 
+## Cost vs Loss
+
+The cost function measures the model's error on a group of objects, whereas the loss function deals with a single data instance.
+
 ## Supervision and Non-Supervision Learning
 
 * Supervision

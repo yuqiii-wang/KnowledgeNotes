@@ -3,28 +3,57 @@
 ## sigmoid
 
 $$
-sigmoid \space x=
-\frac{e^{x}}{e^x+1}
+\text{sigmoid} (x) =
+\frac{e^{x}}{e^x+1} =
+\frac{1}{1+e^{-x}}
 $$
 
-$sigmoid$ maps input $(-\infty, +\infty)$ to output $(0,1)$. It is used to represent zero/full information flow. For example, in LSTM, it guards in/out/forget gates to permit data flow.
+$\text{sigmoid}$ maps input $(-\infty, +\infty)$ to output $(0,1)$. It is used to represent zero/full information flow. For example, in LSTM, it guards in/out/forget gates to permit data flow.
+
+### Sigmoid Derivative
+
+$$
+\begin{align*}
+  \frac{d}{d x} \text{sigmoid}(x) &=
+  \frac{d}{d x} \Big( \frac{1}{1+e^{-x}} \Big) 
+\\ &=
+  \frac{d}{d x} ( {1+e^{-x}} )^{-1}
+\\ &=
+  -( {1+e^{-x}} )^{-2} (-e^{-x})
+\\ &=
+  \frac{e^{-x}}{({1+e^{-x}})^2}
+\\ &=
+  \frac{e^{-x}}{{1+e^{-x}}}   \frac{1}{{1+e^{-x}}}
+\\ &=
+  \frac{(e^{-x}+1)-1}{{1+e^{-x}}}   \frac{1}{{1+e^{-x}}}
+\\ &=
+  \Big( \frac{e^{-x}+1}{{1+e^{-x}}} - \frac{1}{{1+e^{-x}}} \Big) \frac{1}{{1+e^{-x}}}
+\\ &=
+  \Big( 1 - \frac{1}{{1+e^{-x}}} \Big) \frac{1}{{1+e^{-x}}}
+\\ &=
+  \sigma(x) \cdot \big( 1-\sigma(x) \big)
+\end{align*}
+$$
 
 ## Softmax
 
-Defien a standard (unit) softmax function $\sigma: \mathbb{R}^K \rightarrow (0,1)^k$
+Defien a standard (unit) softmax function $\sigma: \mathbb{R}^n \rightarrow (0,1)^n$
 $$
 \sigma(\bold{z})_i=
-\frac{e^{z_i}}{\sum^K_{j=1}e^{z_j}}
+\frac{e^{z_i}}{\sum^n_{j=1}e^{z_j}}
 $$
-for $i=1,2,...,K$ and $\bold{z}=(z_1, z_2, ..., z_K)\in \mathbb{R}^K$
-
-Now define $\bold{z}=\bold{x}^\text{T}\bold{w}$, there is
-$$
-\text{softmax} \space (y=j | \bold{x})=
-\frac{e^{\bold{x}^\text{T}\bold{w}_j}}{\sum^K_{k=1}e^{\bold{x}^\text{T}\bold{w}_k}}
-$$
+for $i=1,2,...,n$ and $\bold{z}=(z_1, z_2, ..., z_n)\in \mathbb{R}^n$
 
 $softmax$ is often used in the final layer of a classifier network that outputs each class energy.
+
+Given one-hot encoded true labels $\bold{y}$, one forward pass of softmax is as below.
+
+$$
+\begin{align*}
+    \hat{\bold{y}} &= \text{softmax}(\bold{z}) 
+\\  \mathcal{L} &= - \bold{y}^{\top} \log \hat{\bold{y}}
+\end{align*}
+$$
 
 ### Softmax Derivative
 
@@ -37,11 +66,11 @@ $$
   \frac{\partial \hat{y}_{i}}{\partial z_{i}} &=
   \hat{y}_{i} \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}_{i})}_{\hat{y}_{i}} \big) \Big) 
 \\ &=
-  \hat{y}_{i} \Big( \underbrace{\frac{e^{z_{t,j}}}{\sum_i^n e^{z_{i}}}}_{\hat{y}_{t,j}} - \frac{\partial z_{i}}{\partial z_{t,j}} \Big)
+  \hat{y}_{i} \Big( \underbrace{\frac{e^{z_{t,j}}}{\sum_i^n e^{z_{i}}}}_{\hat{y}_{j}} - \frac{\partial z_{i}}{\partial z_{t,j}} \Big)
 \\ &=
     \left\{ \begin{array}{r}
-        \hat{y}_{i} (\hat{y}_{t,j} - 1) \qquad i = j \\
-        \hat{y}_{i}\hat{y}_{t,j} \qquad i \ne j
+        \hat{y}_{i} (\hat{y}_{j} - 1) \qquad i = j \\
+        \hat{y}_{i}\hat{y}_{j} \qquad i \ne j
     \end{array}\right.
 \end{align*}
 $$
@@ -122,11 +151,26 @@ This design by SwiGLU amplifies error feedback when switching back and forth pos
 ## tanh
 
 $$
-tanh \space x =
-\frac{e^{2x-1}}{e^{2x+1}}
+\text{tanh} \space x =
+\frac{e^{2x-1}}{e^{2x+1}} =
+\frac{e^x - e^{-x}}{e^x + e^{-x}}
 $$
 
-$tanh$ maps input $(-\infty, +\infty)$ to output $(-1,1)$, that is good for features requiring both negative and positive gradients updating weights of neurons. 
+$\text{tanh}$ maps input $(-\infty, +\infty)$ to output $(-1,1)$, that is good for features requiring both negative and positive gradients updating weights of neurons. 
 
-$tanh$ is a good activation function to tackling vanishing gradient issues.
+$\text{tanh}$ is a good activation function to tackling vanishing gradient issues.
 
+### tanh Derivative
+
+$$
+\begin{align*}
+  \frac{d}{d x} \text{tanh}(x) &=
+  \frac{d}{d x} \Big( \frac{e^x - e^{-x}}{e^x + e^{-x}} \Big)
+\\ &=
+  \frac{(e^x + e^{-x})(e^x + e^{-x}) - (e^x - e^{-x})(e^x - e^{-x})}{(e^x + e^{-x})^2}
+\\ &=
+  1 - \frac{(e^x - e^{-x})^2}{(e^x + e^{-x})^2}
+\\ &=
+  1 - \text{tanh}^2(x)
+\end{align*}
+$$

@@ -175,6 +175,8 @@ For example, by placing "restaurants" and "bar" together in a text dataset that 
 
 ### Positional Embeddings
 
+https://zhuanlan.zhihu.com/p/662790439
+
 Positional embeddings represent the position of a word in a sentence/document.
 The order of how vocabularies are arranged in a sentence/document provides rich information in NLP.
 

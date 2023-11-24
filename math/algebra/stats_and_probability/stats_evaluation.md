@@ -71,6 +71,19 @@ For example,
 length of life, on average, is shorter for never-married persons than for ever-married persons ($\overline{X}_{not-married} > \overline{X}_{married}$);
 the mean years of schooling of city students are different than the mean years of schooling of country students ($\overline{X}_{city-student} \ne \overline{X}_{country-student}$).
 
+* T Test vs F Test
+
+|T Test|F Test|
+|-|-|
+|Assume population variances are equal; to test if the population means are equal|to test whether two population variances are equal|
+
+* P-Value vs Statistical Power
+
+|P-Value|Statistical Power|
+|-|-|
+|the probability rejecting the null hypothesis while it is true|the probability of rejecting the null hypothesis while it is false|
+|small value $p<0.05$ means high significance|large value $\text{Power}>0.8$ means high significance|
+
 ### T Test and Z Test Statistic
 
 A statistical test that is used to compare the means of two groups. 
