@@ -63,5 +63,4 @@ It uses KL-Distance to measure the relative entropy between true posterior $p$ a
 In other words, during global relocalization or localization init, a large number of sample particles should be used.
 Once particles are clustered/converged, once a small number of particles are required to track a moving robot.
 
-### Kullback-Leibler Divergence (KLD)
 

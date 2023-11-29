@@ -58,7 +58,7 @@ param += -learning_rate * dparam / np.sqrt(cache + 1e-8)
 ```
 
 
-## RMS-Prop (Root Mean Square Propagation)
+## RMS-Prop (RMSP, Root Mean Square Propagation)
 
 RMS-Prop is a special version of Adagrad in which the learning rate is a moving average of the recent two gradient instead of the cumulative sum of squared gradients. 
 
@@ -79,9 +79,9 @@ $$
 
 ## Adam (Adaptive Moment Estimation)
 
-Adam makes use of the average of the first and second moments of the gradients. 
+Adam makes use of the average of the first and second moments of the gradients.
 
-The parameters of $\beta_1$ and $\beta_2$ are used to control the decay rates of these moving averages. 
+The parameters of $\beta_1 \ge 0.9$ and $\beta_2 \ge 0.99$ are used to control the decay rates of these moving averages.
 
 The first and second order momentum at the $n$-th iteration:
 
@@ -112,7 +112,7 @@ $$
 
 ### Adam Derivation
 
-Adam follows the philosophy that momentums at the $n$-th iteration should see their expected values be equal to the expected values over all $n$ history gradients. 
+Adam follows the philosophy that momentums at the $n$-th iteration should see their expected values be equal to the expected values over all $n$ history gradients ($g_n = \frac{\partial\space Loss}{\partial\space W_{n}}$ and $g_n^2=(\frac{\partial\space Loss}{\partial\space W_{n}})^2$).
 
 This thinking (*unbiased estimators*) can be expressed as below.
 
@@ -171,11 +171,73 @@ E[g_n] (1-\beta_1^n) + \xi
 \end{align*}
 $$
 
-where $(1)$ is derived by taking out $E[g_n]$ from the summation and the remaining term is $\xi$, which represents the difference between sum of $\beta_1^{n-i} g_i$ and that of just applying $E[g_n]\beta_1^{n-i}$. $(2)$ is just the result of finite geometric sequence sum.
+where $(1)$ is derived by taking out $E[g_n]$ from the summation and the remaining term is $\xi$, which represents the difference between sum of $\beta_1^{n-i} g_i$ and that of just applying $E[g_n]\beta_1^{n-i}$. $(2)$ is just the result of finite geometric sequence sum $\sum^n_{i=1}r^i = \frac{a_1(1-r^n)}{1-r}$ for $r \ne 1$.
 
 As a result, bias correction is done by cancelling the term $1-\beta_1^n$ with $\hat{m}_{n} = \frac{m_{n}}{1-\beta_1^n}$.
 
-$v_n$ takes similar deduction result and has the correction term $\hat{v}_{n} = \frac{v_{n}}{1-\beta_2^n}$
+$v_n$ takes similar deduction result and has the correction term $\hat{v}_{n} = \frac{v_{n}}{1-\beta_2^n}$.
+
+### Adam Variants: Weight Decay and AdamW
+
+* Adam With Weight Decay
+
+Before computing ADAM, add a small amount of previous iteration parameters $\lambda W_{n-1}$ to gradient, where $\lambda=0.01$.
+
+$$
+g_n \leftarrow g_{n} + \lambda W_{n-1}
+$$
+
+* AdamW
+
+Before computing ADAM, add a small amount of previous iteration parameters $\lambda \eta W_{n-1}$ to this iteration parameters, where $\lambda=0.01$ for a learning rate $\eta=10^{-4}$.
+
+$$
+W_{n} \leftarrow W_{n-1} + \lambda \eta W_{n-1}
+$$
+
+### Choices of $\beta_1$ and $\beta_2$
+
+$\beta_1 \ge 0.9$ and $\beta_2 \ge 0.99$ are typical choices.
+
+As iterations grow $n \rightarrow +\infty$, there is
+
+$$
+\begin{align*}
+    \lim_{n \rightarrow +\infty} \hat{m}_{n} &=
+    \frac{m_{n}}{1-\beta_1^{n-1}}
+\\ &\approx
+    m_{n} 
+\\ &=
+    \beta_1 \Big( \beta_1 m_{n-1} + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n-1}} \Big) + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n}}
+\\ &=
+    \beta_1 \Big( \beta_1 \Big(\beta_1 m_{n-2} + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n-2}} \Big) + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n-1}} \Big) + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n}}
+\\ &=
+    ...
+\\ &=
+    \beta_1^n m_0 +
+    (1-\beta_1)\Big( \beta_1^n \frac{\partial\space Loss}{\partial\space W_{1}} + ... + \beta_1^2 \frac{\partial\space Loss}{\partial\space W_{n-2}}
+    + \beta_1 \frac{\partial\space Loss}{\partial\space W_{n-1}} +
+    \frac{\partial\space Loss}{\partial\space W_{n}} \Big)
+\end{align*}
+$$
+
+By approximating $\beta_1^n \approx \beta_1^{n-1} \approx ... \approx 0$ for $n \gg 0$, when $\beta_1$ is small, the momentum $m_n$ is almost identical to $\frac{\partial\space Loss}{\partial\space W_{n}}$; when $\beta_1$ is large, the recent momentum info is retained, 
+such as $ \beta_1^2 \frac{\partial\space Loss}{\partial\space W_{n-2}} + \beta_1 \frac{\partial\space Loss}{\partial\space W_{n-1}} + \frac{\partial\space Loss}{\partial\space W_{n}}$ has sufficient gradient info.
+
+In other words, a large $\beta_1 \ge 0.9$ retains rich info about momentum.
+
+Similarly for $v_n$, there is
+
+$$
+v_n =
+\beta_2^n v_0 +
+    (1-\beta_2)\Big( \beta_2^n \big( \frac{\partial\space Loss}{\partial\space W_{1}}\big)^2 + ... + \beta_2^2 \big( \frac{\partial\space Loss}{\partial\space W_{n-2}} \big)^2 
+    + \beta_2 \big( \frac{\partial\space Loss}{\partial\space W_{n-1}} \big)^2 +
+    \big( \frac{\partial\space Loss}{\partial\space W_{n}}\big)^2 \Big)
+$$
+
+ADAM controls the importance of momentum and RMS-Prop via $\beta_1$ and $\beta_2$.
+
 
 ### Loss Function Scaling Impact on ADAM
 
@@ -184,8 +246,6 @@ However, for ADAM, this is not true.
 
 For $\frac{\partial\space Loss}{\partial\space W_{n}} \rightarrow m_{n+1}$ and $(\frac{\partial\space Loss}{\partial\space W_{n}})^2 \rightarrow v_{n+1}$, and finally for $\Delta W_{n+1} = \eta \frac{\hat{m}_{n+1}}{\sqrt{\hat{v}_{n+1}}+\epsilon}$, the square root operation cancels out the $0.5$ effect on the loss function.
 In conclusion, scaling on loss function has no effect on ADAM learning/weight update.
-
-## AdamW
 
 ## Bayesian Optimizer
 

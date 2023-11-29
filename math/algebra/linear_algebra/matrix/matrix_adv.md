@@ -72,8 +72,7 @@ In vector calculus, the Jacobian matrix of a vector-valued function of several v
 Given a mapping: $f : R_n \rightarrow R_m$ is a function such that each of its first-order partial derivatives exist on $R_n$, with input $x \in R^n$ ($n$ dimensions for input) and output $f(x) \in R^m$ ($m$ dimensions for output), define $J_{n \times m}$
 
 $$
-J_{n \times m} = \bigg[ \frac{\partial f}{\partial x_1} ... \frac{\partial f}{\partial x_n} \bigg]
-=
+J_{n \times m} = \bigg[ \frac{\partial f}{\partial x_1} ... \frac{\partial f}{\partial x_n} \bigg] =
 \begin{bmatrix}
 \frac{\partial f_1}{\partial x_1} & ... & \frac{\partial f_1}{\partial x_n} 
 \\
@@ -130,10 +129,10 @@ a_{31} & a_{32} & a_{33}
 $$
 
 its trace is
+
 $$
 tr(A) = 
-\sum^3_i a_{ii}
-=
+\sum^3_i a_{ii} =
 a_{11} + a_{22} + a_{33}
 $$
 
@@ -185,9 +184,25 @@ $$
 $$
 
 $||A||_p$ is interesting for it can be considered the "degree" of how much $\bold{x}$ is stretched by $A$.
+
 * $||A||_p > 1$, the input vector $\bold{x}$ is increased in length
 * $||A||_p < 1$, the input vector $\bold{x}$ is shrunken in length
 * $||A||_p = 1$, the input vector $\bold{x}$ does not change in length
+
+### p=0 Matrix Norm
+
+The $\mathcal{L}_0$  measures how many zero-elements are in a tensor $\bold{x}$, or the element is either zero or one $x_i \in \{ 0, 1 \}$:
+
+$$
+||\bold{x}||_0 = |x_1|^0 + |x_2|^0 + ... + |x_n|^0
+$$
+
+It is useful in sparsity vs density for neural network:
+the number of non-zero elements and sparsity's complement relationship is as below:
+
+$$
+\text{density} = 1 - \text{sparsity}
+$$
 
 ### p=1 Matrix Norm
 
@@ -202,14 +217,91 @@ $$
 In vectors, the $p=2$'s norm is named Euclidean norm ($\mathcal{l}_2$).
 In matrix, $||A||_2$ is named spectral norm ($\mathcal{L}_2$).
 
-Define $A^{\dagger}$ as $A$'s conjugate transpose, and $\Sigma(\space \cdot \space)$ is the eigenvalue matrix of $\space \cdot \space$, and $\max (\space \cdot \space)$ takes the maximum out of the matrix/vector argument, there is
+The $p=2$'s matrix norm is coined *Frobenius norm* (equivalent of Euclidean norm $\mathcal{l}_2$ but for matrix)
+
+$$
+||A||_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n |a_{ij}|^2} =
+\sqrt{\text{trace} (A^{\dagger} A) }
+$$
+
+where $A^{\dagger}$ is $A$'s conjugate transpose.
+
+Let $\Sigma(\space \cdot \space)$ be the eigenvalue matrix of $\space \cdot \space$ (by diagnalization), and $\max (\space \cdot \space)$ takes the maximum out of the matrix/vector argument, there is
 
 $$
 ||A||_2 = \sqrt{\max \Big( \Sigma\big( A^{\dagger} A \big) \Big)} =
-\sigma_{max}(A)
+\sigma_{max}(A) \le ||A||_F
 $$
 
 where $\sigma_{max}(A)$ represents the largest singular value of matrix $A$.
+
+Equality of $\sigma_{max}(A) \le ||A||_F$ holds if and only if the matrix $A$ is a rank-one matrix or a zero matrix. 
+
+This inequality can be derived from the fact that the trace of a matrix is equal to the sum of its eigenvalues $\text{trace}(A) = \sum_{i=1}^n \lambda_i$, where $\lambda_i$ is the eigenvalue of $A$.
+
+$$
+\begin{align*}
+\text{det}(\underbrace{A-tI}_{W}) &=
+\begin{vmatrix}
+    (a_{11}-t) \text{det}(W_{2:n, 2:n}) &
+    a_{12} \text{det}(W_{2:n, (1, 3:n)}) & &
+    a_{1n} \text{det}(W_{2:n, 1:n-1}) \\
+    a_{21} \text{det}(W_{(1, 3:n), 2:n}) &
+    (a_{22}-t) \text{det}(W_{(1, 3:n), (1, 3:n)}) & &
+    a_{2n} \text{det}(W_{(1, 3:n), 1:n-1}) \\
+    & & \ddots & \\
+    a_{n1} \text{det}(W_{1:n-1, 2:n}) &
+    a_{n2} \text{det}(W_{1:n-1, (1, 3:n)}) & &
+    (a_{nn}-t) \text{det}(W_{1:n-1, 1:n-1}) \\
+\end{vmatrix} 
+\\ &=
+\begin{vmatrix}
+    \underbrace{
+    (a_{11}-t) \begin{vmatrix}
+        (a_{22}-t)\text{det}(W_{3:n, 3:n}) &
+        a_{23} \text{det}(W_{3:n, (2, 4:n)}) & ... \\
+        (a_{23}-t)\text{det}(W_{3:n, (2, 4:n)}) &
+        a_{33} \text{det}(W_{(2, 4:n), (2, 4:n)}) & ... \\
+        & \vdots & \\
+        (a_{2n}-t)\text{det}(W_{3:n, 3:n-1}) &
+        a_{3n} \text{det}(W_{(2, 4:n), 3:n-1}) & ... 
+    \end{vmatrix}}_{(a_{11}-t) \text{det}(W_{2:n, 2:n})}
+    &
+    a_{12} \text{det}(W_{2:n, (1, 3:n)}) & &
+    a_{1n} \text{det}(W_{2:n, 1:n-1}) \\
+    a_{21} \text{det}(W_{(1, 3:n), 2:n}) &
+    (a_{22}-t) \text{det}(W_{(1, 3:n), (1, 3:n)}) & &
+    a_{2n} \text{det}(W_{(1, 3:n), 1:n-1}) \\
+    & & \ddots & \\
+    a_{n1} \text{det}(W_{1:n-1, 2:n}) &
+    a_{n2} \text{det}(W_{1:n-1, (1, 3:n)}) & &
+    (a_{nn}-t) \text{det}(W_{1:n-1, 1:n-1}) \\
+\end{vmatrix} 
+\\ &=
+(-1)^n \big(t^n - (t)^{n-1} \text{trace}(A) + ... + \text{det}(A) \big)
+\end{align*}
+$$
+
+For any polynomial should see the solution in this format.
+
+$$
+\begin{align*}
+(-1)^n (t-\lambda_1)(t-\lambda_2) ... (t-\lambda_n) &=
+(-1)^n \big(t^2-(\lambda_1+\lambda_2)t + 2\lambda_1\lambda_2 \big)(t-\lambda_3) ... (t-\lambda_n)
+\\ &=
+(-1)^n \big(t^3-(\lambda_1+\lambda_2+\lambda_3)t^2 +2\lambda_1\lambda_2 t - 2\lambda_1\lambda_2\lambda_3 + (\lambda_1+\lambda_2)\lambda_3 t  \big)(t-\lambda_4) ... (t-\lambda_n)
+\\ &=
+(-1)^n \big(t^4-(\lambda_1+\lambda_2+\lambda_3+\lambda_4)t^3 -(\lambda_1+\lambda_2+\lambda_3)\lambda_4 t^2 + ...  \big)(t-\lambda_4) ... (t-\lambda_n)
+\\ &=
+(-1)^n \big(t^n + (t)^{n-1} \underbrace{\sum_{i=1}^n \lambda_i}_{\text{trace}(A)} + (t)^{n-2}\lambda_n \sum_{i=1}^{n-1} \lambda_i + ... \big)
+\end{align*}
+$$
+
+By comparing against the above $\text{det}(A-tI)$, there is
+
+$$
+\text{trace}(A) = \sum_{i=1}^n \lambda_i
+$$
 
 Proof: https://math.stackexchange.com/questions/586663/why-does-the-spectral-norm-equal-the-largest-singular-value/586835#586835
 
@@ -225,4 +317,22 @@ Spectral radius describes to what max length $\bold{x}$ can be stretched by a sq
 
 $$
 ||A\bold{x}|| \le \lambda_{max}||\bold{x}||
+$$
+
+Nuclear Norm $||A||_*$:
+
+$||A||_*$ is defined as the sum of its singular values:
+
+$$
+||A||_* = \sum_{i} \sigma_i(A)
+$$
+
+where $\sigma_i(\space . \space)$ is the $i$-th singular value of $A$.
+
+### $p=+\infty$ Max Norm
+
+It is defined as when $p = q$ goes to infinity:
+
+$$
+||A||_{max} = \max_{i,j} |a_{ij}|
 $$

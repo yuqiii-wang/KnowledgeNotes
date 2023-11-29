@@ -61,7 +61,8 @@ hence proving rank $2$ for matrix $A$.
 
 ## Transpose
 
-$A_{n \times m}$ can be expressed as row-based ($A=[r_1, r_2, ..., r_n]$) or column-based ($A=[c_1, c_2, ..., c_m]$), so that  
+$A_{n \times m}$ can be expressed as row-based ($A=[r_1, r_2, ..., r_n]$) or column-based ($A=[c_1, c_2, ..., c_m]$), so that
+
 $$
 A^T A = 
 \begin{bmatrix}
@@ -70,8 +71,7 @@ A^T A =
       ... \\
       c_m^T 
 \end{bmatrix}
-[c_1, c_2, ..., c_m]
-=
+[c_1, c_2, ..., c_m] =
 \begin{bmatrix}
       c_1^T c_1 & c_1^T c_2 & ... & c_1^T c_m \\
       c_2^T c_1 & c_2^T c_2 & ... & c_2^T c_m\\
@@ -79,6 +79,7 @@ A^T A =
       c_m^T c_1 & c_m^T c_2& ... & c_m^T c_m
 \end{bmatrix}
 $$
+
 which $A^T A$ is a Gramian matrix (inner products of column vectors). Likewise, $A A^T$ is for inner products of row vectors.
 
 ## Triangular Matrix
@@ -109,6 +110,7 @@ The set of $n \times n$ orthogonal matrices forms a group, $O(n)$, known as the 
 Determinant is a scalar value that is a function of the entries of a square matrix.
 
 Geometrically speaking, determinant is area of the $n \times n$ squared matrix, for example, for a $2 \times 2$ matrix, the area of parallellogram is
+
 $$
 |u||v|sin\theta = 
 \begin{array}{c}
@@ -126,14 +128,14 @@ $$
       d
     \end{array}
     \bigg )
-\end{array}
-=
+\end{array} =
 ad-bc
 $$
 
 ![parallellogram_as_determinant](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")
 
 The following shows the calculation of a $3 \times 3$ matrix's determinant:
+
 $$
 \bigg |
 \begin{array}{ccc}
@@ -143,8 +145,7 @@ $$
       g & h & i
     \end{array}
 \end{array}
-\bigg |
-=
+\bigg | =
 a
 \big |
 \begin{array}{cc}
@@ -153,8 +154,7 @@ a
       h & i 
     \end{array}
 \end{array}
-\big |
--
+\big | -
 d
 \big |
 \begin{array}{cc}
@@ -163,8 +163,7 @@ d
       h & i 
     \end{array}
 \end{array}
-\big |
-+
+\big | +
 g
 \big |
 \begin{array}{cc}
@@ -177,6 +176,7 @@ g
 $$
 
 further,
+
 $$
 \bigg |
 \begin{array}{ccc}
@@ -186,10 +186,10 @@ $$
       g & h & i
     \end{array}
 \end{array}
-\bigg |
-=
+\bigg | =
 a(ei-fh)-d(bi-hc)+g(bf-ec)
 $$
+
 which give the volume of a parallelotope.
 
 ## Adjugate Matrix
@@ -214,9 +214,9 @@ A =
 \end{bmatrix}
 $$
 the $(1,2)$-th element is $b$, whose determinant can be expressed as
+
 $$
-M_{1,2} = 
--
+M_{1,2} = -
 \bigg |
 \begin{array}{cc}
     \begin{array}{cc}
@@ -227,7 +227,9 @@ M_{1,2} =
 \bigg |
 = -(di-fg)
 $$
+
 Co-matirx $C$:
+
 $$
 C =
 \begin{bmatrix}
@@ -244,11 +246,12 @@ Finding classical adjoint of a matrix is same as applying a linear transformatio
 The adjoint of a matrix (Hermitian Adjoint) and classical adjoint are two different things, do not confuse.
 
 Consider a linear map $A: H_1 \rightarrow H_2$ between Hilbert spaces, the adjoint operator is the linear operator $A^\dag: H_2 \rightarrow H_1$ satisfying
+
 $$
-\langle A h_1, h_2 \rangle_{H_2}
-=
+\langle A h_1, h_2 \rangle_{H_2} =
 \langle h_1, A^\dag h_2 \rangle_{H_1}
 $$
+
 where $\langle \space . \space, \space . \space \rangle_{H_i}$ is the inner product in the Hilbert space $H_i$, and $\space^\dag$ is the notation for Hermitian/conjugate transpose.
 
 ### Self-Adjoint Matrix
