@@ -65,7 +65,7 @@ huggingface-cli download --resume-download meta-llama/Llama-2-7b --token hf_xxxx
 There are many fine-tuned LLAMA variants. For example, below is open-source no need of additional download permission.
 
 ```bash
-huggingface-cli download --resume-download 01-ai/Yi-6B-200K --local-dir 01-ai/Yi-6B-200K
+huggingface-cli download --resume-download openai-gpt --local-dir openai-gpt
 ```
 
 ### Pipeline
@@ -101,3 +101,24 @@ It is only used in inference.
 
 ## LangChain (LC) vs Semantic Kernel (SK)
 
+
+## LLM Training Strategies/Tasks in NLP
+
+### Optimizer Considerations
+
+The source input of NLP is tokens from text vocabulary, and some vocabs are frequently used and some are rarely used.
+
+By input embedding layer such as BERT base's wordpiece embedding $\bold{x}: \mathbb{R}^{1 \times 768} \rightarrow \mathbb{R}^{30522 \times 768}$ then by normalization to ${\bold{x}}_{emb-norm} \in \mathbb{R}^{1 \times 768}$ then being fed to transformer, it is 
+
+### Training By NLP Tasks
+
+Models are trained in different tasks to build resilience against various inputs.
+
+* Masked language modeling (MLM)
+
+Randomly remove words (usually $15\%$) from a sentence.
+Train this model to predict the missing words.
+
+* Next sentence prediction (NSP)
+
+Train this model to predict a next sentence given a number of context sentences.

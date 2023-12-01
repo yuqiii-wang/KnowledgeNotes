@@ -4,6 +4,27 @@ A large language model (LLM) is a language model characterized by its large size
 
 State-of-art LLMs use transformers/attention designs.
 
+||Smallest Size*|Largest Size*|Structure|Training|Use|Developer|
+|-|-|-|-|-|-|-|
+|Bidirectional Encoder Representations from Transformers (BERT)|bert-base: 110 m|bert-large: 340 m|encoder stack, bidirectional|$15\%$ Masked language modeling (MLM)|learning representations of words taking context on both sides/bidirectional, predict `[MASK]` words|Google|
+|RoBERTa|||||||
+|Large Language Model Meta AI (LLAMA)|llama-2: 7 b|llama-2: 130 b||||Facebook/Meta|
+|Text-to-Text Transfer Transformer (T5)|t5-small: ||encoder-decoder|consecutive masked tokens are replaced with a single token as a new vocab, ||Google|
+|Bidirectional and Auto-Regressive Transformers (BART)|||bidirectional encoder + auto-regressive decoder|pre-training used $30\%$ masked tokens and sentence permutation|||Google|
+|GPT (Generative Pre-Training)|GPT-1: 117 m|GPT-4: 1.8 t|left-to-right auto-regressive decoder|||OpenAI|
+|BLOOM|||decoder-only||||
+
+where * means by the time of year 2023, and size is measured in param num that m: million, b: billion, t: trillion.
+
+* Encoder-Only vs Decoder-Only
+
+encoder-only, bidirectional model (such as BERT) vs typical auto-regressive (AR), decoder-only, left-to-right model (such as GPT)
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/encoder_only_bidirectional_vs_decoder_only.png" width="50%" height="30%" alt="encoder_only_bidirectional_vs_decoder_only" />
+</div>
+</br>
+
 
 ## Common Language Modeling (LM): Causal Language Modeling (CLM), Masked Language Modeling (MLM), and Sequence-to-Sequence (Seq2Seq)
 
@@ -88,7 +109,7 @@ The pooler output is of size $1 \times 768$ that serves as input to classificati
 </div>
 </br>
 
-Other BERT models for different tasks may have different structures, such as no `token_type_embeddings`, nor `Pooler` for Seq2Seq model, which needs `last_hidden_state` from encoder to decoder rather than the "collective pooler representation".
+Other BERT models for different tasks may have different structures, such as no `token_type_embeddings`, nor `Pooler` for Seq2Seq model, which needs `last_hidden_state` from encoder to decoder rather than the "collective pooler representation" of `pooler_output`.
 
 #### Output: `last_hidden_state` vs `pooler_output`
 
@@ -292,19 +313,36 @@ class BertForQuestionAnswering(BertPreTrainedModel):
 
 LLaMA (Large Language Model Meta AI) 
 
-|Model|Parameter Size|
-|-|-|
-|Llama 1|7 B|
-|Llama 1|13 B|
-|Llama 1|33 B|
-|Llama 1|65 B|
-|Llama 2|7 B|
-|Llama 2|13 B|
-|Llama 2|70 B|
-
 ### Alpaca
 
 Alpaca is a fine-tuned model of LLaMA's 7B version.
 
-## OpenAI GPT/ChatGPT
+## OpenAI GPT2
+
+```txt
+GPT2Model(
+  (wte): Embedding(40478, 768)
+  (wpe): Embedding(512, 768)
+  (drop): Dropout(p=0.1, inplace=False)
+  (h): ModuleList(
+    (0-11): 12 x GPT2Block(
+      (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (attn): GPT2Attention(
+        (c_attn): Conv1D()
+        (c_proj): Conv1D()
+        (attn_dropout): Dropout(p=0.1, inplace=False)
+        (resid_dropout): Dropout(p=0.1, inplace=False)
+      )
+      (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (mlp): GPT2MLP(
+        (c_fc): Conv1D()
+        (c_proj): Conv1D()
+        (act): NewGELUActivation()
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+    )
+  )
+  (ln_f): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+)
+```
 
