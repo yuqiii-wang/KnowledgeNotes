@@ -82,7 +82,7 @@ answerEndPosTensor[0] = answerStartPosTensor[0] + 1
 answerEndPosTensor[1] = answerStartPosTensor[1] + 1
 answerEndPosTensor[2] = answerStartPosTensor[2] + 2
 answerEndPosTensor[3] = answerStartPosTensor[3] + 1
-answerEndPosTensor[4] = answerStartPosTensor[4] + 1
+answerEndPosTensor[4] = answerStartPosTensor[4] + 2
 
 optim = torch.optim.SGD(model_new_qa.parameters(), lr=1e-4, momentum=0.5)
 

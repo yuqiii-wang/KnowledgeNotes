@@ -23,6 +23,7 @@ Hugging Face, Inc. is a French-American company and open-source community that d
 Its most famous product is `pip install transformers`.
 
 Hugging Face provides unified APIs of different AI tasks and model configs.
+These APIs can be considered wrappers of PyTorch.
 
 ### Download
 
@@ -99,6 +100,72 @@ It can be used in training as well as inference.
 A model's `generate(...)` methods uses `forward(...)` as its underlying implementation.
 It is only used in inference.
 
+## Prompting Strategies
+
+* Zero-shot prompts
+
+Prompting the model without any example of expected behavior from the model.
+
+```txt
+Q: What is the capital of France?
+A: France
+```
+
+* Few-shot prompts
+
+Provide many examples of similar question/answer pairs as prompts, then ask the question.
+
+```txt
+Q: What is the capital of China?
+A: Beijing
+Q: What is the capital of Japan?
+A: Tokyo
+Q: What is the capital of France?
+A: Paris
+```
+
+* Chain-of-thought prompts
+
+Provide mini steps as answer rather than one simple final result such as in zero-shot.
+
+```txt
+Q: The population of China is 1.4 billions; there are 17% of population are under 14 year-old, and 9% are over 65. How many people are between 15 - 64 year-old in China ?
+A: Step 1 -> 0.238 = 1.4 * 0.17; step 2 -> 0.126 = 1.4 * 0.09; step 3 -> 1.036 = 1.4 - (0.238 + 0.126); step 4 -> the population between 15 - 64 year-old is 1.036 b.
+```
+
+### LLM Tasks
+
+* Causal Language Model (CLM)
+
+CLM is an auto-regressive method where the model is trained in left-to-right unidirectional context to predict the next token in a sequence given the previous tokens.
+
+OpenAI GPTs are good for such text generation and summarization.
+
+* Seq2Seq Language Model (Seq2Seq LM)
+
+Seq2Seq models consist of an encoder-decoder architecture, where the encoder processes the input sequence and the decoder generates the output sequence.
+
+* Masked Language Modeling (MLM)
+
+Some tokens in the input sequence are masked that are to be learned/predicted.
+
+BERTs are good at this task.
+
+* Text (Sequence/Token) Classification
+
+From LLM outputs there are *last hidden layer outputs* and *pooler layer output*.
+Last hidden layer outputs by $\text{arg max}$ can produce tokens; 
+pooler layer outputs are last hidden layer outputs to fully connected layer's results, that can be used for classification tasks.
+
+The underlying base model can be CLM or MLM.
+
+* Question Answering
+
+A variant of Seq2Seq LM that context texts are input to encoder and question texts are input to decoder.
+The outputs/labels for training are the token positions in the context texts.
+
+* Feature Extraction
+
 ## LangChain (LC) vs Semantic Kernel (SK)
 
 
@@ -109,6 +176,34 @@ It is only used in inference.
 The source input of NLP is tokens from text vocabulary, and some vocabs are frequently used and some are rarely used.
 
 By input embedding layer such as BERT base's wordpiece embedding $\bold{x}: \mathbb{R}^{1 \times 768} \rightarrow \mathbb{R}^{30522 \times 768}$ then by normalization to ${\bold{x}}_{emb-norm} \in \mathbb{R}^{1 \times 768}$ then being fed to transformer, it is 
+
+
+### Auto-Regressive (AR) vs Auto-Encoding (AE)
+
+* Auto-Regressive (AR), often used in decoder
+
+AR simply means prediction $x_t$ by previous step input $\{x_1, x_2, ..., x_{t-1}\}$:
+
+$$
+\max_{\bold{\theta}} \log P_{\bold{\theta}} (x_1, x_2, ..., x_T) \approx
+\sum_{t=1}^T \log P_{\bold{\theta}} (x_t | x_1, x_2, ..., x_{t-1})
+$$
+
+where $\bold{\theta}$ is model parameters
+
+* Auto-Encoding (AE), often used in encoder
+
+AE attempts to predict randomly masked tokens $\bold{x}_{\bold{m}}$ by minimizing the below objective.
+The input $\bold{x}_{\overline{\bold{m}}}$ (the remaining non-masked tokens) is whole texts in which tokens are partially and randomly masked.
+
+$$
+\max_{\bold{\theta}} \log P_{\bold{\theta}} (\bold{x}_{\bold{m}} | \bold{x}_{\overline{\bold{m}}}) \approx
+\sum_{t=1}^T m_t \log P_{\bold{\theta}} (x_t | \bold{x}_{\overline{\bold{m}}} )
+$$
+
+where $m_t = \left\{ \begin{array}{c} 1 & \text{the } t \text{-th token is masked} \\ 0 & \text{the } t \text{-th token is Not masked}  \end{array} \right.$ so that the log likelihood loss is only concerned with the to-be-predicted masked tokens $\bold{x}_{\bold{m}}$ .
+
+
 
 ### Training By NLP Tasks
 

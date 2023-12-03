@@ -384,29 +384,3 @@ There is $\cos(\theta) \in [-1, 1]$, where $-1$ means being exactly opposite, $-
 
 Cosine similarity can be used for two embeddings' comparison.
 If predicted embeddings are very similar to an existing token's embedding, such embeddings can be said this token's representation.
-
-## Auto-Regressive (AR) vs Auto-Encoding (AE)
-
-* Auto-Regressive (AR), often used in decoder
-
-AR simply means prediction $x_t$ by previous step input $\{x_1, x_2, ..., x_{t-1}\}$:
-
-$$
-\max_{\bold{\theta}} \log P_{\bold{\theta}} (x_1, x_2, ..., x_T) \approx
-\sum_{t=1}^T \log P_{\bold{\theta}} (x_t | x_1, x_2, ..., x_{t-1})
-$$
-
-where $\bold{\theta}$ is model parameters
-
-* Auto-Encoding (AE), often used in encoder
-
-AE attempts to predict randomly masked tokens $\bold{x}_{\bold{m}}$ by minimizing the below objective.
-The input $\bold{x}_{\overline{\bold{m}}}$ (the remaining non-masked tokens) is whole texts in which tokens are partially and randomly masked.
-
-$$
-\max_{\bold{\theta}} \log P_{\bold{\theta}} (\bold{x}_{\bold{m}} | \bold{x}_{\overline{\bold{m}}}) \approx
-\sum_{t=1}^T m_t \log P_{\bold{\theta}} (x_t | \bold{x}_{\overline{\bold{m}}} )
-$$
-
-where $m_t = \left\{ \begin{array}{c} 1 & \text{the } t \text{-th token is masked} \\ 0 & \text{the } t \text{-th token is Not masked}  \end{array} \right.$ so that the log likelihood loss is only concerned with the to-be-predicted masked tokens $\bold{x}_{\bold{m}}$ .
-
