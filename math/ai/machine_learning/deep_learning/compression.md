@@ -73,7 +73,9 @@ Figure below shows that comprehensive pruning (width + depth) is better rather t
 ### Pruning Methods: By L1, Ln Norms
 
 The key idea is that, norm of a matrix $||W||_p$ describes the average info contained in one neuron.
-Insignificant neurons should see low activation energy (low input value), hence the weights should have small $|w_i|_p$
+Insignificant neurons should see low activation energy (low input value), hence the weights should have small $|w_i|_p$.
+
+A small $|w_i|_p$ multiplied with input $x_i$ gives a small value, that when passed to activation function, the activation outputs are almost certain for its input is almost always zeros.
 
 For example, illustrated in the figure below, for a pruning rate of $50\%$ (remove half of parameters) and by $\mathcal{L}_1$ norm of $|W|$, the lowest $|w_i|$ are set to zeros.
 
@@ -121,6 +123,17 @@ https://pytorch.org/docs/stable/generated/torch.nn.utils.prune.ln_structured.htm
 ```python
 torch.nn.utils.prune.ln_structured(module, name, amount, n, dim, importance_scores=None)
 ```
+
+### Whole Model Pruning
+
+For efficient memory storage purposes, large models need pruning.
+However, the unstructured pruning (set small $w_i$ to zeros) cannot help for in memory data/tensors need to be aligned in storage, hence all tensors should have the same size.
+
+To reduce memory consumption, need to prune on a whole layer at least.
+
+### Intel® Neural Compressor
+
+
 
 ## Quantization
 

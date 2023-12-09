@@ -9,9 +9,9 @@ State-of-art LLMs use transformers/attention designs.
 |Bidirectional Encoder Representations from Transformers (BERT)|bert-base: 110 m|bert-large: 340 m|encoder stack, bidirectional|$15\%$ Masked language modeling (MLM)|learning representations of words taking context on both sides/bidirectional, predict `[MASK]` words|Google|
 |RoBERTa|||||||
 |Large Language Model Meta AI (LLAMA)|llama-2: 7 b|llama-2: 130 b||||Facebook/Meta|
-|Text-to-Text Transfer Transformer (T5)|t5-small: ||encoder-decoder|consecutive masked tokens are replaced with a single token as a new vocab, ||Google|
-|Bidirectional and Auto-Regressive Transformers (BART)|||bidirectional encoder + auto-regressive decoder|pre-training used $30\%$ masked tokens and sentence permutation|||Google|
-|GPT (Generative Pre-Training)|GPT-1: 117 m|GPT-4: 1.8 t|left-to-right auto-regressive decoder|||OpenAI|
+|Text-to-Text Transfer Transformer (T5)|t5-small: 60 m ||encoder-decoder|consecutive masked tokens are replaced with a single token as a new vocab, ||Google|
+|Bidirectional and Auto-Regressive Transformers (BART)|||bidirectional encoder + decoder|pre-training used $30\%$ masked tokens and sentence permutation|||Google|
+|GPT (Generative Pre-Training)|GPT-1: 117 m|GPT-4: 1.8 t|decoder|||OpenAI|
 |BLOOM|||decoder-only||||
 
 where * means by the time of year 2023, and size is measured in param num that m: million, b: billion, t: trillion.
@@ -28,28 +28,50 @@ encoder-only, bidirectional model (such as BERT) vs typical auto-regressive (AR)
 
 ## Common Language Modeling (LM): Causal Language Modeling (CLM), Masked Language Modeling (MLM), and Sequence-to-Sequence (Seq2Seq)
 
-* Causal Language Modeling (CLM)
+* Causal Language Modeling (CLM): Decoder-Only
 
 CLM is trained to predict the next token in a sequence only given the previous tokens.
 
-Architecture: autoregressive models like GPT; given that the previous tokens are received by the decoder itself, no need of an encoder.
+Architecture: auto-regressive models like GPT; given that the previous tokens are received by the decoder itself, no need of an encoder.
 
 CLM is well-suited for tasks such as text generation and summarization. 
 However, CLM models have unidirectional context (only consider past texts as input).
 
-* Masked Language Modeling (MLM)
+```python
+from transformers import AutoTokenizer, AutoModelForCausalLM
+model_id="gpt2"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(model_id)
+```
 
-Some tokens in the input sequence are masked by `[MASK]`. MLM has the advantage of learning from bidirectional context (`[MASK]` is at somewhere in the middle of a sentence, so that tokens preceding and succeeding this `[MASK]` are contextual info, hence it is a bidirectional task).
+* Masked Language Modeling (MLM): Encoder-Only
+
+Some tokens in the input sequence are masked by `[MASK]`. 
+MLM has the advantage of learning from bidirectional context (`[MASK]` is at somewhere in the middle of a sentence, so that tokens preceding and succeeding this `[MASK]` are contextual info, hence it is a bidirectional task).
 
 Architecture: encoder such as BERT
 
 MLM is useful in text classification, sentiment analysis, and named entity recognition.
 
-* Seq2Seq
+```python
+from transformers import AutoTokenizer, AutoModelForMaskedLM
+model_id="bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForMaskedLM.from_pretrained(model_id)
+```
+
+* Seq2Seq: Encoder-Decoder
 
 Seq2Seq models consist of an encoder-decoder architecture (e.g., T5, BART), where the encoder processes the input sequence and the decoder generates the output sequence.
 
 It is useful in machine translation, summarization, and question-answering.
+
+```python
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+model_id="google/flan-t5-small"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
+```
 
 ## Bidirectional Encoder Representations from Transformers (BERT)
 
@@ -346,3 +368,147 @@ GPT2Model(
 )
 ```
 
+## RoBERTa (Robustly Optimized BERT Approach)
+
+## T5
+
+6 encoders + 6 decoders
+
+```txt
+T5ForConditionalGener64ation(
+  (shared): Embedding(32128, 512)
+  (encoder): T5Stack(
+    (embed_tokens): Embedding(32128, 512)
+    (block): ModuleList(
+      (0): T5Block(
+        (layer): ModuleList(
+          (0): T5LayerSelfAttention(
+            (SelfAttention): T5Attention(
+              (q): Linear(in_features=512, out_features=512, bias=False)
+              (k): Linear(in_features=512, out_features=512, bias=False)
+              (v): Linear(in_features=512, out_features=512, bias=False)
+              (o): Linear(in_features=512, out_features=512, bias=False)
+              (relative_attention_bias): Embedding(32, 8)
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (1): T5LayerFF(
+            (DenseReluDense): T5DenseActDense(
+              (wi): Linear(in_features=512, out_features=2048, bias=False)
+              (wo): Linear(in_features=2048, out_features=512, bias=False)
+              (dropout): Dropout(p=0.1, inplace=False)
+              (act): ReLU()
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+      (1-5): 5 x T5Block(
+        (layer): ModuleList(
+          (0): T5LayerSelfAttention(
+            (SelfAttention): T5Attention(
+              (q): Linear(in_features=512, out_features=512, bias=False)
+              (k): Linear(in_features=512, out_features=512, bias=False)
+              (v): Linear(in_features=512, out_features=512, bias=False)
+              (o): Linear(in_features=512, out_features=512, bias=False)
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (1): T5LayerFF(
+            (DenseReluDense): T5DenseActDense(
+              (wi): Linear(in_features=512, out_features=2048, bias=False)
+              (wo): Linear(in_features=2048, out_features=512, bias=False)
+              (dropout): Dropout(p=0.1, inplace=False)
+              (act): ReLU()
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (final_layer_norm): T5LayerNorm()
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (decoder): T5Stack(
+    (embed_tokens): Embedding(32128, 512)
+    (block): ModuleList(
+      (0): T5Block(
+        (layer): ModuleList(
+          (0): T5LayerSelfAttention(
+            (SelfAttention): T5Attention(
+              (q): Linear(in_features=512, out_features=512, bias=False)
+              (k): Linear(in_features=512, out_features=512, bias=False)
+              (v): Linear(in_features=512, out_features=512, bias=False)
+              (o): Linear(in_features=512, out_features=512, bias=False)
+              (relative_attention_bias): Embedding(32, 8)
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (1): T5LayerCrossAttention(
+            (EncDecAttention): T5Attention(
+              (q): Linear(in_features=512, out_features=512, bias=False)
+              (k): Linear(in_features=512, out_features=512, bias=False)
+              (v): Linear(in_features=512, out_features=512, bias=False)
+              (o): Linear(in_features=512, out_features=512, bias=False)
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (2): T5LayerFF(
+            (DenseReluDense): T5DenseActDense(
+              (wi): Linear(in_features=512, out_features=2048, bias=False)
+              (wo): Linear(in_features=2048, out_features=512, bias=False)
+              (dropout): Dropout(p=0.1, inplace=False)
+              (act): ReLU()
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+      (1-5): 5 x T5Block(
+        (layer): ModuleList(
+          (0): T5LayerSelfAttention(
+            (SelfAttention): T5Attention(
+              (q): Linear(in_features=512, out_features=512, bias=False)
+              (k): Linear(in_features=512, out_features=512, bias=False)
+              (v): Linear(in_features=512, out_features=512, bias=False)
+              (o): Linear(in_features=512, out_features=512, bias=False)
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (1): T5LayerCrossAttention(
+            (EncDecAttention): T5Attention(
+              (q): Linear(in_features=512, out_features=512, bias=False)
+              (k): Linear(in_features=512, out_features=512, bias=False)
+              (v): Linear(in_features=512, out_features=512, bias=False)
+              (o): Linear(in_features=512, out_features=512, bias=False)
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (2): T5LayerFF(
+            (DenseReluDense): T5DenseActDense(
+              (wi): Linear(in_features=512, out_features=2048, bias=False)
+              (wo): Linear(in_features=2048, out_features=512, bias=False)
+              (dropout): Dropout(p=0.1, inplace=False)
+              (act): ReLU()
+            )
+            (layer_norm): T5LayerNorm()
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (final_layer_norm): T5LayerNorm()
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (lm_head): Linear(in_features=512, out_features=32128, bias=False)
+)
+```

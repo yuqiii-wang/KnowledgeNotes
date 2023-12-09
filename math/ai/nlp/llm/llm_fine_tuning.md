@@ -34,6 +34,10 @@ $$
 
 For intrinsic dimension (intrinsic dimension for a data set can be thought of as the number of variables needed in a minimal representation of the data), the number of neurons is small $r \ll d$ but can produce good approximation results.
 
+In practice in training, there defines additional hyper-parameter $\alpha$,
+that the ratio to $r$ is dynamically affecting learning rate $\eta$ such that, there is $\frac{\alpha}{r} \eta$,
+where $\frac{\alpha}{r} \rightarrow 1$ as iteration num grows.
+
 In the below implementation, `lora_A` and `lora_B` with $r=16$ are inserted as parallel into the query $Q$ and value $V$.
 The $768$ is the num of dimensions of BERT-base.
 
@@ -290,7 +294,7 @@ torch.nn.Sequential(
 ```
 
 For instance, in BERT-base, the below prefix tuning `embedding(20, 18432)` adds $20$ virtual tokens of $18432=2 \times 12 \times 768$ dimensions,
-where $768$ is the num of dimensions for BERT-base consisting of $12$ transformers, thar there should be $1$ dimension for key $K$ and $1$ for value $V$.
+where $768$ is the num of dimensions for BERT-base consisting of $12$ transformers, that there should be $1$ dimension for key $K$ and $1$ for value $V$.
 
 This design means each transformer gets unique key and value from prefix tuning's embeddings.
 This is different/innovative compared to that of prompt tuning.

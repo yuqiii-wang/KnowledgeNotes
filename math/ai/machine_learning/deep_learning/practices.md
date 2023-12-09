@@ -233,3 +233,8 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-4, weight_decay=1e-2)
 ### For NLP
 
 ## Warmup
+
+Traditionally, training starts with a large learning rate $\eta$ then gradually decreases as iteration num $t$ grows such as $0.95^{t}\eta$.
+This approach is deprecated for novel learning rate *warmup* schemes.
+
+https://d2l.ai/chapter_optimization/lr-scheduler.html

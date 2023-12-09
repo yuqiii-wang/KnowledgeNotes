@@ -14,6 +14,12 @@ pip install by tsinghua source
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple <package_name>
 ```
 
+### Manual Install by `setup.py`
+
+From a local directory, find `setup.py`, and `cd` to this directory.
+
+Run by `python setup.py install`.
+
 ## Python Interpreter
 
 * Cython vs Jython

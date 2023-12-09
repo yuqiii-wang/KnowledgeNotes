@@ -100,7 +100,7 @@ until all combinations are unique, or having covered the whole pre-token length:
 $$
 \begin{matrix}
       \text{1st round counting} & \text{2nd round counting} & \text{3rd round counting} \\
-      (\text{t}, \text{h}): 4 & (\text{th}, \text{is}): 1 & (\text{th}, \text{is}): 1 \\
+      (\text{t}, \text{h}): 4 & (\text{th}, \text{is}): 1 & (\text{this}): 1 \\
       (\text{h}, \text{i}): 1 & (\text{th}, \text{at}): 2 & (\text{that}): 2 \\
       (\text{i}, \text{s}): 4 & (\text{is}): 3 & (\text{is}): 2 \\
       (\text{a}): 2      & (\text{a}): 2       & (\text{a}): 2 \\
@@ -123,7 +123,7 @@ $$
 The example text sentence is split into this list.
 
 ```python
-['that', 'is' 'toy', 'and', 'th', 'e', 'a', 'b', 'o', 'n', 'e', 't', 'h', 'r' ]
+['this', 'that', 'is' 'toy', 'and', 'th', 'e', 'a', 'b', 'o', 'n', 'e', 't', 'h', 'r' ]
 ```
 
 
@@ -175,7 +175,7 @@ https://zhuanlan.zhihu.com/p/662790439
 Positional embeddings represent the position of a word in a sentence/document.
 The order of how vocabularies are arranged in a sentence/document provides rich information in NLP.
 
-Transformer uses the below formulas to compute positional embeddings (PE).
+Transformer uses the below formulas to compute positional embeddings (PE) by a rotation matrix $R(\bold{\theta}_i)$ where each token position is represented/offset by $\bold{\theta}_i$ with respect to dimension $\bold{d}$.
 
 $$
 \begin{align*}
@@ -201,7 +201,7 @@ $$
 where $\bold{p}_{i-j}$ serves as a linear relative position gap.
 
 This design's motivation is that in NLP, if a query word is adjacent to a key word, they should be highly semantically related. 
-Their multiplication value should be large, otherwise small, so that attention mechanism can easily produce differences during matrix multiplication in this regard.
+Their multiplication value should be large (this $\text{score}(\bold{q}_i, \bold{k}_j)$ is named *attention score* in transformer), otherwise small, so that attention mechanism can easily produce differences during matrix multiplication in this regard.
 
 Here uses sinusoid to represent the relative position gap by a rotation matrix $R_{i-j}$ to replace the above linear position gap $\bold{p}_{i-j}$.
 Sinusoid not only decreases fast in $\text{score}(\bold{q}_i, \bold{k}_j)$ as positional gap grows against linear decrease by $\bold{p}_{i-j}$, but also has sinusoidal patterns that recursively see highs and lows in different relative position gaps $|i-j|$ with respects to different dimensions $d$.
@@ -217,7 +217,7 @@ $$
 
 Now use and $\theta_i \in (10^{-4}, 1]$ such that $\theta_i=10000^{-\frac{2i}{\bold{d}}}$ to assign discrete values to $R_{i-j}$.
 
-Let $D$ represent the dimension of $\bold{v}_i \in \mathbb{R}^{1 \times D}$.
+Let $D$ represent the dimension num of $\bold{v}_i \in \mathbb{R}^{1 \times D}$.
 Let $R(\theta)$ be a rotation matrix for a vector $\bold{v}_i$, there is 
 
 $$
@@ -303,9 +303,9 @@ $$
 For a query token $\bold{q}_{1}$ (set $i=1$ as base position reference index since only relative positional gap is concerned here), plot score $\text{score}(\bold{q}_1, \bold{k}_j)$ for key tokens at growing distances $\bold{k}_{j}$ for $j=1,2,...,512$ and $j=1,2,...,65535$.
 These two plots show the scores as a key $\bold{k}_j$'s positional distance ($\text{dist}=|i-j|$) to $\bold{q}_{1}$ grows.
 
-For comparison, both query and key token are set to $\bold{1}$ such that $\bold{q}_i=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$ and $\bold{k}_j=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$, so that the scores' differences only reflect the rotational positional distance ($\bold{q}_1^{\top} R_{1-j} \bold{k}_j$).
+For easy comparison, both query and key token are set to $\bold{1}$ such that $\bold{q}_i=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$ and $\bold{k}_j=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$, so that the scores' differences only reflect the rotational positional distance ($\bold{q}_1^{\top} R_{1-j} \bold{k}_j$).
 
-By matrix multiplication, score is the sum of each dimension divided by a normalization term $\sqrt{D}$ such that $\text{score}(\bold{q}_i, \bold{k}_j)=\bold{q}_1^{\top} R_{i-j} \bold{k}_1= \frac{1}{\sqrt{D}} \sum^D_{d=1} q_{1_{d}}^{\top} R_{(1-j)_{d}} {k}_{1_{d}}$.
+By matrix multiplication, score is the sum of each dimension's multiplication result divided by a normalization term $\sqrt{D}$ such that $\text{score}(\bold{q}_i, \bold{k}_j)=\bold{q}_1^{\top} R_{i-j} \bold{k}_1= \frac{1}{\sqrt{D}} \sum^D_{d=1} q_{1_{d}}^{\top} R_{(1-j)_{d}} {k}_{1_{d}}$.
 
 The individual dimensions' scores for $i=1$ vs $j$ are shown as below.
 

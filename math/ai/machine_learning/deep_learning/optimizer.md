@@ -7,9 +7,11 @@ SGD with Momentum is a stochastic optimization method that adds a momentum term.
 The direction of the previous update is retained to a certain extent during the update, retaining inertia of movement.
 
 Update $\Delta W$ at the $n$-th iteration is defined as
+
 $$
 \Delta W_{n+1} = \alpha \Delta W_{n} + \eta \frac{\partial\space Loss}{\partial\space W_{n}}
 $$
+
 where $\alpha$ is the momentum rate and $\eta$ is the learning rate.
 
 ## Adagrad (Adaptive Gradient Descent)

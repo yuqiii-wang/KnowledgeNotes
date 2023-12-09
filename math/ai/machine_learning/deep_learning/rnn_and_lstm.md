@@ -12,9 +12,9 @@ there are
 * $U_h \in \mathbb{R}^{h \times h}$ or $U_h \in \mathbb{R}^{l \times l}$ is the weight matrix for, either the previous time $t-1$ layer or output (depending on implementation by Elman or Jordan). 
 * $\bold{b}_h \in \mathbb{R}^{h}$ and $\bold{b}_y \in \mathbb{R}^{l}$ are bias vectors
 
-Given a sequence length of $\tau$ such that $t \in \{ 1, 2, ..., \tau \}$, the temporary memory of an RNN consists of
+Given a sequence length of $T$ such that $t \in \{ 1, 2, ..., T \}$, the temporary memory of an RNN consists of
 
-* $\bold{h} \in \mathbb{R}^{\tau \times h \times d}$ the hidden neurons. It stores a length of $\tau$'s memory $\bold{h}=\{ \bold{h}_1, \bold{h}_2, ..., \bold{h}_t, ..., \bold{h}_{\tau} \}$.
+* $\bold{h} \in \mathbb{R}^{T \times h \times d}$ the hidden neurons. It stores a length of $T$'s memory $\bold{h}=\{ \bold{h}_1, \bold{h}_2, ..., \bold{h}_t, ..., \bold{h}_{T} \}$.
 
 ### Elman network
 
@@ -38,9 +38,9 @@ $$
 
 ### Semantics
 
-RNN works on dataset with periodic hidden patterns, so that each sequence sample $X = \{ \bold{x}_1, \bold{x}_2, ..., \bold{x}_t, ..., \bold{x}_{\tau} \}$ should be the size of $\tau \times h \times d$.
+RNN works on dataset with periodic hidden patterns, so that each sequence sample $X = \{ \bold{x}_1, \bold{x}_2, ..., \bold{x}_t, ..., \bold{x}_{T} \}$ should be the size of $T \times h \times d$.
 
-In practice, $\tau$ should represent a complete cycle of some semantics, such as $\tau = 1,000$ for NLP to study an article and $\tau = 100,000$ to study a book, or $\tau=24 \times 60$ for one day operation minute-level tick data.
+In practice, $T$ should represent a complete cycle of some semantics, such as $T = 1,000$ for NLP to study an article and $T = 100,000$ to study a book, or $T=24 \times 60$ for one day operation minute-level tick data.
 
 ### Forward Pass
 
@@ -59,7 +59,7 @@ $$
 \end{align*}
 $$
 
-where $\mathcal{L} = \sum^{\tau}_{t} \mathcal{L}_t$ is the total loss over the whole sequence $X$.
+where $\mathcal{L} = \sum^{T}_{t} \mathcal{L}_t$ is the total loss over the whole sequence $X$.
 
 Here defines $\bold{y}_t \in \mathbb{R}^n$, where for instance in BERT tokenization there is $n=30522$.
 It is one-hot encoding of $t$-th sequence step chosen class (e.g., the token at the $t$-th position in a sentence).
@@ -91,15 +91,15 @@ $$
 $\mathcal{L}_t \in \mathbb{R}^1$ is a scalar value, and $\bold{z}_t \in \mathbb{R}^n$ is the linear/dense class prediction output awaiting normalized by softmax.
 The first updates should be on $W_z$ and $\bold{b}_z$.
 
-With the applied learning rate $\eta$, they are updated by summing up all back-propagated errors over all steps $t \in \{ 1, 2, ..., \tau \}$.
+With the applied learning rate $\eta$, they are updated by summing up all back-propagated errors over all steps $t \in \{ 1, 2, ..., T \}$.
 
 $$
 \begin{align*}
 W_z & \leftarrow 
-\sum_t^{\tau} \eta \frac{\partial \mathcal{L}_t}{\partial \bold{h}_z} + W_z + \xi_{W_z}
+\sum_t^{T} \eta \frac{\partial \mathcal{L}_t}{\partial \bold{h}_z} + W_z + \xi_{W_z}
 && &
 \bold{b}_z & \leftarrow 
-\sum_t^{\tau} \eta \frac{\partial \mathcal{L}_t}{\partial \bold{h}_z} + \bold{b}_z + \xi_{\bold{b}_z}
+\sum_t^{T} \eta \frac{\partial \mathcal{L}_t}{\partial \bold{h}_z} + \bold{b}_z + \xi_{\bold{b}_z}
 \end{align*}
 $$
 

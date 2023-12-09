@@ -5,7 +5,8 @@
 Typically for large models which don’t fit on a single GPU, model parallelism is employed where certain parts of the model are placed on different GPUs.
 
 The horizontal axis represents time; the vertical axis represents four GPUs.
-Each cell represents a *Forward* $\text{F}_{i,j}$, *Back Propagation* $\text{B}_{i,j}$, or weight update.  
+Each cell represents a *Forward* $\text{F}_{i,j}$, *Back Propagation* $\text{B}_{i,j}$, or weight update.
+
 <div style="display: flex; justify-content: center;">
       <img src="imgs/pytorch_pipeline_parall.png" width="80%" height="40%" alt="pytorch_pipeline_parall" />
 </div>
