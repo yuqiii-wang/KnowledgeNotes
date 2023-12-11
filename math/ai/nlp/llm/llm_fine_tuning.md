@@ -384,31 +384,10 @@ class PeftModelForCausalLM(PeftModel):
       ...
 ```
 
+### Prefix-Tuning vs Prompt-Tuning
 
-### Hugging Face Implementation
-
-```python
-from transformers import AutoModelForSequenceClassification
-from peft import PeftModelForSequenceClassification, get_peft_config
-
-config = {
-    "peft_type": "PREFIX_TUNING",
-    "task_type": "SEQ_CLS",
-    "inference_mode": False,
-    "num_virtual_tokens": 20,
-    "token_dim": 768,
-    "num_transformer_submodules": 1,
-    "num_attention_heads": 12,
-    "num_layers": 12,
-    "encoder_hidden_size": 768,
-    "prefix_projection": False,
-}
-
-peft_config = get_peft_config(config)
-model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased")
-peft_model = PeftModelForSequenceClassification(model, peft_config)
-peft_model.print_trainable_parameters()
-```
+Hard prompting: hardcoded prompts as input to guide model prediction.
+The most popular example is human input (a sequence of tokens of chatting) to ChatGPT.
 
 ## P-Tuning
 

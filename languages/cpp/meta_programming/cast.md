@@ -203,3 +203,15 @@ const_cast<int&>(rci) = 4; // OK: modifies i
 
 Remember, `const` variables are simply labelled as "read-only" by compiler, not something hard coded in assembly.
 Instead, `constexpr` makes code to assembly hence not modifiable.
+
+#### Dynamic Cast `const` Object
+
+Generally speaking, cast away constance is not recommended for a passed const variable.
+Instead, can consider using `dynamic_cast` for the below scenario.
+
+```cpp
+void Cat::meow(const Animal* const pAnimal) {
+    const Cat* const pCat = dynamic_cast<const Cat* const> pAnimal;
+    pCat->makeSound();
+}
+```
