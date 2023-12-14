@@ -1,0 +1,14 @@
+datasets 
+transformers==4.*
+dill
+tqdm
+ftfy
+torch==2.1.1
+torchaudio
+torchvision
+accelerate
+nvidia-ml-py3
+evaluate
+make
+flask==2.*
+jinja2

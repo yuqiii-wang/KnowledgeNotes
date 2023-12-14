@@ -35,7 +35,10 @@ WSGI is a simple calling convention for web servers to forward requests to web a
 
 * Python Egg
 
-The `.egg` file is a distribution format for Python packages. It’s just an alternative to a source code distribution or Windows exe. But note that for pure Python, the .egg file is completely cross-platform.
+The `.egg` file is a distribution format for Python packages same concept as a `.jar` to java or Windows `.exe`. 
+`.egg` file is completely cross-platform.
+
+Essentially, it is a `.zip` with some metadata.
 
 * `setup.py`
 
@@ -76,6 +79,10 @@ The python project setup is run by `python setup.py install`.
 Python defines two types of packages, regular packages (Python 3.2 and earlier) and namespace packages. 
 
 A regular package is typically implemented as a directory containing an `__init__.py` that is implicitly executed used to distinctly identify objects in a package's namespace.
+
+* Jinja2
+
+*Jinja2* is a web template engine that combines a template with a certain data source to render dynamic web pages. 
 
 ## Config via `.ini`
 

@@ -69,6 +69,38 @@ There are many fine-tuned LLAMA variants. For example, below is open-source no n
 huggingface-cli download --resume-download openai-gpt --local-dir openai-gpt
 ```
 
+### Install Issues
+
+* `import accelerate` error for `/usr/lib/x86_64-linux-gnu/libstdc++.so.6: version GLIBCXX_3.4.29 not found`
+
+By default ubuntu:20.04 builtin `libstdc++.so.6` only supports up to 3.4.28.
+The supported version can be checked by `strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX`, there is
+
+```txt
+...
+GLIBCXX_3.4.25
+GLIBCXX_3.4.26
+GLIBCXX_3.4.27
+GLIBCXX_3.4.28
+GLIBCXX_DEBUG_MESSAGE_LENGTH
+```
+
+`libstdc++.so.6` is a symbolic link.
+
+```sh
+(base) yuqi@yuqipc:/lib/x86_64-linux-gnu$ ls -lart *libstd*
+-rw-r--r-- 1 root root  1956992 Jul  9 14:45 libstdc++.so.6.0.28
+lrwxrwxrwx 1 root root       19 Jul  9 14:45 libstdc++.so.6 -> libstdc++.so.6.0.28
+```
+
+Copy the new `.so` from anaconda, then relink the symbolic by below.
+
+```sh
+(base) yuqi@yuqipc:/lib/x86_64-linux-gnu$ sudo cp /home/yuqi/anaconda3/lib/libstdc++.so.6.0.29 ./
+(base) yuqi@yuqipc:/lib/x86_64-linux-gnu$ sudo rm libstdc++.so.6
+(base) yuqi@yuqipc:/lib/x86_64-linux-gnu$ sudo ln -s libstdc++.so.6.0.29 libstdc++.so.6
+```
+
 ### Pipeline
 
 Pipeline is a convenient API that takes one argument `pipeline(task="<your-task-name>")` from the list https://huggingface.co/docs/transformers/task_summary then the underlying code helps build the relevant modules.

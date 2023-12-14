@@ -31,7 +31,8 @@ sudo cat <<EOF>> /etc/docker/daemon.json
 EOF
 ```
 
-### Base Image
+### Minimalist Image
+
 Every container should start from a `scratch` image, aka base/parent image, such as
 
 ```dockerfile
@@ -43,9 +44,17 @@ CMD ["/hello"]
 
 ### Dockerfile and Syntax
 
+Having finished a `Dockerfile`, run `docker build .` to build an image.
+
 ```Dockerfile
 # The FROM instruction initializes a new build stage and sets the Base Image for subsequent instructions. 
 FROM ImageName
+cudatoolkit-dev==11.8
+
+# The WORKDIR instruction sets the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow it in the Dockerfile. 
+# If the WORKDIR doesn’t exist, it will be created even if it’s not used in any subsequent Dockerfile instruction.
+# Same as `mkdir -p /usr/src/app & pushd /usr/src/app`
+WORKDIR /path/to/your/code
 
 # Environment variable substitution will use the same value for each variable throughout the entire instruction. 
 ENV abc=hello
@@ -138,6 +147,38 @@ ARG ARG_VAR=2
 
 It is used for port listening.
 
+* `WORKDIR`
+
+It set the present working directory for all following dockerfile instructions, until next `WORKDIR`.
+
+A good use case is to separate installation of libs and building/packaging of app code with different read/write permissions.
+
+```dockerfile
+FROM python:3.9
+
+WORKDIR /code
+
+COPY ./requirements.txt /code/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# Set up a new user named "user" with user ID 1000
+RUN useradd -m -u 1000 user
+
+# Switch to the "user" user
+USER user
+
+# Set home to the user's home directory
+ENV HOME=/home/user \
+	PATH=/home/user/.local/bin:$PATH
+
+# Set the working directory to the user's home directory
+WORKDIR $HOME/app
+
+# Copy the current directory contents into the container at $HOME/app setting the owner to the user
+COPY --chown=user . $HOME/app
+```
+
 ## Docker Cmd
 
 * `docker run <ImageName>` - This command is used to start a new Docker container from an image. `-it` option indicates stdin and psuedo-TTY terminal. In other words, it provides an interative terminal.
@@ -175,7 +216,7 @@ docker stop yuqi_ubuntu_terminal
 
 ### Volume
 
- `docker volume create [OPTIONS] [VOLUME]`
+`docker volume create [OPTIONS] [VOLUME]`
 
 ### Port Mapping
 

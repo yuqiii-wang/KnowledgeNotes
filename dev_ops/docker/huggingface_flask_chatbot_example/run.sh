@@ -1,0 +1,1 @@
+docker build --tag=huggingface_flask_chatbox  --no-cache --progress=plain  . &> build.log
