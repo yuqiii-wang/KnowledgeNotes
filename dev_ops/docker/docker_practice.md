@@ -223,6 +223,7 @@ docker stop yuqi_ubuntu_terminal
 ## Check Docker
 
 Check Docker
+
 ```bash
 ### Check if there is a pid running docker
 sudo service docker status
@@ -234,7 +235,8 @@ ps -elf | grep docker
 docker version
 ```
 
-If multiple dockers are installed, you can config docker to listen to another socket
-```bash
+Check installed containers and associated ports.
 
+```bash
+docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Ports}}" -a
 ```

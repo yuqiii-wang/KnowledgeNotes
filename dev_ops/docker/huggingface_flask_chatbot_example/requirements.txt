@@ -3,6 +3,7 @@ transformers==4.*
 dill
 tqdm
 ftfy
+peft
 torch==2.1.1
 torchaudio
 torchvision
@@ -11,4 +12,6 @@ nvidia-ml-py3
 evaluate
 make
 flask==2.*
+flask_cors
+flask_session
 jinja2

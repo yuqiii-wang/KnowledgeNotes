@@ -19,8 +19,8 @@
 
 <body>
   <!-- Start your project here-->
-  <section style="background-color: #eee;">
-    <div class="container py-5">
+  <section style="background-color: #eee;" class="min-vh-100">
+    <div class="container-fluid py-5" id="chatbox_container">
 
       <div class="row d-flex justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-6">
@@ -35,7 +35,7 @@
                 {% endfor %}
               </div>
             </div>
-            <div class="card-body  overflow-auto" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
+            <div class="card-body  overflow-auto" data-mdb-perfect-scrollbar="true" style="position: relative;">
 
               <div class="divider d-flex align-items-center mb-4">
                 <p class="text-center mx-3 mb-0" style="color: #a2aab7;">
@@ -68,7 +68,6 @@
 
         </div>
       </div>
-
     </div>
 
   </section>

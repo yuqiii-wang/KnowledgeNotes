@@ -24,18 +24,17 @@ COPY ./requirements.txt /code/requirements.txt
 # COPY external_libs/pytorch-main/* /code/
 # RUN conda install cmake ninja -y
 # Run this command from the PyTorch directory after cloning the source code using the “Get the PyTorch Source“ section below
-RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple --quiet
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple --quiet --root-user-action=ignore
 # RUN conda install mkl mkl-include
 # CUDA only: Add LAPACK le/ for the GPU if needed
-# RUN conda install -c pytorch magma-cuda118 
+# RUN conda install -c pytorch magma-cuda118
 # RUN export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
 # RUN python /code/pytorch-main/setup.py develop
 
 ####### App
 RUN mkdir -p /code/flask_server
-RUN mkdir -p /code/google/flan-t5-small
-COPY flask_server/* /code/flask_server
-COPY external_libs/google/flan-t5-small/* /code/google/flan-t5-small
+COPY flask_server/ /code/flask_server/
+RUN cd /code/flask_server/llm_models && ls -lart
 WORKDIR /code/flask_server
 
 
@@ -44,9 +43,11 @@ WORKDIR /code/flask_server
 # RUN mkdir -p $HOME/flask_server
 # USER user
 # ENV HOME=/home/user \
-# 	PATH=/home/user/.local/bin:$PATH
+#   PATH=/home/user/.local/bin:$PATH
 # WORKDIR $HOME/flask_server
 # RUN cp -r /code/flask_server $HOME
 # COPY --chown=user . $HOME/flask_server
 
-CMD ['python', 'app']
+EXPOSE 4321
+
+CMD python app.py
