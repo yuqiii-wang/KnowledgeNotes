@@ -58,3 +58,25 @@ sudo ubuntu-drivers autoinstall
 ## Optional fix
 sudo apt --fix-broken install
 ```
+
+## OpenGL
+
+OpenGL (Open Graphics Library) is a popular APIs for rendering 2D and 3D vector graphics,
+managed by Khronos Group (The Khronos Group, Inc. is an open, non-profit, member-driven consortium of 170 organizations developing, publishing and maintaining royalty-free interoperability standards for 3D graphics, virtual reality, augmented reality, parallel computation, vision acceleration and machine learning).
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/Linux_kernel_and_OpenGL_video_games.svg.png" width="70%" height="70%" alt="Linux_kernel_and_OpenGL_video_games.svg" />
+</div>
+</br>
+
+OpenGL is the often the default acceleration program for Linux-like systems, such as gaming platform steam and many video players.
+
+### OpenGL vs DirectX
+
+Both openGL vs DirectX serve the same use scenarios of accelerating computing graphic tasks,
+but DirectX is a proprietary + non-open source owned by Microsoft, and outperforms OpenGL in such tasks.
+
+|OpenGL|DirectX|
+|-|-|
+|Open source, cross-platform (Linux, Mac OS, and Windows)|Non-open source, only on Windows (and Microsoft platforms such as Xbox)|
+|Generally worse in performance, such as no support for ray tracing computation facilitation (popular in gaming)|Generally Better in performance|

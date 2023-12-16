@@ -211,6 +211,75 @@ A bridge can be a hardware device or a software device running within a host mac
 
 By default, the container gets an IP address for every Docker network it attaches to.
 
+When a container starts, it can only attach to a single network.
+
+A container's hostname defaults to be the container's ID in Docker (overridable by `--hostname`).
+
+For example, below docker container is assigned an IP `172.17.0.1` (this is a private/internal IP addr).
+
+```bash
+yuqi@yuqipc:~$ docker ps
+CONTAINER ID   IMAGE                       COMMAND                  CREATED         STATUS                          PORTS                                           NAMES
+3c430f6619c1   huggingface_flask_chatbox   "/bin/sh -c 'python …"   5 seconds ago   Up 4 seconds                    0.0.0.0:4321->4321/tcp, :::4321->4321/tcp       angry_jang
+...
+
+yuqi@yuqipc:~$ docker inspect angry_jang
+[
+    {
+        ...
+        "NetworkSettings": {
+            "Bridge": "",
+            ...
+            "Ports": {
+                "4321/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "4321"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "4321"
+                    }
+                ]
+            },
+            ...
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": ...,
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    ...
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": ...,
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]
+```
+
+### Domain Name Service (DNS)
+
+Containers use the same DNS servers (by `/etc/resolv.conf`) as the host by default, but overridable this with `--dns <dns-server-ip>`.
+
+Containers that attach to the default bridge network receive a copy of `/etc/resolv.conf`.
+
+To specify multiple DNS servers, use multiple `--dns` flags.
+If the container can't reach any of the IP addresses you specify, it uses Google's public DNS server at `8.8.8.8`.
+
 ## Docker Security
 
 The privileged mode in Docker provides containers with root privileges for all devices on the host system. 
