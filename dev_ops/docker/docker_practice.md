@@ -117,6 +117,7 @@ It can be used to provide human-readable texts such as below use cases.
 
 ```Dockerfile
 LABEL version="1.0"
+LABEL author="author@example.com"
 LABEL description="This is a hello world project."
 ```
 
@@ -214,13 +215,7 @@ docker exec yuqi_ubuntu_terminal bash -c "echo 'hello world'"
 docker stop yuqi_ubuntu_terminal
 ```
 
-### Volume
-
-`docker volume create [OPTIONS] [VOLUME]`
-
-### Port Mapping
-
-## Check Docker
+## Check Docker Health
 
 Check Docker
 
@@ -240,3 +235,18 @@ Check installed containers and associated ports.
 ```bash
 docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Ports}}" -a
 ```
+
+### Duplicate `dockerd`
+
+By accident, a computer might have installed more than one `dockerd`.
+This can cause troubles such as "no permission" or unable to stop a docker container.
+
+For example, in this computer there are snap docker and ubuntu builtin docker.
+
+```bash
+yuqi@yuqipc:~$ ps -elf | grep dockerd
+4 S root        2708       1  0  80   0 - 723301 -     21:32 ?        00:00:03 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+4 S root       18853       1  6  80   0 - 493599 -     22:01 ?        00:00:01 dockerd --group docker --exec-root=/run/snap.docker --data-root=/var/snap/docker/common/var-lib-docker --pidfile=/run/snap.docker/docker.pid --config-file=/var/snap/docker/2904/config/daemon.json
+```
+
+Only one docker is required to stay. In this case, have removed the snap docker via `sudo snap remove docker --purge`.

@@ -1,4 +1,15 @@
-# Some Linux Cmds
+# Some Linux Knowledge and DevOps
+
+## `service` vs `systemctl`
+
+Both are used to manage Linux processes for initialization.
+
+|`service`|`systemctl`|
+|-|-|
+|operates on `/etc/init.d`|operates on `/lib/systemd`|
+|belongs to SysVinit (System V Init), aka the classic Linux initialization process|belongs to systemd, the successor of SysVinit and the modern initialization process|
+
+## Common DevOps
 
 * Port Listening
 

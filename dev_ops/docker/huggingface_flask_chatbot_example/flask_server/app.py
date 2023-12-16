@@ -16,8 +16,7 @@ app.secret_key = 'abcdefghi'
 @app.route('/index', methods = ['GET'])
 @app.route('/home', methods = ['GET'])
 def home():
-   if not "used_model_name" in session.keys():
-      session["used_model_name"] = "t5_small"
+   session["used_model_name"] = "t5_small"
    return render_template("home.html", model_names=llmModels.getAllModelNames(), used_model_name=session["used_model_name"])
    
 
