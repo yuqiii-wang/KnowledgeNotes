@@ -34,6 +34,25 @@ On the other hand, when a process is spawned, it begins by starting a new Python
 
 ## Builtin types
 
+### `list`
+
+* list growth
+
+The default list allocator allocates mem by a power of $2$.
+
+* `append()` vs `extend()`
+
+Both add additional elements to a list: 
+`append(<new_elem>)` just adds the `<new_elem>` to the end of a list; `extend(<new_elem>)` iterates elems in `<new_elem>` and then add the sub-elems to the list.
+
+```python
+my_list = [1,2,3,4]
+another_list = [5,6,7,8]
+my_list.append(another_list) # [1,2,3,4, [5,6,7,8]]
+my_list = [1,2,3,4]
+my_list.extend(another_list) # [1,2,3,4,5,6,7,8]
+```
+
 ### `set` Usage
 
 **`set` as key for `dict`**

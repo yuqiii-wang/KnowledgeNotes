@@ -69,12 +69,13 @@ managed by Khronos Group (The Khronos Group, Inc. is an open, non-profit, member
 </div>
 </br>
 
-OpenGL is the often the default acceleration program for Linux-like systems, such as gaming platform steam and many video players.
+OpenGL is the often the default acceleration program for Linux-like systems, such as gaming platform steam, browsers, and video players.
 
 ### OpenGL vs DirectX
 
 Both openGL vs DirectX serve the same use scenarios of accelerating computing graphic tasks,
-but DirectX is a proprietary + non-open source owned by Microsoft, and outperforms OpenGL in such tasks.
+but DirectX is proprietary + non-open source owned by Microsoft.
+Generally speaking, DirectX outperforms OpenGL in most graphic tasks.
 
 |OpenGL|DirectX|
 |-|-|
