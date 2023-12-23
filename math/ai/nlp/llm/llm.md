@@ -2,17 +2,19 @@
 
 A large language model (LLM) is a language model characterized by its large size.
 
-State-of-art LLMs use transformers/attention designs.
+State-of-the-art (SOTA) LLMs use transformers/attention designs.
 
-||Smallest Size*|Largest Size*|Structure|Training|Use|Developer|
-|-|-|-|-|-|-|-|
-|Bidirectional Encoder Representations from Transformers (BERT)|bert-base: 110 m|bert-large: 340 m|encoder stack, bidirectional|$15\%$ Masked language modeling (MLM)|learning representations of words taking context on both sides/bidirectional, predict `[MASK]` words|Google|
-|RoBERTa|||||||
-|Large Language Model Meta AI (LLAMA)|llama-2: 7 b|llama-2: 130 b||||Facebook/Meta|
-|Text-to-Text Transfer Transformer (T5)|t5-small: 60 m ||encoder-decoder|consecutive masked tokens are replaced with a single token as a new vocab, ||Google|
-|Bidirectional and Auto-Regressive Transformers (BART)|||bidirectional encoder + decoder|pre-training used $30\%$ masked tokens and sentence permutation|||Google|
-|GPT (Generative Pre-Training)|GPT-1: 117 m|GPT-4: 1.8 t|decoder|||OpenAI|
-|BLOOM|||decoder-only||||
+||Sizes*|Structure|Training|Novelty|Developer|
+|-|-|-|-|-|-|
+|Bidirectional Encoder Representations from Transformers (BERT)|bert-base: 110 m, bert-large: 340 m|encoder stack, bidirectional| Masked Language Modeling (MLM) and Next Sentence Prediction (NSP) on Toronto BookCorpus (800M words) and English Wikipedia (2,500M words)|First of its kind using transformer|Google|
+|Robustly optimized BERT approach (RoBERTa)|Same as BERT|Same as BERT|Masked Language Modeling (MLM) on Toronto BookCorpus (800M words), CommonCrawl News, WebText corpus, CommonCrawl stories and English Wikipedia (2,500M words)|Better results than BERT's by training with more epochs, long sequence, dynamic MLM, removing training by NSP, etc.|Facebook/Meta, University of Washington|
+|Large Language Model Meta AI (LLAMA)|llama-2: 7 b, llama-2: 130 b|||SOTA most popular open sourcec LLM|Facebook/Meta|
+|Text-to-Text Transfer Transformer (T5)|t5-small: 60 m|encoder-decoder|consecutive masked tokens are replaced with a single token as a new vocab (coined *span corruption*), trained on C4 (Colossal Clean Crawled Corpus) dataset|Proposed a unified framework that converts all text-based language problems into a text-to-text format|Google|
+|Finetuned Language T5 (FLAN-T5)||Same as T5's|Instruction finetuned T5: similar dataset rearranged for many different tasks; training scaled to 1,836 finetuning tasks by combining four mixtures from prior work: Muffin, T0-SF, NIV2, and CoT|Used a variety of instruction template types; this finetuning procedure is coined *Flan* (Finetuning language model)|Google|
+|Bidirectional and Auto-Regressive Transformers (BART)||bidirectional encoder + decoder|Corrupt texts with arbitrary noising functions, use transformer to reconstruct the original texts (denoising seq2seq training), dataset is similar to RoBERTa's|Studied a number of noising approaches, finding the best performance by both randomly shuffling the order of the original sentences and using a novel in-filling scheme, where spans of text are replaced with a single mask token|Facebook/Meta|
+|GPT (Generative Pre-Training)|GPT-1: 117 m, GPT-4: 1.8 t|decoder|||OpenAI|
+|BLOOM|176 b|decoder-only|Trained on ROOTS corpus, a dataset comprising hundreds of sources in 46 natural and 13 programming languages (59 in total)|A 176B-parameter open-access language model|Google|
+|Pathways Language Model (PaLM)|PaLM 8 b, PaLM 540 b|decoder-only||Use of *pathway* in LLM |Google|
 
 where * means by the time of year 2023, and size is measured in param num that m: million, b: billion, t: trillion.
 
@@ -368,7 +370,94 @@ GPT2Model(
 )
 ```
 
-## RoBERTa (Robustly Optimized BERT Approach)
+## PaLM
+
+The use of pathway/parallel design is the major novelty of PaLM:
+
+* Parallelism in $\text{MLP}$ and $\text{Attention}$
+
+A typical transformer structure is expressed as
+
+$$
+\bold{x} + \text{MLP} \big( \text{LayerNorm}(\bold{x} + \text{Attention}(\text{LayerNorm}(X)))\big)
+$$
+
+The pathway design is
+
+$$
+\bold{x} + \text{MLP} \big( \text{LayerNorm}(X)\big) + \text{Attention}\big(\text{LayerNorm}(X)\big)
+$$
+
+This design separates $\text{MLP}$ and $\text{Attention}$ that allows for parallel computation, roughly 15% faster training speed at large scales.
+
+* Parallelism in key $K$ and value $V$ matrices
+
+Recall multi-head attention $\text{concat}_{i=1}^{h}\bigg(\text{softmax} \Big( \frac{Q_i K_i^{\top}}{\sqrt{d_k}} \Big) V_i\bigg)$, where $h$ is the number of heads, and each head has $d_k$ dimensions ($Q_i, K_i, V_i \in \mathbb{R}^{d_k \times d_{model}}$).
+In decoder, key $K$ and value $V$ are grouped as a pair as previous input to cross attention with query $Q$.
+
+* Embedding Sharing
+
+The input and output embedding matrices are shared.
+
+## Bidirectional and Auto-Regressive Transformers (BART)
+
+BART is inspired by BERT and GPT.
+In the figure below, the red block is a typical BERT trained on MLM; the cyan block is a typical GPT block.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/bart.png" width="35%" height="15%" alt="bart" />
+</div>
+</br>
+
+BART is pre-trained on the below tasks.
+
+* Token Masking: same as BERT's MLM
+* Token Deletion: random token deletion
+* Text Infilling: multiple consecutive tokens replaced with a single new token added to vocab
+* Sentence Permutation: sentences are randomly permuted
+* Document Rotation: a token is chosen uniformly at random, and the document is rotated starting with this token
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/bart_training.png" width="45%" height="20%" alt="bart_training" />
+</div>
+</br>
+
+6 self-attentions + 6 encoder attentions
+
+```txt
+BartForCausalLM(
+  (model): BartDecoderWrapper(
+    (decoder): BartDecoder(
+      (embed_tokens): Embedding(50265, 768, padding_idx=1)
+      (embed_positions): BartLearnedPositionalEmbedding(1026, 768)
+      (layers): ModuleList(
+        (0-5): 6 x BartDecoderLayer(
+          (self_attn): BartSdpaAttention(
+            (k_proj): Linear(in_features=768, out_features=768, bias=True)
+            (v_proj): Linear(in_features=768, out_features=768, bias=True)
+            (q_proj): Linear(in_features=768, out_features=768, bias=True)
+            (out_proj): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (activation_fn): GELUActivation()
+          (self_attn_layer_norm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (encoder_attn): BartSdpaAttention(
+            (k_proj): Linear(in_features=768, out_features=768, bias=True)
+            (v_proj): Linear(in_features=768, out_features=768, bias=True)
+            (q_proj): Linear(in_features=768, out_features=768, bias=True)
+            (out_proj): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (encoder_attn_layer_norm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          (fc1): Linear(in_features=768, out_features=3072, bias=True)
+          (fc2): Linear(in_features=3072, out_features=768, bias=True)
+          (final_layer_norm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        )
+      )
+      (layernorm_embedding): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    )
+  )
+  (lm_head): Linear(in_features=768, out_features=50265, bias=False)
+)
+```
 
 ## T5
 

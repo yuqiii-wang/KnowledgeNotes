@@ -13,17 +13,20 @@ where $\text{softmax} (\bold{x}) = \frac{e^{\bold{x}}}{\sum^K_{k=1}e^{\bold{x}}}
 
 $d_k$ is the dimension of query $Q$ and key $K$.
 Define the dimension of value $V$ as $d_v$ (value is often regarded as outputs).
+In other words, there are $Q, K \in \mathbb{R}^{1 \times d_k}$ and $V \in \mathbb{R}^{1 \times d_v}$.
+To make computation convenient, set $d_v=d_k$.
 
 * Multi-Head Attention
 
 For multi-head attention, there is
 
 $$
-\text{MultiHeadAttention}(Q,K,V) = \text{concat}(\text{head}_1, \text{head}_2, ..., \text{head}_h) W
+\text{MultiHeadAttention}(Q,K,V) = \text{concat}_{i=1}^h (\text{head}_1, \text{head}_2, ..., \text{head}_h) W
 $$
-where $\text{head}_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)$.
+where $\text{head}_i = \text{Attention} \big(Q_i (W_i^Q)^{\top},K_i (W_i^K)^{\top},V_i (W_i^V)^{\top} \big)$.
 
-The weights are $W \in \mathbb{R}^{h \cdot d_v \times d_{model}}, W_i^Q \in \mathbb{R}^{d_{model} \times d_k}, W_i^K \in \mathbb{R}^{d_{model} \times d_k}, W_i^V \in \mathbb{R}^{d_{model} \times d_v}$, where $d_{model}$ is the dimension of one single-attention head.
+The weights are $W \in \mathbb{R}^{h \cdot d_v \times d_{model}}, W_i^Q \in \mathbb{R}^{d_{model} \times d_k}, W_i^K \in \mathbb{R}^{d_{model} \times d_k}, W_i^V \in \mathbb{R}^{d_{model} \times d_v}$, where $d_{model}=h \cdot d_v$ is the dimension of one single-attention head.
+To make computation convenient, set $d_v=d_k$.
 
 For example, in BERT base, there are $h=12$ attention heads ( $h = d_{model} / d_k = 768 / 64 = 12$); in BERT Large, there are $h=16$ attention heads ( $h = d_{model} / d_k = 1024 / 64 = 16$ ).
 The choice of $d_{model} = 768$ is the result of employing wordpiece embedding per vocab.
@@ -70,11 +73,11 @@ $$
 $$
 where $\text{softmax} (\bold{x}) = \frac{e^{\bold{x}}}{\sum^K_{k=1}e^{\bold{x}}}$ in which $\bold{x}=\frac{Q K^{\top}}{\sqrt{d_k}}$.
 
-* 1st MatMul: $Q K^{\top}$
+* 1st MatMul: $Q K^{\top} \in \mathbb{R}^{d_{model} \times d_{model}}$
 * Scale: $\sqrt{d_k}$ is a scaling factor for each element of $Q K^{\top}$ 
 * Mask: set partial input embeddings to zeros; this is useful in decoder where the predict words by decoder should not be affected by preceding input words.
 * SoftMax: $\text{softmax} (\bold{x})$
-* 2nd MatMul: $\text{softmax}(\bold{x}) \space V$
+* 2nd MatMul: $\text{softmax}(\bold{x}) \space V \in \mathbb{R}^{d_{model} \times d_k}$
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/scaled_dot_product_attention.png" width="15%" height="30%" alt="scaled_dot_product_attention" />
@@ -106,31 +109,38 @@ From https://github.com/huggingface/transformers/blob/v4.35.2/src/transformers/m
 class BertSelfAttention(nn.Module):
 
   def __init__(self, config, position_embedding_type=None):
-    super().__init__()
-    if config.hidden_size % config.num_attention_heads != 0 and not hasattr(config, "embedding_size"):
-        raise ValueError(
-            f"The hidden size ({config.hidden_size}) is not a multiple of the number of attention "
-            f"heads ({config.num_attention_heads})"
-        )
+      super().__init__()
+      if config.hidden_size % config.num_attention_heads != 0 and not hasattr(config, "embedding_size"):
+          raise ValueError(
+              f"The hidden size ({config.hidden_size}) is not a multiple of the number of attention "
+              f"heads ({config.num_attention_heads})"
+          )
 
-    self.num_attention_heads = config.num_attention_heads
-    self.attention_head_size = int(config.hidden_size / config.num_attention_heads)
-    self.all_head_size = self.num_attention_heads * self.attention_head_size
+      self.num_attention_heads = config.num_attention_heads
+      self.attention_head_size = int(config.hidden_size / config.num_attention_heads)
+      self.all_head_size = self.num_attention_heads * self.attention_head_size
 
-    self.query = nn.Linear(config.hidden_size, self.all_head_size)
-    self.key = nn.Linear(config.hidden_size, self.all_head_size)
-    self.value = nn.Linear(config.hidden_size, self.all_head_size)
+      self.query = nn.Linear(config.hidden_size, self.all_head_size)
+      self.key = nn.Linear(config.hidden_size, self.all_head_size)
+      self.value = nn.Linear(config.hidden_size, self.all_head_size)
 
-    self.dropout = nn.Dropout(config.attention_probs_dropout_prob)
-    self.position_embedding_type = position_embedding_type or getattr(
-        config, "position_embedding_type", "absolute"
-    )
-    if self.position_embedding_type == "relative_key" or self.position_embedding_type == "relative_key_query":
-        self.max_position_embeddings = config.max_position_embeddings
-        self.distance_embedding = nn.Embedding(2 * config.max_position_embeddings - 1, self.attention_head_size)
+      self.dropout = nn.Dropout(config.attention_probs_dropout_prob)
+      self.position_embedding_type = position_embedding_type or getattr(
+          config, "position_embedding_type", "absolute"
+      )
+      if self.position_embedding_type == "relative_key" or self.position_embedding_type == "relative_key_query":
+          self.max_position_embeddings = config.max_position_embeddings
+          self.distance_embedding = nn.Embedding(2 * config.max_position_embeddings - 1, self.attention_head_size)
 
-    self.is_decoder = config.is_decoder
+      self.is_decoder = config.is_decoder
 
+  def transpose_for_scores(self, x: torch.Tensor) -> torch.Tensor:
+      # x: [batch_size,  attention_head_size * num_attention_heads, attention_head_size * num_attention_heads]
+      # new_x_shape: [batch_size,  attention_head_size * num_attention_heads, num_attention_heads, attention_head_size]
+      # new_x_shape.permute: [batch_size, num_attention_heads,  attention_head_size * num_attention_heads, attention_head_size]
+      new_x_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)
+      x = x.view(new_x_shape)
+      return x.permute(0, 2, 1, 3)
 
   def forward(...):
       mixed_query_layer = self.query(hidden_states)

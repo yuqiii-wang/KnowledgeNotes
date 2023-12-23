@@ -9,29 +9,8 @@ $$
 
 However, in human language there are synonyms, and by certain grammar arrangements tokens at different sequence/sentence positions may give the same semantic/linguistic meanings.
 
-There are a few evaluation solutions:
-
-* Use advanced models such as ChatGPT4 to evaluate small fine-tuned models
-* 
-
-In LangChain, below evaluation aspects are proposed.
-
-```python
-# Langchain Eval types
-EVAL_TYPES={
-    "hallucination": True,
-    "conciseness": True,
-    "relevance": True,
-    "coherence": True,
-    "harmfulness": True,
-    "maliciousness": True,
-    "helpfulness": True,
-    "controversiality": True,
-    "misogyny": True,
-    "criminality": True,
-    "insensitivity": True
-}
-```
+An LLM base/pretrained model learns from common knowledge from tasks such as Masked Language Modeling (MLM) from texts such as  Wikipedia and academic publications, and forms the "consciousness" of how to "chain" the vocabularies.
+The final layer output from LLM/transformer only represents the "consciousness" of such knowledge, and does not produce 
 
 ## GLUE
 

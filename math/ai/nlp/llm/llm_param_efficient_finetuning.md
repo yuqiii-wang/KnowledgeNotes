@@ -1,13 +1,5 @@
 # Parameter-Efficient Fine Tuning (PEFT)
 
-Fine tuning is used for large model to adapt small sample data based on pre-trained parameters.
-
-Parameter trainings:
-
-* From scratch: totally from random parameters
-* Full-parameter fine-tuning: all parameter fine-tuning
-* Parameter-efficient fine-tuning: only less than $10\%$ of parameters are put in training
-
 ## LoRA: Low-Rank Adaptation of Large Language Models
 
 For input $\bold{x} \in \mathbb{R}^{n \times d}$, where $d$ is for dimensionality, to fine tune an pretrained model, LoRA proposes below idea.
@@ -222,11 +214,6 @@ class PromptEmbedding(torch.nn.Module):
             ...
 
             word_embedding_weights = word_embeddings(init_token_ids).detach().clone()
-            word_embedding_weights = word_embedding_weights.to(torch.float32)
-            self.embedding.weight = torch.nn.Parameter(word_embedding_weights)
-
-    def forward(self, indices):
-        # Just get embeddings
         prompt_embeddings = self.embedding(indices)
         return prompt_embeddings
 
@@ -249,7 +236,7 @@ class BertSelfAttention(nn.Module):
          key_layer = self.transpose_for_scores(self.key(hidden_states))
          value_layer = self.transpose_for_scores(self.value(hidden_states))
          key_layer = torch.cat([past_key_value[0], key_layer], dim=2)
-         value_layer = torch.cat([p      past_key_values = self.get_prompt(batch_size)
+         value_layer = torch.cat([past_key_values = self.get_prompt(batch_size)
       return self.base_model(
           input_ids=input_ids, inputs_embeds=inputs_embeds, past_key_values=past_key_values, **kwargs
       )ast_key_value[1], value_layer], dim=2)

@@ -142,6 +142,28 @@ torch.unsqueeze(x, 1)
 #         [ 4]])
 ```
 
+* `permute`
+
+```py
+x = torch.randn(2, 3, 5)
+x.size()
+# torch.Size([2, 3, 5])
+torch.permute(x, (2, 0, 1)).size()
+# torch.Size([5, 2, 3])
+```
+
+* `transpose`
+
+Transpose `dim0` vs `dim1`.
+
+```python
+x = torch.randn(2, 3, 5)
+x.size()
+# torch.Size([2, 3, 5])
+torch.transpose(x, dim0=0, dim1=1)
+# torch.Size([3, 2, 5])
+```
+
 ### Gradients
 
 * `zero_grad`
