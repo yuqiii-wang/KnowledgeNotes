@@ -370,7 +370,13 @@ print(embedding_matrix[2023][:10]) # top 10 embs are tensor([-0.0571,  0.0153, -
                                    # 0.0225,  0.0135], grad_fn=<SliceBackward0>)
 ```
 
+## Text Similarity/Overlap
+
+*Text similarity* measures how close two pieces of text are with respect to either their use of words or characters (lexical similarity) or in terms of meaning (semantic similarity).
+
 ### Embedding Vector Similarity: Cosine Similarity
+
+Vocab semantics can be represented by embeddings derived by training language model.
 
 *Cosine similarity* between two vector $\bold{v}_i, \bold{v}_j$ is define as
 
@@ -384,3 +390,16 @@ There is $\cos(\theta) \in [-1, 1]$, where $-1$ means being exactly opposite, $-
 
 Cosine similarity can be used for two embeddings' comparison.
 If predicted embeddings are very similar to an existing token's embedding, such embeddings can be said this token's representation.
+
+### Lexical Similarity
+
+*Lexical similarity* is measured by describing identical token/word presence in two texts $\bold{v}_A$ and $\bold{v}_B$.
+
+*Jaccard similarity* is the simplest way of computing such description by counting token/word presence.
+The result is the percentage of the intersection set $\bold{v}_A \bigcap \bold{v}_B$ (same tokens/words present in both texts) over the union set $\bold{v}_A \bigcup \bold{v}_B$ (all unique tokens/words).
+
+$$
+\text{JaccardSimilarity}(\bold{v}_A, \bold{v}_B) =
+\frac{\bold{v}_A \bigcap \bold{v}_B}{\bold{v}_A \bigcup \bold{v}_B} = 
+\frac{\bold{v}_A \bigcap \bold{v}_B}{|\bold{v}_A| + |\bold{v}_B| - \bold{v}_A \bigcap \bold{v}_B}
+$$

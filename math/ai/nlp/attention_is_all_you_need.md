@@ -9,6 +9,7 @@ Given $Q$ for query, $K$ for key, $V$ for value, a simple self-attention can be 
 $$
 \text{Attention}(Q,K,V) = \text{softmax} \Big( \frac{Q K^{\top}}{\sqrt{d_k}} \Big) V
 $$
+
 where $\text{softmax} (\bold{x}) = \frac{e^{\bold{x}}}{\sum^K_{k=1}e^{\bold{x}}}$ in which $\bold{x}=\frac{Q K^{\top}}{\sqrt{d_k}}$.
 
 $d_k$ is the dimension of query $Q$ and key $K$.
