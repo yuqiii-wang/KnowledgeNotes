@@ -9,6 +9,49 @@ $$
 
 However, in human language there are synonyms, and by certain grammar arrangements tokens at different sequence/sentence positions may give the same semantic/linguistic meanings.
 
+### Traditional Lexical Overlap
+
+Aim to compare if two sentences are the same in terms of token sequences by exact token match.
+
+* Clipped *n-grams* percentage $p_n$:
+
+$$
+p_n =
+\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} Count_{clip}(\text{n-gram})}
+{\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} Count(\text{n-gram}')}
+$$
+
+where n-gram refers to n-sequence tokens present both in two texts.
+The $Count(\text{n-gram})$ is the count of the contained tokens,
+and $Count_{clip}(\text{n-gram})=\max\big(Count(\text{n-gram}), maxCount \big)$ simply clips the count by setting a max threshold, that if an n-gram repeats for too many times, 
+
+For example, there are $37$ words in the candidate prediction, and by setting $maxCount=2$, for 2-gram, there are "It is a guide to action" x 1, "ensures that the military" x 1, "the party" x 3, "absolute control" x 1, "the military" x 1.
+The 2-gram token count is $20$. However, having set the threshold $maxCount=2$, the "the party" is only counted twice instead of three times.
+Finally, the result is $p_2=\frac{18}{37}$.
+
+|Candidate Prediction|Reference Truth|$p_n$|
+|-|-|-|
+|It is a guide to action which ensures that the military always obeys the commands of the party. The party should hold absolute control over the military, and no one can resist the order of the party.|It is a guide to action that ensures that the military will forever heed the party's commands. The party demands absolute control of the military, and nobody can disobey the party.|for bi-gram: $p_2 = \frac{18}{37}$|
+
+* Longest Common Sub-Sequence (LCS)
+
+Find the longest common sub-sequence of two texts $\bold{v}_A$ and $\bold{v}_B$.
+The precision $P_{lcs}$ and recall $R_{lcs}$ are computed as below, by which F score is derived.
+
+$$
+\begin{align*}
+&& R_{lcs} &= \frac{LCS(\bold{v}_A, \bold{v}_B)}{\text{len}(\bold{v}_A)}
+&&
+P_{lcs} &= \frac{LCS(\bold{v}_A, \bold{v}_B)}{\text{len}(\bold{v}_B)} \\
+\Rightarrow && F_{lcs} &= \frac{(1+\beta^2)R_{lcs}P_{lcs}}{R_{lcs}+\beta^2 P_{lcs}}
+\end{align*}
+$$
+
+where $\beta$ is the coefficient controlling the relative importance of $P_{lcs}$ and $R_{lcs}$, such that $\lim_{\beta \rightarrow 0} F_{lcs} = P_{lcs}$ and $\lim_{\beta \rightarrow +\infty} F_{lcs} = R_{lcs}$.
+$\text{len}(\bold{v})$ is the count of tokens in the vector $\bold{v}$.
+
+### Transform The Evaluation Problem Into A Classification/Regression Problem
+
 An LLM base/pretrained model learns from common knowledge from tasks such as Masked Language Modeling (MLM) from texts such as  Wikipedia and academic publications, and forms the "consciousness" of how to "chain" the vocabularies.
 The final layer output from LLM/transformer only represents the "consciousness" of such knowledge, and does not produce accurate results with respects to different NLP tasks, and finetuning is required.
 
@@ -19,6 +62,8 @@ For example, to evaluate if model's output sentences are considered grammaticall
 2. add a classifier/pooler appended to the base/pretrained model;
 3. then finetune the model by the prepared sentences and labels;
 4. evaluate the finetuned model by binary classification metrics such as Matthews correlation coefficient (MCC).
+
+### Popular Benchmarks
 
 There are many evaluation benchmarks: *GLUE*, *BLUE*, etc., that use a diverse NLP tasks with corresponding datasets for testing.
 
@@ -40,18 +85,6 @@ p_n =
 {\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} Count(\text{n-gram}')}
 $$
 
-where n-gram refers to n-sequence tokens present both in two texts.
-The $Count(\text{n-gram})$ is the count of the contained tokens,
-and $Count_{clip}(\text{n-gram})=\max\big(Count(\text{n-gram}), maxCount \big)$ simply clips the count by setting a max threshold, that if an n-gram repeats for too many times, 
-
-For example, there are $37$ words in the candidate prediction, and by setting $maxCount=2$, for 2-gram, there are "It is a guide to action" x 1, "ensures that the military" x 1, "the party" x 3, "absolute control" x 1, "the military" x 1.
-The 2-gram token count is $20$. However, having set the threshold $maxCount=2$, the "the party" is only counted twice instead of three times.
-Finally, the result is $p_2=\frac{18}{37}$.
-
-|Candidate Prediction|Reference Truth|$p_n$|
-|-|-|-|
-|It is a guide to action which ensures that the military always obeys the commands of the party. The party should hold absolute control over the military, and no one can resist the order of the party.|It is a guide to action that ensures that the military will forever heed the party's commands. The party demands absolute control of the military, and nobody can disobey the party.|for bi-gram: $p_2 = \frac{18}{37}$|
-
 BLEU adds *brevity penalty* to $p_n$ to penalize long candidate prediction sentences.
 This is for model may over-elaborate semantics with repeated n-gram tokens, such as "It is a guide to action and a guide to ensure, also a guide to enforce that ...", to increase $p_n$.
 
@@ -67,7 +100,7 @@ $$
 where $c$ is the length/token count of a candidate prediction sentence, $r$ is the average/normalized length/token count of reference sentences from an article/document.
 The penalty is exponential that sees increasingly heavy penalty as prediction sentences grow too long.
 
-## Common NLP Evaluations
+## Semantic Comprehension Evaluations
 
 ### Grammar Test
 
@@ -132,9 +165,19 @@ The task is to determine whether the context sentence contains the answer to the
 
 * qnli (Stanford Question Answering Dataset): question-paragraph pairs, where one of the sentences in the paragraph (drawn from Wikipedia) contains the answer to the corresponding question (written by an annotator).
 
-#### Answer Retrieval
+#### Answer Retrieval from Source Texts
 
+This task assumes that, the source context text has exact token sequence as the answer to a proposed question.
+The answer usually has two regression values: start token position in source text and answer length/end token position.
 
+The benchmark for this task can be loss value of how much the start token position deviates from the truth position, plus length/end token position.
+An alternative can be entropy/accuracy of exact token match.
+
+|Context|Question|Answer|Answer Start Token Position|
+|-|-|-|-|
+|The College of Engineering was established in 1920, however, early courses in civil and mechanical engineering were a part of the College of Science since the 1870s. Today the college, housed in the Fitzpatrick, Cushing, and Stinson-Remick Halls of Engineering, includes five departments of study – aerospace and mechanical engineering, chemical and biomolecular engineering, civil engineering and geological sciences, computer science and engineering, and electrical engineering – with eight B.S. degrees offered. Additionally, the college offers five-year dual degree programs with the Colleges of Arts and Letters and of Business awarding additional B.A. and Master of Business Administration (MBA) degrees, respectively.|Before the creation of the College of Engineering similar studies were carried out at which Notre Dame college?|the College of Science|126|
+
+* squad (Stanford Question Answering Dataset) 
 
 ### Sentiment
 
@@ -167,6 +210,23 @@ Pronoun reference tests that, given a paragraph consisted of multiple pronouns r
 
 #### Summarization
 
-A good summary covers main info of a paragraph.
+The evaluation dataset is consisted of paragraphs and summaries.
+An LLM reads a paragraph and outputs a summary.
+
+Given the produced summary, one can perform lexical similarity between prediction vs reference, or use a very large generic SOTA LLM to do semantic equivalence test.
+
+|Paragraph|Summary|
+|-|-|
+|Hannah: Hey, do you have Betty's number?\nAmanda: Lemme check\nHannah: <file_gif>\nAmanda: Sorry, can't find it.\nAmanda: Ask Larry\nAmanda: He called her last time we were at the park together\nHannah: I don't know him well\nHannah: <file_gif>\nAmanda: Don't be shy, he's very nice\nHannah: If you say so..\nHannah: I'd rather you texted him\nAmanda: Just text him 🙂\nHannah: Urgh.. Alright\nHannah: Bye\nAmanda: Bye bye|Hannah needs Betty's number but Amanda doesn't have it. She needs to contact Larry.|
+
 
 * ROUGE (Recall-Oriented Understudy for Gisting Evaluation): gauges the overlap of words between a generated output and a reference text, provided tools are ROUGE-N (n-grams), ROUGE-L (longest common sub-sequence), ROUGE-W (weighted longest common sub-sequence), and ROUGE-S (skip-bi-gram).
+* samsum Corpus: A Human-annotated Dialogue Dataset for Abstractive Summarization
+
+## Language and Content Qualitative Evaluations
+
+### Hallucination
+
+### Conciseness
+
+### Coherence
