@@ -131,16 +131,41 @@ SEDOL is a list of security identifiers used in the United Kingdom and Ireland f
 
 ### Banking
 
-
 * bank run/run on the bank （挤兑）
 
 A bank run or run on the bank occurs when many clients withdraw their money from a bank, because they believe the bank may cease to function in the near future.
-
 
 * Gilt (英国国债)
 
 A gilt is a UK Government liability in sterling, issued by HM Treasury and listed on the London Stock Exchange. 
 The term “gilt” or “gilt-edged security” is a reference to its high credibility that the UK gov never failed to make interest or principal payments on gilts as they fall due. 
+
+* Demand deposit (活期存款)
+
+Demand deposits or checkbook money are funds held in demand accounts in commercial banks.
+
+* Traveller's cheque (旅行支票)
+
+Before the age of credit card, cheque can be used to exchange for hard currency guaranteed by the credit of the cheque's issuer.
+Nowadays, credit card almost replaces cheque.
+
+* Savings account (儲蓄存款帳戶)
+
+* Money market account (大额长期储蓄账户)
+
+Require minimal saving amount and term; pay with high interests than that of saving account
+
+* Certificate of deposit, CDs (大额存单)
+
+CDs typically differ from savings accounts in that the CD has a specific, fixed term before money can be withdrawn without penalty and generally higher interest rates.
+
+* Commercial Paper (商業票據)
+
+Commercial paper is an unsecured promissory note with a fixed maturity of usually less than 270 days.
+In layperson terms, it is like an "IOU" but can be bought and sold because its buyers and sellers have some degree of confidence that it can be successfully redeemed later for cash, based on their assessment of the creditworthiness of the issuing company.
+
+For example, Apple bought some electronic devices from Foxconn.
+Instead of just paying cash on goods' delivery, Apple pays with commercial paper that promises Apple will pay the full amount in 270 days.
 
 ### Secondary Market and Shares
 
@@ -299,6 +324,33 @@ Underwriters purchase securities in bulk from issuers then distribute such secur
 Clients might or might not buy them from underwriters.
 As a result, underwriters take risks when not having such securities sold; or earning underwriting spread if there is rise in security values.
 
+* Money market fund (货币基金)
+
+A money market fund (also called a money market mutual fund) is an open-ended mutual fund that invests in short-term debt securities such as US Treasury bills and commercial paper
+
+### Money Supply
+
+The money supply is the total amount of cash and cash equivalents such as savings accounts that is circulating in an economy at a given point in time.
+
+The motivation of defining different supply scopes is to compute how much cash might be supplied to market.
+
+||Description|Implications|
+|-|-|-|
+|M0|Notes and coins in circulation (outside Federal Reserve Banks and the vaults of depository institutions) (currency)||
+|M1|M0 plus the amount of demand deposits, travelers checks and other checkable deposits + most savings accounts.||
+|M2|M1 + money market accounts, retail money market mutual funds and certificates of deposit||
+|M3|M2 + repos, commercial papers||
+
+For $M2$ and wider scopes of money supply, securities as collaterals have such below money supply implications functioned as money lending.
+
+For example, having $10\%$ of mandatory deposit giving $90\%$ money for lending, the lender after lending $90\%$ of money should receive collateral equivalent of the $90\%$, and this equivalent collateral can be again used to borrow $81\%=0.9 \times 0.9$ of the money.
+As a result, the total theoretical money lending limit is (assumed total face value of $100$ at start)
+
+$$
+1000 \approx
+100 \times 0.9 + 100 \times 0.9^2 + 100 \times 0.9^3 + ...
+$$
+
 ### Financing and Bonds
 
 * Tenor
@@ -372,6 +424,12 @@ The Treasury Department is headed by a Cabinet-level appointee who advises the p
 Established in 2011, the Renminbi Qualified Foreign Institutional Investor (RQFII) program is a policy initiative that allows foreign investors who hold the RQFII quota to invest directly in Mainland China's bond and equity markets.
 
 It is a step for China to loosen capital controls and internationalize RMB.
+
+* Qualified Domestic Institutional Investor (QDII)
+
+A qualified domestic institutional investor or QDII is an institutional investor that has met certain qualifications to invest in securities outside of their home country.
+
+Popular QDII programs come from the People's Republic of China, where the main regulatory body, the China Securities Regulatory Commission (CSRC), at times grants a limited avenue for institutional investors to invest in foreign-based securities.
 
 ### Restructure and Buyout
 

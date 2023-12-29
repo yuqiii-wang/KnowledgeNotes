@@ -175,7 +175,22 @@ collection = client.create_collection(
 
 ## Hallucination Issues
 
-Hallucination refers to LLM generated content having no truth from stored documents but from its own "imagination".
+Hallucination refers to the generated content that is nonsensical or unfaithful to the provided source content.
 
-* Faithfulness: fit to input content, user provided documents
-* Factualness: fit to common sense
+By definition, there are
+
+* Faithfulness: LLM outputs agree with input content, chat history, user provided documents
+
+* Factualness: LLM outputs agree with to common sense
+
+Accordingly, there are
+
+* Intrinsic Hallucination: conflicts found within existing documents/chats
+
+* Extrinsic Hallucination: generated contents are out of "imagination"/nonsensical
+
+### Reasons and Remediation
+
+* Corpus have conflicts of info, need to filter out false info from training set
+* Top-p text generation scheme and randomness introduce uncertainty of generating contents, use less scholastic methods
+* Training data enhancement by providing few-shot intermediate input, so that LLMs know how to deduct the logic

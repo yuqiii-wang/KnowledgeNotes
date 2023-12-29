@@ -31,7 +31,7 @@ Borrower pays premium to a third party to insure the borrower's credit, that if 
 
 Wash trading – also referred to as round trip trading – is a practice where investors buy and sell the same financial instruments almost at the same time.
 
-One major motivation is to manipulate market (often illegal) by first pumping up a security value by bulk buying, then bulk selling the security when its price is high. This pair of actions should finish within a short period of time. 
+Motivations include security ownership change to another investor, 
 
 ## Trading Platforms
 

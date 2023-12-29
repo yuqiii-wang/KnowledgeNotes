@@ -1,6 +1,6 @@
 # Model Compression: Pruning/Distillation and Quantization
 
-## Pruning/Distillation
+## Pruning
 
 Pruning permanently drops certain weights.
 
@@ -131,10 +131,6 @@ However, the unstructured pruning (set small $w_i$ to zeros) cannot help for in 
 
 To reduce memory consumption, need to prune on a whole layer at least.
 
-### Intel® Neural Compressor
-
-
-
 ## Quantization
 
 *Quantization* refers to techniques for performing computations and storing tensors at lower bitwidths than floating point precision, such as `float32` $\rightarrow$ `int8`.
@@ -144,3 +140,6 @@ PyTorch supports INT8 quantization compared to typical FP32 models allowing for 
 In pytorch, simply add `<model_name>` and `dtype=torch.qint8` to `torch.ao.quantization.quantize_dynamic(...)`.
 
 Reference: https://pytorch.org/docs/stable/quantization.html.
+
+## Distillation
+
