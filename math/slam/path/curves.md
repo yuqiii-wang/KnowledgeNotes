@@ -95,6 +95,17 @@ For fourth-order curves one can construct intermediate points $\bold{Q}=[Q_0, Q_
 
 The linear combinations of the above points forms a fourth-order curve.
 
-![Bézier_4_big.svg](imgs/Bézier_4_big.svg.png "Bézier_4_big.svg")
 
-![Bézier_4_big](imgs/Bézier_4_big.gif "Bézier_4_big")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/bezier_4_big.svg.png" width="30%" height="30%" alt="bezier_4_big.svg" />
+</div>
+</br>
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/bezier_4_big.gif" width="30%" height="30%" alt="bezier_4_big.gif" />
+</div>
+</br>
+
+![Bézier_4_big.svg](imgs/bezier_4_big.svg.png "Bézier_4_big.svg")
+
+![Bézier_4_big](imgs/bezier_4_big.gif "Bézier_4_big")
