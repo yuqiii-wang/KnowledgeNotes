@@ -143,3 +143,4 @@ Reference: https://pytorch.org/docs/stable/quantization.html.
 
 ## Distillation
 
+Knowledge distillation or model distillation is the process of transferring knowledge from a large model (teacher) to a smaller one (student).

@@ -162,6 +162,18 @@ $$
 \end{align*}
 $$
 
+### Jensen-Shannon Divergence
+
+In contrast to $D_{KL}$ that tests the prediction distribution $P$ against reference distribution $Q$, *Jensen-Shannon divergence* $D_{JS}$ uses geometric mean $\frac{Q+P}{2}$ as the reference distribution comparing between $P$ and $Q$.
+
+This means neither $P$ nor $Q$ is a reference, instead, $D_{JS}$ treats both as reference by taking the "mean" distribution of $P$ and $Q$, and compare $P$ and $Q$ against this mean $\frac{Q+P}{2}$.
+
+$$
+D_{JS}(P || Q) = \frac{1}{2} D_{KL}\Big(Q || \frac{Q+P}{2} \Big) + \frac{1}{2} D_{KL}\Big(P || \frac{Q+P}{2} \Big)
+$$
+
+A general form of $D_{JS}$ is by replacing $\frac{Q+P}{2}$ with weighs $\bold{\pi}=\{ \pi_1, \pi_2, ..., \pi_n \}$ on distributions $\bold{P} = \{ P_1, P_2, ..., P_n \}$
+
 ## Errors
 
 

@@ -298,4 +298,7 @@ Conciseness can be considered a variant of summarization, that LLM input by such
 Info density can be measured by
 $\text{Inverse Document Frequency}_{i} = \log \frac{\text{Total no. of documents}}{\text{No. of documents containing term i}}$.
 
-### Coherence
+### Bias and Fairness
+
+LLMs inherit stereotypes, misrepresentations, derogatory and exclusionary language, and other denigrating behaviors. These harms are forms of *social bias*, a subjective and normative term we broadly use to refer to disparate treatment or outcomes between social groups that arise from historical and structural power asymmetries.
+

@@ -1,5 +1,23 @@
 # Inferential Statistics
 
+## Mean
+
+* Arithmetic Mean
+
+$$
+\mu_{arith} = \frac{1}{n}(x_1 + x_2 + ... + x_n )
+$$
+
+Used when data not skewed and are independent of each other.
+
+* Geometric Mean
+
+$$
+\mu_{geome} = (x_1 \cdot x_2 \cdot ... \cdot x_n )^{\frac{1}{n}}
+$$
+
+Used 
+
 ## Variability
 
 Variability is the extent to which data points in a statistical distribution or data set diverge.
