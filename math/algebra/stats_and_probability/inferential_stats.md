@@ -16,7 +16,7 @@ $$
 \mu_{geome} = (x_1 \cdot x_2 \cdot ... \cdot x_n )^{\frac{1}{n}}
 $$
 
-Used 
+Used in scenarios such as growth rate.
 
 ## Variability
 

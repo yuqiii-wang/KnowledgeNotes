@@ -144,3 +144,25 @@ Reference: https://pytorch.org/docs/stable/quantization.html.
 ## Distillation
 
 Knowledge distillation or model distillation is the process of transferring knowledge from a large model (teacher) to a smaller one (student).
+
+During the distillation process, the teacher model generates a set of soft targets, which are essentially probability distributions over the possible next tokens in a sentence.
+The student model is then trained to mimic these soft targets, rather than the actual outputs of the teacher model.
+
+* Offline distillation: the pre-trained teacher model remains frozen while the student model is trained. 
+
+* Online distillation: both the teacher and students models are trained simultaneously.
+
+* Self-distillation: the same model acts as both teacher as well as student (self-learning) in training, and allows minor prediction accuracy degradation. The produced student model should be much smaller saving memory.
+
+### Formulation
+
+The learning to mimic the soft targets means that, for example, to learn from BERT-large, there should see $p_{\theta_{\text{BERT-distilled}}}(w_t | \bold{w}_{1:t-1}) = p_{\theta_{\text{BERT-large}}}(w_t | \bold{w}_{1:t-1})$ (for shorthand notations, denote $p_{\theta_{t}}$ as the teacher model, $p_{\theta_{s}}$ as the student model), where $p_{\theta_s}(w_t)$ is a discrete probability distribution of $30522$ tokens, rather than producing the exactly the same sequence tokens such that $p_{\theta_s}\big(w_t = \argmax(p_{\theta_{t}}(w_t))\big)=1$.
+
+Since the knowledge transfer result is evaluated based on two probability distributions, here introduces *Kullback-Leibler divergence* $D_{KL}(P || Q)$.
+
+$$
+D_{KL}(P || Q) =
+\sum_{x \in X} P(x) \log \Big( \frac{P(x)}{Q(x)} \Big)
+$$
+
+A forward KL divergence is defined as $D_{KL}( p_{\theta_{t}} \big(\bold{w} | \bold{x}) \space||\space p_{\theta_{s}} \big(\bold{w} | \bold{x}) \big)$

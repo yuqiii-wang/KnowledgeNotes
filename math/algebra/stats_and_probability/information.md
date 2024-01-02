@@ -1,6 +1,69 @@
 # Information
 
-## Score
+## Entropy
+
+The Shannon entropy $\text{H}$, in units of bits (per symbol), is given by
+
+$$
+\text{H} = - \sum_{i} p_i \log p_i
+$$
+
+where $p_i$ is the probability of occurrence of the $i$-th possible value of the source symbol.
+Usually, $\log$ has a base of $2$ or Euler's number $e$.
+
+* Joint Entropy
+
+Given two random variables $X$ and $Y$, if $X$ and $Y$ are independent, their joint entropy is the sum of their individual entropies.
+
+$$
+\text{H}(X,Y) = -\sum_{x \in X, y \in Y} p(x,y) \log p (x,y)
+$$
+
+* Cross Entropy
+
+Cross entropy $\text{H}$ measures how close two distributions $P$ and $Q$ are.
+Set $P$ as the label truth token sequence, and $Q$ as the LLM prediction token sequence, so that predictions vs labels can be measured in cross entropy.
+
+$$
+\begin{align*}
+\text{H}(P, Q) &= E_P \big( -\log Q \big) \\
+    &= -\sum_{x \in \bold{x}} P(x) \log Q(x) \\
+    &= -\sum_{x \in \bold{x}} P(x) \big(\log P(x) +  \log Q(x) -\log P(x) \big) \\
+    &= -\sum_{x \in \bold{x}} P(x) \log P(x) - \sum_{x \in \bold{x}} P(x) \log \frac{Q(x)}{P(x)} \\
+    &= \text{H}(P) + D_{KL}(P || Q)
+\end{align*}
+$$
+
+where $D_{KL}(P || Q) > 0$ is Kullback–Leibler (KL) divergence describing how far between $P$ and $Q$. 
+
+* Conditional entropy (equivocation)
+
+Conditional uncertainty of $X$ given random variable $Y$ is the average conditional entropy over $Y$.
+
+$$
+\begin{align*}
+\text{H}(X|Y) &= \mathbb{E}_Y \big( \text{H}(X|y) \big) 
+\\ &=
+\sum_{x \in Y} p(y) \sum_{x \in X} p(x|y) \log p(x|y)
+\\ &=
+-\sum_{x \in X, y \in Y} p(x,y) \log p (x|y)
+\end{align*}
+$$
+
+* Mutual information (trans-information)
+
+Mutual information measures the amount of information that can be obtained about one random variable by observing another.
+
+$$
+I(X;Y) = \sum_{x \in X, y \in Y} p(x,y) \log \frac{p(x,y)}{p(x)p(y)}
+$$
+
+If $X$ and $Y$ are totally independent, there is $p(x,y)=p(x)p(y)$, hence $\log \frac{p(x,y)}{p(x)p(y)}=0$.
+If $X$ and $Y$ are co-dependent, there is $p(x,y)>p(x)p(y)$, hence $\log \frac{p(x,y)}{p(x)p(y)}>0$.
+
+## Fisher Information
+
+### Score
 
 In statistics, score (or informant) $s(\theta)$ is a $1 \times m$ vector of the gradient of a log-likelihood $log L(\theta)$ function with respect to its config parameter vector $\theta$ (size of $1 \times m$). 
 
@@ -37,13 +100,12 @@ E(s|\theta) &=
 \end{align*}
 $$
 
-### Intuition
+#### Intuition
 
 The optimal configuration $\theta$ to fit sample space distribution is by minimizing its log-likelihood function $logL(\theta;x)$. 
 
 $logL(\theta;x)$ by ideal $\theta$ should see its minima along side with its derivative zero, hence $E(s|\theta)=0$.
 
-## Fisher information
 
 Fisher information is a way of measuring the amount of information that an observable random variable $\bold{x} \in X$ carries about an unknown parameter $\theta$.
 

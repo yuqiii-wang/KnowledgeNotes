@@ -132,34 +132,11 @@ Intermediate values provide a controlled balance between the two measures.
 
 ### Kullback-Leibler Divergence (KLD)
 
-KLD denoted as $D_{KL}(P || Q)$ is a measure of how one probability distribution $P$ is different from a second reference probability distribution $Q$.
+KLD denoted as $D_{KL}(P || Q)$ is a measure of how a prediction probability distribution $Q$ is different from actual probability distribution $P$.
 
 $$
 D_{KL}(P || Q) =
 \sum_{x \in X} P(x) \log \Big( \frac{P(x)}{Q(x)} \Big)
-$$
-
-For example, there are three events labelled $x \in \{0,1,2\}$ that are assumed each event should have the same probability of occurrence (reference distribution $Q(x)=\frac{1}{3}$ regardless of input $x$).
-However, having conducted $25$ trials, here sees different observations: $9$ for event $x=0$, $12$ for event $x=1$ and $4$ for event $x=2$.
-
-
-||$x=0$|$x=1$|$x=2$|
-|-|-|-|-|
-|$P(x)$|$\frac{9}{25}$|$\frac{12}{25}$|$\frac{4}{25}$|
-|$Q(x)$|$\frac{1}{3}$|$\frac{1}{3}$|$\frac{1}{3}$|
-
-$$
-\begin{align*}
-    D_{KL}(P || Q) &=
-    \sum_{x \in X} P(x) \log \Big( \frac{P(x)}{Q(x)} \Big)
-\\ &=
-    \frac{9}{25}\ln \Big( \frac{9/25}{1/3} 
-    \Big) +
-    \frac{12}{25}\ln \Big( \frac{12/25}{1/3} \Big) +
-    \frac{4}{25}\ln \Big( \frac{4/25}{1/3} \Big)
-\\ &\approx
-    0.085
-\end{align*}
 $$
 
 ### Jensen-Shannon Divergence
@@ -172,7 +149,7 @@ $$
 D_{JS}(P || Q) = \frac{1}{2} D_{KL}\Big(Q || \frac{Q+P}{2} \Big) + \frac{1}{2} D_{KL}\Big(P || \frac{Q+P}{2} \Big)
 $$
 
-A general form of $D_{JS}$ is by replacing $\frac{Q+P}{2}$ with weighs $\bold{\pi}=\{ \pi_1, \pi_2, ..., \pi_n \}$ on distributions $\bold{P} = \{ P_1, P_2, ..., P_n \}$
+A general form of $D_{JS}$ is by replacing $\frac{Q+P}{2}$ with weighs $\bold{\pi}=\{ \pi_1, \pi_2, ..., \pi_n \}$ on distributions $\bold{P} = \{ P_1, P_2, ..., P_n \}$.
 
 ## Errors
 
