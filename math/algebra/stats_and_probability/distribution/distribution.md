@@ -23,6 +23,14 @@ For example, $x=0.5$ is the mode of this discrete probability distribution.
 </div>
 </br>
 
+Modes in more general terms refers to "peaks" of a distribution.
+For example, the blue curves have two modes, the green curve has one.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/kl_divergence_forward_vs_reverse.png" width="60%" height="20%" alt="kl_divergence_forward_vs_reverse" />
+</div>
+</br>
+
 * Probability Distribution
 
 A *probability distribution* describes the probabilities of occurrence of different possible outcomes for an experiment.
@@ -32,6 +40,8 @@ A *probability distribution* describes the probabilities of occurrence of differ
 The $p(x,y)$ is the joint probability distribution on two independent random variables $X$ and $Y$.
 
 The $p_X(x)=\int p_{X,Y}(x,y)dy$ and $p_Y(y)=\int p_{X,Y}(x,y)dx$ are the marginal probability distributions.
+
+If $X$ and $Y$ are co-dependent, there is $p(x,y)>p(x)p(y)$.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/joint_vs_marginal_dist.png" width="30%" height="30%" alt="joint_vs_marginal_dist" />

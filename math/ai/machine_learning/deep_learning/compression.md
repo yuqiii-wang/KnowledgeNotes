@@ -156,13 +156,38 @@ The student model is then trained to mimic these soft targets, rather than the a
 
 ### Formulation
 
-The learning to mimic the soft targets means that, for example, to learn from BERT-large, there should see $p_{\theta_{\text{BERT-distilled}}}(w_t | \bold{w}_{1:t-1}) = p_{\theta_{\text{BERT-large}}}(w_t | \bold{w}_{1:t-1})$ (for shorthand notations, denote $p_{\theta_{t}}$ as the teacher model, $p_{\theta_{s}}$ as the student model), where $p_{\theta_s}(w_t)$ is a discrete probability distribution of $30522$ tokens, rather than producing the exactly the same sequence tokens such that $p_{\theta_s}\big(w_t = \argmax(p_{\theta_{t}}(w_t))\big)=1$.
+The learning to mimic the soft targets means that, for example, to learn from BERT-large, there should see $p_{\theta_{\text{BERT-distilled}}}(w_t | \bold{w}_{1:t-1}) = p_{\theta_{\text{BERT-large}}}(w_t | \bold{w}_{1:t-1})$ (for shorthand notations, denote $p_{\theta_{t}}$ as the teacher model output probability distribution, $p_{\theta_{s}}$ as the student model's, in which $\theta_t$ and $\theta_s$ are models' parameters), where $p_{\theta_s}(w_t)$ is a discrete probability distribution of $30522$ tokens, rather than producing the exactly the same token such that $p_{\theta_s}\big(w_t = \argmax(p_{\theta_{t}}(w_t))\big)=1$.
 
-Since the knowledge transfer result is evaluated based on two probability distributions, here introduces *Kullback-Leibler divergence* $D_{KL}(P || Q)$.
+Since the knowledge transfer result is evaluated based on two probability distributions, here introduces *Kullback-Leibler divergence* $D_{KL}(P || Q)$, that it measures how a student model output probability distribution $Q$ is different from teacher model output probability distribution $P$. 
 
 $$
 D_{KL}(P || Q) =
 \sum_{x \in X} P(x) \log \Big( \frac{P(x)}{Q(x)} \Big)
 $$
 
-A forward KL divergence is defined as $D_{KL}( p_{\theta_{t}} \big(\bold{w} | \bold{x}) \space||\space p_{\theta_{s}} \big(\bold{w} | \bold{x}) \big)$
+A forward KL divergence is defined $D_{KL}(P || Q)$, and reverse KL divergence is $D_{KL}(Q || P)$.
+In knowledge transfer/model distillation using a small model to learn from a large model such that $\text{rank}(\theta_Q) < \text{rank}(\theta_P)$, forward KL divergence suffers from "spreading flat" treating the teacher model output $P$ as weights to $\log \frac{P(x)}{Q(x)}$, so that the learnt student's model output $Q$ is "flat".
+
+Reverse KL divergence $D_{KL}(Q || P)=\sum_{x \in X} Q(x) \log \frac{Q(x)}{P(x)}$ is better served as the loss in knowledge distillation, where student model output $Q$ is used as weights to $\log \frac{Q(x)}{P(x)}$ that minimizes the difference between $Q$ and $P$ distributions.
+This enables the student learning the most prominent features of the teacher.
+
+To formulate the optimization problem for LLM knowledge distillation, propose the below objective, where $\bold{x}$ is the input prompt.
+The objective is for the student to best produce the exactly the same token sequence distribution of the teacher's, and this is measured by minimizing the expectation of $\log \frac{Q_{\theta_s}(\bold{w} | \bold{x})}{P_{\theta_t}(\bold{w} | \bold{x})}$.
+The expectation is applied with weights by $Q_{\theta_s}(\bold{w} | \bold{x})$ in reverse $D_{KL}$.
+
+$$
+\begin{align*}
+\theta_s &= \argmin_{\theta_s} \mathcal{L}(\theta_s) \\
+&= \mathbb{E}_{\bold{w} \sim Q} \log \frac{Q_{\theta_s}(\bold{w} | \bold{x})}{P_{\theta_t}(\bold{w} | \bold{x})} \\
+&= \argmin_{\theta_s} \sum_{t=1}^{T} Q_{\theta_s}(w_t | \bold{w}_{1:t-1}, \bold{x}) \log \frac{Q_{\theta_s}(w_t | \bold{w}_{1:t-1}, \bold{x})}{P_{\theta_t}(w_t | \bold{w}_{1:t-1}, \bold{x})}
+\end{align*}
+$$
+
+### Training
+
+* Policy Gradient
+
+$$
+\nabla \mathcal{L}(\theta_s) =
+- 
+$$

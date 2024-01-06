@@ -12,38 +12,10 @@ Download and install Anaconda (in China, goto `https://mirrors.tuna.tsinghua.edu
 
 Goto `https://pytorch.org/get-started/locally/` to install pytorch `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118` (Sometimes `--upgrade --force-reinstall` is required if in python `torch.cuda.is_available()` says no after repeated reinstalls).
 
-### docker for nvidia
+## CUDA cores vs Tensor Cores
 
-1. **Add nvidia docker repo key to apt**
-```bash
-curl -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
-```
-if got `connection refused`, you can manually download the key then
-```bash
-cat gpgkey | sudo apt-key add -
-```
-
-2. **To retrieve os name**
-```bash
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-```
-
-3. **Write into apt update list**
-```bash
-curl -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
-  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-```
-You can manually copy and paste into `/etc/apt/sources.list.d/nvidia-docker.list` from browser opening `https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list` (**remember to input your own os distribution name**)
-
-If resolution to `nvidia.github.io` failed, you can manually add `185.199.109.153 nvidia.github.io` into `vim /etc/hosts`
-
-4. **update apt list**
-
-run `sudo apt update`
-
-5. **install docker**
-
-run `sudo apt-get install -y nvidia-docker2`
+* CUDA cores focus on more traditional computational tasks across various industries like gaming, scientific research, and video editing
+* Tensor cores cater specifically to AI-related workloads such as image recognition, and natural language processing
 
 ## Nvidia GPU and Ubuntu Monitor Display (HDMI Signal)
 
