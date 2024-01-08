@@ -29,3 +29,13 @@ p_i=
 $$
 
 ![markov_chain](imgs/markov_chain.png "markov_chain")
+
+## Markov Decision Process
+
+*Markov decision process* added probability transition *action* $a_k$ between states $s_i$ and $s_j$.
+The transition probability can be expressed as $P_a(s_i, s_j)=P(s_{t+1}=s | s_t=s, a_t=a)$.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/markov_decision_proc.png" width="30%" height="30%" alt="markov_decision_proc" />
+</div>
+</br>
