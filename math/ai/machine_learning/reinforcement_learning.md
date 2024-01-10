@@ -1,7 +1,7 @@
 # Reinforcement Learning
 
-Reinforcement learning describes how to guide actions $a \in A$ of an agent given a set of environments and agent states $s \in S$ to achieve high/maximize reward objective function $R(s,s')$ from state $s$ to $s'$.
-In this process, $P_a(s,s')=P(S_{t+1}=s' | S_t=s, A_t=a)$ is the probability distribution computed at the time $t$ from state $s$ to $s'$.
+Reinforcement learning describes how to guide actions $a \in A$ of an agent given a set of environments and agent states $s \in S$ to achieve high/maximize reward objective function $R(s_t,s_{t+1})$ from state $s_t$ to $s_{t+1}$.
+In this process, $P_a(s_t,s_{t+1})=P(S_{t+1}=s' | S_t=s, A_t=a)$ is the probability distribution computed at the time $t$ from state $s_t$ to $s_{t+1}$.
 
 * Policy
 
@@ -49,33 +49,128 @@ $$
 
 Optimization objective $J$ is defined as *expected discounted return* to be maximized.
 
-Set $G$ as the discounted return at a time $t=0$, and $R_{t+1}$ is the reward for transitioning from state $S_t$ to $S_{t+1}$.
-Having included $0 \le \gamma < 1$ served as a discount rate that future rewards $R_t$, where $t > 0$, are discounted then summed to the total discounted return.
+Set $G_t$ as the discounted return at a time $t$, and $R_{t+1}$ is the reward for transitioning from state $S_t$ to $S_{t+1}$.
+Having included $0 \le \gamma < 1$ served as a discount rate that future rewards $R_{t+k}$, where $k > 0$, are discounted then summed to the total discounted return.
 
 $$
-G = \sum^{\infty}_{t=0} \gamma^t R_{t+1} =
-R_t + \gamma R_2 + \gamma^2 R_3 + ... 
+G_t = \sum^{\infty}_{k=0} \gamma^k R_{t+k+1} =
+R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... 
 $$
 
 $\gamma^t R_{t+1}$ says for distant future where $t \rightarrow +\infty$, the reward $\gamma^t R_{t+1}$ will be very small.
 This renders rewards get weighted more on recent time rather than the faraway future.
 
-Expected discounted return $J$ at a time $t=0$ given an init state $S_0=s$ is the objective to be maximized by choosing the optimal $\pi$.
+The action-value (“Q-value”, Quality) of a state-action pair is
 
 $$
-\max_{\pi} J =
-\max_{\pi} \mathbb{E} \big( G | S_0 = s, \pi \big) =
-\max_{\pi} \mathbb{E}\bigg( G = \sum^{\infty}_{t=0} \gamma^t R_{t+1} \space\bigg|\space S_0 = s, \pi \bigg)
+Q_{\pi}(s,a) = \mathbb{E}_{\pi}(G_t | \underbrace{S_{t} = s, A_{t} = a}_{\pi} )
 $$
+
+The state-value of a state $s$ is the expected return ("Value Function"), that is the "average result given different actions".
+
+$$
+\begin{align*}
+V_{\pi}(s) &= \mathbb{E}_{\pi}(G_t | S_{t} = s) \\
+      &= \sum_{a \in A} Q_{\pi}(s,a) \pi(a|s)
+\end{align*}
+$$
+
+Set $\theta$ as the parameters that influence policy $\pi$, together denoted as $\pi_{\theta}(a|s)$.
+The reward function to be maximized is defined as
+
+$$
+J(\theta) = \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s)
+= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi_{\theta}(a|s)
+$$
+
+where $d_{\pi_{\theta}}(s) = \lim_{t \rightarrow \infty} P(S_t=s | S_0, \pi_{\theta})$ is stationary state probability distribution.
+$P$ is Markov chain transition probability matrix.
+
+The difficulty of finding the optimal policy $\pi^{*}_{\theta} = \argmax_{\theta} J(\theta)$ is the infinite combinations of state-action pairs $\pi(a,s) = P(A_t = a | S_t = s)$ often observed in the real world, hence the optimal policy search approach is often by iteratively selecting $\pi(a,s)$ rather than brute force (exhaustively find all $\pi(a,s)$ pairs).
+
+To solve $\max_{\theta} J(\theta)$, here introduces *Markov decision process* that formulates the problem into an iterative $\theta$ update issue as time progresses.
 
 ## Markov Decision Process
 
+Almost all the reinforcement learning problems can be framed as Markov Decision Processes: stationed on $S_t$ and take action $A_t$ generating a reward $R_t$ such that $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
+
+Below shows how Markov decision process as time progresses against how $V_{\pi}(s)$ and $Q_{\pi}(s,a)$ iteratively get updated from $t$ to $t+1$.
+
+$$
+\begin{align*}
+V_{\pi}(s) &= \mathbb{E}_{\pi}(G_t | S_{t} = s) \\
+      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... | S_{t} = s) \\
+      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma G_{t+1} | S_{t} = s) \\
+      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | S_{t} = s) \\
+\space \\
+Q_{\pi}(s,a) &= \mathbb{E}_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | {S_{t} = s, A_{t} = a} ) \\
+      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma \sum_{a \in A} Q_{\pi}(S_t,A_t) \pi(A_t| S_t) \space \big| \space {S_{t} = s, A_{t} = a} ) \\
+      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma \mathbb{E}_{a \sim \pi} Q_{\pi}(S_t,a)  \space \big| \space {S_{t} = s, A_{t} = a} ) \\
+\end{align*}
+$$
+
+*Gradient ascent* talks about updating $\theta$ along the direction of $\nabla_{\theta}J(\theta)$ to find the $\theta^*$ for the optimal $\pi_{\theta}^*$ as time progresses $t \rightarrow \infty$.
+
 ## Policy Gradient
 
-Typically, to find the optimal parameter set $\theta^*$ from optimization, policy gradient approach is to maximize expectation such that $\theta^*=\argmax_{\theta} \mathbb{E}_{\tau \sim \pi_{\theta}}\big( r(\tau) \big)$, where $r(\tau)$ is a reward function (opposite to a loss function in machine learning, be maximized instead of being minimized).
+$\nabla_{\theta}J(\theta)$ computation is tricky for requiring determined $\pi_{\theta}$ but candidate actions can be infinite, and determined stationary distribution of states but impractical for action choice is not unknown.
 
-Optimize the objective by gradient ascent:
+*Policy gradient* is a method to approximate $\nabla_{\theta}J(\theta)$ such that
 
 $$
-\theta_{k+1}= \theta_{k} + \eta \nabla_{\theta} \mathbb{E}_{\tau \sim \pi_{\theta}}\big( r(\tau) \big)
+\begin{align*}
+\nabla_{\theta}J(\theta) &=
+\nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s) \\
+&= \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi(a|s) \\
+&\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \nabla_{\theta} \pi(a|s) \\
+&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
+\end{align*}
 $$
+
+Parameter update is $\theta \leftarrow \theta + \alpha \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$, where $\alpha$ is the learning rate.
+
+### Proof of Policy Gradient Theorem
+
+Reference: https://lilianweng.github.io/posts/2018-04-08-policy-gradient/
+
+The proof shows that value function can be unrolled to such that $\nabla_{\theta} V_{\pi_{\theta}}(s) = \sum_{s_x \in S} \eta(s) \phi(s_x)$,
+where $\eta(s)=\sum_{k=0}^{\infty} p_{\pi_\theta}(s \rightarrow s_x, k)$ and $\phi(s)=\sum_{a \in A} \nabla_{\theta} \Big(\pi_{\theta}(a|s) Q_{\pi_\theta}(s,a) \Big)$ are defined as the state transition probability and gradient expectation on action, respectively.
+They are defined to simplify notations.
+
+In $\eta(s)=\sum_{k=0}^{\infty} p_{\pi_\theta}(s \rightarrow s_x, k)$, the $s \rightarrow s_x$ indicates that state $s$ moving to $s_x$ takes $k+1$ steps.
+For example, at the $k$-th step, there is $p_{\pi_\theta}(s \rightarrow s_x, k)=\sum_{s'} p_{\pi_\theta}(s \rightarrow s', k)p_{\pi_\theta}(s' \rightarrow s_x, 1)$, where $s'$ is a middle point state just one step before $s_x$.
+
+The gradient $\nabla_{\theta} J (\theta)$ can be approximated by the below.
+
+$$
+\begin{align*}
+\nabla_{\theta} J (\theta) &=
+  \nabla_{\theta} V_{\pi_\theta} (s_0) \\
+&= \sum_{s_x \in S} \eta(s) \phi(s_x) \\
+&= \Big( \sum_{s \in S} \eta(s) \Big) \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) 
+&& \sum_{s \in S} \eta(s) \text{ is a constant} \\
+&\propto \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) \\
+&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} \nabla_{\theta} \Big(\pi_{\theta}(a|s) Q_{\pi_\theta}(s,a) \Big)
+&& d_{\pi_{\theta}}(s)=\frac{\eta(s)}{\sum_{s \in S} \eta(s)} \text{ is a stationary distribution} \\
+&\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \nabla_{\theta} \Big(\pi_{\theta}(a|s) \Big) \\
+&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \pi_{\theta}(a|s) \frac{\nabla_{\theta} \pi_{\theta}(a|s)}{ \pi_{\theta}(a|s)}
+&& \text{integrate } \nabla\pi_{\theta}(a|s) \text{ by } \frac{dx}{x}=\frac{d(\ln x)}{dx}dx= d(\ln x)  \\
+&= \underbrace{\sum_{s \in S} d_{\pi_{\theta}}(s)}_{s \sim d_{\pi_{\theta}}} \quad \underbrace{\sum_{a \in A} \pi_{\theta}(a|s)}_{a \sim \pi_{\theta}} Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \\
+&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
+\end{align*}
+$$
+
+Recall that $Q_{\pi_\theta}(s,a)$ is the expectation of the discounted return $G_t$ conditioned on the policy $\pi_\theta$, so that
+
+$$
+\begin{align*}
+\nabla_{\theta} J (\theta)
+&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big) \\
+&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t|S_t) \big) \Big) 
+\end{align*}
+$$
+
+The above method is called *Monte-Carlo policy gradient* that uses selective $A_t$ and $S_t$ pair per timestamp $t$, and compute the expectation on all timestamp $t=1,2,...$.
+This method relies on full trajectory of $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
+
+For each timestamp $t$, update parameter $\theta$  such that $\theta \leftarrow \theta + \alpha \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$.
