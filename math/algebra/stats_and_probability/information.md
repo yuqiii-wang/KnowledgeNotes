@@ -34,7 +34,7 @@ $$
 \end{align*}
 $$
 
-where $D_{KL}(P || Q) > 0$ is Kullback–Leibler (KL) divergence describing how far between $P$ and $Q$. 
+where $D_{KL}(P || Q) > 0$ is Kullback-Leibler (KL) divergence describing how far between $P$ and $Q$. 
 
 * Conditional entropy (equivocation)
 

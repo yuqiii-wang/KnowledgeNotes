@@ -128,7 +128,7 @@ Having included the new token "house" $V_{\text{top-P}_{1, K=9}}=\{ V_{\text{top
 </br>
 
 ```python
-# set top_k to 50
+# set top_p to 0.92
 sample_output = model.generate(**model_inputs, max_new_tokens=40,
                                 do_sample=True, top_k=0, top_p=0.92)
 ```

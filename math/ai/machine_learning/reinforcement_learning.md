@@ -30,7 +30,7 @@ For example, a group of people (aka agent) traveling on a land mass (described i
 ||$s_3=\text{OnForestTile}$|
 ||$s_4=\text{OnDestinationTile}$|
 
-The policy $\pi(a,s) = P(A_t = a | S_t = s)$ can be summarized to the below, that each column's values should sum up to $1.0$, except for $\text{OnDestinationTile}$ where no further action is required as already reached the destination.
+The policy $\pi(a,s) = P(A_t = a | S_t = s)$ can be summarized to the below table, that each column's values should sum up to $1.0$, except for $\text{OnDestinationTile}$ where no further action is required as already reached to the destination.
 
 Since grassland is easy to transpass compared to forest, this policy assigns higher probability to $\text{TravelByGrassland}$ than to $\text{TravelByForest}$.
 In practice, policy $\pi(a,s)$ is learned via optimization.
@@ -57,7 +57,11 @@ G_t = \sum^{\infty}_{k=0} \gamma^k R_{t+k+1} =
 R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... 
 $$
 
-$\gamma^t R_{t+1}$ says for distant future where $t \rightarrow +\infty$, the reward $\gamma^t R_{t+1}$ will be very small.
+Reward $R_t$ refers to a custom function to encourage optimization converged to a desired policy distribution.
+For instance, in the previous example of land exploration, there could be custom reward setup such as $R_t(a=\text{TravelByPlain}) = 10$, $R_t(a=\text{TravelByGrassland}) = 7$, and $R_t(a=\text{TravelByForest}) = 2$.
+During $\max_{\pi} \sum_t G_t$ training, agent is encouraged to take action $a=\text{TravelByPlain}$ as it maximizes the total reward.
+
+$\gamma^t R_{t+1}$ says that for distant future where $t \rightarrow +\infty$, the reward $\gamma^t R_{t+1}$ will be very small.
 This renders rewards get weighted more on recent time rather than the faraway future.
 
 The action-value (“Q-value”, Quality) of a state-action pair is
@@ -79,20 +83,20 @@ Set $\theta$ as the parameters that influence policy $\pi$, together denoted as 
 The reward function to be maximized is defined as
 
 $$
-J(\theta) = \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s)
+\mathcal{J}(\theta) = \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s)
 = \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi_{\theta}(a|s)
 $$
 
-where $d_{\pi_{\theta}}(s) = \lim_{t \rightarrow \infty} P(S_t=s | S_0, \pi_{\theta})$ is stationary state probability distribution.
+where $d_{\pi_{\theta}}(s) = \lim_{t \rightarrow \infty} \big(P(S_t=s | S_0, \pi_{\theta}) \big)^t$ is state stationary probability distribution.
 $P$ is Markov chain transition probability matrix.
 
-The difficulty of finding the optimal policy $\pi^{*}_{\theta} = \argmax_{\theta} J(\theta)$ is the infinite combinations of state-action pairs $\pi(a,s) = P(A_t = a | S_t = s)$ often observed in the real world, hence the optimal policy search approach is often by iteratively selecting $\pi(a,s)$ rather than brute force (exhaustively find all $\pi(a,s)$ pairs).
+The difficulty of finding the optimal policy $\pi^{*}_{\theta} = \argmax_{\theta} \mathcal{J}(\theta)$ is the infinite combinations of state-action pairs $\pi(a,s) = P(A_t = a | S_t = s)$ often observed in the real world, hence the optimal policy search approach is often by iteratively selecting $\pi(a,s)$ rather than brute force (exhaustively find all $\pi(a,s)$ pairs).
 
-To solve $\max_{\theta} J(\theta)$, here introduces *Markov decision process* that formulates the problem into an iterative $\theta$ update issue as time progresses.
+To solve $\max_{\theta} \mathcal{J}(\theta)$, here introduces *Markov decision process* that formulates the problem into an iterative $\theta$ update issue as time progresses.
 
 ## Markov Decision Process
 
-Almost all the reinforcement learning problems can be framed as Markov Decision Processes: stationed on $S_t$ and take action $A_t$ generating a reward $R_t$ such that $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
+Almost all the reinforcement learning problems can be framed as Markov Decision Processes: stationed on $S_t$ and take action $A_t$ generate a reward $R_t$ such that $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
 
 Below shows how Markov decision process as time progresses against how $V_{\pi}(s)$ and $Q_{\pi}(s,a)$ iteratively get updated from $t$ to $t+1$.
 
@@ -109,17 +113,18 @@ Q_{\pi}(s,a) &= \mathbb{E}_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | {S_{t} = s, A_{t}
 \end{align*}
 $$
 
-*Gradient ascent* talks about updating $\theta$ along the direction of $\nabla_{\theta}J(\theta)$ to find the $\theta^*$ for the optimal $\pi_{\theta}^*$ as time progresses $t \rightarrow \infty$.
+*Gradient ascent* talks about updating $\theta$ along the direction of $\nabla_{\theta}\mathcal{J}(\theta)$ to find the $\theta^*$ for the optimal $\pi_{\theta}^*$ as time progresses $t \rightarrow \infty$.
 
 ## Policy Gradient
 
-$\nabla_{\theta}J(\theta)$ computation is tricky for requiring determined $\pi_{\theta}$ but candidate actions can be infinite, and determined stationary distribution of states but impractical for action choice is not unknown.
+$\nabla_{\theta}\mathcal{J}(\theta)$ computation is tricky for requiring determined $\pi_{\theta}$ but candidate actions can be infinite, and determined stationary distribution of states but impractical for action choice is not unknown.
 
-*Policy gradient* is a method to approximate $\nabla_{\theta}J(\theta)$ such that
+*Policy gradient* is a method to approximate $\nabla_{\theta}\mathcal{J}(\theta)$ that makes the iteratively updating parameters $\theta$ practical.
+The result is shown as bellow.
 
 $$
 \begin{align*}
-\nabla_{\theta}J(\theta) &=
+\nabla_{\theta}\mathcal{J}(\theta) &=
 \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s) \\
 &= \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi(a|s) \\
 &\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \nabla_{\theta} \pi(a|s) \\
@@ -128,6 +133,10 @@ $$
 $$
 
 Parameter update is $\theta \leftarrow \theta + \alpha \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$, where $\alpha$ is the learning rate.
+
+The parameter update is by gradient ascent.
+This is for $\max_{\theta} \mathcal{J}(\theta)$ as the reward is to be maximized.
+If reward is a negative function, gradient descent is used to $\min_{\theta} \mathcal{J}(\theta)$.
 
 ### Proof of Policy Gradient Theorem
 
@@ -140,11 +149,11 @@ They are defined to simplify notations.
 In $\eta(s)=\sum_{k=0}^{\infty} p_{\pi_\theta}(s \rightarrow s_x, k)$, the $s \rightarrow s_x$ indicates that state $s$ moving to $s_x$ takes $k+1$ steps.
 For example, at the $k$-th step, there is $p_{\pi_\theta}(s \rightarrow s_x, k)=\sum_{s'} p_{\pi_\theta}(s \rightarrow s', k)p_{\pi_\theta}(s' \rightarrow s_x, 1)$, where $s'$ is a middle point state just one step before $s_x$.
 
-The gradient $\nabla_{\theta} J (\theta)$ can be approximated by the below.
+The gradient $\nabla_{\theta} \mathcal{J}(\theta)$ can be approximated by the below.
 
 $$
 \begin{align*}
-\nabla_{\theta} J (\theta) &=
+\nabla_{\theta} \mathcal{J}(\theta) &=
   \nabla_{\theta} V_{\pi_\theta} (s_0) \\
 &= \sum_{s_x \in S} \eta(s) \phi(s_x) \\
 &= \Big( \sum_{s \in S} \eta(s) \Big) \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) 
@@ -154,7 +163,7 @@ $$
 && d_{\pi_{\theta}}(s)=\frac{\eta(s)}{\sum_{s \in S} \eta(s)} \text{ is a stationary distribution} \\
 &\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \nabla_{\theta} \Big(\pi_{\theta}(a|s) \Big) \\
 &= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \pi_{\theta}(a|s) \frac{\nabla_{\theta} \pi_{\theta}(a|s)}{ \pi_{\theta}(a|s)}
-&& \text{integrate } \nabla\pi_{\theta}(a|s) \text{ by } \frac{dx}{x}=\frac{d(\ln x)}{dx}dx= d(\ln x)  \\
+&& \text{ by } \frac{dx}{x}=\frac{d(\ln x)}{dx}dx= d(\ln x)  \\
 &= \underbrace{\sum_{s \in S} d_{\pi_{\theta}}(s)}_{s \sim d_{\pi_{\theta}}} \quad \underbrace{\sum_{a \in A} \pi_{\theta}(a|s)}_{a \sim \pi_{\theta}} Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \\
 &= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
 \end{align*}
@@ -164,7 +173,7 @@ Recall that $Q_{\pi_\theta}(s,a)$ is the expectation of the discounted return $G
 
 $$
 \begin{align*}
-\nabla_{\theta} J (\theta)
+\nabla_{\theta} \mathcal{J}(\theta)
 &= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big) \\
 &= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t|S_t) \big) \Big) 
 \end{align*}
@@ -174,3 +183,4 @@ The above method is called *Monte-Carlo policy gradient* that uses selective $A_
 This method relies on full trajectory of $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
 
 For each timestamp $t$, update parameter $\theta$  such that $\theta \leftarrow \theta + \alpha \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$.
+This is plausible for $A_t=a$ and $S_t=s$ that see $s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}$. As time progresses $t \rightarrow \infty$, this term $\gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$ will render an average result $\frac{1}{T} \sum_{t=1}^T \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$ that converges to the expectation $\mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}}(...)$.

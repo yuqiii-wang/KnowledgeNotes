@@ -2,6 +2,10 @@
 
 Fine tuning is used for large model to adapt small sample data based on pre-trained parameters.
 
+Supervised vs Unsupervised Trainings:
+
+* SFT: Supervised Fine-Tuning
+
 Parameter trainings:
 
 * From scratch: totally from random parameters
