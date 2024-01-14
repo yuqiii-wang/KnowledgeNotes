@@ -51,8 +51,7 @@ $$
 
 $$
 \begin{align*}
-L_{CE}
-&=
+L_{CE}&=
 -\sum_i^C t_i \space \log(s_i)
 \\ &=
 -\sum_i^C t_i \space \log(\frac{e^{z_i}}{\sum^C_{j=1}e^{z_j}})

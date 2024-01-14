@@ -109,16 +109,14 @@ But due to the equivalence of scales $f$, $E$ actually has 5 degrees of freedom.
 
 For $\bold{x}_{\tiny{L}}$ and $\bold{x}_{\tiny{R}}$ such as
 $$
-\bold{x}_{\tiny{L}}
-=
+\bold{x}_{\tiny{L}}=
 \begin{bmatrix}
     u \\
     v \\
     1
 \end{bmatrix}
 \text{, }
-\bold{x}_{\tiny{R}}
-=
+\bold{x}_{\tiny{R}}=
 \begin{bmatrix}
     u' \\
     v' \\
@@ -138,8 +136,7 @@ $$
     u' \\
     v' \\
     1
-\end{bmatrix}
-=
+\end{bmatrix}=
 0
 $$
 
@@ -161,8 +158,7 @@ $$
     e_7 \\
     e_8 \\
     e_9 \\
-\end{bmatrix}
-=0
+\end{bmatrix}=0
 $$
 
 ### Essential Matrix to Camera Motion Recovery
@@ -182,8 +178,7 @@ $$
 
 For a camera with rectangular pixels of size $1/s_x \times 1/s_y$, optical center $(o_x, o_y)$ and focus length $f$, there is
 $$
-M_{in}
-=
+M_{in}=
 \begin{bmatrix}
     s_x & 0 & o_x/f \\
     0 & s_y & o_y/f \\
@@ -201,8 +196,7 @@ The epipolar constraint can be rewritten in homogeneous coordinates.
 $$
 \bold{x}_{\tiny{L, h}}^\text{T}
 F
-\bold{x}_{\tiny{R, h}}
-=
+\bold{x}_{\tiny{R, h}}=
 0
 $$
 
@@ -235,8 +229,7 @@ $$
 where
 $$
 E=
-T \times R
-=
+T \times R=
 \begin{bmatrix}
     0 & 0 & 0 \\
     0 & 0 & -t \\
@@ -246,16 +239,14 @@ $$
 
 Define $\bold{x}_{\tiny{R}}$ and $\bold{x}_{\tiny{L}}$ as unit homogeneous vectors
 $$
-\bold{x}_{\tiny{L}}
-=
+\bold{x}_{\tiny{L}}=
 \begin{bmatrix}
     u \\
     v \\
     1
 \end{bmatrix}
 \text{, }
-\bold{x}_{\tiny{R}}
-=
+\bold{x}_{\tiny{R}}=
 \begin{bmatrix}
     u' \\
     v' \\
@@ -278,8 +269,7 @@ $$
     u' \\
     v' \\
     1
-\end{bmatrix}
-&= 0
+\end{bmatrix}&= 0
 \\
 \begin{bmatrix}
     u & v & 1
@@ -288,8 +278,7 @@ $$
     0 \\
     -t \\
     tv'
-\end{bmatrix}
-&= 0
+\end{bmatrix}&= 0
 \\
 tv &= tv'
 \end{align*}
@@ -362,16 +351,14 @@ If features changes slowly, the drastic changing feature points are discarded.
 
 For $\bold{x}_{\tiny{L}}$ and $\bold{x}_{\tiny{R}}$ such as
 $$
-\bold{x}_{\tiny{L}}
-=
+\bold{x}_{\tiny{L}}=
 \begin{bmatrix}
     u \\
     v \\
     1
 \end{bmatrix}
 , \quad
-\bold{x}_{\tiny{R}}
-=
+\bold{x}_{\tiny{R}}=
 \begin{bmatrix}
     u' \\
     v' \\
@@ -406,8 +393,7 @@ $$
     f_7 \\
     f_8 \\
     f_9 \\
-\end{bmatrix}
-=0
+\end{bmatrix}=0
 $$
 
 ### Define error function:
@@ -415,13 +401,11 @@ $$
 First, project a point to the opposite side epipolar line; 
 
 $$
-\bold{l}_L = F_{\tiny{LR}} \bold{x}_R
-= \begin{bmatrix}
+\bold{l}_L = F_{\tiny{LR}} \bold{x}_R= \begin{bmatrix}
     a_L \\ b_L \\ c_L
 \end{bmatrix}
 , \quad
-\bold{l}_R = \bold{x}^\top_R F_{\tiny{LR}}
-= \begin{bmatrix}
+\bold{l}_R = \bold{x}^\top_R F_{\tiny{LR}}= \begin{bmatrix}
     a_R \\ b_R \\ c_R
 \end{bmatrix}
 $$

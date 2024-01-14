@@ -55,8 +55,7 @@ $$
     W_x \\
     W_y \\
     W_z
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     W_{x0} \\
     W_{y0} \\
@@ -120,8 +119,7 @@ $$
     W_x \\
     W_y \\
     W_z
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \begin{bmatrix}
     W_{x0} \\
     W_{y0} \\
@@ -143,8 +141,7 @@ $$
     A_x \\
     A_y \\
     A_z
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \begin{bmatrix}
     A_{x0} \\
     A_{y0} \\
@@ -175,8 +172,7 @@ $$
     W_x \\
     W_y \\
     W_z
-\end{bmatrix}}_{{W}}
-=
+\end{bmatrix}}_{{W}}=
 \bold{x}_{\omega}
 \underbrace{\begin{bmatrix}
     K_{gxx} \\ S_{gxy} \\ S_{gxz} \\

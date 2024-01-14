@@ -56,8 +56,7 @@ where $\bold{Q}_{k,j}$ is also called the *information matrix*, which is exactly
 It is usually assumed that the inputs
 and observations are independent of each other, so that the joint distribution can be factorized such as
 $$
-P(\bold{z}, \bold{u} | \bold{x}, \bold{y} )
-=
+P(\bold{z}, \bold{u} | \bold{x}, \bold{y} )=
 \prod_k P(\bold{u}_k | \bold{x}_{k-1}, \bold{x}_k )
 \prod_{k,j} P(\bold{z}_{k,j} | \bold{x}_k, \bold{y}_j) 
 $$
@@ -142,8 +141,7 @@ $$
 Define $\bold{y}=[\bold{u},\bold{z}]^\text{T}$, the error can be rewritten as
 
 $$
-\bold{y} - \bold{H}\bold{x}
-=
+\bold{y} - \bold{H}\bold{x}=
 \bold{e} \sim N(0,\Sigma)
 $$
 where $\bold{H}$ is

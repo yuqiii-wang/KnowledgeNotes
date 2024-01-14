@@ -172,12 +172,10 @@ $$
 \frac{\partial \mathcal{L}_t}{\partial \hat{\bold{y}}_t}
 \frac{\partial \hat{\bold{y}}_t}{\partial \bold{z}_t}
 \frac{\partial \bold{z}_t}{\partial \bold{h}_z}
-\\
-&=
+\\&=
 (\hat{\bold{y}}_{t} - \bold{1})
 \frac{\partial \bold{z}_t}{\partial \bold{h}_z}
-\\
-&=
+\\&=
 (\hat{\bold{y}}_{t} - \bold{1})
 W_z
 \end{align*}

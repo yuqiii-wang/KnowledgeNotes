@@ -6,8 +6,7 @@ In Gauss-Hermite quadrature, instead of having set $w(x)=1$ such as the Legendre
 
 $$
 \begin{align*}
-\int_a^b w(x) f(x) dx
-&=
+\int_a^b w(x) f(x) dx&=
 \int_{-\infty}^{+\infty} e^{-x^2} f(x) dx
 \\ &\approx
 \sum_{i=1}^n w_i f(x_i)
@@ -44,8 +43,7 @@ $h_n(x)$ for $n=0,1,2,...$ are orthogonal with respect to the weight function $w
 
 $$
 \int_{-\infty}^{+\infty} 
-h_m(x) h_n(x) w(x) dx 
-= 0
+h_m(x) h_n(x) w(x) dx = 0
 \quad
 \forall \space m \ne n
 $$
@@ -96,8 +94,7 @@ Define $x_i^*$ as the roots of Hermite polynomials. For $n=2$, there is $h_2(x) 
 
 $$
 \begin{align*}
-\int_a^b w(x) f(x) dx
-&=
+\int_a^b w(x) f(x) dx&=
 \int_{-\infty}^{+\infty} e^{-x^2} f(x) dx
 \\ &\approx
 \sum_{i=1}^n w_i f(x_i^*)
@@ -153,8 +150,7 @@ $$
 Finally,
 $$
 \begin{align*}
-\int_a^b w(x) f(x) dx
-&=
+\int_a^b w(x) f(x) dx&=
 \int_{-\infty}^{+\infty} e^{-x^2} f(x) dx
 \\ &\approx
 w_0 f(\frac{1}{\sqrt{2}}) + w_1 f(-\frac{1}{\sqrt{2}})
@@ -172,8 +168,7 @@ Consider a function $f(y)$, where the variable y is Normally distributed: $y \si
 
 Its expectation is
 $$
-E\big(f(y)\big)
-=
+E\big(f(y)\big)=
 \int_{-\infty}^{+\infty}
 \frac{1}{\sigma \sqrt{2\pi}}
 e^{-\frac{(y-\mu)^2}{2\sigma^2}}
@@ -201,8 +196,7 @@ Coupled with the integration by substitution,
 $$
 \begin{align*}
 
-E\big(f(y)\big)
-&=
+E\big(f(y)\big)&=
 \int_{-\infty}^{+\infty}
 \frac{1}{\sigma \sqrt{2\pi}}
 e^{-\frac{(y-\mu)^2}{2\sigma^2}}

@@ -23,10 +23,8 @@ $$
 
 To approach to minima, the first-order derivative should be zero.
 $$
-0
-=
-\frac{d}{dt} (f(x_k) + f'(x_k)t + f''(x_k)t^2)
-=
+0=
+\frac{d}{dt} (f(x_k) + f'(x_k)t + f''(x_k)t^2)=
 f'(x_k)+f''(x_k)t
 $$
 

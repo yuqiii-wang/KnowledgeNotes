@@ -143,8 +143,7 @@ $$
 Remember
 $$
 e^{at} = 
-\sum_{n=0}^{\infty} \frac{(at)^n}{n!} \\
-=1 + at + \frac{(at)^2}{2!} + \frac{(at)^3}{3!} + ...
+\sum_{n=0}^{\infty} \frac{(at)^n}{n!} \\=1 + at + \frac{(at)^2}{2!} + \frac{(at)^3}{3!} + ...
 $$
 
 This holds true for matrix as well

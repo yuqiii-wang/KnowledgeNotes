@@ -4,32 +4,26 @@
 ## Extended Kalman filter (EKF)
 
 For non-linear dynamic and observation transformation:
+
 $$
 \begin{align*}
-\bold{x}_{k}
-&=
-f(
+\bold{x}_{k} &= f(
     \bold{x}_{k-1|k-1}, \bold{u}_k
-)
-+ \bold{w}_k
-\\
-\bold{z}_{k}
-&=
-h(\bold{x}_k)+\bold{v}_k
+) + \bold{w}_k \\
+\bold{z}_{k} &= h(\bold{x}_k)+\bold{v}_k
 \end{align*}
 $$
+
 where $f$ and $h$ denote the non-linear transformation.
 
 Redefine $\bold{F}_k$ and $\bold{H}_k$ to be the Jacobian matrices of $f$ and $h$, respectively. 
 $$
 \begin{align*}
-\bold{F}_k
-&=
+\bold{F}_k&=
 \frac{\partial f}{\partial \bold{x}}
 \bigg|_{\bold{x}_{k-1|k-1}, \bold{u}_k}
 \\
-\bold{H}_k
-&=
+\bold{H}_k&=
 \frac{\partial h}{\partial \bold{x}}
 \bigg|_{\bold{x}_{k|k-1}}
 \end{align*}
@@ -39,22 +33,21 @@ The computation for $\bold{K}_k$ is identical to its linear Kalman counterpart.
 
 Predicted (a priori) estimate covariance
 $$
-\bold{\hat{P}}_{k|k-1}
-=
+\bold{\hat{P}}_{k|k-1}=
 \bold{F}_k\bold{P}_{k-1|k-1} \bold{F}^\text{T}_k + \bold{Q}_k
 $$
 
 Innovation (or pre-fit residual) covariance
+
 $$
-\bold{{S}}_{k}
-=
+\bold{{S}}_{k} =
 \bold{H}_k \bold{\hat{P}}_{k|k-1} \bold{H}^\text{T}_k + \bold{R}_k
 $$
 
 Optimal Kalman gain
+
 $$
-\bold{K}_k
-=
+\bold{K}_k =
 \bold{\hat{P}}_{k|k-1} \bold{H}^\text{T}_k \bold{{S}}_{k}^{-1}
 $$
 
@@ -84,29 +77,24 @@ Define a matrix $\bold{X}$ consisted of $2d+1$ *sigma* vectors $X_i$ with corres
 
 $$
 \begin{align*}
-X_0 &= \bold{\overline{x}}
-\\
+X_0 &= \bold{\overline{x}} \\
 X_i &= 
 \bold{\overline{x}} + (\sqrt{(d+\lambda)\bold{P_\bold{x}}})_i 
 \quad
-\quad i=1,2,...,d
-\\
+\quad i=1,2,...,d \\
 X_i &= 
 \bold{\overline{x}} - (\sqrt{(d+\lambda)\bold{P_\bold{x}}})_{i-d} 
-\quad i=d+1,d+2,...,2d
-
-\\
-W_0^{(m)} &=\frac{\lambda}{d+\lambda}
-\\
-W_0^{(c)} &=\frac{\lambda}{d+\lambda}
-+ (1+\alpha^2+\beta)
-\\
+\quad i=d+1,d+2,...,2d \\
+W_0^{(m)} &=\frac{\lambda}{d+\lambda} \\
+W_0^{(c)} &=\frac{\lambda}{d+\lambda} + (1+\alpha^2+\beta) \\
 W_i^{(m)}=W_i^{(m)} &=
 \frac{1}{2(d+\lambda)}
 \quad\quad\quad\quad\quad\quad i=1,2,...,2d
 \end{align*}
 $$
+
 where 
+
 * $\lambda=\alpha^2(d+\kappa)-d$ is a scaling parameter
 * $\alpha \in (0,1]$ determines the spread of the sigma points, typically $\alpha=e^{-0.001}$
 * $\kappa \ge 0$ is a secondary scaling parameter, typically $\kappa = 1$ 
@@ -118,7 +106,7 @@ where
 The expectation of $\bold{y}$ can be approximated via Gauss-Hermite quadrature:
 $$
 \begin{align*}
-\bold{\overline{x}} 
+\bold{\overline{x}}
 &\approx
 \sum^{2d}_{i=0}
 W^{(m)} x_i
@@ -126,9 +114,7 @@ W^{(m)} x_i
 \bold{\overline{y}} 
 &\approx
 \sum^{2d}_{i=0}
-W^{(m)} y_i
-
-\\
+W^{(m)} y_i \\
 \bold{P_x} 
 &\approx
 \sum^{2d}_{i=0}
@@ -137,8 +123,7 @@ W^{(c)} (x_i-\bold{\overline{x}}) (x_i-\bold{\overline{x}})^\text{T}
 \bold{P_y} 
 &\approx
 \sum^{2d}_{i=0}
-W^{(c)} (y_i-\bold{\overline{y}}) (y_i-\bold{\overline{y}})^\text{T}
-\\
+W^{(c)} (y_i-\bold{\overline{y}}) (y_i-\bold{\overline{y}})^\text{T} \\
 \bold{P_{xy}} 
 &\approx
 \sum^{2d}_{i=0}
@@ -160,34 +145,27 @@ Sampling follows *Gauss-Hermite quadrature*. Given each dimension having $3$ sam
 
 Given a vehicle state composed of a distance $p$ and velocity $v$. 
 Its init estimates: init state and covariances are known as below.
-$$
-\bold{x} = 
-\begin{bmatrix}
-p\\
-v
-\end{bmatrix}
-, \quad
 
-\bold{\hat{x}}_0 \sim
-N
+$$
+\bold{x} =
+\begin{bmatrix}
+p \\ v
+\end{bmatrix} , \quad
+\bold{\hat{x}}_0 \sim N
 \bigg(
 \begin{bmatrix}
-0\\
-5
-\end{bmatrix}
-,
+0 \\ 5
+\end{bmatrix} ,
 \begin{bmatrix}
 0.01 & 0\\
 0 & 1.0
-\end{bmatrix}
-\bigg)
+\end{bmatrix} \bigg)
 $$
 
 and vehicle motion model
 $$
 \begin{align*}
-\bold{\hat{x}}_k 
-&= 
+\bold{\hat{x}}_k &= 
 f(\bold{\hat{x}}_{k-1}, \bold{u}_k, \bold{w}_k)
 \\ &=
 \begin{bmatrix}
@@ -221,6 +199,7 @@ $$
 where $\bold{u}_k = a = -2 \space m/s^2$ is the acceleration.
 
 Vehicle measurement model is defined such that we can only observe the distance
+
 $$
 \begin{align*}
 y_k &= h(\bold{x}) + \bold{v}_k
@@ -229,42 +208,35 @@ y_k &= h(\bold{x}) + \bold{v}_k
 1 & 0\\
 0 & 0
 \end{bmatrix}
-\bold{x}
- + \bold{v}_k
+\bold{x} + \bold{v}_k
 \end{align*}
 $$
 
 Both $\bold{w}_k$ and $\bold{v}_k$ follow Gaussian distribution
+
 $$
 \begin{align*}
 \bold{w}_k &\sim
 N
 \bigg(
 \begin{bmatrix}
-0\\
-0
-\end{bmatrix}
-,
+0 \\ 0
+\end{bmatrix} ,
 \begin{bmatrix}
 0.01 & 0\\
 0 & 0.01
 \end{bmatrix}
-\bigg)
-
-\\
+\bigg) \\
 \bold{v}_k &\sim
 N
 \bigg(
 \begin{bmatrix}
-0\\
-0
-\end{bmatrix}
-,
+0 \\ 0
+\end{bmatrix} ,
 \begin{bmatrix}
 0.01 & 0\\
 0 & 0.0
-\end{bmatrix}
-\bigg)
+\end{bmatrix} \bigg)
 \end{align*}
 $$
 
@@ -292,89 +264,61 @@ $$
 $$
 
 At the time $k=0$, compute sigma points by $\bold{P}_0$: on each dimension compute $3$ points.
+
 $$
 \begin{align*}
 \check{x}_0^{(0)} &=
 \begin{bmatrix}
-0 \\
-5
-\end{bmatrix}
-
-\\
+0 \\ 5
+\end{bmatrix} \\
 \check{x}_0^{(1)} &=
 \begin{bmatrix}
-0 \\
-5
-\end{bmatrix}
-+
+0 \\ 5
+\end{bmatrix} +
 \sqrt{3}
 \begin{bmatrix}
-0.1 \\
-0
-\end{bmatrix}
-=
+0.1 \\ 0
+\end{bmatrix} =
 \begin{bmatrix}
-\frac{\sqrt{3}}{10} \\
-5
-\end{bmatrix}
-
-\\
+\frac{\sqrt{3}}{10} \\ 5
+\end{bmatrix} \\
 \check{x}_0^{(2)} &=
 \begin{bmatrix}
-0 \\
-5
-\end{bmatrix}
-+
+0 \\ 5
+\end{bmatrix} +
 \sqrt{3}
 \begin{bmatrix}
-0 \\
-1.0
-\end{bmatrix}
-=
+0 \\ 1.0
+\end{bmatrix} =
 \begin{bmatrix}
-0 \\
-5+\sqrt{3}
-\end{bmatrix}
-
-\\
+0 \\ 5+\sqrt{3}
+\end{bmatrix} \\
 \check{x}_0^{(3)} &=
 \begin{bmatrix}
-0 \\
-5
-\end{bmatrix}
--
-\sqrt{3}
+0 \\ 5
+\end{bmatrix} - \sqrt{3}
 \begin{bmatrix}
-0.1 \\
-0
-\end{bmatrix}
-=
+0.1 \\ 0
+\end{bmatrix} =
 \begin{bmatrix}
--\frac{\sqrt{3}}{10} \\
-5
-\end{bmatrix}
-
-\\
+-\frac{\sqrt{3}}{10} \\ 5
+\end{bmatrix} \\
 \check{x}_0^{(4)} &=
 \begin{bmatrix}
-0 \\
-5
-\end{bmatrix}
--
+0 \\ 5
+\end{bmatrix} -
 \sqrt{3}
 \begin{bmatrix}
-0 \\
-1.0
-\end{bmatrix}
-=
+0 \\ 1.0
+\end{bmatrix} =
 \begin{bmatrix}
-0 \\
-5-\sqrt{3}
+0 \\ 5-\sqrt{3}
 \end{bmatrix}
 \end{align*}
 $$
 
 For the given $5$ sigma points at the time $k=0$, by vehicle motion update, update the $5$ corresponding sigma points.
+
 $$
 \begin{align*}
 \hat{x}_1^{(0)} &=
@@ -390,14 +334,11 @@ $$
 \begin{bmatrix}
 0 \\
 0.5
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 2.5 \\
 4.0
-\end{bmatrix}
-
-\\
+\end{bmatrix}\\
 \hat{x}_1^{(1)} &=
 \begin{bmatrix}
 1 & 0.5 \\
@@ -411,8 +352,7 @@ $$
 \begin{bmatrix}
 0 \\
 0.5
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 \frac{\sqrt{3}}{10}+2.5 \\
 4
@@ -421,9 +361,7 @@ $$
 \begin{bmatrix}
 2.67 \\
 4.0
-\end{bmatrix}
-
-\\
+\end{bmatrix}\\
 \hat{x}_1^{(2)} &=
 \begin{bmatrix}
 1 & 0.5 \\
@@ -437,8 +375,7 @@ $$
 \begin{bmatrix}
 0 \\
 0.5
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 \frac{\sqrt{3}}{2}+2.5 \\
 \sqrt{3}+4
@@ -447,9 +384,7 @@ $$
 \begin{bmatrix}
 3.4 \\
 5.67
-\end{bmatrix}
-
-\\
+\end{bmatrix}\\
 \hat{x}_1^{(3)} &=
 \begin{bmatrix}
 1 & 0.5 \\
@@ -463,8 +398,7 @@ $$
 \begin{bmatrix}
 0 \\
 0.5
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 -\frac{\sqrt{3}}{10}+2.5 \\
 4
@@ -473,9 +407,7 @@ $$
 \begin{bmatrix}
 2.33 \\
 4.0
-\end{bmatrix}
-
-\\
+\end{bmatrix}\\
 \hat{x}_1^{(4)} &=
 \begin{bmatrix}
 1 & 0.5 \\
@@ -489,8 +421,7 @@ $$
 \begin{bmatrix}
 0 \\
 0.5
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 -\frac{\sqrt{3}}{2}+2.5 \\
 -\sqrt{3}+4
@@ -506,22 +437,16 @@ $$
 Compute the weight $W$
 $$
 \begin{align*}
-\frac{\lambda}{d+\lambda}
-&=
+\frac{\lambda}{d+\lambda}&=
 \frac
 {\alpha^2(d+\kappa)-d}
 {d+\alpha^2(d+\kappa)-d}
 &
-\frac{1}{2(d+\lambda)}
-&=
-\frac{1}{2(d+\alpha^2(d+\kappa)-d)}
-
-\\ &=
+\frac{1}{2(d+\lambda)}&=
+\frac{1}{2(d+\alpha^2(d+\kappa)-d)}\\ &=
 1-\frac{d}{\alpha^2(d+\kappa)}
 & &=
-\frac{1}{2\alpha^2(d+\kappa)}
-
-\\ &=
+\frac{1}{2\alpha^2(d+\kappa)}\\ &=
 \frac{1}{3}
 & &=
 \frac{1}{6}
@@ -562,9 +487,7 @@ $$
 \begin{bmatrix}
 1.6 \\
 2.3
-\end{bmatrix}
-
-\\ &=
+\end{bmatrix}\\ &=
 \begin{bmatrix}
 2.5 \\
 4.0
@@ -603,9 +526,7 @@ W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{x}^{(i)}_1-{\hat{x}_1^-})^\text{T}
       2.5 \\
       4.0
     \end{bmatrix}
-\bigg)^\text{T}
-
-\\ & \quad +
+\bigg)^\text{T}\\ & \quad +
 \frac{1}{6}
 \bigg(
     \begin{bmatrix}
@@ -628,15 +549,11 @@ W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{x}^{(i)}_1-{\hat{x}_1^-})^\text{T}
       2.5 \\
       4.0
     \end{bmatrix}
-\bigg)^\text{T}
-
-\\ & \quad + ... + 
+\bigg)^\text{T}\\ & \quad + ... + 
 \begin{bmatrix}
       0.1 & 0\\
       0 & 0.1
-\end{bmatrix}
-
-\\ &=
+\end{bmatrix}\\ &=
 \begin{bmatrix}
       0.36 & 0.5 \\
       0.5 & 1.1
@@ -647,15 +564,13 @@ $$
 By Cholesky decomposition to find the solution to the covariance matrix
 $$
 \begin{align*}
-\bold{\hat{P}}_{1,x}
-&=
+\bold{\hat{P}}_{1,x}&=
 \bold{L}_1 \bold{L}_1^\text{T}
 \\
 \begin{bmatrix}
       0.36 & 0.5 \\
       0.5 & 1.1
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \begin{bmatrix}
       0.60 & 0.0 \\
       0.83 & 0.64
@@ -674,9 +589,7 @@ $$
 \begin{bmatrix}
 2.5 \\
 4
-\end{bmatrix}
-
-\\
+\end{bmatrix}\\
 \check{x}_1^{(1)} &=
 \begin{bmatrix}
 2.5 \\
@@ -692,9 +605,7 @@ $$
 \begin{bmatrix}
 3.54 \\
 5.44
-\end{bmatrix}
-
-\\
+\end{bmatrix}\\
 \check{x}_1^{(2)} &=
 \begin{bmatrix}
 2.5 \\
@@ -710,9 +621,7 @@ $$
 \begin{bmatrix}
 2.5 \\
 5.10
-\end{bmatrix}
-
-\\
+\end{bmatrix}\\
 \check{x}_1^{(3)} &=
 \begin{bmatrix}
 2.5 \\
@@ -728,9 +637,7 @@ $$
 \begin{bmatrix}
 1.46 \\
 2.56
-\end{bmatrix}
-
-\\
+\end{bmatrix}\\
 \check{x}_1^{(4)} &=
 \begin{bmatrix}
 2.5 \\
@@ -760,11 +667,8 @@ $$
 0 & 0
 \end{bmatrix}
 \hat{x}^{(i)}_1
- + \bold{v}_k
-
-\\
-\hat{y}^{(0)}_1
-&=
+ + \bold{v}_k\\
+\hat{y}^{(0)}_1&=
 \begin{bmatrix}
 1 & 0\\
 0 & 0
@@ -772,16 +676,12 @@ $$
 \begin{bmatrix}
 2.5 \\
 4.0
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 2.5 \\
 0
-\end{bmatrix}
-
-\\
-\hat{y}^{(1)}_1
-&=
+\end{bmatrix}\\
+\hat{y}^{(1)}_1&=
 \begin{bmatrix}
 1 & 0\\
 0 & 0
@@ -789,16 +689,12 @@ $$
 \begin{bmatrix}
 3.54 \\
 5.44
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 3.54 \\
 0
-\end{bmatrix}
-
-\\
-\hat{y}^{(2)}_1
-&=
+\end{bmatrix}\\
+\hat{y}^{(2)}_1&=
 \begin{bmatrix}
 1 & 0\\
 0 & 0
@@ -806,16 +702,12 @@ $$
 \begin{bmatrix}
 2.5 \\
 5.10
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 2.5 \\
 0
-\end{bmatrix}
-
-\\
-\hat{y}^{(3)}_1
-&=
+\end{bmatrix}\\
+\hat{y}^{(3)}_1&=
 \begin{bmatrix}
 1 & 0\\
 0 & 0
@@ -823,16 +715,12 @@ $$
 \begin{bmatrix}
 1.46 \\
 2.56
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 1.46 \\
 0
-\end{bmatrix}
-
-\\
-\hat{y}^{(4)}_1
-&=
+\end{bmatrix}\\
+\hat{y}^{(4)}_1&=
 \begin{bmatrix}
 1 & 0\\
 0 & 0
@@ -840,8 +728,7 @@ $$
 \begin{bmatrix}
 2.5 \\
 2.90
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 2.5 \\
 0
@@ -852,11 +739,8 @@ $$
 Computed the mean of observation. It is the same as directly measuring ${x}_1^-$.
 $$
 \begin{align*}
-\hat{y}^-_1
-&= \sum^{2d}_{i=0}
-W^{(m)}_i \hat{y}^{(i)}_1
-
-\\ &=
+\hat{y}^-_1&= \sum^{2d}_{i=0}
+W^{(m)}_i \hat{y}^{(i)}_1\\ &=
 \frac{1}{3} 
 \begin{bmatrix}
 2.5 \\
@@ -900,9 +784,7 @@ $$
 \bold{\hat{P}}_{1,y} &=
 \sum^{2d}_{i=0}
 W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
-+ \bold{R}_0
-
-\\ &=
++ \bold{R}_0\\ &=
 \frac{1}{3}
 \bigg(
     \begin{bmatrix}
@@ -925,9 +807,7 @@ W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
       2.5 \\
       0.0
     \end{bmatrix}
-\bigg)^\text{T}
-
-\\ & \quad +
+\bigg)^\text{T}\\ & \quad +
 \frac{1}{6}
 \bigg(
     \begin{bmatrix}
@@ -955,9 +835,7 @@ W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
 \begin{bmatrix}
   0.01 \\
   0.0
-\end{bmatrix}
-
-\\ &=
+\end{bmatrix}\\ &=
 0 + 
 \frac{1}{6}
 \begin{bmatrix}
@@ -986,9 +864,7 @@ W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
 \begin{bmatrix}
   0.01 \\
   0.0
-\end{bmatrix}
-
-\\ &\approx
+\end{bmatrix}\\ &\approx
 \begin{bmatrix}
   0.333 \\
   0.0
@@ -996,9 +872,7 @@ W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
 \begin{bmatrix}
   0.01 \\
   0.0
-\end{bmatrix}
-
-\\ &=
+\end{bmatrix}\\ &=
 0.343
 \end{align*}
 $$
@@ -1008,9 +882,7 @@ $$
 \begin{align*}
 \bold{\hat{P}}_{1,xy} &=
 \sum^{2d}_{i=0}
-W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
-
-\\ &=
+W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}\\ &=
 \frac{1}{3}
 \bigg(
     \begin{bmatrix}
@@ -1033,9 +905,7 @@ W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
       2.5 \\
       0.0
     \end{bmatrix}
-\bigg)^\text{T}
-
-\\ & \quad +
+\bigg)^\text{T}\\ & \quad +
 \frac{1}{6}
 \bigg(
     \begin{bmatrix}
@@ -1059,9 +929,7 @@ W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
       0.0
     \end{bmatrix}
 \bigg)^\text{T}
-\\ & \quad + ...
-
-\\ & \approx
+\\ & \quad + ...\\ & \approx
 \begin{bmatrix}
   0.333 \\
   0.0
@@ -1084,8 +952,7 @@ $$
 The final result for $\bold{x}_1$ is known via the applied Kalman gain.
 $$
 \begin{align*}
-\bold{x}_1
-&=
+\bold{x}_1&=
 \bold{\hat{x}}_1 + \bold{K}_1 (y_1 - \hat{y}^-_1)
 \\ &=
 \begin{bmatrix}

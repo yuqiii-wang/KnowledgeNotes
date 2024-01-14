@@ -180,11 +180,11 @@ The beam-based model drawbacks:
 The likelihood field model goes as below to address the beam-based model's problem (2d map for a particle $m$ with the $k$-th laser beam for instance):
 
 For robot pose $(x, y)$ given its orientation $\theta$, the predicted robot pose $(x_{z^{k}_{t}}, y_{z^{k}_{t}})$ corresponding to laser length $z^{k}_{t}$ and the laser's direction $\theta_k$ can be computed as below
+
 $$
 \begin{bmatrix}
   x_{z^{k}_{t}} \\ y_{z^{k}_{t}}
-\end{bmatrix}
-=
+\end{bmatrix} =
 \underbrace{\begin{bmatrix}
   x \\ y
 \end{bmatrix}
@@ -200,8 +200,7 @@ $$
 }_{ 
   \text{aligned with } \\ 
   \text{robot pose orientation}
-}
-+
+} +
 \underbrace{z^{k}_{t}
 \begin{bmatrix}
   \cos (\theta+\theta_{k}) \\ \sin (\theta+\theta_{k})

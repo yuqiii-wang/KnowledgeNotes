@@ -16,8 +16,7 @@
 A polynomial is complete homogeneous symmetric when satisfying the below expression 
 
 $$
-h_k(x_1,x_2,...,x_n)
-=
+h_k(x_1,x_2,...,x_n)=
 \sum_{1 \le i_1 , i_2 , ..., \le i_n}
 \frac{m_1!m_2!...m_n!}{k!} 
 x_{i_1} x_{i_2} ...  x_{i_n}

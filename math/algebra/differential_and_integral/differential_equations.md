@@ -9,8 +9,7 @@ $$
 \begin{bmatrix}
       x(t) \\
       y(t) \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       a_{1,1} & a_{1,2} \\
       a_{2,1} & a_{2,2} \\
@@ -28,8 +27,7 @@ $$
 \begin{bmatrix}
       x(t) \\
       y(t) \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       0 & -1 \\
       1 & 0 \\
@@ -68,8 +66,7 @@ $$
 \begin{bmatrix}
       x(t) \\
       y(t) \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       0 & -1 \\
       1 & 0 \\
@@ -77,8 +74,7 @@ $$
 \begin{bmatrix}
       x(t) \\
       y(t) \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       0 & -1 \\
       1 & 0 \\
@@ -100,8 +96,7 @@ $$
 \begin{bmatrix}
       x(t) \\
       y(t) \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 e^{
 \begin{bmatrix}
       0 & -1 \\
@@ -121,8 +116,7 @@ e^{
       0 & -1 \\
       1 & 0 \\
 \end{bmatrix} t
-}
-=
+}=
 t^0 \begin{bmatrix}
       0 & -1 \\
       1 & 0 \\
@@ -156,8 +150,7 @@ e^{
       0 & -1 \\
       1 & 0 \\
 \end{bmatrix} t
-}
-=
+}=
 \begin{bmatrix}
       cos(t) & -sin(t) \\
       sin(t) & cos(t) \\
@@ -173,8 +166,7 @@ $$
 \begin{bmatrix}
       x(t) \\
       y(t) \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       cos(t) & -sin(t) \\
       sin(t) & cos(t) \\

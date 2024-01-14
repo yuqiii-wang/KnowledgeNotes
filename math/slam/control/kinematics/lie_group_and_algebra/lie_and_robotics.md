@@ -73,8 +73,7 @@ Remember one property of skew-symmetric matrix:
 the space of a skew-symmetric matrices $A_{n \times n}$ has dimensionality $\frac{1}{2} n (n - 1)$, its vector representation is $a^{\wedge}_{\frac{1}{2} n (n - 1)}$, for example, for a $3 \times 3$ matrix, there is
 
 $$
-\bold{a}^{\wedge}
-=
+\bold{a}^{\wedge}=
 A =
 \begin{bmatrix}
       0 & -a_3 & a_2 \\
@@ -102,8 +101,7 @@ $$
 First degree Taylor Series of $R$ at the time $t_0=0$ is shown as below.
 $$
 R(t) \approx R(t_0) + \dot{R(t_0)} (t-t_0)
-\\
-= I + \phi(t_0)^{\wedge}(t)
+\\= I + \phi(t_0)^{\wedge}(t)
 $$
 
 Set $t=0$,
@@ -178,8 +176,7 @@ For example, for a 2-dimensional rotation $\bold{z} = \bold{x}e^{i\theta}$, whos
 Define a unit vector $\bold{v}$; remember *Rodrigues’s Rotation Formula* that describes the matrix representation over a 3-dimensional angle $\theta$. Here derives the exponential mapping $so(3) \mapsto SO(3)$.
 $$
 \begin{align*}
-R &= e^{\phi^{\wedge}} 
-=
+R &= e^{\phi^{\wedge}} =
 e^{\theta \bold{v}^{\wedge}} 
 \\ &= 
 \sum_{n=0}^{\infty} \frac{{(\theta \bold{v}^{\wedge}})^n}{n!}
@@ -235,8 +232,7 @@ e^{\xi^\wedge} &=
     J \bold{\rho}
     \\
     0 & 1
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     R
     &
@@ -250,8 +246,7 @@ $$
 where
 $$
 \begin{align*}
-\sum_{n=0}^{\infty} \frac{{(\phi^\wedge)^n}}{(n+1)!}
-&=
+\sum_{n=0}^{\infty} \frac{{(\phi^\wedge)^n}}{(n+1)!}&=
 I + \frac{1}{2!}\theta \bold{v}^\wedge + \frac{1}{3!}\theta (\bold{v}^\wedge)^2 + ...
 \\ &=
 \frac{1}{\theta}(\frac{\theta^2}{2!}+\frac{\theta^4}{4!}+...)\bold{v}^\wedge +
@@ -308,8 +303,7 @@ $$
 
 Given the definition of derivative such that
 $$
-\frac{\partial R}{\partial \Delta R}
-=
+\frac{\partial R}{\partial \Delta R}=
 lim_{\Delta R \rightarrow 0}
 \frac{ (R \oplus \Delta R) - R}{\Delta R}
 $$
@@ -320,8 +314,7 @@ There are two solutions to this problem.
 
 * Derivative Model: $R$-corresponding Lie algebra $\phi$ adds a $\Delta \phi$, then compute the change rate on the $\Delta \phi$, so that 
 $$
-\frac{\partial R\bold{p}}{\partial R}
-=
+\frac{\partial R\bold{p}}{\partial R}=
 lim_{\Delta \phi \rightarrow 0} \frac{e^{(\Delta \phi + \phi)^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{\Delta \phi}
 $$
 

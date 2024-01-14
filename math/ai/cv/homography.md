@@ -52,8 +52,7 @@ $$
     x_2 \\
     y_2 \\
     w_2
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     h_{11} & h_{12} & h_{13} \\
     h_{21} & h_{22} & h_{23} \\
@@ -89,8 +88,7 @@ $$
 where
 $$
 \begin{align*}
-\bold{h}
-&=
+\bold{h}&=
 (h_{11}, h_{12}, h_{13}, h_{21}, h_{22}, h_{23}, h_{31}, h_{32}, h_{33})^\text{T}
 \\
 \bold{a}_x &=
@@ -121,8 +119,7 @@ $$
 
 * Solution 1: SVD
 $$
-A=U \Sigma V^\text{T}
-=\sum^9_{i=1}\sigma_i \bold{u}_i\bold{v}_i^\text{T}
+A=U \Sigma V^\text{T}=\sum^9_{i=1}\sigma_i \bold{u}_i\bold{v}_i^\text{T}
 $$
 Since solution $\bold{h}$ is over-determined and Dof for $H$ is $8$, the smallest $\sigma_i$ represents the residual. The other 8 homography entries $h_{ij}$ are equal to their corresponding $\sigma_i$.
 
@@ -141,8 +138,7 @@ $$
 whose derivative is
 $$
 \begin{align*}
-\frac{df}{d\bold{h}} 
-&= 
+\frac{df}{d\bold{h}} &= 
 \frac{1}{2} (A^\text{T} A + (A^\text{T} A)^\text{T}) \bold{h}
 \\ &= 
 A^\text{T} A \bold{h}
@@ -206,8 +202,7 @@ $$
     f_7 \\
     f_8 \\
     f_9 \\
-\end{bmatrix}
-=0
+\end{bmatrix}=0
 $$
 
 In the below implementation, first perform SVD decomposition of $A$, By Rayleigh Quotient theory, the smallest eigenvalue $\lambda_{\min}$ corresponding eigenvector `vt.row(8)` is the least squares solution.
@@ -303,8 +298,7 @@ $$
 \end{bmatrix}
 \begin{bmatrix}
     h_{11} \\ h_{12} \\ h_{13} \\ h_{21} \\ h_{22} \\ h_{23} \\ h_{31} \\ h_{32} \\ h_{33}
-\end{bmatrix}
-= \bold{0}
+\end{bmatrix}= \bold{0}
 $$
 where 
 $$

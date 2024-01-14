@@ -71,15 +71,13 @@ $\bold{z}_{t,t+1}^s$ is sensor measured robot state, such as by IMU.
 * Motion prediction between $\bold{x}_{t}^s$ and $\bold{x}_{t+1}^s$: 
 
 $$
-\bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)
-=
+\bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)=
 \bold{x}_{t+1}^s \ominus \bold{x}_{t}^s
 $$
 
 where $\ominus$ is defined for $SE(2)$ motion:
 $$
-\bold{x}_t^s \ominus \Delta\bold{ x}_{t-1,t}^s
-=
+\bold{x}_t^s \ominus \Delta\bold{ x}_{t-1,t}^s=
 \bigg(\begin{array}{cc}
     x - \Delta x cos\theta + \Delta y sin\theta\\\
     y - \Delta x sin\theta - \Delta y cos\theta \\
@@ -92,8 +90,7 @@ $\bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)$ shows an edge between the
 
 * Error Function for $\bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)$ is
 $$
-\bold{e}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)
-=
+\bold{e}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)=
 \bold{z}_{t,t+1} \ominus \bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)
 $$
 
@@ -111,12 +108,10 @@ landmark position relative to the current state of a robot, computed by last ste
 
 $$
 \begin{align*}
-\bold{x}_{i,t}^l 
-&= 
+\bold{x}_{i,t}^l &= 
 \bold{x}_{i,t-1}^l + (\bold{x}_{t}^s \ominus \bold{x}_{t-1}^s)
 \\
-\bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)
-&=
+\bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)&=
 \bold{x}_{i,t}^l - \bold{x}_{t}^s
 \end{align*}
 $$
@@ -126,8 +121,7 @@ $\bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)$ shows an edge between a robot
 * Error Function for $\bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)$ is
 
 $$
-\bold{e}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)
-=
+\bold{e}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)=
 \bold{z}_{t,i} - \bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)
 $$
 

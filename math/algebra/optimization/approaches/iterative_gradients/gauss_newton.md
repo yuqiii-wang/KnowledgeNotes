@@ -31,12 +31,10 @@ Intuitively speaking, $(\bold{J}_r^T \bold{J}_r)^{-1} \bold{J}_r^T$ is a $\mathb
 The iteration can be rewritten as
 $$
 \begin{align*}
-\beta^{(k+1)} - \beta^{(k)}
-&=
+\beta^{(k+1)} - \beta^{(k)}&=
 -(\bold{J}_r^T \bold{J}_r)^{-1} \bold{J}_r^T \bold{r}(\bold{\beta}^{(k)})
 \\ 
-\bold{J}_r^T \bold{J}_r (\beta^{(k+1)} - \beta^{(k)})
-&=
+\bold{J}_r^T \bold{J}_r (\beta^{(k+1)} - \beta^{(k)})&=
 -\bold{J}_r^T \bold{r}(\bold{\beta}^{(k)})
 \end{align*}
 $$

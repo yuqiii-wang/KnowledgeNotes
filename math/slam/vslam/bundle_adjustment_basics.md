@@ -14,8 +14,7 @@ Bundle Adjustment takes the following steps
 
 $$
 \begin{align*}
-\bold{P}'
-&=
+\bold{P}'&=
 [\bold{R}|\bold{t}] \bold{p}
 \\ &=
 \bold{R} \bold{p} + \bold{t}
@@ -72,8 +71,7 @@ Rewrite indices that $i$ represents the $i$-th camera and $j$ represents the $j$
 Here, landmark $\bold{p}_j$ does not discriminate between landmark estimations at different camera $i$. In other words, $\bold{p} \in \mathbb{R}^{m \times 3}$.
 $$
 \frac{1}{2} \sum^m_{i=1} \sum^n_{j=1} 
-\big|\big| \bold{e}_{ij} \big|\big|^2
-=
+\big|\big| \bold{e}_{ij} \big|\big|^2=
 \frac{1}{2} \sum^m_{i=1} \sum^n_{j=1} 
 \big|\big| 
     \bold{z}_{ij} -
@@ -354,8 +352,7 @@ Depending on the specific observation data, $\bold{F}^\text{T} \bold{E}$ and $\b
 Rewrite the denotations of four sub matrices of $\bold{J}^\text{T} \bold{J}$, such as
 $$
 \begin{align*}
-\bold{J}^\text{T} \bold{J}
-&=
+\bold{J}^\text{T} \bold{J}&=
 \begin{bmatrix}
     \bold{F}^\text{T} \bold{F} & \bold{F}^\text{T} \bold{E} \\
     \bold{E}^\text{T} \bold{F} & \bold{E}^\text{T} \bold{E} \\
@@ -443,8 +440,7 @@ First, it looks at this equation.
 
 $$
 (\bold{B}-\bold{E}\bold{C}^{-1}\bold{E}^\text{T})
-\Delta \bold{x}_{\bold{\xi}}
-=
+\Delta \bold{x}_{\bold{\xi}}=
 \bold{v} - \bold{E}\bold{C}^{-1} \bold{w}
 $$
 

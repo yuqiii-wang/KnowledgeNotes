@@ -88,8 +88,7 @@ A_i A_j^{-1} X=X B^{-1}_i B_j
 \begin{bmatrix}
     \space^{g}R_{c} & \space^{g}\bold{t}_{c} \\
     \bold{0} & 1
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     \space^{g}R_{c} & \space^{g}\bold{t}_{c} \\
     \bold{0} & 1
@@ -153,8 +152,7 @@ $$
 3. Construct the linear equation $A\bold{x}=\bold{b}$ to compute the initial estimate of rotation $\space^{g}\hat{\bold{r}}_{c}$
 
 $$
-\big( \space^{c}\bold{r}_{t}^{*(ij)} + \space^{b}\bold{r}_{g}^{*(ij)} \big)^{\wedge} \space^{g}\hat{\bold{r}}_{c} 
-= \space^{b}\bold{r}_{g}^{*(ij)} - \space^{c}\bold{r}_{t}^{*(ij)}
+\big( \space^{c}\bold{r}_{t}^{*(ij)} + \space^{b}\bold{r}_{g}^{*(ij)} \big)^{\wedge} \space^{g}\hat{\bold{r}}_{c} = \space^{b}\bold{r}_{g}^{*(ij)} - \space^{c}\bold{r}_{t}^{*(ij)}
 $$
 where $\space^{\wedge}$ represents the skew-symmetric representation of a vector.
 

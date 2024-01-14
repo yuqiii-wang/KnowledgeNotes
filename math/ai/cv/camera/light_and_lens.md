@@ -65,8 +65,7 @@ $$
       x_p \\
       y_p \\
       1
-\end{bmatrix}
-=
+\end{bmatrix}=
 \frac{1}{Z}
 \begin{bmatrix}
       f_x & 0 & c_x \\
@@ -131,8 +130,7 @@ w
       x_p \\
       y_p \\
       1
-\end{bmatrix}^\text{T}
-=
+\end{bmatrix}^\text{T}=
 \begin{bmatrix}
       w x_w \\
       w y_w \\
@@ -205,8 +203,7 @@ w
       x_p \\
       y_p \\
       1
-\end{bmatrix}^\text{T}
-=
+\end{bmatrix}^\text{T}=
 \begin{bmatrix}
       w x_d \\
       w y_d \\
@@ -230,8 +227,7 @@ $$
 w\begin{bmatrix}
       x_d \\
       y_d
-\end{bmatrix}
-=
+\end{bmatrix}=
 w(1+k_1r^2+k_2r^4+k_3r^6+k_4r^8)
 \begin{bmatrix}
       x_w \\
@@ -250,8 +246,7 @@ $$
 w\begin{bmatrix}
       x_d \\
       y_d
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       x_w \\
       y_w

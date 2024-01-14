@@ -21,12 +21,9 @@ Steepest descent finds every step $\bold{x}_k$ 's gradient $A\bold{x}_k + \bold{
 $\bold{r}_k$ is the residual to optimal solution $\bold{x}^*$ given by $\bold{r}_k = \bold{b} - A \bold{x}_k$. Ideally, $A\bold{x}^* + \bold{b} = 0$.
 
 The distance $\lambda = \frac{\bold{r}_k^T \bold{r}_k}{\bold{r}_k^T A \bold{r}_k}$ is computed by 
-$$\frac{d f(\bold{x_k})}{d\lambda} 
-= 
-\frac{d f(\bold{x_{k-1}+\Delta \bold{x}})}{d\lambda} 
-=
-\frac{d f(\bold{x_{k-1} + \lambda \triangledown f})}{d\lambda} 
-=
+$$\frac{d f(\bold{x_k})}{d\lambda} = 
+\frac{d f(\bold{x_{k-1}+\Delta \bold{x}})}{d\lambda} =
+\frac{d f(\bold{x_{k-1} + \lambda \triangledown f})}{d\lambda} =
 0
 $$ 
 This means update step $\lambda$ is optimized (giving the longest descending distance). Shorter $\lambda$ might not travel far enough; Longer $\lambda$ might see gradient ascent.
@@ -43,15 +40,13 @@ Every step $\lambda_k$ reaches the point $\bold{x}_k$ where $\lambda_k$ goes lon
 
 Given an objective function ($A$ being positive definite, $f(\bold{x})$ must have at least first-order derivative):
 $$
-f(\bold{x})
-=
+f(\bold{x})=
 \frac{1}{2} \bold{x}^T A \bold{x} + \bold{b}^T \bold{x} + \bold{c}
 $$
 
 The first-order derivative is
 $$
-\frac{\partial f(\bold{x})}{\partial \bold{x}}
-=
+\frac{\partial f(\bold{x})}{\partial \bold{x}}=
 A \bold{x} + \bold{b}
 $$
 
@@ -59,8 +54,7 @@ Define an iterative step $\Delta \bold{x}$ for gradient descent updating $\bold{
 
 $$
 \begin{align*}
-f(\bold{x}+\Delta{\bold{x}})
-&=
+f(\bold{x}+\Delta{\bold{x}})&=
 \frac{1}{2} (\bold{x}+\Delta{\bold{x}})^T A (\bold{x}+\Delta{\bold{x}}) + \bold{b}^T (\bold{x}+\Delta{\bold{x}}) + \bold{c}
 \\ &=
 \frac{1}{2} \bold{x}^T A \bold{x} + \bold{b}^T \bold{x} + \bold{c} + \frac{1}{2} \Delta{\bold{x}}^T A \Delta{\bold{x}}
@@ -75,8 +69,7 @@ Remember, $f(\bold{x})$ is a convex function and there must exist a solution tha
 
 $$
 \begin{align*}
-\frac{d f(\bold{x_k})}{d\lambda}
-&=
+\frac{d f(\bold{x_k})}{d\lambda}&=
 f'(\bold{x}_k)\frac{d \bold{x}_k}{d \lambda}
 \\ &=
 f'(\bold{x}_k)\bold{r}_{k-1}

@@ -28,8 +28,7 @@ Accordingly, the least-square problem to find the optimal $[\bold{R}|\bold{t}]^*
 
 $$
 \begin{align*}
-\big[\bold{R}|\bold{t} \big]^* 
-&= 
+\big[\bold{R}|\bold{t} \big]^* &= 
 arg \space \underset{\big[\bold{R}|\bold{t} \big]}{min}
 \frac{1}{2} \sum^n_{i=1}
 \big|\big|
@@ -133,8 +132,7 @@ $$
 \frac{1}{2} \sum^n_{i=1}
 \bigg|\bigg|
   \bold{q}_i - \bold{R} \bold{q}'_i
-\bigg|\bigg|^2_2
-=
+\bigg|\bigg|^2_2=
 \frac{1}{2} \sum^n_{i=1}
 \bigg(
     \underbrace{\bold{q}^\text{T}_i \bold{q}_i}_{\frac{\partial \bold{q}^\text{T}_i \bold{q}_i}{\partial \bold{R}}=0}
@@ -163,8 +161,7 @@ $$
 
 Take SVD decomposition of $\bold{Q}' \bold{Q}^\text{T}$, there is
 $$
-\bold{Q}' \bold{Q}^\text{T}
-=
+\bold{Q}' \bold{Q}^\text{T}=
 \bold{U} \bold{\Sigma} \bold{V}^\text{T}
 $$
 
@@ -172,12 +169,10 @@ Then consider the trace operator.
 $$
 tr \big(
         \bold{R} \bold{Q}' \bold{Q}^\text{T}
-\big)
-=
+\big)=
 tr \big(
         \bold{R} \bold{U} \bold{\Sigma} \bold{V}^\text{T}
-\big)
-=
+\big)=
 tr \big(
         \bold{\Sigma} 
         \underbrace{\bold{V}^\text{T} \bold{R} \bold{U}}_{=\bold{M}}
@@ -204,8 +199,7 @@ $$
 Generalize each vector's result to the whole matrix, there is
 $$
 \begin{align*}
-tr\big(\bold{\Sigma M}\big)
-&=
+tr\big(\bold{\Sigma M}\big)&=
 \begin{bmatrix}
     \sigma_1 & 0 & & 0 \\
     0 & \sigma_2 & & 0 \\
@@ -272,8 +266,7 @@ $$
 By introducing a trivial perturbation $\Delta \bold{\xi}$, 
 $$
 \begin{align*}
-\frac{\partial \bold{e}_i}{\partial \bold{\Delta \bold{\xi}}}
-&=
+\frac{\partial \bold{e}_i}{\partial \bold{\Delta \bold{\xi}}}&=
 \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
     \frac
     {e^{\Delta \bold{\xi}^{\wedge}}e^{ \bold{\xi}^{\wedge}}\bold{p}'_i-e^{ \bold{\xi}^{\wedge}}\bold{p}'_i}

@@ -11,8 +11,7 @@ $$
 * Gradient descent
 $$
 \begin{align*}
-\bold{x}_{n+1}
-&=
+\bold{x}_{n+1}&=
 \bold{x}_{n}
 -
 \lambda \Delta \big(\frac{1}{2} \bold{r}(\bold{x}_n)^\text{T} \bold{r}(\bold{x}_n)\big)
@@ -27,8 +26,7 @@ where $\lambda$ can be set to $\lambda=\frac{\bold{r}_k^T \bold{r}_k}{\bold{r}_k
 * Gauss-Newton
 
 $$
-\bold{x}_{n+1}
-=
+\bold{x}_{n+1}=
 \bold{x}_{n}
 -
 (\bold{J}^\text{T}_r \bold{J}_r)^{-1} \bold{J}^\text{T}_r \bold{r} (\bold{x}_n)

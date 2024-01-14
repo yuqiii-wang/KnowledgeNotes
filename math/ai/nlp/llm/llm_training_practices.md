@@ -26,8 +26,7 @@ $$
 &&& \text{Embeddings} \in \mathbb{R}^{T \times E} \\
 \rightarrow &&& \text{MultiHeadAttention} \in \mathbb{R}^{3 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\
 \rightarrow &&& \text{AttentionDense} \in \mathbb{R}^{1 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\
-\rightarrow &&& \text{FeedForwardDense} \in \mathbb{R}^{2 \times 4 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\
-= &&& T \times E + R \times (3 + 1 + 2 \times 4) \times ( N \times D)^2
+\rightarrow &&& \text{FeedForwardDense} \in \mathbb{R}^{2 \times 4 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\= &&& T \times E + R \times (3 + 1 + 2 \times 4) \times ( N \times D)^2
 \end{align*}
 $$
 

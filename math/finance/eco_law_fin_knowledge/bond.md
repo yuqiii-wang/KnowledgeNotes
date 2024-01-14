@@ -62,6 +62,7 @@ DayCountFactor=
 $$
 
 * Actual/360: T-bills and other money market instruments (commonly less than 1-year maturity)
+
 $$
 DayCountFactor=
 \frac{AccrualDays}{360}

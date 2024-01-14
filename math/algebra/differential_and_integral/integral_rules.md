@@ -25,8 +25,7 @@ The line integral of
 $\overrightarrow{F}$ along $C$ is
 
 $$
-\int_C \overrightarrow{F} \cdot d \overrightarrow{r}
-=
+\int_C \overrightarrow{F} \cdot d \overrightarrow{r}=
 \int^a_b \overrightarrow{F}(\overrightarrow{r}(t)) \cdot \overrightarrow{r}'(t) dt
 $$
 
@@ -49,8 +48,7 @@ $$
 \frac{d}{dx} 
 \bigg(
     \int^{b(x)}_{a(x)} f(x,t) dt
-\bigg)
-=
+\bigg)=
 \\
 f\big(x,b(x)\big)\cdot \frac{d \space b(x)}{dx}
 -
@@ -64,7 +62,6 @@ $$
 \frac{d}{dx} 
 \bigg(
     \int^{c_b}_{c_a} f(x,t) dt
-\bigg)
-=
+\bigg)=
 \int^{c_b}_{c_a} \frac{\partial}{\partial x} f(x,t) dt
 $$

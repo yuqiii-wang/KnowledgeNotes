@@ -14,8 +14,7 @@ Such as $n=16,k=3$, the $16$ options are not retrievable (once adopted one, ther
 
 $$
 \begin{align*}
-\frac{n!}{(n-k)!}
-&=
+\frac{n!}{(n-k)!}&=
 \frac{16!}{(16-3)!}
 \\ &=
 \frac{16 \times 15 \times 14 \times 13 \times ...}
@@ -31,8 +30,7 @@ Such as $n=16,k=3$, the $16$ options are not retrievable (once adopted one, ther
 
 $$
 \begin{align*}
-\frac{n!}{k!(n-k)!}
-&=
+\frac{n!}{k!(n-k)!}&=
 \frac{16!}{3!(16-3)!}
 \\ &=
 \frac{16 \times 15 \times 14 \times 13 \times ...}
@@ -54,8 +52,7 @@ n
 \\
 k
 \end{array}
-\right)
-=
+\right)=
 \frac{n!}{k!(n-k)!} 
 $$
 

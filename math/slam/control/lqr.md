@@ -46,8 +46,7 @@ $$
 
 then set
 $$
-\bold{u}(t) = R^{-1}B^\top P(t) \bold{x}(t)
-=K\bold{x}(t)
+\bold{u}(t) = R^{-1}B^\top P(t) \bold{x}(t)=K\bold{x}(t)
 $$
 
 from here update the system's close loop coefficient $A_{cl}=A-BK$.
@@ -69,8 +68,7 @@ $$
 \begin{bmatrix}
     \dot{S} \\
     \dot{\theta}
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \underbrace{\begin{bmatrix}
     0 & v \\
     0 & 0

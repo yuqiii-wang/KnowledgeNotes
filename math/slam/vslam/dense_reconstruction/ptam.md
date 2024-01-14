@@ -24,13 +24,11 @@ where $T_{\mathcal{CW}}$ is the transform from $\mathcal{W}$ to $\mathcal{C}$. A
 Define a camera projection function $CamProj$ that takes 3D points in a camera frame $\bold{p}_{\mathcal{C}j}$ map to image pixels $[u_j, v_j]$. The camera parameters for focal length $(f_u , f_v)$, principal point $(u_0 , v_0)$ and
 distortion $\omega$ are assumed to be known.
 $$
-CamProj(\bold{p}_{\mathcal{C}j})
-=
+CamProj(\bold{p}_{\mathcal{C}j})=
 \begin{bmatrix}
     u_j \\
     v_j
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     u_0 \\
     v_0

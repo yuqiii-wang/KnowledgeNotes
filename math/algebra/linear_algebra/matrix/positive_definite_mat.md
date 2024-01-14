@@ -54,8 +54,7 @@ Define a real symmetric matrix $A$, whose eigenvectors are $\bold{x}_i$ and the 
 So that,
 $$
 \begin{align*}
-\lambda_i\langle \bold{x}_i, \bold{x}_j \rangle
-&=
+\lambda_i\langle \bold{x}_i, \bold{x}_j \rangle&=
 \langle \lambda_i\bold{x}_i, \bold{x}_j \rangle
 \\ &=
 \langle A\bold{x}_i, \bold{x}_j \rangle
@@ -90,8 +89,7 @@ $A$ has the below properties:
 
 Example:
 $$
-5x^2 + 8xy + 5y^2 
-=
+5x^2 + 8xy + 5y^2 =
 \begin{bmatrix}
     x & y
 \end{bmatrix}
@@ -101,8 +99,7 @@ $$
 \end{bmatrix}
 \begin{bmatrix}
     x \\ y
-\end{bmatrix}
-= \bold{x}^\text{T} A \bold{x}
+\end{bmatrix}= \bold{x}^\text{T} A \bold{x}
 $$
 
 To orthogonally diagonalize $A$, there are

@@ -56,10 +56,8 @@ Legendre transform is used to transform $L(q, \dot{q})$ to a new function $H(q,p
 
 By the canonical momentum definition $p=mv$, consider kinetic energy definition $K=\frac{1}{2}mv^2$, where $\dot{q}=v$ as the velocity, then
 $$
-\big(\frac{\partial L}{\partial \dot{q}}\big)_q
-=
-\big(\frac{\partial K}{\partial v}\big)_q
-= mv = p
+\big(\frac{\partial L}{\partial \dot{q}}\big)_q=
+\big(\frac{\partial K}{\partial v}\big)_q= mv = p
 $$
 
 Potential energy $U$ is conservative, not a function of velocity but position $q$.
@@ -72,8 +70,7 @@ $$
 
 Add a negative sign to the above expression, so that 
 $$
-p\dot{q} - L = (mv) v - (\frac{1}{2}mv^2 - U)
-= K + U = H
+p\dot{q} - L = (mv) v - (\frac{1}{2}mv^2 - U)= K + U = H
 $$
 
 Hamiltonian $H$ represents the whole system energy, while $L$ says about the differences between $K$ and $U$. Legendre transform expresses this system in a different way by just taking the conjugate of the variable.

@@ -97,26 +97,20 @@ $$
 
 $$
 \begin{align*}
-\phi(\overrightarrow{x_1} \cdot \overrightarrow{x_1})
-&=
+\phi(\overrightarrow{x_1} \cdot \overrightarrow{x_1})&=
 (5,6,7) \cdot (5,6,7)
 \\ &=
 (x_1x_1, x_1x_2, x_1x_3, x_2x_1, x_2x_2, x_2x_3, x_3x_1, x_3x_2, x_3x_3)
 \\ &=
-(25, 30, 35, 30, 36, 42, 35, 42, 49)
-
-\\
+(25, 30, 35, 30, 36, 42, 35, 42, 49)\\
 \\
 
-\phi(\overrightarrow{x_2} \cdot \overrightarrow{x_2})
-&=
+\phi(\overrightarrow{x_2} \cdot \overrightarrow{x_2})&=
 (8,9,10) \cdot (8,9,10)
 \\ &=
 (x_1x_1, x_1x_2, x_1x_3, x_2x_1, x_2x_2, x_2x_3, x_3x_1, x_3x_2, x_3x_3)
 \\ &=
-(64, 72, 80, 72, 81, 90, 80, 90, 100)
-
-\\
+(64, 72, 80, 72, 81, 90, 80, 90, 100)\\
 \\
 
 \phi(\overrightarrow{x_1}, \overrightarrow{x_2})
@@ -127,11 +121,7 @@ $$
 \\ &=
 (1600, 2160, 2800, 2160, 2916, 3780, 2800, 3780, 4900)
 \\ &=
-26896
-
-\\ \text{alternatively}
-
-\\ &=
+26896\\ \text{alternatively}\\ &=
 (\overrightarrow{x_1} \cdot \overrightarrow{x_2})^2
 \\ &=
 (5 \cdot 8 + 6 \cdot 9 + 7 \cdot 10)^2

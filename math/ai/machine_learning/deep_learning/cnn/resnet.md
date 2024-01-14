@@ -10,15 +10,11 @@ where $a^l$ is the activation output at the layer $l$; $g$ is the activation fun
 ## Backward propogation
 
 $$
-\Delta w^{l-1,l}
-=
-- \eta \frac{\partial E^l}{\partial w^{l-1,l}}
-=-\eta a^{l-1} \cdot \delta^l
+\Delta w^{l-1,l}=
+- \eta \frac{\partial E^l}{\partial w^{l-1,l}}=-\eta a^{l-1} \cdot \delta^l
 \\
-\Delta w^{l-2,l}
-=
-- \eta \frac{\partial E^l}{\partial w^{l-2,l}}
-=-\eta a^{l-2} \cdot \delta^l
+\Delta w^{l-2,l}=
+- \eta \frac{\partial E^l}{\partial w^{l-2,l}}=-\eta a^{l-2} \cdot \delta^l
 $$
 
 where $\eta$ is the learning rate; $a^l$ and $\delta^l$ refer to activation and error at the $l$-th layer, respectively.

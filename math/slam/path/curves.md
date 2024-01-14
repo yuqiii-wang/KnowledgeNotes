@@ -51,19 +51,14 @@ A recursive definition for the Bézier curve of degree $n$ expresses it as a poi
 
 $$
 \begin{align*}
-\bold{B}_{\bold{P}_0}(t)
-&= 
+\bold{B}_{\bold{P}_0}(t)&= 
 \bold{P}_0
 \\
 \bold{B}(t) &=
-\bold{B}_{\bold{P}_0 \bold{P}_1 \bold{P}_2 ... \bold{P}_n}(t)
-
-\\ &=
+\bold{B}_{\bold{P}_0 \bold{P}_1 \bold{P}_2 ... \bold{P}_n}(t)\\ &=
 (1-t)\bold{B}_{\bold{P}_0 \bold{P}_1 \bold{P}_2 ... \bold{P}_{n-1}}(t)
 +
-t\bold{B}_{\bold{P}_1 \bold{P}_2 ... \bold{P}_{n}}(t)
-
-\\ &=
+t\bold{B}_{\bold{P}_1 \bold{P}_2 ... \bold{P}_{n}}(t)\\ &=
 (1-t)^n \bold{P}_0 
 +
 \bigg(\begin{array}{c}
@@ -78,9 +73,7 @@ n-1
 \end{array} \bigg)
 (1-t) t^{n-1} \bold{P}_{n-1}
 +
-t^n \bold{P}_n
-
-\\ &=
+t^n \bold{P}_n\\ &=
 \sum^n_{k=0} 
 \bigg(\begin{array}{c}
 n \\

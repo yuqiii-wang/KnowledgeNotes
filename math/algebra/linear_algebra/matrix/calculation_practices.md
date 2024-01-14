@@ -26,8 +26,7 @@ $$
 1 & 0\\
 0 & 1
 \end{bmatrix}
-|
-=
+|=
 |
 \begin{bmatrix}
 2-\lambda & 1\\
@@ -36,8 +35,7 @@ $$
 |
 $$
 
-$$
-= 3 - 4 \lambda + \lambda^2 
+$$= 3 - 4 \lambda + \lambda^2 
 $$
 
 hence
@@ -53,8 +51,7 @@ $$
 \begin{bmatrix}
 v_1\\
 v_2
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 0\\
 0
@@ -159,8 +156,7 @@ $$
 ln(\begin{bmatrix}
 1 & 0\\
 -3 & 2
-\end{bmatrix})
-=
+\end{bmatrix})=
 \begin{bmatrix}
 1 & 0\\
 3 & 1
@@ -180,8 +176,7 @@ $$
 ln(\begin{bmatrix}
 1 & 0\\
 -3 & 2
-\end{bmatrix})
-=
+\end{bmatrix})=
 ln(2)
 \begin{bmatrix}
 0 & 0\\
@@ -200,8 +195,7 @@ ln(\begin{bmatrix}
 2 & 1\\
 3 & 2
 \end{bmatrix}
-}
-=
+}=
 e^{
 ln(2)
 \begin{bmatrix}
@@ -225,8 +219,7 @@ ln(\begin{bmatrix}
 2 & 1\\
 3 & 2
 \end{bmatrix}
-}
-=
+}=
 e^{
 ln(2)
 \begin{bmatrix}
@@ -267,8 +260,7 @@ ln(2)
 0 & 0\\
 -3 & -1
 \end{bmatrix}
-}
-=
+}=
 \begin{bmatrix}
 1 & 0\\
 -3 & -1
@@ -294,16 +286,14 @@ X =
 2 & -1\\
 -3 & 2
 \end{bmatrix}
-^{-1}}
-=
+^{-1}}=
 e^{
 ln(2)
 \begin{bmatrix}
 0 & 0\\
 -3 & -1
 \end{bmatrix}
-}
-=
+}=
 \begin{bmatrix}
 1 & 0\\
 -3/2 & 1/2

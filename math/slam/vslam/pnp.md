@@ -14,8 +14,7 @@ s \begin{bmatrix}
     u_1 \\
     v_1 \\
     1
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     f_x & 0 & c_x \\
     0 & f_y & c_y \\
@@ -43,14 +42,12 @@ $$
     f_x & 0 & c_x \\
     0 & f_y & c_y \\
     0 & 0 & 1
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     1 & 0 & 0 \\
     0 & 1 & 0 \\
     0 & 0 & 1
-\end{bmatrix}
-=\bold{I}
+\end{bmatrix}=\bold{I}
 $$
 
 So that,
@@ -205,8 +202,7 @@ $$
     X_B & Y_B & Z_B & 1 \\
     X_C & Y_C & Z_C & 1 \\
     0 & 0 & 0 & 1 \\
-\end{array}
-=
+\end{array}=
 0
 $$
 
@@ -223,8 +219,7 @@ s_i \begin{bmatrix}
     u_i \\
     v_i \\
     1
-\end{bmatrix}
-=
+\end{bmatrix}=
 \bold{K} \big[\bold{R}|\bold{t} \big]
 \begin{bmatrix}
     X_i \\
@@ -263,8 +258,7 @@ where $\bold{e}$ can be the pixel coordinate error ($2$-d) and $\bold{x}$ is the
 Define the coordinates of the space point in the camera
 frame as $\bold{P}'$ transformed by $\big[\bold{R}|\bold{t} \big]$ from a world frame point $\bold{P}$, and take out the first 3 dimensions:
 $$
-\bold{P}' = \big(\big[\bold{R}|\bold{t} \big] \bold{P} \big)_{1:3}
-=
+\bold{P}' = \big(\big[\bold{R}|\bold{t} \big] \bold{P} \big)_{1:3}=
 [X', Y', Z']^\text{T}
 $$
 
@@ -277,8 +271,7 @@ s \begin{bmatrix}
     u \\
     v \\
     1
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \begin{bmatrix}
     f_x & 0 & c_x \\
     0 & f_y & c_y \\
@@ -306,8 +299,7 @@ When the error is found, then to compare the $u$, $v$ here with the measured val
 Define the perturbation as $\Delta\bold{\xi}$, by the rule of left perturbation multiplication in Lie algebra, there is
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}
-&=
+\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
 \underset{\Delta\bold{\xi} \rightarrow 0}{lim}
 \frac{\bold{e}(\Delta\bold{\xi} \oplus \bold{\xi})-\bold{e}(\bold{\xi})}{\Delta\bold{\xi}}
 \\ &=
@@ -318,8 +310,7 @@ $$
 where
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{P}'}
-&=
+\frac{\partial \bold{e}}{\partial \bold{P}'}&=
 - \begin{bmatrix}
     \frac{\partial u}{\partial X'} &
     \frac{\partial u}{\partial Y'} &
@@ -348,8 +339,7 @@ $$
 and, this term $\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
 $$
 \begin{align*}
-\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}
-&=
+\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}&=
 \frac{\partial \big[\bold{R}|\bold{t}\big] \bold{P}}{\partial \Delta\bold{\xi}}
 \\ &=
 \begin{bmatrix}
@@ -361,8 +351,7 @@ $$
 where 
 $$
 \begin{align*}
-\bold{P}'^{\wedge}
-&=
+\bold{P}'^{\wedge}&=
 \begin{bmatrix}
     0 & Z' & Y' \\
     -Z' & 0 & -X' \\
@@ -374,8 +363,7 @@ $$
 Combined, and removed $\bold{0}$ from $\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}$, there is
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}
-&=
+\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
 \frac{\partial \bold{e}}{\partial \bold{P}'}
 \frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}
 \\ &=
@@ -411,22 +399,19 @@ because the error is defined by the observed value minus the predicted value.
 The derivative of error $\bold{e}$ with respect to a spatial point $\bold{P}$ can be computed by introducing the image projection $\bold{P}'$.
 
 $$
-\frac{\partial \bold{e}}{\partial \bold{P}}
-=
+\frac{\partial \bold{e}}{\partial \bold{P}}=
 \frac{\partial \bold{e}}{\partial \bold{P}'}
 \frac{\partial \bold{P}'}{\partial \bold{P}}
 $$
 where
 $$
-\bold{P}'=\big(\big[\bold{R}|\bold{t}\big] \bold{P}\big)_{1:3}
-= \bold{R}\bold{P}+\bold{t}
+\bold{P}'=\big(\big[\bold{R}|\bold{t}\big] \bold{P}\big)_{1:3}= \bold{R}\bold{P}+\bold{t}
 $$
 
 So that
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{P}}
-&=
+\frac{\partial \bold{e}}{\partial \bold{P}}&=
 - \begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\

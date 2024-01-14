@@ -64,10 +64,8 @@ $$
 The optimization can be expressed as below
 $$
 arg \space \underset{W}{max} \space
-\bold{J}(W)
-=
-\frac{W^\text{T} S_b W}{W^\text{T} S_w W}
-=
+\bold{J}(W)=
+\frac{W^\text{T} S_b W}{W^\text{T} S_w W}=
 \frac{\big|\big|
     \bold{w} \bold{\mu}_0 - \bold{w} \bold{\mu}_1
 \big|\big|^2}{
@@ -111,12 +109,10 @@ $$
 \begin{align*}
 &&
 S_w^{-1} S_b \bold{w} = 
-S_w^{-1} (\bold{\mu_1}-\bold{\mu_2})(\bold{\mu_1}-\bold{\mu_2})^\text{T} \bold{w}
-&=
+S_w^{-1} (\bold{\mu_1}-\bold{\mu_2})(\bold{\mu_1}-\bold{\mu_2})^\text{T} \bold{w}&=
 \lambda \bold{w}
 \\ \Rightarrow &&
-S_w^{-1} (\bold{\mu_1}-\bold{\mu_2}) \lambda_m
-&=
+S_w^{-1} (\bold{\mu_1}-\bold{\mu_2}) \lambda_m&=
 \lambda \bold{w}
 \\ \Rightarrow &&
 \bold{w} &= S_w^{-1} (\bold{\mu_1}-\bold{\mu_2}) 

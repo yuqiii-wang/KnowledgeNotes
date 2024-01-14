@@ -82,14 +82,12 @@ $$
       (\bold{k} \times \bold{v})_x \\
       (\bold{k} \times \bold{v})_y \\
       (\bold{k} \times \bold{v})_z
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       k_y v_z - k_z v_y \\
       k_z v_x - k_x v_z \\
       k_x v_y - k_y v_x
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       0 & -k_z & k_y \\
       k_z & 0 & -k_x \\
@@ -113,8 +111,7 @@ $$
 
 Now, the rotation matrix can be written in terms of $\bold{K}$ as
 $$
-\bold{Q}=e^{\bold{K}\theta}
-=
+\bold{Q}=e^{\bold{K}\theta}=
 \bold{I}+\bold{K}sin(\theta)+\bold{K}^2\big(1-cos(\theta)\big)
 $$
 where $\bold{K}$ is rotation direction unit matrix while $\theta$ is the angle magnitude.
@@ -124,8 +121,7 @@ where $\bold{K}$ is rotation direction unit matrix while $\theta$ is the angle m
 Define $\bold{v}$ is a vector $\bold{v} \in \mathbb{R}^3$, $\bold{k}$ is a unit vector describing an axis of rotation about which $\bold{v}$ rotates by an angle $\theta$
 
 $$
-\bold{v}_{rot}
-=
+\bold{v}_{rot}=
 \bold{v} cos\theta + (\bold{k} \times \bold{v})sin\theta + \bold{k}(\bold{k} \cdot \bold{v})(1-cos\theta)
 $$
 
@@ -147,17 +143,11 @@ $$
 \begin{align*}
 tr(\bold{Q}) &= tr \big(
       cos \theta \bold{I} + (1-cos \theta) \bold{k}\bold{k}^\text{T} + sin\theta \bold{k}^{\wedge}
-\big)
-
-\\ &=
+\big)\\ &=
 cos\theta \space tr(\bold{I})
 + (1-cos \theta) tr(\bold{k}\bold{k}^\text{T})
-+ sin \theta \space tr(\bold{k}^{\wedge})
-
-\\ &=
-3 cos\theta + (1-cos \theta)
-
-\\ &=
++ sin \theta \space tr(\bold{k}^{\wedge})\\ &=
+3 cos\theta + (1-cos \theta)\\ &=
 1+2cos\theta
 \end{align*}
 $$
@@ -283,13 +273,11 @@ $$
 \begin{align*}
 &&
 \bold{Q} =
-e^{\bold{K}\theta}
-&=
+e^{\bold{K}\theta}&=
 \bold{I}+\bold{K}sin(\theta)+\bold{K}^2\big(1-cos(\theta)\big)
 \\ \text{Substitutions } \Rightarrow &&
 R(t) =
-\exp(\overrightarrow{\bold{\omega}}^{\wedge}t)
-&=
+\exp(\overrightarrow{\bold{\omega}}^{\wedge}t)&=
 \bold{I} + Z^{\wedge} \sin(||\overrightarrow{\bold{\omega}}||t) + \big(1-\cos(||\overrightarrow{\bold{\omega}}||t)\big) Z^{\wedge} Z^{\wedge} 
 \end{align*}
 $$
@@ -297,8 +285,7 @@ where $Z^{\wedge}=\begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & -1 & 0 \end{bmat
 
 To get the first order derivative of $\dot{R}(t)$, when $t \rightarrow 0$, there are $\sin(||\overrightarrow{\bold{\omega}}||t) \rightarrow ||\overrightarrow{\bold{\omega}}||$ and $\cos(||\overrightarrow{\bold{\omega}}||t) \rightarrow 1$, so that
 $$
-\dot{R}(t) = \frac{d \space R(t)}{dt} 
-= \bold{I} + Z^{\wedge} ||\overrightarrow{\bold{\omega}}||
+\dot{R}(t) = \frac{d \space R(t)}{dt} = \bold{I} + Z^{\wedge} ||\overrightarrow{\bold{\omega}}||
 $$
 
 ## Derivative of Rotation Over $\theta$
@@ -310,8 +297,7 @@ R_x(\theta) =
     0 & 0 & 0 \\
     0 & 0 & -1 \\
     0 & 1 & 0
-\end{bmatrix} \Bigg)
-=
+\end{bmatrix} \Bigg)=
 \begin{bmatrix}
     1 & 0 & 0 \\
     0 & \cos\theta & -\sin\theta \\

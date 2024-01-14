@@ -32,8 +32,7 @@ $$
 So that $E_{ssd}(u,v)$ can be expressed as 
 $$
 \begin{align*}
-E_{ssd}(u,v)
-&=
+E_{ssd}(u,v)&=
 \sum_{(x,y)\in {W}_{m \times n}} 
 \big[
     I(x+u, y+v)-I(x,y)    
@@ -124,8 +123,7 @@ Intuitively,
 Define the harris operator
 $$
 \begin{align*}
-f_{Harris}
-&=
+f_{Harris}&=
 \lambda_+ \lambda_- - k(\lambda_+ + \lambda_-)^2
 \\ &=
 det(H) + k \space tr(H)^2

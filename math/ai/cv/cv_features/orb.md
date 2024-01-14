@@ -90,8 +90,7 @@ S =
 \begin{bmatrix}
     x_1, ..., x_n \\
     y_1, ..., y_n \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     \bold{x} \\
     \bold{y} \\

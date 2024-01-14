@@ -45,8 +45,7 @@ Compute $S(\bold{\beta}+\bold{\sigma})$'s derivative and set it to zero to find 
 $$
 \begin{align*}
 \frac{\partial \big(S(\bold{\beta}+\bold{\sigma}) \big)
-}{\partial \bold{\sigma}}
-&=
+}{\partial \bold{\sigma}}&=
 \frac{\partial \space
     \big(-2[\bold{y}-\bold{f}(\beta)]^T \bold{J}\bold{\sigma}
     +
@@ -70,12 +69,10 @@ $$
 +
 2 \bold{J}^T \bold{J} \bold{\sigma}
 \\ 
-\bold{J}^T \bold{J} \bold{\sigma}
-&=
+\bold{J}^T \bold{J} \bold{\sigma}&=
 [\bold{y}-\bold{f}(\beta)]^T \bold{J}
 \\
-\bold{J}^T \bold{J} \bold{\sigma}
-&=
+\bold{J}^T \bold{J} \bold{\sigma}&=
 \bold{J}^T [\bold{y}-\bold{f}(\beta)]
 \end{align*}
 $$
@@ -84,8 +81,7 @@ Here comes the innovation of Levenberg-Marquardt's method derived from the above
 
 * Introduce a damping parameter $\lambda$ to the diagnol matrix $diag(\bold{J}^T \bold{J})$ such that
 $$
-[\bold{J}^T \bold{J} + \lambda \space diag(\bold{J}^T \bold{J})] \bold{\sigma}
-=
+[\bold{J}^T \bold{J} + \lambda \space diag(\bold{J}^T \bold{J})] \bold{\sigma}=
 \bold{J}^T [\bold{y}-\bold{f}(\beta)]
 $$
 
@@ -93,8 +89,7 @@ The motivation is that
 
 * $diag(\bold{J}^T \bold{J})$ reflects the squares of each dimension of freedom's derivatives such as 
 $$
-diag(\bold{J}^T \bold{J})
-=
+diag(\bold{J}^T \bold{J})=
 \begin{bmatrix}
       J_1^2 & 0 & ... & 0 \\
       0 & J_2^2 & ... & 0 \\

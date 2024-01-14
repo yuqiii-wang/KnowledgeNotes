@@ -76,8 +76,7 @@ $$
 Given observations $\bold{x}=[x_1, x_2, ..., x_n]$ in the sample space $X$, the expected value of score is
 $$
 \begin{align*}
-E(s|\theta)
-&=
+E(s|\theta)&=
 \int_X \frac{\partial \space log L(\theta;x)}{\partial \theta} f(x;\theta) dx
 \\ &=
 \int_X \frac{\partial \space f(x; \theta)}{\partial \theta} \frac{1}{f(x;\theta)} f(x;\theta) dx
@@ -114,8 +113,7 @@ Let $f(X;\theta)$ be the probability density function for $\bold{x} \in X$ condi
 Fisher information $\bold{I}(\theta)$ is defined to be the variance of score:
 $$
 \begin{align*}
-\bold{I}(\theta)
-&=
+\bold{I}(\theta)&=
 E\bigg[
     \bigg(
         \frac{\partial \space log L(\bold{x};\theta)}{\partial \theta}  
@@ -133,8 +131,7 @@ For $\bold{I}(\theta)$ being twice differentiable with repssect to $\theta$, $\b
 
 $$
 \begin{align*}
-\bold{I}(\theta)
-&=
+\bold{I}(\theta)&=
 -E\bigg[
         \frac{\partial^2 \space log L(\bold{x};\theta)}{\partial \theta^2}  
     \bigg| \theta

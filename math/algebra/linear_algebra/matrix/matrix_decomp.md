@@ -12,8 +12,7 @@ $$
       a_{1,1} & a_{1,2} & a_{1,3} \\
       a_{2,1} & a_{2,2} & a_{2,3} \\
       a_{3,1} & a_{3,2} & a_{3,3}
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
       l_{1,1} & 0 & 0 \\
       l_{2,1} & l_{2,2} & 0 \\
@@ -157,12 +156,10 @@ Define $\lambda^2 = \alpha-\bold{a}^\text{T} \~{A}^{-1} \bold{a}$, and $L_3:=\be
 $$
 \begin{align*}
 &&
-(L_2^{-1}L_1^{-1}) A (L_1^{-\text{T}}L_2^{-\text{T}}) 
-&=
+(L_2^{-1}L_1^{-1}) A (L_1^{-\text{T}}L_2^{-\text{T}}) &=
 L_3 L_3^\text{T} 
 \\ \Rightarrow && 
-A
-&=
+A&=
 \underbrace{L_1 L_2 L_3}_{:= L} 
 \underbrace{L_3^\text{T} L_2^\text{T} L_1^\text{T}}_{:= L^\text{T}}
 \\ && &=
@@ -268,8 +265,7 @@ Define a square matrix $A=[\bold{a}_1, \bold{a}_2, ...,\bold{a}_n]$, where $\bol
 
 Denote a projection operator from vector $\bold{a}$ onto $\bold{u}$:
 $$
-proj_{\bold{u}}(\bold{a})
-=
+proj_{\bold{u}}(\bold{a})=
 \frac{\langle \bold{u},\bold{a} \rangle}
 {\langle \bold{u},\bold{u} \rangle}\bold{u}
 $$
@@ -498,13 +494,11 @@ $$
 \begin{align*}
 1 - 2 
   \frac{\beta(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }
-  {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} 
-&= 0
+  {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} &= 0
 \\ 
 - 2 
   \frac{\alpha(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }
-  {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} 
-&= \pm ||\bold{a}_1||
+  {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} &= \pm ||\bold{a}_1||
 \end{align*}
 \right.
 \\ \Rightarrow & \quad
@@ -544,8 +538,7 @@ $$
 H_1 A = 
 \big[ H_1 \bold{a}_1 
 \quad
-H_1 A_1' \big]
-=
+H_1 A_1' \big]=
 \begin{bmatrix}
       * & * \\
       0 & \~{A_2}
@@ -558,8 +551,7 @@ and mark $H_2=\begin{bmatrix}      1 & 0 \\      0 & \~{H_2}\end{bmatrix}$,
 and define $\~{\bold{a}}_2 \in \mathbb{R}^{n-1}$ as the first column of $\~{A_2}$.
 Then, the second Householder transformation result is
 $$
-H_2 H_1 A
-=
+H_2 H_1 A=
 \begin{bmatrix}
       * & * & * \\
       0 & * & * \\

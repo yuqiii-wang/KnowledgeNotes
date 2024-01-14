@@ -22,16 +22,14 @@ $$
 
 Matches $\bold{x}_c$ and $\bold{x}_r$ are shown as below, and $\bold{E}$ denotes the essential matrix (fundamental matrix $\bold{F}$ is computed from $\bold{E}$ with camera pin-hole model parameters)
 $$
-\bold{x}_c
-=
+\bold{x}_c=
 \begin{bmatrix}
     u \\
     v \\
     1
 \end{bmatrix}
 , \quad
-\bold{x}_r
-=
+\bold{x}_r=
 \begin{bmatrix}
     u' \\
     v' \\
@@ -73,8 +71,7 @@ $$
     e_7 \\
     e_8 \\
     e_9 \\
-\end{bmatrix}
-=0
+\end{bmatrix}=0
 $$
 
 ### To Compute $H$
@@ -82,8 +79,7 @@ $$
 Similarly, to compute $\bold{H}_{cr}$, there are
 $$
 \begin{align*}
-\bold{h}
-&=
+\bold{h}&=
 (h_{1}, h_{2}, h_{3}, h_{4}, h_{5}, h_{6}, h_{7}, h_{8}, h_{9})^\text{T}
 \\
 \bold{a}_x &=

@@ -40,8 +40,7 @@ Define images at consecutive timestamps as $\bold{I}(t)$. For a pixel at $(x,y)$
 * Constant gray scale assumption: 
 The pixel’s gray scale is constant in each image.
 $$
-\bold{I}(x+ dx, y+ dy, t+ dt)
-=
+\bold{I}(x+ dx, y+ dy, t+ dt)=
 \bold{I}(x,y,t)
 $$
 
@@ -63,16 +62,14 @@ $$
 &
 \frac{\partial \bold{I}}{\partial x} dx
 +\frac{\partial \bold{I}}{\partial y} dy
-+\frac{\partial \bold{I}}{\partial t} dt
-=0
++\frac{\partial \bold{I}}{\partial t} dt=0
 \\ \text{divide by } dt
 \Rightarrow \quad &
 \frac{\partial \bold{I}}{\partial x} 
 \frac{dx}{dt}
 +
 \frac{\partial \bold{I}}{\partial y} 
-\frac{dy}{dt}
-=
+\frac{dy}{dt}=
 -\frac{\partial \bold{I}}{\partial t}
 \end{align*}
 $$
@@ -88,8 +85,7 @@ $$
 \begin{bmatrix}
     u \\
     v
-\end{bmatrix}
-=
+\end{bmatrix}=
 -\bold{I}_t
 $$
 
@@ -127,8 +123,7 @@ $$
 \bold{A} \begin{bmatrix}
     u \\
     v
-\end{bmatrix}
-=
+\end{bmatrix}=
 \bold{b}
 $$
 whose result is
@@ -136,8 +131,7 @@ $$
 \begin{bmatrix}
     u \\
     v
-\end{bmatrix}^*
-=
+\end{bmatrix}^*=
 -(\bold{A}^\text{T}\bold{A})^{-1} \bold{A}^\text{T} \bold{b}
 $$
 
@@ -172,8 +166,7 @@ $$
     x \\
     y \\
     1
-\end{bmatrix}_1
-=
+\end{bmatrix}_1=
 \frac{1}{Z_1} \bold{K} \bold{P}
 \\
 \bold{p}_2 &=
@@ -181,8 +174,7 @@ $$
     x \\
     y \\
     1
-\end{bmatrix}_2
-=
+\end{bmatrix}_2=
 \frac{1}{Z_2} \bold{K} (\bold{R}\bold{P}+\bold{t})
 \end{align*}
 $$
@@ -196,8 +188,7 @@ The $\mathcal{L}_2$-norm error to be minimized can be defined as below $\forall 
 $$
 \begin{align*}
 arg \space \underset{[\bold{R}|\bold{t}]}{min} \space
-\bold{J}([\bold{R}|\bold{t}]) 
-&= 
+\bold{J}([\bold{R}|\bold{t}]) &= 
 ||\bold{e}||^2
 \\ & =
 \sum^n_{i=1} e_i^\text{T} e_i

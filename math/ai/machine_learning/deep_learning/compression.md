@@ -183,8 +183,7 @@ The expectation is applied with weights by $Q_{\theta_s}(\bold{w} | \bold{x})$ i
 
 $$
 \begin{align*}
-\theta_s^* &= \argmin_{\theta_s} Q_{\theta_s}(\bold{w} | \bold{x}) \log \frac{Q_{\theta_s}(\bold{w} | \bold{x})}{P_{\theta_t}(\bold{w} | \bold{x})} \\
-&= \argmin_{\theta_s} \mathbb{E}_{\bold{w} \sim Q} \log \frac{Q_{\theta_s}(\bold{w} | \bold{x})}{P_{\theta_t}(\bold{w} | \bold{x})} \\
+\theta_s^* &= \argmin_{\theta_s} Q_{\theta_s}(\bold{w} | \bold{x}) \log \frac{Q_{\theta_s}(\bold{w} | \bold{x})}{P_{\theta_t}(\bold{w} | \bold{x})} \\&= \argmin_{\theta_s} \mathbb{E}_{\bold{w} \sim Q} \log \frac{Q_{\theta_s}(\bold{w} | \bold{x})}{P_{\theta_t}(\bold{w} | \bold{x})} \\
 \end{align*}
 $$
 

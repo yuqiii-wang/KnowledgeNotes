@@ -83,8 +83,7 @@ Set $\theta$ as the parameters that influence policy $\pi$, together denoted as 
 The reward function to be maximized is defined as
 
 $$
-\mathcal{J}(\theta) = \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s)
-= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi_{\theta}(a|s)
+\mathcal{J}(\theta) = \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s)= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi_{\theta}(a|s)
 $$
 
 where $d_{\pi_{\theta}}(s) = \lim_{t \rightarrow \infty} \big(P(S_t=s | S_0, \pi_{\theta}) \big)^t$ is state stationary probability distribution.
@@ -125,10 +124,8 @@ The result is shown as bellow.
 $$
 \begin{align*}
 \nabla_{\theta}\mathcal{J}(\theta) &=
-\nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s) \\
-&= \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi(a|s) \\
-&\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \nabla_{\theta} \pi(a|s) \\
-&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
+\nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s) \\&= \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi(a|s) \\
+&\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \nabla_{\theta} \pi(a|s) \\&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
 \end{align*}
 $$
 
@@ -154,18 +151,12 @@ The gradient $\nabla_{\theta} \mathcal{J}(\theta)$ can be approximated by the be
 $$
 \begin{align*}
 \nabla_{\theta} \mathcal{J}(\theta) &=
-  \nabla_{\theta} V_{\pi_\theta} (s_0) \\
-&= \sum_{s_x \in S} \eta(s) \phi(s_x) \\
-&= \Big( \sum_{s \in S} \eta(s) \Big) \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) 
+  \nabla_{\theta} V_{\pi_\theta} (s_0) \\&= \sum_{s_x \in S} \eta(s) \phi(s_x) \\&= \Big( \sum_{s \in S} \eta(s) \Big) \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) 
 && \sum_{s \in S} \eta(s) \text{ is a constant} \\
-&\propto \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) \\
-&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} \nabla_{\theta} \Big(\pi_{\theta}(a|s) Q_{\pi_\theta}(s,a) \Big)
+&\propto \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) \\&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} \nabla_{\theta} \Big(\pi_{\theta}(a|s) Q_{\pi_\theta}(s,a) \Big)
 && d_{\pi_{\theta}}(s)=\frac{\eta(s)}{\sum_{s \in S} \eta(s)} \text{ is a stationary distribution} \\
-&\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \nabla_{\theta} \Big(\pi_{\theta}(a|s) \Big) \\
-&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \pi_{\theta}(a|s) \frac{\nabla_{\theta} \pi_{\theta}(a|s)}{ \pi_{\theta}(a|s)}
-&& \text{ by } \frac{dx}{x}=\frac{d(\ln x)}{dx}dx= d(\ln x)  \\
-&= \underbrace{\sum_{s \in S} d_{\pi_{\theta}}(s)}_{s \sim d_{\pi_{\theta}}} \quad \underbrace{\sum_{a \in A} \pi_{\theta}(a|s)}_{a \sim \pi_{\theta}} Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \\
-&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
+&\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \nabla_{\theta} \Big(\pi_{\theta}(a|s) \Big) \\&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \pi_{\theta}(a|s) \frac{\nabla_{\theta} \pi_{\theta}(a|s)}{ \pi_{\theta}(a|s)}
+&& \text{ by } \frac{dx}{x}=\frac{d(\ln x)}{dx}dx= d(\ln x)  \\&= \underbrace{\sum_{s \in S} d_{\pi_{\theta}}(s)}_{s \sim d_{\pi_{\theta}}} \quad \underbrace{\sum_{a \in A} \pi_{\theta}(a|s)}_{a \sim \pi_{\theta}} Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \\&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
 \end{align*}
 $$
 
@@ -173,9 +164,7 @@ Recall that $Q_{\pi_\theta}(s,a)$ is the expectation of the discounted return $G
 
 $$
 \begin{align*}
-\nabla_{\theta} \mathcal{J}(\theta)
-&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big) \\
-&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t|S_t) \big) \Big) 
+\nabla_{\theta} \mathcal{J}(\theta)&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big) \\&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t|S_t) \big) \Big) 
 \end{align*}
 $$
 

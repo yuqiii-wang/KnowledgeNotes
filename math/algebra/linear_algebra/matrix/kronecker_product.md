@@ -22,8 +22,7 @@ $$
 \begin{bmatrix}
     0 & 5 \\
     6 & 7
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \begin{bmatrix}
     1 \begin{bmatrix}
         0 & 5 \\

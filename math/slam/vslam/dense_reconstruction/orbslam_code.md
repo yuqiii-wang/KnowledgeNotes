@@ -2352,8 +2352,7 @@ Here $s$ is a scale factor to rotation matrix $R( \bold{r}_{l,i})$ that has $\bi
 The residual of the least squared problem to find the optimal $\bold{t}^*$ is defined as below.
 $$
 \begin{align*}
-\bold{t}^* = \argmin_{\bold{t}} \bold{e}_i 
-&= 
+\bold{t}^* = \argmin_{\bold{t}} \bold{e}_i &= 
 \bold{r}_{r,i} - \hat{\bold{r}}_{r,i} 
 \\ &= 
 \bold{r}_{r,i} - s R( \bold{r}_{l,i}) - \bold{t}    
@@ -2393,8 +2392,7 @@ $$
 So that the least squared problem becomes finding the optimal $\bold{t}'$
 $$
 \begin{align*}
-\min_{\bold{t}'} \sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 
-&= 
+\min_{\bold{t}'} \sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &= 
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') - \bold{t}' \big|\big|^2
 \\ &=
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
@@ -2416,8 +2414,7 @@ $$
 
 Having said $\bold{t}' = \bold{0}$, the error can be expressed as
 $$
-\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 
-=
+\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 =
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
 $$
 
@@ -2428,8 +2425,7 @@ Expand the error term
 $$
 \begin{align*}
 &&
-\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 
-&=
+\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &=
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
 \\ && &=
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' \big|\big|^2 
@@ -2452,15 +2448,13 @@ $$
 
 The above quadratic term can have the optimal $s^*=\frac{D}{S_l}$ (derived by $\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2=0$ ):
 $$
-s^*=\frac{D}{S_l}
-=\frac{\sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)}
+s^*=\frac{D}{S_l}=\frac{\sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)}
 {\sum_{i=1}^n \big|\big| R( \bold{r}_{l,i}') \big|\big|^2}
 $$ 
 
 Now, consider the inverse transform from the right coordinate system to the left one:
 $$
-s^{-1}=\frac{D^{-1}}{S_l}
-=\frac{\sum_{i=1}^n \Big( \bold{r}_{l,i}' \cdot R( \bold{r}_{r,i}')  \Big)}
+s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \bold{r}_{l,i}' \cdot R( \bold{r}_{r,i}')  \Big)}
 {\sum_{i=1}^n \big|\big| R( \bold{r}_{r,i}') \big|\big|^2}
 \ne \frac{1}{s} \text{ likely for the most of the time}
 $$
@@ -2478,8 +2472,7 @@ $$
 The least squared problem becomes
 $$
 \begin{align*}
-\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 
-&=
+\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
 \\ &= 
 \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}
@@ -2516,9 +2509,7 @@ Here $\mathring{\bold{q}}^{\dagger}$ is the normalization term.
 
 Then, 
 $$
-M
-= \sum_{i=1}^{n} \bold{r}'_{l,i} \bold{r'}_{l,i}^{\top}
-= \begin{bmatrix}
+M= \sum_{i=1}^{n} \bold{r}'_{l,i} \bold{r'}_{l,i}^{\top}= \begin{bmatrix}
     S_{xx} & S_{xy} & S_{xz} \\
     S_{yx} & S_{yy} & S_{yz} \\
     S_{zx} & S_{zy} & S_{zz} \\
@@ -2539,8 +2530,7 @@ $$
     y'_{l,i} & -z'_{l,i} & 0 & x'_{l,i} \\
     z'_{l,i} & y'_{l,i} & -x'_{l,i} & 0 \\
 \end{bmatrix}
-\mathring{\bold{q}}
-=\overline{\mathcal{R}}_{l,i} \mathring{\bold{q}}
+\mathring{\bold{q}}=\overline{\mathcal{R}}_{l,i} \mathring{\bold{q}}
 $$
 
 Similarly, there is $\mathring{\bold{r}}_{r,i}' \mathring{\bold{q}} = \mathcal{R}_{r,i} \mathring{\bold{q}}$.
@@ -3751,16 +3741,14 @@ $$
 \begin{bmatrix}
     \Delta \bold{x}_{\bold{\xi}} \\
     \Delta \bold{x}_{\bold{p}}
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \begin{bmatrix}
     \bold{v} \\
     \bold{w}
 \end{bmatrix}
 \\ \Rightarrow &&
 (\bold{B}-\bold{E}\bold{C}^{-1}\bold{E}^\text{T})
-\Delta \bold{x}_{\bold{\xi}}
-&=
+\Delta \bold{x}_{\bold{\xi}}&=
 \bold{v} - \bold{E}\bold{C}^{-1} \bold{w}
 \end{align*}
 $$
@@ -3936,8 +3924,7 @@ Define a trivial perturbation as $\delta\bold{\xi}$, set $\bold{p}=[X \quad Y \q
 
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}
-&=
+\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
 \underset{\Delta\bold{\xi} \rightarrow 0}{\lim}
 \frac{\bold{e}(\delta\bold{\xi} \oplus \bold{\xi})-\bold{e}(\bold{\xi})}{\Delta\bold{\xi}}
 \\ &=
@@ -3948,8 +3935,7 @@ $$
 where
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{p}}
-&=
+\frac{\partial \bold{e}}{\partial \bold{p}}&=
 - \begin{bmatrix}
     \frac{\partial u}{\partial X} &
     \frac{\partial u}{\partial Y} &
@@ -3979,8 +3965,7 @@ $$
 and, this term $\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
 $$
 \begin{align*}
-\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}
-&=
+\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}&=
 \frac{\partial \bold{\xi} \bold{p}}{\partial \Delta\bold{\xi}}
 \\ &=
 \begin{bmatrix}
@@ -3992,8 +3977,7 @@ $$
 where 
 $$
 \begin{align*}
-\bold{p}^{\wedge}
-&=
+\bold{p}^{\wedge}&=
 \begin{bmatrix}
     0 & Z & Y \\
     -Z & 0 & -X \\
@@ -4005,8 +3989,7 @@ $$
 Combined, and removed $\bold{0}$ from $\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}$, there is
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}
-&=
+\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
 \frac{\partial \bold{e}}{\partial \bold{p}}
 \frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}
 \\ &=
@@ -4320,8 +4303,7 @@ y_p &= \frac{f_y}{Z} y_w +c_y
 \bold{r}_2 &= R_2^{\top} \bold{x}_2
 \\ \text{Parallax angle} \Rightarrow &&
 \cos\angle{\theta_{12}} &=
-\frac{\bold{r}_1 \cdot \bold{r}_2}{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big|}
-= \frac{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big| \cos\angle{\theta_{12}}}{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big|}
+\frac{\bold{r}_1 \cdot \bold{r}_2}{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big|}= \frac{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big| \cos\angle{\theta_{12}}}{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big|}
 \end{align*}
 $$
 
@@ -4336,8 +4318,7 @@ s \underbrace{\begin{bmatrix}
     u \\
     v \\
     1
-\end{bmatrix}}_{\bold{x}}
-=
+\end{bmatrix}}_{\bold{x}}=
 \underbrace{
 \begin{bmatrix}
     f_x & 0 & c_x \\
@@ -4389,8 +4370,7 @@ $$
     v'\bold{p'}_3^\top - \bold{p'}_1^\top \\
     \bold{p'}_1^\top - u'\bold{p'}_3^\top
 \end{bmatrix}}_{A}
-\bold{X}
-=
+\bold{X}=
 \begin{bmatrix}
     0 \\
     0 \\

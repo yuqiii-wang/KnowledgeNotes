@@ -41,8 +41,7 @@ $$
 Expand the harmonic $A_n \cdot cos(\frac{2\pi}{P} n \omega_0 - \varphi_n)$, there is
 $$
 \begin{align*}
-A_n \cdot cos(\frac{2\pi}{P} n \omega_0 - \varphi_n)
-&=
+A_n \cdot cos(\frac{2\pi}{P} n \omega_0 - \varphi_n)&=
 \frac{A_n}{2} e^{i(\frac{2\pi n \omega_0}{P}-\varphi_n)} +
 \frac{A_n}{2} e^{-i(\frac{2\pi n \omega_0}{P}-\varphi_n)}
 \\ &=
@@ -84,8 +83,7 @@ $$
 
 $$
 STFT\{x(t)\}(\tau,\omega)
-\equiv X(\tau, \omega)
-=
+\equiv X(\tau, \omega)=
 \int^{+\infty}_{-\infty}
 x(t) w(t-\tau) e^{-i n\omega_0 t} dt
 $$
@@ -207,8 +205,7 @@ Very intuitive, Haar     wavelet $\psi_{s,\tau}$'s daughter wavelets are pairwis
 
 $$
 \int_{\mathbb{R}} 
-\psi_{s_1,\tau_1}(t) \psi_{s_2,\tau_2}(t) dt
-=
+\psi_{s_1,\tau_1}(t) \psi_{s_2,\tau_2}(t) dt=
 \delta_{s_1,\tau_1} \delta_{s_2,\tau_2}
 $$
 where $\delta_{i,j}$ is *Kronecker delta* that

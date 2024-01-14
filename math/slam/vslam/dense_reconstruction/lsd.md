@@ -123,8 +123,7 @@ LSD's proposed normalized-variance that takes into account varying noise on the 
 Starting from an existing keyframe $K_i=(I_i, D_i, V_i)$, 
 the relative 3D pose $\bold{\xi}_{ij} \in se(3)$ of a new image $I_j$ is computed by minimizing the variance-Huber-normalized photometric error:
 $$
-\min_{\bold{\xi} \in se(3)} E_\bold{p}(\bold{\xi_{ij}})
-= 
+\min_{\bold{\xi} \in se(3)} E_\bold{p}(\bold{\xi_{ij}})= 
 \sum_{\bold{p} \in \Omega_{D_i}}
 \bigg|\bigg|
     \frac{r_p^2 (\bold{p}, \bold{\xi}_{ij})}{\sigma_{r_p (\bold{p}, \bold{\xi}_{ij})}^2}

@@ -102,8 +102,7 @@ $$
     \bold{p}_1^\top \bold{X} \\
     \bold{p}_2^\top \bold{X} \\
     \bold{p}_3^\top \bold{X} \\
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \begin{bmatrix}
     v\bold{p}_3^\top \bold{X} - \bold{p}_1^\top \bold{X} \\
     \bold{p}_1^\top \bold{X} - u\bold{p}_3^\top \bold{X}  \\

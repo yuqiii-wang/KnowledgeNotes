@@ -10,15 +10,13 @@ It has only $O(n)$ for $n$-dimensional space, much faster than steepest descent.
 
 Given an objective function ($A$ being positive definite, $f(\bold{x})$ must have at least first-order derivative):
 $$
-f(\bold{x})
-=
+f(\bold{x})=
 \frac{1}{2} \bold{x}^T A \bold{x} + \bold{b}^T \bold{x} + \bold{c}
 $$
 
 The first-order derivative is
 $$
-\frac{\partial f(\bold{x})}{\partial \bold{x}}
-=
+\frac{\partial f(\bold{x})}{\partial \bold{x}}=
 A \bold{x} + \bold{b}
 $$
 
@@ -38,8 +36,7 @@ $$
 Multiplying by $\bold{p}_k^\text{T}$ yields
 $$
 \begin{align*}
-\bold{p}_k^\text{T} \bold{b}
-&=
+\bold{p}_k^\text{T} \bold{b}&=
 \bold{p}_k^\text{T} A \bold{x}^*
 \\ &=
 \sum_{i=1}^{n} \lambda_i \bold{p}_k^\text{T} A \bold{p}_i

@@ -77,8 +77,7 @@ $$
 The Jacobian over $\bold{\theta}$ is
 $$
 \begin{align*}
-J'(\bold{\theta}) = \frac{\partial J}{\partial \bold{\theta}}
-&=
+J'(\bold{\theta}) = \frac{\partial J}{\partial \bold{\theta}}&=
 \frac{\partial \space \frac{1}{2} (\bold{\theta}-\mu_{\bold{\theta}})^\top \Sigma_\bold{\theta}^{-1} (\bold{\theta}-\mu_{\bold{\theta}})}{\partial \bold{\theta}}
 \\ &=
 \frac{1}{2} (\bold{\theta}-\mu_{\bold{\theta}})^\top
@@ -96,8 +95,7 @@ the $(l, l')$ component of the Hessian matrix can be obtained:
 $$
 H^{(l, l')}(\bold{\theta}) =
 \frac{\partial^2 J(\bold{\theta})}{\partial \theta_l \space \partial \theta_{l'}}
-\bigg|_{\bold{\theta}=\mu_{\bold{\theta}}}
-=
+\bigg|_{\bold{\theta}=\mu_{\bold{\theta}}}=
 (\Sigma_{\bold{\theta}}^{-1})^{(l,l')}
 $$
 

@@ -1048,8 +1048,7 @@ $$
 \begin{bmatrix}
     \Delta \bold{x}_{{\bold{x}_m }} \\
     \Delta \bold{x}_{{\bold{x}_m } \notin \bold{x}}
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     \bold{b}_{mm} \\
     \bold{b}_{rr}
@@ -1059,8 +1058,7 @@ $$
 The expression (by Schur trick) for $\Delta \bold{x}_{{\bold{x}_1 } \notin \bold{x}}$ should be as below, rewrite the coefficients to $A$ and bias to $\bold{b}$
 $$
 \underbrace{(A_{rr}- A_{rm}A_{mm}^{-1}A_{mr})}_{A}
-\Delta \bold{x}_{{\bold{x}_m } \notin \bold{x}}
-=
+\Delta \bold{x}_{{\bold{x}_m } \notin \bold{x}}=
 \underbrace{\bold{b}_{rr} - A_{rm}A_{mm}^{-1} \bold{b}_{mm}
 }_{\bold{b}}
 $$

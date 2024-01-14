@@ -224,8 +224,7 @@ M_{1,2} = -
       g & i
     \end{array}
 \end{array}
-\bigg |
-= -(di-fg)
+\bigg |= -(di-fg)
 $$
 
 Co-matirx $C$:

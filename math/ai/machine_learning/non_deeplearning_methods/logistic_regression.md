@@ -30,8 +30,7 @@ f(y_i; \pi_i) &=
 e^{y_i \log(\frac{\pi_i}{1-\pi_i}) + \log(1-\pi_i)}
 \\ &=
 e^{y_i\theta_i+b(\theta_i)}
-\\ \log f(y_i; \pi_i)
-&= y_i\theta_i+b(\theta_i)
+\\ \log f(y_i; \pi_i)&= y_i\theta_i+b(\theta_i)
 \end{align*}
 $$
 
@@ -51,8 +50,7 @@ This is useful such as in activation function in deep learning that it outputs m
 The first order derivative $\mu_i = b'(\theta_i)$ is same as Bernoulli mean $\pi_i$.
 $$
 \mu_i = b'(\theta_i) = 
-\frac{\exp(\theta_i)}{\exp(\theta_i)+1}
-= \pi_i
+\frac{\exp(\theta_i)}{\exp(\theta_i)+1}= \pi_i
 $$
 
 ## Function Form
@@ -64,7 +62,6 @@ $$
 
 $$
 p(x) = 
-\frac{\exp(\theta_i)}{\exp(\theta_i)+1}
-=
+\frac{\exp(\theta_i)}{\exp(\theta_i)+1}=
 \frac{1}{1+e^{-\frac{x-\mu}{s}}}
 $$

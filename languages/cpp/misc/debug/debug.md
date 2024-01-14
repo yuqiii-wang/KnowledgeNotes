@@ -222,22 +222,7 @@ int main() {
 ```
 
 Valgrind should give the below report
-```bash
-==438518== 
-==438518== HEAP SUMMARY:
-==438518==     in use at exit: 40 bytes in 1 blocks
-==438518==   total heap usage: 3 allocs, 2 frees, 73,768 bytes allocated
-==438518== 
-==438518== LEAK SUMMARY:
-==438518==    definitely lost: 40 bytes in 1 blocks
-==438518==    indirectly lost: 0 bytes in 0 blocks
-==438518==      possibly lost: 0 bytes in 0 blocks
-==438518==    still reachable: 0 bytes in 0 blocks
-==438518==         suppressed: 0 bytes in 0 blocks
-==438518== Rerun with --leak-check=full to see details of leaked memory
-==438518== 
-==438518== For lists of detected and suppressed errors, rerun with: -s
-==438518== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+```bash==438518== ==438518== HEAP SUMMARY:==438518==     in use at exit: 40 bytes in 1 blocks==438518==   total heap usage: 3 allocs, 2 frees, 73,768 bytes allocated==438518== ==438518== LEAK SUMMARY:==438518==    definitely lost: 40 bytes in 1 blocks==438518==    indirectly lost: 0 bytes in 0 blocks==438518==      possibly lost: 0 bytes in 0 blocks==438518==    still reachable: 0 bytes in 0 blocks==438518==         suppressed: 0 bytes in 0 blocks==438518== Rerun with --leak-check=full to see details of leaked memory==438518== ==438518== For lists of detected and suppressed errors, rerun with: -s==438518== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
 
 ### Find Memory Leak Location
@@ -259,27 +244,7 @@ valgrind --tool=memcheck \
          ./<program>
 ```
 that should give the below report, where memory leak location is identified.
-```bash
-==442705== 
-==442705== HEAP SUMMARY:
-==442705==     in use at exit: 40 bytes in 1 blocks
-==442705==   total heap usage: 3 allocs, 2 frees, 73,768 bytes allocated
-==442705== 
-==442705== Searching for pointers to 1 not-freed blocks
-==442705== Checked 113,496 bytes
-==442705== 
-==442705== 40 bytes in 1 blocks are definitely lost in loss record 1 of 1
-==442705==    at 0x4A3AAAF: operator new[](unsigned long) (vg_replace_malloc.c:652)
-==442705==    by 0x1091D1: main (mem_leak_test_simple.cpp:5)
-==442705== 
-==442705== LEAK SUMMARY:
-==442705==    definitely lost: 40 bytes in 1 blocks
-==442705==    indirectly lost: 0 bytes in 0 blocks
-==442705==      possibly lost: 0 bytes in 0 blocks
-==442705==    still reachable: 0 bytes in 0 blocks
-==442705==         suppressed: 0 bytes in 0 blocks
-==442705== 
-==442705== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+```bash==442705== ==442705== HEAP SUMMARY:==442705==     in use at exit: 40 bytes in 1 blocks==442705==   total heap usage: 3 allocs, 2 frees, 73,768 bytes allocated==442705== ==442705== Searching for pointers to 1 not-freed blocks==442705== Checked 113,496 bytes==442705== ==442705== 40 bytes in 1 blocks are definitely lost in loss record 1 of 1==442705==    at 0x4A3AAAF: operator new[](unsigned long) (vg_replace_malloc.c:652)==442705==    by 0x1091D1: main (mem_leak_test_simple.cpp:5)==442705== ==442705== LEAK SUMMARY:==442705==    definitely lost: 40 bytes in 1 blocks==442705==    indirectly lost: 0 bytes in 0 blocks==442705==      possibly lost: 0 bytes in 0 blocks==442705==    still reachable: 0 bytes in 0 blocks==442705==         suppressed: 0 bytes in 0 blocks==442705== ==442705== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
 
 ## Address Sanitizer

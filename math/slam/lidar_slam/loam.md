@@ -102,8 +102,7 @@ Let $T^L_{k+1} = [t_x, t_y, t_z, \theta_x, \theta_y, \theta_z]^T$ be the lidar p
 
 For a point $i, i \in P_{k+1}$ that is received by lidar sensor machine by a fixed interval between neighbour points, there exists a linear mapping relationship for this point $i, i \in P_{k+1}$:
 $$
-T^L_{(k+1, i)}
-=
+T^L_{(k+1, i)}=
 \frac{t_i-t_{k+1}}{t-t_{k+1}}T^L_{k+1}
 $$
 

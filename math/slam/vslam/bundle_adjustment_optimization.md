@@ -74,8 +74,7 @@ Recall that in Schur elimination, the camera pose computation gives the below ex
 
 $$
 (\bold{B}-\bold{E}\bold{C}^{-1}\bold{E}^\text{T})
-\Delta \bold{x}_{\bold{\xi}}
-=
+\Delta \bold{x}_{\bold{\xi}}=
 \bold{v} - \bold{E}\bold{C}^{-1} \bold{w}
 $$
 
@@ -143,8 +142,7 @@ $$
 \begin{bmatrix}
     \Delta \bold{x}_{\bold{\xi}} \\
     \Delta \bold{x}_{\bold{p}}
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     \bold{v} \\
     \bold{w}
@@ -168,8 +166,7 @@ $$
 \begin{bmatrix}
     \Delta \bold{x}_{{\bold{x}_1 }} \\
     \Delta \bold{x}_{{\bold{x}_1 } \notin \bold{x}}
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     \bold{v}'_{{\bold{x}_1 }} \\
     \bold{v}'_{{\bold{x}_1 } \notin \bold{x}}
@@ -179,8 +176,7 @@ $$
 The coefficients for $\Delta \bold{x}_{{\bold{x}_1 } \notin \bold{x}}$ should be
 $$
 (\bold{C}'-\bold{E}'^\text{T}\bold{B}'^{-1}\bold{E}')
-\Delta \bold{x}_{{\bold{x}_1 } \notin \bold{x}}
-=
+\Delta \bold{x}_{{\bold{x}_1 } \notin \bold{x}}=
 \bold{v}'_{{\bold{x}_1 } \notin \bold{x}} - \bold{E}'^\text{T}\bold{B}'^{-1} \bold{v}'_{\bold{x}_1 }
 $$
 
@@ -196,8 +192,7 @@ $$
 \begin{bmatrix}
     \Delta \bold{x}_{\bold{\xi}_{\bold{x}_1 \notin \bold{x}}} \\
     \Delta \bold{x}_{\bold{p}_{\bold{x}_1 \notin \bold{x}}}
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     \bold{v}_{\bold{x}_1 \notin \bold{x}} \\
     \bold{w}_{\bold{x}_1 \notin \bold{x}}
@@ -220,8 +215,7 @@ Define a camera pose $[\bold{R}|\bold{t}]_i$, for $j \ne i$, define another pose
 
 $$
 \Delta \bold{\xi}_{ij} = 
-\bold{\xi}_{i}^{-1} \circ \bold{\xi}_{j}
-=
+\bold{\xi}_{i}^{-1} \circ \bold{\xi}_{j}=
 ln([\bold{R}|\bold{t}]_{i}^{-1} [\bold{R}|\bold{t}]_{j})^\vee
 $$
 

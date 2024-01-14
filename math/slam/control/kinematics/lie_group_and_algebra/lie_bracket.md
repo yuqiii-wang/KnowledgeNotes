@@ -42,8 +42,7 @@ $\bold{f}(x):R^n \rightarrow R^n$ and $\bold{g}(x):R^n \rightarrow R^n$. The Lie
 
 Formally, Lie Bracket in vector fields can be generalized with the below form
 $$
-[\bold{f},\bold{g}] = \nabla \bold{g} \bold{f} - \nabla \bold{f} \bold{g}
-=
+[\bold{f},\bold{g}] = \nabla \bold{g} \bold{f} - \nabla \bold{f} \bold{g}=
 \frac{\partial \bold{g}}{\partial \bold{x}}\bold{f} - \frac{\partial \bold{f}}{\partial \bold{x}}\bold{g}
 $$
 
@@ -180,8 +179,7 @@ $$
 Since $\nabla \bold{v} \bold{u}=\bold{e}_y$, $\nabla \bold{u} \bold{v}=\bold{0}$, there is Lie bracket
 $$
 \begin{align*}
-[\bold{u}, \bold{v}] 
-&= \nabla \bold{v} \bold{u} - \nabla \bold{u} \bold{v}
+[\bold{u}, \bold{v}] &= \nabla \bold{v} \bold{u} - \nabla \bold{u} \bold{v}
 \\ &=
 \bold{e}_y
 \end{align*}
@@ -216,8 +214,7 @@ Taking derivative on $\mathcal{E}=0$ means obtaining derivative precisely on the
 $$
 \begin{align*}
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
-(T e^{\mathcal{E}\tau} T^{-1}) 
-&= 
+(T e^{\mathcal{E}\tau} T^{-1}) &= 
 T \tau e^{0 \cdot \tau}T^{-1}
 \\ &=
 T \tau  T^{-1}
@@ -230,8 +227,7 @@ Then, in this derivative expression $T \tau_1  T^{-1}$, replace $T$ with $e^{\ma
 $$
 \begin{align*}
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
-(e^{\mathcal{E}\tau_2} \tau_1 e^{-\mathcal{E}\tau_2}) 
-&= 
+(e^{\mathcal{E}\tau_2} \tau_1 e^{-\mathcal{E}\tau_2}) &= 
 e^{0 \cdot \tau_2} \tau_1 e^{-0 \cdot \tau_2} 
 \\ &=
 \tau_2 \tau_1 - \tau_1 \tau_2
@@ -246,8 +242,7 @@ By taking the derivatives of the two terms,
 $$
 \begin{align*}
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
-e^{\mathcal{E}\tau_3}[\tau_2, \tau_1]e^{-\mathcal{E}\tau_3}
-&=
+e^{\mathcal{E}\tau_3}[\tau_2, \tau_1]e^{-\mathcal{E}\tau_3}&=
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
 e^{\mathcal{E}\tau_3} (\tau_2 \tau_1 - \tau_1 \tau_2
 ) e^{-\mathcal{E}\tau_3}
@@ -261,8 +256,7 @@ e^{\mathcal{E}\tau_3} (\tau_1 \tau_2) e^{-\mathcal{E}\tau_3}
 \tau_3 (\tau_2 \tau_1) - (\tau_2 \tau_1) \tau_3
 \\ & \quad -
 \tau_3 (\tau_1 \tau_2) + (\tau_1 \tau_2) \tau_3
-\\ 
-&=
+\\ &=
 \tau_3 ((\tau_2 \tau_1) - (\tau_1 \tau_2))
 + ((\tau_1 \tau_2)-(\tau_2 \tau_1))\tau_3
 \\ &=
@@ -317,8 +311,7 @@ $$
 BCH is used to transform Lie Algebra exponential mapping summation $e^A e^B = e^C$ into a pure Lie Bracket computation, such that 
 $$
 \begin{align*}
-C = ln(e^A e^B)
-= A + B + \frac{1}{2}[A, B] + \frac{1}{12}[A,[A, B]] + \frac{1}{12}[B,[B, A]] + ...
+C = ln(e^A e^B)= A + B + \frac{1}{2}[A, B] + \frac{1}{12}[A,[A, B]] + \frac{1}{12}[B,[B, A]] + ...
 \end{align*}
 $$
 
@@ -380,8 +373,7 @@ $$
 
 For a 3-d matrix $\bold{\Phi}$, here uses $\wedge$ to represent a vecto of an antisymmetric matrix., there is
 $$
-\bold{\Phi} = \phi^{\wedge}
-=
+\bold{\Phi} = \phi^{\wedge}=
 \begin{bmatrix}
       0 & -\phi_3 & \phi_2 \\
       \phi_3 & 0 & -\phi_1 \\

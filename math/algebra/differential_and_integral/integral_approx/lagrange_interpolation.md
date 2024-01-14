@@ -23,8 +23,7 @@ $$
 
 $p_n(x)$ can be written as
 $$
-p_n(x)
-=
+p_n(x)=
 \sum^n_{j=0} y_i L_{n,j}(x)
 $$
 where polynomials $\{L_{n,j}\}$ for $j=0,1,2,...,n$ are called *Lagrange Polynomials* for the interpolation points $x_0, x_1, ..., x_n$
@@ -61,8 +60,7 @@ w_0 \\
 w_1 \\
 w_2 \\
 w_3 \\
-\end{bmatrix}
-&=
+\end{bmatrix}&=
 \begin{bmatrix}
 y_0 \\
 y_1 \\
@@ -117,8 +115,7 @@ $$
 By taking the sum of the above expressions
 $$
 \begin{align*}
-p_3(x)
-&=
+p_3(x)&=
 \sum^3_{j=0} y_i L_{n,j}(x)
 \\ &=
 y_0 L_{3,0}(x) + y_1 L_{3,1}(x) + y_2 L_{3,2}(x) + y_3 L_{3,3}(x)

@@ -22,18 +22,14 @@ Quaternion uses four elements to represent rotation that avoids Gimbal lock issu
 
 A rotation of angle $\theta$ in the three dimensional space given three bases $u_x\overrightarrow{i}, u_y\overrightarrow{j}, u_z\overrightarrow{k}$ are defined by the unit vector
 $$
-\overrightarrow{u}
-=(u_x, u_y, u_z)
-=u_x \overrightarrow{i} + u_y \overrightarrow{j} + u_z \overrightarrow{k}
+\overrightarrow{u}=(u_x, u_y, u_z)=u_x \overrightarrow{i} + u_y \overrightarrow{j} + u_z \overrightarrow{k}
 $$
 can be represented by a quaternion using an extension of Euler's formula:
 $$
 \begin{align*}
-\bold{q}
-&=
+\bold{q}&=
 e^{\frac{\theta}{2}(u_x \overrightarrow{i} + u_y \overrightarrow{j} + u_z \overrightarrow{k})}
-\\
-&=
+\\&=
 cos\frac{\theta}{2} + (u_x \overrightarrow{i} + u_y \overrightarrow{j} + u_z \overrightarrow{k})sin\frac{\theta}{2}
 \end{align*}
 $$
@@ -98,8 +94,7 @@ Consider a rotation $\overrightarrow{{u}}$ around $\overrightarrow{v}=\overright
 Hence
 $$
 \begin{align*}
-\overrightarrow{u}
-&=
+\overrightarrow{u}&=
 cos \frac{\theta}{2} + sin \frac{\theta}{2} \cdot \frac{\overrightarrow{v}}{||\overrightarrow{v}||}
 \\ &=
 cos\frac{\pi}{3} + sin\frac{\pi}{3} \cdot \frac{\overrightarrow{v}}{||\sqrt{3}||}
@@ -162,8 +157,7 @@ $$
 \begin{bmatrix}
     0 & -\bold{\omega}^{\top} \\
     \bold{\omega} & \bold{\omega}^{\wedge}
-\end{bmatrix}
-=\begin{bmatrix}
+\end{bmatrix}=\begin{bmatrix}
     0 & -\omega_x & -\omega_y & -\omega_z \\
     \omega_x & 0 & \omega_z & -\omega_y \\
     \omega_y & -\omega_z & 0 & -\omega_x \\
@@ -223,8 +217,7 @@ where $\wedge$ denotes the skew-symmetric matrix representation of the vector an
 
 Derivation shows as below.
 $$
-\bold{q}_a^+ \bold{q}_b
-=
+\bold{q}_a^+ \bold{q}_b=
 \begin{bmatrix}
     s_a & - \bold{v}_a^\text{T} \\
     \bold{v}_a & s_a I+\bold{v}_a^\wedge
@@ -232,22 +225,18 @@ $$
 \begin{bmatrix}
     s_b \\
     \bold{v}_b
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     -\bold{v}_a^\text{T} \bold{v}_b + s_a s_b \\
     s_b \bold{a} + s_b \bold{v}_b + \bold{v}^{\wedge}_a \bold{v}_b
-\end{bmatrix}
-=
+\end{bmatrix}=
 \bold{q}_a \bold{q}_b
 $$
 
 Similarly, there is
 $$
-\bold{q}_a \bold{q}_b
-=
-\bold{q}_a^+ \bold{q}_b
-=
+\bold{q}_a \bold{q}_b=
+\bold{q}_a^+ \bold{q}_b=
 \bold{q}_a \bold{q}_b^{\oplus}
 $$
 
@@ -266,8 +255,7 @@ Here computes $\bold{q}^+\bold{q}^{-1^\oplus}$:
 $$
 \begin{align*}
     
-\bold{q}^+\bold{q}^{-1^\oplus}
-&=
+\bold{q}^+\bold{q}^{-1^\oplus}&=
 \begin{bmatrix}
     s_a & - \bold{v}_a^\text{T} \\
     \bold{v}_a & s_a I+\bold{v}_a^\wedge
@@ -275,9 +263,7 @@ $$
 \begin{bmatrix}
     s & - \bold{v}^\text{T} \\
     \bold{v} & sI-\bold{v}^\wedge
-\end{bmatrix}
-
-\\ &=
+\end{bmatrix}\\ &=
 \begin{bmatrix}
     1 & 0 \\
     \bold{0} & \bold{v}\bold{v}^\text{T}+s^2I+ 2s\bold{v}^{\wedge}+(\bold{v}^{\wedge})^2

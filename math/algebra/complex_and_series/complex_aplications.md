@@ -39,8 +39,7 @@ where $Z_C$ is the impedance of a capacitor of capacitance $C$.
 
 hence
 $$
-Z_C = \frac{V_C}{I_C}= \frac{V_p e^{j \omega t}}{Cj \omega V_p e^{j \omega t}}
-= \frac{1}{j \omega C}
+Z_C = \frac{V_C}{I_C}= \frac{V_p e^{j \omega t}}{Cj \omega V_p e^{j \omega t}}= \frac{1}{j \omega C}
 $$
 where $V_p$ is amplitude of a sinusoidal signal $e^{j \omega t}$ over the capacitor.
 

@@ -40,8 +40,7 @@ e_1 , e_2, e_3
 a_1 \\
 a_2 \\
 a_3
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 e^{'}_1, e^{'}_2, e^{'}_3
 \end{bmatrix}
@@ -58,8 +57,7 @@ $$
 a_1 \\
 a_2 \\
 a_3
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 e^T_1 e^{'}_1 & e^T_1 e^{'}_2 & e^T_1 e^{'}_3 \\
 e^T_2 e^{'}_1 & e^T_2 e^{'}_2 & e^T_2 e^{'}_2 \\
@@ -88,8 +86,7 @@ $$
 a_1 \\
 a_2 \\
 a_3
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 e^T_1 e^{'}_1 & e^T_1 e^{'}_2 & e^T_1 e^{'}_3 \\
 e^T_2 e^{'}_1 & e^T_2 e^{'}_2 & e^T_2 e^{'}_2 \\
@@ -121,8 +118,7 @@ a_1 \\
 a_2 \\
 a_3 \\
 1
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 e^T_1 e^{'}_1 & e^T_1 e^{'}_2 & e^T_1 e^{'}_3 & t_1 \\
 e^T_2 e^{'}_1 & e^T_2 e^{'}_2 & e^T_2 e^{'}_2 & t_2 \\

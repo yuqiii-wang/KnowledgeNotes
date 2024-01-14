@@ -214,9 +214,7 @@ $$
 
 For example, given confidence level of $z=2.575$ for $99\%$ and accuracy level of $\epsilon=0.05$ (error tolerance), to attest a coin being a fair coin $p=0.5$, there is 
 $$
-n=\frac{z^2 \hat{p}(1-\hat{p})}{\epsilon^2}
-= \frac{2.575^2 \times 0.5 \times 0.5}{0.05^2}
-= 663.0625 \approx 667
+n=\frac{z^2 \hat{p}(1-\hat{p})}{\epsilon^2}= \frac{2.575^2 \times 0.5 \times 0.5}{0.05^2}= 663.0625 \approx 667
 $$
 
 A total of $667$ tests should be conducted.

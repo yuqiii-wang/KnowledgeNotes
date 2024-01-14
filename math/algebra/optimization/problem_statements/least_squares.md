@@ -13,15 +13,13 @@ $$
 
 Assemble all $r_j$ to $\bold{r}$, define a mapping $\mathbb{R}^n \rightarrow \mathbb{R}^m$ as follows
 $$
-\bold{r}(\bold{x})
-=
+\bold{r}(\bold{x})=
 (r_1(\bold{x}), r_2(\bold{x}), ..., r_m(\bold{x}))^\text{T}
 $$
 
 Rewrite $f$ to $f(\bold{x})=\frac{1}{2}||\bold{r}(\bold{x})||^2_2$, whose Jacobian is
 $$
-J(\bold{x})
-=
+J(\bold{x})=
 \big[\frac{\partial r_j}{\partial x_i}\big]
 _{
     \begin{array}{c}
@@ -29,8 +27,7 @@ _{
     \\
     \footnotesize{i=1,2,3,...,n}
     \end{array}
-}
-=
+}=
 \begin{bmatrix}
     \nabla r_1(\bold{x})^\text{T}
     \\
@@ -47,8 +44,7 @@ $$
 Hence,
 $$
 \begin{align*}
-\nabla f(\bold{x})
-&=
+\nabla f(\bold{x})&=
 \sum^m_{j=1} r_j(\bold{x}) \nabla r_j(\bold{x})
 \\ &=
 J(\bold{x}^\text{T}) \bold{r}(\bold{x})
@@ -59,8 +55,7 @@ Its second degree derivative (Hessian) is
 $$
 \begin{align*}
 
-\nabla^2f(\bold{x})
-&=
+\nabla^2f(\bold{x})&=
 \sum^m_{j=1} \big( r_j(\bold{x}) \nabla r_j(\bold{x})\big)'
 \\ &=
 \sum^m_{j=1} r_j'(\bold{x}) \nabla r_j(\bold{x}) + r_j(\bold{x}) \nabla r_j'(\bold{x})
@@ -93,8 +88,7 @@ If $m < n$, there are less equations than unknown $\bold{x}$, solution to $\bold
 
 Given residual expression $r_j(\bold{x}) = y_j - \phi_j(\bold{x})$, if $r_j$ is linear ($\phi_j(\bold{x})$ is represented in linear forms), the minimization becomes a *linear least squares problem*. Residual can be expressed as
 $$
-\bold{r}(\bold{x})
-=
+\bold{r}(\bold{x})=
 A\bold{x} - \bold{y}
 $$
 
@@ -107,8 +101,7 @@ Since $A\bold{x}=\bold{b}$ is over-determined, it cannot be solved directly. Def
 Given 
 $$
 \begin{align*}
-\bold{r}^2(\bold{x}) 
-&= 
+\bold{r}^2(\bold{x}) &= 
 (A\bold{x}-\bold{b})^\text{T}(A\bold{x}-\bold{b})
 \\ &=
 \big((A\bold{x})^\text{T}-\bold{b}^\text{T}\big)(A\bold{x}-\bold{b})
@@ -120,8 +113,7 @@ $$
 Both $A\bold{x}$ and $\bold{b}$ are vectors, by the rule $a^\text{T}b=b^\text{T}a$, where $a$ and $b$ are vectors, so that
 $$
 \begin{align*}
-\bold{r}^2(\bold{x}) 
-&=
+\bold{r}^2(\bold{x}) &=
 (A\bold{x})^\text{T}(A\bold{x})-2(A\bold{x})^\text{T}\bold{b}+\bold{b}^\text{T}\bold{b}
 \end{align*}
 $$
@@ -129,8 +121,7 @@ $$
 Minimized $\bold{e}$ should see $\frac{\partial \bold{r}^2(\bold{x})}{\partial \bold{x}}=0$, Set the optimal as $\bold{x}^*$, so that
 $$
 \begin{align*}
-\frac{\partial \bold{r}^2(\bold{x})}{\partial \bold{x}}
-&= 0 
+\frac{\partial \bold{r}^2(\bold{x})}{\partial \bold{x}}&= 0 
 \\
 2A^\text{T}A{\bold{x}^*} - 2A^\text{T}\bold{b} &= 0
 \\

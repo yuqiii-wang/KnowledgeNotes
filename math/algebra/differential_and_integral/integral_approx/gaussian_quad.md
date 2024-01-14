@@ -63,8 +63,7 @@ $$
 For the integral, by orthogonality $p(x_i^*)q(x_i^*)=0$ (such as by Legendre polynomials $\int L_n(x)L_m(x)=0$ for $m\ne m$) and $r(x)$ as the remainder polynomial of at most $n$ degree interpolated by Lagrange polynomial interpolation, there is 
 $$
 \begin{align*}
-\int^b_a f(x)w(x)dx
-&=
+\int^b_a f(x)w(x)dx&=
 \int^b_a \big(
     q(x)p(x)+r(x) w(x)
     \big)
@@ -107,12 +106,10 @@ $$
 By Lagrange polynomial interpolation, there are
 $$
 \begin{align*}
-\int^1_{-1} 1 \space dx
-&= w_0 + w_1
+\int^1_{-1} 1 \space dx&= w_0 + w_1
 \\ &= 2
 \\
-\int^1_{-1} x \space dx
-&= w_0 x_0^* + w_1 x_1^*
+\int^1_{-1} x \space dx&= w_0 x_0^* + w_1 x_1^*
 \\ &= 0
 \end{align*}
 $$ 
@@ -126,8 +123,7 @@ x_0^* & x_1^*
 \begin{bmatrix}
 w_0 \\
 w_1
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 2 \\
 0

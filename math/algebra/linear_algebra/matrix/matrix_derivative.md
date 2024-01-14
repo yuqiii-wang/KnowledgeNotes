@@ -7,15 +7,13 @@ However, such a definition is not handy since it requires computation of each $\
 
 The differential of a scalar function $df$ can be expressed as the sum of respective differential $d x_i$. 
 $$
-df = \sum^n_{i=1} \frac{\partial f}{\partial x_i} d x_i
-= \big(\frac{\partial f}{\partial \bold{x}}\big)^\text{T} d\bold{x}
+df = \sum^n_{i=1} \frac{\partial f}{\partial x_i} d x_i= \big(\frac{\partial f}{\partial \bold{x}}\big)^\text{T} d\bold{x}
 $$
 where, by vector representation, there is $\frac{\partial f}{\partial \bold{x}} \in \mathbb{R}^{n \times 1}$ and $d\bold{x} \in \mathbb{R}^{n \times 1}$. so that $df$ is the inner product of $\frac{\partial f}{\partial \bold{x}} \cdot d\bold{x}$.
 
 Given this inspiration, expand the vector to a matrix space, so that
 $$
-df = \sum^m_{i=1} \sum^n_{j=1} \frac{\partial f}{\partial X_{ij}} d X_{ij}
-= tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)
+df = \sum^m_{i=1} \sum^n_{j=1} \frac{\partial f}{\partial X_{ij}} d X_{ij}= tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)
 $$
 
 As a result $df$ is the trace of inner product between $\frac{\partial f}{\partial X} d X$.
@@ -79,8 +77,7 @@ d \space sin(X) =
 \begin{bmatrix}
     cos(x_{11}) d x_{11} & cos(x_{12}) d x_{12} \\
     cos(x_{21}) d x_{21} & cos(x_{22}) d x_{22}
-\end{bmatrix}
-=
+\end{bmatrix}=
 cos(X) \odot dX
 $$
 
@@ -130,17 +127,13 @@ tr \bigg(
     \vdots \\
     \bold{b_n}
 \end{bmatrix}^\text{T}
-\bigg)
-
-\\ &=
+\bigg)\\ &=
 tr \begin{bmatrix}
     \bold{a_1}\bold{b_1}^\text{T} & \bold{a_1}\bold{b_2}^\text{T} & &  \\
     \bold{a_2}\bold{b_1}^\text{T} & \bold{a_2}\bold{b_2}^\text{T} & & \\
     & & \ddots & \\
     & & & \bold{a_n}\bold{b_n}^\text{T}
-\end{bmatrix}
-
-\\ &=
+\end{bmatrix}\\ &=
 \sum^n_i \bold{a_i}\bold{b_i}^\text{T}
 
 \end{align*}
@@ -148,8 +141,7 @@ $$
 
 So that (notice here the subscripts of $a_{ij}$ and $b_{ji}$ are in a reverse order. 
 $$
-\frac{\partial tr(AB)}{\partial a_{ij}}
-=
+\frac{\partial tr(AB)}{\partial a_{ij}}=
 b_{ji}
 $$
 

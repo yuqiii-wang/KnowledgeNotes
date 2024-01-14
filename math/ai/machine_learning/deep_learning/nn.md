@@ -19,8 +19,7 @@ $$
 For the output layer, the derivative is the weighted $\delta_k^{z,n}$ sum. In the example above, $k=1,2,3$. $g$ is the activation function for this layer.
 $$
 \begin{align*}
-\frac{\partial E}{\partial h_j^n}
-&=
+\frac{\partial E}{\partial h_j^n}&=
 \sum_k 
 \frac{\partial E}{\partial o_k^n}
 \frac{\partial o_k^n}{\partial z_k^n}
@@ -37,8 +36,7 @@ For hidden layers, there is
 
 $$
 \begin{align*}
-\frac{\partial E}{\partial w_{j,i}^n}
-&=
+\frac{\partial E}{\partial w_{j,i}^n}&=
 \sum_{n=1}^N
 \frac{\partial E}{\partial h_j^n}
 \frac{\partial h_j^n}{\partial u_j^n}

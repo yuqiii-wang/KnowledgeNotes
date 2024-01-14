@@ -18,8 +18,7 @@ with fluctuations compliant with its covariances $cov(\bold{x}_k-\bold{\hat{x}}_
 Given a state transformation $\bold{F}_k$ on the previous state $\bold{x}_{k-1}$, and added dynamic $\bold{B}_k \bold{u}_k$ ($\bold{B}_k$ is the action transformation and $\bold{u}_k$ is the action input), plus Gaussian noises $\bold{w}_k \sim N(0, \bold{Q}_k)$ 
 
 $$
-\bold{x}_{k}
-=
+\bold{x}_{k}=
 \bold{F}_k\bold{x}_{k-1} + \bold{B}_k \bold{u}_k + \bold{w}_k
 $$
 
@@ -28,8 +27,7 @@ $$
 Given theoretical state observation/measurement transform $\bold{H}_k$ and the observed state $\bold{z}_k$, plus Gaussian noises $\bold{v}_k \sim N(0, \bold{R}_k)$
 
 $$
-\bold{z}_k
-=
+\bold{z}_k=
 \bold{H}_k \bold{x}_k + \bold{v}_k
 $$
 
@@ -37,15 +35,13 @@ $$
 
 Predicted (a priori) state estimate
 $$
-\bold{\hat{x}}_{k|k-1}
-=
+\bold{\hat{x}}_{k|k-1}=
 \bold{F}_k\bold{x}_{k-1|k-1} + \bold{B}_k \bold{u}_k
 $$
 
 Predicted (a priori) estimate covariance
 $$
-\bold{\hat{P}}_{k|k-1}
-=
+\bold{\hat{P}}_{k|k-1}=
 \bold{F}_k\bold{P}_{k-1|k-1} \bold{F}^\text{T}_k + \bold{Q}_k
 $$
 
@@ -53,43 +49,37 @@ $$
 
 Innovation or measurement pre-fit residual
 $$
-\bold{\hat{y}}_k
-=
+\bold{\hat{y}}_k=
 \bold{z}_k-\bold{H}_k \bold{\hat{x}}_{k|k-1}
 $$
 
 Innovation (or pre-fit residual) covariance
 $$
-\bold{{S}}_{k}
-=
+\bold{{S}}_{k}=
 \bold{H}_k \bold{\hat{P}}_{k|k-1} \bold{H}^\text{T}_k + \bold{R}_k
 $$
 
 Optimal Kalman gain
 $$
-\bold{K}_k
-=
+\bold{K}_k=
 \bold{\hat{P}}_{k|k-1} \bold{H}^\text{T}_k \bold{{S}}_{k}^{-1}
 $$
 
 Updated (a posteriori) state estimate
 $$
-\bold{x}_{k|k}
-=
+\bold{x}_{k|k}=
 \bold{\hat{x}}_{k|k-1} + \bold{K}_k \bold{\hat{y}}_k
 $$
 
 Updated (a posteriori) estimate covariance
 $$
-\bold{P}_{k|k}
-=
+\bold{P}_{k|k}=
 (\bold{I}-\bold{K}_k \bold{H}) \bold{\hat{P}}_{k|k-1}
 $$
 
 Measurement post-fit residual
 $$
-\bold{\hat{y}}_{k|k}
-=
+\bold{\hat{y}}_{k|k}=
 \bold{z}_k - \bold{H}_k \bold{x}_{k|k}
 $$
 
@@ -100,8 +90,7 @@ $$
 Starting with invariant on the error covariance:
 $$
 \begin{align*}
-\bold{P}_{k|k}
-&=
+\bold{P}_{k|k}&=
 cov(\bold{x}_k - \bold{\hat{x}}_{k|k})
 \\ &=
 cov \big(
@@ -175,8 +164,7 @@ there is
 $$
 \begin{align*}
 \sum^n_{k=0}
-||\bold{x}_k-\bold{\hat{x}}_{k|k}||^2
-&=
+||\bold{x}_k-\bold{\hat{x}}_{k|k}||^2&=
 \sum^n_{k=0}
 (\bold{x}_k-\bold{\hat{x}}_{k|k})^\text{T}
 (\bold{x}_k-\bold{\hat{x}}_{k|k})
@@ -219,8 +207,7 @@ So that, the expected error is
 $$
 E \big(
     ||\bold{x}_k-\bold{\hat{x}}_{k|k}||^2
-    \big)
-=
+    \big)=
 \frac{\sum^n_{k=0}
 ||\bold{x}_k-\bold{\hat{x}}_{k|k}||^2}
 {n}
@@ -228,8 +215,7 @@ $$
 
 $cov(\bold{x}_k - \bold{\hat{x}}_{k|k})$ (the formal writing should be $cov(\bold{x}_k - \bold{\hat{x}}_{k|k}, \bold{x}_k - \bold{\hat{x}}_{k|k})$, here is a shorthand note) describes a covariance of a vector $\bold{x}_k - \bold{\hat{x}}_{k|k}$ with the vector itself, so that 
 $$
-cov(\bold{x}_k - \bold{\hat{x}}_{k|k},)
-=
+cov(\bold{x}_k - \bold{\hat{x}}_{k|k},)=
 \begin{bmatrix}
 \sigma^2_{1} & 0 &  & 0 \\
 0 & \sigma^2_{2} &  & 0 \\
@@ -242,8 +228,7 @@ Each covariance's entry $\sigma_i^2$ is the mean of each error vector element's 
 $$
 E \big(
     ||\bold{x}_k-\bold{\hat{x}}_{k|k}||^2
-    \big)
-=
+    \big)=
 tr \big(
     cov(\bold{x}_k - \bold{\hat{x}}_{k|k})
     \big)
@@ -261,8 +246,7 @@ $$
 Remember, we have obtained the covariance expression for this error, the *posteriori* estimate covariance matrix $\bold{P}_{k|k}=cov(\bold{x}_k - \bold{\hat{x}}_{k|k})$, with the engagement of Kalman gain $\bold{K}$, so that, by setting its first order derivative to zero, there is
 $$
 \begin{align*}
-\frac{\partial tr(\bold{P}_{k|k})}{\partial \bold{K}}
-&=
+\frac{\partial tr(\bold{P}_{k|k})}{\partial \bold{K}}&=
 \frac{\partial }{\partial \bold{K}}
 tr
 \big(
@@ -318,8 +302,7 @@ This means, the ratio Kalman filter $\bold{K}_k$ is a compromise between the dyn
 
 In other words, $\bold{K}_k \bold{\hat{y}}_k$ can be a good compensation to $\bold{\hat{x}}_{k|k-1}$ when $\bold{\hat{y}}_k$ is contained in $\bold{R}$, and $\bold{K}_k$ in $\bold{R}$ and $\bold{Q}$, respectively.
 $$
-\bold{x}_{k|k}
-=
+\bold{x}_{k|k}=
 \bold{\hat{x}}_{k|k-1} + \bold{K}_k \bold{\hat{y}}_k
 $$
 
@@ -387,8 +370,7 @@ $$
 \begin{bmatrix}
 \sigma_x^2 & 0 \\
 0 & \sigma_{\dot{x}}^2
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 0 & 0 \\
 0 & 0
@@ -401,8 +383,7 @@ $$
 \begin{bmatrix}
 x \\
 \dot{x}
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 0 \\
 v_0
@@ -419,8 +400,7 @@ The below computation expressions removed the subscript $k$ if a matrix is const
 $$
 \begin{align*}
 
-\bold{\hat{x}}_{1|0}
-&=
+\bold{\hat{x}}_{1|0}&=
 \bold{F} \bold{x}_{0|0} + \bold{B}_k \bold{u}_k
 \\ &=
 \begin{bmatrix}
@@ -441,8 +421,7 @@ $$
 
 $$
 \begin{align*}
-\bold{\hat{P}}_{1|0}
-&=
+\bold{\hat{P}}_{1|0}&=
 \bold{F} \bold{P}_{0|0} \bold{F}^\text{T} + \bold{Q}
 \\ &=
 \begin{bmatrix}
@@ -502,8 +481,7 @@ $$
 
 Assume that observation is 
 $$
-\bold{z}_1
-=
+\bold{z}_1=
 \begin{bmatrix}
 \Delta t v_0 \pm \sigma_z\\
 0
@@ -514,8 +492,7 @@ So that
 $$
 \begin{align*}
 
-\bold{\hat{y}}_1
-&=
+\bold{\hat{y}}_1&=
 \bold{z}_1-\bold{H} \bold{\hat{x}}_{1|0}
 \\ &=
 \begin{bmatrix}
@@ -537,8 +514,7 @@ $$
 
 $$
 \begin{align*}
-\bold{{S}}_{1}
-&=
+\bold{{S}}_{1}&=
 \bold{H} \bold{\hat{P}}_{1|0} \bold{H}^\text{T} + \bold{R}
 \\ &=
 \begin{bmatrix}
@@ -575,8 +551,7 @@ $$
 
 $$
 \begin{align*}
-\bold{K}_1
-&=
+\bold{K}_1&=
 \bold{\hat{P}}_{1|0} \bold{H}^\text{T} \bold{{S}}_{1}^{-1}
 \\ &=
 \frac{1}{
@@ -609,8 +584,7 @@ $$
 $$
 \begin{align*}
 
-\bold{x}_{1|1}
-&=
+\bold{x}_{1|1}&=
 \bold{\hat{x}}_{1|0} + \bold{K}_1 \bold{\hat{y}}_1
 \\ &=
 \begin{bmatrix}

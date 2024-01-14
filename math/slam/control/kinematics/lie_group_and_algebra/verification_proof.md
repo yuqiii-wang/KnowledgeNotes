@@ -27,8 +27,7 @@ For $det(R_1 R_2)=1$, $SO(3)$ is invertible.
 Define $[{R}|{t}] = \begin{bmatrix}        R & t \\        0 & 1    \end{bmatrix}$. There is
 $$
 \begin{align*}
-[{R}|{t}]_1 [{R}|{t}]_2 
-&= 
+[{R}|{t}]_1 [{R}|{t}]_2 &= 
 \begin{bmatrix}
     R_1 & t_1 \\
     0 & 1    
@@ -245,8 +244,7 @@ $$
 
 Define $\phi \in \mathbb{R}^3$. Simply, there is
 $$
-[\phi, \phi] = [\Phi^\wedge\Phi^\wedge-\Phi^\wedge\Phi^\wedge]^\vee
-= 0
+[\phi, \phi] = [\Phi^\wedge\Phi^\wedge-\Phi^\wedge\Phi^\wedge]^\vee= 0
 $$
 
 ### Jacobi identity
@@ -395,9 +393,7 @@ $$
 
 Recall the definition of vector dot product and cross product: define $\bold{a},\bold{b},\bold{c} \in \mathbb{R}^3$ and set $M=[\bold{a},\bold{b},\bold{c}]$, there is
 $$
-det(M) = \bold{a}^\text{T}(\bold{b}\times\bold{c})
-= \bold{b}^\text{T}(\bold{c}\times\bold{a})
-= \bold{c}^\text{T}(\bold{a}\times\bold{b})
+det(M) = \bold{a}^\text{T}(\bold{b}\times\bold{c})= \bold{b}^\text{T}(\bold{c}\times\bold{a})= \bold{c}^\text{T}(\bold{a}\times\bold{b})
 $$
 
 So that, set $M=[\bold{r}_i \quad \bold{p} \quad \bold{r}_i]$. Since $\bold{r}_i$ is perpendicular to $\bold{p}\times\bold{r}_i$, the dot product should be zero. 

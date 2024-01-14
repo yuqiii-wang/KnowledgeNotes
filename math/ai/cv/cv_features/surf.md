@@ -119,8 +119,7 @@ DoG is an approximation to LoG by a simple subtraction.
 Consider Gaussian kernels with different adjacent scaling factor $\sigma_k$ and $\sigma_{k+1}$ (conditional on $\sigma_k < \sigma_{k+1}$), there is
 $$
 \begin{align*}
-DoG_{\sigma_k, \sigma_{k+1}} (x,y)
-&=
+DoG_{\sigma_k, \sigma_{k+1}} (x,y)&=
 I *
 \frac{1}{2\pi \sigma_k^2}
 e^{-\frac{x^2+y^2}{2\sigma_k^2}}

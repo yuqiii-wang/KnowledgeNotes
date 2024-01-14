@@ -101,8 +101,7 @@ where $ex \le e^x$ is obvious that equality holds true when $x=1$ such that $1 \
 #### Prove *Gibbs' Inequality*:
 
 $$
--\sum_{x \in X} P(x) \ln \frac{Q(x)}{P(x)} \ge -\sum_{x \in X} P(x) \Big( \frac{Q(x)}{P(x)} -1 \Big)
-= -\sum_{x \in X} Q(x) + \sum_{x \in X} P(x) = -\sum_{x \in X} Q(x) + 1 \ge 0
+-\sum_{x \in X} P(x) \ln \frac{Q(x)}{P(x)} \ge -\sum_{x \in X} P(x) \Big( \frac{Q(x)}{P(x)} -1 \Big)= -\sum_{x \in X} Q(x) + \sum_{x \in X} P(x) = -\sum_{x \in X} Q(x) + 1 \ge 0
 $$
 
 where $\sum_{x \in X} Q(x) \le 1$ does not necessarily sum up to $1$, because for some $x$ even there is $Q(x) \ne 0$, but $Q(x)$ is forced to zero when conditioned on $P(x) = 0$.

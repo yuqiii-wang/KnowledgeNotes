@@ -51,21 +51,16 @@ $$
 \begin{align*}
     \Delta\hat{\bold{p}}_{\tiny{{K+1}}} &=
 \bold{R}_{\tiny{BK+1}}
-\big(\bold{p}_{\tiny{WK+1}}-\bold{p}_{\tiny{WK}}
-+\frac{1}{2}\bold{g}_{earth}\Delta t^2
--\bold{v}_{\tiny{WK}}\Delta t \big)
-+\bold{n}_{\tiny{Bp}}
+\big(\bold{p}_{\tiny{WK+1}}-\bold{p}_{\tiny{WK}}+\frac{1}{2}\bold{g}_{earth}\Delta t^2
+-\bold{v}_{\tiny{WK}}\Delta t \big)+\bold{n}_{\tiny{Bp}}
 \\
     \Delta\hat{\bold{v}}_{\tiny{{K+1}}} &=
 \bold{R}_{\tiny{W{K+1}}}
-\big(\bold{v}_{\tiny{W{K+1}}}-\bold{v}_{\tiny{WK}}
-+\bold{g}_{earth}\Delta t \big)
-+\bold{n}_{\tiny{Bv}}
+\big(\bold{v}_{\tiny{W{K+1}}}-\bold{v}_{\tiny{WK}}+\bold{g}_{earth}\Delta t \big)+\bold{n}_{\tiny{Bv}}
 \\
     \Delta\hat{\bold{\phi}}_{\tiny{{K+1}}} &=
 \bold{\phi}_{\tiny{WK}}^{-1} \otimes
-\bold{\phi}_{\tiny{W{K+1}}}
-+\bold{n}_{\tiny{B\phi}}
+\bold{\phi}_{\tiny{W{K+1}}}+\bold{n}_{\tiny{B\phi}}
 \\
     \bold{b}_{\tiny{ak_i}}-\bold{b}_{\tiny{ak_i+1}} &=
 \bold{0} + \bold{n}_{\tiny{Bb_a}}
@@ -139,8 +134,7 @@ This term $\bold{R}_{\tiny{BC}}\bold{R}_{\tiny{BCK}} \bold{p}_{\tiny{CK}}$ descr
 
 $$
 \begin{align*}
-\Delta\hat{\bold{z}}_{\tiny{BK}}
-&=
+\Delta\hat{\bold{z}}_{\tiny{BK}}&=
 \begin{bmatrix}
     \Delta \bold{p}_{\tiny{BK}}
     + \bold{R}_{\tiny{BC}}\bold{R}_{\tiny{CK}} \bold{p}_{\tiny{BCK}}
@@ -149,8 +143,7 @@ $$
     \Delta \bold{v}_{\tiny{BK}}
 \end{bmatrix}
 \\ &=
-\bold{H}_{\tiny{BK}} \bold{\mathcal{X}_V}
-+ \delta\bold{n}_{\tiny{BK}}
+\bold{H}_{\tiny{BK}} \bold{\mathcal{X}_V}+ \delta\bold{n}_{\tiny{BK}}
 \end{align*}
 $$
 
@@ -192,14 +185,12 @@ $$
 \underbrace{\big|\big|
     \bold{r}_p - H_p \bold{\mathcal{X}}
 \big|\big|^2}_{
-\text{Marginalization residuals}}
-+
+\text{Marginalization residuals}}+
 \underbrace{\sum_{k_i \in \mathcal{B}} 
 \Big|\Big|
     \bold{r}_\mathcal{B} ( \hat{\bold{z}}_{\tiny{BK}} ,\bold{\mathcal{X}} )
 \Big|\Big|^2}_{
-\text{IMU measurement residuals}}
-+  
+\text{IMU measurement residuals}}+  
 \underbrace{\sum_{(j,l) \in \mathcal{C}} 
 \rho\Big( \big|\big|
     \bold{r}_\mathcal{C} ( \hat{\bold{z}}_{\tiny{C_jl}},\bold{\mathcal{X}} )
@@ -225,29 +216,25 @@ Consider the IMU measurements within two consecutive
 frames $k_i$ and $k_{i+1}$
 
 $$
-\bold{r}_\mathcal{B} ( \hat{\bold{z}}_{\tiny{Bk_i+1}} ,\bold{\mathcal{X}} )
-=
+\bold{r}_\mathcal{B} ( \hat{\bold{z}}_{\tiny{Bk_i+1}} ,\bold{\mathcal{X}} )=
 \begin{bmatrix}
     \delta \Delta \bold{p}_{\tiny{Bk_i+1}} \\
     \delta \Delta \bold{v}_{\tiny{Bk_i+1}} \\
     \delta \Delta \bold{\phi}_{\tiny{Bk_i+1}} \\
     \delta \Delta \bold{b}_{\bold{a}} \\
     \delta \Delta \bold{b}_{\bold{\omega}} \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 \begin{align*}
 &
     \Delta\hat{\bold{p}}_{\tiny{{K+1}}} -
 \bold{R}_{\tiny{BK+1}}
-\big(\bold{p}_{\tiny{WK+1}}-\bold{p}_{\tiny{WK}}
-+\frac{1}{2}\bold{g}_{earth}\Delta t^2
+\big(\bold{p}_{\tiny{WK+1}}-\bold{p}_{\tiny{WK}}+\frac{1}{2}\bold{g}_{earth}\Delta t^2
 -\bold{v}_{\tiny{WK}}\Delta t \big)
 \\ &
     \Delta\hat{\bold{v}}_{\tiny{{K+1}}} -
 \bold{R}_{\tiny{W{K+1}}}
-\big(\bold{v}_{\tiny{W{K+1}}}-\bold{v}_{\tiny{WK}}
-+\bold{g}_{earth}\Delta t \big)
+\big(\bold{v}_{\tiny{W{K+1}}}-\bold{v}_{\tiny{WK}}+\bold{g}_{earth}\Delta t \big)
 \\ &
     \Delta\hat{\bold{\phi}}_{\tiny{{K+1}}} 
 \bold{\phi}_{\tiny{WK}}^{-1} \otimes
@@ -272,8 +259,7 @@ $$
     y_{\tiny{Cjl}} \\
     z_{\tiny{Cjl}} \\
     1 \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \bold{T}_{\tiny{BC}}^{-1}
 \bold{T}_{\tiny{WBj}}^{-1}
 \bold{T}_{\tiny{WBi}}
@@ -323,8 +309,7 @@ $$
 \begin{bmatrix}
     \Delta \bold{x}_{\bold{\xi}} \\
     \Delta \bold{x}_{\bold{\xi}'}
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     \bold{v} \\
     \bold{w}
@@ -335,8 +320,7 @@ $$
 \underbrace{(\bold{B}-\bold{E}\bold{C}^{-1}\bold{E}^\text{T})}_{
 H_{\tiny{p}}}
 \underbrace{\Delta \bold{x}_{\bold{\xi}}}_{
-\bold{\mathcal{X}}}
-=
+\bold{\mathcal{X}}}=
 \underbrace{
 \bold{v} - \bold{E}\bold{C}^{-1} \bold{w}}_{
 \bold{r}_{\tiny{p}}}

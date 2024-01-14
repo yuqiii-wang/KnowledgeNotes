@@ -40,8 +40,7 @@ $$
     \bold{T}' \\
     \bold{N}' \\
     \bold{B}'
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     0 & \kappa & 0 \\
     -\kappa & 0 & \tau \\

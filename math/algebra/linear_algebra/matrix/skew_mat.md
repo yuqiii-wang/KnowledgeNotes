@@ -26,8 +26,7 @@ $$
       0 & -a_1 & -a_2 \\
       a_1 & 0 & -a_3 \\
       a_2 & a_3 & 0
-\end{bmatrix}
-=
+\end{bmatrix}=
 A^T
 $$
 
@@ -54,8 +53,7 @@ $$
 
 Cross product can be computed by its matrix multiplication 
 $$
-\bold{a} \times \bold{b}
-=
+\bold{a} \times \bold{b}=
 [\bold{a}]_{\times} \bold{b}
 $$
 
@@ -64,24 +62,19 @@ $$
 Given a cross operation of two vector $\bold{a} \in \mathbb{R}^3$ and $\bold{b} \in \mathbb{R}^3$, there is
 $$
 \begin{align*}
-\bold{a} \times \bold{b}
-&=
+\bold{a} \times \bold{b}&=
 \bigg|\bigg|
 \begin{array}{ccc}
       \bold{e}_1 & \bold{e}_2 & \bold{e}_3 \\
       a_1 & a_2 & a_3 \\
       b_1 & b_2 & b_3
 \end{array}
-\bigg|\bigg|
-
-\\ &=
+\bigg|\bigg|\\ &=
 \begin{bmatrix}
       a_2 b_3 - a_3 b_2 \\
       a_3 b_1 - a_1 b_3 \\
       a_1 b_2 - a_2 b_1 \\
-\end{bmatrix}
-
-\\ &=
+\end{bmatrix}\\ &=
 \begin{bmatrix}
       0 & -a_3 & a_2 \\
       a_3 & 0 & -a_1 \\
@@ -91,17 +84,13 @@ $$
       b_1 \\
       b_2 \\
       b_3 \\
-\end{bmatrix}
-
-\\ &=
+\end{bmatrix}\\ &=
 \begin{bmatrix}
       0 & -a_3 & a_2 \\
       a_3 & 0 & -a_1 \\
       -a_2 & a_1 & 0 \\
 \end{bmatrix}
-\bold{b}
-
-\\ &=
+\bold{b}\\ &=
 \bold{a}^{\wedge} \bold{b}
 \end{align*}
 $$

@@ -116,8 +116,7 @@ Alternatively, solve it by Lagrangian multiplier, the above $f$ and its constrai
 Lagrange function can be defined
 $$
 \begin{align*}
-L(x,y,\lambda)
-&=
+L(x,y,\lambda)&=
 f(x,y)+\lambda g(x,y)
 \\ &=
 x+y+\lambda (x^2+y^2-1)
@@ -127,8 +126,7 @@ $$
 Gradient can be computed
 $$
 \begin{align*}
-\triangledown L(x,y,\lambda)
-&=
+\triangledown L(x,y,\lambda)&=
 (
     \frac{\partial L}{\partial x},
     \frac{\partial L}{\partial y},

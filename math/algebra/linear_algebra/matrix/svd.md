@@ -83,8 +83,7 @@ $$
 Remember, $U$ is orthogonal
 $$
 U^\text{T}U=
-\Sigma^{-1} V^\text{T} A^\text{T} A V \Sigma^{-1}
-=
+\Sigma^{-1} V^\text{T} A^\text{T} A V \Sigma^{-1}=
 I
 $$
 
@@ -95,8 +94,7 @@ Given a least squares problem:
 for a residual $\bold{r} = A \bold{x} - \bold{b}$, where $A \in \mathbb{R}^{m \times n}$ (assumed $A$ is full rank that $n = \text{rank}(A)$), and there is $m > n$, here attempts to minimize
 $$
 \space \underset{\bold{x}}{\text{min}} \space
-||A \bold{x} - \bold{b}||^2
-=
+||A \bold{x} - \bold{b}||^2=
 r_1^2 + r_2^2 + ... + r^2_m
 $$
 

@@ -97,8 +97,7 @@ $$
 
 Here defines Langrage function:
 $$
-L(\bold{x}, \{\lambda_j\}, \{\mu_k\})
-=
+L(\bold{x}, \{\lambda_j\}, \{\mu_k\})=
 f(\bold{x}) + \sum_{j=1}^m \lambda_j g_j(\bold{x}) + \sum_{k=1}^p \mu_k h_j(\bold{x})
 $$
 

@@ -75,9 +75,7 @@ v_i &\simeq \frac{1}{\Delta T_i}
     y_{i+1} - y_i
 \end{array}
 \right) 
-||
-
-\\
+||\\
 \omega_i &\simeq \frac{\theta_{i+1}-\theta_i}{\Delta T_i}
 \end{align*}
 $$
@@ -115,8 +113,7 @@ $$
 \end{array}
 \right) 
 \times
-\bold{d}_{i,i+1}
-&=
+\bold{d}_{i,i+1}&=
 \bold{d}_{i,i+1}
 \times
 \left(
@@ -131,8 +128,7 @@ $$
 
 Transformation $\bold{d}_{i,i+1}$ is
 $$
-\bold{d}_{i,i+1}
-=
+\bold{d}_{i,i+1}=
 \left(
 \begin{array}{c}
     x_{i+1} - x_i \\
@@ -147,8 +143,7 @@ $$
 Hence, the objective function with respect to arc is
 
 $$
-f_{arc}(\bold{x}_i, \bold{x}_{i+1})
-=
+f_{arc}(\bold{x}_i, \bold{x}_{i+1})=
 \bigg|\bigg|
     \bigg[
         \left(

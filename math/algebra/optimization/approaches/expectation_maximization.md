@@ -11,8 +11,7 @@ Semantically speaking, $\bold{Z}$ usually refers to as labels/classes of observe
 The maximum likelihood estimate (MLE) of the unknown parameters $\bold{\theta}$ is determined by maximizing the marginal likelihood of the observed data $\bold{X}$.
 $$
 \begin{align*}
-L(\bold{\theta}; \bold{X})
-&=
+L(\bold{\theta}; \bold{X})&=
 p(\bold{X} | \bold{\theta})
 \\ &=
 \int p(\bold{X}, \bold{Z} | \bold{\theta}) d \bold{Z}
@@ -27,8 +26,7 @@ There are two alternative steps updating $\bold{\theta}$:
 
 Define $Q(\theta | \theta^{(t)})$ as the expected value of the log likelihood function, in which $\theta^{(t)}$ is the current estimate of $\theta$:
 $$
-Q(\theta | \theta^{(t)})
-=
+Q(\theta | \theta^{(t)})=
 E_{\bold{Z}|\bold{X}, \bold{\theta}^{(t)}}[log \space L(\bold{\theta}; \bold{X}, \bold{Z})]
 $$
 
@@ -36,8 +34,7 @@ $$
 
 Find the parameters that maximize this quantity:
 $$
-\bold{\theta}^{(t+1)}
-=
+\bold{\theta}^{(t+1)}=
 arg \space \underset{\bold{\theta}}{max} \space Q(\theta | \theta^{(t)})
 $$
 
@@ -54,8 +51,7 @@ $$
 
 the probability density function (PDF) $p$ of the mixture model is
 $$
-p(\bold{x} | \bold{\theta})
-=
+p(\bold{x} | \bold{\theta})=
 \pi_1 \cdot g_1(\bold{x} | \mu_1, \sigma_1^2)
 +
 \pi_2 \cdot g_2(\bold{x} | \mu_2, \sigma_2^2)
@@ -64,16 +60,14 @@ where $g_1, g_2$ are PDFs for the two aforementioned Gaussian distributions $N_1
 
 The probability (likelihood) of observing our entire dataset of $n$ points is:
 $$
-L(\bold{\theta};\bold{x})
-=
+L(\bold{\theta};\bold{x})=
 \prod_{i=1}^n p(x_i; \bold{\theta})
 $$
 
 The log representation is
 $$
 \begin{align*}
-log \space L(\bold{\theta};\bold{x})
-&=
+log \space L(\bold{\theta};\bold{x})&=
 \sum_{i=1}^n log \space p(x_i; \bold{\theta})
 \\ &=
 \sum_{i=1}^n log \space 
@@ -97,9 +91,7 @@ $$
 {\pi_1 \cdot g_1(x_i | \mu_1, \sigma_1^2)}
 {\pi_1 \cdot g_1(x_i | \mu_1, \sigma_1^2)
 +
-\pi_2 \cdot g_2(x_i | \mu_2, \sigma_2^2)}
-
-\\
+\pi_2 \cdot g_2(x_i | \mu_2, \sigma_2^2)}\\
 \space
 \\
 
@@ -121,17 +113,13 @@ $$
 $$
 \mu_1=\frac{\sum_i \gamma_{1,i} x_i}{\sum_i \gamma_{1,i}}
 \quad
-\mu_2=\frac{\sum_i \gamma_{2,i} x_i}{\sum_i \gamma_{2,i}}
-
-\\
+\mu_2=\frac{\sum_i \gamma_{2,i} x_i}{\sum_i \gamma_{2,i}}\\
 \space
 \\
 
 \sigma_1 = \frac{\sum_i \gamma_{1,i} (x_i-\mu_1)^2}{\sum_i \gamma_{1,i} }
 \quad
-\sigma_2 = \frac{\sum_i \gamma_{2,i} (x_i-\mu_2)^2}{\sum_i \gamma_{2,i} }
-
-\\
+\sigma_2 = \frac{\sum_i \gamma_{2,i} (x_i-\mu_2)^2}{\sum_i \gamma_{2,i} }\\
 \quad
 \\
 

@@ -31,8 +31,7 @@ How likely is the beetle having the pattern to be rare, or what is $P(Rare | Pat
 
 $$
 \begin{align*}
-P(Rare | Pattern) 
-&= 
+P(Rare | Pattern) &= 
 \frac{P(Pattern | Rare) \cdot P(Rare)}{P(Pattern)}
 \\ &= 
 \frac{P(Pattern | Rare) \cdot P(Rare)}{P(Pattern | Rare) \cdot P(Rare) + P(Pattern | Common) \cdot P(Common)}

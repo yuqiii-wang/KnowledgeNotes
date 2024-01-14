@@ -32,8 +32,7 @@ where $J$ is the Jacobian.
 
 Take shorthand notes and write down $J_0=J(\bold{x}_0)$ and $\bold{r}_0=\bold{r}(\bold{x}_0)$, and take the Jacobian approximation into the cost function, there is
 $$
-\underset{\bold{x}}{\min}\quad \bold{r}(\bold{x})^\top \bold{r}(\bold{x})
-=
+\underset{\bold{x}}{\min}\quad \bold{r}(\bold{x})^\top \bold{r}(\bold{x})=
 \Delta\bold{x}^\top J_0^\top J_0 \Delta\bold{x}
 + 2 J_0^\top \bold{r}_0 \Delta\bold{x} 
 + \bold{r}_0^\top \bold{r}_0
@@ -75,8 +74,7 @@ $$
     \vdots
     \\
     r_{x=n, y=n}(dx,dy) \\
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
     I_A(1,1) - I_B(1+dx, 1+dy) \\
     I_A(1,2) - I_B(1+dx, 2+dy) \\
