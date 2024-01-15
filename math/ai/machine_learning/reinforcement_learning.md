@@ -9,7 +9,7 @@ The agent's action selection is modeled as a map called *policy* $\pi$ to a prob
 
 $$
 \begin{align*}
-\pi(a,s) = P(A_t = a | S_t = s)    
+\pi(a,s) = P(A_t = a | S_t = s)
 \end{align*}
 $$
 
@@ -173,3 +173,29 @@ This method relies on full trajectory of $\underbrace{S_1, A_1}_{\Rightarrow R_1
 
 For each timestamp $t$, update parameter $\theta$  such that $\theta \leftarrow \theta + \alpha \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$.
 This is plausible for $A_t=a$ and $S_t=s$ that see $s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}$. As time progresses $t \rightarrow \infty$, this term $\gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$ will render an average result $\frac{1}{T} \sum_{t=1}^T \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$ that converges to the expectation $\mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}}(...)$.
+
+## Proximal Policy Optimization (PPO)
+
+PPO is a variant of Policy Gradient method with improved control of parameter update steps.
+PPO proposed two important ideas
+
+* Advantage function $A(s,a)$ that focuses on action reward by taking away state info
+* Ratio of policy $\beta_t(\theta)$ to assign higher weights to good policy (old vs current)
+
+Define an advantage function such that $A(s,a)=Q(s,a)-V(s)$. It can be considered as another version of Q-value with lower variance by taking the state-value off as the baseline.
+
+Define $\beta_t(\theta)=\frac{\pi_{\theta}(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}$ is the ratio controlling the probability under the new and old policies, respectively.
+
+* $\beta_t(\theta)>1$: action $a_t$ at $s_t$ is more likely to stay in the current policy than the old one
+* $1 \ge \beta_t(\theta) > 0$: action $a_t$ at $s_t$ prefers the old policy than the current one
+
+Finally, the PPO objective is defined as
+
+$$
+\mathcal{J}_{\text{clip}}(\theta) =
+\mathbb{E}\Big( \min\big( \beta_t(\theta)  A_t,
+\underbrace{\text{clip}(\beta_t(\theta), 1-\epsilon, 1+\epsilon)}_{\in [1-\epsilon, 1+\epsilon]}
+A_t \big) \Big)
+$$
+
+By (typically) $\epsilon=0.1$ or $\epsilon=0.2$, the ratio is contained to $\beta_t(\theta) \in [1-\epsilon, 1+\epsilon]$, so that both old and current policies have influences on the objective $\mathcal{J}_{\text{clip}}(\theta)$.

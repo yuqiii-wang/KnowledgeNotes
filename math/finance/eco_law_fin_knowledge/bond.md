@@ -29,7 +29,7 @@ Figure representing the amount of the Coupon Rate to apply in calculating Intere
 A pool factor is the outstanding principle out of the amount of the initial principal for ABS or MBS.
 
 $$
-F_{pool} = \frac{OutstandingPrincipleBalance}{OriginalPrincipleBalance}
+F_{pool} = \frac{\text{OutstandingPrincipleBalance}}{\text{OriginalPrincipleBalance}}
 $$
 
 E.g., $F_{pool}=0.4$ for $ \$ 1,000,000 $ loan means the underlying mortgage loan that remains in a mortgage-backed security transaction is $ \$ 400,000$, and $ \$ 600,000 $ has been repaid.
@@ -52,6 +52,7 @@ DayCountFactor=
 \right.
 $$
 * 30/360: U.S. corporate and mmunicipal bonds
+
 $$
 DayCountFactor=
 \frac{
@@ -82,12 +83,10 @@ V_{present} =
     + \frac{C}{(1+r)^3}
     + ...
     + \frac{C}{(1+r)^n}
-\big)
-+
+\big) +
 \frac{F}{(1+r)^n}
 $$
 where coupon interest rate is $r=\frac{C}{F}$.
-
 
 ## Terminologies
 

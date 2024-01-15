@@ -12,7 +12,8 @@ Reference: https://huggingface.co/docs/transformers/v4.20.1/en/perf_train_gpu_on
 * $B$ = batch_size = batch size
 * $S$ = sequence_length = input sequence length
 
-In general, 
+In general,
+
 ```txt
 total_memory = memory_model + memory_optimizer + memory_activations + memory_gradients + memory_overheads
 ```

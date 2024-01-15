@@ -90,9 +90,9 @@ Earnings before interest, taxes, depreciation, and amortization (EBITDA)
 
 * depreciation vs amortization
 
-Depreciation: a company’s **tangible** fixed assets deteriorating over time, such as physical equipment.
+Depreciation: a company's **tangible** fixed assets deteriorating over time, such as physical equipment.
 
-Amortization: a company’s **intangible** fixed assets deteriorating over time, such as patent lifetime.
+Amortization: a company's **intangible** fixed assets deteriorating over time, such as patent lifetime.
 
 * EBIT
 
@@ -238,7 +238,6 @@ It is administered by Bank of England.
 
 Most primitive securities that demonstrate value by itself, such as stocks, cash flow, commodity, etc, on which derivatives are formulated.
 
-
 * collateral （抵押品）
 
 Something pledged as security for repayment of a loan, to be forfeited in the event of a default, such as house ownership as collateral asking bank for a loan.
@@ -351,13 +350,24 @@ $$
 100 \times 0.9 + 100 \times 0.9^2 + 100 \times 0.9^3 + ...
 $$
 
-### Financing and Bonds
+### Financing, Loan and Bonds
 
 * Tenor
 
 Tenor refers to the length of time remaining before a financial contract expires.
 
+* Loan Amortization
 
+$$
+A=P\frac{r(1+r)^n}{(1+r)-1}
+$$
+
+where
+
+* $A$ periodic payment amount
+* $P$ principle/initial payment
+* $r$ interest rate
+* $n$ total number of payments
 
 ### Trading and Market Info
 
