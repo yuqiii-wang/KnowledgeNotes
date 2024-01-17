@@ -52,6 +52,9 @@ The predecessor LSTM (Long Short Term Memory) and GRU (Gated Recurrent Unit) are
 * long sequence info drops for vanishing gradients over the sequence; attention implements residual addition to amplify errors.
 * LSTM has much more parameters to train, hence hard to train and difficult to explain/interpret the model
 
+## Flash Attention
+
+
 
 ## Transformer
 

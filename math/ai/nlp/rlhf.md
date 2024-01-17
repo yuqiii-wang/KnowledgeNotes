@@ -15,8 +15,12 @@ The objective is to minimize the loss $\mathcal{L}(r)$ by fine-tuning the LLM.
 
 $$
 \min \mathcal{L}(r)=
-\min \mathbb{E} \Big( \log \frac{e^{r(\bold{x}, \bold{y}_{i=c})}}{\sum_i e^{r(\bold{x}, \bold{y}_i)}} \Big)
+\min \mathbb{E} \Big( -\log \frac{e^{r(\bold{x}, \bold{y}_{i=c})}}{\sum_i e^{r(\bold{x}, \bold{y}_i)}} \Big)
 $$
 
 where the reward $r$ can be simply defined as exact match of human best rating answer $\bold{y}_{i=c}$ vs other LLM outputs $\bold{y}_i$.
 In addition, the reward $r$ can consider other aspects such as encouraging producing "positive" tokens that make a response concise and straightforward.
+
+## LLM Alignment
+
+For an LLM to be used in business, after having done pretraining and fine-tuning, LLM should go through RLHF to align its outputs to human preferences.

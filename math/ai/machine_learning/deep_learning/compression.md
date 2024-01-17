@@ -139,13 +139,71 @@ To reduce memory consumption, need to prune on a whole layer at least.
 
 ## Quantization
 
-*Quantization* refers to techniques for performing computations and storing tensors at lower bitwidths than floating point precision, such as `float32` $\rightarrow$ `int8`.
+*Quantization* refers to techniques for performing computations and storing tensors at lower bitwidths than floating point precision, such as `float32` $\rightarrow$ `int8` (almost no impact on LLM performance) and `float32` $\rightarrow$ `int4` (may see trivial drops on LLM performance).
 
-PyTorch supports INT8 quantization compared to typical FP32 models allowing for a 4x reduction in the model size as well as memory bandwidth.
+### dynamic range quantization (DRQ)
 
-In pytorch, simply add `<model_name>` and `dtype=torch.qint8` to `torch.ao.quantization.quantize_dynamic(...)`.
+Dynamic range is the ratio between the largest and smallest values that a certain quantity can assume over a column/matrix.
 
-Reference: https://pytorch.org/docs/stable/quantization.html.
+The naive one simply quantize weights.
+
+```python
+quantized_model = torch.quantization.quantize_dynamic(model, {torch.nn.Linear}, dtype=torch.qint8)
+```
+
+However, inputs/outputs (activation values) are kept to higher bitwidths to avoid overflow for accumulation during inference.
+
+### Full-Integer Quantization (FIQ)/Post-Training Static Quantization
+
+Reference: https://pytorch.org/tutorials/advanced/static_quantization_tutorial.html
+
+Need an overview of dataset so that inputs/outputs (activation values) can be determined what max and min could be, then do quantization accordingly.
+
+In PyTorch,  it is done via inserting an "observer" (implemented by `torch.quantization.prepare(...)`) that collects statistics of inputs/outputs (activation values), and then `evaluate(...)` that goes through the dataset, and finally having done the conversion by `torch.quantization.convert(...)`
+
+```python
+# set quantization config for server (x86)
+deploymentmyModel.qconfig = torch.quantization.get_default_config('fbgemm')
+
+# insert observers
+torch.quantization.prepare(myModel, inplace=True)
+
+# Calibrate the model and collect statistics
+evaluate(myModel, criterion, data_loader, neval_batches=num_calibration_batches)
+
+# convert to quantized version
+torch.quantization.convert(myModel, inplace=True)
+```
+
+### Quantization-Aware Training (QAT)
+
+All weights and activations are “fake quantized” during both the forward and backward passes of training: that is, float values are rounded to mimic int8 values, but all computations are still done with floating point numbers. Thus, all the weight adjustments during training are made while “aware” of the fact that the model will ultimately be quantized.
+
+```python
+# specify quantization config for QAT
+qat_model.qconfig=torch.quantization.get_default_qat_qconfig('fbgemm')
+
+# prepare QAT
+torch.quantization.prepare_qat(qat_model, inplace=True)
+
+# training
+optimizer = torch.optim.SGD(qat_model.parameters(), lr = 0.0001)
+for sample, target in data_loader:
+    output = model(sample)
+    loss = criterion(output, target)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+# convert to quantized version, removing dropout, to check for accuracy on each
+epochquantized_model=torch.quantization.convert(qat_model.eval(), inplace=False)
+```
+
+### Activation-aware Weight Quantization (AWQ)
+
+Reference: https://arxiv.org/pdf/2306.00978.pdf
+
+
 
 ## Distillation
 
@@ -217,5 +275,33 @@ $$
 \bigg)}_{\text{Regularization}}
 $$
 
-### Training
+### Practices
 
+General approach is that, prepare a param-randomly-init model as a student, take an existing pre-trained model as the teacher, then train the student model with same dataset (for example, Toronto Book Corpus and English Wikipedia for BERT) to conform with teacher's outputs/token probability distribution.
+
+Reference: https://github.com/huggingface/transformers/blob/main/examples/research_projects/distillation/train.py
+
+```python
+from distiller import Distiller
+
+teacher = teacher_model_class.from_pretrained(args.teacher_name, output_hidden_states=True)
+student = student_model_class.from_pretrained(args.student_name, output_hidden_states=True)
+
+# DISTILLER #
+torch.cuda.empty_cache()
+distiller = Distiller(
+    params=args, 
+    dataset=dataset_Train, 
+    token_probs=token_probs, 
+    student=student, 
+    teacher=teacher
+)
+distiller.train()
+```
+
+Tricks:
+
+For example, for a student `BERT-distilled` to learn from a teacher `BERT-large`, 
+
+* Weight init is crucial to good distillation, init `BERT-distilled` with partially same params as that of `BERT-large`, e.g, copy the same layers of `BERT-large`
+* Both student and teacher should see same input, copy the same embeddings from teacher and freeze the embedding layer for student

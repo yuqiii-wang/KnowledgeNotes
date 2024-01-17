@@ -93,6 +93,22 @@ The difficulty of finding the optimal policy $\pi^{*}_{\theta} = \argmax_{\theta
 
 To solve $\max_{\theta} \mathcal{J}(\theta)$, here introduces *Markov decision process* that formulates the problem into an iterative $\theta$ update issue as time progresses.
 
+
+### On-Policy vs Off-Policy
+
+*Sample efficiency* in reinforcement learning talks about how many policy iterations to take for the objective to converge to an optimal value.
+On-policy vs off-policy achieve optimality via different sample choices: to use a specific policy $\pi(s,a)$ or greedy search of possible actions $a$.
+
+* Off-Policy: $Q(s,a)$ is learned from taking different actions (greedy search of all possible actions)
+* On-Policy: $Q(s,a)$ is learned from taking the current policy actions
+
+For example, look at the $Q(s,a)$ gain from $t$ to $t+1$.
+On-policy approach just takes action $a_{t+1}$, while off-policy approach goes by greedy search of all possible $a_{t+1}$ then choose the action that maximize $Q(s_{t+1},a_{t+1})$.
+
+* On-Policy: $Q(s_{t+1},a_{t+1})-Q(s_t, a_t)$
+* Off-Policy: $\max_{a} Q(s_{t+1},a_{t+1})-Q(s_t, a_t)$
+
+
 ## Markov Decision Process
 
 Almost all the reinforcement learning problems can be framed as Markov Decision Processes: stationed on $S_t$ and take action $A_t$ generate a reward $R_t$ such that $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
@@ -180,22 +196,22 @@ PPO is a variant of Policy Gradient method with improved control of parameter up
 PPO proposed two important ideas
 
 * Advantage function $A(s,a)$ that focuses on action reward by taking away state info
-* Ratio of policy $\beta_t(\theta)$ to assign higher weights to good policy (old vs current)
+* Ratio of policy $\gamma_t(\theta)$ to assign higher weights to good policy (old vs current)
 
 Define an advantage function such that $A(s,a)=Q(s,a)-V(s)$. It can be considered as another version of Q-value with lower variance by taking the state-value off as the baseline.
 
-Define $\beta_t(\theta)=\frac{\pi_{\theta}(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}$ is the ratio controlling the probability under the new and old policies, respectively.
+Define $\gamma_t(\theta)=\frac{\pi_{\theta}(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}$ is the ratio controlling the probability under the new and old policies, respectively.
 
-* $\beta_t(\theta)>1$: action $a_t$ at $s_t$ is more likely to stay in the current policy than the old one
-* $1 \ge \beta_t(\theta) > 0$: action $a_t$ at $s_t$ prefers the old policy than the current one
+* $\gamma_t(\theta)>1$: action $a_t$ at $s_t$ is more likely to stay in the current policy than the old one
+* $1 \ge \gamma_t(\theta) > 0$: action $a_t$ at $s_t$ prefers the old policy than the current one
 
 Finally, the PPO objective is defined as
 
 $$
 \mathcal{J}_{\text{clip}}(\theta) =
-\mathbb{E}\Big( \min\big( \beta_t(\theta)  A_t,
-\underbrace{\text{clip}(\beta_t(\theta), 1-\epsilon, 1+\epsilon)}_{\in [1-\epsilon, 1+\epsilon]}
+\mathbb{E}\Big( \min\big( \gamma_t(\theta)  A_t,
+\underbrace{\text{clip}(\\gamma_t(\theta), 1-\epsilon, 1+\epsilon)}_{\in [1-\epsilon, 1+\epsilon]}
 A_t \big) \Big)
 $$
 
-By (typically) $\epsilon=0.1$ or $\epsilon=0.2$, the ratio is contained to $\beta_t(\theta) \in [1-\epsilon, 1+\epsilon]$, so that both old and current policies have influences on the objective $\mathcal{J}_{\text{clip}}(\theta)$.
+By (typically) $\epsilon=0.1$ or $\epsilon=0.2$, the ratio is contained to $\gamma_t(\theta) \in [1-\epsilon, 1+\epsilon]$, so that both old and current policies have influences on the objective $\mathcal{J}_{\text{clip}}(\theta)$.

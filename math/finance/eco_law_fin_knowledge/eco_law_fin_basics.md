@@ -226,6 +226,10 @@ LIBOR is prone to error since it derives from calculations based on banks' surve
 
 the Hong Kong Interbank Offered Rate (HIBOR) is the benchmark interest rate that lenders and borrowers use for interbank lending in the Hong Kong market.
 
+* China Interbank Interest Rate
+
+Offered by (China) National Interbank Funding Center.
+
 * SONIA (Sterling Overnight Index Average)
 
 SONIA is based on actual transactions and reflects the average of the interest rates that banks pay to borrow sterling overnight from other financial institutions and other institutional investors.
@@ -388,7 +392,9 @@ Market moving information is a term used in stock market investing, defined as i
 
 * Arbitrage (套利)
 
-Arbitrage is the practice of taking advantage of a difference in prices in two or more markets; striking a combination of matching deals to capitalise on the difference, the profit being the difference between the market prices at which the unit is traded. 
+Arbitrage is the practice of taking advantage of a difference in prices in two or more markets; striking a combination of matching deals to capitalise on the difference, the profit being the difference between the market prices at which the unit is traded.
+
+In other words, buy low sell high.
 
 * Arbitrage Bond
 
@@ -404,6 +410,11 @@ The standard document regularly used to govern over-the-counter derivatives tran
 * Commodity Trading Advisor (CTA)
 
 A commodity trading advisor (CTA) is an individual or firm that provides personalized advice regarding the buying and selling of futures contracts, options on futures, and retail off-exchange forex contracts or swaps.
+
+For example, CTA may offer a hypothetical market based portfolio designed to produce a high correlation to trend following managed futures strategies.
+
+It is often getting compared with High Frequency Trading (HFT).
+HFT and CTAs both use quantitative algorithms, but HFT is more about stock trading and being high frequency.
 
 * Central Banks
 
