@@ -1,5 +1,20 @@
 # Kubernetes
 
+* Container: an app image, e.g., docker container
+* Pod: a "logic host", $\text{Container} \in \text{Pod}$
+* Node: a worker virtual/physical machine, $\text{Pod} \in \text{Node}$
+* Control Plane coordinates the cluster, such as scheduling the containers to run on the cluster's nodes.
+* Cluster: many virtual/physical machines, $\text{Node} \in \text{Cluster}$
+
+* `kubelet`: a node-level agent that is in charge of executing pod requirements, managing resources, and guaranteeing cluster health; each node has a Kubelet, which is an agent for managing the node and communicating with the Kubernetes control plane. 
+* `kubeadm`: a tool that is used to bootstrap a Kubernetes cluster from scratch
+* `kubectl`: a command line tool that you use to communicate with the Kubernetes API server. 
+
+* api-server: Exposes the Kubernetes API
+* etcd: Key-value store for cluster data
+* scheduler: Watches for newly created pods and assigns a worker node to run them.
+* controller-manager: Runs a control loop that watches the state of the cluster through the api-server and if necessary, moves the current state to the desired state.
+
 ## Pod
 
 A Pod is a Kubernetes representation of a functioning "logic host", included of one or many containers and shared resources
@@ -9,22 +24,26 @@ Some shared resources for those containers. Those resources include:
 2. Networking, as a unique cluster IP address
 3. Information about how to run each container, such as the container image version or  specific ports to use
 
-![pod](imgs/pod.png "pod")
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/pod.png" width="25%" height="25%" alt="pod" />
+</div>
+</br>
+
 
 ### Pod vs Deployment
-
-In Kubernetes we can deploy our workloads using different type of API objects like Pods, Deployment, ReplicaSet, ReplicationController and StatefulSets.
 
 Pods are smallest deployable unit on k8s, with not changeable configurations, volumes, etc.
 
 For better application management, deployment comes into picture which maintains the desired state (how many instances, how much compute resource application uses) of the application. 
 
-Deployment is declared by
+Deployment is declared by with `kind: Deployment`
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  name: <app-name>
 ```
 
 ### StatelessSet vs StatefulSet
@@ -32,17 +51,6 @@ metadata:
 A stateless application is one that does not care which network it is using, and it does not need permanent storage. Examples of stateless apps may include web servers (Apache, Nginx, or Tomcat).
 
 On the other hand, a stateful applications have persistent/modifiable data, such as DBs.
-
-```yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: webapp
-```
-
-### Image
-
-A container image represents binary data that encapsulates an application and all its software dependencies.
 
 ## Node
 
@@ -74,7 +82,10 @@ There are master nodes and worker nodes:
 
 Each node has a Kubelet, which is an agent for managing the node and communicating with the Kubernetes control plane.
 
-![node](imgs/node.png "node")
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/node.png" width="40%" height="40%" alt="node" />
+</div>
+</br>
 
 ## Volume
 
@@ -84,26 +95,149 @@ A *PersistentVolumeClaim* (PVC) is a request for storage by a user. Claims can r
 
 For use of persistent volume, there should be two declared resources: PV and PVC
 
-## Services help match traffic to designated pods and manage pod creations/terminations
+## Services
 
-Services match a set of Pods using labels and selectors,
+Services help expose groups of pods over a network by adding a layer of abstraction. This abstraction provides a stable endpoint for the pods to communicate with each other.
 
-When a worker node dies, the Pods running on the Node are also lost. A ReplicaSet might then dynamically drive the cluster back to desired state via creation of new Pods to keep your application running.
+## A Minimal Example: Image and `.yaml` File
 
-Services can be exposed in different ways by specifying a type in the ServiceSpec:
+### Build an image
 
-1. ClusterIP (default) - Exposes the Service on an internal IP in the cluster. This type makes the Service only reachable from within the cluster.
-2. NodePort - Exposes the Service on the same port of each selected Node in the cluster using NAT. Makes a Service accessible from outside the cluster using `<NodeIP>:<NodePort>`. Superset of ClusterIP.
-3. LoadBalancer - Creates an external load balancer in the current cloud (if supported) and assigns a fixed, external IP to the Service. Superset of NodePort.
-4. ExternalName - Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record with its value. No proxying of any kind is set up. This type requires v1.7 or higher of kube-dns, or CoreDNS version 0.0.8 or higher.
+Build a docker image of a simple app by `nodejs`.
 
-### External Service vs Internal Service
+```javascript
+const express = require("express");
+const data = require("./data.json")
+
+const app = express();
+
+app.get("/", (req, res) => {
+    res.send("Hello, Welcome")
+})
+
+app.listen(8000, () => {
+    console.log("App is running")
+});
+```
+
+```Dockerfile
+FROM node:18-alpine
+
+WORKDIR /hello-world-nodejs
+
+COPY server.js /hello-world-nodejs/
+COPY package.json /hello-world-nodejs/
+COPY data.json /hello-world-nodejs/
+
+RUN npm install
+
+CMD ["node", "server"]
+```
+
+Build and publish the docker image.
+For the used container is docker, the publish needs username and password.
+
+```bash
+docker build -t hello-world-nodejs-image .
+docker image tag hello-world-nodejs-image <username>/hello-world-nodejs-image
+```
+
+### Launch the K8S cluster
+
+A minimal working k8s cluster should see two kinds of below: `Deployment` and `Service`.
+
+Such file to launch a k8s cluster is named `manifest.yaml`.
+By default, ports are only accessible within a cluster. To access the app from external, need to expose the port via `--url`.
+
+```bash
+kubectl create -f manifest.yaml
+minikube service hello-world --url
+```
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-deployment
+  labels:
+    app: hello-world
+spec:
+  selector:
+    matchLabels:
+      app: hello-world
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: <username>/hello-world-nodejs-image
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: "250m"
+          requests:
+            memory: 128Mi
+            cpu: "80m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+spec:
+  selector:
+    app: hello-world
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30081   
+  type: NodePort
+```
+
+The launched services can be found by `minikube service list`, that shows external access entry `http://192.168.49.2:30081`.
+
+```txt
+|----------------------|---------------------------|--------------|---------------------------|
+|      NAMESPACE       |           NAME            | TARGET PORT  |            URL            |
+|----------------------|---------------------------|--------------|---------------------------|
+| default              | hello-world               |           80 | http://192.168.49.2:30081 |
+| default              | kubernetes                | No node port |                           |
+| kube-system          | kube-dns                  | No node port |                           |
+| kubernetes-dashboard | dashboard-metrics-scraper | No node port |                           |
+| kubernetes-dashboard | kubernetes-dashboard      | No node port |                           |
+|----------------------|---------------------------|--------------|---------------------------|
+```
+
+### Common Specs
+
+### `selector`
+
+### `template`
+
+### `type: NodePort` vs `type: LoadBalancer`
 
 
 
-## Useful cmds
 
-`kubectl get` - list resources
-`kubectl describe` - show detailed information about a resource
-`kubectl logs` - print the logs from a container in a pod
-`kubectl exec` - execute a command on a container in a pod
+### `ports`
+
+* `port` exposes the Kubernetes service on the specified port within the cluster.
+* `targetPort` on which the service will send requests to, that pod/container will be listening on.
+* `containerPort` 
+* `nodePort` exposes a service externally to the cluster by means of the target nodes IP address and the NodePort.
+
+User accesses app via `nodePort`
+
+```yaml
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30081   
+```
