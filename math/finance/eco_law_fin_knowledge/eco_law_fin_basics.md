@@ -396,6 +396,8 @@ Arbitrage is the practice of taking advantage of a difference in prices in two o
 
 In other words, buy low sell high.
 
+In many scenarios, it refers to risk-free trade.
+
 * Arbitrage Bond
 
 An arbitrage bond is a debt security with a lower interest rate issued by a municipality prior to the call date of the municipality's existing higher-rate security.

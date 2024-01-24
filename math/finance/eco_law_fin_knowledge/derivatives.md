@@ -48,6 +48,12 @@ Call options allow the holder to buy the asset at a stated price within a specif
 
 Example: Daily Oil investment, where people pays a premium to obtain a right to buy/sell oil at a stated price within a day.
 
+### Snowball Structure Income Certificates/Barrier Option (雪球结构收益凭证/障碍期权)
+
+A barrier option is an option whose payoff is conditional upon the underlying asset's price breaching a barrier level during the option's lifetime.
+
+https://www.hanspub.org/journal/PaperInformation?paperID=55528
+
 ## Forward
 
 A forward contract or simply a forward is a non-standardized contract between two parties to buy or sell an asset at a specified future time at a price agreed on at the time of conclusion of the contract.

@@ -1,23 +1,30 @@
 # Kubernetes
 
+## Concepts
+
 * Container: an app image, e.g., docker container
 * Pod: a "logic host", $\text{Container} \in \text{Pod}$
 * Node: a worker virtual/physical machine, $\text{Pod} \in \text{Node}$
 * Control Plane coordinates the cluster, such as scheduling the containers to run on the cluster's nodes.
 * Cluster: many virtual/physical machines, $\text{Node} \in \text{Cluster}$
 
+### Tools
+
 * `kubelet`: a node-level agent that is in charge of executing pod requirements, managing resources, and guaranteeing cluster health; each node has a Kubelet, which is an agent for managing the node and communicating with the Kubernetes control plane. 
 * `kubeadm`: a tool that is used to bootstrap a Kubernetes cluster from scratch
 * `kubectl`: a command line tool that you use to communicate with the Kubernetes API server. 
+
+### K8S Internal Management
 
 * api-server: Exposes the Kubernetes API
 * etcd: Key-value store for cluster data
 * scheduler: Watches for newly created pods and assigns a worker node to run them.
 * controller-manager: Runs a control loop that watches the state of the cluster through the api-server and if necessary, moves the current state to the desired state.
 
-## Pod
+## Pod and Deployment
 
-A Pod is a Kubernetes representation of a functioning "logic host", included of one or many containers and shared resources
+A Pod is a Kubernetes representation of a functioning "logic host", included of one or many containers and shared resources.
+Pods are the smallest deployable unit in Kubernetes.
 
 Some shared resources for those containers. Those resources include:
 1. Shared storage, as Volumes
@@ -30,20 +37,93 @@ Some shared resources for those containers. Those resources include:
 </div>
 </br>
 
-
-### Pod vs Deployment
-
-Pods are smallest deployable unit on k8s, with not changeable configurations, volumes, etc.
-
-For better application management, deployment comes into picture which maintains the desired state (how many instances, how much compute resource application uses) of the application. 
-
-Deployment is declared by with `kind: Deployment`
+One pod can have multiple containers.
 
 ```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  containers:
+  - name: test-container
+    image: registry.k8s.io/busybox
+    env:
+    - name: DB_URL
+      value: postgres://db_url:5432
+  - name: proxy-container
+    image: envoyproxy/envoy:v1.12.2
+    ports:
+      - containerPort: 80
+```
+
+where `busybox` coming in somewhere between 1 and 5 Mb in on-disk size (depending on the variant), it combines tiny versions of many common UNIX utilities into a single small executable as an compressed version of such tools.
+
+### `kind: Pod` vs `kind: Deployment`
+
+Pods are the smallest deployable unit in Kubernetes, and there is no much additional config that can do about `kind: pod`. Here `kind: Deployment` comes in to rescue as preferred with added configs such as relaunched dead pod to maintain minimal replicas and logging/monitoring.
+
+check a service by `kubectl describe service hello-world`.
+
+In `Deployment`, K8s creates two different objects: a Pod definition, using as its specification what is available in the "template" field of the Deployment, and a ReplicaSet.
+
+```yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: <app-name>
+  name: hello-world
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-world 
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world-pod
+        image: webapp-flask-helloworld-docker:latest
+        imagePullPolicy: Never
+        ports: 
+        - containerPort: 80
+        - containerPort: 443
+```
+
+### `template`
+
+`template` describes how to config pods in `Deployment`, `Job`, etc.
+
+### `Job` vs `Deployment`
+
+The main difference between `Deployment`s and `Job`s is how they handle a Pod that is terminated. A Deployment is intended to be a "service", e.g. it should be up-and-running, so it will try to restart the Pods it manage, to match the desired number of replicas. While a Job is intended to execute and successfully terminate.
+
+Jobs ensure that a specified number of pods complete successfully, whereas Deployments maintain a desired number of replicas, continuously monitoring and managing their state.
+
+
+### Deployment Strategy
+
+A K8S Deployment strategy encompasses the methods of creating, upgrading, or downgrading to a different version of a K8S application (typically a pod/container).
+
+* Recreate
+Demise old pods then launch new pods. There will be downtime during this strategy deployment
+
+* RollingUpdate
+When new launched pods are in service that available pods exceed the minimal, then start demising old pods. Recycling are through updating the pods according to the parameters: `maxSurge` and `maxUnavailable`.
+
+`.spec.strategy.rollingUpdate.maxUnavailable` is an optional field that specifies the maximum number of Pods that can be unavailable during the update process.
+
+`.spec.strategy.rollingUpdate.maxSurge` is an optional field that specifies the maximum number of Pods that can be created over the desired number of Pods.
+
+For example, to recycle pod one by one, use the config below.
+
+```yaml
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+     maxSurge: 1
+     maxUnavailable: 0 
 ```
 
 ### StatelessSet vs StatefulSet
@@ -51,6 +131,38 @@ metadata:
 A stateless application is one that does not care which network it is using, and it does not need permanent storage. Examples of stateless apps may include web servers (Apache, Nginx, or Tomcat).
 
 On the other hand, a stateful applications have persistent/modifiable data, such as DBs.
+
+
+## Labels and Selector
+
+`labels` and `selector` are used to group and reference resources.
+
+Popular labels are
+`"release" : "stable"`, `"release" : "canary"`,
+`"environment" : "dev"`, `"environment" : "qa"`, `"environment" : "production"`.
+
+A popular use case is that, in `apiVersion: apps/v1` implementation of `kind: Deployment`, `labels.app.hello-world` should match selector's `matchLabels` so that this deployment can bind the app's resource.
+
+```yaml
+...
+labels:
+    app: hello-world
+...
+spec:
+  selector:
+    matchLabels:
+      app: hello-world 
+```
+
+In `Service`, networking is bound to corresponding `Deployment` via `selector`, and `type: LoadBalancer` sets data routing from the load balancer to the bound pods.
+
+```yaml
+selector:
+  app: hello-world
+...
+type: LoadBalancer
+```
+
 
 ## Node
 
@@ -87,157 +199,61 @@ Each node has a Kubelet, which is an agent for managing the node and communicati
 </div>
 </br>
 
-## Volume
-
-A *PersistentVolume* (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes.
-
-A *PersistentVolumeClaim* (PVC) is a request for storage by a user. Claims can request specific size and access modes (e.g., they can be mounted ReadWriteOnce, ReadOnlyMany or ReadWriteMany, see AccessModes).
-
-For use of persistent volume, there should be two declared resources: PV and PVC
 
 ## Services
 
-Services help expose groups of pods over a network by adding a layer of abstraction. This abstraction provides a stable endpoint for the pods to communicate with each other.
+Service is a method for exposing a network application that is running as one or more Pods in cluster.
 
-## A Minimal Example: Image and `.yaml` File
 
-### Build an image
+### Service Port Type 
 
-Build a docker image of a simple app by `nodejs`.
+Reference: https://kubernetes.io/docs/concepts/services-networking/service/
 
-```javascript
-const express = require("express");
-const data = require("./data.json")
+The available type values and their behaviors are:
 
-const app = express();
+* ClusterIP
+Exposes the Service on a cluster-internal IP. Choosing this value makes the Service only reachable from within the cluster. This is the default that is used if you don't explicitly specify a type for a Service. You can expose the Service to the public internet using an Ingress or a Gateway.
 
-app.get("/", (req, res) => {
-    res.send("Hello, Welcome")
-})
+* NodePort
+Exposes the Service on each Node's IP at a static port (the NodePort). To make the node port available, Kubernetes sets up a cluster IP address, the same as if you had requested a Service of type: ClusterIP.
 
-app.listen(8000, () => {
-    console.log("App is running")
-});
-```
+* LoadBalancer
+Exposes the Service externally using an external load balancer. Kubernetes does not directly offer a load balancing component; you must provide one, or you can integrate your Kubernetes cluster with a cloud provider.
 
-```Dockerfile
-FROM node:18-alpine
+* ExternalName
+Maps the Service to the contents of the externalName field (for example, to the hostname api.foo.bar.example). The mapping configures your cluster's DNS server to return a CNAME record with that external hostname value. No proxying of any kind is set up.
 
-WORKDIR /hello-world-nodejs
 
-COPY server.js /hello-world-nodejs/
-COPY package.json /hello-world-nodejs/
-COPY data.json /hello-world-nodejs/
+To implement a Service of `type: LoadBalancer`, Kubernetes typically starts off by making the changes that are equivalent to you requesting a Service of type: `NodePort`. The cloud-controller-manager component then configures the external load balancer to forward traffic to that assigned node port.
 
-RUN npm install
 
-CMD ["node", "server"]
-```
+`containerPort: 80`: Indicates that the container will listen on port 80.
+For example, a mysql container has `containerPort: 3306`.
 
-Build and publish the docker image.
-For the used container is docker, the publish needs username and password.
-
-```bash
-docker build -t hello-world-nodejs-image .
-docker image tag hello-world-nodejs-image <username>/hello-world-nodejs-image
-```
-
-### Launch the K8S cluster
-
-A minimal working k8s cluster should see two kinds of below: `Deployment` and `Service`.
-
-Such file to launch a k8s cluster is named `manifest.yaml`.
-By default, ports are only accessible within a cluster. To access the app from external, need to expose the port via `--url`.
-
-```bash
-kubectl create -f manifest.yaml
-minikube service hello-world --url
-```
+There can be multiple container port listening, such as
 
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: hello-world-deployment
-  labels:
-    app: hello-world
-spec:
-  selector:
-    matchLabels:
-      app: hello-world
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        app: hello-world
-    spec:
-      containers:
-      - name: hello-world
-        image: <username>/hello-world-nodejs-image
-        ports:
-        - containerPort: 80
-        resources:
-          limits:
-            memory: 256Mi
-            cpu: "250m"
-          requests:
-            memory: 128Mi
-            cpu: "80m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-world
-spec:
-  selector:
-    app: hello-world
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30081   
-  type: NodePort
+ports: 
+    - containerPort: 80
+    - containerPort: 443
 ```
 
-The launched services can be found by `minikube service list`, that shows external access entry `http://192.168.49.2:30081`.
+## Ingress
 
-```txt
-|----------------------|---------------------------|--------------|---------------------------|
-|      NAMESPACE       |           NAME            | TARGET PORT  |            URL            |
-|----------------------|---------------------------|--------------|---------------------------|
-| default              | hello-world               |           80 | http://192.168.49.2:30081 |
-| default              | kubernetes                | No node port |                           |
-| kube-system          | kube-dns                  | No node port |                           |
-| kubernetes-dashboard | dashboard-metrics-scraper | No node port |                           |
-| kubernetes-dashboard | kubernetes-dashboard      | No node port |                           |
-|----------------------|---------------------------|--------------|---------------------------|
-```
+`Ingress` is an API object that manages external access to the services in a cluster, typically HTTP.
 
-### Common Specs
+## Storage `PersistentVolume` (PC) and `PersistentVolumeClaim` (PVC)
 
-### `selector`
+A `PersistentVolume` (PV) is a piece of storage in the cluster provisioned by an administrator or dynamically allocated using Storage Classes, and it has a lifecycle independent of any individual Pod that uses the PV.
 
-### `template`
+A `PersistentVolumeClaim` (PVC) is a request for storage by a user, similar to a Pod consuming node resources, but PVC consuming PV resources.
+Claims can request specific size and access modes (e.g., they can be mounted ReadWriteOnce, ReadOnlyMany).
 
-### `type: NodePort` vs `type: LoadBalancer`
+### MySQL Example
 
+The preceding YAML file creates a service that allows other Pods in the cluster to access the database.
+The Service option clusterIP: `None` lets the Service DNS name resolve directly to the Pod's IP address.
 
-
-
-### `ports`
-
-* `port` exposes the Kubernetes service on the specified port within the cluster.
-* `targetPort` on which the service will send requests to, that pod/container will be listening on.
-* `containerPort` 
-* `nodePort` exposes a service externally to the cluster by means of the target nodes IP address and the NodePort.
-
-User accesses app via `nodePort`
-
-```yaml
-spec:
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30081   
+```bash
+kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h mysql -p password
 ```

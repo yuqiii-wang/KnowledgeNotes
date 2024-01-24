@@ -25,7 +25,17 @@ Start by the below.
 minikube start --driver=docker
 ```
 
-### Trouble Shooting
+### Useful tips
+
+* Use local image
+
+Load local built image by `minikube image load <tag>:<version>`
+
+By default, K8S pulls image online. To force K8S use local built image, should add `imagePullPolicy: Never`.
+
+* Use `minikube dashboard` for GUI
+
+* Mirror Site
 
 First time run `minikube start` (first start may download many dependencies, e.g., `kubectl`).
 For internet issues, there might be slow in downloading, user can manually download some most popular dependencies
@@ -36,11 +46,25 @@ sudo apt-get install -y kubelet kubeadm kubectl
 
 Reference: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
-User can use public repositories such as below.
+K8S CN Mirrors:
+https://kubernetes.feisky.xyz/appendix/mirrors
+
+By the year 2024, popular k8s mirror providers in China are Azure and Aliyun.
 
 ```bash
 minikube start --driver=docker --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
 ```
+
+or
+
+```bash
+minikube start --driver=docker --image-repository=http://mirror.azure.cn/kubernetes/packages/apt/
+```
+
+* API Server Start
+
+The API server exposes an HTTP API (by default `https://localhost:6443`) that lets end users, different parts of cluster, and external components communicate with one another.
+Queries such as `kubectl get nodes` and `kubectl apply -f manifest.yaml` are passed to this API to interact with K8S cluster.
 
 ## Fullstack K8S Example
 
