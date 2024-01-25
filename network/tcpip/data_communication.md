@@ -24,6 +24,44 @@ another one is often used for UDP concerning only about delivery.
 </div>
 </br>
 
+## Internet Protocol (IP)
+
+* Network address translation (NAT)
+
+*Network address translation* (NAT) is used to map IPs from one network to another network by modifying IP header info (recall that an IP header contains source and destination IP addrs, and NAT replaces the IPs with its proposed globally unique ones when forwarding TCP/IP packet to the internet).
+NAT device maintains a lookup table to store the translation mappings.
+
+The most popular use case is translating private IPs from a local network (e.g., wifi) to globally unique IPs on the internet
+
+* IP Classes
+
+IPs are identified with classes A, B, C, D (multi-cast) and E (reserved).
+
+* Classless Inter-Domain Routing (CIDR)
+
+CIDR is a method for allocating IP addresses for IP routing.
+
+* Broadcast/Network Address
+
+Broadcast/network addresses refer to using all-ones subnet IP to represent this subnet network.
+
+For example, 
+
+|Name|Bit Form|Decimal Form|
+|-|-|-|
+|A network IP addr|10101100.00010000.00000000.00000000|172.16.0.0|
+|The broadcast addr for the network|10101100.00011111.11111111.11111111|172.31.255.255|
+
+* Private IPs
+
+|IPs|CIDR|Description|
+|-|-|-|
+|10.0.0.0 - 10.255.255.255|10.0.0.0/8|one class A network|
+|172.16.0.0 - 172.31.255.255|172.16.0.0/12|16 contiguous class B networks|
+|192.168.0.0 - 192.168.255.255|192.168.0.0/16|256 contiguous class C networks|
+
+## Address Resolution Protocol (ARP) vs Internet Control Message Protocol (ICMP) 
+
 ## TCP vs UDP
 
 * TCP/IP needs ack for each sent packet, while UDP is not
@@ -94,7 +132,7 @@ QUIC:
 |URL (Uniform Resource Locator)|URI (Uniform Resource Identifier)|
 |-|-|
 |URL links a web page/component|URI is used to distinguish one resource |
-|URL is a subset of URI|URI is the superset of URL.|
+|URL is a subset of URI|URI is the superset of URL $\text{URL} \in \text{URI}$.|
 |Example: https://www.geeksforgeeks.org/ (this is just a server addr, not indicative of any resource, can only said to be a URL)|Example: https://media.geeksforgeeks.org/wp-content/uploads/20200205203241/gfg30.jpg (this can be said URL as well as URI for it contains the addr of an actual resource: a `.jpg` image)|
 
 <div style="display: flex; justify-content: center;">

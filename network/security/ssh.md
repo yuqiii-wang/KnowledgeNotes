@@ -25,7 +25,7 @@ $HOME/.ssh/id_rsa.pub # Your public RSA key
 2. Share the `id_rsa.pub` to the remote server.
 
 The remote server should have `ssh` already installed.
-Usually, it is copied to the below file.
+Usually, `id_rsa.pub` is copied to the below file.
 
 ```bash
 # on remote server
@@ -53,6 +53,16 @@ $HOME/.ssh/authorized_keys
 This step might be auto completed for some open-to-public servers such as `github.com`.
 
 Now, ssh should work as per above setup.
+
+### `scp` for File Transfer
+
+`scp` uses `ssh` to file transfer `scp <fromDirectory> <toDirectory>`
+
+For example, to download from a remote computer, run
+
+```bash
+scp -r yuqi@<remote_server>:/path/to/remote/server /path/to/local/server
+```
 
 ## The Underlying Mechanism
 
