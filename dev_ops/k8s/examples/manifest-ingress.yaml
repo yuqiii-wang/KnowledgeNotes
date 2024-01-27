@@ -6,7 +6,8 @@ metadata:
     ingressclass.kubernetes.io/is-default-class: "true"
 spec:
   rules:
-  - http:
+  - host: helloworld.local.test
+    http:
       paths:
       - path: /
         pathType: Prefix

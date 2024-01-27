@@ -37,3 +37,21 @@ kubectl get services
 # NAME                  TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
 # hello-world-service   LoadBalancer   10.107.136.97   <pending>     80:30213/TCP   5m13s
 # kubernetes            ClusterIP      10.96.0.1       <none>        443/TCP        2m37s
+
+## ingress
+kubectl apply -f manifest-ingress.yaml
+kubectl describe ingress minimal-hello-world-ingress
+# kubectl describe ingress minimal-hello-world-ingress
+# Name:             minimal-hello-world-ingress
+# Labels:           <none>
+# Namespace:        default
+# Address:
+# Ingress Class:    <none>
+# Default backend:  <default>
+# Rules:
+#   Host                    Path  Backends
+#   ----                    ----  --------
+#   hellowworld.local.test
+#                           /   hello-world-service:80 (10.244.0.31:8080,10.244.0.33:8080,10.244.0.34:8080)
+# Annotations:              ingressclass.kubernetes.io/is-default-class: true
+# Events:                   <none>

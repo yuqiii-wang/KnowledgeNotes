@@ -69,7 +69,7 @@ DayCountFactor=
 \frac{AccrualDays}{360}
 $$
 
-## Bond valuation
+## Bond valuation (Discounted Cash Flow)
 
 The theoretical fair value of a bond is the present value of the stream of cash flows it is expected to generate. Hence, the value of a bond is obtained by discounting the bond's expected cash flows to the present using an appropriate discount rate.
 
@@ -111,31 +111,29 @@ In other words, the interest accounts for the time since the bond's start date o
 A matched book is an approach that banks and other institutions may take to ensure that the maturities of its assets and liabilities are equally distributed. 
 A matched book is also known as "asset/liability management" or "cash matching."
 
-* Bullet Loan vs Amortizing Loan
-
-A typical amortizing loan schedule requires the gradual repayment of the loan principal over the borrowing term. 
-However, a bullet loan requires one lump sum repayment of the loan principal on the date of the maturity.
-
 ## Businesses
 
 ### Bond Interest Rate and Spot Price
 
-When the bond price goes up the interest rate goes down, and vice versa. If a bond matures at a price $110, initial purchase price is $100; the interest rate is 10%. If the initial purchase price is $105, the interest rate is lower than 5%.
+When the bond price goes up the interest rate goes down, and vice versa. If a bond matures at a price \$ 110, initial purchase price is \$ 100; the interest rate is 10%. If the initial purchase price is $105, the interest rate is lower than 5%.
 
 When bonds are in high demand, the spot price rises, and the interest rate drops. Central bank can bulk purchase bonds so that interest rates are low, and companies and individuals are motivated to spend money rather than purchasing bonds as savings.
 
-### Convertible Bond
+### Bond Types
+
+* Convertible Bond (可转换债券, 可换股债券)
 
 A convertible bond or convertible note or convertible debt (or a convertible debenture if it has a maturity of greater than 10 years) is a type of bond that the holder can convert into a specified number of shares of common stock in the issuing company or cash of equal value.
 
-### Negotiable Certificate of Deposit (NCD)
+* Negotiable Certificate of Deposit (NCD) (可转让大额存单)
 
-NCDs are guaranteed by banks and can usually be sold in a highly liquid secondary market, 
-but they cannot be cashed in before maturity.
+CDs are fixed of maturity and ownership.
+NCDs are flexible in terms of maturity date, ownership and interest rate.
 
-In other words, it is a type of bond issued by bank.
+* Bullet Loan vs Amortizing Loan
 
-Interest rates are negotiable, usually paid either twice a year or at maturity, or the instrument is purchased at a discount to its face value.
+A typical amortizing loan schedule requires the gradual repayment of the loan principal over the borrowing term. 
+However, a bullet loan requires one lump sum repayment of the loan principal on the date of the maturity.
 
 ## Bond Trading Platforms
 

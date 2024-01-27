@@ -159,6 +159,11 @@ Require minimal saving amount and term; pay with high interests than that of sav
 
 CDs typically differ from savings accounts in that the CD has a specific, fixed term before money can be withdrawn without penalty and generally higher interest rates.
 
+* Negotiable Certificate of Deposit (NCD) (可转让大额存单)
+
+CDs are fixed of maturity and ownership.
+NCDs are flexible in terms of maturity date, ownership and interest rate.
+
 * Commercial Paper (商業票據)
 
 Commercial paper is an unsecured promissory note with a fixed maturity of usually less than 270 days.
@@ -174,7 +179,7 @@ Instead of just paying cash on goods' delivery, Apple pays with commercial paper
 
 Price-earnings ratio is defined as
 $$
-P/E = \frac{SharePrice}{EarningsPerShare}
+P/E = \frac{\text{SharePrice}}{\text{EarningsPerShare}}
 $$
 
 * Preferred vs. Common Stock
@@ -184,7 +189,6 @@ The main difference between preferred and common stock is that preferred stock g
 Preferred shareholders have priority over a company's income, meaning they are paid dividends before common shareholders.
 
 Common stockholders are last in line when it comes to company assets, which means they will be paid out after creditors, bondholders, and preferred shareholders.
-
 
 * Exchange-traded fund (ETF)
 
@@ -330,6 +334,10 @@ As a result, underwriters take risks when not having such securities sold; or ea
 * Money market fund (货币基金)
 
 A money market fund (also called a money market mutual fund) is an open-ended mutual fund that invests in short-term debt securities such as US Treasury bills and commercial paper
+
+* Fund of Funds (FOF)
+
+A fund of funds (FOF) is a pooled fund that invests in other funds.
 
 ### Money Supply
 

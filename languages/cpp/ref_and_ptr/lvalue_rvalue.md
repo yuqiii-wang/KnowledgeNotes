@@ -1,6 +1,7 @@
 # Rvalue vs Lvalue
 
-Put simply, an lvalue is an object reference and an rvalue is a value. An lvalue refers to an object that persists beyond a single expression. An rvalue is a temporary value that does not persist beyond the expression that uses it.
+Put simply, an *lvalue* is an object reference and an *rvalue* is a value. An lvalue refers to an object that persists beyond a single expression.
+An rvalue is a temporary value that does not persist beyond the expression that uses it.
 
 ```cpp
 int get(){
@@ -13,6 +14,7 @@ int main(){
 ```
 
 Reference takes lvalue, so that
+
 ```cpp
 void setVal(int& val){}
 int main(){
@@ -28,7 +30,8 @@ int main(){
 
 ```
 
-for lvalue and rvalue as arguments, it is recommended to add overloads, rather than by `const&`
+for `lvalue` and `rvalue` as arguments, it is recommended to add overloads, rather than by `const&`
+
 ```cpp
 void foo(X& x) {}
 void foo(X&& x) { foo(x); }
@@ -63,6 +66,7 @@ vec.push_back(a); // works, a is lvalue, but not elegant
 ```
 
 ### `std::vector::emplace_back` takes `T&&`
+
 ```cpp
 std::vector<std::string> vec;
 
@@ -73,17 +77,19 @@ vec.push_back(str1); // copy
 vec.push_back(std::move(str1)); // by move, str1 is now empty
 vec.emplace_back(str2); // same as by move, str2 is now empty
 vec.emplace_back("axcsddcas"); // valid, emplace_back can take rvalue
-
 ```
 
 ### Operation Overloading Example
 
-Consider this, 
+Consider this,
+
 ```cpp
 Object A, B, C, D, E;
 A = (B + (C + (D + E)));
 ```
+
 However, `operator+` such as on `(D + E)` whose result is `+` to `C`, creates multiple temp objects and soon useless thus deleted, given the following Object definition.
+
 ```cpp
 Object Object::operator+ (const Object& rhs) {
     Object temp (*this);
@@ -92,13 +98,15 @@ Object Object::operator+ (const Object& rhs) {
 }
 ```
 
-This can be addressed by 
+This can be addressed by
+
 ```cpp
 Object& Object::operator+ (Object&& rhs) {
     // logic to modify rhs directly
     return rhs;
 }
 ```
+
 This is known as `move` semantics, in which `const Object& rhs` is a lvalve reference and `Object&& rhs` changes to a modifiable rvalue reference.
 
 ### & vs && in var declaration
@@ -133,7 +141,7 @@ makeWidget().doWork(); // calls Widget::doWork for rvalues
 
 ### Summary
 
-Both `move` and `forward` are introduced to deal with expensive "copy" operation when passing params; `move` is used to force using `rvalue reference` without copy, while `forward` is of added compatibility handling `rvalue/lvalue reference` as well as `const reference`.
+Both `move` and `forward` are introduced to deal with expensive "copy" operation when passing params; `move` is used to force using *rvalue reference* without copy, while `forward` is of added compatibility handling *rvalue/lvalue reference* as well as `const reference`.
 
 ### Further explained
 
@@ -144,19 +152,21 @@ std::string src_str = "hello";
 std::string dest_str = src_str;
 ```
 
-inside, `=` is actually a copy assignment operator. If src_str is no long used, we can actually assign the addr of src_str to dest_str. To do that, we can
+inside, `=` is actually a copy assignment operator. If `src_str` is no longer used, it can actually be assigned to the addr of `src_str` to `dest_str`, such as below
 
 ```cpp
 std::string dest_str = std::move(src_str);
 // The above statement is same as
 std::string dest_str((std::string&&)src_str);
 ```
+
 so that `src_str` becomes a temporary (an rvalue).
 
-In contrast to `std::move` that treats an object as a temp rvalue, `std::forward` has a single use case: to cast a templated function parameter (inside the function) to the value category (lvalue or rvalue) the caller used to pass it. 
-This allows rvalue arguments to be passed on as rvalues, and lvalues to be passed on as lvalues, a scheme called “perfect forwarding.”
+In contrast to `std::move` that treats an object as a temp rvalue, `std::forward` has a single use case: to cast a templated function parameter (inside the function) to the value category (lvalue or rvalue) the caller used to pass it.
+This allows rvalue arguments to be passed on as `rvalue`s, and `lvalue`s to be passed on as `lvalue`s, a scheme called "perfect forwarding".
 
 In the example below, `wrap(T&& t)` has a param not deduced until invocation.
+
 ```cpp
 struct S{};
 
@@ -175,6 +185,59 @@ int main(){
     return 0;
 }
 ```
+
+### Use Cases
+
+In C++, all non-pointer lvalue objects are RAII managed that when out of scope, they are demised.
+In nature, `std::move` just forces changing a lvalue object to rvalue so that such object can be movable/extended lifecycle to greater/another scope.
+
+The implication of using `std::move` is that user is happy to transfer the ownership of an object to another scope.
+
+```cpp
+A a;
+fun(a); // When a is small, usually primitive data types
+fun(&a); // similar to passing by pointer, both the current and the `fun` scopes share the ownership of `a`
+fun(std::move(a)); // the current scope no longer wants a, but transferred to `fun`
+```
+
+#### The rvalue reference
+
+By default, `a2 = a1;` implements copy constructor `A& operator=(const A&)`.
+
+Rvalue reference by `std::move` is a temp reference object that can pass reference data type validation, and it has implications user do not want to use the object in the old scope.
+
+Reference is semantically useful such as in `void foo(A&& other)` where the reference can be passed to be de-referenced as an address to a pointer.
+
+```cpp
+#include <iostream>
+
+class A {
+public:
+    A& operator=(const A&) {
+        std::cout << "copy" << std::endl;
+        return *this;
+    }
+    A& operator=(A&&) {
+        std::cout << "move" << std::endl;
+        return *this;
+    }
+};
+
+void foo(A&& other) {
+    A* p = &other;
+}
+
+int main() {
+    A a1, a2;
+    a2 = a1;                // print "copy"
+    a2 = std::move(a1);     // print "move"
+    foo(std::move(a2));
+}
+```
+
+#### `std::unique_ptr` construction
+
+`std::unique_ptr` construction is efficient as it implements move constructor.
 
 ### Example: Forward Test
 

@@ -29,7 +29,9 @@ Borrower pays premium to a third party to insure the borrower's credit, that if 
 
 * Wash trade
 
-Wash trading – also referred to as round trip trading – is a practice where investors buy and sell the same financial instruments almost at the same time.
+*Wash trading* - also referred to as round trip trading - is a practice where investors buy and sell the same financial instruments almost at the same time.
+
+For example, a bank group has many branches in different countries and regions. Bank HK wants to a trade from Bank HK to Bank JP, and this trade is called wash trade.
 
 Motivations include security ownership change to another investor, 
 

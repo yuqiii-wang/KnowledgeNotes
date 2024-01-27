@@ -63,7 +63,10 @@ minikube start --driver=docker --image-repository=http://mirror.azure.cn/kuberne
 
 * API Server Start
 
-The API server exposes an HTTP API (by default `https://localhost:6443`) that lets end users, different parts of cluster, and external components communicate with one another.
+`minikube start` automatically starts the API server.
+If it fails, user might get error `https://localhost:<random_port>` not reachable/timeout.
+
+The API server exposes an HTTP API (by default `https://localhost:<random_port>`) that lets end users, different parts of cluster, and external components communicate with one another.
 Queries such as `kubectl get nodes` and `kubectl apply -f manifest.yaml` are passed to this API to interact with K8S cluster.
 
 ## Fullstack K8S Example

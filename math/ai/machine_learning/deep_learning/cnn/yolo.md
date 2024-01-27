@@ -5,18 +5,21 @@ If the center of an object falls into a grid cell, that grid cell
 is responsible for detecting that object.
 
 Each grid cell predicts $B$ bounding boxes and confidence scores for those boxes.
-The confidence score represents the IOU-weighted probability of having an object present in a bounding box, and is computed by 
+The confidence score represents the IOU-weighted probability of having an object present in a bounding box, and is computed by
+
 $$
 \text{Pr(Object)} \cdot \text{IOU}^{\text{truth}}_{\text{pred}}
 $$
 
 IOU (Intersection Over Union) is simply computed by taking the overlapping area percentage of the total union area.
+
 <div style="display: flex; justify-content: center;">
       <img src="imgs/iou.png" width="20%" height="20%" alt="iou" />
 </div>
 </br>
 
 Each bounding box has five predictions:
+
 * $(x,y)$ represents the center of an object bounding box relative to the bounds of a grid cell
 * $(w, h)$ represents the width and height relative to the image size
 * $C$ represents the number of classes, in which each class probability is conditional on having a present object $p_i(c)=\text{Pr}(\text{Class}_i|\text{Object})$
@@ -52,6 +55,7 @@ Darknet53 takes advantage of residual mechanism and adds more layers than YOLOv2
 * Input image size: $448 \times 448$
 
 * Used leaky rectified linear activation:
+* 
 $$
 a(x) =
 \left\{
@@ -64,7 +68,7 @@ $$
 
 * Set $\lambda_{coord}=5$ and $\lambda_{noobj}=0.5$ as the scaling factors to increase/decrease the loss of having/not having an object in a grid cell.
 
-Otherwise, since most grid cells do not contain objects (data imbalance between grid cells with/without contained objects), training overpowers gradients to converge to having no object predictions. 
+Otherwise, since most grid cells do not contain objects (data imbalance between grid cells with/without contained objects), training overpowers gradients to converge to having no object predictions.
 
 ### Loss Function
 
@@ -77,6 +81,7 @@ L = L_{coord}  + L_{size} + L_{C-obj} + L_{C-noobj} + L_{c}
 $$
 
 * Object coordinate relative to grid cell loss $L_{coord}$ per-grid-cell per-bounding-box
+
 $$
 L_{coord} = 
 \lambda_{coord} \sum^{S^2}_{i=0} \sum^{B}_{j=0}
@@ -84,6 +89,7 @@ L_{coord} =
 $$
 
 * Object rectangle/bounding box size loss $L_{size}$ per-grid-cell per-bounding-box
+
 $$
 L_{size} =
 \lambda_{coord} \sum^{S^2}_{i=0} \sum^{B}_{j=0}
@@ -91,13 +97,15 @@ L_{size} =
 $$
 
 * Contained object prediction class loss $L_{C-obj}$ (loss is zero when having predicted the correct class) per-grid-cell per-bounding-box
+
 $$
-L_{C-obj} = 
+L_{C-obj} =
 \sum^{S^2}_{i=0} \sum^{B}_{j=0}
 \mathbb{1}^{obj}_{ij} \big( C_i-\hat{C}_i \big)^2
 $$
 
 * Non-contained object prediction class loss $L_{C-noobj}$ (loss is zero when having predicted the correct class) per-grid-cell per-bounding-box
+
 $$
 L_{C-noobj} = 
 \lambda_{noord}

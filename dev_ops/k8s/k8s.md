@@ -27,10 +27,10 @@ A Pod is a Kubernetes representation of a functioning "logic host", included of 
 Pods are the smallest deployable unit in Kubernetes.
 
 Some shared resources for those containers. Those resources include:
+
 1. Shared storage, as Volumes
 2. Networking, as a unique cluster IP address
 3. Information about how to run each container, such as the container image version or  specific ports to use
-
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/pod.png" width="25%" height="25%" alt="pod" />
@@ -223,9 +223,7 @@ Exposes the Service externally using an external load balancer. Kubernetes does 
 * ExternalName
 Maps the Service to the contents of the externalName field (for example, to the hostname api.foo.bar.example). The mapping configures your cluster's DNS server to return a CNAME record with that external hostname value. No proxying of any kind is set up.
 
-
 To implement a Service of `type: LoadBalancer`, Kubernetes typically starts off by making the changes that are equivalent to you requesting a Service of type: `NodePort`. The cloud-controller-manager component then configures the external load balancer to forward traffic to that assigned node port.
-
 
 `containerPort: 80`: Indicates that the container will listen on port 80.
 For example, a mysql container has `containerPort: 3306`.
@@ -242,18 +240,116 @@ ports:
 
 `Ingress` is an API object that manages external access to the services in a cluster, typically HTTP.
 
-## Storage `PersistentVolume` (PC) and `PersistentVolumeClaim` (PVC)
+It provides functions such as firewall, load balancing, virtual DNS name hosting, etc.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/ingress.svg" width="40%" height="25%" alt="ingress.svg" />
+</div>
+</br>
+
+### Ingress Controller and Ingress Class
+
+In order for the Ingress resource to work, the cluster must have an *ingress controller* running.
+
+Ingresses can be implemented by different controllers with different configs
+An `IngressClass` is the controller implementation that contains additional configuration including the name of the controller.
+
+Default `IngressClass` is used when setting `ingressclass.kubernetes.io/is-default-class: true` or `ingressClassName` is not set.
+
+Below is an example that implements nginx as the controller.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+  name: nginx-example
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  controller: k8s.io/ingress-nginx
+```
+
+### Specifications
+
+* Access Rules
+
+|Path Type `pathType`|Rule|Example Path|Match|
+|-|-|-|-|
+|Prefix|\ |(all paths) |Yes|
+|Exact| \foo|\foo |Yes|
+|Exact| \foo|\foo\ |No|
+|Prefix| \foo|\foo |Yes|
+|Prefix| \foo|\foo\ |Yes|
+|Prefix| \foo|\foo\bar |Yes|
+
+* Backend
+
+`backend` describes what services are assigned to handles requests.
+
+```yaml
+...
+- http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: hello-world-service
+            port:
+              number: 80
+```
+
+* Hostname
+
+Ingress can provide DNS name hosting.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wildcard-host
+spec:
+  rules:
+  - host: "foo.bar.com"
+    http:
+        ...
+  - host: "*.foo.com"
+    http:
+        ...
+```
+
+To get k8s locally host an DNS name;
+reference: https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/
+
+## Storage `PersistentVolume` (PV) and `PersistentVolumeClaim` (PVC)
 
 A `PersistentVolume` (PV) is a piece of storage in the cluster provisioned by an administrator or dynamically allocated using Storage Classes, and it has a lifecycle independent of any individual Pod that uses the PV.
 
 A `PersistentVolumeClaim` (PVC) is a request for storage by a user, similar to a Pod consuming node resources, but PVC consuming PV resources.
 Claims can request specific size and access modes (e.g., they can be mounted ReadWriteOnce, ReadOnlyMany).
 
-### MySQL Example
+* Host Path
 
-The preceding YAML file creates a service that allows other Pods in the cluster to access the database.
-The Service option clusterIP: `None` lets the Service DNS name resolve directly to the Pod's IP address.
+A `hostPath` volume mounts a file or directory from the host node's filesystem into your Pod.
 
-```bash
-kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h mysql -p password
+A popular use case is `hostPath.path: /var/log` for node-level system centralized logging.
+
+* Storage Class
+
+*Storage class* is used to administer how volume is provisioned.
+The administration includes access mode (e.g., ReadWriteOnce, ReadOnlyMany), lifecycle (e.g., to or not to be deleted after PVC ends), etc.
+
+When a PVC does not specify a `storageClassName` or `storageClassName=""`, the default StorageClass is used; when set
+`storageclass.kubernetes.io/is-default-class: true` annotation in PV and PVC, the default StorageClass is used.
+
+A `manual` storage class is a name used in PV/PVC without actually creating a StorageClass.
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: manual
+provisioner: kubernetes.io/no-provisioner
 ```
