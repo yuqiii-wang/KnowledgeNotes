@@ -18,8 +18,7 @@ for $\bold{x}(0)=\bold{x}_0 \ne \bold{0}$.
 By this applied correction $\bold{u}(t) = K \bold{x}(t)$, LQR attempts to minimize this cost function:
 
 $$
-\min \frac{1}{2} \bold{x}^\top(t_f) S \bold{x}(t_f)
-+ \frac{1}{2} \int^{t_f}_{t_0} \Big( 
+\min \frac{1}{2} \bold{x}^\top(t_f) S \bold{x}(t_f)+\frac{1}{2} \int^{t_f}_{t_0} \Big( 
 \bold{x}(t)^\top Q \bold{x}(t) + \bold{u}^\top (t)R \bold{u}(t)
 \Big) dt
 $$

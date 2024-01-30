@@ -52,11 +52,11 @@ $$
 $$
 \begin{align*}
 L_{CE}&=
--\sum_i^C t_i \space \log(s_i)
-\\ &=
+-\sum_i^C t_i \space \log(s_i) \\ &=
 -\sum_i^C t_i \space \log(\frac{e^{z_i}}{\sum^C_{j=1}e^{z_j}})
 \end{align*}
 $$
+
 where $t_i$ is the ground truth (one-hot encoded) for a total of $C$ classes for prediction, and $s_i$ is the softmax score for the $i$-th class.
 
 Cross-entropy outputs entropy of each class error, then sums them up.
@@ -79,6 +79,7 @@ $$
 L(y)=
 max(0, 1-t \cdot y)
 $$
+
 where $t=\pm 1$ and $y$ is the prediction score. For example, in SVM, $y=\bold{w}^\text{T}\bold{x}+b$, in which $(\bold{w}, b)$ is the hyperplane.
 
 ## Distance
@@ -123,6 +124,7 @@ $$
 ,\qquad
 u_i \in \bold{u} \in \mathbb{R}, \space v_i \in \bold{v} \in \mathbb{R}
 $$
+
 where $p$ is the order parameter.
 
 When $p$ is set to $1$, the calculation is the same as the Manhattan distance. 

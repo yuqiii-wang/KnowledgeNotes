@@ -99,23 +99,18 @@ r_1^2 + r_2^2 + ... + r^2_m
 $$
 
 Process:
+
 $$
 \begin{align*}
-& ||A \bold{x} - \bold{b}||^2
-\\ =& 
-||U \Sigma V^\text{T} \bold{x} - \bold{b}||^2
-\\ =&
-||U^\text{T}(U \Sigma V^\text{T} \bold{x} - \bold{b})||^2
-\\ =& 
+& ||A \bold{x} - \bold{b}||^2 \\ =& 
+||U \Sigma V^\text{T} \bold{x} - \bold{b}||^2 \\ =&
+||U^\text{T}(U \Sigma V^\text{T} \bold{x} - \bold{b})||^2 \\ =& 
 ||U^\text{T}U \Sigma V^\text{T} \bold{x} - U^\text{T}\bold{b}||^2
-\quad U\text{ is orthoganal that } U^\text{T}U=I
-\\ =&
-||\Sigma V^\text{T} \bold{x} - U^\text{T}\bold{b}||^2
-\\ =&
+\quad U\text{ is orthoganal that } U^\text{T}U=I\\ =&
+||\Sigma V^\text{T} \bold{x} - U^\text{T}\bold{b}||^2\\ =&
 ||\Sigma \bold{y} - U^\text{T}\bold{b}||^2
-\quad \text{denote } \bold{y}=V^\top\bold{x} 
-\text{ and } \bold{z}=U^\top\bold{b} 
-\\ =&
+\quad \text{denote } \bold{y}=V^\top\bold{x}
+\text{ and } \bold{z}=U^\top\bold{b} \\ =&
 \Bigg|\Bigg|
 \begin{bmatrix}
     \sigma_1 & & & \\
@@ -124,10 +119,8 @@ $$
     & & & \bold{0}
 \end{bmatrix}
 \bold{y} - \bold{z}
-\Bigg|\Bigg|^2
-\\ =&
-\sum^{n}_{i=1} \big( \sigma_i {y}_i - \bold{u}^{\top}_i \bold{b} \big)^2
-+ \sum^{m}_{i=n+1} \big( \bold{u}^{\top}_i \bold{b} \big)^2
+\Bigg|\Bigg|^2\\ =&
+\sum^{n}_{i=1} \big( \sigma_i {y}_i - \bold{u}^{\top}_i \bold{b} \big)^2+\sum^{m}_{i=n+1} \big( \bold{u}^{\top}_i \bold{b} \big)^2
 \end{align*}
 $$
 

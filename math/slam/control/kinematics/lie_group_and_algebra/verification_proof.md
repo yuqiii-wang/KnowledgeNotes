@@ -348,14 +348,9 @@ $$
     r_{i,y} \\
     r_{i,z} \\
 \end{bmatrix}
+\\ &= - p_z r_{i,y} + p_y r_{i,z}+p_z r_{i,x} - p_x r_{i,z} - p_y r_{i,x} + p_x r_{i,y}
 \\ &=
-- p_z r_{i,y} + p_y r_{i,z}
-+ p_z r_{i,x} - p_x r_{i,z}
-- p_y r_{i,x} + p_x r_{i,y}
-\\ &=
-r_{i,x} (p_z - p_y)
-+ r_{i,y} (p_x - p_y)
-+ r_{i,z} (p_y - p_x)
+r_{i,x} (p_z - p_y)+r_{i,y} (p_x - p_y)+r_{i,z} (p_y - p_x)
 \\ &=
 \bold{p} \times \bold{r}_i
 \end{align*}

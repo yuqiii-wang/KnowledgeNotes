@@ -181,9 +181,7 @@ $$
 \min_{\bold{t}'} \sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &= 
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') - \bold{t}' \big|\big|^2
 \\ &=
-\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
-- \underbrace{2 \bold{t}' \cdot \sum_{i=1}^n \Big( \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \Big)}_{=\bold{0}}
-+ n \big|\big| \bold{t}' \big|\big|^2
+\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2- \underbrace{2 \bold{t}' \cdot \sum_{i=1}^n \Big( \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \Big)}_{=\bold{0}}+n \big|\big| \bold{t}' \big|\big|^2
 \end{align*}
 $$
 
@@ -215,8 +213,7 @@ $$
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
 \\ && &=
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' \big|\big|^2 
--2s \sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)
-+ \sum_{i=1}^n \underbrace{ \big|\big| R( \bold{r}_{l,i}') \big|\big|^2}_{
+-2s \sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)+\sum_{i=1}^n \underbrace{ \big|\big| R( \bold{r}_{l,i}') \big|\big|^2}_{
     \begin{matrix}
         =\big|\big| \bold{r}_{l,i}' \big|\big|^2  \\
         \text{ for they have} \\
@@ -227,8 +224,7 @@ $$
 && &=
 S_r - 2sD + s^2 S_l
 \\ && &=
-\underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}_{\ge 0}
-+ \frac{S_r S_l - D^2}{S_l}
+\underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}_{\ge 0}+\frac{S_r S_l - D^2}{S_l}
 \end{align*}
 $$
 
@@ -261,8 +257,7 @@ $$
 \sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
 \\ &= 
-\underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}
-+ 2(S_l S_r -D)
+\underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}+2(S_l S_r -D)
 \end{align*}
 $$
 

@@ -5,7 +5,9 @@
 $$
 y = \alpha + \beta x + u
 $$
+
 where
+
 * $y$ is the total yield
 * $\alpha$ is alpha, which is the excess return of the stock or fund.
 * $\beta$ is beta, which is volatility relative to the benchmark.
@@ -20,7 +22,9 @@ $$
 Sharpe Ratio = 
 \frac{R_p-R_f}{\sigma_p}
 $$
+
 where
+
 * $R_p$ is return of portfolio
 * $R_f$ is risk-free rate
 * $\sigma_p$ is the standard deviation of the portfolio's excess return
@@ -31,36 +35,36 @@ If Sharpe ratio is smaller than $1$, the portfolio's excess return is relatively
 
 ### Order Type
 
-* Limit Order 
+* Limit Order
 
 An order submitted with a specified limit price and to be executed at the specified price or better price.
 
-* Market Order 
+* Market Order
 
 An order submitted without the specified limit price and to be executed against the best bid or the best offer in order.
 
 ### Validity Periods and Conditions
 
-* Good for Day (GFD) 	
+* Good for Day (GFD)
 
 Valid until the end of the Day Session of the day (or, until the end of the Night Session if the order is submitted at the Night Session.).
 
-* Good till Date/ Good till Cancel (GTD/GTC) 	
+* Good till Date/ Good till Cancel (GTD/GTC)
 
 Valid until the end of the Day Session on the date the specified period ends.
 Selectable from either GTD (valid until the end of the day session on the date the specified period ends) or GTC (valid until the cancellation. (If not cancelled, it is valid until the end of the day session on the last trading day.)).
 
-* Fill and Kill (FAK) 	
+* Fill and Kill (FAK)
 
 In the case where there is unfilled volume after the order is partially executed, cancel the unfilled volume.
 
-*  Fill or Kill (FOK) 	
+* Fill or Kill (FOK)
 
 In the case where all the volume is not executed immediately, cancel all the volume.
 
 ### Stop Conditions
 
-* One-Cancels-the-Other Order (OCO) 
+* One-Cancels-the-Other Order (OCO)
 
 When either the stop or limit price is reached and the order is executed, the other order is automatically canceled. Define a upper limit and bottom limit to control the fluctuation of price with a frame; if either upper or bottom price is reached and stopped, the opposite limit is canceled.
 

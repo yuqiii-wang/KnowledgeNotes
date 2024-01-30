@@ -107,7 +107,7 @@ Create  PROCEDURE GetStudentName
 
 ### View
 
-A *view* is a virtual table that doesn’t store any data itself, acted as an "alias" to an ordinary query.
+A *view* is a virtual table that doesn't store any data itself, acted as an "alias" to an ordinary query.
 
 ```sql
 CREATE VIEW Oceania AS
@@ -115,6 +115,7 @@ CREATE VIEW Oceania AS
 ```
 
 Benefits include
+
 * Security - views are easy to manage access/execution permissions  
 * Simplicity - views can be used to hide and reuse complex queries
 * Maintenance - easy deployment of table structure changes
@@ -183,12 +184,11 @@ def tree_search(k, node):
 
 each record/entry as a unit
 
-* "column-oriented" storage: 
+* "column-oriented" storage:
 
 feature based storage
 
 easy for data warehouse-style queries
-
 
 ## High Availability
 

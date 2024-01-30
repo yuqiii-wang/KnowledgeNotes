@@ -41,6 +41,7 @@ A day count convention determines how interest accrues over time.
 In U.S., there are
 
 * Actual/Actual (in period): T-bonds
+
 $$
 DayCountFactor=
 \left\{
@@ -51,7 +52,8 @@ DayCountFactor=
     \end{array}
 \right.
 $$
-* 30/360: U.S. corporate and mmunicipal bonds
+
+* 30/360: U.S. corporate and municipal bonds
 
 $$
 DayCountFactor=
@@ -76,7 +78,7 @@ The theoretical fair value of a bond is the present value of the stream of cash 
 Present value $V_{present}$ can be computed by coupon payment $C$ over a number of periods $n$ with an interest rate $r$, plus the its face value $F$ (equal to its maturity value) on the final date. 
 
 $$
-V_{present} = 
+V_{present} =
 \big(
     \frac{C}{1+r}
     + \frac{C}{(1+r)^2}
@@ -86,6 +88,7 @@ V_{present} =
 \big) +
 \frac{F}{(1+r)^n}
 $$
+
 where coupon interest rate is $r=\frac{C}{F}$.
 
 ## Terminologies
@@ -110,6 +113,19 @@ In other words, the interest accounts for the time since the bond's start date o
 
 A matched book is an approach that banks and other institutions may take to ensure that the maturities of its assets and liabilities are equally distributed. 
 A matched book is also known as "asset/liability management" or "cash matching."
+
+* Weighted Average Maturity (WAM)
+
+  * Bond A is a \$ 5,000 bond (16.7% of the total portfolio) and matures in 10 years
+  * Bond B is a \$ 10,000 investment (33.3%) that matures in 6 years.
+  * Bond C is a \$ 15,000 bond (50%) with a maturity of 4 years.
+
+The WAM is
+
+$$
+\text{WAM} =
+0.167 \times 10 + 0.333 \times 6 + 0.5 \times 4 = 5.67 \text{ years}
+$$
 
 ## Businesses
 

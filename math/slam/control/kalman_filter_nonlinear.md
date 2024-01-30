@@ -501,8 +501,7 @@ $$
 \begin{align*}
 \bold{\hat{P}}_{1,x} &=
 \sum^{2d}_{i=0}
-W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{x}^{(i)}_1-{\hat{x}_1^-})^\text{T}
-+ \bold{Q}_0
+W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{x}^{(i)}_1-{\hat{x}_1^-})^\text{T}+\bold{Q}_0
 \\ &=
 \frac{1}{3}
 \bigg(
@@ -783,8 +782,7 @@ $$
 \begin{align*}
 \bold{\hat{P}}_{1,y} &=
 \sum^{2d}_{i=0}
-W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
-+ \bold{R}_0\\ &=
+W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}+\bold{R}_0\\ &=
 \frac{1}{3}
 \bigg(
     \begin{bmatrix}
@@ -841,20 +839,17 @@ W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
 \begin{bmatrix}
   1.04 \\
   0.0
-\end{bmatrix}^2
-+ 
+\end{bmatrix}^2+
 \frac{1}{6}
 \begin{bmatrix}
   0.0 \\
   0.0
-\end{bmatrix}^2
-+ 
+\end{bmatrix}^2+
 \frac{1}{6}
 \begin{bmatrix}
   -1.04 \\
   0.0
-\end{bmatrix}^2
-+ 
+\end{bmatrix}^2+
 \frac{1}{6}
 \begin{bmatrix}
   -0.0 \\

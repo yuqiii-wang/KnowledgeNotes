@@ -310,8 +310,7 @@ $$
 where
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{P}'}&=
-- \begin{bmatrix}
+\frac{\partial \bold{e}}{\partial \bold{P}'}&= - \begin{bmatrix}
     \frac{\partial u}{\partial X'} &
     \frac{\partial u}{\partial Y'} &
     \frac{\partial u}{\partial Z'} \\
@@ -319,8 +318,7 @@ $$
     \frac{\partial v}{\partial Y'} &
     \frac{\partial v}{\partial Z'}
 \end{bmatrix}
-\\ &=
-- \begin{bmatrix}
+\\ &= - \begin{bmatrix}
     \frac{\partial (f_x \frac{X'}{Z'} + c_x)}{\partial X'} &
     \frac{\partial (f_x \frac{X'}{Z'} + c_x)}{\partial Y'} &
     \frac{\partial (f_x \frac{X'}{Z'} + c_x)}{\partial Z'} \\
@@ -328,8 +326,7 @@ $$
     \frac{\partial (f_y \frac{Y'}{Z'} + c_y)}{\partial Y'} &
     \frac{\partial (f_y \frac{Y'}{Z'} + c_y)}{\partial Z'}
 \end{bmatrix}
-\\ &=
-- \begin{bmatrix}
+\\ &= - \begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
 \end{bmatrix}
@@ -366,8 +363,7 @@ $$
 \frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
 \frac{\partial \bold{e}}{\partial \bold{P}'}
 \frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}
-\\ &=
-- \begin{bmatrix}
+\\ &= - \begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
 \end{bmatrix}
@@ -411,14 +407,12 @@ $$
 So that
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{P}}&=
-- \begin{bmatrix}
+\frac{\partial \bold{e}}{\partial \bold{P}}&= - \begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
 \end{bmatrix}
 \frac{\partial \big(\bold{R} \bold{P} + \bold{t}\big)}{\partial \bold{P}}
-\\ &=
-- \begin{bmatrix}
+\\ &= - \begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
 \end{bmatrix}

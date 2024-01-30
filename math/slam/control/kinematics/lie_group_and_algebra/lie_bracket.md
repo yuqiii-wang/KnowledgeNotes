@@ -257,8 +257,7 @@ e^{\mathcal{E}\tau_3} (\tau_1 \tau_2) e^{-\mathcal{E}\tau_3}
 \\ & \quad -
 \tau_3 (\tau_1 \tau_2) + (\tau_1 \tau_2) \tau_3
 \\ &=
-\tau_3 ((\tau_2 \tau_1) - (\tau_1 \tau_2))
-+ ((\tau_1 \tau_2)-(\tau_2 \tau_1))\tau_3
+\tau_3 ((\tau_2 \tau_1) - (\tau_1 \tau_2))+((\tau_1 \tau_2)-(\tau_2 \tau_1))\tau_3
 \\ &=
 \tau_3 [\tau_2, \tau_1] - [\tau_2, \tau_1] \tau_3
 \\ &=

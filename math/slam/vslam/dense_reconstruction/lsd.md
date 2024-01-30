@@ -144,8 +144,7 @@ $$
 $r_p (\bold{p}, \bold{\xi}_{ij})$ is the Lucas-Kanade style photometric error
 $$
 r_p (\bold{p}, \bold{\xi}_{ij}) :=
-I_i(\bold{p}_i) 
-- I_j \big(\omega(\bold{p}_i, D_A(\bold{p}_i), \bold{\xi}_{ij})\big)
+I_i(\bold{p}_i)  - I_j \big(\omega(\bold{p}_i, D_A(\bold{p}_i), \bold{\xi}_{ij})\big)
 $$
 
 The residual’s variance $\sigma_{r_p (\bold{p}, \bold{\xi}_{ij})}$ is computed using covariance propagation $\Sigma_{r_p}=J_{r_p} \Sigma_{r_p} J^\top_{r_p}$, where $J^\top_{r_p}$ is the Jacobian of $r_p$, and utilizing the inverse depth variance $V_i$:

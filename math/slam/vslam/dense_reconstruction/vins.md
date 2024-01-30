@@ -152,8 +152,7 @@ $$
 \min_{\bold{\mathcal{X}_V}}
 \sum_{k_i \in \bold{\mathcal{B}}}
 \Big|\Big|
-\Delta\hat{\bold{z}}_{\tiny{BK}}
-- 
+\Delta\hat{\bold{z}}_{\tiny{BK}} - 
 \bold{H}_{\tiny{BK}} \bold{\mathcal{X}_V}
 \Big|\Big|^2
 $$

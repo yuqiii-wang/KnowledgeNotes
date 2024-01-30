@@ -155,8 +155,7 @@ $$
 \\ &\approx
 w_0 f(\frac{1}{\sqrt{2}}) + w_1 f(-\frac{1}{\sqrt{2}})
 \\ &=
-\frac{\sqrt{\pi}}{2} f(\frac{1}{\sqrt{2}})
-+ 
+\frac{\sqrt{\pi}}{2} f(\frac{1}{\sqrt{2}})+
 \frac{\sqrt{\pi}}{2} f(-\frac{1}{\sqrt{2}})
 \end{align*}
 $$

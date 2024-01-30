@@ -8,6 +8,7 @@ By default, mysql has a root user with no password, so that after started mysql 
 
 Then set up privilege access: 
 constrain `root` by setting up a password
+
 ```sql
 USE mysql;
 UPDATE USER set authentication_string=PASSWORD("") where USER='root';
@@ -25,6 +26,7 @@ Restart mysql server: `sudo service mysql stop; sudo service mysql start`
 From now on, login mysql db requires password: `mysql -u root -p`, the old login method without password would fail.
 
 Create a new user (keeping using root privileges is dangerous)
+
 ```sql
 CREATE USER 'userMe' IDENTIFIED WITH caching_sha2_password BY 'P@ssw0rdMe';
 GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'userMe' WITH GRANT OPTION;
@@ -39,7 +41,7 @@ SHOW GRANTS FOR 'userMe';
 
 Run `mysql --version`
 
-```
+```sh
 git clone https://github.com/mysql/mysql-connector-cpp.git
 mkdir build
 cd build
@@ -49,7 +51,6 @@ sudo make install
 ```
 
 ### MySql Docker
-
 
 ```yml
 version: '3.7'
@@ -359,9 +360,10 @@ For scaling/high availability purposes, MySQL supports two kinds of replication:
 replication*.
 
 Process:
+
 1. The master records changes to its data in its binary log. (These records are called
 binary log events.)
-2. The replica copies the master’s binary log events to its relay log.
+2. The replica copies the master's binary log events to its relay log.
 3. The replica replays the events in the relay log, applying the changes to its own data.
 
 ### Statement-based replication

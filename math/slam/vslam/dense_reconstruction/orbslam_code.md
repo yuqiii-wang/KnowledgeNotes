@@ -2395,10 +2395,7 @@ $$
 \min_{\bold{t}'} \sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &= 
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') - \bold{t}' \big|\big|^2
 \\ &=
-\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
-- \underbrace{2 \bold{t}' \cdot \sum_{i=1}^n \Big( \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \Big)}_{=\bold{0}}
-+ n \big|\big| \bold{t}' \big|\big|^2
-\end{align*}
+\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2 - nd{align*}
 $$
 
 The sum in the middle of this expression is zero since the measurements are referred to the centroid. 
@@ -2429,8 +2426,7 @@ $$
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
 \\ && &=
 \sum_{i=1}^n \big|\big| \bold{r}_{r,i}' \big|\big|^2 
--2s \sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)
-+ \sum_{i=1}^n \underbrace{ \big|\big| R( \bold{r}_{l,i}') \big|\big|^2}_{
+-2s \sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)+\sum_{i=1}^n \underbrace{ \big|\big| R( \bold{r}_{l,i}') \big|\big|^2}_{
     \begin{matrix}
         =\big|\big| \bold{r}_{l,i}' \big|\big|^2  \\
         \text{ for they have} \\
@@ -2441,8 +2437,7 @@ $$
 && &=
 S_r - 2sD + s^2 S_l
 \\ && &=
-\underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}_{\ge 0}
-+ \frac{S_r S_l - D^2}{S_l}
+\underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}_{\ge 0}+\frac{S_r S_l - D^2}{S_l}
 \end{align*}
 $$
 
@@ -2475,8 +2470,7 @@ $$
 \sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
 \\ &= 
-\underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}
-+ 2(S_l S_r -D)
+\underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}+2(S_l S_r -D)
 \end{align*}
 $$
 
@@ -3935,8 +3929,7 @@ $$
 where
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{p}}&=
-- \begin{bmatrix}
+\frac{\partial \bold{e}}{\partial \bold{p}}&= - \begin{bmatrix}
     \frac{\partial u}{\partial X} &
     \frac{\partial u}{\partial Y} &
     \frac{\partial u}{\partial Z} \\
@@ -3944,22 +3937,15 @@ $$
     \frac{\partial v}{\partial Y} &
     \frac{\partial v}{\partial Z}
 \end{bmatrix}
-\\ &=
-- \begin{bmatrix}
-    \frac{\partial (f_x \frac{X}{Z} + c_x)}{\partial X} &
-    \frac{\partial (f_x \frac{X}{Z} + c_x)}{\partial Y} &
-    \frac{\partial (f_x \frac{X}{Z} + c_x)}{\partial Z} \\
-    \frac{\partial (f_y \frac{Y}{Z} + c_y)}{\partial X} &
+\\ &= -   \frac{\partial (f_y \frac{Y}{Z} + c_y)}{\partial X} &
     \frac{\partial (f_y \frac{Y}{Z} + c_y)}{\partial Y} &
     \frac{\partial (f_y \frac{Y}{Z} + c_y)}{\partial Z}
 \end{bmatrix}
-\\ &=
-- \begin{bmatrix}
+\\ &= - \begin{bmatrix}
     \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} \\
     0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} \\
 \end{bmatrix}
-\end{align*}
-$$
+\end{ - 
 
 
 and, this term $\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
@@ -3992,14 +3978,12 @@ $$
 \frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
 \frac{\partial \bold{e}}{\partial \bold{p}}
 \frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}
-\\ &=
-- \begin{bmatrix}
+\\ &= - \begin{bmatrix}
     \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} \\
     0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} \\
 \end{bmatrix}
 \begin{bmatrix}
-    1 & 0 & 0 & 0 & -Z & -Y \\
-    0 & 1 & 0 & Z & 0 & X \\
+    1 -   0 & 1 & 0 & Z & 0 & X \\
     0 & 0 & 1 & Y & -X & 0
 \end{bmatrix}
 \\ &=
@@ -4409,19 +4393,15 @@ $$
 &\qquad
 \hat{v}_{2} = \frac{f_y}{z_{2c}} y_{2c} + c_y
 \\ \text{Error } \Rightarrow &&
-\bold{e}_1 &= \begin{bmatrix} \hat{u}_{1} \\ \hat{v}_{1} \end{bmatrix}
-- \begin{bmatrix} {u}_{1} \\ {v}_{1} \end{bmatrix}
+\bold{e}_1 &= \begin{bmatrix} \hat{u}_{1} \\ \hat{v}_{1} \end{bmatrix} - \begin{bmatrix} {u}_{1} \\ {v}_{1} \end{bmatrix}
 & &&\qquad
-\bold{e}_2 &= \begin{bmatrix} \hat{u}_{2} \\ \hat{v}_{2} \end{bmatrix}
-- \begin{bmatrix} {u}_{2} \\ {v}_{2} \end{bmatrix}
+\bold{e}_2 &= \begin{bmatrix} \hat{u}_{2} \\ \hat{v}_{2} \end{bmatrix} - \begin{bmatrix} {u}_{2} \\ {v}_{2} \end{bmatrix}
 \\ \mathcal{X}^2 \text{ test by } 95\% \text{ confidence } \Rightarrow &&
 \bold{e}_1 \bold{e}_1^{\top} &< 5.991
-& &&\qquad
-\bold{e}_2 \bold{e}_2^{\top} &< 5.991
+& &&\qquad - old{e}_2 \bold{e}_2^{\top} &< 5.991
 \end{align*}
 $$
-
-```cpp
+ - `cpp
 void LocalMapping::CreateNewMapPoints()
 {
     // Retrieve neighbor keyframes in covisibility graph

@@ -306,8 +306,7 @@ $$
 \Big|\Big|
     \bold{r}_\mathcal{B} ( \hat{\bold{z}}_{\tiny{BK}} ,\bold{\mathcal{X}} )
 \Big|\Big|^2}_{
-\text{IMU measurement residuals}}
-+  
+\text{IMU measurement residuals}}+ 
 \underbrace{\sum_{(j,l) \in \mathcal{C}} 
 \rho\Big( \big|\big|
     \bold{r}_\mathcal{C} ( \hat{\bold{z}}_{\tiny{C_jl}},\bold{\mathcal{X}} )
@@ -1534,8 +1533,7 @@ $$
 Covariance update is (when started, the covariance is set to zero to begin with $\bold{\Sigma}_0=\bold{0}$)
 $$
 \bold{\Sigma}_t = 
-\bold{F} \bold{\Sigma}_{t-1} \bold{F}^\top
-+ 
+\bold{F} \bold{\Sigma}_{t-1} \bold{F}^\top+
 \bold{V} \bold{N} \bold{V}^{\top}
 $$
 

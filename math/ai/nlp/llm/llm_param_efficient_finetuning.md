@@ -3,8 +3,9 @@
 ## LoRA: Low-Rank Adaptation of Large Language Models
 
 For input $\bold{x} \in \mathbb{R}^{n \times d}$, where $d$ is for dimensionality, to fine tune an pretrained model, LoRA proposes below idea.
+
 * $W_0 \in \mathbb{R}^{d \times d}$ is the pretrained parameters. 
-* $A \sim N(0, \sigma^2) \in \mathbb{R}^{r \times d}$ is a weight matrix to be learned; it parameters are init by Gaussian distribution. $A$'s output reduces dimension to $r$
+* $A \sim N(0, \sigma^2) \in \mathbb{R}^{d \times r}$ is a weight matrix to be learned; it parameters are init by Gaussian distribution. $A$'s output reduces dimension to $r$
 * $B = \bold{0} \in \mathbb{R}^{r \times d}$ is another weight matrix init to zeros. $B$'s output reset the dimension to $d$.
 
 The training goes as below, that $W_0$ is kept unchanged/frozen; $B^{\top} A^{\top}$ are trainable parameter matrices. 
@@ -18,10 +19,10 @@ A small $r$ can help reduce computation maintaining small sizes for $A$ and $B$.
 </div>
 </br>
 
-
 The new hidden layer matrix is computed as below.
+
 $$
-\bold{h} = W^{\top}_0\bold{x} + B^{\top} A^{\top} \bold{x}
+\bold{h} = W^{\top}_0\bold{x} + \underbrace{B^{\top} A^{\top}}_{W_{\Delta}} \bold{x}
 $$
 
 For intrinsic dimension (intrinsic dimension for a data set can be thought of as the number of variables needed in a minimal representation of the data), the number of neurons is small $r \ll d$ but can produce good approximation results.
@@ -109,7 +110,133 @@ PeftModelForSequenceClassification(
 )
 ```
 
-##  Adapter: Parameter-Efficient Transfer Learning for NLP
+### AdaLoRA (Adaptive LoRA)
+
+LoRA overlooks the varying importance of different weight parameters, and $A$ and $B$ could be co-dependent (indicating $A$ and $B$ are redundant in info representation of $W_{\Delta}$ and there is room to prune $A$ and $B$).
+In other words, $A \in \mathbb{R}^{d \times r}$ and $B \in \mathbb{R}^{r \times d}$ should dynamically change sizes according to $W_{\Delta}=AB$ retained info.
+
+AdaLoRA proposes weight updates by their importance scores rather than treating them indiscriminately.
+In particular, AdaLoRA parameterizes the incremental updates in the form of singular value decomposition (SVD).
+In other words, $W_{\Delta}=AB$ retained info is measured by singular values, and accordingly $W_{\Delta}$'s size is adapted.
+
+AdaLoRA takes SVD on the added weight matrix such that $W_{\Delta}=P \Lambda Q$.
+
+$$
+\begin{align*}
+    \bold{h} &= W^{\top}_0\bold{x} + \underbrace{B^{\top} A^{\top}}_{W_{\Delta}} \bold{x} \\
+    &= W^{\top}_0\bold{x} + P \Lambda Q \bold{x}
+\end{align*}
+$$
+
+To train $W_{\Delta}=P \Lambda Q$, in contrast to primitive LoRA that just trains $A$ and $B$, AdaLoRA trains $P \in \mathbb{R}^{d_P \times r}$ and $Q \in \mathbb{R}^{r \times d_Q}$.
+At the beginning of training $t=0$, $W_{\Delta}$ uses random Gaussian initialization to $P$ and $Q$ to ensure $W_{\Delta}=\bold{0}$.
+
+To enforce the orthogonality of $P$ and $Q$, i.e., $P^{\top}P=I$ and $Q^{\top}Q=I$, use the below regularizer:
+
+$$
+\text{regularizer}(P,Q) =
+||P^{\top}P-I||^2_{F} + ||Q^{\top}Q-I||^2_{F}
+$$
+
+$\text{regularizer}(P,Q)$ is required for that SVD sets orthogonal bases for decomposition; a valid SVD should the orthogonality of $P$ and $Q$.
+However, directly compute SVD for every $W_{\Delta}$ is impractical for extremely high computation cost, and AdaLoRA only wants to approximate SVD via iterative method.
+
+Define $\text{Cost}(P, \Lambda, Q)$ as the cost, the total loss is the sum of cost and regularization. Here $\gamma$ is a regularization controlling coefficient.
+
+$$
+\mathcal{L}(P, \Lambda, Q) = \text{Cost}(P, \Lambda, Q) + \gamma\space \text{regularizer}(P,Q)
+$$
+
+$\Lambda$ is iteratively pruned to adjust $\text{rank}(W_{\Delta})$ after each gradient decent step.
+AdaLoRA proposes using *importance-aware rank allocation* scheme.
+
+#### Importance-Aware Rank Allocation
+
+Generally speaking, *importance score* is consisted of singular value magnitude and sensitivity measurement (magnitude of the gradient-weight product), and is used to determine what singular values are to be retained.
+
+Define a triplet $\bold{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$, where $i$ denotes the index of the $i$-th singular value $\lambda_i$.
+When setting $\lambda_i=0$, the corresponding triplets $\bold{w}_{\Delta, i}$ are set to $\bold{0}$ as well, thereby removing the less-importance dimensions of $W_{\Delta}=P \Lambda Q$.
+
+The update of $\Lambda_t$ at the training step $t$ is shown as below. Here $\eta$ is learning rate.
+
+$$
+\hat{\Lambda}_t = \Lambda_t - \eta \nabla_{\Lambda_t} \mathcal{L}(P, \Lambda, Q)
+$$
+
+Then, only significant $\Lambda_t$ with high importance score $S_t$ are retained.
+
+$$
+\Lambda_{t+1} = \text{prune}(\hat{\Lambda}_t, S_t) =
+\left\{
+    \begin{matrix}
+        \hat{\Lambda}_t & S_t \text{ is among top in all } \bold{S}_t \\
+        0 & \text{otherwise}
+    \end{matrix}
+\right.
+$$
+
+where $\bold{S}_t$ refers to the set of importance scores of all LoRA additional weight matrices in an LLM.
+
+Importance score $S_t$ is computed with two considerations
+
+* Magnitude of singular value: large $|\lambda_i|$ indicates high importance of its corresponding triplet $\bold{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$
+* Sensitivity-based importance: if the removal of a parameter, e.g., $\lambda_i$, has a large influence, then the model is sensitive to it and the triplet $\bold{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ should be retained
+
+In summary, $S_t$ is computed as below.
+
+$$
+S_t = s(\lambda_{t,i}) + \frac{1}{d_P} \sum_{j=1}^{d_P} s(P_{t,ji}) + \frac{1}{d_Q} \sum_{i=1}^{d_Q} s(Q_{t,ij})
+$$
+
+where a naive estimate of the score is $\hat{s}(w_{ij})=|w_{ij} \nabla_{w_{ij}} \mathcal{L}|$, defined as the magnitude of the gradient-weight product.
+However, such a score $\hat{s}_t$ is estimated on sampled mini batches. The stochastic sampling and complicated training dynamics incur high variability and large uncertainty.
+
+To address this issue, here proposes $\overline{s}(w_{ij})$ as a smoothed sensitivity by exponential moving average, and $\overline{u}(w_{ij})$ as the uncertainty term quantified by the local variation between $\hat{s}(w_{ij})$ and $\overline{s}(w_{ij})$.
+That is
+
+$$
+s(w_{ij}) = \overline{s}(w_{ij}) \cdot \overline{u}(w_{ij})
+$$
+
+where, with the help of coefficients $0 < \beta_1, \beta_2 < 1$, there are
+
+$$
+\begin{align*}
+    \overline{s}_{t}(w_{ij}) &= \beta_1 \overline{s}_{t-1}(w_{ij}) + (1-\beta_1)\hat{s}_{t}(w_{ij}) \\
+    \overline{u}_{t}(w_{ij}) &= \beta_2 \overline{u}_{t-1}(w_{ij}) + (1-\beta_2)\Big| \hat{s}_{t}(w_{ij}) - \overline{s}_{t}(w_{ij}) \Big|
+\end{align*}
+$$
+
+#### Further Explanation
+
+A naive inspiration would be just performing SVD such that $W_{\Delta}=P \Lambda Q$, then remove triplets $\bold{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ with small $\lambda_i$, and increase $d_P$ and $d_Q$ for even smallest $\lambda_i$ remains large.
+However, at each training step $t$, performing once SVD would be very computation-expensive.
+AdaLoRA proposes turning $P$, $\Lambda$ and $Q$ into trainable matrices, thereby approximating $W_{\Delta}=AB$.
+
+SVD's orthogonality property is guaranteed by regularization $\text{regularizer}(P,Q)$.
+
+Pruning of $\Lambda$ is by $\lambda_i$'s relative importance score $S_t$ in $\bold{S}_t$.
+A further explanation of score $\hat{s}(w_{ij})=|w_{ij} \nabla_{w_{ij}} \mathcal{L}|$ is that, it is proportional to the gradient $\nabla_{w_{ij}} \mathcal{L}$ that score is high when weight update $\Delta w_{ij}$ sees steep loss descent.
+
+$s(w_{ij}) = \overline{s}(w_{ij}) \cdot \overline{u}(w_{ij})$ is to smooth scores preventing large variances when training on batches.
+
+#### HuggingFace Implementation
+
+By default, AdaLoRA adds $W_{\Delta}$ to all transformer weights: key $W_{\Delta, K}$, query $W_{\Delta, Q}$, value $W_{\Delta, V}$ and fully connected layer $W_{\Delta, F}$.
+Sometimes only query $W_{\Delta, Q}$ and value $W_{\Delta, V}$ are set to training to save time.
+
+```py
+from transformers import AutoModelForSeq2SeqLM, LoraConfig
+from peft import AdaLoraModel, AdaLoraConfig
+config = AdaLoraConfig(
+    peft_type="ADALORA", task_type="SEQ_2_SEQ_LM", r=8,
+    lora_alpha=32, target_modules=["q", "v"], lora_dropout=0.01,
+)
+model = AutoModelForSeq2SeqLM.from_pretrained("t5-base")
+model = AdaLoraModel(model, config, "default")
+```
+
+## Adapter: Parameter-Efficient Transfer Learning for NLP
 
 Adapter adds new modules (called *adapter*) between layers of pre-trained transformer network.
 
@@ -123,16 +250,18 @@ Adapter adds non-linearity between $A$ and $B$.
 </div>
 </br>
 
-#### Improvement: Adapter Fusion
+### Improvement: Adapter Fusion
 
 Adapter fusion adds attentions (value, key and query) that take adapter's output as value and key, and query from adapter's input.
 
 Define the below parameter groups:
+
 * Pretrained parameters $W_0$
 * Adapter parameters $\Psi$
 * Adapter Fusion parameters $\Phi$
 
 The adapter fusion training goes as below:
+
 1. fixed $W_0$, just train $\Psi$: there are multiple modules of adapters learning different knowledge
 2. fixed $W_0$ and $\Psi$, train $\Phi$: attention serves as a filter that only task-specific knowledge is stored.
 

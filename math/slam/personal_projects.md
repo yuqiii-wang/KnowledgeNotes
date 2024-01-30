@@ -160,8 +160,7 @@ where $\space^{\wedge}$ represents the skew-symmetric representation of a vector
 
 Set $\space^{g}\bold{u}_{c}$ as the normalized rotation vector $\space^{g}\bold{u}_{c}=\frac{2 \space^{g}\hat{\bold{r}}_{c}}{\sqrt{1+|\space^{g}\hat{\bold{r}}_{c}|^2}}$, by Rodrigues' formula $I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top} + \bold{u}^{\wedge}\sin\theta$ , the rotation matrix rotating about $\bold{u}$ by $\theta$ can be expressed as
 $$
-\space^{g}R_{c} = \Big( 1 - \frac{|\space^{g}\bold{u}_{c}|^2}{2} \Big) I 
-+ \frac{1}{2}\big( \space^{g}\bold{u}_{c} \space^{g}\bold{u}_{c}^{\top} + \sqrt{4-|\space^{g}\bold{u}_{c}|^2}\space^{g}\bold{u}_{c}^{\wedge} \big)
+\space^{g}R_{c} = \Big( 1 - \frac{|\space^{g}\bold{u}_{c}|^2}{2} \Big) I +\frac{1}{2}\big( \space^{g}\bold{u}_{c} \space^{g}\bold{u}_{c}^{\top} + \sqrt{4-|\space^{g}\bold{u}_{c}|^2}\space^{g}\bold{u}_{c}^{\wedge} \big)
 $$
 
 ```cpp

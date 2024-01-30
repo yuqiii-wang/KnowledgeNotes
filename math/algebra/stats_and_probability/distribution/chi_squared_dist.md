@@ -85,8 +85,7 @@ X^2 &= \sum \frac{(observed-expected)^2}{expected}
 & \quad +
 \frac{(60-150\times\frac{349}{650})^2}{150\times\frac{349}{650}}
 +
-\frac{(50-150\times\frac{151}{650})^2}{150\times\frac{151}{650}}
-+ ...
+\frac{(50-150\times\frac{151}{650})^2}{150\times\frac{151}{650}}+...
 \\ &\approx
 1.11 + 0.672 + 0.672 + 5.23 + 6.59 + ...
 \\ &\approx 24.57

@@ -69,9 +69,7 @@ there is
 $$
 J(\bold{\theta}) \equiv
 -\ln p(\bold{\theta}) =
-\frac{N_\bold{\theta}}{2} \ln 2\pi
-+ \frac{1}{2} \ln |\Sigma_\bold{\theta}|
-+ \frac{1}{2} (\bold{\theta}-\mu_{\bold{\theta}})^\top \Sigma_\bold{\theta}^{-1} (\bold{\theta}-\mu_{\bold{\theta}})
+\frac{N_\bold{\theta}}{2} \ln 2\pi+\frac{1}{2} \ln |\Sigma_\bold{\theta}|+\frac{1}{2} (\bold{\theta}-\mu_{\bold{\theta}})^\top \Sigma_\bold{\theta}^{-1} (\bold{\theta}-\mu_{\bold{\theta}})
 $$
 
 The Jacobian over $\bold{\theta}$ is

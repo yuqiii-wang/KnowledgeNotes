@@ -164,8 +164,7 @@ $$
 \begin{bmatrix}
     \hat{u}_j \\
     \hat{v}_j \\
-\end{bmatrix}
-- 
+\end{bmatrix} - 
 CamProj(\bold{p}_{\mathcal{C}j})
 $$
 and $\rho(\space.\space,\bold{\sigma}_T)$ is the Tukey biweight objective function, 

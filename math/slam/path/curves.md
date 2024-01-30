@@ -65,8 +65,7 @@ t\bold{B}_{\bold{P}_1 \bold{P}_2 ... \bold{P}_{n}}(t)\\ &=
 n \\
 1
 \end{array} \bigg)
-(1-t)^{n-1} t \bold{P}_1
-+ ... +
+(1-t)^{n-1} t \bold{P}_1+... +
 \bigg(\begin{array}{c}
 n \\
 n-1

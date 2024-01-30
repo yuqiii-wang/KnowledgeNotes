@@ -144,9 +144,7 @@ $$
 tr(\bold{Q}) &= tr \big(
       cos \theta \bold{I} + (1-cos \theta) \bold{k}\bold{k}^\text{T} + sin\theta \bold{k}^{\wedge}
 \big)\\ &=
-cos\theta \space tr(\bold{I})
-+ (1-cos \theta) tr(\bold{k}\bold{k}^\text{T})
-+ sin \theta \space tr(\bold{k}^{\wedge})\\ &=
+cos\theta \space tr(\bold{I})+(1-cos \theta) tr(\bold{k}\bold{k}^\text{T})+sin \theta \space tr(\bold{k}^{\wedge})\\ &=
 3 cos\theta + (1-cos \theta)\\ &=
 1+2cos\theta
 \end{align*}
@@ -166,8 +164,7 @@ e^{\bold{K}\theta}=
 \bold{I}+\bold{K}\theta
 +\frac{(\bold{K}\theta)^2}{2!}
 +\frac{(\bold{K}\theta)^3}{3!}
-+\frac{(\bold{K}\theta)^4}{4!}
-+ ...
++\frac{(\bold{K}\theta)^4}{4!}+...
 $$
 
 Given the properties of $\bold{K}$ being an antisymmentric matrix, there is $\bold{K}^3=-\bold{K}$, so that
@@ -204,8 +201,7 @@ e^{\bold{K}\theta}
     +...
 \big) 
 \\ &
-\space \space \space \space 
-+ \bold{K}^2\big(
+\space \space \space \space +\bold{K}^2\big(
     -\frac{\theta^2}{2!}
     +\frac{\theta^4}{4!}
     -\frac{\theta^6}{6!}

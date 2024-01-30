@@ -34,8 +34,7 @@ $$
     \end{matrix}
     }
 } i (x,y) =
-I_{sum}(x_0, y_0) + I_{sum}(x_1, y_1) 
-- I_{sum}(x_0, y_1) - I_{sum}(x_1, y_0)
+I_{sum}(x_0, y_0) + I_{sum}(x_1, y_1) - I_{sum}(x_0, y_1) - I_{sum}(x_1, y_0)
 $$
 
 * Example

@@ -14,9 +14,7 @@ By first order approximation (this implies that the window slding step $(u,v)$ s
 $$
 \begin{align*}
 I(x+u, y+v) &\approx
-I(x,y) 
-+ \frac{\partial I}{\partial x} u
-+ \frac{\partial I}{\partial y} v
+I(x,y) +\frac{\partial I}{\partial x} u+\frac{\partial I}{\partial y} v
 \\ &\approx
 I(x,y) + 
 \begin{bmatrix}

@@ -221,8 +221,7 @@ Laser-obstacle hit measurement only takes binary value $z_{\text{hit}} \in \{0, 
 Here $q$ serves as the accumulated weight for the particle $m$. In other words, $m.\text{weight}=\prod^K_{k=1} q_k$.
 $$
 q = q \cdot
-\Big( z_{\text{hit}} \cdot \text{prob}(\text{dist}, \sigma_{\text{hit}}) 
-+ \frac{z_{\text{random}}}{z_{\text{max}}} \Big)
+\Big( z_{\text{hit}} \cdot \text{prob}(\text{dist}, \sigma_{\text{hit}}) +\frac{z_{\text{random}}}{z_{\text{max}}} \Big)
 $$
 
 In conclusion, the likelihood field algo goes as below.

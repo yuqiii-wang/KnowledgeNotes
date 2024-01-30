@@ -65,8 +65,7 @@ P.S., an alternative to compute the normal $\bold{n}=[-1,-1,1]$, that it'd be de
 Rewrite the tangent line to $x_0 x - y_0 y + 0 \cdot z - y_0^2 - x_0^2 = 0$, the coefficient $[x_0, y_0, 0]$ to $x$, $y$ and $z$ represent direction ratios of the tangent line, hence the plane's normal and the tangent vector should be orthogonal, the dot product is therefore zero.
 
 $$
-[-1,-1,1] \cdot [x_0, -y_0, 0] =
-- x_0 + y_0 + 0 = 0
+[-1,-1,1] \cdot [x_0, -y_0, 0] =- x_0 + y_0 + 0 = 0
 $$
 
 Remember, candidate $[x_0,y_0]$s are all confined on the circle $x^2+y^2=1$, so that

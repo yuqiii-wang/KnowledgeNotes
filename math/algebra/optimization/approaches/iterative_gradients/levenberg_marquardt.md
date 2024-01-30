@@ -35,8 +35,7 @@ S(\bold{\beta}+\bold{\sigma})
 -
 [\bold{y}-\bold{f}(\beta)]^T \bold{J}\bold{\sigma}
 -
-\bold{J}\bold{\sigma}^T [\bold{y}-\bold{f}(\beta)]
-+ 
+\bold{J}\bold{\sigma}^T [\bold{y}-\bold{f}(\beta)]+
 \bold{J}^T \bold{\sigma}^T \bold{J}\bold{\sigma}
 \end{align*}
 $$

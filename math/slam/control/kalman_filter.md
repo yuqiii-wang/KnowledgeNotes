@@ -435,8 +435,7 @@ $$
 \begin{bmatrix}
 1 & 0 \\
 \Delta t & 1
-\end{bmatrix}
-+ \bold{Q}
+\end{bmatrix}+\bold{Q}
 \\ &=
 \begin{bmatrix}
 \sigma_x^2 & \Delta t \sigma_{\dot{x}}^2 \\
@@ -445,14 +444,12 @@ $$
 \begin{bmatrix}
 1 & 0 \\
 \Delta t & 1
-\end{bmatrix}
-+ \bold{Q}
+\end{bmatrix}+\bold{Q}
 \\ &=
 \begin{bmatrix}
 \sigma_x^2+\Delta t^2 \sigma_{\dot{x}}^2  & \Delta t \sigma_{\dot{x}}^2 \\
 \Delta t \sigma_{\dot{x}}^2 & \sigma_{\dot{x}}^2 
-\end{bmatrix}
-+ \bold{Q}
+\end{bmatrix}+\bold{Q}
 \\ &=
 \begin{bmatrix}
 \sigma_x^2+\Delta t^2 & \Delta t \sigma_{\dot{x}}^2 \\

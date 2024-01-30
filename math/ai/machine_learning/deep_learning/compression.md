@@ -269,8 +269,7 @@ $$
 \underbrace{
 \mathbb{E}_{\bold{w} \sim Q(\cdot | \bold{x})} \Bigg(
 \sum_{t=1}^T \bigg( \frac{1}{T-t-1} \sum_{k=t}^T \underbrace{\log \frac{Q_{\theta_s}(w_k | \bold{w}_{1:k}, \bold{x})}{P_{\theta_t}(w_k | \bold{w}_{1:k}, \bold{x})}}_{:= r_t} \bigg)
-\nabla Q_{\theta_s}(w_k | \bold{w}_{1:k}, \bold{x}) \Bigg)}_{\text{Policy Gradient}}
-+ \underbrace{\mathbb{E}_{\bold{w} \sim Q(\cdot | \bold{x})} \bigg(
+\nabla Q_{\theta_s}(w_k | \bold{w}_{1:k}, \bold{x}) \Bigg)}_{\text{Policy Gradient}}+\underbrace{\mathbb{E}_{\bold{w} \sim Q(\cdot | \bold{x})} \bigg(
     \sum_{t=1}^T \nabla \mathbb{E}_{w_t \sim Q(t)} \big(r_t\big)
 \bigg)}_{\text{Regularization}}
 $$

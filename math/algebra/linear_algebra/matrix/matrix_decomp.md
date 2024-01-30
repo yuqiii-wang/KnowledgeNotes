@@ -392,8 +392,7 @@ $$
 \bold{z} + \bold{u}^\text{H} \bold{x} \bold{u} 
 -2\bold{u} \underbrace{\bold{u}^\text{H}\bold{z}}_{=0} -2\bold{u}\bold{u}^\text{H} \bold{u}^\text{H} \bold{x} \bold{u}
 \\ &=
-\bold{z} + \bold{u}^\text{H} \bold{x} \bold{u} 
-- \underbrace{
+\bold{z} + \bold{u}^\text{H} \bold{x} \bold{u} - \underbrace{
       2\bold{u}\bold{u}^\text{H} \bold{u}^\text{H} \bold{x} \bold{u}}_{= 2 \bold{u}^\text{H}\bold{x} \underbrace{
             \bold{u}^\text{H} \bold{u}}_{=1} \bold{u}}
 \\ &=
@@ -424,8 +423,7 @@ HH^\text{H} &=
 (I-2\bold{u}^\text{H}\bold{u})
 \\ &=
 I - 2 \underbrace{\bold{u}^\text{H}\bold{u}}_{=\bold{u}\bold{u}^\text{H}}
--2\bold{u}\bold{u}^\text{H}
-+ 4\bold{u}\bold{u}^\text{H} \underbrace{\bold{u}^\text{H}\bold{u}}_{=1}
+-2\bold{u}\bold{u}^\text{H}+4\bold{u}\bold{u}^\text{H} \underbrace{\bold{u}^\text{H}\bold{u}}_{=1}
 \\ &=
 I
 \end{align*}
@@ -495,8 +493,7 @@ $$
 1 - 2 
   \frac{\beta(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }
   {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} &= 0
-\\ 
-- 2 
+\\ - 2 
   \frac{\alpha(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }
   {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} &= \pm ||\bold{a}_1||
 \end{align*}

@@ -172,23 +172,14 @@ The quaternion derivative can be expressed as $\frac{d\bold{q}}{d\Delta t}=\frac
 The $\bold{q}(t+\Delta t)=\bold{q}_{t+1}$ can be derived from Taylor series 
 $$
 \begin{align*}
-\bold{q}_{t+1} &= \bold{q}_t + \frac{d\bold{q}_{t}}{d\Delta t} \Delta t
-+ \frac{1}{2!}\frac{d^2\bold{q}_{t}}{d\Delta t^2} \Delta t^2
-+ \frac{1}{3!}\frac{d^3\bold{q}_{t}}{d\Delta t^3} \Delta t^3 + ...
+\bold{q}_{t+1} &= \bold{q}_t + \frac{d\bold{q}_{t}}{d\Delta t} \Delta t+\frac{1}{2!}\frac{d^2\bold{q}_{t}}{d\Delta t^2} \Delta t^2+\frac{1}{3!}\frac{d^3\bold{q}_{t}}{d\Delta t^3} \Delta t^3 + ...
 \\ &=
-\Big( I_{4 \times 4} + \frac{1}{2} \Omega(\bold{\omega})\Delta t
-+ \frac{1}{2!} \big(\frac{1}{2} \Omega(\bold{\omega})\Delta t\big)^2 
-+ \frac{1}{3!} \big(\frac{1}{2} \Omega(\bold{\omega}) \Delta t \big)^3 + ... \Big) \bold{q}_t
+\Big( I_{4 \times 4} + \frac{1}{2} \Omega(\bold{\omega})\Delta t+\frac{1}{2!} \big(\frac{1}{2} \Omega(\bold{\omega})\Delta t\big)^2 +\frac{1}{3!} \big(\frac{1}{2} \Omega(\bold{\omega}) \Delta t \big)^3 + ... \Big) \bold{q}_t
 && \qquad \text{Apply } \frac{d\bold{q}}{d\Delta t}=\frac{1}{2} \Omega(\bold{\omega}) \bold{q} \text{ to all derivatives recursively to all degrees}
 \\ &\qquad +
-\frac{1}{4} \frac{d\Omega(\omega)}{d\Delta t}\Delta t^2 \bold{q}_t
-+ \Big( \frac{1}{12}\frac{d\Omega(\omega)}{d\Delta t}\Omega(\omega) 
-+ \frac{1}{24}\Omega(\omega)\frac{d\Omega(\omega)}{d\Delta t} 
-+ \frac{1}{12} \frac{d^2\Omega(\omega)}{d\Delta t^2} \Big) \Delta t^3 \bold{q}_t + ...
+\frac{1}{4} \frac{d\Omega(\omega)}{d\Delta t}\Delta t^2 \bold{q}_t+\Big( \frac{1}{12}\frac{d\Omega(\omega)}{d\Delta t}\Omega(\omega) +\frac{1}{24}\Omega(\omega)\frac{d\Omega(\omega)}{d\Delta t} +\frac{1}{12} \frac{d^2\Omega(\omega)}{d\Delta t^2} \Big) \Delta t^3 \bold{q}_t + ...
 \\ &=
-\Big( I_{4 \times 4} + \frac{1}{2} \Omega(\bold{\omega})\Delta t
-+ \frac{1}{2!} \big(\frac{1}{2} \Omega(\bold{\omega})\Delta t\big)^2 
-+ \frac{1}{3!} \big(\frac{1}{2} \Omega(\bold{\omega}) \Delta t \big)^3 + ... \Big) \bold{q}_t
+\Big( I_{4 \times 4} + \frac{1}{2} \Omega(\bold{\omega})\Delta t+\frac{1}{2!} \big(\frac{1}{2} \Omega(\bold{\omega})\Delta t\big)^2 +\frac{1}{3!} \big(\frac{1}{2} \Omega(\bold{\omega}) \Delta t \big)^3 + ... \Big) \bold{q}_t
 && \qquad \text{Angular velocity is assumed constant } \frac{d\Omega(\omega)}{d\Delta t}=0
 \\ &=
 \Big( I_{4 \times 4} + \frac{1}{2} \Omega(\bold{\omega})\Delta t \Big) \bold{q}_t

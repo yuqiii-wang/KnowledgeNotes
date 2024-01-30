@@ -135,8 +135,7 @@ t^1 \begin{bmatrix}
 \frac{t^3}{3!} \begin{bmatrix}
       0 & -1 \\
       1 & 0 \\
-\end{bmatrix}^3
-+ ... +
+\end{bmatrix}^3+... +
 \frac{t^n}{n!} \begin{bmatrix}
       0 & -1 \\
       1 & 0 \\
