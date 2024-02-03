@@ -3,6 +3,7 @@
 LangChain is an LLM framework. It provides the three main services (by year 2023).
 
 #### Model I/O:
+
 Interface with language models
 
 E.g., generate prompts and send to LLM for text output
@@ -15,6 +16,7 @@ resp = llm.invoke("Hello, how are you?")
 ```
 
 #### Retrieval:
+
 Interface with domain/application-specific data;
 store user-provided documents, and perform tokenization and embedding on the documents, and retrieve the documents' contents as response to a query.
 

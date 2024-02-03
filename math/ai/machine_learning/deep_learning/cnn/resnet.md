@@ -1,6 +1,6 @@
 # Residual neural network (ResNet)
 
-## Forward propogation
+## Forward Propagation
 
 $$
 a^l=g(W^{l-1,l} \cdot a_{l-1} + b^l + W^{l-2,l} \cdot a^{l-1})

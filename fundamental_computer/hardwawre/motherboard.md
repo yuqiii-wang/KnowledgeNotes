@@ -20,16 +20,6 @@ Southbridge is for low-speed clock component communication, e.g., peripherals.
 </div>
 </br>
 
-## Peripheral Component Interconnect Express (PCIe)
-
-PCIe is a high-speed serial computer expansion bus standard
-
-### NvLink vs PCIe
-
 ## DDR SDRAM
 
 Double Data Rate Synchronous Dynamic Random-Access Memory (DDR SDRAM) is a double data rate (DDR) synchronous dynamic random-access memory (SDRAM) 
-
-## SATA RAID
-
-## Nvme

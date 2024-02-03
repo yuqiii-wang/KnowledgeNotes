@@ -6,9 +6,7 @@
 
 Required the delivery of a pre-specified bond at the onset, and at maturity of the contractual period. 
 
-One party “sells” bonds to the other while simultaneously
-agreeing to repurchase them or receive them back at a
-specified future date.
+One party "sells" bonds to the other while simultaneously agreeing to repurchase them or receive them back at a specified future date.
 
 Also known as allocation trade for bonds as the underlying security should be allocated.
 
@@ -19,7 +17,7 @@ This type of agreement is even less common because there is a risk the seller ma
 
 * Tri-Party Repo
 
-Basically a basket form of transaction and allows for a wider range of instruments in the basket or pool. 
+Basically a basket form of transaction and allows for a wider range of instruments in the basket or pool.
 
 Tri-party repo is a type of repo contract where a third entity (apart from the borrower and lender), called a Tri-Party Agent, acts as an intermediary between the two parties to the repo to facilitate services like collateral selection, payment and settlement, custody and management during the life of the transaction.
 

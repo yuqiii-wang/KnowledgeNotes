@@ -34,9 +34,15 @@ A bank stress test is a simulation based on an examination of the balance sheet 
 
 ## Value-at-Risk (VaR)
 
-For a given portfolio, time horizon, and probability $p$, the $p$ VaR can be defined informally as the maximum possible loss during that time after excluding all worse outcomes whose combined probability is at most $p$. 
+For a given portfolio, time horizon, and probability $p$, the $p$ VaR can be defined informally as the maximum possible loss during that time after excluding all worse outcomes whose combined probability is at most $p$.
 This assumes mark-to-market pricing, and no trading in the portfolio.
 
 ## Profit-at-Risk (PaR)
 
 For example, if the confidence interval for evaluating the PaR is 95%, there is a 5% probability that due to changing commodity volumes and prices, the profit outcome for a specific period (e.g. December next year) will fall short of the expected profit result by more than the PaR value.
+
+## Tail Risk
+
+Tail risk is the financial risk of an asset or portfolio of assets moving more than three standard deviations (likelihood of happening $1-P(\mu-3\sigma \le X \le \mu + 3\sigma)\approx 1-99.7\%=0.3\%$) from its current price, above the risk of a normal distribution.
+
+It is used to refer the risk associated with an event (black swan) that is extremely unlikely to happen.

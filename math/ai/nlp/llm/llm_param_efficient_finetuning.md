@@ -223,7 +223,7 @@ $s(w_{ij}) = \overline{s}(w_{ij}) \cdot \overline{u}(w_{ij})$ is to smooth score
 #### HuggingFace Implementation
 
 By default, AdaLoRA adds $W_{\Delta}$ to all transformer weights: key $W_{\Delta, K}$, query $W_{\Delta, Q}$, value $W_{\Delta, V}$ and fully connected layer $W_{\Delta, F}$.
-Sometimes only query $W_{\Delta, Q}$ and value $W_{\Delta, V}$ are set to training to save time.
+Sometimes only query $W_{\Delta, Q}$ and value $W_{\Delta, V}$ are set to training without much LLM performance drop.
 
 ```py
 from transformers import AutoModelForSeq2SeqLM, LoraConfig

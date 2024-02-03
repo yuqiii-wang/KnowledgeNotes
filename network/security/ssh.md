@@ -54,7 +54,7 @@ This step might be auto completed for some open-to-public servers such as `githu
 
 Now, ssh should work as per above setup.
 
-### `scp` for File Transfer
+### `scp` VS `sftp`
 
 `scp` uses `ssh` to file transfer `scp <fromDirectory> <toDirectory>`
 
@@ -63,6 +63,26 @@ For example, to download from a remote computer, run
 ```bash
 scp -r yuqi@<remote_server>:/path/to/remote/server /path/to/local/server
 ```
+
+`sftp` is more elaborate than `scp`, and allows interactive commands similar to `ftp`.
+
+For example, use `ftp put` to copy multiple files to remote server.
+
+```bash
+sftp username@${remotehost} << EOF
+   put $localpath/fileA $remotepath/
+   put $localpath/fileB $remotepath/
+EOF
+```
+
+### SSH vs Telnet
+
+||Telnet|SSH|
+|-|-|-|
+|Name|Telecommunications and Networks (Telnet)|Secure Shell (SSH)|
+|Data Format|simple plain text|encrypted text|
+|Data Format|simple plain text|encrypted text|
+|Authentication|No authentication|key pair + username/password|
 
 ## The Underlying Mechanism
 
