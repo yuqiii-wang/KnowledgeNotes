@@ -42,6 +42,7 @@ print(docs[0].page_content)
 ```
 
 #### Agents:
+
 Interface with chaining a series of actions for a specific task with help of tools (tools are customized functions such as triggering external google search);
 models should be first fine-tuned to using tools (modern OpenAI GPTs have done such fine-tuning).
 
@@ -168,4 +169,4 @@ print(prompt)
 * Retrieval Augmented Generation (RAG)
 
 Many LLM applications require user-specific data that is not part of the model's training set.
-The primary way of accomplishing this is through *Retrieval Augmented Generation* (RAG). 
+The primary way of accomplishing this is through *Retrieval Augmented Generation* (RAG).

@@ -33,8 +33,8 @@ Haircut serves as a discount factor to reflect risk aversion consideration of th
 
 |Repo|Sell/Buy Back|
 |-|-|
-|Coupon rate is not considered, that seller/original owner of the bond can still receive full interest payment.|Coupon rate is considered, that seller/original owner of the bond needs to hand over the interest payment during the particular period of lending time to its buyer|
-|On coupon payment date, the coupon should be temporarily handed over to its seller|Coupon interest payment is incorporated into forward price already.|
+|No title transfer, hence repo is often priced with dirty price that has included coupon accrued interests|Included title transfer|
+|Coupon yield belongs to seller as no coupon title transfer|Coupon yield belongs to buyer as coupon title is transferred to buyer|
 
 ## Example
 
@@ -52,15 +52,16 @@ Haircut serves as a discount factor to reflect risk aversion consideration of th
 * Haircut method: divide
 
 Solution:
+
 1. First leg:
 
 On 20th Jul 2014, the seller of the bond repo receives the borrowing money and gives his bond as collateral to the buyer.
 
-Last coupon date refers to the last date the coupon interest is materialized, so that accrued interest for next time payment should start from the last coupon date. 
+Last coupon date refers to the last date the coupon interest is materialized, so that accrued interest for next time payment should start from the last coupon date.
 
 The time when this coupon is purchased, the accrued interest should be added.
 
-par value of this repo: 
+par value of this repo:
 $110.85 \times 10,000,000/100 = 11,085,000$
 
 Accrued interest: $12.5\% \times 10,000,000 \times 19/360 = 65,972.22$

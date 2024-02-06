@@ -121,6 +121,8 @@ $$
 
 ## Vector DB
 
+Vector DB is used to store vector data that are searched/indexed by vector similarity search.
+
 Chroma DB is an open-source vector storage system (vector database) designed for the storing and retrieving vector embeddings.
 By default, Chroma uses the Sentence Transformers (a Python framework for state-of-the-art sentence, text and image embeddings) `all-MiniLM-L6-v2` model to create embeddings.
 
@@ -169,9 +171,9 @@ collection = client.create_collection(
 
 |Distance|parameter|Equation|
 |-|-|-|
-|Squared L2|'l2'|$d = \sum\left(A_i-B_i\right)^2$|
-|Inner product|'ip'|$d = 1.0 - \sum\left(A_i \times B_i\right)$|
-|Cosine similarity|'cosine'|$d = 1.0 - \frac{\sum\left(A_i \times B_i\right)}{\sqrt{\sum\left(A_i^2\right)} \cdot \sqrt{\sum\left(B_i^2\right)}}$|
+|Squared L2|'l2'|$d = \sum\left(\bold{v}_i-\bold{v}_j\right)^2$|
+|Inner product|'ip'|$d = 1.0 - \sum\left(\bold{v}_i \times \bold{v}_j\right)$|
+|Cosine similarity|'cosine'|$d = 1.0 - \frac{\sum\left(\bold{v}_i \times \bold{v}_j\right)}{\sqrt{\sum\left(\bold{v}_i^2\right)} \cdot \sqrt{\sum\left(\bold{v}_j^2\right)}}$|
 
 ## Hallucination Issues
 

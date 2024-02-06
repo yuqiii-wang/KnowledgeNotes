@@ -381,7 +381,7 @@ Vocab semantics can be represented by embeddings derived by training language mo
 *Cosine similarity* between two vector $\bold{v}_i, \bold{v}_j$ is define as
 
 $$
-similarity_{cos}(\bold{v}_i, \bold{v}_j) = \cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
+\text{similarity}_{\cos}(\bold{v}_i, \bold{v}_j) = \cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
 $$
 
 There is $\cos(\theta) \in [-1, 1]$, where $-1$ means being exactly opposite, $-1$ means being exactly the same, $0$ means orthogonality (being totally different).
@@ -390,6 +390,46 @@ There is $\cos(\theta) \in [-1, 1]$, where $-1$ means being exactly opposite, $-
 
 Cosine similarity can be used for two embeddings' comparison.
 If predicted embeddings are very similar to an existing token's embedding, such embeddings can be said this token's representation.
+
+#### Example
+
+Below cosine similarity implementation uses word co-occurrences (lexical overlap) as embeddings such that the two sentence vectors are $\text{sentence}_1 \in \mathbb{R}^{11 \times 1}$ and $\text{sentence}_2 \in \mathbb{R}^{7 \times 1}$.
+
+```python
+## cosine similarity
+import math
+import re
+from collections import Counter as Count
+
+word = re.compile(r"\w+")
+ 
+sentence_1 = "A well has been in this village for many many years."
+sentence_2 = "The well dries up in summer season."
+
+def cosine_similarity(vector_1, vector_2):
+    inter = set(vector_1.keys()) & set(vector_1.keys())
+    numer = sum([vector_1[i] * vector_2[i] for i in inter])
+
+    s_1 = sum([vector_1[i] ** 2 for i in list(vector_1.keys())])
+    s_2 = sum([vector_2[i] ** 2 for i in list(vector_2.keys())])
+    deno = math.sqrt(s_1) * math.sqrt(s_2)
+
+    if not deno:
+        return 0.0
+    else:
+        return float(numer) / deno
+
+def generate_vectors(sent):
+    w = word.findall(sent)
+    return Count(w)
+
+vec_1 = generate_vectors(sentence_1)
+vec_2 = generate_vectors(sentence_2)
+# Counter({'many': 2, 'A': 1, 'well': 1, 'has': 1, 'been': 1, 'in': 1, 'this': 1, 'village': 1, 'for': 1, 'years': 1})# Counter({'The': 1, 'well': 1, 'dries': 1, 'up': 1, 'in': 1, 'summer': 1, 'season': 1})
+
+sim = cosine_similarity(vec_1, vec_2)
+# Similarity(cosine): 0.20965696734438366
+```
 
 ### Lexical Similarity
 
