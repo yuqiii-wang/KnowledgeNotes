@@ -41,8 +41,8 @@ Haircut serves as a discount factor to reflect risk aversion consideration of th
 ### Repo calculation
 
 * Trade date: 20th Jul 2014
-* Trade price: $110.85 (per $100 coupon)
-* Face value: $10,000,000
+* Trade price: $110.85 (per \$100 coupon)
+* Face value: \$10,000,000
 * Security type: 12.5% interest rate bond
 * Last coupon date: 1st Jul 2014
 * Repo rate: 7.5%

@@ -48,21 +48,21 @@ Delivery versus payment (DVP) is a securities industry settlement method that gu
 
 ## Security Financing (Borrowing or Lending) Trades (SBL Trades)
 
-|Trade Type|Full Name|Description|
-|-|-|-|
-|BSB|Buy Sell-Back|A sell/buy-back is very similar to a repo but with two independent contracts, one for the spot contract, and one for the forward contract.sell/buy-backs as riskier instruments than repos as they do not require a mastering agreement between the buyer and seller.|
-|SBB|Sell Buy-Back|(similar concept as above)|
-|REP|Currency Repo|Compared to SBS/SBB, repo has a more powerful master agreement|
-|REV|Currency Reverse Repo|reverse action of repo|
-|XREP|Cross Currency Repo|buy repo with different currency|
-|XREV|Cross Currency Reverse Repo|buy reverse repo with different currency|
-|CLR|Collateral Receive||
-|CLD|Collateral Deliver||
-|CP|Collateral Pledge||
-|CR|Collateral Receive||
-|CDF|Collateral Delivery Fee||
-|CRF|Collateral Receive Fee||
-|BVF|Borrow vs Fee|A security/stock loan fee, or borrow fee, is a fee charged by a brokerage firm to a client for borrowing security/stock. When a security is transferred as part of the lending agreement (Securities Lending Agreement (SLA) ), all rights are transferred to the borrower. This includes voting rights, the right to dividends, and the rights to any other distributions. |
-|LVF|Lend vs Fee|(similar concept as above)|
-|ML|Money Lend|Simply refer to cash lending/borrowing|
-|MB|Money Borrow|(similar concept as above)|
+|Trade Type|Full Name|Description|Classification|
+|-|-|-|-|
+|BSB|Buy Sell-Back|A sell/buy-back is very similar to a repo but with two independent contracts, one for the spot contract, and one for the forward contract.sell/buy-backs as riskier instruments than repos as they do not require a mastering agreement between the buyer and seller.||
+|SBB|Sell Buy-Back|(similar concept as above)||
+|REP|Currency Repo|Compared to SBS/SBB, repo has a more powerful master agreement|REPO|
+|REV|Currency Reverse Repo|reverse action of repo|REPO|
+|XREP|Cross Currency Repo|buy repo with different currency|REPO|
+|XREV|Cross Currency Reverse Repo|buy reverse repo with different currency|REPO|
+|CLR|Collateral Receive||MIGA|
+|CLD|Collateral Deliver||MIGA|
+|CP|Collateral Pledge||BVBC|
+|CR|Collateral Receive||BVBC|
+|CDF|Collateral Delivery Fee||BVB|
+|CRF|Collateral Receive Fee||BVB|
+|BVF|Borrow vs Fee|A security/stock loan fee, or borrow fee, is a fee charged by a brokerage firm to a client for borrowing security/stock. When a security is transferred as part of the lending agreement (Securities Lending Agreement (SLA) ), all rights are transferred to the borrower. This includes voting rights, the right to dividends, and the rights to any other distributions.||
+|LVF|Lend vs Fee|(similar concept as above)||
+|ML|Money Lend|Simply refer to cash lending/borrowing||
+|MB|Money Borrow|(similar concept as above)||
