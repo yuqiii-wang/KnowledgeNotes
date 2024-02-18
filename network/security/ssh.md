@@ -54,6 +54,17 @@ This step might be auto completed for some open-to-public servers such as `githu
 
 Now, ssh should work as per above setup.
 
+### `authorized_keys` vs `known_hosts`
+
+* `authorized_keys`
+
+Holds a list of authorized public keys for servers. When the client connects to a server, the server authenticates the client by checking its signed public key stored within this file
+
+* `known_hosts`
+
+The first time a client connects to a server, the client needs to check if the public key presented by the server is really the public key of the server (this is why the first time connection requiring user verifying if a public key is trusted).
+If the server's public key has already existed in client's `known_hosts`, client can just `ssh` to the server.
+
 ### `scp` VS `sftp`
 
 `scp` uses `ssh` to file transfer `scp <fromDirectory> <toDirectory>`

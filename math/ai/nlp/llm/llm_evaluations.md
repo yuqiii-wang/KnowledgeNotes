@@ -9,6 +9,33 @@ $$
 
 However, in human language there are synonyms, and by certain grammar arrangements tokens at different sequence/sentence positions may give the same semantic/linguistic meanings.
 
+## Evaluation Aspects
+
+### Embedding Evaluation
+
+Good embedding representations of words should best approximate vocabulary distribution in texts composed by humans.
+
+Reference: https://openai.com/blog/new-and-improved-embedding-model
+
+* Good Geometry
+
+Generally speaking, a smaller set of more frequent, unrelated words should be evenly distributed throughout the space while a larger set of rare words should cluster around frequent words.
+
+* Word Similarity
+
+Semantically similar words should have high similarity score.
+Typically cosine similarity is used.
+
+$$
+\text{similarity}_{\cos}(\bold{v}_i, \bold{v}_j) = \cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
+$$
+
+* Concept Categorization
+
+Words belonged to the same concept category should be similar.  
+
+For example, "mountain", "river", "plain" should be more similar than "cat", "dog", "rabbit", etc.
+
 ### Lexical Overlap
 
 Aim to compare if two sentences are the same in terms of token sequences by exact token match.

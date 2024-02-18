@@ -131,3 +131,27 @@ $$
 $$
 
 In conclusion, $\text{NPV}_{\text{lower}}=-0.016=-0.04 \times 0.4$ and $\text{NPV}_{\text{lower}}=-0.024=-0.04 \times 0.6$.
+
+### Bond-Based NPV and Risks
+
+In bonds, $\text{SecurityPrice}$ is used as the spot price of the bond (present value).
+
+$$
+\text{SecurityPrice} =
+\text{SecurityMidPrice} \times \text{CurrencyExchange} \times \text{IssueFactor}
+$$
+
+where $\text{SecurityMidPrice} = \frac{1}{2}(\text{SecurityAskPrice} + \text{SecurityBidPrice})$.
+The $\text{IssueFactor}$ refers to partial purchase of the total amount of the issued bonds.
+$\text{CurrencyExchange}$ is often used to convert bond value to US dollars.
+
+$\text{StartCash}$ represents cost of cash.
+
+$$
+\text{StartCash} =
+(\text{SettlementPrice} / 100) \times \text{Quantity} \times \text{HaircutRatio}
+$$
+
+where $\text{SettlementPrice}$ is a bond face value (typical \$100 per coupon).
+
+The NPV as risk is $\frac{1}{(1+r)^n}\text{SecurityPrice}-\text{StartCash}$, where $r$ is coupon rate and $n$ is the total number of coupon yields.

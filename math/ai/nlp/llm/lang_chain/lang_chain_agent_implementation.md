@@ -70,8 +70,6 @@ memory.load_memory_variables({})
 Together, they are as below.
 `from_llm` is a convenience method to load chain from LLM and retriever.
 
-
-
 ```python
 mem = ConversationalBufferMemory(
     memory_key="chat_history",
@@ -170,15 +168,55 @@ class KnowledgeBaseManager(CustomRetriever):
         return retriever.get_relevant_documents(query)
 ```
 
+### Embeddings and LLAMA Indexing
+
+`text-embedding-ada-002` is an OpenAI developed embedding model in 2023.
+
+Azure stores this embedding model on cloud.
+
+```python
+azureEmbs = AzureOpenAIEmbedding(
+    model="text-embedding-ada-002",
+    deployment_name="text-embedding-ada-002",
+    api_version="2023-05-15",
+    api_key="your AzureOpenAI key",
+    azure_endpoint="https://<your-endpoint>.openai.azure.com/"
+)
+```
+
+LlamaIndex is an LLM RAG data framework.
+
+Below code returns `vector_store_index` for similarity search.
+
+```python
+from llama_index import VectorStorageIndex, ServiceContext, StorageContext, load_index_from_storage
+from llama_index.vector_store import FaissVectorStore
+
+vector_store = FaissVectorStore.from_persist_dir("/path/to/db/dir")
+service_context = ServiceContext.from_defaults(
+    llm=None,
+    embed_model=azureEmbs)
+storage_context = StorageContext.from_defaults(
+    vector_store=vector_store,
+    persist_dir="/path/to/db/dir"
+)
+
+vector_store_index = load_index_from_storage(
+    service_context=service_context,
+    storage_context=storage_context
+)
+
+# create a query engine and query
+query_engine = vector_store_index.as_query_engine()
+response = query_engine.query("What is the meaning of life?")
+print(response)
+```
+
 ### `FAISS`
 
 *Facebook AI Similarity Search* (Faiss) is a library for efficient similarity search and clustering of dense vectors.
 
-#### Embeddings
-
-
-
-#### Similarity Search and Optimization
+#### Similarity Search and Optimization in FAISS
 
 Example: given $\text{Sentences} \in \mathbb{R}^{14504 \times 100}$ of the size $\text{numSentences} \times \text{numTokensPerSentence}$.
 
