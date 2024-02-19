@@ -66,3 +66,6 @@ Delivery versus payment (DVP) is a securities industry settlement method that gu
 |LVF|Lend vs Fee|(similar concept as above)||
 |ML|Money Lend|Simply refer to cash lending/borrowing||
 |MB|Money Borrow|(similar concept as above)||
+
+where BVB is *Borrow vs Borrow*, basically a security exchange trade.
+There is often likely fee involved during exchange.

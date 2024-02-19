@@ -47,6 +47,28 @@ Tail risk is the financial risk of an asset or portfolio of assets moving more t
 
 It is used to refer the risk associated with an event (black swan) that is extremely unlikely to happen.
 
+## Short-Term Interbank Exchange Rate as A Risk Indicator
+
+Short-Term interbank exchange rate refers to interest rate of borrowing money between major banks to meet regulatory requirements, e.g., minimum reserve a bank must hold overnight.
+
+Short terms typically talk about overnight (spot next (S/N)), one week, one month, two months, three months, six months, and 12 months.
+
+Interbank rates are referred as below names in different jurisdictions.
+
+* London Inter-Bank Offered Rate (LIBOR)
+* Euro Overnight Index Average (EONIA)
+* Secured Overnight Financing Rate (SOFR) 
+* Hong Kong Interbank Offered Rate (HIBOR)
+* China Interbank Interest Rate
+
+Interbank interest rate is almost as safe as treasury bonds, hence considered as money cost baseline.
+
+Yield curves (interests from lending/borrowing money) of such rates have below implications
+
+* Upward sloping: long-term yields are higher than short-term yields. Healthy mode, economy is expanding
+* Downward sloping: short-term yields are higher than long-term yields. Unhealthy mode, economy is in recession. Short-term rate is low indicating little needs of money/low liquidity.
+* Flat: economy forecast is uncertain.
+
 ## Discount Security Risk Analysis by NPV
 
 *Present value* (PV) is defined as
