@@ -12,14 +12,22 @@ where
 * $\alpha$ is alpha, which is the excess return of the stock or fund.
 * $\beta$ is beta, which is volatility relative to the benchmark.
 * $x$ is the performance of the benchmark, typical Shanghai-A index for China or S&P 500 index for the U.S.
-* $u$ is the residual, which is the unexplained random portion of performance in a given year. 
+* $u$ is the residual, which is the unexplained random portion of performance in a given year.
+
+### Key Metrics of A Stock
+
+* Dividend Yield 分红
+* (Dividend) Payout Ratio 股息率/派息率: $\frac{\text{TotalDividends}}{\text{NetIncome}}$
+* Price-to-Earnings Ratio, P/E ratio 市盈率
+* Price-to-Book Ratio, P/B ratio 市净率/市帳率/股價淨值比
+* Price-to-Cash-Flow
 
 ### Sharpe Ratio
 
-The Sharpe ratio can be used to evaluate a portfolio’s risk-adjusted performance.
+The Sharpe ratio can be used to evaluate a portfolio's risk-adjusted performance.
 
 $$
-Sharpe Ratio = 
+Sharpe Ratio =
 \frac{R_p-R_f}{\sigma_p}
 $$
 

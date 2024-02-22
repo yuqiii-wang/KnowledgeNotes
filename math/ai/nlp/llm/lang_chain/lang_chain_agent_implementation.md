@@ -212,6 +212,10 @@ response = query_engine.query("What is the meaning of life?")
 print(response)
 ```
 
+#### LLAMA Indexing As Retriever to LangChain
+
+
+
 ### `FAISS`
 
 *Facebook AI Similarity Search* (Faiss) is a library for efficient similarity search and clustering of dense vectors.

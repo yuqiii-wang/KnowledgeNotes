@@ -53,14 +53,16 @@ m = 4k + 3 : \frac{d^m}{dx^m}cos(x) = sin(x)
 \end{align*}$$
 
 Take into consideration Taylor-Maclaurin series expansion:
+
 $$\begin{align*}
-sin(x) 
+sin(x)
 & = \sum_{k=0}^{\infty} \bigg( \frac{x^{4k}}{(4k)!}cos(0) - \frac{x^{4k+1}}{(4k+!)!}sin(0) - \frac{x^{4k+2}}{(4k+2)!}cos(0) + \frac{x^{4k+3}}{(4k+3)!}sin(0)\bigg) \\
 & = \sum_{n=0}^{\infty} (-1)^{n} \frac{x^{2n+1}}{(2n+1)!}
 \end{align*}$$
 where $n=2k$.
 
 Similarly, cosine is derived as below
+
 $$
 cos(x) = \sum_{n=0}^{\infty} (-1)^{n} \frac{x^{2n}}{(2n)!}
 $$
