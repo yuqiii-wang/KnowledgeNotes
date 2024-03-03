@@ -18,9 +18,11 @@ where
 
 * Dividend Yield 分红
 * (Dividend) Payout Ratio 股息率/派息率: $\frac{\text{TotalDividends}}{\text{NetIncome}}$
-* Price-to-Earnings Ratio, P/E ratio 市盈率
-* Price-to-Book Ratio, P/B ratio 市净率/市帳率/股價淨值比
-* Price-to-Cash-Flow
+* Price-to-Earnings Ratio, P/E ratio 市盈率: $\frac{\text{SharePrice}}{\text{EarningsPerShare}}$, lower the better
+* Price-to-Book Ratio, P/B ratio 市净率/市帳率/股價淨值比: $\frac{\text{CompanyTotalShareValue}}{\text{BookValueOfEquity}}=\frac{\text{SharePrice}}{\text{BookValuePerShare}}$, where book value of equity (BVE) is computed by $\text{BVE}=\text{TotalAsset}-\text{TotalLiability}$; P/B ratio is lower the better
+
+For example, as of 2024-02-21 APPLE (NAS: AAPL) dividend yield is \$0.24 per share quarterly. APPLE one share price is \$182, that gives dividend payout ratio $0.52\% \approx \frac{0.24 \times 4}{182}$.
+In Dec 2023, APPLE recorded quarterly earnings per share \$2.18 and book value per share \$4.79. Given 2024-02-21 share price \$182, P/E ratio is $20.9 \approx \frac{182}{2.18 \times 4}$, and P/B ratio is $37.97\approx \frac{182}{4.79}$.
 
 ### Sharpe Ratio
 

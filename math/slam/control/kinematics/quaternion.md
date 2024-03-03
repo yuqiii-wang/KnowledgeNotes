@@ -120,19 +120,20 @@ $$
 
 By the nature of quaternion rotation, there is $\bold{q}(t+\Delta t)=\Delta\bold{q}\bold{q}(t)$.
 Then, define the difference:
+
 $$
 \begin{align*}
 \bold{q}(t+\Delta t)-\bold{q}(t) &= 
 \Big( \cos\frac{||\bold{\omega}||\Delta t}{2} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2}
  \Big) \bold{q} - \bold{q}
 \\ &=
-\Big( \cos\frac{||\bold{\omega}||\Delta t}{2} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2}
- - 1 \Big) \bold{q}
+\Big( \cos\frac{||\bold{\omega}||\Delta t}{2} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2} - 1 \Big) \bold{q}
 \\ &=
 \Big( -2\sin^2\frac{||\bold{\omega}||\Delta t}{4} + \frac{\bold{\omega}}{||\bold{\omega}||} \sin\frac{||\bold{\omega}||\Delta t}{2}
 \Big) \bold{q}
 \end{align*}
 $$
+
 where, for quaternion $\bold{q} \in \mathbb{H}^4$ multiplying with angular velocity $\bold{\omega} \in \mathbb{R}^3$, here redefines $\bold{\omega}=[0\quad \omega_x\quad \omega_y\quad \omega_z] \in \mathbb{H}^4$.
 
 Finally, develop the time-derivative of the quaternions.
@@ -243,9 +244,9 @@ $$
 $$
 
 Here computes $\bold{q}^+\bold{q}^{-1^\oplus}$:
+
 $$
 \begin{align*}
-    
 \bold{q}^+\bold{q}^{-1^\oplus}&=
 \begin{bmatrix}
     s_a & - \bold{v}_a^\text{T} \\
@@ -269,29 +270,23 @@ R =
 $$
 
 In order to compute $\theta$, trace operation is performed as below
+
 $$
 \begin{align*}
     tr(R) &=
     tr \big(
-        \bold{v}\bold{v}^\text{T}+s^2I+ 2s\bold{v}^{\wedge}+(\bold{v}^{\wedge})^2
-    \big)
-
-    \\ &=
+        \bold{v}\bold{v}^\text{T}+s^2I+ 2s\bold{v}^{\wedge}+(\bold{v}^{\wedge})^2 \big) \\ &=
     v_x^2 + v_y^2 + v_z^2 + 3s^2 + 0
-    -2(v_x^2 + v_y^2 + v_z^2)
-
-    \\ &=
-    (1-s^2) + 3s^2 -2(1-s^2)
-
-    \\ &=
+    -2(v_x^2 + v_y^2 + v_z^2) \\ &=
+    (1-s^2) + 3s^2 -2(1-s^2) \\ &=
     4s^2-1
 \end{align*}
 $$
 
-According to *Rodrigues' rotation formula*, $\theta$ can be computed as 
+According to *Rodrigues' rotation formula*, $\theta$ can be computed as
+
 $$
 \begin{align*}
-    
 \theta &= \arccos \bigg(
       \frac{tr(R)-1}{2}
 \bigg)
@@ -299,7 +294,6 @@ $$
 \arccos(2s^2-1)
 \\ &=
 2 \space \arccos \space s
-
 \end{align*}
 $$
 

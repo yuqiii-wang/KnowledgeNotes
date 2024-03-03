@@ -80,7 +80,7 @@ $$
 
 where $i$ represents imaginary part of a complex number.
 
-### Intuition about $e^{Ax}$ 
+### Intuition about $e^{Ax}$
 
 Given $e^{Ax}$ where $A$ is a matrix, for example
 

@@ -186,35 +186,167 @@ azureEmbs = AzureOpenAIEmbedding(
 
 LlamaIndex is an LLM RAG data framework.
 
-Below code returns `vector_store_index` for similarity search.
+#### LLAMA Indexing Preprocessing Texts
+
+By performing similarity search against whole text embedding directly vs a very short query such as "What is blah blah", similarity search could fail retrieving most relevant documents.
+
+For example, a sub-title may appear only once in a long text, query to this sub-title may not see llama indexing returning relevant docs.
+
+Enhancements from texts to documents are
+
+* Data cleansing
+* Tabular data augmentation: add "This is the first row cell_1_1, cell_1_2, ..., this is the first column cell_1_1, cell_2_1, ..." rather than directly serializing "cell_1_1, cell_1_2, ..."
+* Extract keywords: for example for HTML, extract `<h1>`, `<h2>`, ..., `<strong>`, `<li>`, etc, and add the keywords as metadata to documents
+* Good splitter
+
+Format text by the below separators.
 
 ```python
-from llama_index import VectorStorageIndex, ServiceContext, StorageContext, load_index_from_storage
-from llama_index.vector_store import FaissVectorStore
-
-vector_store = FaissVectorStore.from_persist_dir("/path/to/db/dir")
-service_context = ServiceContext.from_defaults(
-    llm=None,
-    embed_model=azureEmbs)
-storage_context = StorageContext.from_defaults(
-    vector_store=vector_store,
-    persist_dir="/path/to/db/dir"
+SentenceSplitter.from_defaults(
+    separator: str = ' ', 
+    chunk_size: int = 1024, 
+    chunk_overlap: int = 200,
+    paragraph_separator: str = '\n\n\n',
 )
+```
 
-vector_store_index = load_index_from_storage(
-    service_context=service_context,
-    storage_context=storage_context
-)
+* Rich metadata
 
-# create a query engine and query
-query_engine = vector_store_index.as_query_engine()
-response = query_engine.query("What is the meaning of life?")
-print(response)
+Below processes texts and add additional metadata to a document.
+
+```python
+from llama_index.extractors.entity import EntityExtractor
+
+transformations = [
+    SentenceSplitter(),
+    TitleExtractor(nodes=5),
+    QuestionsAnsweredExtractor(questions=3),
+    SummaryExtractor(summaries=["prev", "self"]),
+    KeywordExtractor(keywords=10),
+    EntityExtractor(prediction_threshold=0.5),
+]
+
+from llama_index.core.ingestion import IngestionPipeline
+
+pipeline = IngestionPipeline(transformations=transformations)
+nodes = pipeline.run(documents=documents)
 ```
 
 #### LLAMA Indexing As Retriever to LangChain
 
+A LLAMA Indexing retriever can have the below definition.
 
+```python
+from langchain_core.documents import Document as langDocument
+from langchain_core.pydantic_v1 import Field
+from langchain_core.retrievers import BaseRetriever
+from langchain.callbacks.manager import CallbackManagerForRetrieverRun
+
+from llama_index import VectorStoreIndex, SimpleDirectoryReader, ServiceContext, \
+                        StorageContext, load_index_from_storage
+from llama_index.embeddings import AzureOpenAIEmbedding
+from llama_index.schema import NodeWithScore
+from llama_index.vector_stores import FaissVectorStore
+
+from pydantic import Extra
+from typing import List
+
+class LlamaIndexDB:
+
+    def __init__(self, db_path:str):
+        pass
+
+    def create_db(from_text_dir:str, to_faiss_db_dir:str):
+        llamaindex_reader = SimpleDirectoryReader(text_dir, file_metadate=LlamaIndexDB.set_doc_metadata,
+                            required_exts=[".txt"], recursive=True)
+        all_docs = []
+        for docs in llamaindex_reader.iter_data():
+            for doc in docs:
+                doc.text = doc.text.split("\n\n")[-1]
+                all_docs.append(doc)
+        service_context = LlamaIndexDB.get_llamaindex_cfg_service_context()
+        dim = 1536 # for "text-embedding-ada-002"
+        faiss_index = faiss.IndexFlatL2(dim)
+        faiss_vector_store = FaissVectorStore(faiss_index=faiss_index)
+        storage_context = StorageContext.from_defaults(vector_store=faiss_vector_store,
+                                                        persist_dir=to_faiss_db_dir)
+        index = VectorStoreIndex.from_documents(all_docs, service_context=service_context,
+                                                storage_context=storage_context,
+                                                show_progress=True)
+        index.storage_context.persist(to_faiss_db_dir)
+
+    def insert_docs(self, from_text_dir:str, to_faiss_db_dir:str):
+        pass
+
+    def update_docs(self, title:str):
+        pass
+
+    def delete_docs(self, title:str):
+        pass
+
+    @classmethod
+    def get_llamaindex_cfg_service_context():
+        llamaindex_embs = AzureOpenAIEmbedding(
+                            model="text-embedding-ada-002",
+                            deployment_name="text-embedding-ada-002",
+                            api_version="2023-05-15",
+                            api_key="xxx",
+                            azure_endpoint="https://xxx.openai.azure.com/")
+        service_context = ServiceContext.from_defaults(llm=None, embed_model=llamaindex_embs)
+        return service_context
+
+    @classmethod
+    def get_llamaindex_cfg_storage_context(dp_path:str):
+        assert os.path.exists(db_path)
+        faiss_vector_store = FaissVectorStore.from_persist_dir(db_path)
+        storage_context = StorageContext.from_defaults(vector_store=faiss_vector_store,
+                                                        persist_dir=db_path)
+        return storage_context
+
+    # read from a text and set accordingly metadata
+    # custom text format, such as <title>\n<url>\n<keywords>\n\n<contents>
+    @classmethod
+    def set_doc_metadata(one_text_path_filename:str):
+        with open(one_text_path_filename, "r", encoding="UTF-8") as filehandle:
+            txt = filehandle.read()
+        title, url, keywords = txt.split("\n\n")[0].split("\n")
+        return {"title":title, "url":url, "keywords":keywords}
+
+class LlamaIndexDBRetriever(BaseRetriever):
+    class Config:
+        extra = Extra.allow
+
+    def __init__(self, db_path:str):
+        super(LlamaIndexDBRetriever, self):.__init__()
+        self._llamaindex_index = self._init_llamaindex_index(db_path)
+        self._llamaindex_retirever = self._llamaindex_index.as_retriever(
+            similarity_top=5
+        )
+
+    def _init_llamaindex_index(self, db_path:str):
+        service_context = LlamaIndexDB.get_llamaindex_cfg_service_context()
+        storage_context = LlamaIndexDB.get_llamaindex_cfg_storage_context()
+        vector_store_index = load_index_from_storage(service_context=service_context,
+                                                    storage_context=storage_context)
+
+    # _get_relevant_documents is an abstract method of BaseRetriever
+    def _get_relevant_documents(self, query: str, *, run_manager: CallbackManagerForRetrieverRun) \
+    -> List[langDocument] :
+        llamaindex_docs: List[NodeWithScore] = self._llamaindex_retirever.retrieve(query)
+        lang_docs = [doc for doc in map(lambda node: langDocument(page_content=node.text, metadata={'score':node.score, 'title':node.metadata['title'],
+                                                                                        'url':node.metadata['url'], 'keywords':node.metadata['keywords']})
+                                                    if "url" in node.metadata and "title" in node.metadata and "keywords" in node.metadata
+                                                    else langDocument(page_content=node.text, metadata={'score':node.score}))]
+        return lang_docs
+```
+
+#### LLAMA Multi-Indexing
+
+* VectorStoreIndex
+* Summary Index
+* Tree Index
+* Keyword Table Index
+* Knowledge Graph Index
 
 ### `FAISS`
 

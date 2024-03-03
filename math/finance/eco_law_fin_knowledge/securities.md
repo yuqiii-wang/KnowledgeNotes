@@ -22,19 +22,25 @@ Typical examples are Evergrand using future house selling receivables as guarant
 
 * Mortgage-Backed Security (MBS)
 
-An investment similar to a bond that is made up of a bundle of home loans bought from the banks that issued them. Investors in MBS receive periodic payments similar to bond coupon payments. 
+An investment similar to a bond that is made up of a bundle of home loans bought from the banks that issued them.
 
 ## Bonds, Loans, and Fixed Incomes
 
 * subprime mortgage
 
-A subprime mortgage is one that’s normally issued to borrowers with low credit ratings. 
+A subprime mortgage is one that's normally issued to borrowers with low credit ratings.
 
 * General collateral (GC)
 
 Collateral that is not a specified security but of a defined
 homogenous credit quality, for example UK gilts or AA-rated
 sterling Eurobonds.
+
+* Bond vs Loans
+
+The issuer of a bond pays interest, and only interest regularly (usually semi-annually), and the principal is repaid at maturity in a lump sum.
+
+For loans, payments are made including interests + principal, until principal is fully repaid. For example, mortgage receives monthly payment.
 
 ## Settlement Type
 

@@ -44,13 +44,16 @@ Not able to fulfill one's duty by a signed contract
 
 [Law] A minor crime/misbehavior
 
-* Prospectus 
+* Prospectus
 
-A prospectus is a formal document required by and filed with the Securities and Exchange Commission (SEC) that provides details about an investment offering to the public. 
+A prospectus is a formal document required by and filed with the Securities and Exchange Commission (SEC) that provides details about an investment offering to the public.
 A prospectus is filed for offerings of stocks, bonds, and mutual funds.
 
-### Capital Requirements
+* Lowball 低价购买
 
+A lowball offer is a slang term for an offer that is significantly below the seller's asking price
+
+### Capital Requirements
 
 * Basel Accords
 
@@ -174,14 +177,6 @@ Instead of just paying cash on goods' delivery, Apple pays with commercial paper
 
 ### Secondary Market and Shares
 
-
-* P/E ratio
-
-Price-earnings ratio is defined as
-$$
-P/E = \frac{\text{SharePrice}}{\text{EarningsPerShare}}
-$$
-
 * Preferred vs. Common Stock
 
 The main difference between preferred and common stock is that preferred stock gives no voting rights to shareholders while common stock does.
@@ -197,8 +192,7 @@ The portfolios are published daily.
 
 ETFs typically have short closure time (minimum holding period), and can be traded publicly.
 
-
-### Rates
+### Interbank Rates
 
 * Overnight (ON) Rate
 
@@ -217,7 +211,6 @@ The London Inter-Bank Offered Rate (LIBOR) is an interest-rate average calculate
 * EONIA
 
 Eonia (Euro Overnight Index Average) is computed as a weighted average of all overnight unsecured lending transactions in the interbank market, undertaken in the European Union and European Free Trade Association (EFTA) countries by the Panel Banks
-
 
 * Secured Overnight Financing Rate (SOFR) 
 
@@ -239,6 +232,15 @@ Offered by (China) National Interbank Funding Center.
 SONIA is based on actual transactions and reflects the average of the interest rates that banks pay to borrow sterling overnight from other financial institutions and other institutional investors.
 
 It is administered by Bank of England.
+
+### Interest Rate
+
+* Single Monthly Mortality Rate (SMM)
+
+SMM is used to measure how much client has prepaid loan, and debtor will lose part of interest as income.
+
+Suppose one month payment to debt is \$10,000 for a debt totalled \$100,000. However, client anticipated increased interest rate and would like to pay \$12000 this month.
+The SMM is $2\%=\frac{12,000-10,000}{100,000}$ for this month.
 
 ### Underlying Asset
 
@@ -280,7 +282,7 @@ A person who buys and sells goods or assets for others.
 
 * carry interest
 
-Carry is a percentage of a fund’s profits that fund managers get to keep on top of their management fees.
+Carry is a percentage of a fund's profits that fund managers get to keep on top of their management fees.
 
 * pull the plug （撤资）
 
