@@ -74,6 +74,7 @@ print(set1 | set3) # union (set or)
 print(set1 & set3) # intersection (set and)
 print(set1 - set2) # complementary set
 ```
+
 **Diff between `set` and `tuple`**
 
 In python, elements in `set` are unique while elements in `tuple` are immutable.
@@ -81,6 +82,7 @@ In python, elements in `set` are unique while elements in `tuple` are immutable.
 ### Deepcopy
 
 Should not just use `=` for by-value assignment in python, instead, by
+
 ```python
 import copy
 

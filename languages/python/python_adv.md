@@ -5,11 +5,12 @@
 A global interpreter lock (GIL) is a mechanism used in computer-language interpreters to synchronize the execution of threads so that only one native thread can execute at a time, even on multi-core processor, hence rendering low concurrency code execution.
 
 Consider the code
+
 ```py
 import time
 from threading import Thread
 from multiprocessing import Pool
-  
+
 def countdown(n):
     while n>0:
         n -= 1
@@ -53,7 +54,9 @@ pool.join()
 end = time.time()
 print('Time taken (four processes) in seconds: ', end - start)
 ```
+
 which outputs
+
 ```
 Time taken (one thread) in seconds: 7.321912527084351
 Time taken (four threads) in seconds:  7.665801525115967
@@ -69,7 +72,8 @@ A metaclass is a class whose instances are classes.
 
 In python, the builtin class `type` is a metaclass.
 
-Given the code below, at run time, `Car` itself is an instance of `type`, despite not explicitly invoking `type`. 
+Given the code below, at run time, `Car` itself is an instance of `type`, despite not explicitly invoking `type`.
+
 ```py
 class Car:
     def __init__(self, make: str, model: str, year: int, color: str):
@@ -88,6 +92,7 @@ new_car = Car(make='Toyota', model='Prius', year=2005, color='Green', engine='Hy
 ```
 
 The attribute settings such as `make`, `model`, etc. can be set by a custom metaclass `AttributeInitType` that inherits from `type`. `Car` can be constructed same as before.
+
 ```py
 class AttributeInitType(type):
     def __call__(self, *args, **kwargs):

@@ -317,7 +317,7 @@ class LlamaIndexDBRetriever(BaseRetriever):
         extra = Extra.allow
 
     def __init__(self, db_path:str):
-        super(LlamaIndexDBRetriever, self):.__init__()
+        super(LlamaIndexDBRetriever, self).__init__()
         self._llamaindex_index = self._init_llamaindex_index(db_path)
         self._llamaindex_retirever = self._llamaindex_index.as_retriever(
             similarity_top=5
@@ -328,6 +328,7 @@ class LlamaIndexDBRetriever(BaseRetriever):
         storage_context = LlamaIndexDB.get_llamaindex_cfg_storage_context()
         vector_store_index = load_index_from_storage(service_context=service_context,
                                                     storage_context=storage_context)
+        return vector_store_index
 
     # _get_relevant_documents is an abstract method of BaseRetriever
     def _get_relevant_documents(self, query: str, *, run_manager: CallbackManagerForRetrieverRun) \

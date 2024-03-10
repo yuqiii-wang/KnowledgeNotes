@@ -1,8 +1,13 @@
 # K-means and KNN
 
+K-means vs KNN:
+
+* k-means is a clustering algo partitioning points into k sets.
+* knn is to find classification of a point assigned to the nearest k neighbors' label.
+
 ## K-means
 
-*K-means* is a clustering algorithm that tries to partition a set of points into K sets (clusters) such that the points in each cluster tend to be near each other. 
+*K-means* is a clustering algorithm that tries to partition a set of points into K sets (clusters) such that the points in each cluster tend to be near each other.
 
 The number of clusters is unknown in the beginning, and this is different from KNN that the number of clusters is known as a prior.
 

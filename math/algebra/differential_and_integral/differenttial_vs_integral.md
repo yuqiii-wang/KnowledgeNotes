@@ -4,6 +4,16 @@
 
 Derivative refers to "rate of change" while differential refers to "trivial amount".
 
+### Derivative vs Difference Quotient
+
+The derivative of a function is the rate that a function is changing at a given point.
+
+Derivative can be solved by finding difference quotient such that
+
+$$
+f'(x)=\lim_{h \rightarrow 0} \frac{f(x+h)-f(x)}{h}
+$$
+
 ### Partial Derivative
 
 When input/output is $\mathbb{R}^1 \rightarrow \mathbb{R}^1$ such that $w=f\big(g(x)\big)$, there is a chian rule:

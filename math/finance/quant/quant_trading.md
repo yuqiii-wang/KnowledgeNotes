@@ -86,6 +86,20 @@ Simple stop (force sell) when reaching a limit.
 
 ### Leg
 
-A leg is one piece of a multi-part trade, often a derivatives trading strategy, in which a trader combines multiple options or futures contracts, to hedge a position, to benefit from arbitrage, or to profit from a spread widening or tightening. 
+A leg is one piece of a multi-part trade, often a derivatives trading strategy, in which a trader combines multiple options or futures contracts, to hedge a position, to benefit from arbitrage, or to profit from a spread widening or tightening.
 
 When entering into a multi-leg position, it is known as "legging-in" to the trade. Exiting such a position, meanwhile, is called "legging-out". Note that the cash flows exchanged in a swap contract may also be referred to as legs.
+
+### Gamma Squeeze
+
+A *squeeze* can happen when stock prices unexpectedly come under pressure (either rise or fall, corresponding to short or long).
+
+A *short squeeze* is a specific type of stock squeeze.
+With a short squeeze, an increase in stock prices can force people who shorted the stock to buy back their shares.
+A short squeeze can end up driving stock prices up, but the growth might not be sustainable.
+
+A *gamma squeeze* can happen when there's widespread buying activity of short-dated call options for a particular stock.
+This can effectively create an upward spiral in which call buying triggers higher stock prices.
+
+Example: investors consider the price of a stock would drop and have shorted the stock.
+However, if there are other investors who buy up the stock, there will be short squeeze.
