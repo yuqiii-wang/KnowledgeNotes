@@ -14,7 +14,6 @@ Income after being taxed.
 
 Contract's duty is no longer excercised/is terminated (implying default as damage to the initiative party)
 
-
 * fiduciary responsibility
 
 Obligation of one party to act on behalf of another party to its best interest.
@@ -23,8 +22,6 @@ Obligation of one party to act on behalf of another party to its best interest.
 
 [Law] take care of a minor/child as a guardian
 
-
-
 * Endowment
 
 A financial endowment is a legal structure for managing, and in many cases indefinitely perpetuating, a pool of financial, real estate, or other investments for a specific purpose according to the will of its founders and donors.
@@ -32,7 +29,6 @@ A financial endowment is a legal structure for managing, and in many cases indef
 * Sting operation （便衣/钓鱼执法）
 
 In law enforcement, a sting operation is a deceptive operation designed to catch a person attempting to commit a crime. 
-
 
 * default （违约）
 
@@ -341,6 +337,14 @@ A money market fund (also called a money market mutual fund) is an open-ended mu
 
 A fund of funds (FOF) is a pooled fund that invests in other funds.
 
+### Pledge, Hypothecation and Mortgage
+
+|Pledge|Hypothecation|Mortgage|
+|-|-|-|
+|bailment of goods as security against the loan|pledge of an asset as collateral for a loan, without transferring the property's title to the lender|transfer of an interest in specific immovable property as security against loan|
+|Movable (Gold, Jewellery, Stock, NSC etc.)|Movable (Vehicles, Stock and debtors.)|Immovable (example: house, land, etc.)|
+|Possession remains with lenders|Possession remains  with borrowers|Possession remains  with borrowers|
+
 ### Money Supply
 
 The money supply is the total amount of cash and cash equivalents such as savings accounts that is circulating in an economy at a given point in time.
@@ -365,6 +369,18 @@ $$
 $$
 
 ### Financing, Loan and Bonds
+
+* Equity 净值/权益
+
+Equity (in accounting) is computed by subtracting liabilities from the value of the owned assets.
+
+Equity in investment usually refers to shares of a company.
+
+* Equity Financing vs Debt Financing 融资
+
+To raise fund, equity financing needs equity (usually shares of a company) ownership transfer; debt financing does not need ownership transfer.
+
+Debt financing usually needs collaterals (property, equipment, etc.) as insurance for borrowing.
 
 * Tenor
 

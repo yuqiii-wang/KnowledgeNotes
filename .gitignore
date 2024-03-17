@@ -27,4 +27,5 @@ math/ai/nlp/llm/lang_chain/examples/llm_tutorial_venv
 math/ai/nlp/llm/lang_chain/examples/llm_config.py
 math/ai/nlp/llm/lang_chain/examples/sentence-transformers
 math/ai/nlp/llm/lang_chain/examples/BAAI
+math/ai/nlp/llm/lang_chain/examples/google
 math/ai/nlp/llm/lang_chain/examples/storage

@@ -1,14 +1,44 @@
 # Risks
 
-## Margin-at-Risk (MaR)
+## Mark-To-Market (MTM) Risks
 
-Margin-at-Risk (short: MaR) is a quantity used to manage short-term liquidity risks due to variation of margin requirements.
+MTM risks refer to a group of risk concepts associated with the current market conditions.
 
-The MaR quantifies the "worst case" margin-call and is only driven by market prices.
+It is an accounting practice used to value assets and liabilities given current market conditions; MTM value is computed by $\text{ThisTimePrice} \times \text{NumberOfUnits}$.
 
-## Liquidity Risk
+In implementation, it includes costs of money, e.g., interests paid to lenders.
+If the collateral is bond, need to consider coupon yields.
 
-Liquidity risk is a financial risk that for a certain period of time a given financial asset, security or commodity cannot be traded quickly enough in the market without impacting the market price.
+### Margin-at-Risk (MaR)
+
+Margin-at-Risk (short: MaR) quantifies the "worst case" margin-call and is only driven by market prices （持有仓位低于保证金）.
+
+Margin itself refers to how much left between loaned money vs current collateral value.
+
+### Liquidity Risk （流通风险）
+
+Liquidity risk talks about if an asset is easy to sell in market.
+
+To quantify liquidity, one can compute recent traded volumes and number of counterparties.
+
+### Value-at-Risk (VaR) （最大可能损失预估）
+
+For a given portfolio, time horizon, and probability $p$, the $p$ VaR can be defined informally as the maximum possible loss during that time after excluding all worse outcomes whose combined probability is at most $p$.
+This assumes mark-to-market pricing, and no trading in the portfolio.
+
+Factors are
+
+* forecast of foreign exchange for this currency
+* forecast of treasury bond interests
+* history price fluctuationFrecords of this kind of security given various market conditions
+
+### Tail Risk/Market Risk
+
+In short, it means sudden change of market conditions.
+
+Tail risk is the financial risk of an asset or portfolio of assets moving more than three standard deviations (likelihood of happening $1-P(\mu-3\sigma \le X \le \mu + 3\sigma)\approx 1-99.7\%=0.3\%$) from its current price, above the risk of a normal distribution.
+
+It is used to refer the risk associated with an event (black swan) that is extremely unlikely to happen.
 
 ## Liquidity-at-Risk (LaR)
 
@@ -27,25 +57,6 @@ If the Liquidity at Risk is greater than the portfolio's current liquidity posit
 A stress test is an analysis or simulation designed to determine the ability of a given financial instrument or financial institution to deal with an economic crisis.
 
 Gov plans for scenarios such as sudden drops of employment rate, interest rate rises, etc.
-
-### Bank Stress Test
-
-A bank stress test is a simulation based on an examination of the balance sheet of that institution.
-
-## Value-at-Risk (VaR)
-
-For a given portfolio, time horizon, and probability $p$, the $p$ VaR can be defined informally as the maximum possible loss during that time after excluding all worse outcomes whose combined probability is at most $p$.
-This assumes mark-to-market pricing, and no trading in the portfolio.
-
-## Profit-at-Risk (PaR)
-
-For example, if the confidence interval for evaluating the PaR is 95%, there is a 5% probability that due to changing commodity volumes and prices, the profit outcome for a specific period (e.g. December next year) will fall short of the expected profit result by more than the PaR value.
-
-## Tail Risk
-
-Tail risk is the financial risk of an asset or portfolio of assets moving more than three standard deviations (likelihood of happening $1-P(\mu-3\sigma \le X \le \mu + 3\sigma)\approx 1-99.7\%=0.3\%$) from its current price, above the risk of a normal distribution.
-
-It is used to refer the risk associated with an event (black swan) that is extremely unlikely to happen.
 
 ## Short-Term Interbank Exchange Rate as A Risk Indicator
 

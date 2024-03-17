@@ -33,12 +33,12 @@ Borrower pays premium to a third party to insure the borrower's credit, that if 
 
 For example, a bank group has many branches in different countries and regions. Bank HK wants to a trade from Bank HK to Bank JP, and this trade is called wash trade.
 
-Motivations include security ownership change to another investor, 
+Motivations include security ownership change to another investor,
 
 ## Trading Platforms
 
 * Exchange is a centralized platform for trading such as the New York Stock Exchange.
 
-* Over-the-counter (OTC) is the process of trading securities via a broker-dealer network. The broker/dealer often refers to financial institutions
+* Over-the-counter (OTC) is the process of trading securities via a broker-dealer network/private platform, e.g., bonds are traded in Bloomberg, and crypto currencies are traded in Binance.
 
 * Private-negotiation is the agreement between two exclusive parties.

@@ -170,4 +170,37 @@ Just running `helloWorld()` does not execute the code:
 
 Instead, should run by `asyncio.run(helloWorld())` that prints `"Hello World"`.
 
-## Annotator
+## Decorator
+
+* `@classmethod`
+
+Similar to `static` in C++.
+
+* `@abstractmethod`
+
+Similar to `virtual` in C++.
+
+* `@contextmanager`
+
+Used to define a factory function for `with` statement context managers, in other words, no need of declaring `__enter__()` and `__exit__()`.
+
+For example,
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def managed_resource(*args, **kwds):
+    # Code to acquire resource, e.g.:
+    resource = acquire_resource(*args, **kwds)
+    try:
+        yield resource
+    finally:
+        # Code to release resource, e.g.:
+        release_resource(resource)
+
+# managed_resource(...) can be used within `with`
+# resource will be released after exiting `with`
+with managed_resource(timeout=3600) as resource:
+    pass
+```
