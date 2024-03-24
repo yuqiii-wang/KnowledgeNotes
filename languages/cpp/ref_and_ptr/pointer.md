@@ -17,6 +17,7 @@ Opaque pointers are a way to hide the implementation details of an interface fro
 This technique is described in Design Patterns as the *Bridge pattern*. It is sometimes referred to as "handle classes", the "Pimpl idiom" (for "pointer to implementation idiom"), "Compiler firewall idiom", "d-pointer" or "Cheshire Cat".
 
 Code below shows `private: std::unique_ptr<CheshireCat> d_ptr_;` as a hidden pointer whose actual implementation is unknown.
+
 ```cpp
 /* PublicClass.h */
 
@@ -72,9 +73,9 @@ PublicClass::~PublicClass() = default;
 
 |`delete`|`free`|
 |-|-|
-|It de-allocates the memory dynamically.	|It destroys the memory at the runtime.|
-|It should only be used either for the pointers pointing to the memory allocated using the new operator or for a `NULL` pointer.	|It should only be used either for the pointers pointing to the memory allocated using `malloc()` or for a `NULL` pointer.|
-|This operator calls the destructor after it destroys the allocated memory. 	|This function only frees the memory from the heap. It does not call the destructor.|
+|It de-allocates the memory dynamically.|It destroys the memory at the runtime.|
+|It should only be used either for the pointers pointing to the memory allocated using the new operator or for a `NULL` pointer.|It should only be used either for the pointers pointing to the memory allocated using `malloc()` or for a `NULL` pointer.|
+|This operator calls the destructor after it destroys the allocated memory.|This function only frees the memory from the heap. It does not call the destructor.|
 
 ## Pointer Optimization Difficulty
 
@@ -82,6 +83,7 @@ Compared to reference, pointer is difficult for compiler to perform optimization
 for compiler does not know what object/memory a pointer actually points to, that compiler has to forfeit many optimization tricks.
 
 For example, given two pointers `int *p` and `int *q` to perform their sum after increment operations,
+
 ```cpp
 int f(int *p, int *q) { 
   *p += 1; 
@@ -89,7 +91,9 @@ int f(int *p, int *q) {
   return *p + *q; 
 } 
 ```
+
 compiler can allocate two registers `r1` and `r2` then just add them up
+
 ```x86asm
 INCR r1
 INCR r2
@@ -108,6 +112,7 @@ ADD r1, r2
 ```
 
 A solution is to add `restrict` that indicates within the scope restrict pointers cannot point to the same address.
+
 ```cpp
 int f(int *restrict p, int *restrict q);
 ```
@@ -129,32 +134,26 @@ Rather
 
 ### Pointer set to null after `delete`
 
-In the code below, after `delete a_;`, there is additional `callback_(this);` that references the already demised `_a`, and this is troubling.
+In *libc++* and *libstdc++*, the implementation of `unique_ptr` has set pointer to `nullptr` after `delete`.
+This prevents double free and double use error.
 
-Remediation can be adding `a_ = nullptr` after `delete a_;`, and conducting a check `if (a_ != nullptr)` when referencing `a_`.
+### `nullptr` Checking After `new`
+
+In modern c++, if `new` fails, it throws error.
+If `new(std::nothrow)` is set, when failed, `nullptr` is returned, hence, such checking `if (!ptr) { ... }` should be done.
 
 ```cpp
 #include <iostream>
+#include <new> // For std::nothrow
 
-class A
-{
-public:
-    int *a_;
-    void (*callback_)(const A *);
-    A() : a_(new int(32)) {}
-    ~A() {
-        delete a_;
-        callback_(this);
+int main() {
+    int* ptr = new(std::nothrow) int[1000000000]; // too much mem, mem allocation error incurred, however, not thrown
+    if (!ptr) {                                   // in this case, `ptr` is nullptr
+        std::cerr << "mem alloc err\n";
+    } else {
+        ... // work on
+        delete[] ptr; 
     }
-};
-
-int main()
-{
-    auto i = new A;
-    i->callback_ = [](const A *sender) {
-        std::cout << sender->a_ << "," << *sender->a_ << std::endl;
-    };
-    delete i; 
 
     return 0;
 }

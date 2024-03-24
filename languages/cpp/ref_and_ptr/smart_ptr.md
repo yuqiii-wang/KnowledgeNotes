@@ -68,6 +68,7 @@ _M_add_ref_lock_nothrow() noexcept
 ### Shared Pointer Passing Cost
 
 When heavily passing shared pointer pointed var, use reference `const shared_ptr<T const>&` rather than by value (it creates a new pointer every time calling copy constructor `shared_ptr<T>::shared_ptr(const shared_ptr<T> &)`)
+
 ```cpp
 void f(const shared_ptr<T const>& t) {...} 
 ```
@@ -108,7 +109,9 @@ if(auto tmp = weak2.lock())
 else
     std::cout << "weak2 is expired\n";
 ```
+
 that outputs
+
 ```bash
 weak1 is expired
 weak2 value is 5
@@ -121,14 +124,14 @@ weak2 value is 5
 In the example below, `std::weak_ptr<int> gw;` is created via a shared pointer.
 The following `observe()` says it has count equal to 1. 
 Then `gw` is demised due to out of scope, and the use count is zero that outputs `"gw is expired"`
+
 ```cpp
 #include <iostream>
 #include <memory>
  
 std::weak_ptr<int> gw;
  
-void observe()
-{
+void observe() {
     std::cout << "gw.use_count() == " << gw.use_count() << "; ";
     // we have to make a copy of shared pointer before usage:
     if (std::shared_ptr<int> spt = gw.lock()) {
@@ -139,8 +142,7 @@ void observe()
     }
 }
  
-int main()
-{
+int main() {
     {
         auto sp = std::make_shared<int>(42);
         gw = sp;
@@ -156,7 +158,8 @@ int main()
 
 Rule of thumb: Try to use standard tools as much as possible, otherwise, you risk program failure when OS or compiler upgrade to a higher version.
 
-Smart pointer make is a simple forward operation as below:
+Smart pointer `make` is a simple forward operation as below:
+
 ```cpp
 template<typename T, typename... Ts>
 std::unique_ptr<T> make_unique(Ts&&... params)
@@ -167,7 +170,7 @@ std::unique_ptr<T> make_unique(Ts&&... params)
 
 ## Circular Dependency Issues with `std::shared_ptr`, and `std::weak_ptr`
 
-In the code below, by `p1->m_partner = p2;		p2->m_partner = p1;`, two shared pointers are dependent on each other. After `partnerUp()` is called, there are two shared pointers pointing to “Ricky” (ricky, and Lucy’s m_partner) and two shared pointers pointing to “Lucy” (lucy, and Ricky’s m_partner).
+In the code below, by `p1->m_partner = p2; p2->m_partner = p1;`, two shared pointers are dependent on each other. After `partnerUp()` is called, there are two shared pointers pointing to "Ricky" (ricky, and Lucy's m_partner) and two shared pointers pointing to "Lucy" (lucy, and Ricky's m_partner).
 
 At the end of `main()`, the ricky's shared pointer goes out of scope first. However, it finds that its pointer has dependency on lucy's. To avoid dangling pointer issues, it does not deallocate lucy's pointer, and vice versa, lucy does not release ricky's pointer.
 
@@ -175,36 +178,36 @@ As a result, only `Person` constructor's `std::cout << m_name << " created\n";` 
 
 ```cpp
 class Person{
-	std::string m_name;
-	std::shared_ptr<Person> m_partner; // initially created empty
+    std::string m_name;
+    std::shared_ptr<Person> m_partner; // initially created empty
 
-    Person(const std::string &name): m_name(name)	{
-		std::cout << m_name << " created\n";
-	}
-	~Person()	{
-		std::cout << m_name << " destroyed\n";
-	}
+    Person(const std::string &name): m_name(name)    {
+        std::cout << m_name << " created\n";
+    }
+    ~Person()    {
+        std::cout << m_name << " destroyed\n";
+    }
 
-    friend bool partnerUp(std::shared_ptr<Person> &p1, std::shared_ptr<Person> &p2)	{
-		if (!p1 || !p2)
-			return false;
+    friend bool partnerUp(std::shared_ptr<Person> &p1, std::shared_ptr<Person> &p2)    {
+        if (!p1 || !p2)
+            return false;
 
-		p1->m_partner = p2;
-		p2->m_partner = p1;
+        p1->m_partner = p2;
+        p2->m_partner = p1;
 
-		std::cout << p1->m_name << " is now partnered with " << p2->m_name << '\n';
+        std::cout << p1->m_name << " is now partnered with " << p2->m_name << '\n';
 
-		return true;
-	}
+        return true;
+    }
 }
 
 int main(){
-	auto lucy { std::make_shared<Person>("Lucy") }; // create a Person named "Lucy"
-	auto ricky { std::make_shared<Person>("Ricky") }; // create a Person named "Ricky"
+    auto lucy { std::make_shared<Person>("Lucy") }; // create a Person named "Lucy"
+    auto ricky { std::make_shared<Person>("Ricky") }; // create a Person named "Ricky"
 
-	partnerUp(lucy, ricky); // Make "Lucy" point to "Ricky" and vice-versa
+    partnerUp(lucy, ricky); // Make "Lucy" point to "Ricky" and vice-versa
 
-	return 0;
+    return 0;
 }
 ```
 
@@ -212,7 +215,7 @@ int main(){
 
 A `std::weak_ptr` is an observer -- it can observe and access the same object as a `std::shared_ptr` but it is not considered an owner.
 
-Given the same code above, just need to replace `std::shared_ptr<Person> m_partner;` with `std::weak_ptr<Person> m_partner;`. Functionally speaking, when ricky goes out of scope, a `std::weak_ptr` performs a double check that there are no other `std::shared_ptr` pointing at “Ricky” (the `std::weak_ptr` from “Lucy” doesn’t count). Therefore, it will deallocate “Ricky”. The same occurs for lucy.
+Given the same code above, just need to replace `std::shared_ptr<Person> m_partner;` with `std::weak_ptr<Person> m_partner;`. Functionally speaking, when ricky goes out of scope, a `std::weak_ptr` performs a double check that there are no other `std::shared_ptr` pointing at "Ricky" (the `std::weak_ptr` from "Lucy" doesn't count). Therefore, it will deallocate "Ricky". The same occurs for lucy.
 
 However, `std::weak_ptr` are not directly usable (they have no `operator->`). To use a `std::weak_ptr`, you must first convert it into a `std::shared_ptr` (in practice, implicit conversion ).
 

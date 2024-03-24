@@ -57,11 +57,12 @@ print('Time taken (four processes) in seconds: ', end - start)
 
 which outputs
 
-```
+```txt
 Time taken (one thread) in seconds: 7.321912527084351
 Time taken (four threads) in seconds:  7.665801525115967
 Time taken (four processes) in seconds:  2.1135129928588867
 ```
+
 where there is no facilitated computation (four threads should have rendered 1/4 countdown time of by one thread). This is caused by GIL that forces CPU to run by only one thread.
 
 However, it has no restriction on multi-processes.
@@ -161,9 +162,12 @@ async def helloWorld():
     print("Hello")
     asyncio.sleep(1)
     print("World")
+
+asyncio.run(helloWorld)
 ```
 
 Just running `helloWorld()` does not execute the code:
+
 ```bash
 <coroutine object main at 0x1053bb7c8>
 ```
@@ -202,5 +206,5 @@ def managed_resource(*args, **kwds):
 # managed_resource(...) can be used within `with`
 # resource will be released after exiting `with`
 with managed_resource(timeout=3600) as resource:
-    pass
+    ...
 ```

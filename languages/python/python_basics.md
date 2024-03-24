@@ -104,6 +104,7 @@ print(inputList(1,2,3))
 ### Dynamic Function and Function Handle
 
 In general, a callable is something that can be called. This built-in method in Python checks and returns True if the object passed appears to be callable, but may not be, otherwise False.
+
 ```py
 def Foo():
     return "yes"
@@ -114,6 +115,7 @@ print(callable(let)) # print: True
 ```
 
 You can pass a function handle as an arg to another function like this:
+
 ```py
 def Foo(x, *args, **kwargs):
     if 'x' in kwargs:
@@ -190,4 +192,63 @@ print(id(b)) # print "140285250930944"
 # Returns true if both the variables
 # are stored in same location
 print(a is b) # print "False"
+```
+
+## Builtin Methods
+
+* `__init__` and `__init__.py` file
+
+`__init__` is the constructor of an object from a class.
+
+`__init__.py` makes a directory a Python package.
+
+
+* `__call__`
+
+`__call__` is used to make an object `callable`.
+
+For example, `sample_instance` is a `callable` that can be called by `sample_instance()`.
+To assert the object be a callable, one can use `callable(sample_instance)`.
+
+```py
+class SampleClass:
+    def __call__(self):
+        print("You called SampleClass !")
+
+sample_instance = SampleClass()
+dir(sample_instance)
+# [
+#     '__call__',
+#     '__class__',
+#     ...
+# ]
+
+sample_instance()
+# print:
+# "You called SampleClass !"
+
+callable(sample_instance)
+# print:
+# True
+```
+
+* `__all__`
+
+`__all__` in a module, e.g. `module.py` where `__all__ = ['foo', 'Bar']`, means that `import *` will only imports `foo` and `bar`.
+
+* `__annotation__`
+
+Annotation is meant to add type hinting to variables/objects.
+For example, `stats: Dict[str, int] = {}` defines a `dict` where the key is of `str` and value of `int`.
+
+`__annotation__` when applied in a class or a module, it controls data type within that scope.
+For example,
+
+```py
+class A:
+    val: int = 42
+
+print(A.__annotations__)
+# print
+# {'val': <class 'int'>}
 ```
