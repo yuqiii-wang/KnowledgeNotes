@@ -4,7 +4,6 @@
 
 Tokenization is used in natural language processing (NLP) to split paragraphs and sentences into smaller units that can be more easily assigned semantics.
 
-
 <div style="display: flex; justify-content: center;">
       <img src="imgs/tokenization_process.png" width="50%" height="50%" alt="tokenization_process" />
 </div>
@@ -442,4 +441,30 @@ $$
 \text{JaccardSimilarity}(\bold{v}_A, \bold{v}_B) =
 \frac{\bold{v}_A \bigcap \bold{v}_B}{\bold{v}_A \bigcup \bold{v}_B} = 
 \frac{\bold{v}_A \bigcap \bold{v}_B}{|\bold{v}_A| + |\bold{v}_B| - \bold{v}_A \bigcap \bold{v}_B}
+$$
+
+### BM25
+
+BM25 (BM represents *Best Matching*) is a bag-of-words retrieval function that ranks and retrieves most similar documents against a query.
+
+Given a query $Q$ composed of a sequence of tokens $\{q_1, q_2, ..., q_n\}$, the BM25 score of a document $D \in \bold{D}$ select from a set of documents $\bold{D}$ matching this query $Q$ is
+
+$$
+\text{score}(D,Q) =
+\sum^n_{i=1} \text{IDF}(q_i)
+\frac{(k+1) \cdot f(q_i, D)}{f(q_i, D)+k\big(1-b+\frac{|D|}{\mu(\bold{D})}b\big)}
+$$
+
+where
+
+* $f(q_i, D)$ is the number of times that the keyword $q_i$ occurs in the document $D$
+* $|D|$ is the length (total token count) of document $D$
+* $\mu(\bold{D})$ is the average length of a document in the set $\bold{D}$
+* $k \in [1.2, 2.0]$ and $b=0.75$ are config parameters, that large $k$ increases importance of $f(q_i, D)$ and large $b$ promotes importance of $\frac{|D|}{\mu(\bold{D})}$ (reduce the importance of $f(q_i, D)$).
+* $\text{IDF}(q_i)$ is the IDF (inverse document frequency) weight of the query term $q_i$.
+Given $N$ as the total number of documents, $n(q_i)$ is the number of documents containing $q_i$, there is
+
+$$
+\text{IDF}(q_i) =
+\ln \Big( \frac{N-n(q_i)+0.5}{n(q_i)+0.5}+1 \Big)
 $$
