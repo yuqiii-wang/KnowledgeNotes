@@ -19,6 +19,8 @@ Reference: https://openai.com/blog/new-and-improved-embedding-model
 
 * Good Geometry
 
+Geometry refers to how embedding vectors are distributed in a vector space.
+
 Generally speaking, a smaller set of more frequent, unrelated words should be evenly distributed throughout the space while a larger set of rare words should cluster around frequent words.
 
 * Word Similarity
@@ -32,7 +34,7 @@ $$
 
 * Concept Categorization
 
-Words belonged to the same concept category should be similar.  
+Words belonged to the same concept category should be similar (measured by $\text{similarity}_{\cos}(\bold{v}_i, \bold{v}_j)$).
 
 For example, "mountain", "river", "plain" should be more similar than "cat", "dog", "rabbit", etc.
 
@@ -44,16 +46,16 @@ Aim to compare if two sentences are the same in terms of token sequences by exac
 
 $$
 p_n =
-\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} Count_{clip}(\text{n-gram})}
-{\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} Count(\text{n-gram}')}
+\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}_{clip}(\text{n-gram})}
+{\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} \text{Count}(\text{n-gram}')}
 $$
 
 where n-gram refers to n-sequence tokens present both in two texts.
-The $Count(\text{n-gram})$ is the count of the contained tokens,
-and $Count_{clip}(\text{n-gram})=\max\big(Count(\text{n-gram}), maxCount \big)$ simply clips the count by setting a max threshold, that if an n-gram repeats for too many times, 
+The $\text{Count}(\text{n-gram})$ is the count of the contained tokens,
+and $\text{Count}_{clip}(\text{n-gram})=\max\big(\text{Count}(\text{n-gram}), \text{maxCount} \big)$ simply clips the count by setting a max threshold, that if an n-gram repeats for too many times, 
 
-For example, there are $37$ words in the candidate prediction, and by setting $maxCount=2$, for 2-gram, there are "It is a guide to action" x 1, "ensures that the military" x 1, "the party" x 3, "absolute control" x 1, "the military" x 1.
-The 2-gram token count is $20$. However, having set the threshold $maxCount=2$, the "the party" is only counted twice instead of three times.
+For example, there are $37$ words in the candidate prediction, and by setting $\text{maxCount}=2$, for 2-gram, there are "It is a guide to action" x 1, "ensures that the military" x 1, "the party" x 3, "absolute control" x 1, "the military" x 1.
+The 2-gram token count is $20$. However, having set the threshold $\text{maxCount}=2$, the "the party" is only counted twice instead of three times.
 Finally, the result is $p_2=\frac{18}{37}$.
 
 |Candidate Prediction|Reference Truth|$p_n$|
@@ -137,8 +139,8 @@ It proposes clipped *n-grams* percentage $p_n$:
 
 $$
 p_n =
-\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} Count_{clip}(\text{n-gram})}
-{\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} Count(\text{n-gram}')}
+\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}_{clip}(\text{n-gram})}
+{\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} \text{Count}(\text{n-gram}')}
 $$
 
 BLEU adds *brevity penalty* to $p_n$ to penalize long candidate prediction sentences.
@@ -329,3 +331,14 @@ $\text{Inverse Document Frequency}_{i} = \log \frac{\text{Total no. of documents
 
 LLMs inherit stereotypes, misrepresentations, derogatory and exclusionary language, and other denigrating behaviors. These harms are forms of *social bias*, a subjective and normative term we broadly use to refer to disparate treatment or outcomes between social groups that arise from historical and structural power asymmetries.
 
+## Industry Fast-Path Practices
+
+Manually craft dataset (prepare source texts, manually propose questions/challenges, and answers/labelling) can be time-consuming,
+below shows a fast path how to evaluate a fine-tuned LLM with provided source texts.
+
+1. Given source texts, ask LLM to generate a few questions and answers. These are proposed as the training set.
+2. By tasks, can further ask LLM to propose challenges and label the challenges, e.g., entailment tasks.
+3. Given the generated questions/challenges, ask LLM to paraphrase the questions/challenges, and these paraphrased questions/challenges should be semantically identical to the original questions/challenges.
+4. Before fine-tuning an LLM, use the raw LLM to answer the paraphrased questions/challenges, served as the benchmark.
+5. Fine-tuning the LLM with the generated trained dataset.
+6. Use the fine-tuned LLM to answer the paraphrased questions/challenges, and compared with the benchmark results.

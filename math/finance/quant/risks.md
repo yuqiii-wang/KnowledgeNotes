@@ -9,6 +9,13 @@ It is an accounting practice used to value assets and liabilities given current 
 In implementation, it includes costs of money, e.g., interests paid to lenders.
 If the collateral is bond, need to consider coupon yields.
 
+### Mark-To-Market (MTM) Value as Fair Value
+
+MTM value is the real time price of an asset, and often considered as a close approximation of the fair value of this asset.
+However, MTM value is subject to short-time fluctuation that might not reflect the fair value.
+
+Remediation is to include fluctuations (e.g., std variances) to indicate how much MTM prices deviate from moving average price (highly volatile asset MTM prices are not accurate to estimate fair value of the asset).
+
 ### Margin-at-Risk (MaR)
 
 Margin-at-Risk (short: MaR) quantifies the "worst case" margin-call and is only driven by market prices （持有仓位低于保证金）.
@@ -32,7 +39,7 @@ Factors are
 * forecast of treasury bond interests
 * history price fluctuationFrecords of this kind of security given various market conditions
 
-### Tail Risk/Market Risk
+### Tail Risk/Market Risk (黑天鹅事件风险/小概率事件风险)
 
 In short, it means sudden change of market conditions.
 
@@ -115,6 +122,7 @@ The NPV says if $NPV>0$, there is surplus in cash flow (profit); if $NPV<0$, the
 NPV can be used as a risk indicator before a security (typically bonds) mature.
 
 In practice, rather than using one NPV targeting one particular date, risks are mapped to the maturity date's nearest tenor.
+Only close-to-yield/mature securities should receive high attention; for securities' yield/maturity dates far in the future, the attention granularity level is month/year, not days.
 
 |Tenor $n$|Rate|
 |-|-|
@@ -148,8 +156,8 @@ $\text{NPV}_{\text{lower}}=\gamma_{\text{lower}} \text{NPV}$ and $\text{NPV}_{\t
 
 For example, a one-year bond's spot price is \$102.28, and this bond has 10 days to mature paying \$100 + \$2.3 (assumed annual payment).
 
-The present value of the bond is \$$102.24 = 100 + 2.3  \times \frac{355}{365}$.
-The NPV is \$$-0.04 = 102.24 - 102.28$ that indicates possible loss of \$0.04 per \$100 when this bond matures.
+The present value of the bond is \$ $102.24 = 100 + 2.3  \times \frac{355}{365}$.
+The NPV is \$ $-0.04 = 102.24 - 102.28$ that indicates possible loss of \$0.04 per \$100 when this bond matures.
 $\text{NPV} < 0$ indicates this bond is likely over-priced. A further explanation can be that market is in turmoil and money seeks refuge by investing in good quality bonds.
 
 To map the NPV risk to its nearest tenors, there is
@@ -188,3 +196,9 @@ $$
 where $\text{SettlementPrice}$ is a bond face value (typical \$100 per coupon).
 
 The NPV as risk is $\frac{1}{(1+r)^n}\text{SecurityPrice}-\text{StartCash}$, where $r$ is coupon rate and $n$ is the total number of coupon yields.
+
+### CounterParty Risk Exposure
+
+If a counterparty sees default on one security (e.g., bond), this counterparty might be insolvent at this moment, and all trades with this counterparty are at risk.
+
+The total risk exposure to a counterparty can be computed by simply summing all NPVs of all assets traded with this counterparty.

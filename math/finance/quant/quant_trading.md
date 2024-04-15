@@ -29,7 +29,7 @@ In Dec 2023, APPLE recorded quarterly earnings per share \$2.18 and book value p
 The Sharpe ratio can be used to evaluate a portfolio's risk-adjusted performance.
 
 $$
-Sharpe Ratio =
+\text{SharpeRatio} =
 \frac{R_p-R_f}{\sigma_p}
 $$
 

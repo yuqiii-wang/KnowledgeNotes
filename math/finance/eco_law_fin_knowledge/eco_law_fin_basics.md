@@ -2,17 +2,27 @@
 
 ## Laws
 
+* Legal Proceeding (通过法院)诉讼裁决
+
+*Legal proceeding* is an activity that seeks to invoke the power of a tribunal in order to enforce a law.
+
+* Common Law vs Civil Law
+
+Common law, also known as case law, is a body of unwritten laws based on legal precedents established by the courts.
+
+Civil law is a comprehensive, codified set of legal statutes created by legislators.
+
 * Pay-as-we-go
 
 Service starts since payment received, such as insurance takes effect when premium received as scheduled.
 
-* take-home income （税后收入）
+* take-home income 税后收入
 
 Income after being taxed.
 
-* voided contract （合约废除）
+* voided contract 合约废除
 
-Contract's duty is no longer excercised/is terminated (implying default as damage to the initiative party)
+Contract's duty is no longer exercised/is terminated (implying default as damage to the initiative party)
 
 * fiduciary responsibility
 
@@ -22,19 +32,19 @@ Obligation of one party to act on behalf of another party to its best interest.
 
 [Law] take care of a minor/child as a guardian
 
-* Endowment
+* Endowment (慈善)捐赠
 
 A financial endowment is a legal structure for managing, and in many cases indefinitely perpetuating, a pool of financial, real estate, or other investments for a specific purpose according to the will of its founders and donors.
 
-* Sting operation （便衣/钓鱼执法）
+* Sting operation 便衣/钓鱼执法
 
-In law enforcement, a sting operation is a deceptive operation designed to catch a person attempting to commit a crime. 
+In law enforcement, a sting operation is a deceptive operation designed to catch a person attempting to commit a crime.
 
-* default （违约）
+* default 违约
 
 Not able to fulfill one's duty by a signed contract
 
-* delinquency （逾期违约）
+* delinquency 逾期违约
 
 [Finance] Not able to repay loans on time
 
@@ -45,9 +55,112 @@ Not able to fulfill one's duty by a signed contract
 A prospectus is a formal document required by and filed with the Securities and Exchange Commission (SEC) that provides details about an investment offering to the public.
 A prospectus is filed for offerings of stocks, bonds, and mutual funds.
 
+* Stamp Tax 印花税
+
+Tax paid for registration or documentation with the governments.
+
 * Lowball 低价购买
 
 A lowball offer is a slang term for an offer that is significantly below the seller's asking price
+
+* Grace Period 宽限期
+
+A *grace period* allows a borrower or insurance customer to delay payment for a short period of time beyond the due date
+
+* Force Majeure Event 不可抗力
+
+Liability removal for unforeseeable and unavoidable catastrophes.
+
+* Injunction Order 禁止法令
+
+Forbid taking certain action.
+
+For example, a person convicted of sexual harassment might be ordered injunction restraining from entering certain places; some arts determined by a court as sensual hence forbidden to be exhibited in public places.
+
+* Interim Order 暂行法令
+
+An order issued by a court during the pendency of the litigation.
+
+* No Waiver of Rights 弃权/非弃权条款
+
+This clause stipulates under what circumstances the behavior of a party can be considered giving up, or not giving up exercising rights or privileges.
+
+Usually, agreements would have this clause "a failure or delay in exercising any right, pwoer or privileges will NOT to be presumed to operate as a waiver of rights" to make sure a party would NOT easily see its privileges forfeited.
+
+* (Waiver of) Immunity from execution (不可)免执行条款
+
+Out of law enforcement difficulties, e.g., trade settlements in different jurisdictions, or law enforcement is too expensive, there might be clauses stipulating under what conditions that a party can be exempted from law enforcement.
+
+Often, in addition this provision provides in the case of law enforcement difficulties, what arbitration methods are to employ to resolve disputes by an impartial third party, and detailed delivery/settlement action.
+
+### Legal Language
+
+* Provisions vs Clauses 条款
+
+* Pursuant to 根据(条款/证据)
+
+To link a provision to another provision or to some factual matter.
+
+### Legal Entities
+
+* Legislator/Lawmaker and Legislature 立法
+
+A legislator is an individual person who makes laws.
+An organized group of legislators working together makes up a state's or country's legislature.
+
+* Law Enforcement 执法(人员)
+
+Activity to ensure laws are obeyed (by professionals).
+
+* Plaintiff/Claimant 原告
+
+A party who initiates a lawsuit.
+If the party works for the government, it is called *prosecutor* 公诉人.
+
+* Suspect/Accused/Defendant 被告
+
+### Ways of Reaching Resolution
+
+* Litigation
+
+Take legal action going through the entire legal process surrounding disputes, such as filing a lawsuit, and pursuing it through the court system.
+
+* Lawsuit
+
+A lawsuit is a formal court case brought by one party against another,
+while litigation refers to the entire legal process surrounding disputes.
+
+* Prosecution
+
+Charge suspect for criminal offense, usually taken by prosecutor/the government.
+
+* Arbitration
+
+Arbitration is a private and less formal process of dispute resolution in which parties present their case to an impartial third party.
+
+Binding vs Non-Binding Arbitration: if resolution must be (binging) accepted by the parties, while non-binding refers to not necessarily enforceable.
+
+* Mediation
+
+Mediation is even less formal than arbitration.
+
+Arbitration may involve multiple arbitrators/people and often is a binding process; while mediation would just have one mediator/person handling a dispute, usually non-binding.
+
+### Set-off/Netting 净额结算
+
+*Set-off* or *netting* is a legal technique replacing gross positions with net positions between parties.
+
+For example, party X and party Y have many transactions with each other trading securities under a master agreement.
+When the agreement expires/ends, party X and party Y should see how much they owe to each other, ending the agreement with delivered securities and paid money, so that the party X and party Y combined total traded amount is "netted".
+
+* Payment/Settlement Netting
+
+*Payment netting* aggregates the amounts due between two parties and combines them into one payment for netting (normal netting).
+
+* Close-Out Netting
+
+Close-out netting involves (early) agreement termination events, such as a default or force majeure event.
+Outstanding contracts are terminated at the time of its default, and contracted items are priced by Marked-to-Market (MTM) values.
 
 ### Capital Requirements
 
@@ -69,7 +182,6 @@ Tier 2 is designated as the second or supplementary layer of a bank's capital an
 
 ### Government and Society
 
-
 * Environmental, Social, and Governance (ESG)
 
 Investors are increasingly applying these non-financial factors as part of their analysis process to identify material risks and growth opportunities. 
@@ -81,7 +193,6 @@ Investors are increasingly applying these non-financial factors as part of their
 Claimed value/price of a security by an authority. 
 
 For example, one dollar of a nation's currency is worth of \$0.1 USD by face value (the value is traded via national banks and financial institutions, enforced by the government). However, if people are skeptical of this country's economic trajectory, in dark markets, people might actually trade by less than \$0.1 USD per one the nation's dollar (as actual/intrinsic value).
-
 
 * EBITDA
 
@@ -97,8 +208,7 @@ Amortization: a company's **intangible** fixed assets deteriorating over time, s
 
 Earnings before interest and taxes (EBIT) is a measure of a firm's profit that includes all incomes and expenses (operating and non-operating) except interest expenses (borrowed money cost) and income tax expenses.
 
-EBIT = (net income) + interest + taxes = EBITDA – (depreciation and amortization expenses)
-
+EBIT = (net income) + interest + taxes = EBITDA - (depreciation and amortization expenses)
 
 * due diligence （尽职调查）
 
@@ -386,7 +496,9 @@ Debt financing usually needs collaterals (property, equipment, etc.) as insuranc
 
 Tenor refers to the length of time remaining before a financial contract expires.
 
-* Loan Amortization
+* Loan Amortization (贷款定期偿还)
+
+How periodic (usually by monthly) payment should be made to repay a loan.
 
 $$
 A=P\frac{r(1+r)^n}{(1+r)-1}
@@ -405,7 +517,9 @@ where
 
 When a product value hits bottom (implying a rise in the near future).
 
+* Fair Market Value
 
+The price at which a property would change hands between a willing buyer and a willing seller.
 
 * Mark-to-market (MTM or M2M)
 
@@ -433,7 +547,6 @@ An arbitrage bond is a debt security with a lower interest rate issued by a muni
 * ISDA (International Swaps and Derivatives Association)
 
 The standard document regularly used to govern over-the-counter derivatives transactions, published by the International Swaps and Derivatives Association (ISDA)
-
 
 * Commodity Trading Advisor (CTA)
 
@@ -482,7 +595,11 @@ Popular QDII programs come from the People's Republic of China, where the main r
 
 ### Restructure and Buyout
 
-* hive off/spin off 
+* Merger, Consolidation, Amalgamation, Transfer, Reorganization, Reincorporation, Reconstitution
+
+
+
+* hive off/spin off (拆分)
 
 Separate (especially in business) something from a larger group or organization; (of a parent company) turn a subsidiary into a new and separate company.
 
@@ -501,3 +618,10 @@ Leverage buyout: by borrowed money
 
 A leveraged buyout (LBO) is the acquisition of another company using a significant amount of borrowed money (bonds or loans) to meet the cost of acquisition. 
 
+* Goodwill （商业信誉/品牌溢价）
+
+Goodwill is an intangible asset that accounts for the excess purchase price of another company.
+
+* Good faith money (保证金)
+
+Good faith money is a deposit of money into an account by a buyer to show that they have the intention of completing a deal.
