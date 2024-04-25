@@ -16,6 +16,8 @@ However, MTM value is subject to short-time fluctuation that might not reflect t
 
 Remediation is to include fluctuations (e.g., std variances) to indicate how much MTM prices deviate from moving average price (highly volatile asset MTM prices are not accurate to estimate fair value of the asset).
 
+An alternative is to use moving average as fair value.
+
 ### Margin-at-Risk (MaR)
 
 Margin-at-Risk (short: MaR) quantifies the "worst case" margin-call and is only driven by market prices （持有仓位低于保证金）.
@@ -202,3 +204,30 @@ The NPV as risk is $\frac{1}{(1+r)^n}\text{SecurityPrice}-\text{StartCash}$, whe
 If a counterparty sees default on one security (e.g., bond), this counterparty might be insolvent at this moment, and all trades with this counterparty are at risk.
 
 The total risk exposure to a counterparty can be computed by simply summing all NPVs of all assets traded with this counterparty.
+
+#### Weighted NPVs as Counterparty Risks
+
+NPVs of different trades can be weighted then summed.
+Weighted NPVs consider the below factors.
+
+* Exist An Agreement with the Counterparty
+
+An agreement lists what action to take to hedge default risks (e.g., provide proof of possession of immovable valuables such as real estate).
+An agreement states that what collateral this trade's underlying security is based on, or purely by credit.
+
+One manually set up weights per trade per different agreements.
+
+* Institution Ratings
+
+Ratings by Moody, Fitch and S&P can be considered a good source of how risky a security is.
+
+* FX
+
+If the settlement currency is highly volatile, should add additional currency fluctuation risks.
+FX fluctuation can be simply computed as recent std variance.
+Besides, should monitor politics and economy of this currency to avoid tail risks.
+
+* Time to Yield/Mature
+
+Usually, the shorter a bond will mature, the less risk this bond inherits.
+

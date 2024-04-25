@@ -85,13 +85,13 @@ An order issued by a court during the pendency of the litigation.
 
 This clause stipulates under what circumstances the behavior of a party can be considered giving up, or not giving up exercising rights or privileges.
 
-Usually, agreements would have this clause "a failure or delay in exercising any right, pwoer or privileges will NOT to be presumed to operate as a waiver of rights" to make sure a party would NOT easily see its privileges forfeited.
+Usually, agreements would have this clause "a failure or delay in exercising any right, power or privileges will NOT to be presumed to operate as a waiver of rights" to make sure a party would NOT easily see its privileges forfeited.
 
 * (Waiver of) Immunity from execution (不可)免执行条款
 
 Out of law enforcement difficulties, e.g., trade settlements in different jurisdictions, or law enforcement is too expensive, there might be clauses stipulating under what conditions that a party can be exempted from law enforcement.
 
-Often, in addition this provision provides in the case of law enforcement difficulties, what arbitration methods are to employ to resolve disputes by an impartial third party, and detailed delivery/settlement action.
+Often, in addition this clause provides in the case of law enforcement difficulties, what arbitration methods are to employ to resolve disputes by an impartial third party, and detailed delivery/settlement action.
 
 ### Legal Language
 
@@ -101,7 +101,7 @@ Often, in addition this provision provides in the case of law enforcement diffic
 
 To link a provision to another provision or to some factual matter.
 
-### Legal Entities
+### Legal Parties
 
 * Legislator/Lawmaker and Legislature 立法
 
@@ -117,7 +117,8 @@ Activity to ensure laws are obeyed (by professionals).
 A party who initiates a lawsuit.
 If the party works for the government, it is called *prosecutor* 公诉人.
 
-* Suspect/Accused/Defendant 被告
+* Suspect/Accused 嫌疑人
+* Defendant 被告
 
 ### Ways of Reaching Resolution
 
@@ -244,10 +245,14 @@ SEDOL is a list of security identifiers used in the United Kingdom and Ireland f
 
 A bank run or run on the bank occurs when many clients withdraw their money from a bank, because they believe the bank may cease to function in the near future.
 
+* Solvency
+
+If banks have enough money to cover potential losses.
+
 * Gilt (英国国债)
 
 A gilt is a UK Government liability in sterling, issued by HM Treasury and listed on the London Stock Exchange. 
-The term “gilt” or “gilt-edged security” is a reference to its high credibility that the UK gov never failed to make interest or principal payments on gilts as they fall due. 
+The term "gilt" or "gilt-edged security" is a reference to its high credibility that the UK gov never failed to make interest or principal payments on gilts as they fall due.
 
 * Demand deposit (活期存款)
 
@@ -529,7 +534,6 @@ Mark-to-market (MTM or M2M) or fair value accounting is accounting for the "fair
 
 Market moving information is a term used in stock market investing, defined as information that would cause any reasonable investor to make a buy or sell decision.
 
-
 * Arbitrage (套利)
 
 Arbitrage is the practice of taking advantage of a difference in prices in two or more markets; striking a combination of matching deals to capitalise on the difference, the profit being the difference between the market prices at which the unit is traded.
@@ -597,12 +601,9 @@ Popular QDII programs come from the People's Republic of China, where the main r
 
 * Merger, Consolidation, Amalgamation, Transfer, Reorganization, Reincorporation, Reconstitution
 
-
-
 * hive off/spin off (拆分)
 
 Separate (especially in business) something from a larger group or organization; (of a parent company) turn a subsidiary into a new and separate company.
-
 
 * Buyout (股权收购)
 

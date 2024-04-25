@@ -1,5 +1,15 @@
 # Training Considerations
 
+## Types of LLMs
+
+### Chat vs Instruct
+
+*Chat* LLM is aimed at conversations, questions and answers, back and forth - while *Instruct* LLM is for following an instruction to complete a task.
+
+## Training Data Preparation
+
+### Tabular Data Labelling
+
 ## Memory Consumption in Training
 
 Reference: https://huggingface.co/docs/transformers/v4.20.1/en/perf_train_gpu_one
