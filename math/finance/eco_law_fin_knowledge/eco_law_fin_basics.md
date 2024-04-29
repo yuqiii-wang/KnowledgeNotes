@@ -185,7 +185,17 @@ Tier 2 is designated as the second or supplementary layer of a bank's capital an
 
 * Environmental, Social, and Governance (ESG)
 
-Investors are increasingly applying these non-financial factors as part of their analysis process to identify material risks and growth opportunities. 
+Investors are increasingly applying these non-financial factors as part of their analysis process to identify material risks and growth opportunities.
+
+* Disruptive Innovation 颠覆式创新
+
+Make expensive or sophisticated products and services previously only for niche/high-end market now accessible/affordable to a broader market.
+
+For example, Ford Auto developed assembly lines to facilitate car manufacture and made car cheap to purchase; Amazon (AMZN) transformed the way of how people purchase products, and customers nowadays have access to a wide variety of commodities.
+
+* Disruptive Innovation vs. Sustaining Innovation
+
+In sustaining innovation, established companies typically strive to improve their products and services for their profitable customer base.
 
 ## Auditing
 

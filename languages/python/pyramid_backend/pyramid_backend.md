@@ -35,7 +35,7 @@ WSGI is a simple calling convention for web servers to forward requests to web a
 
 * Python Egg
 
-The `.egg` file is a distribution format for Python packages same concept as a `.jar` to java or Windows `.exe`. 
+The `.egg` file is a distribution format for Python packages same concept as a `.jar` to java or Windows `.exe`.
 `.egg` file is completely cross-platform.
 
 Essentially, it is a `.zip` with some metadata.

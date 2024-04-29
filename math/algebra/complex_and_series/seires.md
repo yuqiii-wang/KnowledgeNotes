@@ -72,9 +72,9 @@ $$
 * Euler's formula:
 
 $$\begin{align*}
-e^x = 
+e^x =
 & \sum_{n=0}^{\infty} \frac{x^n}{n!} \\
-&  = cos(x) + i \space sin(x)
+&  = \cos(x) + i \space \sin(x)
 \end{align*}
 $$
 

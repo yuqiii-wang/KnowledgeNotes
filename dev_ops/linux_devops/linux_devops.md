@@ -9,6 +9,32 @@ Both are used to manage Linux processes for initialization.
 |operates on `/etc/init.d`|operates on `/lib/systemd`|
 |belongs to SysVinit (System V Init), aka the classic Linux initialization process|belongs to systemd, the successor of SysVinit and the modern initialization process|
 
+### Register A `systemctl` Service
+
+Reference: https://unix.stackexchange.com/questions/236084/how-do-i-create-a-service-for-a-shell-script-so-i-can-start-and-stop-it-like-a-d
+
+1. Prepare a script/executable `/usr/bin/myscript` and make it `chmod +x`.
+
+2. Write down below cfg to `/etc/systemd/system/my.service`.
+
+```txt
+[Unit]
+Description=My Script
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/myscript
+
+[Install]
+WantedBy=multi-user.target
+```
+
+3. Reload all systemd service files: `systemctl daemon-reload`
+
+4. Check that it is working by starting the service with `systemctl start my`.
+
+
+
 ## Common DevOps
 
 * Port Listening

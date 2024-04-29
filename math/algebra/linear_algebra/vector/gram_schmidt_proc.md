@@ -5,9 +5,9 @@ Gram–Schmidt process is a method for orthonormalizing a set of vectors in an i
 Denote a projection operator from vector $\bold{v}$ onto $\bold{u}$:
 $$
 proj_{\bold{u}}(\bold{v})=
-\frac{<\bold{u},\bold{v}>}{<\bold{u},\bold{u}>}\bold{u}
+\frac{\langle\bold{u},\bold{v}\rangle}{\langle\bold{u},\bold{u}\rangle}\bold{u}
 $$
-where $<\bold{u},\bold{v}>$ represents inner product operation.
+where $\langle\bold{u},\bold{v}\rangle$ represents inner product operation.
 
 $$
 \begin{array}{cc}
