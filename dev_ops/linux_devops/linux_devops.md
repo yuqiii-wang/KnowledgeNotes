@@ -15,7 +15,7 @@ Reference: https://unix.stackexchange.com/questions/236084/how-do-i-create-a-ser
 
 1. Prepare a script/executable `/usr/bin/myscript` and make it `chmod +x`.
 
-2. Write down below cfg to `/etc/systemd/system/my.service`.
+2. Write down below cfg to `/etc/systemd/system/my-svc.service`.
 
 ```txt
 [Unit]
@@ -31,8 +31,9 @@ WantedBy=multi-user.target
 
 3. Reload all systemd service files: `systemctl daemon-reload`
 
-4. Check that it is working by starting the service with `systemctl start my`.
+4. Check that it is working by starting the service with `systemctl start my-svc`.
 
+5. To auto-start, use enable  `systemctl enable my-svc`.
 
 
 ## Common DevOps

@@ -1,0 +1,15 @@
+cluster.name: my-es-cluster
+node.name: ${NODE_NAME}
+node.roles: [master, data, ingest]
+network.host: ${NETWORK_HOST}
+http.port: ${HTTP_PORT}
+discovery.seed_hosts: ${SEED_HOSTS}
+cluster.initial_master_nodes: ${MASTER_NODES}
+xpack.security.enabled: true
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+xpack.security.transport.ssl.keystore.path: certs/${NODE_NAME}.p12
+xpack.security.transport.ssl.truststore.path: certs/${NODE_NAME}.p12
+xpack.security.http.ssl.enabled: true
+xpack.security.http.ssl.keystore.path: certs/${NODE_NAME}.p12
+xpack.security.http.ssl.truststore.path: certs/${NODE_NAME}.p12
