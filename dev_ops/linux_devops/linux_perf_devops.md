@@ -150,3 +150,29 @@ Sometimes if wrong, one CPU might accumulate many interrupts awaiting being hand
  144:  0  0  0  0  0  0  0  0  0  0  21992  0  IR-PCI-MSI 31457291-edge  nvme0q11
  145:  0  0  0  0  0  0  0  0  0  0  0  27022  IR-PCI-MSI 31457292-edge  nvme0q12
 ```
+
+## Linux Runtime Config
+
+* `ulimit`
+
+`ulimit` stands for Unix Limit. `ulimit -a` shows all current config of a computer.
+
+```txt
+-t: cpu time (seconds)              unlimited
+-f: file size (blocks)              unlimited
+-d: data seg size (kbytes)          unlimited
+-s: stack size (kbytes)             8192
+-c: core file size (blocks)         0
+-v: address space (kbytes)          unlimited
+-l: locked-in-memory size (kbytes)  unlimited
+-u: processes                       2784
+-n: file descriptors                4864
+```
+
+* `sysctl`
+
+`sysctl` configures kernel parameters at runtime.
+
+`sysctl -a` shows all current configs.
+
+For example, `vm.max_map_count` (default to 65530) controls the maximum number of memory map areas a process may have, e.g., affected the behavior of `malloc`.

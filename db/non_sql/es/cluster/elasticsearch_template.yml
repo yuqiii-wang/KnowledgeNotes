@@ -5,6 +5,9 @@ network.host: ${NETWORK_HOST}
 http.port: ${HTTP_PORT}
 discovery.seed_hosts: ${SEED_HOSTS}
 cluster.initial_master_nodes: ${MASTER_NODES}
+cluster.routing.allocation.disk.watermark.low: 85%
+cluster.routing.allocation.disk.watermark.high: 90%
+cluster.routing.allocation.disk.watermark.flood_stage: 95%
 xpack.security.enabled: true
 xpack.security.transport.ssl.enabled: true
 xpack.security.transport.ssl.verification_mode: certificate

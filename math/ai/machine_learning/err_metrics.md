@@ -94,15 +94,62 @@ $$
 u_i \in \bold{u} \in \mathbb{R}, \space v_i \in \bold{v} \in \mathbb{R}
 $$
 
-### Hamming Distance
+### Edit Distance
 
-For two vector $\bold{u}$ and $\bold{v}$, Hamming distance compute the difference between each corresponding **binary** element, then sum them up, typically used in one-hot encoded strings.
+For two vector $\bold{u}$ and $\bold{v}$, *Edit distance* is a way of quantifying how dissimilar two strings are.
+
+#### Hamming Distance
+
+Hamming distance computes the difference between each corresponding **binary** element, then sum them up, typically used in one-hot encoded strings.
 
 $$
 \sum_i^n |u_i - v_i|
 ,\qquad
 u_i \in \bold{u} \in \{0,1\}, \space v_i \in \bold{v} \in \{0,1\}
 $$
+
+#### Longest Common Subsequence (LCS) vs Longest Common Substring
+
+Concatenate common Substrings by order (not necessarily consecutive) and derive Longest Common Subsequence (LCS).
+The longest common substring is the longest consecutive char sequence.
+
+$$
+\begin{align*}
+& \underbrace{A,\underbrace{B,C,D,E,F,G}_{\text{Longest Comm Sub-Str}},H,\underbrace{I,J,K},L,M,N}_{\text{Longest Comm Seq: }B,C,D,E,F,G,I,J,K} \\ \space \\
+& \underbrace{X,\underbrace{B,C,D,E,F,G}_{\text{Longest Comm Sub-Str}},X,X,Y,Y,\underbrace{I,J,K},X,X,Y,Y}_{\text{Longest Comm Seq: }B,C,D,E,F,G,I,J,K}
+\end{align*}
+$$
+
+#### Levenshtein Distance
+
+Levenshtein distance generalizes CRUD operation complexity on how many CRUD operations to take to make one string same as the other one.
+
+The formula is recursive comparing the front char between two strings then recursively loading the remaining chars in which compare the front char again and again; if two front chars are different from two strings, Levenshtein distance increments by $\text{Lev} \leftarrow \text{Lev}+1$, such that
+
+$$
+\text{Lev}(\bold{u}, \bold{v}) =
+\left\{ \begin{array}{cc}
+    |\bold{u}| & \text{if } |\bold{u}| = 0 \\
+    |\bold{v}| & \text{if } |\bold{v}| = 0 \\
+    \text{Lev}(\text{tail}(\bold{u}), \text{tail}(\bold{v})) & \text{if } \text{head}(\bold{u}) = \text{head}(\bold{v}) \\
+    1+\min \left\{
+        \begin{array}{c}
+            \text{Lev}(\text{tail}(\bold{u}), \bold{v}) \\
+            \text{Lev}(\bold{u}, \text{tail}(\bold{v})) \\
+            \text{Lev}(\text{tail}(\bold{u}), \text{tail}(\bold{v}))
+        \end{array}
+        \right. & \text{Otherwise}
+\end{array}
+\right.
+$$
+
+where $\text{head}(...)$ represents the FIRST char of a string such that $\text{head}(\bold{x})=\{ x_1 \}$, and $\text{tail}(...)$ refers to the remaining of a string except for the first char $\text{tail}(\bold{x})=\{x_2, x_{3}, ..., x_{n}\}$.
+
+For example,
+
+* "beast" $\rightarrow$ "best" has $\text{Lev}$ of $1$ (one DELETE operation)
+* "west" $\rightarrow$ "eat" has $\text{Lev}$ of $2$ (one DELETE and one one UPDATE operation)
+* "abcdefg" $\rightarrow$ "bcdefgh" has $\text{Lev}$ of $2$ (one DELETE to the head and one INSERT to the end)
 
 ### Manhattan Distance
 
