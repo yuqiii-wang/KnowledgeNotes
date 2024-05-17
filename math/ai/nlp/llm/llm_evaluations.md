@@ -38,6 +38,10 @@ Words belonged to the same concept category should be similar (measured by $\tex
 
 For example, "mountain", "river", "plain" should be more similar than "cat", "dog", "rabbit", etc.
 
+* LLM Prediction vs Truth
+
+For LLM prediction accuracy measurement, one can make embedding on the prediction and compare with truth's embedding.
+
 ### Lexical Overlap
 
 Aim to compare if two sentences are the same in terms of token sequences by exact token match.
@@ -81,7 +85,7 @@ $\text{len}(\bold{v})$ is the count of tokens in the vector $\bold{v}$.
 
 * Perplexity
 
-Perplexity can be thought of as an evaluation of the model’s ability to predict uniformly among the set of specified tokens in a corpus.
+Perplexity can be thought of as an evaluation of the model's ability to predict uniformly among the set of specified tokens in a corpus.
 
 For a sequence $\bold{x}$ of $T$ tokens, the perplexity is computed as
 
@@ -330,15 +334,3 @@ $\text{Inverse Document Frequency}_{i} = \log \frac{\text{Total no. of documents
 ### Bias and Fairness
 
 LLMs inherit stereotypes, misrepresentations, derogatory and exclusionary language, and other denigrating behaviors. These harms are forms of *social bias*, a subjective and normative term we broadly use to refer to disparate treatment or outcomes between social groups that arise from historical and structural power asymmetries.
-
-## Industry Fast-Path Practices
-
-Manually craft dataset (prepare source texts, manually propose questions/challenges, and answers/labelling) can be time-consuming,
-below shows a fast path how to evaluate a fine-tuned LLM with provided source texts.
-
-1. Given source texts, ask LLM to generate a few questions and answers. These are proposed as the training set.
-2. By tasks, can further ask LLM to propose challenges and label the challenges, e.g., entailment tasks.
-3. Given the generated questions/challenges, ask LLM to paraphrase the questions/challenges, and these paraphrased questions/challenges should be semantically identical to the original questions/challenges.
-4. Before fine-tuning an LLM, use the raw LLM to answer the paraphrased questions/challenges, served as the benchmark.
-5. Fine-tuning the LLM with the generated trained dataset.
-6. Use the fine-tuned LLM to answer the paraphrased questions/challenges, and compared with the benchmark results.

@@ -77,7 +77,9 @@ collected = gc.collect()
  
 print "Garbage collector: collected %d objects." % (collected)
 ```
+
 which prints
+
 ```bash
 Garbage collector: collected 0 objects.
 Creating cycles...

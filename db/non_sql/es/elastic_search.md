@@ -37,6 +37,10 @@ A data node can perform CRUD, search, and aggregations.
 
 Ingest nodes are able to apply an ingest pipeline, where a document undergoes a series of transforms before getting indexed (e.g., provided additional metadata), transforms include `lowerCase()`, `computeIDF()` (Inverted Document Frequency), etc.
 
+## Kibana
+
+Kibana is a UI client for ES.
+
 ## Data Sync
 
 ### Node Communications
@@ -64,6 +68,13 @@ Ingest nodes are able to apply an ingest pipeline, where a document undergoes a 
 Shards are physical binary data represents documents.
 Shards are immutable that when update/delete happens on a document stored in a shard, this shard is marked "DELETE" rather than physically removed from disk.
 This immutability has benefits such as no worries of multi-process access.
+
+#### Shard Persist on Disk
+
+Once changes have been made into shards, e.g., CRUD operations on documents, such updates are first maintained in *filesystem cache*, then by `fsync` (unix system call to flush memory data to disk) to persist on disk.
+New changes loaded to filesystem cache are very fast, and such changes are searchable; if wait till all changes getting flushed to disk then make the changes visible by search, would deteriorate performance by a lot.
+
+ES maintains a *translog* to record ES CRUD operations.
 
 ### Index
 

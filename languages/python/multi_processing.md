@@ -33,6 +33,7 @@ When a process is spawned, it begins by starting a new Python interpreter. The c
 The normal use case would be to call `.close()` immediately after `.join()` (or `.kill()` or `.terminate()`); the Process would eventually release the resources even if you don't do that, but it might not happen immediately.
 
 In python, `with` is often used to handle the multi-processing context:
+
 * New in version 3.3: `Pool` objects now support the context management protocol – see Context Manager Types. `__enter__()` returns the `pool` object, and `__exit__()` calls `terminate()`.
 
 ```py
