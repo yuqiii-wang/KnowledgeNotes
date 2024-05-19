@@ -1,8 +1,8 @@
 # Derivative
 
-A type of financial contract whose value is dependent on an underlying asset, group of assets, or benchmark. 
+A type of financial contract whose value is dependent on an underlying asset, group of assets, or benchmark.
 
-The most common underlying assets for derivatives are stocks, bonds, commodities, currencies, interest rates, and market indexes. Contract values depend on changes in the prices of the underlying asset. 
+The most common underlying assets for derivatives are stocks, bonds, commodities, currencies, interest rates, and market indexes. Contract values depend on changes in the prices of the underlying asset.
 
 Some common financial contracts are futures (an underlying asset traded on a specific date and contracts itself can be traded), options (right to buy/sell an underlying asset)
 
@@ -135,4 +135,3 @@ Forward contracts are not exchange-traded, or defined on standardized assets.
 Forwards typically have no interim partial settlements or "true-ups" in margin requirements like futures, that is the parties do not exchange additional property securing the party at gain and the entire unrealized gain or loss builds up while the contract is open.
 
 Hence, forward is not open to retail investors. 
-

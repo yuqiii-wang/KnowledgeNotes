@@ -46,7 +46,6 @@ Global Master Repurchase Agreement (GMRA) is the principal master agreement for 
 
 A Credit Support Annex (CSA) is a document that defines the terms for the provision of collateral by the parties in derivatives transactions, developed by the International Swaps and Derivatives Association (ISDA).
 
-
 ## Repo Market Players
 
 * Investors
@@ -57,10 +56,17 @@ Cash-rich institutions; banks and building societies
 
 Traders; financing bond positions, etc
 
-* Other institutions
+* Tri-Party
 
-Flexibility and ease of trading makes this a market for almost any type of firm
-involved in borrowing or lending collateralized cash
+Tri-Party is a third-party agent (the tri-party agent) intermediates between two primary parties: the collateral provider (borrower) and the collateral receiver (lender).
+
+Tri-party agent can help increase operational efficiency and flexibility, improve liquidity, and mitigate default risks, for collateral allocation and management, settlement and custody, valuation and margining services are provided by the tri-party agent.
+
+Popular try-party agents are
+
+-> Euroclear (A leading provider of triparty services in Europe)
+
+-> Clearstream
 
 ## Business Motivations
 
@@ -75,9 +81,7 @@ This tool can also be used to stabilize interest rates (FFR).
 Secured Overnight Financing Rate (SOFR) is a broad measure of the cost of borrowing cash overnight collateralized by Treasury securities with a diverse set of borrowers and lenders;.
 It is based entirely on transactions (not estimates), hence serving a good alternative to London Inter-Bank Offered Rate (LIBOR).
 
-SOFR reflects transactions in the Treasury repo market, that in the Treasury repo market, people borrow
-money using Treasury debt as collateral. 
-
+SOFR reflects transactions in the Treasury repo market, e.g., UST (U.S. Treasury), that in the Treasury repo market, people borrow money using Treasury debt as collateral.
 
 * The United States Federal Overnight Reverse Repo (O/N RRP)
 
@@ -130,7 +134,7 @@ assets denominated in a different currency
 
 * Yield Curve Arbitrage
 
-Anticipated some securities' price might go up; some might go down.
+Anticipated that some securities' price might go up; some might go down.
 Buy both so that future yield would be neutral to avoid drastic rises or falls in values.
 
 * Credit Intermediation

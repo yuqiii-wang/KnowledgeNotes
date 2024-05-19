@@ -4,7 +4,7 @@ A repurchase agreement, also known as a repo, RP, or sale and repurchase agreeme
 
 The dealer sells the underlying security to investors and, by agreement between the two parties, buys them back shortly afterwards, usually the following day, at a slightly higher price (overnight interest).
 
-### Motivations
+## Motivations
 
 This instrument is used in speculative trading (high-medium level frequency trading) to finance purchasing (by long/short) a product. Since repo often needs to repay within a few days, it is cheap in paying interest and flexible in arranging buy back dates.
 

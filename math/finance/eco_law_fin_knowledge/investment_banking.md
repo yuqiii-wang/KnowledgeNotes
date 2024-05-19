@@ -1,10 +1,58 @@
-# Investment Banking 
+# Investment Banking
 
 ![banking_industry](imgs/banking_industry.png "banking_industry")
 
+## Securities
+
+### Equities
+
+Refers to trading stock.  More specifically, equities are split up between:
+
+* Cash equities: Trading ordinary shares of stock
+* Equity derivatives: Trading derivatives of equities (stock options) and equity indices
+
+### Fixed Income
+
+Refers to bonds, and are often further split up in the following way:
+
+* Rates: Government bonds and Interest Rate Derivatives
+* Credit: Corporate Bonds (High Grade, High Yield, Loans), Credit Derivatives
+* Securitized Products: Mortgage Backed Securities, Asset Backed Securities
+* Municipals: Tax-exempt bonds (State, Municipality, Non-Profit)
+* Currencies - Also referred to as FX - and Commodities rounds out FICC (Fixed Income, Currencies and Commodities).
+
+## Participant Parties
+
+* Sales
+* Brokers
+* Traders
+* Clearing
+
+## Trading
+
+* Flow trading
+
+Flow trading is where the bank acts as principal (thus often called principal transactions), making markets directly and not through an exchange.
+
+* Agency trading
+
+For heavily traded, liquid securities traded on an exchange (NASDAQ, NYSE, CME), you don't really need market markets (flow traders).
+
+## Employee Classification
+
+### Employee Hierarchy
+
+* Managing Director
+* Executive Director
+* Vice President
+* Associate
+* Analyst
+
+### Typical Employee Roles
+
 * Sales
 
-Sales “owns” the relationship with clients on behalf of the investment bank. 
+Sales "owns" the relationship with clients on behalf of the investment bank. 
 
 Salespeople are split up by product (i.e. equities, fixed income, etc).
 
@@ -22,38 +70,4 @@ Research exists to provide salespeople, traders as well as investors directly wi
 
 * Quants
 
-Quants (also called “strats”) maintain these electronic trading or algorithmic trading platforms. 
-
-## Equities
-
-Refers to trading stock.  More specifically, equities are split up between:
-
-* Cash equities: Trading ordinary shares of stock
-* Equity derivatives: Trading derivatives of equities (stock options) and equity indices
-
-## Fixed Income
-Refers to bonds, and are often further split up in the following way:
-
-* Rates: Government bonds and Interest Rate Derivatives
-* Credit: Corporate Bonds (High Grade, High Yield, Loans), Credit Derivatives
-* Securitized Products: Mortgage Backed Securities, Asset Backed Securities
-* Municipals: Tax-exempt bonds (State, Municipality, Non-Profit)
-* Currencies – Also referred to as FX – and Commodities rounds out FICC (Fixed Income, Currencies and Commodities).
-
-## Trading
-
-* Flow trading
-
-Flow trading is where the bank acts as principal (thus often called principal transactions), making markets directly and not through an exchange.
-
-* Agency trading
-
-For heavily traded, liquid securities traded on an exchange (NASDAQ, NYSE, CME), you don’t really need market markets (flow traders).
-
-## Position hierarchy
-
-* Managing Director
-* Executive Director
-* Vice President
-* Associate
-* Analyst
+Quants (also called “strats”) maintain these electronic trading or algorithmic trading platforms.

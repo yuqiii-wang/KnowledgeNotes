@@ -80,7 +80,7 @@ For example, a manufacture company needs buyer to issue a letter of credit so th
 
 * Clearing vs Settlement 清算 vs 结算
 
-Clearing determines the commitments of the funds and settlement is how banks do a final true-up with each other.
+Clearing determines the commitments of the funds, and settlement is how banks do a final true-up with each other.
 
 * Commercial Lending vs Individual Customer Lending
 
@@ -111,22 +111,3 @@ Business operation expenses, e.g., rent, equipment procurement, salary paid to e
 * Loan Covenants 贷款契约
 
 Loan covenants are circumstances or behaviors that a borrower must (or must not) engage in, and they are expressly documented in the credit agreement or loan contract.
-
-## Anti-Laundering Law
-
-* Know Your Customer (KYC)
-
-KYC determines the identity of new clients and whether their funds originated from a legitimate source.
-
-* Customer Due Diligence (CDD) 尽职调查
-
-Financial institutions must conduct customer due diligence (CDD).
-
-Vetting a customer: customer ID info, significant beneficial owners, e.g., with shares beyond 25\%,
-
-## Notary
-
-* Typical notary statements (examples)
-
-In Faith and Testimony whereof I have hereunto set may hand and affixed my Seal of Office this 18th October 2008.
-我宣誓，以上证明属实，并于2008年10月18日在此公证书上签名并盖公证处印章.
