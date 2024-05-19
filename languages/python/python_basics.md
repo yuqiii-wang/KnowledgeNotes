@@ -252,3 +252,9 @@ print(A.__annotations__)
 # print
 # {'val': <class 'int'>}
 ```
+
+## Use of `__name__== '__main__'`
+
+Before executing a program, the Python interpreter assigns the name of the Python module into a special variable called `__name__`.
+
+By direct execution `python <your_py_filename>.py`, Python interpreter will automatically assign the string `'__main__'` to the special variable `__name__`.

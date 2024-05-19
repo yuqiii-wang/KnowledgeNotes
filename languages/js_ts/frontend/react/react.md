@@ -7,7 +7,7 @@ DOM manipulation results in full webpage update/reload.
 React is used to prevent full webpage change by DOM partial update.
 
 React relies on a virtual DOM, which is a copy of the actual DOM. 
-React’s virtual DOM is immediately reloaded to reflect this new change whenever there is a change in the data state. 
+React's virtual DOM is immediately reloaded to reflect this new change whenever there is a change in the data state. 
 After which, React compares the virtual DOM to the actual DOM to figure out what exactly has changed.
 
 ```html

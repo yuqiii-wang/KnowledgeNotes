@@ -75,7 +75,7 @@ Hence, it does not represent the actual mem usage.
     * `RES` = `CODE` + `DATA`
 * `SHR` sharable memory
     * sharable memory with other processes, such as `libc`
-    * Physical memory usage: `RES` - `SHR`
+    * Physical memory usage: `RES` $-$ `SHR`
 
 For example, `new` only increases `VIRT` but no `RES` for it allocates mem only;
 `memset` consumes mem and this reflects in `RES`.
@@ -155,7 +155,8 @@ Sometimes if wrong, one CPU might accumulate many interrupts awaiting being hand
 
 * `ulimit`
 
-`ulimit` stands for Unix Limit. `ulimit -a` shows all current config of a computer.
+`ulimit` stands for User Limit - limit the use of system-wide resources to a shell and to processes started by it.
+`ulimit -a` shows all current config of a computer.
 
 ```txt
 -t: cpu time (seconds)              unlimited
@@ -169,6 +170,8 @@ Sometimes if wrong, one CPU might accumulate many interrupts awaiting being hand
 -n: file descriptors                4864
 ```
 
+where, for example, `-s: stack size (kbytes) 8192` says one process stack mem is 8 mb.
+
 * `sysctl`
 
 `sysctl` configures kernel parameters at runtime.
@@ -176,3 +179,80 @@ Sometimes if wrong, one CPU might accumulate many interrupts awaiting being hand
 `sysctl -a` shows all current configs.
 
 For example, `vm.max_map_count` (default to 65530) controls the maximum number of memory map areas a process may have, e.g., affected the behavior of `malloc`.
+
+## Page Fault Evaluation
+
+* Minor Page Fault: a page that is not in the physical RAM but is still in memory in some form, e.g., a memory-mapped file or shared memory.
+* Major Page Fault: a page that is not in RAM and must be read from the disk.
+
+To read page fault, one can use `RUSAGE_SELF` from `#include <sys/resource.h>` to read from Linux about page fault info.
+
+In the below code, there is 4 GB allocated by `1 << 30` number of `int` to `largeArray`, that is likely to trigger page faults, and this can be verified by reading `getrusage(RUSAGE_SELF, &usage);`.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <chrono>
+#include <unistd.h>
+#include <sys/resource.h>
+
+// Function to print the number of minor and major page faults
+void print_page_faults() {
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    std::cout << "Minor Page Faults: " << usage.ru_minflt << std::endl;
+    std::cout << "Major Page Faults: " << usage.ru_majflt << std::endl;
+}
+
+int main() {
+    // Define the size of the array (large enough to cause paging)
+    const size_t arraySize = 1 << 30; 
+
+    // Print initial page faults
+    std::cout << "Initial page faults:" << std::endl;
+    print_page_faults();
+
+    // Allocate the array on the heap
+    // 
+    std::vector<int> largeArray(arraySize, 0);
+
+    // Print page faults after allocation
+    std::cout << "Page faults after allocation:" << std::endl;
+    print_page_faults();
+
+    // Time the access to array elements
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Access each element to cause page faults
+    for(size_t i = 0; i < arraySize; ++i) {
+        largeArray[i] = i;
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+
+    // Output the time taken to access array elements
+    std::cout << "Time taken to initialize array: " << duration.count() << " seconds." << std::endl;
+
+    // Print page faults after access
+    std::cout << "Page faults after access:" << std::endl;
+    print_page_faults();
+
+    return 0;
+}
+```
+
+that prints (the output might not be stable) depending Linux runtime.
+
+```txt
+Initial page faults:
+Minor Page Faults: 135
+Major Page Faults: 0
+Page faults after allocation:
+Minor Page Faults: 976698
+Major Page Faults: 0
+Time taken to initialize array: 2.73988 seconds.
+Page faults after access:
+Minor Page Faults: 976704
+Major Page Faults: 2
+```

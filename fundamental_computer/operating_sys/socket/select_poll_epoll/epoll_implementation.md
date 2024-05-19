@@ -6,7 +6,7 @@ Epoll passively receives new data arrival notifications can facilitate reading.
 
 ## Preliminaries: `accept` for A New Socket
 
-Socket launch: 
+Socket launch:
 
 From user process launch `struct task_struct` that contains `struct files_struct *files` that then contains `struct fdtable *fdt`.
 The file descriptor table `*fdt` has a list of `fd`, and some of which represent `struct file`, that contains `void *private_date` which is a `struct socket`.

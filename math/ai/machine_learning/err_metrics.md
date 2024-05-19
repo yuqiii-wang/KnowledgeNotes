@@ -1,7 +1,10 @@
 # Error Metrics
 
-A loss function is for a single training example (scaling individual error output). 
-A cost function, on the other hand, is about the direct gaps/residuals between outputs and ground truth. 
+* Cost vs Loss
+
+A loss function is for a single training example (scaling individual error output).
+
+A cost function, on the other hand, is about the direct gaps/residuals between outputs and ground truth.
 
 ## Regression Loss
 
@@ -115,8 +118,8 @@ The longest common substring is the longest consecutive char sequence.
 
 $$
 \begin{align*}
-& \underbrace{A,\underbrace{B,C,D,E,F,G}_{\text{Longest Comm Sub-Str}},H,\underbrace{I,J,K},L,M,N}_{\text{Longest Comm Seq: }B,C,D,E,F,G,I,J,K} \\ \space \\
-& \underbrace{X,\underbrace{B,C,D,E,F,G}_{\text{Longest Comm Sub-Str}},X,X,Y,Y,\underbrace{I,J,K},X,X,Y,Y}_{\text{Longest Comm Seq: }B,C,D,E,F,G,I,J,K}
+& \underbrace{A,\underbrace{B,C,D,E,F,G}_{\text{Longest Comm Sub-Str}},H,\underbrace{I,J,K},L,M,N}_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K} \\ \space \\
+& \underbrace{X,\underbrace{B,C,D,E,F,G}_{\text{Longest Comm Sub-Str}},X,X,Y,Y,\underbrace{I,J,K},X,X,Y,Y}_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K}
 \end{align*}
 $$
 

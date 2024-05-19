@@ -34,23 +34,6 @@ A collection of processes that permits the signaling of related processes.
 
 An attribute of a process that is used in determining various permissions, including file access permissions; see also User ID.
 
-## Service vs Systemctl
-
-`Service` is an "high-level" command used for start, restart, stop and status services in different Unixes and Linuxes, operating on the files in `/etc/init.d`.
-
-`systemctl` operates on the files in `/lib/systemd`.
-
-`service` is a **wrapper** for all three init systems (/init, systemd and upstart).
-
-* Mask/Unmask a service
-
-We should mask a service, if we want to prevent any kind of activation, even manual. e.g. If we don’t want to apply firewall rules at all then we can mask the `firewalld` service.
-
-```bash
-systemctl unmask firewalld
-systemctl start firewalld
-```
-
 ## Process Communications
 
 ### Pipe

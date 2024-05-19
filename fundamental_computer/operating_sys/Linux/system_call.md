@@ -3,6 +3,7 @@
 System calls are defined for user space to interact with Linux kernel. The separation between user and kernel space services provides protection for kernel and OS.  
 
 Below is an example of `getpid()`
+
 ```cpp
 SYSCALL_DEFINE0(getpid)
 {
