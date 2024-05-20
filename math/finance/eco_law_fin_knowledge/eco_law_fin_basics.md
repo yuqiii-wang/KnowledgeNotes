@@ -255,29 +255,6 @@ A fund of funds (FOF) is a pooled fund that invests in other funds.
 |Movable (Gold, Jewellery, Stock, NSC etc.)|Movable (Vehicles, Stock and debtors.)|Immovable (example: house, land, etc.)|
 |Possession remains with lenders|Possession remains  with borrowers|Possession remains  with borrowers|
 
-### Money Supply
-
-The money supply is the total amount of cash and cash equivalents such as savings accounts that is circulating in an economy at a given point in time.
-
-The motivation of defining different supply scopes is to compute how much cash might be supplied to market.
-
-||Description|Implications|
-|-|-|-|
-|M0|Notes and coins in circulation (outside Federal Reserve Banks and the vaults of depository institutions) (currency)||
-|M1|M0 plus the amount of demand deposits, travelers checks and other checkable deposits + most savings accounts.||
-|M2|M1 + money market accounts, retail money market mutual funds and certificates of deposit||
-|M3|M2 + repos, commercial papers||
-
-For $M2$ and wider scopes of money supply, securities as collaterals have such below money supply implications functioned as money lending.
-
-For example, having $10\%$ of mandatory deposit giving $90\%$ money for lending, the lender after lending $90\%$ of money should receive collateral equivalent of the $90\%$, and this equivalent collateral can be again used to borrow $81\%=0.9 \times 0.9$ of the money.
-As a result, the total theoretical money lending limit is (assumed total face value of $100$ at start)
-
-$$
-1000 \approx
-100 \times 0.9 + 100 \times 0.9^2 + 100 \times 0.9^3 + ...
-$$
-
 ### Financing, Loan and Bonds
 
 * Equity 净值/权益

@@ -128,13 +128,13 @@ A voluntarily switch is about a process requiring resources currently not availa
 Inside the context switch records, `rcu_sched` consumes most of the resources.
 Read-copy-update (RCU) is a synchronization mechanism that avoids the use of lock primitives while multiple threads concurrently read and update elements that are linked through pointers and that belong to shared data structures.
 
-
 ### Interrupt Checking by `/proc/interrupts`
 
 This command `grep "nvme" /proc/interrupts |sed 's/     / /g'` shows all CPUs' I/O interrupts (`nvme` is an SSD disk interface protocol).
 
 Here shows 12 CPUs handling nvme interrupts, indicating that I/O interrupts are evenly distributed to be handled by all the 12 CPUs.
 Sometimes if wrong, one CPU might accumulate many interrupts awaiting being handled, resulted in one CPU having high usage while others are idle.
+
 ```bash
  133:  0  0  0  0  0  1  0  0     36  0  0  0  IR-PCI-MSI 31457280-edge  nvme0q0
  134:  26829  0  0  0  0  0  0  0  0  0  0  0  IR-PCI-MSI 31457281-edge  nvme0q1
