@@ -96,3 +96,124 @@ Below are ES schemes to manage shards to prevent disk space overflow.
 * `cluster.routing.allocation.disk.watermark.high`, defaults to $90\%$, shards would be reallocated to others nodes if disk usage is $\ge 90\%$
 * `cluster.routing.allocation.disk.watermark.flood_stage`, defaults to $95\%$, shards are readonly or to be deleted (`index.blocks.read_only_allow_delete`), so that shards would not use more disk space.
 
+## ElasticSearch's Search
+
+References:
+https://www.elastic.co/guide/en/elasticsearch/reference/current/search-your-data.html
+https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html#search-search
+
+ES REST API supports queries sent via below HTTP request.
+
+* GET /\<index-name\>/_search
+* GET /_search
+* POST /\<index-name\>/_search
+* POST /_search
+
+ES response explained:
+
+* `took`: elapsed time in mili-second
+* all retrieved data is in `hits`
+* `hits.total.value` says the number of retrieved documents
+* `hits.max_score` is the highest score of documents (usually considered the most matched documents), computed by Practical Scoring Function (default to BM25)
+* `hits.hits` contains all retrieved documents and associated metadata, e.g., document id
+* `hits.hits._source` contains the source contents of documents
+
+```json
+{
+  "took": 5,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 1,
+      "relation": "eq"
+    },
+    "max_score": 1.3862942,
+    "hits": [
+      {
+        "_index": "my-index",
+        "_id": "kxWFcnMByiguvud1Z8vC",
+        "_score": 1.3862942,
+        "_source": {
+            "<source data>"
+        }
+      }
+    ]
+  }
+}
+```
+
+### Term Exact Search
+
+"Term" in ES refers to exact text match (also provided regex and other flexible search methods).
+
+For example, send the body via `POST my-index/_search?pretty` to find documents by exact match.
+
+```json
+{
+  "query": {
+    "term": {
+      "text_field_you_want_to_search_in": "Your desired exact match words"
+    }
+  }
+}
+```
+
+### Embedding/Vector Similarity
+
+A k-nearest neighbor (kNN) search finds the $k$ nearest vectors to a query vector, as measured by a similarity metric.
+
+#### Approximate kNN
+
+Approximate kNN is about searching by a distance function and would not iterate all documents.
+
+`PUT my-text-index`
+
+```json
+{
+    ...
+    "my-text-vector": {
+        "type": "dense_vector",
+        "dims": 768,
+        "similarity": "l2_norm"
+      },
+}
+```
+
+As of 8.13, Approximate kNN supports the below distance formula.
+
+* `l2_norm`
+* `dot_product`
+* `cosine` (default option)
+* `max_inner_product`
+
+#### Exact kNN
+
+Exact kNN uses a custom script scoring function to exhaustively visit all documents and find the match.
+
+For example, set a score field of a doc by `PUT my-index/_doc/1`
+
+```json
+{
+  "my_custom_score_field": 5
+}
+```
+
+Then search this doc by a custom formula $\text{score}^2+1$ via `POST my-index/_search`
+
+```json
+{
+  "script_fields": {
+    "my_doubled_field": {
+      "script": { 
+        "source": "doc['my_custom_score_field'].value * ['my_custom_score_field'].value + 1"
+      }
+    }
+  }
+}
+```
