@@ -37,11 +37,12 @@ JNZ .Loop1 ; Write failed
 
 .OutLoop2: ; Lock Acquired
 ```
-where `CMPXCHG` performs comparison between the value in the AL, AX, EAX, or RAX register and the first operand (destination operand). If the two values are equal, the second operand (source operand) is loaded into the destination operand. Otherwise, the destination operand is loaded into the AL, AX, EAX or RAX register. 
+
+where `CMPXCHG` performs comparison between the value in the AL, AX, EAX, or RAX register and the first operand (destination operand). If the two values are equal, the second operand (source operand) is loaded into the destination operand. Otherwise, the destination operand is loaded into the AL, AX, EAX or RAX register.
 
 `LOCK` assembly is an instruction prefix, which applies to read-modify-write instructions such as `INC`, `XCHG`, `CMPXCHG`. 
 
-The `LOCK` prefix ensures that the CPU has exclusive ownership of the appropriate cache line for the duration of the operation, and provides certain additional ordering guarantees. 
+The `LOCK` prefix ensures that the CPU has exclusive ownership of the appropriate cache line for the duration of the operation, and provides certain additional ordering guarantees.
 This may be achieved by asserting a bus lock, but the CPU will avoid this where possible. 
 If the bus is locked then it is only for the duration of the locked instruction.
 
@@ -55,6 +56,52 @@ In contrast, a `mutex` is a program object that is created so that multiple proc
 
 A thread reached `mutex` immediately goes to sleep, until waken by `mutex.unlock()`; while for `spinlock`, a thread periodically checks it.
 
+### Mutex `lock()` vs `try_lock()`
+
+`lock()` blocks other threads, and once other threads shave reached the `lock()`, OS puts them into sleep.
+When the `lock()`'s owned thread exits/reached `unlock()`, OS wakes up one of the other asleep threads, and this awaken thread then owns the `lock()`.
+If `std::condition_variable` is used, thread wake up is triggered on the specified condition.
+
+`try_lock()` immediately returns, released to do other work, usually used with `if` statement.
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <mutex>
+
+std::mutex mtx;
+
+void test_lock(int id) {
+    mtx.lock(); // Lock the mutex
+    std::cout << "Thread " << id << std::endl;
+    mtx.unlock(); // Unlock the mutex
+}
+
+void test_try_lock(int id) {
+    if (mtx.try_lock()) { // Attempt to lock the mutex
+        std::cout << "Thread " << id << " acquired the lock." << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Simulate work
+        mtx.unlock(); // Unlock the mutex
+    } else {
+        std::cout << "Thread " << id << " could not acquire the lock." << std::endl;
+    }
+}
+
+int main() {
+    std::thread t1(test_lock, 1);
+    std::thread t2(test_lock, 2);
+    t1.join();
+    t2.join();
+
+    std::thread t3(test_try_lock, 3);
+    std::thread t4(test_try_lock, 4);
+    t3.join();
+    t4.join();
+
+    return 0;
+}
+```
+
 ## `lock_guard`
 
 ```cpp
@@ -62,7 +109,7 @@ template< class Mutex >
 class lock_guard;
 ```
 
-The class lock_guard is a mutex wrapper that provides a convenient RAII-style mechanism for owning a mutex for the duration of a scoped block.
+The class `lock_guard` is a mutex wrapper that provides a convenient RAII-style mechanism for owning a mutex for the duration of a scoped block.
 
 When a lock_guard object is created, it attempts to take ownership of the mutex it is given. When control leaves the scope in which the lock_guard object was created, the lock_guard is destructed and the mutex is released.
 
@@ -100,7 +147,7 @@ int main()
 }
 ```
 
-## `std::condition_variable`
+### `std::condition_variable`
 
 The `condition_variable` class is a synchronization primitive that can be used to block a thread, or multiple threads at the same time, until another thread both modifies a shared variable (the condition), and notifies the `condition_variable`.
 
@@ -115,6 +162,7 @@ The thread that intends to modify the shared variable has to
 * `std::lock_guard` releases its own lock when gone out of scope
 * `notify_one` wakes up one thread (user cannot choose which thread to wake up), whereas `notify_all` wakes up all threads
 * `std::condition_variable::wait` is equivalent to
+
 ```cpp
 while (!stop_waiting()) {
     wait(lock);
@@ -126,9 +174,8 @@ Note that lock must be acquired before entering this method, and it is reacquire
 ### Example
 
 The code below works like this:
-* `std::condition_variable cv;` and `std::mutex m;` are shared among the main and worker thread for notification and flow control purposes.
-* 
 
+* `std::condition_variable cv;` and `std::mutex m;` are shared among the main and worker thread for notification and flow control purposes.
 
 ```cpp
 #include <iostream>
@@ -232,6 +279,7 @@ void *ThreadWork2(void *arg)
 ```
 
 GDB can help find the deadlock:
+
 1. `ps -elf | grep <your_program_name>`
 2. `sudo gdb attach <pid>` (might need `sudo`)
 3. inside gdb: `thread apply all bt` to check running threads
@@ -240,6 +288,7 @@ GDB can help find the deadlock:
 6. inside gdb one thread one stack: should see mutex reaching a dead lock
 
 Below is a result from `thread apply all bt`, that both thread 2 and thread 2 are in a lock state.
+
 <div style="display: flex; justify-content: center;">
       <img src="imgs/deadlock_debug_all_threads.png" width="40%" height="40%" alt="deadlock_debug_all_threads" />
 </div>
@@ -284,9 +333,10 @@ class ThreadSafeCounter {
 };
 ```
 
-## Mutex Example on `i++`
+### Mutex Example on `i++`
 
 `i++` (assumed that `i` is a static variable) can be compiled to the below assembly code.
+
 ```asm
 MOV [idx], %eax
 INC %eax
@@ -314,6 +364,10 @@ However, likely there might be
 |`MOV %eax, [idx]`||
 
 where `[idx]` is a global variable while `%eax` is CPU/thread specific.
+
+## Lock Expense and Practices
+
+Depending on hardware, one thread's `mutex.unlock()` triggering another thread's `mutex.lock()` usually costs ranged from $10^{-6}$ up to $10^{-4}$ seconds, during which time OS needs to do context switch for the other thread prepared for `mutex.lock()`.
 
 ### Read/Write Lock
 
@@ -344,45 +398,5 @@ pthread_spinlock_t spinlock;
     pthread_spin_lock(&spinlock);
     i++;
     pthread_spin_unlock(&spinlock);   
-}
-```
-
-### Atomic Operation
-
-Atomic operation refers to CPU supported instructions that can be handled atomically (code being compiled into one assembly instruction).
-
-For example, below `i++` implementation can be handled by one 
-```cpp
-int inc(int *value, int add) {
-    int old;
-    __asm__ volatile (
-    "lock; xaddl %2, %1;" 
-    : "=a" (old)
-    : "m" (*value), "a" (add)
-    : "cc", "memory"
-    );
-    return old;
-}
-
-// from multi thread access
-static int i;
-inc(i, 1);
-```
-
-Compare and Swap (CAS) is another typical use of `lock` x86 assembly to replace `if(a==b) a=c;` to avoid comparison test and the swap action might experience CPU-level async.
-
-```cpp
-//  Perform atomic 'compare and swap' operation on the pointer.
-//  The pointer is compared to 'cmp' argument and if they are
-//  equal, its value is set to 'val'. Old value of the pointer is returned.
-inline T *cas (T *cmp_, T *val_)
-{
-	T *old;
-	__asm__ volatile (
-		"lock; cmpxchg %2, %3"
-		: "=a" (old), "=m" (ptr)
-		: "r" (val_), "m" (ptr), "0" (cmp_)
-		: "cc");
-	return old;
 }
 ```

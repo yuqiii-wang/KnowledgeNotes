@@ -9,7 +9,7 @@ P.S. below are for ES 8.13 version.
 
 ## Nodes and Roles
 
-The below three node roles are the mostly used in elastic search.
+Node roles are defined in `node.roles` from `config/elasticsearch.yml`
 One node can have multiple node roles.
 
 A node is an elasticsearch instance/process.
@@ -37,11 +37,22 @@ A data node can perform CRUD, search, and aggregations.
 
 Ingest nodes are able to apply an ingest pipeline, where a document undergoes a series of transforms before getting indexed (e.g., provided additional metadata), transforms include `lowerCase()`, `computeIDF()` (Inverted Document Frequency), etc.
 
+### Coordinating Node
+
+A coordinating node decides how to delegate a request to what nodes for process, e.g., document search or update.
+
+There are two phases of a request process from a coordinating node's perspective:
+
+1. In the scatter phase, the coordinating node forwards the request to the data nodes which hold the data. Each data node executes the request locally and returns its results to the coordinating node.
+2. In the gather phase, the coordinating node reduces each data node's results into a single global result set.
+
+Every node is implicitly a coordinating node (a node that has an explicit empty list of roles via `node.roles` will only act as a coordinating node).
+
 ## Kibana
 
 Kibana is a UI client for ES.
 
-## Data Sync
+## Data Communication Between Nodes
 
 ### Node Communications
 
@@ -60,6 +71,10 @@ Kibana is a UI client for ES.
 `transport.port` is used for internal communication between nodes in an Elasticsearch cluster (default to 9300-9400).
 
 `http.port` is used for HTTP client communication (defaults to 9200-9300).
+
+### How a coordinating node determines what nodes to pass requests
+
+### How fast is a change available to read after just updated across multiple nodes
 
 ## Shard and Index
 
@@ -95,6 +110,24 @@ Below are ES schemes to manage shards to prevent disk space overflow.
 * `cluster.routing.allocation.disk.watermark.low`, defaults to $85\%$, no more shards allocated to this node if disk usage is $\ge 85\%$
 * `cluster.routing.allocation.disk.watermark.high`, defaults to $90\%$, shards would be reallocated to others nodes if disk usage is $\ge 90\%$
 * `cluster.routing.allocation.disk.watermark.flood_stage`, defaults to $95\%$, shards are readonly or to be deleted (`index.blocks.read_only_allow_delete`), so that shards would not use more disk space.
+
+### Primary Shards vs Replica Shards
+
+By default, `index.number_of_replicas` is set to `1`, then upon checking node availability (or other conditions, e.g., node recovery), a replica shard is copied from a primary shard to another node.
+
+`index.auto_expand_replicas` (Set to a dash delimited lower and upper bound (e.g. `0-5`) or use all for the upper bound (e.g. `0-all`)) allows ES to dynamically config `index.number_of_replicas`.
+
+Usually read and write happen on primary shards, and replicas serve as a backup.
+
+### Shard Read Write Consistency
+
+Reference: https://www.elastic.co/guide/en/elasticsearch/reference/2.4/docs-index_.html#docs-index_
+
+ES implements Optimistic Concurrency Control (OCC) conducting a DB transaction:
+
+* Read Phase: A transaction reads data and performs computations, maintaining a local copy of the data it accesses.
+* Validation Phase: Before committing, the transaction checks whether any of the data it read has been modified by other transactions. If there are conflicts, the transaction is aborted and retried.
+* Write Phase: If validation succeeds, the transaction writes its changes to the database.
 
 ## ElasticSearch's Search
 

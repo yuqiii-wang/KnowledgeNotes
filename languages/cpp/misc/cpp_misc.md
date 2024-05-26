@@ -364,6 +364,7 @@ T get(T& t) {return t;}
 Defined in header `<atomic>`
 
 Since c++11:
+
 ```cpp
 typedef enum memory_order {
     memory_order_relaxed,
@@ -376,6 +377,7 @@ typedef enum memory_order {
 ```
 
 Since c++20:
+
 ```cpp
 enum class memory_order : /* unspecified */ {
     relaxed, consume, acquire, release, acq_rel, seq_cst
