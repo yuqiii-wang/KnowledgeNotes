@@ -261,9 +261,9 @@ In the wake of the Lehman Brothers collapse of 2008, Basel III was proposed to b
 
 * Tier 1 Common Capital
 
-Tier 1 common capital ratio is a measurement of a bank's core equity capital, compared with its total risk-weighted assets, and signifies a bank's financial strength. 
+Tier 1 common capital ratio is a measurement of a bank's core equity capital, compared with its total risk-weighted assets, and signifies a bank's financial strength.
 
-It is composed of weighted components such as cash, credit lines, mortgages and personal loans. 
+It is composed of weighted components such as cash, credit lines, mortgages and personal loans.
 
 * Tier 2 Common Capital
 
@@ -278,6 +278,84 @@ Regulators set rules of the capital requirements, often a member of BASEL commit
 Since 2010, the FDIC insures deposits in member banks up to $250,000 per ownership category.
 
 FDIC also examines and supervises certain financial institutions for safety and soundness by mandating leverage ratios of member banks.
+
+### Capital Adequacy Ratio 资本充足率
+
+reference: 
+https://pdf.dfcfw.com/pdf/H3_AP202311211611741744_1.pdf?1700578316000.pdf
+https://www.cbirc.gov.cn/cn/view/pages/rulesDetail.html?docId=1134197
+
+Capital adequacy ratio regulation demands that commercial banks must have minimal reserve in case of facing bank rush or economic crisis.
+
+In case of bank insolvency, bank must pay in accordance to this priority queue:
+
+$$
+\text{Deposit} \rightarrow
+\begin{matrix}
+    \text{Debt,} \\ \text{Convertibles}
+\end{matrix} \rightarrow
+\begin{matrix}
+    \text{Sub-prime debt,} \\ \text{Tier 2 common capital}
+\end{matrix} \rightarrow
+\begin{matrix}
+    \text{Priority stock} \\ \text{Evergreen debt}
+\end{matrix} \rightarrow
+\text{Ordinary stock}
+$$
+
+For example, in China, the National Financial Regulatory Administration mandates the below capital adequacy requirements active as of 2024.
+
+$$
+\text{Capital} > 10.5\%
+\left\{ \begin{matrix}
+    & \text{Tier 1 common capital} > 8.5\% & \left\{ \begin{matrix}
+            \text{Tier 1 core capital} > 7.5\% & \text{Included Stocks and convertibles} \\
+            \text{Others} & \text{Included Priority stocks and evergreen debt} 
+        \end{matrix}
+    \right.
+\\
+    & \text{Tier 2 common capital} &
+\end{matrix}
+\right.
+$$
+
+#### Risk Weighted Assets (RWA)
+
+A more difficult question to ask is how to compute the capital and the corresponding risks.
+Different assets have different risk weights, e.g, the risk of gold is much lower than mortgage loan.
+There should be a discount on the capital depending on the asset types.
+
+Risks are categorized and standardized by a sovereign financial administrator.
+If a commercial bank insists on implementing its own risk weight table, this needs approval from its sovereign financial administrator.
+
+* Counterparty Risks
+
+|Counterparty|Risk|
+|-|-|
+|Central bank, policy banks and gov|0%|
+|Commercial banks and local gov|20%|
+|Asset Management Company|100%|
+|Debt from companies|100%|
+
+* Asset Risks
+
+|Asset|Risk|
+|-|-|
+|Deposits, gold and cash|0%|
+|Bonds of various ratings|20% - 1250%|
+
+|Equity Investment|Risk|
+|-|-|
+|Public listed company|250%|
+|Other financial institutions|250%|
+|Companies supported by the central gov|250%|
+|Companies received gov's substantial subsidy|250%|
+|Others|1250%|
+
+|Retailing|Risk|
+|-|-|
+|Qualified transactor, e.g., credit card holders who repay his/her debt in the last 12 months without defaults|45%|
+|Individuals (mortgage)|50%|
 
 ## Anti-Laundering Law
 
