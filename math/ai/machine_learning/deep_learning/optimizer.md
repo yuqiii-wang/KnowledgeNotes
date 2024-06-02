@@ -21,7 +21,7 @@ Adagrad is an optimizer with parameter-specific learning rates, which are adapte
 Update $\Delta W$ at the $n$-th iteration is defined as
 
 $$
-\Delta W_{n+1} = 
+\Delta W_{n+1} =
 \frac{\eta}{\sqrt{cache_{n+1}}+\epsilon}
 \cdot
 \frac{\partial\space Loss}{\partial\space W_{n}}
@@ -239,7 +239,6 @@ v_n =
 $$
 
 ADAM controls the importance of momentum and RMS-Prop via $\beta_1$ and $\beta_2$.
-
 
 ### Loss Function Scaling Impact on ADAM
 

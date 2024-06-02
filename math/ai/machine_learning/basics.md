@@ -17,3 +17,10 @@ Semi-supervised learning is a special instance of weak supervision that combines
 ## Ablation
 
 Ablation is the removal of a component of an AI system. An ablation study investigates the performance of an AI system by removing certain components to understand the contribution of the component to the overall system.
+
+## Partial Derivative: With Respect to Weight vs Input
+
+* Weight
+$\frac{\partial L}{\partial \bold{w}}$: Directly affects the learning process by adjusting the weights.
+* Input
+$\frac{\partial L}{\partial \bold{x}}$: Determines how error signals are distributed across the network.

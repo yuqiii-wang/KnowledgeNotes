@@ -56,7 +56,7 @@ Take $f(x)$'s output as another $f(x)$'s input, and keep stacking them, it can s
 </div>
 </br>
 
-### Reasons
+### Measurement
 
 For a typical forward pass $\bold{h}_{k+1}=\sigma(W_k \bold{h}_k + \bold{b}_k )$,
 there exists derivative $\frac{\partial \bold{h}_{k+1}}{\partial \bold{h}_k}=\frac{\partial }{\partial \bold{h}_k} \Big(\sigma(W_k \bold{h}_k + \bold{b}_k )\Big)=W_k \space \sigma'(W_k \bold{h}_k + \bold{b}_k )$.
