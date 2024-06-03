@@ -15,6 +15,8 @@ One node can have multiple node roles.
 A node is an elasticsearch instance/process.
 One bare-metal machine can run multiple nodes (should config diff transport and publish ports).
 
+An *eligible node* refers to a node that can hold or manage a specific type of shard, whether it's a primary shard or a replica shard.
+
 Reference: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
 
 ### Master Node
@@ -48,10 +50,6 @@ There are two phases of a request process from a coordinating node's perspective
 
 Every node is implicitly a coordinating node (a node that has an explicit empty list of roles via `node.roles` will only act as a coordinating node).
 
-## Kibana
-
-Kibana is a UI client for ES.
-
 ## Data Communication Between Nodes
 
 ### Node Communications
@@ -72,7 +70,37 @@ Kibana is a UI client for ES.
 
 `http.port` is used for HTTP client communication (defaults to 9200-9300).
 
+### How ES nodes bootstrap a cluster and vote
+
+1. Unicast Hosts: Nodes use the `discovery.seed_hosts` to list other nodes they can initially contact.
+2. When starting a new cluster, the `cluster.initial_master_nodes` setting is used to define the set of master-eligible nodes that will participate in the initial master election.
+3. Nodes use the seed hosts to discover each other and communicate to form a *quorum*.
+4. Master-eligible nodes vote to elect an actual managing master node
+5. This managing master node is responsible for management tasks, e.g., new nodes joining, index creation, and publishing cluster states
+
+A quorum is the minimum number of master-eligible nodes that must agree on a decision to ensure that the cluster can maintain a consistent and reliable state.
+The quorum size is $(N/2) + 1$ given $N$ master-eligible nodes.
+
+Once a node receives a quorum of votes, it becomes the master node and begins managing the cluster state. Other nodes acknowledge this node as the master.
+
 ### How a coordinating node determines what nodes to pass requests
+
+Reference: https://www.elastic.co/guide/en/elasticsearch/reference/current/search-shard-routing.html#:~:text=By%20default%2C%20Elasticsearch%20uses%20adaptive,node%20and%20the%20eligible%20node
+
+Search shard routing in ES is *Adaptive replica selection* (ARS) by default.
+If disabled, ES routes search requests using a round-robin method.
+
+ARS evaluates each node performance as per *Shard Allocation Awareness*, then select the best performance node.
+
+#### Shard Allocation Awareness
+
+ES takes into consideration a number of factors (see below) to allocate a shard
+
+* Disk
+* CPU
+* RAM Memory
+* Response Time
+* `node.attr.server_type: hot` (optional values: `warm`, `cold`)
 
 ### How fast is a change available to read after just updated across multiple nodes
 
@@ -90,6 +118,17 @@ Once changes have been made into shards, e.g., CRUD operations on documents, suc
 New changes loaded to filesystem cache are very fast, and such changes are searchable; if wait till all changes getting flushed to disk then make the changes visible by search, would deteriorate performance by a lot.
 
 ES maintains a *translog* to record ES CRUD operations.
+
+#### Shard Request Cache
+
+Reference: https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-request-cache.html
+
+When a query request runs against an index/multiple indices, shards get executed matching against the query, and returns its local results to the coordinating node, which combines these shard-level results into a "global" result set.
+
+Cached shards can return immediately for same queries to the ES.
+
+A hash of the whole JSON body is used as the *cache key*, that is proof if the shard has been updated against the cached shards.
+When a shard gets updated, upon refresh, the cached shard is invalidated.
 
 ### Index
 
@@ -181,6 +220,49 @@ ES response explained:
 }
 ```
 
+### Multi-Index Search
+
+Reference: https://www.elastic.co/guide/en/elasticsearch/reference/current/search-multiple-indices.html
+
+* Search two indices `my-index-000001` and `my-index-000002`
+
+```http
+GET /my-index-000001,my-index-000002/_search
+{
+  "query": {
+    "match": {
+      "user.id": "kimchy"
+    }
+  }
+}
+```
+
+* Search all indices with the prefix `my-index-`
+
+```http
+GET /my-index-*/_search
+{
+  "query": {
+    "match": {
+      "user.id": "kimchy"
+    }
+  }
+}
+```
+
+* Global search
+
+```http
+GET /*/_search
+{
+  "query": {
+    "match": {
+      "user.id": "kimchy"
+    }
+  }
+}
+```
+
 ### Term Exact Search
 
 "Term" in ES refers to exact text match (also provided regex and other flexible search methods).
@@ -196,6 +278,10 @@ For example, send the body via `POST my-index/_search?pretty` to find documents 
   }
 }
 ```
+
+### Aggregation
+
+
 
 ### Embedding/Vector Similarity
 
@@ -250,3 +336,19 @@ Then search this doc by a custom formula $\text{score}^2+1$ via `POST my-index/_
   }
 }
 ```
+
+## Transaction
+
+## Performance Config
+
+* Shard Size
+
+Reference: https://www.elastic.co/guide/en/elasticsearch/reference/current/size-your-shards.html
+
+* Thread Pool
+
+Reference: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-threadpool.html
+
+## Kibana
+
+Kibana is a UI client for ES.

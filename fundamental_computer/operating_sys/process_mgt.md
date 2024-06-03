@@ -21,10 +21,10 @@ Use `ps -elf` to list currently running processes on an OS. Each PID is forked f
 ### CPU scheduler
 
 Whenever the CPU becomes idle, the operating system must select one of the
-processes in the ready queue to be executed. 
+processes in the ready queue to be executed.
 The selection process is carried out by the short-term scheduler (or CPU scheduler). The queued processes are selected (expected to be executed) by various best performance scheduling algorithms such as priority order.
 
-* nonpreemptive or cooperative: process be terminated or moved to wait state.
+* non-preemptive or cooperative: process be terminated or moved to wait state.
 
 * preemptive: a process switches from the waiting state to the ready state (for example, at completion of I/0) or from running state to wait state (e.g., system interrupt)
 

@@ -213,3 +213,16 @@ struct sembuf
 * `int cfd = accept(fd, (struct sockaddr*)&cliaddr, &caddr_len);`
 
 * `int ret = connect(fd, (struct sockaddr*)&servaddr, sizeof(servaddr));`
+
+## Thread/Process Scheduling: `yield` vs `wait`
+
+### Wait
+
+* A process or thread stopping execution until a certain condition is met.
+* Mutex: `std::condition_variable`, e.g., `notify_one()`, is a wrapper of `pthread_cond_t`, that is a wrapper of `futex(syscall)`, that updates a thread status from `WAITABLE` to `RUNNABLE` in kernel space.
+* This is a reason why Linux is not an RTOS, that `futex(syscall)` is non-preemptive/cooperative: process be terminated or moved to wait state.
+
+### Yield
+
+* A process or thread voluntarily gives up the CPU time slots; the status of the thread/process remains `RUNNABLE`.
+* Typically used in coroutines to temparaily give up CPU time, until having finished awaiting a callback

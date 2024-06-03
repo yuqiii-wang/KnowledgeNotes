@@ -1,6 +1,19 @@
 # Some Compilation Flags
 
-### `-fpermissive` and `-Wno-changes-meaning`
+* `-Wall -Werror`
+
+Show compilation time warning and error.
+
+For example, below code would raise a warning
+
+```cpp
+int* foo() {
+  int a = 0;
+  return &a;
+}
+```
+
+* `-fpermissive` and `-Wno-changes-meaning`
 
 Under the same scope, a variable should not see its definition changes.
 
