@@ -5,6 +5,7 @@
 **LDAP** (lightweight directory access protocol) is a communication protocol that defines the methods in which a directory service can be accessed.
 
 LDAP terminologies:
+
 * Directory: LDAP database
 * Entry: a single data unit/record in a directory
 * Attribute: detail of an entry
@@ -49,6 +50,7 @@ attributeType ( 2.5.4.41 NAME 'name'
 Below are commonly used syntax and match rules
 
 **Table: Commonly Used Syntaxes**
+
 | Name | OID | Description |
 |---|---|---|
 | boolean | 1.3.6.1.4.1.1466.115.121.1.7 | boolean value |
@@ -56,16 +58,18 @@ Below are commonly used syntax and match rules
 | directoryString | 1.3.6.1.4.1.1466.115.121.1.15 | UTF-8 string |
 
 **Table : Commonly Used Matching Rules**
+
 | Name | Type | Description |
 |---|---|---|
 | booleanMatch | equality | boolean |
 | caseIgnoreMatch | equality | case insensitive, space insensitive |
 | caseIgnoreOrderingMatch | ordering | case insensitive, space insensitive |
 
-Define a class object, similar to defining an attribute, 
+Define a class object, similar to defining an attribute,
+
 1. assign an OID to this objectclass with a `NAME`
 2. inherited from `top` and `STRUCTURAL` object class
-3.  a `DESC` description for this object class
+3. a `DESC` description for this object class
 4. contain `attribute1` and `attribute2` attribute definitions
 
 ```bash
@@ -77,6 +81,7 @@ objectclass ( 1.3.6.1.4.1.15490.2.2 NAME 'objectclass1'
 ```
 
 **Table: Attributes for Object Class**
+
 | Attribute Identifier | Attribute Value Description |
 |---|---|
 | NUMERICOID (mandatory) | Unique object identifier (OID) |
@@ -91,6 +96,7 @@ objectclass ( 1.3.6.1.4.1.15490.2.2 NAME 'objectclass1'
 | X-ORIGIN | X-ORIGIN typically specifies the origin of the attribute which is often an RFC (Request For Comments) and represents a document series containing technical and organizational notes about the Internet. |
 
 Other necessary explained:
+
 1. `top` is an abstract object class that is the parent of every LDAP object class. It is the one that defines that every object in LDAP must have an `objectClass` attribute.
 2. An `ObjectClass` defined for use in the `STRUCTURAL` specification of the `DIT` is termed a `STRUCTURAL ObjectClass`
 3. `$` represents element `AND` operation 
@@ -119,6 +125,7 @@ The `inetOrgPerson` object class is a general purpose object class that holds at
 ```
 
 Inside `MAY` defining many attributes, such as `carLicense`, which is a plain UTF-8 string (defined in syntax `1.3.6.1.4.1.1466.115.121.1.15`) with matching rules disregarding case sensitivity.
+
 ```bash
 ( 2.16.840.1.113730.3.1.1 NAME 'carLicense'
     DESC 'vehicle license or registration plate'
@@ -186,6 +193,7 @@ Given the example below, (`dn` for Distinguished Name) `sn=Doe` is an entry. The
 Attributes such as `givenName`, `telephoneNumber` and `mail` are defined in `ObjectClass`. For example, `telephoneNumber` is defined in `people` ObjectClass.
 
 Here below is an example of `people` ObjectClass definition.
+
 ```bash
 ( 2.5.6.6 NAME 'people' 
     SUP top STRUCTURAL 
@@ -193,6 +201,7 @@ Here below is an example of `people` ObjectClass definition.
     MAY ( userPassword $ telephoneNumber $ seeAlso $ description )
 )
 ```
+
 This indicates that the `people` object class is a `STRUCTURAL` class with `OID 2.5.6.6`. Entries with the people object class are required to include the `sn` (surname), `ou` (organizational unit) and `cn` (common name) attribute types, and may also include any or all of the userPassword, telephoneNumber, seeAlso, and description attribute types. And because the people object class inherits from the `top` object class, entries containing the people object class are required to also include the objectClass attribute type (which is declared as mandatory in the top object class). The people object class is not obsolete and does not have a description.
 
 ## LDAP Cmds
@@ -236,6 +245,7 @@ connection using objects in the DIT, which means that **DN is used as user ident
 ldapsearch [-b <baseDN>] [-s <scope>] <filter>
  [ <attrs> ]
 ```
+
 examples: 
 ```bash
 ldapsearch -b 'ou=people,o=nlight' '(objectclass=*)'
@@ -247,6 +257,7 @@ ldapsearch -b "dc=evolveum,dc=com" -s sub
 ```
 
 commons options
+
 ```bash
 -h <ldapServerHostName>
 -p <ldapServerPort>

@@ -42,6 +42,7 @@ Ingest nodes are able to apply an ingest pipeline, where a document undergoes a 
 ### Coordinating Node
 
 A coordinating node decides how to delegate a request to what nodes for process, e.g., document search or update.
+A coordinate node can act as a load balancer.
 
 There are two phases of a request process from a coordinating node's perspective:
 
@@ -83,6 +84,9 @@ The quorum size is $(N/2) + 1$ given $N$ master-eligible nodes.
 
 Once a node receives a quorum of votes, it becomes the master node and begins managing the cluster state. Other nodes acknowledge this node as the master.
 
+Re-election happens when the one managing master node fails, e.g., other nodes detecting master node failure through heartbeat.
+The same quorum-based voting mechanism applies.
+
 ### How a coordinating node determines what nodes to pass requests
 
 Reference: https://www.elastic.co/guide/en/elasticsearch/reference/current/search-shard-routing.html#:~:text=By%20default%2C%20Elasticsearch%20uses%20adaptive,node%20and%20the%20eligible%20node
@@ -103,6 +107,13 @@ ES takes into consideration a number of factors (see below) to allocate a shard
 * `node.attr.server_type: hot` (optional values: `warm`, `cold`)
 
 ### How fast is a change available to read after just updated across multiple nodes
+
+As documents are indexed or updated, new segments are created.
+
+Over time, Elasticsearch merges smaller segments into larger ones to optimize performance and reduce overhead.
+
+When a document is updated in Elasticsearch, it's actually marked as deleted in the existing segment and a new version of the document is indexed into a new segment.
+The old version of the document remains in the segment until a segment merge occurs and it is eventually deleted.
 
 ## Shard and Index
 
@@ -130,6 +141,10 @@ Cached shards can return immediately for same queries to the ES.
 A hash of the whole JSON body is used as the *cache key*, that is proof if the shard has been updated against the cached shards.
 When a shard gets updated, upon refresh, the cached shard is invalidated.
 
+#### Segments in Shard
+
+Reference: https://javadoc.io/static/org.elasticsearch/elasticsearch/2.4.1/org/elasticsearch/index/engine/Segment.html
+
 ### Index
 
 An index is just a logical namespace that points to one or more physical shards.
@@ -141,6 +156,17 @@ Lucene is the backend text search engine of ES index, features include
 
 * Text similarity based on *Edit Distance*
 * Pluggable ranking models, including the Vector Space Model and Okapi BM25
+
+### The "Index" Terminology
+
+Reference: https://stackoverflow.com/questions/15426441/understanding-segments-in-elasticsearch
+
+The word "index" gets abused a bit in Elasticsearch -- applies to too many things.
+
+* "Index" itself refers to database alike concept for relational DB. Internally, an index is a logical namespace that points to one or more shards.
+* An "inverted index" is the data structure that Lucene uses to make data searchable.
+* A "shard" is an instance of Lucene. An index contain one or multiple shards.
+* Each shard contains multiple "segments", that a segment is an inverted index. A search in a shard will search each segment in turn, then combine their results into the final results for that shard.
 
 ### Shard Allocation
 

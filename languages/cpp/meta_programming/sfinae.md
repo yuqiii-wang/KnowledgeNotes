@@ -3,6 +3,8 @@
 SFINAE remediates the issue of template instantiation failure during compilation for that there are multiple same function signatures (same function names and arguments), that compiler cannot determine an exact match.
 "Substitution" means passing/implementing actual variables to template `typename T`.
 
+## Prerequisites
+
 ### Failure vs Error
 
 Failure and Error refer to two different things.

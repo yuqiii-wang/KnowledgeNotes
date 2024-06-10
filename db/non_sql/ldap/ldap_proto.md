@@ -11,6 +11,7 @@ A client starts an LDAP session by connecting to an LDAP server, by default on T
 ### Complex Query
 
 To search on a given dn and two attributes `attr1` and `attr2` having NOT EQUAL AND and `attr3` and `attr4` having EQUAL OR:
+
 ```bash
 ./ldapsearch -h ${ldap_server_host} -p ${port} -D "${bindDN}" -W "${bindPassword}" -b ${baseDN} \
 -s sub "(&(!(attr1=val1))(!(attr2=val2))(|(attr3=val3)(attr4=val4)))"
