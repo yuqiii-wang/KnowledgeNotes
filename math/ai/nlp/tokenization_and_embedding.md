@@ -445,7 +445,7 @@ $$
 
 ### BM25
 
-BM25 (BM represents *Best Matching*) is a bag-of-words retrieval function that ranks and retrieves most similar documents against a query.
+BM25 (BM represents *Best Matching*) is a bag-of-words (bag-of-words embedding does not contain positional information) retrieval function that ranks and retrieves most similar documents against a query.
 
 Given a query $Q$ composed of a sequence of tokens $\{q_1, q_2, ..., q_n\}$, the BM25 score of a document $D \in \bold{D}$ select from a set of documents $\bold{D}$ matching this query $Q$ is
 
@@ -468,3 +468,27 @@ $$
 \text{IDF}(q_i) =
 \ln \Big( \frac{N-n(q_i)+0.5}{n(q_i)+0.5}+1 \Big)
 $$
+
+## Embedding Normalization
+
+For example, given a vector $\bold{v}=[3,4]$, there are
+
+* L1 Normalization (Manhattan Distance)
+
+$$
+\bold{v}_{\text{norm}} = \frac{[3,4]}{3+4} = [\frac{3}{7},\frac{4}{7}] \approx [0.4286, 0.5714]
+$$
+
+* L2 Normalization (Euclidean Distance)
+
+$$
+\bold{v}_{\text{norm}} = \frac{[3,4]}{\sqrt{3^2+4^2}} = \frac{[3,4]}{5} = [0.6, 0.8]
+$$
+
+* MAX Normalization (Chebyshev Distance)
+
+$$
+\bold{v}_{\text{norm}} = \frac{[3,4]}{\max(\{3, 4\})} = \frac{[3,4]}{4} = [0.75, 1]
+$$
+
+where L2 normalization is the most used for vector similarity computation, e.g., for cosine similarity.

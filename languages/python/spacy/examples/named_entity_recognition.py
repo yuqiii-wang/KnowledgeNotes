@@ -5,6 +5,9 @@ import spacy
 # Load English tokenizer, tagger, parser and NER
 nlp = spacy.load("en_core_web_md")
 
+for pipe in nlp.pipe_names:
+    print(nlp.get_pipe_config(pipe))
+
 # Process whole documents
 text = ("When Sebastian Thrun started working on self-driving cars at "
         "Google in 2007, few people outside of the company took him "
