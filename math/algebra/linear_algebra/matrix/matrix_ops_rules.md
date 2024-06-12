@@ -1,4 +1,4 @@
-#  Matrix/vector Multiplication and Derivative Rules
+# Matrix/vector Multiplication and Derivative Rules
 
 ## Multiplications
 

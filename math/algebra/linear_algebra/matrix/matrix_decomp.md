@@ -458,27 +458,24 @@ H_1 \bold{a}_1 =
 $$
 
 Set $\bold{x}_1 = \beta\bold{a}_1 + \alpha\bold{e}_1$, there is
+
 $$
 \begin{align*}
 H_1 \bold{a}_1 &=
 \bold{a}_1 - 2 
-\frac{(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }{(\beta\bold{a}_1 + \alpha\bold{e}_1)^2} (\beta\bold{a}_1 + \alpha\bold{e}_1)
-\\ &=
+\frac{(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }{(\beta\bold{a}_1 + \alpha\bold{e}_1)^2} (\beta\bold{a}_1 + \alpha\bold{e}_1) ∂\\ &=
 \bold{a}_1 - 2 
 \frac{(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }
-{\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} 
-(\beta\bold{a}_1 + \alpha\bold{e}_1)
-\\ &=
+{\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1}
+(\beta\bold{a}_1 + \alpha\bold{e}_1) \\ &=
 \bigg(
-  1- 2 
+  1- 2
   \frac{\beta(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }
   {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} 
-\bigg)\bold{a}_1
--
-\bigg(
-  2 
+\bigg)\bold{a}_1 -
+\bigg(2 
   \frac{\alpha(\beta\bold{a}_1 + \alpha\bold{e}_1)^\text{H} \bold{a}_1 }
-  {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1} 
+  {\beta^2\bold{a}^\text{H}_1\bold{a}_1 + \alpha^2\bold{e}^\text{H}_1\bold{e}_1+2\alpha\beta\bold{a}_1\bold{e}_1}
 \bigg) \bold{e}_1
 \end{align*}
 $$
@@ -506,6 +503,7 @@ $$
 By taking $\beta=1$, there is $\alpha=\pm ||\bold{a}_1||$.
 
 So that, $\bold{u}_1=\frac{\bold{a}_1 \pm ||\bold{a}_1||\bold{e}_1}{\big|\big| \bold{a}_1 \pm ||\bold{a}_1||\bold{e}_1 \big|\big|}$. Just to take the sign of $\bold{a}_1$ to replace $\pm$, then derive the final $\bold{u}_1$ such as
+
 $$
 \bold{u}_1=
 \frac{\bold{a}_1 \space sgn(\bold{a}_1) ||\bold{a}_1||}
@@ -514,16 +512,16 @@ $$
 $$
 
 Hence, the $H_1$ is
+
 $$
 \begin{align*}
-H_1 &= I-2\bold{u}_1\bold{u}_1^\text{H}
-\\ &=
-I - 2 
-\bigg( 
+H_1 &= I-2\bold{u}_1\bold{u}_1^\text{H} \\ &=
+I - 2
+\bigg(
   \frac{\bold{a}_1 \space sgn(\bold{a}_1) ||\bold{a}_1||}
   {\big|\big| \bold{a}_1 \space sgn(\bold{a}_1) ||\bold{a}_1||\bold{e}_1 \big|\big|}\bold{e}_1
 \bigg)
-\bigg( 
+\bigg(
   \frac{\bold{a}_1 \space sgn(\bold{a}_1) ||\bold{a}_1||}
   {\big|\big| \bold{a}_1 \space sgn(\bold{a}_1) ||\bold{a}_1||\bold{e}_1 \big|\big|} \bold{e}_1
 \bigg)^\text{H}
@@ -531,9 +529,10 @@ I - 2
 $$
 
 The first Householder transformation can be written as
+
 $$
-H_1 A = 
-\big[ H_1 \bold{a}_1 
+H_1 A =
+\big[ H_1 \bold{a}_1
 \quad
 H_1 A_1' \big]=
 \begin{bmatrix}
@@ -544,9 +543,10 @@ $$
 where $A'_1$ represents the $2$-th to $n$-th columns of $A$, and $*$ represents some computed scalar numbers.
 
 Repeat the above process (set $\~{\bold{e}}_2=[1 \quad 0 \quad ... \quad 0]^\text{T} \in \mathbb{R}^{n-1}$) to find the Householder transformation $\~{H}_2$ corresponding to $\~{A_2} \in \mathbb{R}^{(n-1) \times (n-1)}$, 
-and mark $H_2=\begin{bmatrix}      1 & 0 \\      0 & \~{H_2}\end{bmatrix}$, 
+and mark $H_2=\begin{bmatrix}      1 & 0 \\      0 & \~{H_2}\end{bmatrix}$,
 and define $\~{\bold{a}}_2 \in \mathbb{R}^{n-1}$ as the first column of $\~{A_2}$.
 Then, the second Householder transformation result is
+
 $$
 H_2 H_1 A=
 \begin{bmatrix}
@@ -557,6 +557,7 @@ H_2 H_1 A=
 $$
 
 The sequence of operations goes on, hence, the Householder QR decomposition is
+
 $$
 \begin{align*}
 &&
@@ -568,7 +569,7 @@ A &= QR
 \end{align*}
 $$
 
-### Gram–Schmidt Process vs Householder
+### Gram-Schmidt Process vs Householder
 
 Given that Householder transformation $\~{H}_i$ is orthogonal having $det(\~{H}_i)=\pm 1$, and there is $\~{H}_i \~{\bold{a}}_i=\pm ||\~{\bold{a}}_i||\~{\bold{e}}_i$, Householder transformation $\~{H}_i$ maintains the length of each $\~{\bold{a}}_i$ at to each orthogonal basis vector $\~{\bold{e}}_i$. 
 

@@ -108,6 +108,7 @@ $$
 Geometrically speaking, $A v_i = \sigma_i u_i$ indicates transformation of $v_i$ by $A$ is same as scaling an orthonormal vector $u_i$ by singular value $\sigma_i$.
 
 Define $\Sigma$ as a diagnal matrix of singular values $\sigma_i$, and $r=min(m,n)$:
+
 $$
 \Sigma = 
 \begin{bmatrix}
@@ -120,9 +121,11 @@ $$
 $$
 
 Define $V_{n \times r}$ and $U_r$ as
+
 $$
 V_r = [v_1, v_2, v_3, ..., v_r]
 $$
+
 $$
 U_r = [u_1, u_2, u_3, ..., u_r]
 $$
