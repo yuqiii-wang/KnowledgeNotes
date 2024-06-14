@@ -89,6 +89,8 @@ Francisco    York         conj       PROPN
 
 See https://explosion.ai/blog/parsing-english-in-python for syntactic dependency parsing background info.
 
+The tag annotation is per Stanford annotation guidelines.
+
 #### `attribute_ruler`
 
 * Add custom rules to transform texts with added lemma and pos.
@@ -109,3 +111,12 @@ For spacy `lemmatizer`, there are
 * Used `spacy.lemmatizer_scorer.v1` for evaluation
 
 #### `ner`
+
+* Named Entity Recognition (NER) uses `spacy.TransitionBasedParser.v2` for prediction
+* The employed `spacy.TransitionBasedParser.v2` has different *transition actions* compared to the parser task
+
+### Details of Tagger
+
+### Details of Parser
+
+## Training

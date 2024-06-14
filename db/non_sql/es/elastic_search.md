@@ -365,6 +365,39 @@ Then search this doc by a custom formula $\text{score}^2+1$ via `POST my-index/_
 
 ## Transaction
 
+## Security
+
+Considerations:
+
+* Client requests to ES DB should be restricted by SSL certificate
+* Kibana access should enable user authentication
+* Index privilege management: different queries sent from different users belonged to different user groups (user groups have different CRUD permissions on different indices) should be managed and segregated
+
+Concerns:
+
+* Advanced ES/Kibana security features, e.g., user roles and access privileges require commercial license
+
+Solutions:
+
+* Use Nginx as intermediary between kibana and ES
+
+### Client Request Restriction by SSL Certs
+
+Enable below items in `elasticsearch.yml`.
+
+```yml
+xpack.security.enabled: true
+```
+
+### Common Configs
+
+* `xpack.security.enabled`
+* `xpack.security.enrollment.enabled`
+
+* `xpack.security.transport.ssl.enabled`: nodes use to communicate with each other. The default is `false`. If set `xpack.security.enabled: true`, this config `xpack.security.transport.ssl.enabled`
+* `xpack.security.transport.ssl.client_authentication` defaults to `required` that a client must present a certificate for connection. If set to `none`, clients do not need to config ssl for connection.
+* 
+
 ## Performance Config
 
 * Shard Size

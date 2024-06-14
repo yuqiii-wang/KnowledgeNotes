@@ -1,13 +1,100 @@
 # Some Linux Knowledge and DevOps
 
-## `service` vs `systemctl`
+## `systemd`
 
-Both are used to manage Linux processes for initialization.
+`systemd` is a software suite that provides an array of system components for Linux, offered reliable parallelism during boot as well as centralized management of processes, daemons, services and mount points.
+It provides management to computer resource allocation as well.
 
-|`service`|`systemctl`|
-|-|-|
-|operates on `/etc/init.d`|operates on `/lib/systemd`|
-|belongs to SysVinit (System V Init), aka the classic Linux initialization process|belongs to systemd, the successor of SysVinit and the modern initialization process|
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/systemd-and-cgroups.png" width="30%" height="50%" alt="systemd-and-cgroups" />
+</div>
+</br>
+
+where *cgroups* (abbreviated from control groups) is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, etc.) of a collection of processes.
+
+Below shows how `systemd` is started, and how `systemd` is a daemon that manages other daemons.
+
+Given a typical Linux boot process:
+
+1. system startup: BIOS firmware, searching for the bootable device (CD-ROM, USB flash drive, a partition on a hard disk)
+2. bootloader stage: load the Linux kernel image into memory
+3. kernel stage: sets up interrupt handling (IRQs), mounts root filesystem, and `initramfs` (a.k.a. early user space) to detect device drivers
+4. init process: `/sbin/init` (one popular implementation is `systemd`) runs as the first (user space) process such that PID = 1, and will be the last process to terminate; `systemd` prepares the user space
+
+where in the final step during `/sbin/init`, the Linux kernel loads `systemd` and passes control over to it and the startup process begins.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/startup-systemd.png" width="30%" height="60%" alt="startup-systemd" />
+</div>
+</br>
+
+P.S. typical PIDs are
+
+* PID = 0: CMD: `kernel_task`, responsible for paging, and this process is always referred to as the swapper or sched process, or just cpu idle
+* PID = 1: CMD: `/sbin/init`
+* PID = 2: CMD: `kthreadd`
+
+Do NOT get confused that
+
+||`systemd`|`systemctl`|`sysctl`|
+|-|-|-|-|
+|**Description**|A comprehensive system and service manager for Linux|A utility to interact with `systemd`, allowing users to manage services and check their statuses.|A utility to query and modify kernel parameters at runtime|
+|**Examples**||`systemctl start <service>`: Starts a service.|`sysctl -a`: Lists all available kernel parameters.|
+
+### Service Type (Process Management)
+
+`systemd` manages services by `systemctl start <service>` starting the service's process, and `systemctl stop <service>` killing the process.
+
+There are different service types that cater for different purposes, e.g., restart on different booting/failure conditions and forked child process management.
+
+Reference: https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
+
+* Simple
+
+If service type is not manually set, `simple` is used.
+
+In the default `simple` service type, only ONE process can be managed.
+If multiple processed start under this service type, such as
+
+```sh
+for for i in {1..5}; do
+  ./start_a_process.sh &
+done
+```
+
+only the 5th process survives and the previous four processes are dead.
+
+* forking
+
+Only the parent process exits and the forked child processes survive.
+
+* oneshot
+
+Start processes then exit.
+often used after OS booting for one time setup tasks.
+
+#### One Service Managing Multiple Processes
+
+Split processes into such that
+
+```conf
+[Unit]
+Description=Simple Service Managing Multiple Processes
+
+[Service]
+Type=simple
+ExecStartPre=/path/to/pre_process_1
+ExecStartPre=/path/to/pre_process_2
+ExecStart=/path/to/main_process
+ExecStartPost=/path/to/post_process_1
+ExecStartPost=/path/to/post_process_2
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Resource Allocation and `cgroups`
+
 
 ### Register A `systemctl` Service
 
@@ -22,7 +109,7 @@ Reference: https://unix.stackexchange.com/questions/236084/how-do-i-create-a-ser
 Description=My Script
 
 [Service]
-Type=forking
+Type=simple
 ExecStart=/usr/bin/myscript
 
 [Install]
@@ -35,6 +122,19 @@ WantedBy=multi-user.target
 
 5. To auto-start, use enable  `systemctl enable my-svc`.
 
+#### `service` vs `systemctl`
+
+Both are used to manage Linux processes for initialization.
+`systemctl` aims to replace `service` as the modern unified process initialization management solution under `systemd`.
+
+|`service`|`systemctl`|
+|-|-|
+|operates on `/etc/init.d`|operates on `/lib/systemd`|
+|belongs to *SysVinit* (System V Init), aka the classic Linux initialization process|belongs to `systemd`, the successor of SysVinit and the modern initialization process|
+
+#### Debug
+
+The registered `systemd` log can be found by `journalctl`.
 
 ## Common DevOps
 
@@ -59,6 +159,7 @@ sudo find / -type f -printf "%s\t%p\n" 2>/dev/null | sort -n | tail -10
 ```
 
 * Check disk usage
+
 ```bash
 df
 ```
