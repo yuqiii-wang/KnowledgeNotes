@@ -4,7 +4,6 @@ When a client requests a scope combination, AM checks if the user has already co
 If AM can find the scopes across multiple saved consent entries, AM will not require the user to consent. 
 If part of the requested scope combination is not found in any entry, AM will require the user to consent. 
 
-
 ## Remote Consent Service
 
 Remote Consent Service allow the consent-gathering part of an OAuth 2.0 flow to be handed off to a separate service. 
@@ -12,6 +11,7 @@ Remote Consent Service allow the consent-gathering part of an OAuth 2.0 flow to 
 During an OAuth 2.0 flow that requires user consent, AM can create a consent request JWT that contains the necessary information to render a consent gathering page. RCS decrypts the JWT, and renders the consent page to the resource owner.
 
 Example Request JWT 
+
 ```json
 {
   "clientId": "myClient",
@@ -40,7 +40,8 @@ Explained:
 
 After User taking action, a response is generated containing a JWT, returned to AM server.
 
-Example Response JWT 
+Example Response JWT
+
 ```json
 {
   "clientId": "myClient",

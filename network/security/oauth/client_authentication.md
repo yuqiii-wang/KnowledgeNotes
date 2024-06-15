@@ -2,7 +2,7 @@
 
 Methods available on ForgeRock. Only one auth method can be used as specified in client profile (e.g., Software Statement Assertion) via the config `tokenEndPointAuthMethod`.
 
-## 1. By ` client_id` and `client_secret`
+## 1. By `client_id` and `client_secret`
 
 ```bash
 curl \
@@ -29,13 +29,14 @@ Clients can send a signed JWT to the authorization server as credentials instead
 
 ![oauth2-jwt-bearer-authn](imgs/oauth2-jwt-bearer-authn.svg "oauth2-jwt-bearer-authn")
 
-* aud. Specifies the authorization server
-* sub. Client ID
-* iss the client, or a third party. 
+* `aud` Specifies the authorization server
+* `sub` Client ID
+* `iss` the client, or a third party.
 
-**-> must configure the public key or HMAC secret** in the client profile so AM can validate it: 
+**-> must configure the public key or HMAC secret** in the client profile so AM can validate it:
 
 * Configuring Certificates Represented as PEM Files
+
 ```bash
 -----BEGIN CERTIFICATE-----
 MIIDETCCAfmgAwIBAgIEU8SXLjAN...
@@ -43,6 +44,7 @@ MIIDETCCAfmgAwIBAgIEU8SXLjAN...
 ```
 
 * Configuring Public Keys in JWK Format
+
 ```json
 {
   "keys": [

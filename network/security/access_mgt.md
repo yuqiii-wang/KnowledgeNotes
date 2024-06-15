@@ -4,9 +4,12 @@ Access management is about controlling access to resources using two processes: 
 
 |Party of Interest|Explain|
 |-|-|
+|Client|An application|
 |Browser/User agent|End user|
 |Resource Server (RS)|A server that holds protected resources, such as user profiles|
 |Access Management (AM) server|A server that defines access rules as well as manages tokens|
+
+For example, WeChat has an RS that stores users' info, e.g., name, birthday, gender, and has an AM that authorizes various registered client apps to use WeChat user info, e.g., a game app that wants to load user info rather than asking users to re-register his/her name.
 
 ## Authentication
 
@@ -73,6 +76,39 @@ What URLs (matched by RE such as `*://*:*/*?*`) are permitted access by what act
 * OAuth2 Scope resource type
 
 What scopes are permitted. These usually are AM admin defined with semantic significance. For example, in Open Banking, typical scopes are *account:read*, *account:update*, *account:balance:read*.
+
+### Authorization Header
+
+Syntax: `Authorization: <auth-scheme> <authorization-parameters>`
+
+* Basic
+
+```txt
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+```
+
+where `dXNlcm5hbWU6cGFzc3dvcmQ=` is the Base64 encoded string of `username:password`.
+
+* Bearer Token
+
+```txt
+Authorization: Bearer 2YotnFZFEjr1zCsicMWpAA
+```
+
+where `2YotnFZFEjr1zCsicMWpAA` is an access token granted by an AM server (commonly used with OAuth 2.0).
+
+* Digest
+
+```txt
+Authorization: Digest username="Mufasa",
+                realm="testrealm@host.com",
+                nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",
+                uri="/dir/index.html",
+                response="e524d89ebc8e6480f296f0bb20b2232b",
+                opaque="5ccc069c403ebaf9f0171e9517f40e41"
+```
+
+Digest is a more secure method of authentication compared to Basic, used cryptographic hashing.
 
 ### Policy Sets
 

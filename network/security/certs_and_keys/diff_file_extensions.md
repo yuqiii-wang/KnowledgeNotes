@@ -2,7 +2,7 @@
 
 ## File Extension
 
-###  `.pem`: Privacy Enhanced Mail
+### `.pem`: Privacy Enhanced Mail
 
 `base64` encoding of binary/text content, specifically, a public key infrastructure based on X.509
 

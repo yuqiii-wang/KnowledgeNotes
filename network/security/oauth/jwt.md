@@ -5,14 +5,18 @@ Json Web Token (JWT) is an open standard (RFC 7519) that defines a compact and s
 There are some mandatory fields in header and payload, and customised fields for tailored needs.
 
 It contains (separated by `.`):
+
 * Header, such as type of algo, are encoded in Base64
+
 ```json
 {
   "alg": "HS256",
   "typ": "JWT"
 }
 ```
+
 * Payload, lots of claims (Claims are statements about an entity (typically, the user) and additional data.) They are encoded in Base64 rather than encrypted (thus anyone can read the content).
+
 ```json
 {
   "sub": "1234567890",
@@ -20,7 +24,9 @@ It contains (separated by `.`):
   "admin": true
 }
 ```
+
 * Signature, takes Base64 encoded header, payload, and a secret, then signs by the given signing algo, 
+
 ```bash
 HMACSHA256(
   base64UrlEncode(header) + "." +
@@ -31,13 +37,14 @@ HMACSHA256(
 A typical usage:
 `Authorization` in header of an https request for protected resources as specified in claims of this jwt. 
 Cross-Origin Resource Sharing (CORS) won't be an issue as it doesn't use cookies
+
 ```
 Authorization: Bearer <token>
 ```
+
 A Bearer Token is an opaque string, not intended to have any meaning to clients using it.
 
-
-An example of decoded JWT 
+An example of decoded JWT
 
 ```json
 {
@@ -65,3 +72,4 @@ An example of decoded JWT
 * "iat" (issued at) claim identifies the time at which the JWT was issued.
 
 * "jti" (JWT ID) claim provides a unique identifier for the JWT.
+* "nonce" A random string to mitigate replay attacks.

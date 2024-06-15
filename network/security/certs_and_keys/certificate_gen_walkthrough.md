@@ -46,7 +46,9 @@ keytool -import -keystore keystore.jks -file ca-cert.pem -alias ca -storepass ch
 
 keytool -import -keystore keystore.jks -file exampleclient.cer -alias exampleclient-signed -storepass changeit
 ```
+
 ### if not requiring cert been signed, you can just export the cert from client's keystore
+
 ```bash
 keytool -export -keystore keystore.jks -file exampleclient-selfsigned.cer -alias exampleclient -storepass changeit -rfc
 ```

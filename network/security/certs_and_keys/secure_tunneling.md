@@ -9,7 +9,6 @@ Diffs:
 * Asymmetric encryption usually uses complex mathematical operations, such as power and modulus, on very large numbers (2048 bits).
 * Symmetric encryption uses simpler operations, such as XOR and multiply, on smaller numbers (64 or 128 bits)
 
-
 ## SSL 
 
 `SSH tunneling` is a method of transporting arbitrary networking data over an encrypted SSH connection.
