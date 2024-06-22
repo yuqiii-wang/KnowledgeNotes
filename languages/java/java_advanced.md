@@ -145,6 +145,7 @@ class D {
 ```
 
 P.S. in Java 1.6, Integer calls `valueOf` when assigning an integer.
+
 ```java
 public static Integer valueOf(int i) {
    if(i >= -128 && i <= IntegerCache.high)
@@ -236,7 +237,7 @@ public class S extends C.D {}
 
 * Java Bean Concept
 
-In computing based on the Java Platform, `JavaBeans` are classes that encapsulate many objects into a single object (the bean). 
+In computing based on the Java Platform, `JavaBeans` are classes that encapsulate many objects into a single object (the bean).
 
 The JavaBeans functionality is provided by a set of classes and interfaces in the java.beans package. Methods include info/description for this bean.
 

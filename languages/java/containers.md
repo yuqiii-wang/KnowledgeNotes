@@ -372,3 +372,25 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 ### Stream
 
+`Stream` is a view or a pipeline of data that can be processed in multiple stages.
+
+It acts as a sequence of mapping + lambda operation.
+
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StreamExample {
+    public static void main(String[] args) {
+        List<String> myList = Arrays.asList("apple", "banana", "cherry", "dragon fruit", "elderberry", "fig", "grape");
+
+        List<String> filteredList = myList.stream()
+                .filter(s -> s.startsWith("a"))
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+
+        System.out.println(filteredList); // Output: [APPLE]
+    }
+}
+```

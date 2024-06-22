@@ -575,7 +575,6 @@ public static void main(String[] args) {
 
 ```
 
-
 ## Daemon Thread
 
 Daemon is a concept referring to backend services independent from user services, and is used to provide assistance to the user services.
@@ -590,36 +589,36 @@ A daemon thread is launched via setting a normal thread to `setDaemon(true);`.
 package yuqiexamples;
 
 public class DaemonExample {
-	public static void main(String[] args) {
-		ThreadDemo threaddemo = new ThreadDemo();
-		Thread threadson = new Thread(threaddemo);
-		// set daemon
-		threadson.setDaemon(true);
-		// start thread
-		threadson.start();
-		System.out.println("bbb");
-	}
+    public static void main(String[] args) {
+        ThreadDemo threaddemo = new ThreadDemo();
+        Thread threadson = new Thread(threaddemo);
+        // set daemon
+        threadson.setDaemon(true);
+        // start thread
+        threadson.start();
+        System.out.println("bbb");
+    }
 }
 class ThreadDemo implements Runnable{
-	
-	@Override
-	public void run() {
-		System.out.println("aaa");
+    
+    @Override
+    public void run() {
+        System.out.println("aaa");
         // if this thread is of user, shall never die; if of daemon, will die after the parent thread dies
-		while(true); 
-	}
-	
+        while(true); 
+    }
+    
 }
 ```
 
 When user threads are dead, daemon threads will be soon dead as well.
 
 The code above prints
+
 ```txt
 bbb
 aaa
 ```
-
 
 ### Use Case in Servlet
 

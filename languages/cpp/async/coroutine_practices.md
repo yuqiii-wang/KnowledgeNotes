@@ -38,14 +38,15 @@ Asynchronous coroutines are resumed in background, by worker threads (callback a
 * `std::suspend_never` is an empty class which can be used to indicate that an await expression **never** suspends and does not produce a value.
 
 Its member function `await_ready()` is hard coded to `false`.
+
 ```cpp
 constexpr bool await_ready() const noexcept { return false; }
 ```
 
 * `std::suspend_always` is an empty class which can be used to indicate that an await expression **always** suspends and does not produce a value.
 
-
 Its member function `await_ready()` is hard coded to `true`.
+
 ```cpp
 constexpr bool await_ready() const noexcept { return true; }
 ```
@@ -70,7 +71,8 @@ Determines the promise type from the return type and parameter types of a corout
 
 ## Generator Example
 
-The use code should look like  this.
+The use code should look like this.
+
 ```cpp
 Generator sequence() {
   int i = 0;
@@ -88,6 +90,7 @@ int main() {
 ```
 
 The generator is defined as (`???` is used represent to-be-explained items)
+
 ```cpp
 struct Generator {
   struct promise_type {

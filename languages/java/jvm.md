@@ -379,7 +379,8 @@ jstat (JVM statistics Monitoring) monitors the on-going JVM statistics.
 jstat [option] LVMID [interval] [count]
 ```
 
-where 
+where
+
 * `option`: target
 * `LVMID`: local virtual machine process ID
 * `interval`: log output interval

@@ -109,7 +109,7 @@ public class Person {
 }
 ```
 
-`forName()` method of `java.lang.Class` class is used to get the instance of this Class with the specified class name. 
+`forName()` method of `java.lang.Class` class is used to get the instance of this Class with the specified class name.
 This class name is specified as the string parameter.
 
 ```java
@@ -227,7 +227,8 @@ The passed object in another function stack actually shares the same pointed hea
 
 In other words, objects from the same `new` operator despite being passed to diff stacks, have the same members residing in the same heap area. 
 
-For instance, `Mug myMug = new Mug("Tea");` sees its member `this.contents` updated by function `spill(myMug);`. 
+For instance, `Mug myMug = new Mug("Tea");` sees its member `this.contents` updated by function `spill(myMug);`.
+
 ```java
 public class Mug {
 
@@ -368,7 +369,7 @@ class GFGCorrect
 
 * `ArrayStoreException`
 
-Thrown to indicate that an attempt has been made to store the wrong type of object into an array of objects. 
+Thrown to indicate that an attempt has been made to store the wrong type of object into an array of objects.
 For example, the following code generates an ArrayStoreException:
 
 ```java
@@ -525,3 +526,20 @@ public class CopyFileWithBuffer {
 ### Serialization and Deserialization
 
 `transient` in Java is used to indicate that a field should not be part of the serialization process.
+
+## Java Message Service (JMS)
+
+Java Message Service (JMS) is an API specification for java message queue for data transfer between a producer and a consumer.
+
+```conf
+# JMS Configuration
+jms.connectionFactory = org.apache.activemq.ActiveMQConnectionFactory
+jms.queue = ExampleQueue
+jms.topic = ExampleTopic
+jms.brokerURL = tcp://localhost:61616
+```
+
+where
+
+* `queue`: A point-to-point destination where messages are sent and received.
+* `topic`: A publish-subscribe destination where messages are broadcast to all subscribers.
