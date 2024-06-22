@@ -2,26 +2,6 @@
 
 ## Finance
 
-### Identifier
-
-* International Securities Identification Number (ISIN) 
-
-An ISIN uniquely identifies a fungible security, such as 
-
-Equities (shares, units, depository receipts)
-
-Debt instruments (bonds)
-
-Entitlements (rights, warrants)
-
-Derivatives (options, futures)
-
-Others (commodities, currencies, indices, interest rates)
-
-* Stock Exchange Daily Official List (SEDOL)
-
-SEDOL is a list of security identifiers used in the United Kingdom and Ireland for clearing purposes. The numbers are assigned by the London Stock Exchange.
-
 ### Banking
 
 * bank run/run on the bank （挤兑）

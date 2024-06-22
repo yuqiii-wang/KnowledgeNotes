@@ -123,6 +123,7 @@ where `???.resume()` is about how to resume a coroutine in this generator; `coro
 Remember that `coroutine_handle` itself is the coroutine function body.
 
 `coroutine_handle` from `std` provides an API `from_promise` to load a `promise`.
+
 ```cpp
 template <class _Promise>
 struct coroutine_handle {
@@ -134,7 +135,8 @@ struct coroutine_handle {
 }
 ```
 
-`Generator{???};` can be filled with 
+`Generator{???};` can be filled with
+
 ```cpp
 Generator get_return_object() {
     return Generator{ std::coroutine_handle<promise_type>::from_promise(*this) };
@@ -155,6 +157,7 @@ int next() {
 ```
 
 `return ???;` basically returns the promise's `value`. Here first obtain a promise through `handle`, from promise get its value.
+
 ```cpp
 int next() {
   handle.resume();
@@ -162,7 +165,8 @@ int next() {
 }
 ```
 
-Then look back at 
+Then look back at
+
 ```cpp
 Generator sequence() {
   int i = 0;
@@ -171,12 +175,12 @@ Generator sequence() {
   }
 }
 ```
+
 where `co_await i++;` is an integer rather than an awaiter. In fact, `c++20` compiler will do some extra work to compile `i++` into an awaiter by `await_tranform(int)`.
 
 ```cpp
 struct promise_type {
     int value;
-
     ...
 
     // take value from `co_await i++;` to the promise internal state int value
@@ -184,7 +188,6 @@ struct promise_type {
       this->value = _value;
       return {};
     }
-
     ...
   };
 ```
@@ -217,3 +220,54 @@ struct promise_type {
 ```
 
 The advantage of `co_yield` is wrapping `co_await` result and passing it out to the caller function, so that there is no much worries of taking value out when the coroutine frame is destroyed.
+
+## Do not use capturing lambdas that are coroutines
+
+By the implementation of coroutine where coroutine frame stores lambda pointer, coroutine frame when resumed, outlives the captured lambda variables.
+Remember, `lambda` itself creates a closure of object scope, in which captured variables cannot outlive the lambda scope.
+
+Quotes:
+
+```txt
+A lambda results in a closure object with storage, often on the stack, that will go out of scope at some point.
+Coroutine lambdas may resume from suspension after the closure object has destructed and at that point all captures will be use-after-free memory access.
+```
+
+Reference:
+
+https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#cp51-do-not-use-capturing-lambdas-that-are-coroutines
+
+https://www.zhihu.com/question/631046584/answer/3296378550
+
+Example Bad:
+
+```cpp
+int value = get_value();
+std::shared_ptr<Foo> sharedFoo = get_foo();
+{
+  const auto lambda = [value, sharedFoo]() -> std::future<void>
+  {
+    co_await something();
+    // "sharedFoo" and "value" have already been destroyed
+    // the "shared" pointer didn't accomplish anything
+  };
+  lambda();
+} // the lambda closure object has now gone out of scope
+```
+
+Example Best, Use a function for coroutines, where by directly passing arguments by value, the pass variables are of course live during the function execution.
+
+```cpp
+std::future<void> Class::do_something(int value, std::shared_ptr<Foo> sharedFoo)
+{
+  co_await something();
+  // sharedFoo and value are still valid at this point
+}
+
+void SomeOtherFunction()
+{
+  int value = get_value();
+  std::shared_ptr<Foo> sharedFoo = get_foo();
+  do_something(value, sharedFoo);
+}
+```

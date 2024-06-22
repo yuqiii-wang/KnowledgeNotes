@@ -127,7 +127,7 @@ Java_java_nio_MappedByteBuffer_force0(JNIEnv *env, jobject obj, jobject fdo,
 
 ### MetaSpace/Permanent Generation
 
-Permanent Generation or “Perm Gen” (renamed to MetaSpace since Java 8) contains the application metadata required by the JVM to describe the classes and methods used in the application.
+Permanent Generation or "Perm Gen" (renamed to MetaSpace since Java 8) contains the application metadata required by the JVM to describe the classes and methods used in the application.
 
 ### Young, Tenured and Perm generation
 
@@ -246,7 +246,8 @@ public class JavaVMStackOOM {
 
 ## JVM Garbage Collection (GC) Tuning
 
-Resources need to be recycled when 
+Resources need to be recycled when
+
 * reference count of an object is zero
 * reachability analysis that if an object is not linked/used/owned by any other object
 
@@ -274,6 +275,7 @@ It attempts to **minimize the pauses due to garbage collection** by doing most o
 Due to this reason, the CMS collector uses more CPU than other GCs. 
 
 The process goes as below that
+
 * It traversal starts from roots to each of the objects and check their dependencies, and marks relevant areas called *cards* as dirty if there is change in dependencies
 * It sweeps out unused objects
 
@@ -295,7 +297,7 @@ If there are too many memory holes, JVM might have trouble of finding enough mem
 
 * G1 `-XX:+UnlockExperimentalVMOptions` and `-XX:+UseG1GC`
 
-Improvements: 
+Improvements:
 
     * predictable pauses
     * Memory allocation optimization

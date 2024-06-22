@@ -54,9 +54,9 @@ It is used to refer the risk associated with an event (black swan) that is extre
 Liquidity-at-Risk (short: LaR, not confused with liquidity risk) of a financial portfolio associated with a stress scenario is the net liquidity outflow resulting from this stress scenario:
 
 Liquidity at Risk =
-Maturing Liabilities (repayment to borrowed money) 
-$+$ Net Scheduled Outflows (some planned payment to others) 
-$+$ Net Outflow of Variation Margin (short-term market fluctuations) 
+Maturing Liabilities (repayment to borrowed money)
+$+$ Net Scheduled Outflows (some planned payment to others)
+$+$ Net Outflow of Variation Margin (short-term market fluctuations)
 $+$ Credit-Contingent Cash Outflows (investor withdrawal when financial institutions have low credit)
 
 If the Liquidity at Risk is greater than the portfolio's current liquidity position then the portfolio may face a liquidity shortfall.

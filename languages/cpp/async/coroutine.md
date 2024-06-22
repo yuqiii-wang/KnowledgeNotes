@@ -192,6 +192,7 @@ struct coroutine_traits : _Coroutine_traits<_Ret> {};
 In other words, if a return type `_Ret` can find a `_Ret::promise_type`, the function that has this `_Ret` can be said a coroutine.
 
 Denote `Result` as a return type, it should have this definition
+
 ```cpp
 struct Result {
   struct promise_type {
@@ -204,7 +205,8 @@ A promise controls the actual coroutine execution detail, such as what the first
 
 ### Promise Structure 
 
-Given this coroutine 
+Given this coroutine
+
 ```cpp
 Result Coroutine() {
   std::cout << 1 << std::endl;
@@ -212,6 +214,7 @@ Result Coroutine() {
   std::cout << 2 << std::endl; // runs after 1 sec
 };
 ```
+
 coroutine return value `struct Result` is defined with a contained `struct promise_type`, where `get_return_object()` is used to handle `Result`.
 
 ```cpp
@@ -247,13 +250,12 @@ void unhandled_exception() {
 
 * `final_suspend` is called to clean up the coroutine frame, such as destroying the coroutine frame.
 
-
 ## Symmetric Coroutines and Asymmetric Coroutines
 
 Symmetric coroutine facilities provide a single control-transfer operation that allows coroutines to explicitly pass control between themselves.  
 
-Asymmetric coroutine mechanisms (more commonly denoted as semi-symmetric or semi coroutines) provide two control-transfer operations: one for invoking a coroutine and one for suspending it, the latter returning control to the coroutine invoker. 
+Asymmetric coroutine mechanisms (more commonly denoted as semi-symmetric or semi coroutines) provide two control-transfer operations: one for invoking a coroutine and one for suspending it, the latter returning control to the coroutine invoker.
 
 ## "Schedule" Concept in Coroutine
 
-Unlike Python, C++ does not have a built-in event loop. To "schedule" a coroutine to resume on a thread, should manually indicate where and when to run `co_await` or `co_yield` .
+Unlike Python, C++ does not have a built-in event loop. To "schedule" a coroutine to resume on a thread, should manually indicate where and when to run `co_await` or `co_yield`.

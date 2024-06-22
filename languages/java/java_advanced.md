@@ -177,6 +177,7 @@ anim.eat();
 ```
 
 Here, we cast the Animal type to the Cat type. As Cat is subclass of Animal, this casting is called **downcasting**.
+
 ```java
 Animal anim = new Cat();
 Cat cat = (Cat) anim;
@@ -206,7 +207,6 @@ public class AnimalTrainer {
 2. Upcasting is always safe and never fails.
 3. Downcasting can risk throwing a ClassCastException, so the instanceof operator is used to check type before casting.
 
-
 * Inner Class
 
 ```java
@@ -214,20 +214,20 @@ public class C
 {
    class D{ void f3(){} }
    
-	D f4()
-	{
-		D d = new D();
-		return d;
-	}
+    D f4()
+    {
+        D d = new D();
+        return d;
+    }
 
-	public static void main(String[] args)
-	{
+    public static void main(String[] args)
+    {
       // C must be instantiated before instantiate C.D
-		C c = new C(); 
-		C.D d = c.f4();
-		d.f3();
-		 // D d=new D();//error!
-	}
+        C c = new C(); 
+        C.D d = c.f4();
+        d.f3();
+         // D d=new D();//error!
+    }
 }
 
 // Multiple class inheritance example by inner class
@@ -260,7 +260,6 @@ import java.util.List;
 import java.util.Set;
 
 public class NioServer {
-
 
     public static void main(String[] args) throws IOException {
       

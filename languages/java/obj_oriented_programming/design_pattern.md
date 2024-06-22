@@ -1,6 +1,7 @@
 # Something about Design
 
 There are Five creational design pattern:
+
 1. Abstract factory groups object factories that have a common theme.
 2. Builder constructs complex objects by separating construction and representation.
 3. Factory method creates objects without specifying the exact class to create.

@@ -46,15 +46,24 @@ template<
 ```
 
 `basic_string` is aliased by `typedef` such as
+
 ```cpp
 typedef std::string	std::basic_string<char>
 typedef std::u8string td::basic_string<char8_t> // since c++20
 ```
 
+* `char[]` vs `std::string`
+
+When used `char[]`, compiler allocates a contiguous memory block to a pointer, no additional work.
+
+`std::string` is expensive as compiler will formally construct an object.
+In fact, compiler by default creates `class` of non-POD data types.
+
 * `std::string_view`
 
 In the below code, `func(s)` passes `s` as `const std::string&s` that does not incur any cost.
 However, `func("haha");` would invoke implicit `std::string` constructor, whose product is a right value that has limited lifecycle, hence the `return s` is problematic.
+
 ```cpp
 std::string& func(const std::string&s){
     std::cout << s << '\n';
@@ -69,7 +78,8 @@ int main(){
 ```
 
 The above issue can be solved by `std::string_view`.
-`std::string_view` only stores a pointer and the string size.  
+`std::string_view` only stores a pointer and the string size.
+
 ```cpp
 void func(std::string_view s){
     std::cout << s << '\n';
@@ -98,7 +108,7 @@ Key/value pairs in `std::unordered_map` are stored in bucket depending on hash r
 
 A vector grows exponentially, such as by $2^n$: $2$, $4$, $8$, $16$ ..., and every time it grows, there need copy operations that assigns elements from old memory to new memory addresses.
 
-* `std::vector<bool>` 
+* `std::vector<bool>`
 
 It is an exception that `operator[]` returns `std::vector<bool>::reference` rather than a `bool`. Using `auto& elem = std::vector<bool>(1, false)[0]` to retrieve elements results in undefined behavior.
 
@@ -117,7 +127,9 @@ public:
     void emplace_back(Args&&... args);
 };
 ```
+
 while `push_back` can only be used after instantiation (cannot be used in template)
+
 ```cpp
 class vector<Widget, allocator<Widget>> {
 public:
@@ -126,6 +138,7 @@ public:
 ```
 
 A better example:
+
 ```cpp
 class MyKlass {
 public:

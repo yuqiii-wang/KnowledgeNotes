@@ -1,6 +1,7 @@
 # Java OOP (Object Oriented Programming)
 
 ## Inheritance
+
 ```java
 class Super {
     // code
@@ -81,7 +82,8 @@ public class Salary extends Employee {}
 A class implements an `interface`, thereby inheriting the abstract methods of the interface.  
 It is a collection of abstract methods. It defines `abstract` type
 
-In C++, this is equivalent to 
+In C++, this is equivalent to
+
 ```java
 interface Animal {
    public void eat();
@@ -104,7 +106,6 @@ public class MammalInt implements Animal {
 // Inheritance can be done by 'extends'
 public interface MammalInt extends Animal, Creature {}
 ```
-
 
 ## Encapsulation
 

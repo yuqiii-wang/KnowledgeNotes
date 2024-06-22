@@ -32,7 +32,8 @@ public class TextEditor {
 
 In the Spring framework, the interface ApplicationContext represents the IoC container. The Spring container is responsible for instantiating, configuring and assembling objects known as *beans*, as well as managing their life cycles.
 
-In order to assemble beans, the container uses configuration metadata, which can be in the form of XML configuration or annotations, such as setting up attributes for this bean in `applicationContext.xml`, which is loaded by `ClassPathXmlApplicationContext`
+In order to assemble beans, the container uses configuration metadata, which can be in the form of XML configuration or annotations, such as setting up attributes for this bean in `applicationContext.xml`, which is loaded by `ClassPathXmlApplicationContext`.
+
 ```java
 ApplicationContext context
   = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -70,6 +71,7 @@ public class TextEditor {
 ```
 
 By xml config, there is
+
 ```xml
 <bean id="spellChecker" class="org.example.TextEditor" />
 ```

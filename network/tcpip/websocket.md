@@ -94,6 +94,7 @@ Maven dependency by `spring-boot-starter-websocket`
 ```
 
 Enable and load websocket configs
+
 ```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

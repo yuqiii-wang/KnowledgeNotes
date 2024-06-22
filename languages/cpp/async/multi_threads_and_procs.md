@@ -55,6 +55,8 @@ It is a good idea to force joining a thread defined in a class destructor when t
 }
 ```
 
+### `std::thread` vs `Pthreads` (POXIS)
+
 ## Multi Processes
 
 ### Shared memory, MPI and Queuing systems

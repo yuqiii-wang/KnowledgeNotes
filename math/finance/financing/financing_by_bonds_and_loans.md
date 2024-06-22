@@ -47,7 +47,7 @@ Delivery versus payment (DVP) is a securities industry settlement method that gu
 |BS|Bond Sell|||
 |BB|Bond Buy|||
 
-where 
+where
 
 * BVB is *Borrow vs Borrow*, basically a security exchange trade.
 
@@ -57,3 +57,43 @@ CR/CP represent collateral received/delivered under CDF/CRF.
 LVF/BVF trades simply refer to lending/borrowing bonds with fee payment, no collateral.
 
 * REPO is *Repurchase Agreement*.
+
+### Security Identification Code
+
+#### ISIN (International Securities Identification Number)
+
+ISIN is a 12-character alphanumeric code that uniquely identifies a specific security, globally.
+
+Structure:
+
+* A two-letter country code as defined by ISO 3166-1 (e.g., US for the United States, GB for Great Britain).
+* A nine-character alphanumeric code (National Securities Identifying Number).
+* A single check digit for error detection.
+
+Example: US0378331005 (Apple Inc.)
+
+#### CUSIP (Committee on Uniform Securities Identification Procedures)
+
+A nine-character alphanumeric code used in the United States and Canada.
+
+Structure:
+
+* The first six characters identify the issuer.
+* The next two characters identify the issue.
+* The final character is a check digit.
+
+Example: 037833100 (Apple Inc.)
+
+#### SEDOL (Stock Exchange Daily Official List)
+
+A seven-character alphanumeric code used for identifying securities in the United Kingdom and Ireland.
+
+#### ECB (European Central Bank)
+
+European Central Bank uses ECB to identify securities in its database.
+
+#### RIC (Reuters Instrument Code)
+
+A ticker-like code used by Refinitiv (formerly Thomson Reuters).
+
+Example: AAPL.O (Apple Inc. on NASDAQ)

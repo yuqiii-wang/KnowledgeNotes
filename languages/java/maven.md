@@ -5,6 +5,7 @@
 Make sure `M2_HOME` (for maven repository) set properly for Maven
 
 For a Maven to use CN Mainland mirrors, add the following in Maven root dir `~/.m2/setting.xml`
+
 ```xml
 <mirror>
    <id>alimaven</id>
@@ -27,6 +28,10 @@ This command compiles the java source classes of the maven project.
 * `mvn package`
 
 This command builds the maven project and packages them into a JAR, WAR, etc.
+
+### Setting Security
+
+
 
 ## pom.xml
 

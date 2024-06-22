@@ -16,6 +16,7 @@ In java, every thing is an object, even for the basic data types.
 |double | Double |
 
 For example:
+
 ```java
 Integer x = 1; // wrapping Integer.valueOf(1) implicitly
 int y = x; // invoked X.intValue() implicitly
@@ -32,13 +33,14 @@ public final class String
     implements java.io.Serializable, Comparable<String>, CharSequence {
     /** The value is used for character storage. */
     private final char value[];
-​
+
     /** Cache the hash code for the string */
     private int hash; // Default to 0
 }
 ```
 
 The number of constructed objects by `new String("hello")` is two:
+
 * `"hello"` is constructed at compile time stored as a char string object in a constant var pool
 * `new` constructs  string object in heap
 
@@ -59,13 +61,13 @@ class Test {
         // First int*float is promoted to float*float, then
         // float==double is promoted to double==double:
         if (i * f == d) System.out.println("oops");
-		
+
         // A char&byte is promoted to int&int:
         byte b = 0x1f;
         char c = 'G';
         int control = c & b;
         System.out.println(Integer.toHexString(control));
-		
+
         // Here int:float is promoted to float:float:
         f = (b==0) ? i : 4.0f;
         System.out.println(1.0/f);
@@ -108,7 +110,8 @@ In numerical comparison, `==` simply means value comparison.
 
 In reference/object comparison, `==` means object heap memory value comparison; `equals()` is used with overriden method to perform object member value comparison.
 
-Analogously, `==` in C++ is 
+Analogously, `==` in C++ is
+
 ```cpp
 int* a = new int(1);
 int* b = a;
@@ -117,6 +120,7 @@ if ((void *)a == (void *)b)
 ```
 
 `equals()` in C++ is
+
 ```cpp
 class Example {
 private:
@@ -230,10 +234,10 @@ class TestJavaCollection1{
 
 ### HashMap, HashTable and ConcurrentHashMap
 
-HashMap is non-synchronized and not thread-safe, can’t be shared between many threads without proper mutex,
+HashMap is non-synchronized and not thread-safe, can't be shared between many threads without proper mutex,
 whereas Hashtable is synchronized, thread-safe and can be shared with many threads.
 
-HashMap allows one null key and multiple null values whereas Hashtable doesn’t allow any null key or value.
+HashMap allows one null key and multiple null values whereas Hashtable doesn't allow any null key or value.
 
 HashMap is generally preferred over HashTable if thread synchronization is not needed.
 
@@ -365,3 +369,6 @@ static class Node<K,V> implements Map.Entry<K,V> {
     ...
 }
 ```
+
+### Stream
+
