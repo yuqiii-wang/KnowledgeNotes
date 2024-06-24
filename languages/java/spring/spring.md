@@ -9,7 +9,7 @@ In other words, spring uses `@Bean` to take control of an object, such as settin
 ### Dependency Injection
 
 Dependency Injection (or sometime called wiring) helps in gluing independent classes together and at the same time keeping them independent (decoupling).
-
+ 
 ```java
 // shouldn't be this
 public class TextEditor {
@@ -75,3 +75,125 @@ By xml config, there is
 ```xml
 <bean id="spellChecker" class="org.example.TextEditor" />
 ```
+
+## Config
+
+### `@Value` and `application.properties`
+
+Spring applications by default load from `application.properties`, where items are auto mapped in spring framework via `@Value`.
+
+For example, in `application.properties`
+
+```conf
+greeting.message=Hello World!
+```
+
+The `greeting.message` is retrievable in
+
+```java
+package example.springvalue.annotation.controller;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ValueController {
+
+    @Value("${greeting.message}") 
+    private String greetingMessage;
+
+    @GetMapping("")
+    public String sendGreeting(){
+        return greetingMessage;
+    }
+}
+```
+
+To prevent error
+
+```txt
+java.lang.IllegalArgumentException: Could not resolve placeholder 'greeting.message' in value "${greeting.message}"
+```
+
+one can use `@Value("${greeting.message:Greeting not found!}")`, where `:` is an alternative value in case of `greeting.message` not found.
+
+### `@Profile`
+
+`@Profile` allows user to map beans to different profiles, typically diff envs, e.g., dev, test, and prod.
+
+In `application.properties`, config the env.
+
+```conf
+spring.profiles.active=dev
+```
+
+In implementation, only used in `dev`.
+
+```java
+@Component
+@Profile("dev")
+public class DevDatasourceConfig { ... }
+```
+
+or `dev` is NOT active.
+
+```java
+@Component
+@Profile("dev")
+public class NonDevDatasourceConfig { ... }
+```
+
+### `@Configuration`, and `@bean` vs `@Component`
+
+#### `@Configuration` and `@bean`
+
+`@Bean` is used within a `@Configuration` class to explicitly declare a bean.
+`@bean` is primitive compared to `@Component`, hence provided fine-grained control over instantiation.
+
+In Spring, instantiated beans have a `singleton` scope by default.
+This is problematic, as exampled in below when `clientDao()` is called once in `clientService1()` and once in `clientService2()`, but only one singleton instance is returned.
+
+`@Configuration` comes in rescue that beans under `@Configuration`-annotated `AppConfig` will see instantiations of two beans.
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public ClientService clientService1() {
+        ClientServiceImpl clientService = new ClientServiceImpl();
+        clientService.setClientDao(clientDao());
+        return clientService;
+    }
+
+    @Bean
+    public ClientService clientService2() {
+        ClientServiceImpl clientService = new ClientServiceImpl();
+        clientService.setClientDao(clientDao());
+        return clientService;
+    }
+
+    @Bean
+    public ClientDao clientDao() {
+        return new ClientDaoImpl();
+    }
+}
+```
+
+
+#### `@bean` vs `@Component`
+
+* `@Component`
+
+Be automatically detected and managed by Spring.
+
+For application-specific classes such as services, repositories, and controllers.
+
+* `@bean`
+
+Need to configure beans for third-party libraries or have fine-grained control over bean instantiation.
+
+## Spring vs Spring Boot
+
+Spring Boot is basically an extension of the Spring framework, which eliminates the boilerplate configurations required for setting up a Spring application.

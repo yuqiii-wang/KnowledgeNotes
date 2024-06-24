@@ -396,6 +396,7 @@ Driver can be ODBC or native DB vendor APIs.
 * ORM is the use of Java class/object by OOP (Object Oriented Programming) philosophy to manage DB records/rows via `setField()`/`getField()` to represent SQL `UPDATE`/`SELECT` operations; create/delete object to represent `INSERT`/`DELETE`.
 
 For example,
+
 ```java
 public class Employee {
    private int id;

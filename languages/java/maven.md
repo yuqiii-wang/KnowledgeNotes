@@ -31,7 +31,63 @@ This command builds the maven project and packages them into a JAR, WAR, etc.
 
 ### Setting Security
 
+#### Security Password
 
+First, run `mvn --encrypt-password <user-password>` that outputs `{encrypted_master_password}`.
+In `${USER_HOME}/.m2/settings-security.xml`, copy `{encrypted_master_password}` into the below.
+
+```xml
+<settingsSecurity>
+    <master>{encrypted_master_password}</master>
+</settingsSecurity>
+```
+
+Run `mvn --encrypt-password <user-password>` that outputs `{encrypted_password_password}`.
+In `${USER_HOME}/.m2/settings.xml`, copy `{encrypted_password_password}` into the below.
+
+```xml
+<settings>
+    <mirrors>
+        <mirror>
+            <id>example-mirror-id</id>
+            <mirrorOf>central</mirrorOf>
+            <url>https://your-mirror-repository-url</url>
+        </mirror>
+    </mirrors>
+    <servers>
+        <server>
+            <id>example-mirror-id</id>
+            <username>your-username</username>
+            <password>{encrypted_password_password}</password>
+        </server>
+    </servers>
+</settings>
+```
+
+#### Certificate
+
+Reference:
+
+https://stackoverflow.com/questions/21076179/pkix-path-building-failed-and-unable-to-find-valid-certification-path-to-requ
+
+https://www.cnblogs.com/wpbxin/p/11746229.html
+
+Check from browser that the repo is permitted to access.
+
+If permitted, from browser export the cert as `example-mirror-id.cer`.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/cert_from_chrome.png" width="30%" height="40%" alt="cert_from_chrome" />
+</div>
+</br>
+
+Add `example-mirror-id.cer` to JRE security.
+
+Failed to complete this step might raise "PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilde" error.
+
+```sh
+keytool -import -alias example-mirror -keystore  "/path/to/<jre-version>/lib/security/cacerts" -file example-mirror-id.cer
+```
 
 ## pom.xml
 
