@@ -232,6 +232,8 @@ class TestJavaCollection1{
 }  
 ```
 
+### Map vs HashMap
+
 ### HashMap, HashTable and ConcurrentHashMap
 
 HashMap is non-synchronized and not thread-safe, can't be shared between many threads without proper mutex,

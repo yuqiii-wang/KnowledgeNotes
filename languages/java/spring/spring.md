@@ -1,15 +1,36 @@
 # Spring
 
+## Quick Intro: Spring vs Spring Boot vs Spring Cloud
+
+### Spring Framework
+
+* Build on core java for web application
+* Provide Inversion of Control (IoC) and Dependency Injection (DI)
+* Aspect-Oriented Programming (AOP): a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns. In Spring Framework, it addresses concerns such as logging, transaction management, security, etc., separately from the business logic.
+* provides a comprehensive transaction management JDBC, JPA, JTA, etc.
+* Spring MVC (Model-View-Controller): built on top of the core Spring framework
+
+### Spring Boot
+
+* Simplifies Spring application development with auto-configuration
+* Includes embedded servers (like Tomcat or Jetty)
+
+### Spring Cloud
+
+* Build on Spring Boot
+* For distributed systems and microservices, especially in cloud environments
+* Characterized by service discovery, circuit breakers, intelligent routing, distributed sessions, etc.
+
 ## Inversion of Control (IoC)
 
 IoC transfers the control of objects or portions of a program to a container or framework; it enables a framework to take control of the flow of a program and make calls to our custom code.
 
 In other words, spring uses `@Bean` to take control of an object, such as setting its member values and managing object life cycle.
 
-### Dependency Injection
+### Dependency Injection (DI)
 
 Dependency Injection (or sometime called wiring) helps in gluing independent classes together and at the same time keeping them independent (decoupling).
- 
+
 ```java
 // shouldn't be this
 public class TextEditor {
@@ -181,7 +202,6 @@ public class AppConfig {
 }
 ```
 
-
 #### `@bean` vs `@Component`
 
 * `@Component`
@@ -193,7 +213,3 @@ For application-specific classes such as services, repositories, and controllers
 * `@bean`
 
 Need to configure beans for third-party libraries or have fine-grained control over bean instantiation.
-
-## Spring vs Spring Boot
-
-Spring Boot is basically an extension of the Spring framework, which eliminates the boilerplate configurations required for setting up a Spring application.

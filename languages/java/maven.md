@@ -4,14 +4,14 @@
 
 Make sure `M2_HOME` (for maven repository) set properly for Maven
 
-For a Maven to use CN Mainland mirrors, add the following in Maven root dir `~/.m2/setting.xml`
+For a Maven to use CN Mainland mirrors, add the following in Maven root dir `~/.m2/settings.xml`
 
 ```xml
 <mirror>
    <id>alimaven</id>
    <name>aliyun maven</name>
 　　<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-   <mirrorOf>central</mirrorOf>        
+   <mirrorOf>central</mirrorOf>
 </mirror>
 ```
 
@@ -102,3 +102,47 @@ A minimal `POM.xml`
   <version>1</version>
 </project>
 ```
+
+## Maven Setup in IntelliJ IDEA
+
+1. Make sure Maven plugin is installed.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_maven_plugin_is_install.png" width="50%" height="50%" alt="idea_maven_plugin_is_install" />
+</div>
+</br>
+
+2. Add cert so that IDEA can trust a maven repository host to download dependencies.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_trust_certs.png" width="50%" height="50%" alt="idea_trust_certs" />
+</div>
+</br>
+
+1. Add custom Maven settings, where `Override` should be ticked to force using custom settings.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_maven_seetings.png" width="50%" height="50%" alt="idea_maven_seetings" />
+</div>
+</br>
+
+4. Index/sync between remote repo vs local env by `Update`, otherwise maven may see errors about many dependencies not found, though repos are present in maven repo host.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_maven_repo_indexing.png" width="50%" height="50%" alt="idea_maven_repo_indexing" />
+</div>
+</br>
+
+5. If Maven UI tab is not seen from the IDEA, make sure there is a `pom.xml` file present in the project, then add the project as a maven project.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_add_as_a_maven_project.png" width="20%" height="90%" alt="idea_add_as_a_maven_project" />
+</div>
+</br>
+
+6. Having all set up, trigger Maven for downloading dependencies by `refresh`, then select `maven clean` to remove cached builds, and `maven package` to compile the project.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_maven_download_deps_and_build.png" width="70%" height="40%" alt="idea_maven_download_deps_and_build" />
+</div>
+</br>
