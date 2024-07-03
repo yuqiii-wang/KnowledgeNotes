@@ -60,7 +60,7 @@ ApplicationContext context
   = new ClassPathXmlApplicationContext("applicationContext.xml");
 ```
 
-### Dependency Injection materialization
+### Dependency Injection Examples
 
 * bean-Based
 

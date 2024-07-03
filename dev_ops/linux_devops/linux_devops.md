@@ -57,7 +57,7 @@ In the default `simple` service type, only ONE process can be managed.
 If multiple processed start under this service type, such as
 
 ```sh
-for for i in {1..5}; do
+for i in {1..5}; do
   ./start_a_process.sh &
 done
 ```
@@ -70,30 +70,11 @@ Only the parent process exits and the forked child processes survive.
 
 * oneshot
 
-Start processes then exit.
+Parent process starts sub-processes then exit; should set `RemainAfterExit=yes` as well to prevent parent process terminating all sub-processes.
 often used after OS booting for one time setup tasks.
 
-#### One Service Managing Multiple Processes
-
-Split processes into such that
-
-```conf
-[Unit]
-Description=Simple Service Managing Multiple Processes
-
-[Service]
-Type=simple
-ExecStartPre=/path/to/pre_process_1
-ExecStartPre=/path/to/pre_process_2
-ExecStart=/path/to/main_process
-ExecStartPost=/path/to/post_process_1
-ExecStartPost=/path/to/post_process_2
-
-[Install]
-WantedBy=multi-user.target
-```
-
 ### Resource Allocation and `cgroups`
+
 
 
 ### Register A `systemctl` Service
@@ -132,9 +113,72 @@ Both are used to manage Linux processes for initialization.
 |operates on `/etc/init.d`|operates on `/lib/systemd`|
 |belongs to *SysVinit* (System V Init), aka the classic Linux initialization process|belongs to `systemd`, the successor of SysVinit and the modern initialization process|
 
+
+#### One Service Managing Multiple Processes
+
+Split processes into such that
+
+```conf
+[Unit]
+Description=Simple Service Managing Multiple Processes
+
+[Service]
+Type=simple
+ExecStartPre=/path/to/pre_process_1
+ExecStartPre=/path/to/pre_process_2
+ExecStart=/path/to/main_process
+ExecStartPost=/path/to/post_process_1
+ExecStartPost=/path/to/post_process_2
+
+[Install]
+WantedBy=multi-user.target
+```
+
+An alternative would be using `Type=forking` or `Type=oneshot` such that starting processes by such below `start_procs.sh`
+
+```sh
+/path/to/pre_process_1 &
+/path/to/pre_process_2 &
+/path/to/main_process &
+/path/to/post_process_1 &
+/path/to/post_process_2 &
+```
+
+Then in `service` define
+
+```conf
+[Unit]
+Description=Simple Service Managing Multiple Processes
+
+[Service]
+Type=oneshot
+ExecStart=bash start_procs.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+```
+
 #### Debug
 
 The registered `systemd` log can be found by `journalctl`.
+
+## Linux Process Management
+
+* Foreground vs Background Processes
+
+* `nohup` and the `SIGHUP` signal
+
+The `SIGHUP` signal to notify processes that the terminal or controlling process has been closed.
+As a result, the sub-processes should exit as well.
+
+For example, when a shell terminal is closed, the shell running processes are shutdown.
+
+* Start From Local Shell
+
+When started a process from a local shell, the shell becomes the parent of that process.
+
+If the shell exits, the parent of the process is typically reassigned to the init process (PID 1).
 
 ## Common DevOps
 
