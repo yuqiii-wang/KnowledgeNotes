@@ -47,9 +47,13 @@ Do NOT get confused that
 
 There are different service types that cater for different purposes, e.g., restart on different booting/failure conditions and forked child process management.
 
-Reference: https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
+Reference: 
 
-* Simple
+https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html
+
+https://wiki.archlinux.org/title/systemd
+
+* simple
 
 If service type is not manually set, `simple` is used.
 
@@ -67,6 +71,15 @@ only the 5th process survives and the previous four processes are dead.
 * forking
 
 Only the parent process exits and the forked child processes survive.
+
+Should specify `PIDFile` as well so systemd can keep track of the main process.
+For example, for nginx service runs with a master and multiple worker nodes, use `PIDFile=/var/run/nginx.pid` to monitor relevant PIDs.
+
+```ini
+[Service]
+Type=forking
+PIDFile=/var/run/nginx.pid
+```
 
 * oneshot
 
@@ -113,8 +126,7 @@ Both are used to manage Linux processes for initialization.
 |operates on `/etc/init.d`|operates on `/lib/systemd`|
 |belongs to *SysVinit* (System V Init), aka the classic Linux initialization process|belongs to `systemd`, the successor of SysVinit and the modern initialization process|
 
-
-#### One Service Managing Multiple Processes
+#### Example: One Service Managing Multiple Processes
 
 Split processes into such that
 
@@ -134,30 +146,68 @@ ExecStartPost=/path/to/post_process_2
 WantedBy=multi-user.target
 ```
 
-An alternative would be using `Type=forking` or `Type=oneshot` such that starting processes by such below `start_procs.sh`
+An alternative would be using `Type=forking` or `Type=oneshot` such that starting processes by such below `start-multi-processes.sh`
 
 ```sh
-/path/to/pre_process_1 &
-/path/to/pre_process_2 &
-/path/to/main_process &
-/path/to/post_process_1 &
-/path/to/post_process_2 &
+#!/bin/bash
+
+/path/to/pre_process_1.sh &
+/path/to/pre_process_2.sh &
+/path/to/main_process.sh &
+/path/to/post_process_1.sh &
+/path/to/post_process_2.sh &
+
+# Wait for all background processes to finish
+wait
 ```
 
-Then in `service` define
+Then in `service` define (use `oneshot` as an example)
 
 ```conf
 [Unit]
-Description=Simple Service Managing Multiple Processes
+Description=Multi-process Background Service (oneshot)
+After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=bash start_procs.sh
+ExecStart=/usr/local/bin/start-multi-processes.sh
 RemainAfterExit=yes
+
+# Resource Control
+CPUQuota=50%                # Limit the CPU usage to 50%
+MemoryLimit=500M            # Limit the memory usage to 500MB
 
 [Install]
 WantedBy=multi-user.target
 ```
+
+Make sure the script is executable by `sudo chmod +x /usr/local/bin/start-multi-processes.sh`.
+
+Reload by `sudo systemctl daemon-reload`.
+
+Start service `sudo systemctl start multi-process.service`.
+
+Check status by `systemctl status multi-process.service`.
+
+```bash
+● multi-process.service - Multi-process Background Service (oneshot)
+   Loaded: loaded (/etc/systemd/system/multi-process.service; enabled; vendor preset: enabled)
+   Active: active (exited) since Wed 2024-07-03 12:34:56 UTC; 5min ago
+  Process: 12345 ExecStart=/usr/local/bin/start-multi-processes.sh (code=exited, status=0/SUCCESS)
+ Main PID: 12345 (code=exited, status=0/SUCCESS)
+    Tasks: 0 (limit: 4915)
+   CGroup: /system.slice/multi-process.service
+           ├─12346 /path/to/pre_process_1.sh
+           ├─12347 /path/to/pre_process_2.sh
+           ├─12348 /path/to/main_process.sh
+           ├─12349 /path/to/post_process_1.sh
+           └─12350 /path/to/post_process_2.sh
+
+Jul 03 12:34:56 hostname systemd[1]: Starting Multi-process Background Service (oneshot)...
+Jul 03 12:34:56 hostname systemd[1]: Started Multi-process Background Service (oneshot).
+```
+
+where the main `start-multi-processes.sh` finishes execution but the sub-processes are alive under `CGroup: /system.slice/multi-process.service`.
 
 #### Debug
 
@@ -165,20 +215,31 @@ The registered `systemd` log can be found by `journalctl`.
 
 ## Linux Process Management
 
-* Foreground vs Background Processes
+### Foreground vs Background Processes
 
-* `nohup` and the `SIGHUP` signal
+* A foreground process is one that runs directly under the control of the user's shell and takes over the terminal input and output.
+
+* A background process runs independently of the terminal,  processes are detached from the terminal's direct input and output.
+
+A background process is marked by `&`.
+For example, `sleep 100 &`.
+
+### `nohup` and the `SIGHUP` signal
 
 The `SIGHUP` signal to notify processes that the terminal or controlling process has been closed.
 As a result, the sub-processes should exit as well.
 
 For example, when a shell terminal is closed, the shell running processes are shutdown.
 
-* Start From Local Shell
+`nohup` is used to mark a process
+
+### Start From Local Shell vs By Service
 
 When started a process from a local shell, the shell becomes the parent of that process.
 
 If the shell exits, the parent of the process is typically reassigned to the init process (PID 1).
+
+
 
 ## Common DevOps
 
@@ -261,6 +322,7 @@ Specifically, it translates domain names to IP addresses by querying the Domain 
 The `/etc/resolv.conf` file is the file that configures the domain name resolver.
 
 For example, `8.8.4.4` is the Google DNS server.
+
 ```bash
 nameserver 8.8.4.4
 ```
@@ -271,8 +333,8 @@ nameserver 8.8.4.4
 
 * `modprobe`
 
-The Linux kernel has a modular design. 
-A kernel module, or often referred to as a driver, is a piece of code that extends the kernel’s functionality. 
+The Linux kernel has a modular design.
+A kernel module, or often referred to as a driver, is a piece of code that extends the kernel's functionality.
 
 Modules can be manually loaded by `modprobe`, or automatically at boot time using /etc/modules or /etc/modules-load.d/*.conf files.
 

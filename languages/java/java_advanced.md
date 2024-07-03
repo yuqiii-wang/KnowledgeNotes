@@ -64,70 +64,12 @@ public class RunnableDemo implements Runnable {
 Both are applicable in `ExecutorService` for multi-threading execution via
 `ExecutorService.submit(Runnable task)` and `ExecutorService.submit(Callable<T>task)`
 
-## Annotation
-
-Annotation is a function prior to being executed before a function.
-
-It can help compiler perform checking and value initialization.
-
-* All attributes of annotations are defined as methods, and default values can also be provided.
-
-Here is an example, that `@Todo` inits some value before `incompleteMethod1` performs further business works.
-
-```java
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@interface Todo {
-   public enum Priority {LOW, MEDIUM, HIGH}
-   public enum Status {STARTED, NOT_STARTED}
-   String author() default "Yash";
-   Priority priority() default Priority.LOW;
-   Status status() default Status.NOT_STARTED;
-}
-
-// Usage goes as below
-@Todo(priority = Todo.Priority.MEDIUM, author = "author_name", status = Todo.Status.STARTED)
-public void incompleteMethod1() {
-   //Some business logic is written
-   //But it's not complete yet
-}
-```
-
-### Common Annotations
-
-* `@Override`
-
-`@Override` tells the compiler that this method is an overridden method (metadata about the method), and if any such method does not exist in a parent class, then throw a compiler error (method does not override a method from its super class).
-
-```java
-@Override
-public String toString() {
-   return "This is String Representation of current object.";
-}
-```
-
-* `@Test`
-
-The `@Test` annotation tells JUnit that the public void method to which it is attached can be run as a test case. 
-To run the method, JUnit first constructs a fresh instance of the class then invokes the annotated method. 
-Any exceptions thrown by the test will be reported by JUnit as a failure. 
-If no exceptions are thrown, the test is assumed to have succeeded.
-
-A simple test looks like this:
-```java
-public class Example {
-  @Test
-  public void method() {
-     org.junit.Assert.assertTrue( new ArrayList().isEmpty() );
-  }
-}
-```
-
 ## Interview Questions
 
 * Question: Integer equal comparison
 
 Explained: Integer objects with a value between -127 and 127 are cached and return same instance (same addr), others need additional instantiation hence having different addrs.
+
 ```java
 class D {
    public static void main(String args[]) {
@@ -154,6 +96,15 @@ public static Integer valueOf(int i) {
       return new Integer(i);
 }
 ```
+
+* `interface` vs `extends`
+
+`interface`: define a contract with abstract methods that implementing/inherited classes must provide with `@override`.
+There can by multiple `interface` inheritance.
+Analogy of `interface` in c++ is pure abstract class.
+
+`extends`: support single inheritance (a class can extend only one superclass).
+Analogy of `extends` in c++ is derived class whose base class have some `virtual` functions and some implemented normal functions.
 
 * Package purposes
 
@@ -434,5 +385,3 @@ create table EMPLOYEE (
 
 The Java object to SQL mapping is through middleware.
 One popular middleware is *Hibernate*.
-
-## Aspect-Oriented Programming (AOP)

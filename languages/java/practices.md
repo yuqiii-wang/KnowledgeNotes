@@ -2,8 +2,8 @@
 
 ## Typical Object Methods
 
-The `Object` class is the parent class of all the classes in java by default. 
-It provides useful methods such as `toString()`. 
+The `Object` class is the parent class of all the classes in java by default.
+It provides useful methods such as `toString()`.
 It is defined in `Java.lang.Object`.
 
 ### Method/Scope Resolution Operator `::` vs `.`

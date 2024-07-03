@@ -22,6 +22,8 @@ Integer x = 1; // wrapping Integer.valueOf(1) implicitly
 int y = x; // invoked X.intValue() implicitly
 ```
 
+### String
+
 String is immutable/final for the stored data in `final char value[];`.
 When a new string is constructed (via concatenation or some other methods), the original string object actually constructs a new `final char value[];` then points to the new char array.
 
@@ -45,6 +47,24 @@ The number of constructed objects by `new String("hello")` is two:
 * `new` constructs  string object in heap
 
 Since Java 9, `char[]` is changed to `byte[]` to save memory for char storage.
+
+#### String and StringBuilder
+
+`String` itself is immutable, that every time it gets concatenated by `+` will invoke re-construction, hence bad for performance.
+
+```java
+String str = "Hello";
+str = str + " World"; // Creates a new String object
+```
+
+In contrast, `StringBuilder` can be dynamically added new strings, and its capacity grows as like a vector.
+Having done appending strings, use `String s = sb.toString();` to construct a string.
+
+```java
+StringBuilder sb = new StringBuilder("Hello");
+sb.append(" World"); // Modifies the existing object
+String s = sb.toString();
+```
 
 ## Numbers
 
@@ -110,7 +130,7 @@ In numerical comparison, `==` simply means value comparison.
 
 In reference/object comparison, `==` means object heap memory value comparison; `equals()` is used with overriden method to perform object member value comparison.
 
-Analogously, `==` in C++ is
+Analogously, `==` in C++ is two pointer addr comparison.
 
 ```cpp
 int* a = new int(1);
@@ -119,7 +139,7 @@ if ((void *)a == (void *)b)
     std::cout << "Same obj." << std::endl;
 ```
 
-`equals()` in C++ is
+`equals()` in C++ is object member value comparison.
 
 ```cpp
 class Example {
@@ -232,16 +252,17 @@ class TestJavaCollection1{
 }  
 ```
 
-### Map vs HashMap
+### Map, HashMap, HashTable and ConcurrentHashMap
 
-### HashMap, HashTable and ConcurrentHashMap
+* `Map` is the interface of java map collection.
 
-HashMap is non-synchronized and not thread-safe, can't be shared between many threads without proper mutex,
-whereas Hashtable is synchronized, thread-safe and can be shared with many threads.
+* `HashMap` is the most common implementation of `Map`.
 
-HashMap allows one null key and multiple null values whereas Hashtable doesn't allow any null key or value.
+HashMap is non-synchronized and not thread-safe, can't be shared between many threads without proper mutex.
 
-HashMap is generally preferred over HashTable if thread synchronization is not needed.
+* `Hashtable` is synchronized, thread-safe and can be shared with many threads.
+
+`Hashtable` is legacy code, not recommended (use `ConcurrentHashMap` for synchronized and thread-safe map scenarios).
 
 ```java
 // Java program to demonstrate
@@ -281,7 +302,7 @@ class JavaHashMapTable
 
 * Why HashMap is not thread-safe:
 
-A hash map is based on an array, where each item represents a bucket (buckets stored as `std::vector<Bucket>` analogously in C++). 
+A hash map is based on an array, where each item represents a bucket (buckets stored as `std::vector<Bucket>` analogously in C++).
 As more keys are added, the buckets grow and at a certain threshold the array is recreated with a bigger size, its buckets rearranged so that they are spread more evenly (performance considerations).
 
 It means that sometimes `HashMap#put()` will internally call `HashMap#resize()` to make the underlying array bigger. `HashMap#resize()` assigns the table field a new empty array with a bigger capacity and populates it with the old items. During re-population, when a thread accesses this HashMap, this HashMap may return `null`.
@@ -296,7 +317,6 @@ map.put(targetKey, targetValue);
 new Thread(() -> {
     IntStream.range(0, targetKey).forEach(key -> map.put(key, "someValue"));
 }).start(); // start another thread to add key/value pairs
-
 
 while (true) {
     if (!targetValue.equals(map.get(targetKey))) {
@@ -369,6 +389,27 @@ static class Node<K,V> implements Map.Entry<K,V> {
     volatile Node<K,V> next;
 
     ...
+}
+```
+
+#### Iterate A Map
+
+A `Map` cannot be directly iterated but accessed by `entrySet()` that returns a pair of `<key, value>`, or by `keySet()` to only get keys.
+
+```java
+Map<Integer, String> personMap = new HashMap<>();
+
+// Iterate over the Map using entrySet()
+for (Map.Entry<Integer, String> entry : personMap.entrySet()) {
+    Integer id = entry.getKey();
+    String name = entry.getValue();
+    System.out.println("ID: " + id + ", Name: " + name);
+}
+
+// Iterate over the Map using keySet() and values()
+for (Integer id : personMap.keySet()) {
+    String name = personMap.get(id);
+    System.out.println("ID: " + id + ", Name: " + name);
 }
 ```
 
