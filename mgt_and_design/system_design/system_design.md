@@ -1,6 +1,6 @@
 # System Design
 
-## Principles:
+## Principles
 
 * Reliability: resilient in terms of fault tolerance, single point of failure
 
@@ -48,10 +48,10 @@ DB clustering
 
 DB concurrency
 
-DB Indexing: Element/data indexing with proper business requriement understanding (what fields often got searched by) 
+DB Indexing: Element/data indexing with proper business requriement understanding (what fields often got searched by)
 
 DB I/O cost.
 
-* Budget 
+* Budget
 
 Combine/separate development envs. For example, DB is often expensive, on dev env, there can be only one db cluster with different db host for dev, qa, preprod envs; serverless services (AWS Lambda) cost little, hence separable.

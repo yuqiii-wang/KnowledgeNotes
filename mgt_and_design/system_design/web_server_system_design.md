@@ -20,7 +20,7 @@
 
 ### Proxy
 
-## MQ as Middleware Caching Data
+## MQ as Middleware and Cache
 
 ## Security
 
