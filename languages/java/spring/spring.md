@@ -21,11 +21,29 @@
 * For distributed systems and microservices, especially in cloud environments
 * Characterized by service discovery, circuit breakers, intelligent routing, distributed sessions, etc.
 
-## Inversion of Control (IoC)
+## Spring Context and Inversion of Control (IoC)
 
-IoC transfers the control of objects or portions of a program to a container or framework; it enables a framework to take control of the flow of a program and make calls to our custom code.
+When java objects are under spring context, they are called *beans* and their lifecycles and dependencies are managed by spring.
 
-In other words, spring uses `@Bean` to take control of an object, such as setting its member values and managing object life cycle.
+Inversion of Control (IoC) refers to the process where the control of object creation and the management of their dependencies is transferred from the application code to a container or framework.
+
+Spring uses `@Bean` to take control of an object, such as setting its member values and managing object life cycle.
+
+A spring context starts with `@SpringBootApplication`, or in test `@SpringBootTest`.
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MySpringBootApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MySpringBootApplication.class, args);
+    }
+}
+```
+
+Beans can be defined using annotations like `@Component`, `@Service`, `@Repository`, `@Controller`, or `@Bean` methods in @Configuration classes.
 
 ### Dependency Injection (DI)
 
@@ -40,7 +58,8 @@ public class TextEditor {
    }
 }
 
-// instead, should be this, so that regardless of changes of SpellChecker class, there is no need of changes to SpellChecker object implementation code 
+// instead, should be this, so that regardless of changes of SpellChecker class, 
+// there is no need of changes to SpellChecker object implementation code 
 public class TextEditor {
    private SpellChecker spellChecker;
    public TextEditor(SpellChecker spellChecker) {
@@ -48,6 +67,8 @@ public class TextEditor {
    }
 }
 ```
+
+where the input arg `SpellChecker spellChecker` should be passed in (likely already instantiated elsewhere) rather than be `new()` every time.
 
 ### IoC container
 
@@ -79,23 +100,20 @@ public class TextEditor {
 }
 ```
 
-* Autowire
+#### `@Autowired`
 
-Wiring allows the Spring container to automatically resolve dependencies between collaborating beans by inspecting the beans that have been defined.
+`@Autowired` is used to perform injection
 
-```java
-public class TextEditor {
+When the Spring context is initialized, it starts creating instances of the beans defined in the configuration (either XML or Java-based configuration).
 
-   @Autowired
-   private SpellChecker spellChecker;
-}
-```
+It scans for classes annotated with `@Component`, `@Service`, `@Repository`, and other stereotype annotations, which are automatically registered as Spring beans.
 
-By xml config, there is
+For each bean, Spring checks for the `@Autowired` annotation on constructors, and tries to resolve and inject all the constructor parameters (also same to field and setter).
 
-```xml
-<bean id="spellChecker" class="org.example.TextEditor" />
-```
+Spring uses reflection to set the field values or call the constructor/setter methods with the resolved dependencies.
+The ApplicationContext (or BeanFactory) is responsible for managing the lifecycle and scope of beans and resolving dependencies as needed.
+
+* P.S. `@Autowired` is only triggered when in `@SpringApplicationContext` (as well as in `@SpringBootTest`).
 
 ## Config
 

@@ -115,6 +115,35 @@ asyncio.run(main())
 
 `generator` are iterators, a kind of iterable you can only iterate over once. Generators do not store all the values in memory, they generate the values on the fly.
 
+### `@contextmanager` and Coroutine
+
+`@contextmanager` annotation is to simulate a full class scope management with `with` (`__enter__` and `__exit__` methods).
+
+Define a generator function, where a `yield` statement is executed when entering the context, and the code after the `yield` statement is executed when exiting the context.
+
+```py
+import psycopg2
+from contextlib import contextmanager
+
+@contextmanager
+def postgresql_connection(dbname, user, password, host='localhost', port=5432):
+    conn = None
+    try:
+        conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+        yield conn
+    finally:
+        if conn is not None:
+            conn.close()
+
+# Usage example
+with postgresql_connection('mydatabase', 'myuser', 'mypassword') as conn:
+    with conn.cursor() as cursor:
+        cursor.execute('SELECT * FROM mytable')
+        result = cursor.fetchall()
+        print(result)
+
+```
+
 ## Python Object LifeCycle Management
 
 Acquired resource must be released if no longer used.
