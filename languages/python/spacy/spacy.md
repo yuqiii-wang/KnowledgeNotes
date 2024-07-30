@@ -287,11 +287,7 @@ def forward(model, X, is_train):
     return Yf
 ```
 
-## Training
-
-### Quick Start
-
-### Parser Training
+### Spacy Transitional Model (Parser) Implementation
 
 #### Head Indices
 
@@ -349,6 +345,61 @@ class Parser(object):
     # Return number correct
     return len([i for i in range(n-1) if parse.heads[i] == gold_heads[i]])
 ```
+
+## Spacy Training
+
+### Practice
+
+#### Data Preparation
+
+https://spacy.io/api/docbin
+
+The binary `.spacy` format is a serialized `DocBin`.
+The serialization format is gzipped msgpack having the below format.
+
+```py
+{
+    "version": str,           # DocBin version number
+    "attrs": List[uint64],    # e.g. [TAG, HEAD, ENT_IOB, ENT_TYPE]
+    "tokens": bytes,          # Serialized numpy uint64 array with the token data
+    "spaces": bytes,          # Serialized numpy boolean array with spaces data
+    "lengths": bytes,         # Serialized numpy int32 array with the doc lengths
+    "strings": List[str]      # List of unique strings in the token data
+}
+```
+
+New data can be added by below.
+
+```py
+import spacy
+from spacy.tokens import Doc, DocBin
+
+nlp = spacy.blank("en")
+docbin = DocBin()
+words = ["Apple", "is", "looking", "at", "buying", "U.K.", "startup", "."]
+spaces = [True, True, True, True, True, True, True, False]
+ents = ["B-ORG", "O", "O", "O", "O", "B-GPE", "O", "O"]
+doc = Doc(nlp.vocab, words=words, spaces=spaces, ents=ents)
+docbin.add(doc)
+docbin.to_disk("./train.spacy")
+```
+
+In a more practical solution, use 3rd party labelling software, e.g., `label-studio` or `prodigy`, then convert into spacy format.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/space_ner_labelling.png" width="30%" height="15%" alt="space_ner_labelling" />
+</div>
+
+https://labelstud.io/guide/export#spaCy
+
+#### Training
+
+Reference:
+
+https://spacy.io/usage/training
+
+### Spacy Custom Training Pipeline
+
 
 ### Tagging vs NER
 

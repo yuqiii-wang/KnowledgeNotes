@@ -382,8 +382,7 @@ class PeftModelForCausalLM(PeftModel):
       ...
 ```
 
-
-##  Prefix-tuning
+## Prefix-tuning
 
 Motivation is that, given a sequence of tokens, the first few tokens of this sequence should contain rich info about predicting next remaining tokens,
 so that by only training a small network on these first few tokens, this small network's output should see high attention scores when passed to transformers predicting next remaining tokens.

@@ -20,6 +20,10 @@ From a local directory, find `setup.py`, and `cd` to this directory.
 
 Run by `python setup.py install`.
 
+### `python -m pip install ...` vs `pip install ...`
+
+`python -m pip install ...` is preferred because that ensures the use of the pip from the current virtual environment.
+
 ## Python Interpreter
 
 * Cython vs Jython
@@ -64,6 +68,7 @@ print(dct[frozenset([3,1,2])])
 ```
 
 **`set` for set manipulation**
+
 ```python
 set1 = {1,2}
 set2 = {1,2,6}
@@ -78,6 +83,15 @@ print(set1 - set2) # complementary set
 **Diff between `set` and `tuple`**
 
 In python, elements in `set` are unique while elements in `tuple` are immutable.
+
+```py
+tuple_example:tuple = (1,2,3)
+set_example:set = {1,2,3}
+
+## However, to init an empty set and tuple, need to
+tuple_example:tuple = tuple()
+set_example:set = set() # not `set_example = {}`, coz `{}` will give a `dict`
+```
 
 ### Deepcopy
 

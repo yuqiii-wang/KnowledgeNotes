@@ -1,35 +1,5 @@
 # Python Advanced Usage/Knowledge
 
-## Python Interpreters
-
-* *CPython* is the default and most widely-used implementation of Python.
-
-Written in C.
-
-Garbage collection: CPython uses a reference counter (similar to c++ `std::shared_ptr`) to de-allocate objects.
-
-Performance and runtime env: run `.pyc` (compiled python bytecode) in a virtual env.
-
-* *PyPy* is an alternative implementation of Python focused on speed and efficiency.
-
-Written in RPython (a subset of Python).
-
-Performance and runtime env: a Just-In-Time (JIT) compiler translates hot spots code into machine code, no virtual env, hence faster than CPython.
-
-PyPy's GC typically uses three generations — nursery (young, frequently collected since most objects die young), major (middle-aged), and old (long-lived).
-
-* *IPython* (Interactive Python) is used the Python interpreter in Jupyter Notebook.
-
-It provides an interactive Shell, including code blocks known as *cells*.
-
-Special commands that start with `%` a.k.a. *magic commands* that are specific to Jupyter Notebook, e.g., `%matplotlib inline` to enable inline plots, and `!` for shell command, e.g., `!pip install flask`
-
-* *MicroPython* is a lean and efficient implementation of Python designed to run on micro-controllers and in constrained environments.
-
-Written in C.
-
-Optimized for resource-constrained environments.
-
 ## `__new__` and Metaclass
 
 A metaclass is a class whose instances are classes. 
@@ -87,6 +57,7 @@ new_car = Car(make='Toyota', model='Prius', year=2005, color='Green', engine='Hy
 When you create an instance of a class, Python first calls the `__new__()` method to create the object and then calls the `__init__()` method to initialize the object’s attributes.
 
 The `__new__()` is a static method of the object class:
+
 ```py
 object.__new__(class, *args, **kwargs)
 ```

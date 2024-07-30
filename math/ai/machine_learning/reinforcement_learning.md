@@ -210,7 +210,7 @@ Finally, the PPO objective is defined as
 $$
 \mathcal{J}_{\text{clip}}(\theta) =
 \mathbb{E}\Big( \min\big( \gamma_t(\theta)  A_t,
-\underbrace{\text{clip}(\\gamma_t(\theta), 1-\epsilon, 1+\epsilon)}_{\in [1-\epsilon, 1+\epsilon]}
+\underbrace{\text{clip}(\gamma_t(\theta), 1-\epsilon, 1+\epsilon)}_{\in [1-\epsilon, 1+\epsilon]}
 A_t \big) \Big)
 $$
 
