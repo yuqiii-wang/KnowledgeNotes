@@ -1,79 +1,105 @@
-# Repurchase Agreement
+# Repurchase Agreement (REPO)
 
 A repurchase agreement, also known as a repo, RP, or sale and repurchase agreement, is a form of short-term borrowing, mainly in government securities.
 
 The dealer sells the underlying security to investors and, by agreement between the two parties, buys them back shortly afterwards, usually the following day, at a slightly higher price (overnight interest).
 
-## Motivations
-
-This instrument is used in speculative trading (high-medium level frequency trading) to finance purchasing (by long/short) a product. Since repo often needs to repay within a few days, it is cheap in paying interest and flexible in arranging buy back dates.
-
-Another use case is satisfying regulatory requirements that banks are required to preserve some cash. A seller of a repo, such as an investment bank, borrows money from reserve banks to meet certain short term auditory requirements, hands over owned federal bonds as collaterals to the reserve bank.
-
-Federal Reserve uses it as a monetary policy tool. When the Fed buys securities from a seller who agrees to repurchase them, it is injecting reserves into the financial system. Conversely, when the Fed sells securities with an agreement to repurchase, it is draining reserves from the system. 
-
 ## Reverse repo
 
-To the party selling the security with the agreement to buy it back, it is a repurchase agreement. 
+To the party selling the security with the agreement to buy it back, it is a repurchase agreement.
 
 To the party buying the security and agreeing to sell it back, it is a reverse repurchase agreement. The reverse repo is the final step in the repurchase agreement, closing the contract.
 
-## Initial margin (Haircut)
 
-Initial margin is the excess of cash over securities or securities over cash in a repo or securities at the market price when lending a transaction.
+## Repo Types by Collateral Ownership
 
-Haircut serves as a discount factor to reflect risk aversion consideration of the bond price fluctuations during the lent period. Hence, the actual lent money is slightly lower than the bond market value.
+* Classic Repo/Specified Delivery
 
-|Haircut method|Haircut formula|
-|-|-|
-|Divide|$Haircut=100\times \frac{CollateralMktValue}{CashLent}$|
-|Multiply|$Haircut=100\times \frac{CashLent}{CollateralMktValue}$|
+Required the delivery of a pre-specified bond at the onset, and at maturity of the contractual period. 
 
-## Repo vs Sell/Buy Back
+One party "sells" bonds to the other while simultaneously agreeing to repurchase them or receive them back at a specified future date.
 
-|Repo|Sell/Buy Back|
-|-|-|
-|No title transfer, hence repo is often priced with dirty price that has included coupon accrued interests|Included title transfer|
-|Coupon yield belongs to seller as no coupon title transfer|Coupon yield belongs to buyer as coupon title is transferred to buyer|
+Also known as allocation trade for bonds as the underlying security should be allocated.
 
-## Example
+* Held-In-Custody (HIC) Repo
 
-### Repo calculation
+In a held-in-custody repo, the seller receives cash for the sale of the security, but holds the security in a custodial account (might not immediately accessible to the buyer) for the buyer. 
+This type of agreement is even less common because there is a risk the seller may become insolvent and the borrower may not have access to the collateral.
 
-* Trade date: 20th Jul 2014
-* Trade price: $110.85 (per \$100 coupon)
-* Face value: \$10,000,000
-* Security type: 12.5% interest rate bond
-* Last coupon date: 1st Jul 2014
-* Repo rate: 7.5%
-* repo term: 4 days (implies a return date of 24th Jul 2014)
-* Day count conversion: Actual/360
-* Haircut: 102
-* Haircut method: divide
+* Tri-Party Repo
 
-Solution:
+Basically a basket form of transaction and allows for a wider range of instruments in the basket or pool.
 
-1. First leg:
+Tri-party repo is a type of repo contract where a third entity (apart from the borrower and lender), called a Tri-Party Agent, acts as an intermediary between the two parties to the repo to facilitate services like collateral selection, payment and settlement, custody and management during the life of the transaction.
 
-On 20th Jul 2014, the seller of the bond repo receives the borrowing money and gives his bond as collateral to the buyer.
+Collateral is held in an independent third-party account.
 
-Last coupon date refers to the last date the coupon interest is materialized, so that accrued interest for next time payment should start from the last coupon date.
+The tri-party agent is also custodian, manages exchange of collateral and cash internally
 
-The time when this coupon is purchased, the accrued interest should be added.
+Tri-party repo rate is usually higher than the delivery repo rate, but lower than HIC repo.
 
-par value of this repo:
-$110.85 \times 10,000,000/100 = 11,085,000$
+## Repo Types by Duration and Business Value
 
-Accrued interest: $12.5\% \times 10,000,000 \times 19/360 = 65,972.22$
+||Governing Document|Underlying Asset|Tenor|Legal Title Transfer|Margining|Business|
+|-|-|-|-|-|-|-|
+|Typical Repo/Reverse Repo|GMRA|Government, Credit, Equity|Open, Overnight ~ 5 years|Yes|Daily|Repo: Deploy bond/equity for cash borrow; Reverse repo: Collateralized cash lending for interest|
+|Cross Currency Repo|GMRA|Government, Credit|Open, Overnight ~ 5 years|Yes|Daily|Mostly USD funding to meet US reserve requirements|
+|Extendible Repo|GMRA|Government, Credit, Equity|3 month start with 1 month increment, 1 year start with 1 month increment, etc|Yes|Daily|Extendible agreement periods, typically every 3 months to renew repo termination date|
+|Evergreen Repo|GMRA|Government, Credit, Equity|Notice period > 30 days|Yes|Daily|Even greater flexible to renew repo termination date|
+|Triparty Repo|GMRA|Government, Credit, Equity|Open, Overnight ~ 5 years|Yes|Daily|Triparty agency handles trade and collateral operations, provided additional trust/credit|
+|Total Return Swap|ISDA/CSA|Government, Credit, Equity|Open, Overnight ~ 1 years|No|Daily|By Repo + Credit Default Swap (CDS) as the reference asset, borrower can leverage much more money by only paying interest to repo and premium to reference asset third party agency|
+|Bond Forward|ISDA/CSA|Government, Credit|Overnight ~ 8 years|Yes|Daily|Bonds are agreed to be sold at a pre-determined price in the future/mark-to-market value at the forward date. This can mitigate the risk associated with bond price volatility between spot and forward dates. |
+|Unsecured Bond Borrowing|GMRA|Government, Credit, Equity|Overnight ~ 1 years|No|None|Borrower borrows money without providing collateral; they are charged high repo interests|
 
-Start cash/original borrowing before haircut: $11,085,000+65,972.22=11,150,972.22$
+* Document Explained
 
-Start cash/original borrowing: $11,150,972.22 \div \frac{102}{100} = 10,932,325.71$
+Global Master Repurchase Agreement (GMRA) is the principal master agreement for cross-border repos globally, as well as for many domestic repo markets containing standard provisions such as minimum delivery periods.
 
-2. Second leg:
+A Credit Support Annex (CSA) is a document that defines the terms for the provision of collateral by the parties in derivatives transactions, developed by the International Swaps and Derivatives Association (ISDA).
 
-On 24th Jul 2014, repo is returned to the seller who should pay the borrowing money plus repo interest to the repo's buyer.
+## Repo Market Players
 
-Repo interest: $7.5\% \times 10,932,325.71 \times 4/360 = 9,110.27$
+* Investors
 
-End Cash: $10,932,325.71 + 9,110.27 = 10,941,435.98$
+Cash-rich institutions; banks and building societies
+
+* Borrowers
+
+Traders; financing bond positions, etc
+
+* Tri-Party
+
+Tri-Party is a third-party agent (the tri-party agent) intermediates between two primary parties: the collateral provider (borrower) and the collateral receiver (lender).
+
+Tri-party agent can help increase operational efficiency and flexibility, improve liquidity, and mitigate default risks, for collateral allocation and management, settlement and custody, valuation and margining services are provided by the tri-party agent.
+
+Popular try-party agents are
+
+-> Euroclear (A leading provider of triparty services in Europe)
+
+-> Clearstream
+
+## Business Motivations
+
+* The United States Federal Reserve Used Repo for Federal Funds Rate (FFR) Adjustment
+
+Repurchase agreements add reserves to the banking system and then after a specified period of time withdraw them; 
+reverse repos initially drain reserves and later add them back. 
+This tool can also be used to stabilize interest rates (FFR).
+
+* Relationship Between Repo and SOFR
+
+Secured Overnight Financing Rate (SOFR) is a broad measure of the cost of borrowing cash overnight collateralized by Treasury securities with a diverse set of borrowers and lenders;.
+It is based entirely on transactions (not estimates), hence serving a good alternative to London Inter-Bank Offered Rate (LIBOR).
+
+SOFR reflects transactions in the Treasury repo market, e.g., UST (U.S. Treasury), that in the Treasury repo market, people borrow money using Treasury debt as collateral.
+
+* The United States Federal Overnight Reverse Repo (O/N RRP)
+
+This is a cash liquidity management tool that attracts depository institutions to place money in the Fed who pays interests to the depository institutions, so that less funds are being lent in the market.
+
+The Federal Reserve manages *overnight interest rates* (the rates at which banks lend funds to each other at the end of the day in the overnight market to meet federally-mandated reserve requirements) by setting the *interest on reserve balances* (IORB) rate, which is the rate paid to depository institutions (e.g., banks) on balances maintained at Federal Reserve Banks.
+
+Every day, the Federal Reserve accepts overnight cash investments from banks, government-sponsored enterprises (the housing agencies plus the Federal Home Loan Banks), and money market mutual funds and provides Treasury securities (gov bonds) as collateral at its Overnight Reverse Repurchase Agreement (ON RRP) facility.
+
+The overnight means the repo has a duration of one night.
