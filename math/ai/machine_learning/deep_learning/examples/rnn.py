@@ -1,132 +1,146 @@
 import numpy as np
+import re
+
+parameters = {}
 
 
+def initialize_parameters(input_size, hidden_size, output_size):
+    # parameters['Wxh'] = np.random.randn(hidden_size, input_size) * 1/np.sqrt(input_size)
+    # parameters['Whh'] = np.random.randn(hidden_size, hidden_size) * 1/np.sqrt(input_size)
+    # parameters['Why'] = np.random.randn(output_size, hidden_size) * 1/np.sqrt(input_size)
+    parameters['Wxh'] = np.random.randn(hidden_size, input_size) * np.sqrt(2 / (hidden_size + input_size))
+    parameters['Whh'] = np.random.randn(hidden_size, hidden_size) * np.sqrt(2 /(hidden_size + hidden_size))
+    parameters['Why'] = np.random.randn(output_size, hidden_size) * np.sqrt(2 /(output_size + hidden_size))
+    # parameters['Wxh'] = np.random.rand(hidden_size, input_size) * np.sqrt(6) / np.sqrt(hidden_size + input_size)
+    # parameters['Whh'] = np.random.rand(hidden_size, hidden_size) * np.sqrt(6) / np.sqrt(hidden_size + hidden_size)
+    # parameters['Why'] = np.random.rand(output_size, hidden_size) * np.sqrt(6) / np.sqrt(output_size + hidden_size)
+    # parameters['Wxh'] = np.random.rand(hidden_size, input_size) * 0.1
+    # parameters['Whh'] = np.random.rand(hidden_size, hidden_size) * 0.1
+    # parameters['Why'] = np.random.rand(output_size, hidden_size) * 0.1
+    # parameters['Wxh'] = (np.random.rand(hidden_size, input_size)-0.5) * 0.1
+    # parameters['Whh'] = (np.random.rand(hidden_size, hidden_size)-0.5) * 0.1
+    # parameters['Why'] = (np.random.rand(output_size, hidden_size)-0.5) * 0.1
+    parameters['bh'] = np.zeros((hidden_size, 1))
+    parameters['by'] = np.zeros((output_size, 1))
+    return parameters
 
-data = """
-After graduation from university with a master degree in AI, Yuqi started his career as a SLAM engineer specializing in computer vision recognition.
-After one year, he accepted another job offer as a c++ engineer.
-Since them, he has not changed his job.
-"""
-
-#####
-#   Regard each char as a token.
-#   Train an rnn to learn to predict the right sequence of chars forming the above `data`
-#####
-
-chars = list(set(data))
-data_size, vocab_size = len(data), len(chars)
-print ('data has %d characters, %d unique.' % (data_size, vocab_size)) 
-char_to_ix = { ch:i for i,ch in enumerate(chars) }
-ix_to_char = { i:ch for i,ch in enumerate(chars) }
-
-
-##### hyperparameters
-hidden_size = 768 # size of hidden layer of neurons
-seq_length = 30 # number of steps to unroll the RNN for
-learning_rate = 1e-1
-
-class RNN:
+def softmax(z):
+    exp_z = np.exp(z - np.max(z))  # for numerical stability
+    return exp_z / np.sum(exp_z, axis=0, keepdims=True)
     
+def rnn_forward(x, h_prev, parameters):
+    Wxh, Whh, Why, bh, by = parameters['Wxh'], parameters['Whh'], parameters['Why'], parameters['bh'], parameters['by']
+    h_next = np.tanh(np.dot(Wxh, x) + np.dot(Whh, h_prev) + bh)
+    z = np.dot(Why, h_next) + by
+    y = softmax(z)
+    return y, h_next
+
+def rnn_backward(x, h_prev, h_next, y_pred, y, parameters):
+    Wxh, Whh, Why, bh, by = parameters['Wxh'], parameters['Whh'], parameters['Why'], parameters['bh'], parameters['by']
+    dy = y_pred - y  # Gradient of loss with respect to output
+    dWhy = np.dot(dy, h_next.T)
+    dby = dy
+    dh = np.dot(Why.T, dy) * (1 - h_next ** 2)
+    dWxh = np.dot(dh, x.T)
+    dWhh = np.dot(dh, h_prev.T)
+    dbh = dh
+    return dWxh, dWhh, dWhy, dbh, dby, dh
+
+def update_parameters(parameters, grads, learning_rate):
+    for param in parameters:
+        parameters[param] -= learning_rate * grads[param]
+
+def rnn_train(X, Y, input_size, hidden_size, output_size, epochs, learning_rate):
+    parameters = initialize_parameters(input_size, hidden_size, output_size)
+    early_termination_epsilon = 1e-05
+    loss_history = []
     
-    def __init__(self):
-        # model parameters
-        self.Wh = np.random.randn(hidden_size, vocab_size)*0.01 # input to hidden
-        self.Uh = np.random.randn(hidden_size, hidden_size)*0.01 # hidden to hidden
-        self.Wz = np.random.randn(vocab_size, hidden_size)*0.01 # hidden to output
-        self.bh = np.zeros((hidden_size, 1)) # hidden bias
-        self.bz = np.zeros((vocab_size, 1)) # output bias
-        self.hprev = np.zeros((hidden_size,1)) # h_{-1} init for mempry when token_idx = 0
-        
-        # backward pass: compute gradients going backwards
-        self.dWh, self.dUh, self.dbh = \
-            np.zeros_like(self.Wh), np.zeros_like(self.Uh), np.zeros_like(self.bh)
-        self.dWz, self.dbz = \
-            np.zeros_like(self.Wz), np.zeros_like(self.by)
-        self.dhnext = np.zeros_like(self.h[0])
-        
-        # temp values for back-propogation
-        self.h = np.zeros((len(x), hidden_size, 1))
-        self.h[0] = np.copy(self.hprev)
-        self.z = np.zeros((len(x), vocab_size, 1))
-        self.p = np.zeros((len(x), vocab_size, 1))
-        self.seq_len = 0
-        self.loss = 0.0
+    prev_epoch_total_loss = 0
+    for epoch in range(epochs):
+        h_prev = np.zeros((hidden_size, 1))
+        total_loss = 0
 
+        learning_rate = learning_rate * 0.999 ** epoch if epoch < 100 else \
+                        learning_rate * 0.998 ** epoch if epoch < 200 \
+                        else learning_rate
+        
+        for t in range(len(X)):
+            x = X[t].reshape(-1, 1)
+            y = Y[t].reshape(-1, 1)
+            
+            y_pred, h_next = rnn_forward(x, h_prev, parameters)
+            loss = -np.sum(y * np.log(y_pred))  # Cross-entropy loss
+            total_loss += loss
+            
+            dWxh, dWhh, dWhy, dbh, dby, dh = rnn_backward(x, h_prev, h_next, y_pred, y, parameters)
+            
+            grads = {
+                'Wxh': dWxh,
+                'Whh': dWhh,
+                'Why': dWhy,
+                'bh': dbh,
+                'by': dby
+            }
+            
+            update_parameters(parameters, grads, learning_rate)
+            
+            h_prev = h_next
+        
+        loss_history.append(total_loss)
+        if epoch % 10 == 0:
+            print(f'Epoch {epoch+1}/{epochs}, Loss: {total_loss}')
 
-    def forward(self, x):
-        assert (len(x) < seq_length)
-        self.seq_len = len(x)
-        
-        self.loss = 0.0
-        pred_chars = ''
-        
-        ## xs: a token sequence that indicates at which pos the token is present and update: 0 -> 1
-        xs = np.zeros((len(x), vocab_size, 1))
-        for t_idx in range(0, len(x)):
-            
-            xs[t_idx][x[t_idx]] = 1 # set the used token to one
-            ht_prev = self.hprev if t_idx - 1 < 0 else h[t_idx-1]
-            
-            zh = np.dot(self.Wh, xs[t_idx]) + np.dot(self.Uh, ht_prev) + bh
-            self.h[t_idx] = np.tanh(zh)
-            self.z[t_idx] = np.dot(self.Wz, h[t_idx]) + self.bz
-            self.p[t_idx] = np.exp(z[t_idx]) / np.sum(np.exp(z[t_idx])) # probabilities for next chars
-            self.loss += -np.log(p[t_idx][targets[t_idx],0])
-            
-            t_chosen_idx = np.argmax(p[t_idx])
-            pred_chars += ix_to_char[t_chosen_idx]
+        if abs(prev_epoch_total_loss - total_loss) < early_termination_epsilon:
+            break
+        prev_epoch_total_loss = total_loss
     
-        return pred_chars, loss
+    return parameters, loss_history
 
-    def backward(self):
-        for t_idx in reversed(range(0, self.seq_len )):
-            
-            ht_prev = self.hprev if t_idx - 1 < 0 else h[t_idx-1]
+def do_one_hot_encoding(vocab: list):
+    word_to_index = {word: i for i, word in enumerate(vocab)}
+    index_to_word = {word_to_index[word]: word for word in word_to_index}
+    # One-hot encoding
+    one_hot_encoded = np.zeros((len(tokens), vocab_size), dtype=int)
+    for i, token in enumerate(tokens):
+        one_hot_encoded[i, word_to_index[token]] = 1
+    return one_hot_encoded, word_to_index, index_to_word
 
+if __name__ == "__main__":
+    from train_data import train_seq_data
+    tokens = re.findall(r'\b\w+\b|[^\s\w]', train_seq_data)
+    tokens.append('.') # add an end token
+    vocab = sorted(set(tokens))
+    vocab_size = len(vocab)
 
-            dy = np.copy(p[t_idx])
-            dy[targets[t]] -= 1
-            
+    one_hot_encoded, word_to_index, index_to_word = do_one_hot_encoding(vocab)
 
-for epoch in range(100):
-    
-    p = 0
-    while (p+seq_length+1 <= len(data)):
+    X = [ one_hot_encoded[word_to_index[token]] for token in tokens]
+    Y = [ one_hot_encoded[word_to_index[tokens[idx+1]]] 
+        if (idx+1) < len(tokens)-1 and token != '.' and token != '\n' 
+            else one_hot_encoded[word_to_index.get('.')]
+        for idx, token in enumerate(tokens)]
+    X = np.asarray(X)
+    Y = np.asarray(Y)
+
+    # Example usage
+    input_size = vocab_size 
+    hidden_size = 768  # Number of hidden units
+    output_size = vocab_size 
+    epochs = 300  # Number of epochs
+    learning_rate = 0.01  # Learning rate
+
+    parameters, loss_history = rnn_train(X, Y, input_size, hidden_size, output_size, epochs, learning_rate)
+
+    y_pred_token_idx_ls = []
+    h_prev = np.zeros((hidden_size, 1))
+    for t in range(len(X)):
+        x = X[t].reshape(-1, 1)
+        y = Y[t].reshape(-1, 1)
         
-        ### Prepare inputs, the target is next char prediction
-        inputs = [char_to_ix[ch] for ch in data[p:p+seq_length]]
-        targets = [char_to_ix[ch] for ch in data[p+1:p+seq_length+1]]
-        
-        
-        
-        p += 1
-        
-        
+        y_pred, h_next = rnn_forward(x, h_prev, parameters)
+        h_prev = h_next
+        y_pred_token_idx = np.argmax(y_pred)
+        y_pred_token_idx_ls.append(y_pred_token_idx)
 
-## rnn one layer init
-x = np.zeros((len(inputs), vocab_size, token_emb_size))
-Wh = np.random.rand(token_emb_size, token_emb_size)
-Uh = np.random.rand(token_emb_size, token_emb_size)
-h = np.random.rand(len(inputs),vocab_size, token_emb_size)
-bh = np.zeros((vocab_size, token_emb_size))
-Wz = np.random.rand(vocab_size, token_emb_size)
-bz = np.zeros((vocab_size, 1))
-z = np.zeros((len(inputs), vocab_size, 1))
-y = np.zeros((len(inputs), vocab_size, 1))
-
-
-
-# model parameters
-Wxh = np.random.randn(hidden_size, vocab_size)*0.01 # input to hidden
-Whh = np.random.randn(hidden_size, hidden_size)*0.01 # hidden to hidden
-Why = np.random.randn(vocab_size, hidden_size)*0.01 # hidden to output
-bh = np.zeros((hidden_size, 1)) # hidden bias
-by = np.zeros((vocab_size, 1)) # output bias
-
-### rnn forward
-loss = 0
-for t in range(1, len(inputs)):
-    h[t] = np.tanh(np.dot(x[t], Wh) + np.dot(h[t-1], Uh) + bh) # hidden state
-    z[t] = np.dot(Wz, h[t]) + bz # unnormalized log probabilities for next chars
-    y[t] = np.exp(z[t]) / np.sum(np.exp(z[t])) # probabilities for next chars
-    # loss += -np.log(y[t][targets[t],0]) # softmax (cross-entropy loss)
+    y_pred_tokens = [index_to_word[idx] for idx in y_pred_token_idx_ls]
+    print(" ".join(y_pred_tokens))

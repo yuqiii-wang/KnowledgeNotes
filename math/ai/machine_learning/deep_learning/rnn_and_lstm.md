@@ -164,7 +164,7 @@ $$
 \end{align*}
 $$
 
-So that
+So that, given assumption of one-hot encoding for $\bold{y}_t=[0,0,0,...,0,1,0,...0,0,0]$ where only true token index is marked $1$, there is
 
 $$
 \begin{align*}
@@ -173,10 +173,10 @@ $$
 \frac{\partial \hat{\bold{y}}_t}{\partial \bold{z}_t}
 \frac{\partial \bold{z}_t}{\partial \bold{h}_z}
 \\&=
-(\hat{\bold{y}}_{t} - \bold{1})
+(\hat{\bold{y}}_{t} - \bold{y}_t)
 \frac{\partial \bold{z}_t}{\partial \bold{h}_z}
 \\&=
-(\hat{\bold{y}}_{t} - \bold{1})
+(\hat{\bold{y}}_{t} - \bold{y}_t)
 W_z
 \end{align*}
 $$
