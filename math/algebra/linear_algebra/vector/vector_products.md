@@ -1,6 +1,6 @@
 # Products: dot, cross and exterior
 
-## dot product: scalar product
+## Dot product: scalar product
 
 $$
 \bold{u} \cdot \bold{v} = |\bold{u}| |\bold{v}| \cos\theta = v_1u_1 + v_2u_2 + v_3u_3 + ... + v_nu_n
@@ -20,7 +20,7 @@ a function $\langle .\space, .\space \rangle : \mathbb{R}^n \times \mathbb{R}^n 
 ## cross product: vector quantity product
 
 $$
-\bold{u} \times \bold{v} = |\bold{u}| |\bold{v}| \space \bold{n} \space \sin\theta= \bigg |
+\bold{u} \times \bold{v} = |\bold{u}| |\bold{v}| \space \bold{n} \space \sin\theta= \Bigg |
 \begin{array}{ccc}
     \begin{array}{ccc}
       \overrightarrow{i} & \overrightarrow{j} & \overrightarrow{k} \\
@@ -28,7 +28,7 @@ $$
       v_1 & v_2 & v_3
     \end{array}
 \end{array}
-\bigg |
+\Bigg |
 $$
 where $\bold{n}$ is a unit vector perpendicular to the plane containing $\bold{u}$ and $\bold{v}$.
 
@@ -44,7 +44,6 @@ Applications: Twisting a bolt with a spanner, Torque is cross product of force m
 ![cross_product_example_twisting_spanner](imgs/cross_product_example_twisting_spanner.png "cross_product_example_twisting_spanner")
 
 Very interesting is that $\big|\bold{u} \times \bold{v}\big|$ happens to be the area of the parallelogram that the two vectors have enclosed.
-
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/cross_prod_areas.png" width="50%" height="20%" alt="cross_prod_areas" />

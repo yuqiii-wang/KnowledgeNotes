@@ -176,7 +176,7 @@ The NPV as risk is $\frac{1}{(1+r)^n}\text{SecurityPrice}-\text{StartCash}$, whe
 
 If a counterparty sees default on one security (e.g., bond), this counterparty might be insolvent at this moment, and all trades with this counterparty are at risk.
 
-The total risk exposure to a counterparty can be computed by simply summing all PVs of all assets traded with this counterparty.
+The total risk exposure to a counterparty can be computed by simply summing up all PVs of all assets traded with this counterparty.
 
 ### Weighted PVs as Counterparty Risks
 

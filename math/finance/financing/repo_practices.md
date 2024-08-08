@@ -1,6 +1,39 @@
 # Repurchase Agreement (REPO) Practices
 
-## Initial margin (Haircut)
+* **Face Value, and Dirty Price vs Clean Price**
+
+The Clean Price is the Mark-To-Market (MTM) price of the bond excluding any accrued interest.
+
+The Dirty Price is the total price that the buyer pays: $\text{DirtyPrice}=\text{CleanPrice}+\text{AccruedInterest}$
+
+$$
+\text{AccruedInterest}=
+\frac{\text{CouponPayment}\times\text{DaysSinceLastCouponPayment}}{\text{DaysInCouponPeriod}}
+$$
+
+For example, spotted a bond and a trader wants to buy this bond
+-> Face Value: $\$1,000$ (i.e., issuer declared price at $\$1,000$ per $1,000$ units)
+-> Annual Coupon Rate: $5\%$
+-> Coupon Payment Frequency: Semi-annual (i.e., $180$ days per payment)
+-> Clean Price: $\$980$ (i.e., Mark-To-Market (MTM) bond price excluded accrued interest)
+-> Days Since Last Coupon Payment: $60$ days
+
+To buy this bond, a trader needs to pay
+
+$$
+\text{DirtyPrice}=
+980+\frac{1}{2}(5\% \times 1,000) \times \frac{60}{180}=988.33
+$$
+
+Face value explained: why clean price is lower than face value ?
+Clean price should be equal to face value (bond issuer declared price) if market/economy/bond issuer are totally stable, but this scenario is too much of ideal.
+
+For example, below factors affect clean price
+-> Credit Quality of Issuer: If the creditworthiness of the bond issuer has deteriorated, the perceived risk of the bond increases.
+-> Time to Maturity: As a bond approaches its maturity date, its price tends to move towards its face value.
+-> Economy: If high-risk securities such as stocks are experiencing a black swan event, investors would sell-off stocks and bulk-buy bonds as a hedging solution; bond clean price rises as a consequence.
+
+* **Initial margin (Haircut)**
 
 Initial margin is the excess of cash over securities or securities over cash in a repo or securities at the market price when lending a transaction.
 
@@ -8,15 +41,19 @@ Haircut serves as a discount factor to reflect risk aversion consideration of th
 
 |Haircut method|Haircut formula|
 |-|-|
-|Divide|$Haircut=100\times \frac{CollateralMktValue}{CashLent}$|
-|Multiply|$Haircut=100\times \frac{CashLent}{CollateralMktValue}$|
+|Divide|$\text{Haircut}=100\times \frac{\text{CollateralMktValue}}{\text{CashLent}}$|
+|Multiply|$\text{Haircut}=100\times \frac{\text{CashLent}}{\text{CollateralMktValue}}$|
 
-## Repo vs Sell/Buy Back
+* **Repo vs Sell/Buy Back**
 
-|Repo|Sell/Buy Back|
-|-|-|
-|No title transfer, hence repo is often priced with dirty price that has included coupon accrued interests|Included title transfer|
-|Coupon yield belongs to seller as no coupon title transfer|Coupon yield belongs to buyer as coupon title is transferred to buyer|
+||Repo|Sell/Buy Back|
+|-|-|-|
+|title transfer|No title transfer, hence repo is often priced with dirty price that has included coupon accrued interests|Included title transfer|
+|coupon yield ownership|Coupon yield belongs to seller as no coupon title transfer|Coupon yield belongs to buyer as coupon title is transferred to buyer|
+|profit formula (assumed naive* linear accrual)|$\text{Profit}=\text{StartCash}\times\text{RepoRate}$|$\text{Profit}=\text{StartCash}\times(\text{RepoRate}-\text{CouponRate})$|
+
+where "naive*" means $\text{RepoRate}$ and $\text{CouponRate}$ are assumed constant, in fact they may link to various benchmarks or at trader's discretion.
+A real-world example see below *A REPO Trade End Cash Estimation Example*.
 
 ## A REPO Trade End Cash Estimation Example
 

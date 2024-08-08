@@ -1,6 +1,6 @@
 # Repurchase Agreement (REPO)
 
-A repurchase agreement, also known as a repo, RP, or sale and repurchase agreement, is a form of short-term borrowing, mainly in government securities.
+A repurchase agreement, also known as a repo, RP, or sale and repurchase agreement, is a form of short-term borrowing, mainly in government securities or good-credit corporate bonds.
 
 The dealer sells the underlying security to investors and, by agreement between the two parties, buys them back shortly afterwards, usually the following day, at a slightly higher price (overnight interest).
 

@@ -2,23 +2,22 @@
 
 ## Bonds, Loans, and Fixed Incomes
 
-* subprime mortgage
+* subprime mortgage 次级（房屋）贷款
 
-A subprime mortgage is one that's normally issued to borrowers with low credit ratings.
+A subprime mortgage is one that's normally issued to mortgage borrowers with low credit ratings.
 
 * General collateral (GC)
 
-Collateral that is not a specified security but of a defined
-homogenous credit quality, for example UK gilts or AA-rated
-sterling Eurobonds.
+Collateral that is not a specified security but of a defined homogenous credit quality.
+for example UK gilts or AA-rated sterling Eurobonds.
 
-* Bond vs Loans
+* Bond 债券 vs Loan 借款
 
 The issuer of a bond pays interest, and only interest regularly (usually semi-annually), and the principal is repaid at maturity in a lump sum.
 
 For loans, payments are made including interests + principal, until principal is fully repaid. For example, mortgage receives monthly payment.
 
-## Settlement Type
+## Settlement Type and Payment
 
 * FOP (Free of Payment)
 
@@ -32,31 +31,34 @@ Delivery versus payment (DVP) is a securities industry settlement method that gu
 
 |Trade Type|Full Name|Description|Classification|
 |-|-|-|-|
-|BSB|Buy Sell-Back|A sell/buy-back is very similar to a repo but with two independent contracts, one for the spot contract, and one for the forward contract.sell/buy-backs as riskier instruments than repos as they do not require a mastering agreement between the buyer and seller.||
-|SBB|Sell Buy-Back|(similar concept as above)||
-|REP/XREP|(Cross) Currency Repo|Compared to SBS/SBB, repo has a more powerful master agreement|REPO|
+|BS|Bond Sell|Just to sell a bond||
+|BB|Bond Buy|(similar concept as above)||
+|BSB|Buy-Sell Back|With a promised future date to buy/sell back already borrowed/lent securities.||
+|SBB|Sell-Buy Back|(similar concept as above)||
+|REP/XREP|(Cross) Currency Repo|Compared to SBS/SBB, repo does NOT see title transfer, consequently, no coupon yield received, and more powerful master agreement|REPO|
 |REV/XREV|(Cross) Currency Reverse Repo|reverse action of repo|REPO|
-|CP|Collateral Pledge||BVB|
-|CR|Collateral Receive||BVB|
-|CDF|Collateral Delivery Fee||BVB|
-|CRF|Collateral Receive Fee||BVB|
-|BVF|Borrow vs Fee|A security/stock loan fee, or borrow fee, is a fee charged by a brokerage firm to a client for borrowing security/stock. When a security is transferred as part of the lending agreement (Securities Lending Agreement (SLA) ), all rights are transferred to the borrower. This includes voting rights, the right to dividends, and the rights to any other distributions.|BVB|
+|CDF|Collateral Delivery Fee|CDF/CRF trades represent the leg delivers/receives of bonds with fee payment.|BVB|
+|CRF|Collateral Receive Fee|(similar concept as above)|BVB|
+|CP|Collateral Pledge|CR/CP represent collateral received/delivered under CDF/CRF.|BVB|
+|CR|Collateral Receive|(similar concept as above)|BVB|
+|BVF|Borrow vs Fee|LVF/BVF trades simply refer to lending/borrowing bonds with fee payment, no collateral, i.e., credit-based trade|BVB|
 |LVF|Lend vs Fee|(similar concept as above)|BVB|
 |ML/CL|Money/Cash Lend|Simply refer to cash lending/borrowing||
 |MB/CB|Money/Cash Borrow|(similar concept as above)||
-|BS|Bond Sell|||
-|BB|Bond Buy|||
 
-where
+where (in more detail)
 
 * BVB is *Borrow vs Borrow*, basically a security exchange trade.
 
-CDF/CRF trades represent the leg delivers/receives of bonds with fee payment.
-CR/CP represent collateral received/delivered under CDF/CRF.
+A security/stock loan fee, or borrow fee, is a fee charged by a brokerage firm to a client for borrowing security/stock. When a security is transferred as part of the lending agreement (Securities Lending Agreement (SLA) ), all rights are transferred to the borrower. This includes voting rights, the right to dividends, and the rights to any other distributions.
 
-LVF/BVF trades simply refer to lending/borrowing bonds with fee payment, no collateral.
+* BSB/SBB
 
-* REPO is *Repurchase Agreement*.
+Buy-sell back transaction (BSB) or sell-buy back transaction (SBB) means a transaction by which a counterparty buys or sells securities, commodities, or guaranteed rights relating to title to securities or commodities, agreeing, respectively,
+to sell or to buy back securities, commodities or such guaranteed rights of the same description at a specified price on a future date,
+that transaction being a buy-sell back transaction for the counterparty buying the securities, commodities or guaranteed rights, and a sell-buy back transaction for the counterparty selling them, such buy-sell back transaction or sell-buy back transaction not being governed by a repurchase agreement or by a reverse-repurchase agreement.
+
+Reference: https://www.emissions-euets.com/internal-electricity-market-glossary/1175-buy-sell-back-transaction-or-sell-buy-back-transaction
 
 ### Security Identification Code
 
