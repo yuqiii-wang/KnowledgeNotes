@@ -35,7 +35,7 @@ then download the files.
 </div>
 </br>
 
-`huggingface-cli` provides bash/cmd for download by `huggingface-cli download <model_name>`.
+`huggingface-cli` provides bash/cmd for download by `huggingface-cli download <model_name>` (instal by `pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U "huggingface_hub[cli]"`).
 
 However, in China, Hugging Face is blocked, should use a mirror site prior to downloading.
 
@@ -43,10 +43,10 @@ However, in China, Hugging Face is blocked, should use a mirror site prior to do
 export HF_ENDPOINT=https://hf-mirror.com
 ```
 
-
 * BERT
 
 To download `bert-base-uncased`, there is
+
 ```bash
 huggingface-cli download --resume-download bert-base-uncased --local-dir bert-base-uncased
 ```

@@ -30,6 +30,14 @@ Income after being taxed.
 
 Contract's duty is no longer exercised/is terminated (implying default as damage to the initiative party)
 
+* agreement vs contract
+
+Not all agreements are legally enforceable. An agreement becomes legally enforceable only when it meets the criteria of a contract.
+
+* conclude a contract/contract conclusion 订立合同
+
+A concluded contract refers to a contract that has been fully negotiated, agreed upon by all parties involved, and finalized.
+
 * fiduciary responsibility
 
 Obligation of one party to act on behalf of another party to its best interest.

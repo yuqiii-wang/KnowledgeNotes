@@ -119,7 +119,10 @@ A minimal `POM.xml`
 </div>
 </br>
 
-1. Add custom Maven settings, where `Override` should be ticked to force using custom settings.
+If to use private maven repository, e.g., enterprise nexus, remember to import the private maven repository cert to `"/path/to/<jre-version>/lib/security/cacerts"` as well.
+The java home directory might be admin-protected, e.g., `C:\Program Data\java\`, copy to user home directory and import the cert.
+
+3. Add custom Maven settings, where `Override` should be ticked to force using custom settings.
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_maven_seetings.png" width="50%" height="50%" alt="idea_maven_seetings" />

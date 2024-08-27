@@ -55,6 +55,7 @@ Babel is a toolchain that is mainly used to convert ECMAScript 2015+ code into a
 In other words, transcript higher version JavaScript code into lower version JavaScript.
 
 For example, arrow function is converted to JavaScript ES5 equivalent.
+
 ```js
 // Babel Input: ES2015 arrow function
 [1, 2, 3].map(n => n + 1);
@@ -95,37 +96,3 @@ export default function DiceRoll(){
   );
 };
 ```
-
-## Quick Start
-
-Prepare `node`.
-```bash
-sudo npm -g config set cafile /etc/ssl/certs/ca-certificates.crt # or your personal ca cert
-
-sudo npm cache clean -f # clean old node
-sudo npm install -g n # install new node globally
-sudo n stable # install new node (stable version)
-hash -r # rehash to activate using new node in the current shell env
-
-node --version # check node version
-```
-
-Overwrite the old/builtin `node` path if necessary.
-```bash
-sudo ln -sf /usr/local/n/versions/node/<VERSION>/bin/node /usr/bin/node
-```
-
-*Next.js* is a fullstack React framework.
-```bash
-npx create-next-app
-```
-
-Compile and start the Next.js project.
-```bash
-cd <your_project_name>
-npm install next tailwindcss autoprefixer
-
-npm run dev
-```
-
-Goto `localhost:3000`.
