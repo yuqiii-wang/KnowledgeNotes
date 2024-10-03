@@ -20,21 +20,6 @@ One reason for continuing popularity in stock lending
 Cross-currency repo, or a stock loan collateralized with
 assets denominated in a different currency
 
-## Risk Rating Table by Institutions
-
-||S&P|Moody's|
-|-|-|-|
-|Top Quality|AAA|Aaa|
-|High Quality|AA+|Aa1|
-||AA|Aa2|
-||AA-|Aa1|
-|Upper Medium|A+|A1|
-||A|A2|
-||A-|A1|
-|Medium|BBB+|Baa1|
-||BBB|Baa2|
-||BBB-|Baa3|
-
 ## Trading and Hedging Strategies
 
 * Yield Curve Arbitrage
@@ -171,6 +156,59 @@ $$
 where $\text{SettlementPrice}$ is a bond face value (typical \$100 per coupon).
 
 The NPV as risk is $\frac{1}{(1+r)^n}\text{SecurityPrice}-\text{StartCash}$, where $r$ is coupon rate and $n$ is the total number of coupon yields.
+
+### REPO Tenor vs Bond Maturity Risk Matrix
+
+Generally speaking, REPO risk increases as
+
+* a bond borrowing and lending (REPO) period is longer
+* a bond has long maturity time
+* a bond type, e.g., government, corporate, part of collateral in third party custody, etc.
+* Currency represented country is economy-healthy
+* reputed institution ratings, e.g., S&P
+
+For example, a group of financial experts come up with this determination of risk.
+They might review it quarterly.
+
+|Currency|Bond Type|Bond Ratings, e.g., S&P|Days to REPO End Date|Days to Bond Maturity|Risk|
+|-|-|-|-|-|-|
+|USD|GOV|AAA|Tomorrow|Tomorrow|0.01|
+|USD|CORP|AAA|Tomorrow|Tomorrow|0.02|
+|USD|CORP|AA+|Tomorrow|Tomorrow|0.05|
+|...|...|...|...|...|...|
+|USD|CORP|AA-|1 month|1 year|17|
+|USD|CORP|A+|1 month|1 year|23|
+|...|...|...|...|...|...|
+|USD|CORP|BBB-|1 month|1 year|52|
+|USD|CORP|BBB-|2 months|1 year|63|
+|...|...|...|...|...|...|
+|USD|CORP|BBB-|1 month|3 years|55|
+|USD|CORP|BBB-|1 month|7 years|59|
+|...|...|...|...|...|...|
+|CNY|GOV|AAA|Tomorrow|Tomorrow|0.02|
+|CNY|CORP|AAA|Tomorrow|Tomorrow|0.03|
+|...|...|...|...|...|...|
+|CNY|CORP|BBB-|1 month|3 years|57|
+|CNY|CORP|BBB-|1 month|7 years|61|
+|...|...|...|...|...|...|
+|VND|CORP|BBB-|1 month|3 years|138|
+|VND|CORP|BBB-|1 month|7 years|145|
+|VND|CORP|BBB-|2 month|3 years|149|
+
+where
+
+||S&P|Moody's|
+|-|-|-|
+|Top Quality|AAA|Aaa|
+|High Quality|AA+|Aa1|
+||AA|Aa2|
+||AA-|Aa1|
+|Upper Medium|A+|A1|
+||A|A2|
+||A-|A1|
+|Medium|BBB+|Baa1|
+||BBB|Baa2|
+||BBB-|Baa3|
 
 ## Counterparty Risk: Counterparty Exposure
 

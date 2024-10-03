@@ -45,6 +45,30 @@ public class MySpringBootApplication {
 
 Beans can be defined using annotations like `@Component`, `@Service`, `@Repository`, `@Controller`, or `@Bean` methods in @Configuration classes.
 
+### Reflection
+
+In Java, reflection can be used to directly "retrieve"/"construct" a class or the class' member, bypassing `private` scope and just creating an object without having even known this class.
+
+For example, below code shows directly accessing `java.util.ArrayList`'s member function and creating a new class without explicitly invoking the constructor.
+
+```java
+import java.lang.reflect.Constructor;
+
+public class ReflectionExample {
+    public static void main(String[] args) throws Exception {
+        Class<?> clazz = Class.forName("java.util.ArrayList");
+        System.out.println("Class name: " + clazz.getName());
+
+        // Create a new instance of ArrayList
+        Constructor<?> constructor = clazz.getConstructor();
+        Object obj = constructor.newInstance();
+        System.out.println("Created object: " + obj);
+    }
+}
+```
+
+In Spring Boot, reflection is used in the context of *dependency injection* (DI), where the framework needs to create and wire together beans.
+
 ### Dependency Injection (DI)
 
 Dependency Injection (or sometime called wiring) helps in gluing independent classes together and at the same time keeping them independent (decoupling).

@@ -7,11 +7,13 @@ Simply speaking, EJS is a html template.
 ## Start with
 
 Install ejs
+
 ```bash
 npm install ejs
 ```
 
 Render HTML code
+
 ```js
 let ejs = require('ejs');
 let people = ['geddy', 'neil', 'alex'];
@@ -21,6 +23,7 @@ let html = ejs.render('<%= people.join(", "); %>', {people: people});
 The generated html can be used by backend such as express as view for frontend page rendering.
 
 `views/index.ejs`:
+
 ```js
 <!DOCTYPE html>
 <html>
@@ -36,6 +39,7 @@ The generated html can be used by backend such as express as view for frontend p
 ```
 
 `index.js` run on express:
+
 ```js
 const app = express()
 app.set('view engine', 'ejs');
