@@ -38,10 +38,12 @@ $$
 ## Softmax
 
 Defien a standard (unit) softmax function $\sigma: \mathbb{R}^n \rightarrow (0,1)^n$
+
 $$
 \sigma(\bold{z})_i=
 \frac{e^{z_i}}{\sum^n_{j=1}e^{z_j}}
 $$
+
 for $i=1,2,...,n$ and $\bold{z}=(z_1, z_2, ..., z_n)\in \mathbb{R}^n$
 
 $softmax$ is often used in the final layer of a classifier network that outputs each class energy.

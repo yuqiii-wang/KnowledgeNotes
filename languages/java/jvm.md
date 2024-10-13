@@ -330,14 +330,81 @@ Set up GC log format.
 
 ## Java Options for JVM Tuning
 
+### VM Option Loading
+
+For VM options are to load before JVM even starts, hence not being set up in `.properties`.
+
+To load VM options, one can prepare a file `options.txt`.
+
+```txt
+-Xms512m
+-Xmx2g
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=200
+-XX:+PrintGCDetails
+-XX:+PrintGCDateStamps
+```
+
+Then, run this.
+
+```sh
+#!/bin/bash
+
+# Read JVM options from the file into a variable
+JVM_OPTIONS=$(cat jvm-options.txt | xargs)
+
+# Run the Java application with the JVM options
+java $JVM_OPTIONS -jar myapp.jar
+```
+
+#### By `pom.xml`
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+                <executable>java</executable>
+                <arguments>
+                    <!-- Read JVM options from a file -->
+                    <argument>-Xms512m</argument>
+                    <argument>-Xmx2g</argument>
+                    <argument>-XX:+UseG1GC</argument>
+                    <!-- Other arguments can go here -->
+                    <argument>-jar</argument>
+                    <argument>${project.build.directory}/myapp.jar</argument>
+                </arguments>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+#### In IDEA IntelliJ
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/idea_args_and_vm_options.png" width="40%" height="30%" alt="idea_args_and_vm_options" />
+</div>
+</br>
+
+### Typical Options
+
+Reference:
+https://docs.oracle.com/cd/E37116_01/install.111210/e23737/configuring_jvm.htm#OUDIG00007
+
 * `-Xms` and `-Xmx`
 
 `Xmx` specifies max memory pool for JVM (Java Virtual Machine), `Xms` for initial allocated memory to jvm.
 
-For example, 
+For example,
+
 ```bash
 java -Xms256m -Xmx2048m
 ```
+
 * `-Xss`
 
 Set thread stack size.
@@ -365,7 +432,7 @@ public static void recur(){
 
 * `-server` and `-client`
 
-JVM is tuned for either server or client services. 
+JVM is tuned for either server or client services.
 
 `-server` JVM is optimize to provide best peak operating speed, executing long-term running applications, etc.
 

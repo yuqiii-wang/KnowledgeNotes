@@ -1,6 +1,14 @@
 # Inferential Statistics
 
-## Mean
+## Basics
+
+### Population vs Samples
+
+A population includes all possible individuals or elements that meet certain criteria for a statistical study.
+
+A sample is a subset of the population that is selected for the purpose of statistical analysis.
+
+### Mean
 
 * Arithmetic Mean
 
@@ -18,7 +26,7 @@ $$
 
 Used in scenarios such as growth rate.
 
-## Variability
+### Variability
 
 Variability is the extent to which data points in a statistical distribution or data set diverge.
 
@@ -32,13 +40,33 @@ Given variability of sample distribution, there are
 * The variability of the sampling distribution of the sample mean decreases as the sample size grows.
 * The standard deviation of the sample mean decreases in proportion to the square root of the sample size.
 
-Variance computation ($n$: sample size ($n-1$: Bassel's correction), $\overline{x}$: sample's mean):
+#### Variance
 
-* standard deviation $\sigma = \sqrt{\frac{\sum_n (x_i - \overline{x})^2}{n-1}}$
-* variance $\sigma^2$
-* standard error of the mean $\sigma_{\overline{x}}=\frac{\sigma}{\sqrt{n}}$
+Variance is a specific measure of variability.
 
-## Inferential Statistics
+* for a sample: $\sigma = {\frac{\sum_n (x_i - \overline{x})^2}{n-1}}$
+* for population: $\sigma = {\frac{\sum_n (x_i - \overline{x})^2}{N}}$
+
+where
+
+* $n$: sample size ($n-1$: Bassel's correction)
+* $N$: population size
+* $\overline{x}$: sample's mean
+
+#### Standard Deviation
+
+It represents the average amount by which each data point differs from the mean.
+
+Simply, there is $\text{Standard Deviation}=\sqrt{\text{Variance}}$.
+
+#### Deviation
+
+It represents the gap between a sample vs sample mean.
+It can be either positive or negative.
+
+Simply, there is $\text{Deviation}=x_i - \overline{x}$.
+
+## Tests in Inferential Statistics
 
 Concepts:
 
@@ -51,7 +79,7 @@ Control means the effect to be negative.
 For example, there are two groups of students, one group $G_1$ (treatment group) had undergone a study improvement program, another group $G_2$ (control group) not.
 Study that wants to prove effectiveness of the improvement program should show academic scores of $G_1$ higher than $G_2$.
 
-* Sample vs population: 
+* Sample vs population:
 
 Sample refers to a group of data points supporting a hypothesis, whereas population refers to all data points containing different hypotheses.
 

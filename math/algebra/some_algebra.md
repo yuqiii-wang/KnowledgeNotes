@@ -14,6 +14,52 @@ Terminologies of a set are shown as below.
 If $0.\dot{9} \ne 1$, there must be a number $n$ in the real axis $\mathbb{R}$ where $n \in (0.\dot{9}, 1)$, however, such $n$ does not exist.
 Hence it can be said that $0.\dot{9}=1$.
 
+### Hilbert Hotel Paradox
+
+Hilbert Hotel Paradox is to explain infinite sets have counterintuitive properties through crafted mapping.
+In particular, for an infinite set, it can have mappings to multiple/infinite infinite sets.
+
+P.S., an infinite set is a set composed of infinite number of elements.
+
+#### Room Setup Scenario
+
+Hilbert's Hotel is an imaginary hotel with an infinite number of rooms, each numbered 1, 2, 3, 4, and so on.
+Importantly, all the rooms are occupied—each room has a guest.
+
+#### Through a new mapping, there will always be empty rooms
+
+* For a new coming guest, hotel manager asks every guest move from $n$-th room to the $n+1$-th room (the mapping rule is $n+1$)
+* If a bus arrives with an infinite number of guests, hotel manager ask every guests move to the $2n$-th hotel (the mapping rule is $2n$)
+* For infinite number of bus arrivals with infinite number of guests, there still exists a mapping to accommodate all guests
+
+-> Inputs:
+
+* There are an infinite number of buses (Bus 1, Bus 2, Bus 3, …).
+* Each bus has an infinite number of passengers (Seat 1, Seat 2, Seat 3, …).
+
+-> Constraints:
+
+* The hotel already has an infinite number of rooms, but all occupied (Room 1, Room 2, Room 3, …).
+
+-> Outputs:
+
+* A new mapping that maps the pair $(b, s)$ for (bus, seat) to $(r)$ for (room).
+
+-> Solution by *Cantor Pairing Function* $CP(b, s)$
+
+$$
+r = CP(b, s) = \frac{(b+s-1)(b+s)}{2}+s
+$$
+
+The Cantor Pairing Function ensures that any countably infinite set (like the set of all possible pairs of bus and seat numbers) can be mapped to another countably infinite set (the set of room numbers) without missing or duplicating any guests.
+
+### Find a mapping from $(0,1)$ to $[0,1]$
+
+This question asks to establish a mapping that every element in $(0,1)$ has one or more mappings to elements in $[0,1]$.
+There can be more than one mappings.
+
+
+
 ## Cauchy-Schwarz Inequality
 
 ### Inner Product Space
@@ -110,4 +156,43 @@ h_2(x_1, x_2, x_3) &= x_1^2 + x_2^2 + x_3^2 + x_1 x_2 + x_2 x_3 + x_1 x_3
 \\
 h_3(x_1, x_2, x_3) &= x_1^3 + x_2^3 + x_3^3 +x_1^2 x_2 + x_2^2 x_3 + x_1^2 x_3 +x_2^2 x_1 + x_3^2 x_1 + x_3^2 x_2+x_1 x_2 x_3
 \end{align*}
+$$
+
+## Notations
+
+### Number Set Notations
+
+* $\mathbb{N}$ (Natural Numbers):
+  * $\mathbb{N} = \{1, 2, 3, ... \}$
+* $\mathbb{Z}$ (Integers):
+  * $\mathbb{Z} = \{..., -3, -2, -1, 0, 1, 2, 3, ... \}$
+* $\mathbb{Q}$ (Rationals, numbers that can be expressed as a fraction of two integers, where the denominator is not zero):
+  * $\mathbb{Q} = \{p/q \space|\space p \in \mathbb{Z}, q \in \mathbb{Z}, q \ne 0 \}$
+  * For example, $1/2 \in \mathbb{Q}$
+* $\mathbb{R}$ (Real Numbers):
+  * $\mathbb{R} = \{x \space|\space x \text{ includes rational and irrational numbers} \}$
+* $\mathbb{C}$ (Complex Numbers):
+  * $\mathbb{C} = \{a+ib \space|\space a, b \in \mathbb{{R}}, i^2=-1 \}$
+* $\mathbb{P}$ (Prime Numbers, natural numbers greater than 1 that have no positive divisors other than 1 and themselves):
+  * $\mathbb{P} = \{2, 3, 5, 7, 13, 17, ... \}$
+
+Upper symbols:
+
+* $\mathbb{R}^+, \mathbb{N}^+$, etc., positive numbers
+* $\mathbb{R}^*, \mathbb{N}^*$, etc., non-zero numbers
+
+### Einstein Notation
+
+Einstein notation (a.k.a Einstein summation convention or Einstein summation notation) is a notational convention that implies summation over a set of **indexed terms** in a formula, hence achieving brevity.
+
+For example,
+
+$$
+\bold{v} = v^i e_i =
+\begin{bmatrix}
+    e_1 & e_2 & e_3 & ... & e_n
+\end{bmatrix}
+\begin{bmatrix}
+    v_1 \\ v_2 \\ v_3 \\ \vdots \\ v_n
+\end{bmatrix}
 $$

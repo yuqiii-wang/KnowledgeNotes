@@ -1,5 +1,35 @@
 # Java Practices
 
+## Before JVM Start
+
+* Program arguments vs VM arguments
+
+Program arguments are arguments available in the args array of `main` method
+
+```java
+ public static void main(String[] args)
+```
+
+VM arguments are passed to the virtual machine.
+They can be accessed a call to `System.getProperty()`.
+For example,
+
+```txt
+-Xms512m
+-Xmx2g
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=200
+-XX:+PrintGCDetails
+-XX:+PrintGCDateStamps
+```
+
+In IDEA IntelliJ, they are in
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/idea_args_and_vm_options.png" width="40%" height="30%" alt="idea_args_and_vm_options" />
+</div>
+</br>
+
 ## Typical Object Methods
 
 The `Object` class is the parent class of all the classes in java by default.
