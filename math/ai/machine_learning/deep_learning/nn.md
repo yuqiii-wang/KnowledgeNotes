@@ -298,7 +298,30 @@ $$
 X'=\frac{X-X_{\min}}{X_{\max}-X_{\min}}
 $$
 
-### Batch Normalization
+### Example Batch Normalization (BN) vs Layer Normalization (LN)
+
+For example, there are $N$ images each of the size $\bold{x}_i \in \mathbb{R}^{C \times H \times W}$, for $C$ channels/features of a window size $H \times W$.
+
+* Batch Normalization (BN)
+
+$$
+\mu_i = \frac{1}{C \times H \times W}
+\sum_{j=1}^C \sum_{h=1}^H \sum_{w=1}^W x_{i,j,h,w} \\
+\sigma^2_i = \frac{1}{C \times H \times W}
+\sum_{j=1}^C \sum_{h=1}^H \sum_{w=1}^W (x_{i,j,h,w} - \mu_i)^2
+$$
+
+* Layer Normalization (LN)
+
+$$
+\mu_j = \frac{1}{N \times H \times W}
+\sum_{i=1}^N \sum_{h=1}^H \sum_{w=1}^W x_{i,j,h,w} \\
+\sigma^2_j = \frac{1}{N \times H \times W}
+\sum_{i=1}^N \sum_{h=1}^H \sum_{w=1}^W (x_{i,j,h,w} - \mu_j)^2
+$$
+
+
+### Batch Normalization (BN)
 
 In batch normalization, instead by $X_{\max}$ and $X_{\min}$, mean $\mu_B$ and variance $\sigma^2_B$ of the batch are taken into scaling computation
 
@@ -346,9 +369,9 @@ The batch normalization layer is typically added before/after activation layer.
 Activation layer is non-linear, e.g., sigmoid and tanh, and easily gets saturated if deviated too much from central.
 By constraining inputs/outputs to about the range $[-1, 1]$ (even having scaled and shifted, should drift away from the range), it prevents activation layer saturation.
 
-### Layer Normalization
+### Layer Normalization (LN)
 
-Normalization works on a layer of $n$ neurons that $\mu_L=\frac{1}{n}\sum_i^n x_i$ and $\sigma_L^2=\frac{1}{n}\sum_i^n (x_i-\mu_L)^2$.
+Normalization works on a layer of $d$ neurons that $\mu_L=\frac{1}{d}\sum_i^d x_i$ and $\sigma_L^2=\frac{1}{d}\sum_i^d (x_i-\mu_L)^2$.
 
 $$
 \begin{align*}
@@ -367,15 +390,15 @@ https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html
 |-|-|-|
 |N|batch size|batch size|
 |L|feature map height and width (H, W)|sequence length|
-|H|channel (C)|embedding/hidden dimension|
+|H|channel (C)/Image Feature|embedding/hidden dimension|
 
 Batch normalization computes on the L level.
 For example, given a batch of two sentences $\bold{x}_1=$"I am a cat person" and $\bold{x}_2=$"You are a lovely dog person", a total of 11 tokens, and with assumed embedding dimension $d=768$, batch normalization would compute $\mu_{B,j}=\frac{1}{m}\sum_i^{m=11} x_{j,i}$, where $j=1,2,...,768$.
 
-Layer normalization takes place on the H level.
+Layer normalization takes place on the L level.
 For the same above example, the statistics are computed such that $\mu_{L,i}=\frac{1}{d}\sum_j^{d=768} x_{j,i}$, where $i=1,2,...,11$.
 
-* Why Transformer uses Layernorm
+* Why Transformer uses LayerNorm
 
 Layer Normalization has advantages in sequence and attention mechanism.
 
@@ -388,4 +411,9 @@ $$
 
 Having computed $\text{Attention}$, layer normalization standardizes the outputs of the $\text{Attention}$ to have a distribution $\sim N(0,1)$ across the feature dimension.
 
+### Why BN good for images, LB good for NLP
 
+In summary,
+
+* Batch Normalization (BN) normalizes **cross-sample same-feature** data, that for images, visual features contain similar semantics across images
+* Layer Normalization (LN) normalizes **same-sample cross-feature** data, that for text/token embeddings, two tokens have less common semantics but more likely each token embedding internally contain similar semantics

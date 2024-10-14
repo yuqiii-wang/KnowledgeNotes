@@ -237,3 +237,139 @@ $$
 
 ## Encoder and Decoder
 
+Generally speaking,
+
+* Encoder is self-attention transformer takes a whole input sequence altogether, and produce **all** embeddings **at once**.
+* Decoder produces tokens **one by one**. A decoder can be self- or cross-attention transformer.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/inputs_to_encoder_decoder.png" width="60%" height="40%" alt="inputs_to_encoder_decoder" />
+</div>
+</br>
+
+Below shows a pair of encoder-decoder on one layer.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/transformer.png" width="30%" height="40%" alt="transformer" />
+</div>
+</br>
+
+### Inside A Transformer
+
+#### Feed-Forward Network (FFN)
+
+Feed-Forward Network (FFN)
+
+$$
+Y = \text{FFN}(X_{\text{atten}})
+= \sigma(X_\text{atten}W_1 + \bold{b}_1)W_2+\bold{b}_2
+$$
+
+where $W_1$ is four times the input of $X_\text{atten}$, and $W_2$ transforms back to the original size.
+$\sigma$ is a non-linearity activation function (ReLU, GELU, etc.).
+
+##### Why need FFN
+
+* Attention is highly linear that the only non-linear softmax is mostly about transforming to percentages of attention scores.
+FFN adds much stronger non-linearity transforms on the data.
+* Attention creates inter-token dependencies by making each token pay attention to others in the sequence, while FFN operates independently on each token, applying decoupled transforms on individual tokens.
+
+#### Add and Norm
+
+The "Add and Norm" helps transformer stable in training.
+They are applied after the FFN and attention.
+
+Generally speaking, ADD is a ResNet design adding previous layer input; normalization is by layer to smooth each layer outputs.
+
+"Add and Norm" comes in ADD then NORM for that ADD introduces/amplifies previous layer inputs/errors that disrupt the output distribution, NORM helps transform the output into a standard normal distribution.
+
+"Add and Norm" prevents activation explosion/vanishing.
+
+##### Add: ResNet
+
+A resnet design is that, for the currently layer $l$, its activation $\bold{a}^{l}$ takes the sum of previous layer activations and inputs.
+
+* Effects and Benefits:
+
+Residual connections can amplify variability
+
+Prevent activation explosion/vanishing
+
+* Definition: typically in neural network, there is
+
+$$
+\bold{a}^{(l)} = \sigma(W^{(l-1)}\bold{x}+\bold{b}^{(l-1)}) + \bold{x}
+$$
+
+where $\sigma(\space . \space)$ is an activation function.
+
+In transformer, there is
+
+$$
+\bold{a}^{(l)} = \text{MultiHeadAttention}(\bold{x}) + \bold{x}
+$$
+
+where $\bold{x}=\{Q, Y, V\}$.
+
+##### Norm: normalization by layer
+
+Layer normalization normalizes each sample by its dimension.
+
+* Effects and Benefits:
+
+-> Reduces internal covariate shift (keep $X \sim N(0,1)$)
+
+Given this transform, as training progresses, $\bold{x}^{(l)}$ does not necessarily be $\bold{x}^{(l)} \sim N(0,1)$.
+
+$$
+\bold{x}^{(l)} = W^{(l-1)}\bold{x}^{(l-1)} + \bold{b}^{(l-1)}
+$$
+
+-> Prevent activation explosion/vanishing
+
+By keeping $X \sim N(0,1)$, large values are scaled down, and as a result, small values are amplified.
+
+* Batch Normalization (BN) vs Layer Normalization (LN)
+
+LN is preferred over BN for input in NLP is texts that does not be the same length.
+
+Besides, small batch size (as often observed in NLP tasks) makes BN not applicable.
+
+BN is more suitable for image data.
+
+* Definition: let $X \in \mathbb{R}^{n \times d}$ for $n$ tokens each of which has $d$ dimensions, and $x_{ij} \in X$ is a scalar value for the $i$-th token's $j$-th dimension.
+
+-> Mean
+
+$$
+\mu_i = \frac{1}{d} \sum_{j=1}^d x_{ij}
+$$
+
+-> Standard Deviation
+
+$$
+\sigma_i=\sqrt{\frac{1}{d} \sum_{j=1}^d (x_{ij}-\mu_i)^2}
+$$
+
+-> Normalization Transform
+
+$$
+\hat{x}_{ij} = \frac{x_{ij-\mu_i}}{\sigma_i+\epsilon}
+$$
+
+where $\epsilon=10^{-6}$ is a trivial value to prevent division by zero error.
+
+-> Re-scaling and shifting (trainable parameters)
+
+$\gamma$: To allow the model to reintroduce scales
+$\beta$: To shift the normalized activations.
+
+$$
+\text{LayerNorm}(x_{ij}) = \gamma_j \hat{x}_{ij} + \beta_j
+$$
+
+### Masking in Decoder
+
+Unlike encoder, the inputs to decoder need to get masked so that the decoder does not "see" future tokens for next token prediction.
+
+The masked attention is used to produce Value $V$ for attention whose Query $Q$ and key $K$ are from encoder.

@@ -255,3 +255,5 @@ For application-specific classes such as services, repositories, and controllers
 * `@bean`
 
 Need to configure beans for third-party libraries or have fine-grained control over bean instantiation.
+
+## Spring IOC Loading Process
