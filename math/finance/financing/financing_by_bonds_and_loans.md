@@ -27,22 +27,21 @@ Free of payment is a settlement method for a securities transaction in which the
 
 Delivery versus payment (DVP) is a securities industry settlement method that guarantees the transfer of securities only happens after payment has been made.
 
+## Margin
+
+In financing business, 
+
 ## Security Financing (Borrowing or Lending) Trades (SBL Trades)
 
 |Trade Type|Full Name|Description|Classification|
 |-|-|-|-|
-|BS|Bond Sell|Just to sell a bond||
-|BB|Bond Buy|(similar concept as above)||
-|BSB|Buy-Sell Back|With a promised future date to buy/sell back already borrowed/lent securities.||
-|SBB|Sell-Buy Back|(similar concept as above)||
+|BS/BB|Bond Sell/Bond Buy|Just to sell a bond||
+|BSB/SBB|Buy-Sell Back/Sell-Buy Back|With a promised future date to buy/sell back already borrowed/lent securities.||
 |REP/XREP|(Cross) Currency Repo|Compared to SBS/SBB, repo does NOT see title transfer, consequently, no coupon yield received, and more powerful master agreement|REPO|
 |REV/XREV|(Cross) Currency Reverse Repo|reverse action of repo|REPO|
-|CDF|Collateral Delivery Fee|CDF/CRF trades represent the leg delivers/receives of bonds with fee payment.|BVB|
-|CRF|Collateral Receive Fee|(similar concept as above)|BVB|
-|CP|Collateral Pledge|CR/CP represent collateral received/delivered under CDF/CRF.|BVB|
-|CR|Collateral Receive|(similar concept as above)|BVB|
-|BVF|Borrow vs Fee|LVF/BVF trades simply refer to lending/borrowing bonds with fee payment, no collateral, i.e., credit-based trade|BVB|
-|LVF|Lend vs Fee|(similar concept as above)|BVB|
+|CDF/CRF|Collateral Delivery Fee/Collateral Receive Fee|CDF/CRF trades represent the leg delivers/receives of bonds with fee payment.|BVB|
+|CP/CR|Collateral Pledge/Collateral Receive|CR/CP represent collateral received/delivered under CDF/CRF.|BVB|
+|BVF/LVF|Borrow vs Fee/Lend vs Fee|LVF/BVF trades simply refer to lending/borrowing bonds with fee payment, no collateral, i.e., credit-based trade|BVB|
 |ML/CL|Money/Cash Lend|Simply refer to cash lending/borrowing||
 |MB/CB|Money/Cash Borrow|(similar concept as above)||
 

@@ -1,6 +1,41 @@
 # Maven
 
-## .m2 Config and `~/.m2/setting.xml`
+## Maven Settings `~/.m2/setting.xml`
+
+By default, maven settings are placed in `~/.m2/setting.xml`.
+
+### Maven Goals
+
+A goal in Maven represents a specific task that contributes to the building and managing of a project.
+
+For example,
+
+* Goal: `clean`/`mvn clean`
+
+This command cleans the maven project by deleting the `target/` directory.
+
+* Goal: `compile`/`mvn compile`
+
+This command compiles the java source classes of the maven project into the `target/classes` directory.
+
+* Goal: `package`/`mvn package`
+
+This command builds the maven project and packages them into a JAR, WAR, etc.
+
+* Goal: `install`/`mvn install`
+
+Installs the package into the local repository, for use as a dependency in other projects locally.
+
+Below config can specify where the local repo is to install/store.
+
+```xml
+<settings>
+    <!-- Local Repository Location -->
+    <localRepository>/path/to/your/local/repo</localRepository>
+</settings>
+```
+
+### Config in China
 
 Make sure `M2_HOME` (for maven repository) set properly for Maven
 
@@ -15,25 +50,115 @@ For a Maven to use CN Mainland mirrors, add the following in Maven root dir `~/.
 </mirror>
 ```
 
-Change encoding to UTF-8
+### Inside `settings.xml`
 
-* `mvn clean`
+* `<mirror/>`
 
-This command cleans the maven project by deleting the target directory.
+`<mirror/>` is used to speed up downloading.
+When there is a maven jar to download, maven will first download from mirror.
 
-* `mvn compile`
+-> The `<mirrorOf>` specifies what maven repo to download dependencies, e.g., `<mirrorOf>central</mirrorOf>` indicates only `central` repos is allowed; `<mirrorOf>*</mirrorOf>` indicates all repos are allowed
 
-This command compiles the java source classes of the maven project.
+* `<server/>`
 
-* `mvn package`
+`<server/>` is used to provide authentication, e.g., username and password.
 
-This command builds the maven project and packages them into a JAR, WAR, etc.
+P.S., `<id/>` must be the **same** across `<server/>`, `<repository/>`, `<pluginRepository/>` for maven to know by what credential for repository authentication.
+
+* `<repository/>`
+
+`<repository/>` is used to store the actual `.jar` and `.pom`.
+
+Inside this xml tag, `<updatePolicy/>` specifies when maven checks new dependency update, e.g., `daily` means daily check; `always` means check on every build
+
+-> `<releases/>` it means this package has done full test and stable, good for production; and usually have a big version number, e.g., `1.0.0`
+
+-> `<snapshots/>` it means this package is still in dev; likely got a version number such as `1.0.0-SNAPSHOT`
+
+* `<pluginRepository/>`
+
+Similar to `<repository/>`, but `<pluginRepository/>` is used to store maven plugin.
+
+For example, `maven-javadoc-plugin` has a goal javadoc:javadoc that generates Javadoc documentation.
+
+* `<profile/>`
+
+`<profile/>` allows user to define a control group.
+
+`<activeProfile/>` must be set to activate a profile control group.
+
+```xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <mirrors>
+    <mirror>
+      <id>central-mirror</id>
+      <name>Central Mirror</name>
+      <url>http://my.internal.repo/maven2</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+  </mirrors>
+
+  <servers>
+    <server>
+      <id>my-private-repo</id>
+      <username>myUsername</username>
+      <password>myPassword</password>
+    </server>
+    <server>
+      <id>my-plugin-repo</id>
+      <username>myUsername</username>
+      <password>myPassword</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>custom-repos</id>
+      <repositories>
+        <repository>
+          <id>my-private-repo</id>
+          <name>My Private Repository</name>
+          <url>http://my.private.repo/maven2</url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>my-plugin-repo</id>
+          <name>My Plugin Repository</name>
+          <url>http://my.plugin.repo/maven2</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>custom-repos</activeProfile>
+  </activeProfiles>
+
+</settings>
+```
 
 ### Setting Security
 
 #### Security Password
 
-First, run `mvn --encrypt-password <user-password>` that outputs `{encrypted_master_password}`.
+First, run `mvn --encrypt-master-password <user-password>` that outputs `{encrypted_master_password}`.
 In `${USER_HOME}/.m2/settings-security.xml`, copy `{encrypted_master_password}` into the below.
 
 ```xml
@@ -44,6 +169,8 @@ In `${USER_HOME}/.m2/settings-security.xml`, copy `{encrypted_master_password}` 
 
 Run `mvn --encrypt-password <user-password>` that outputs `{encrypted_password_password}`.
 In `${USER_HOME}/.m2/settings.xml`, copy `{encrypted_password_password}` into the below.
+
+`example-mirror-id` `<id/>` should match between `<mirror/>` and `<server/>`
 
 ```xml
 <settings>
@@ -96,7 +223,6 @@ A minimal `POM.xml`
 ```xml
 <project>
   <modelVersion>4.0.0</modelVersion>
- 
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
   <version>1</version>
@@ -149,3 +275,11 @@ The java home directory might be admin-protected, e.g., `C:\Program Data\java\`,
     <img src="imgs/idea_maven_download_deps_and_build.png" width="70%" height="40%" alt="idea_maven_download_deps_and_build" />
 </div>
 </br>
+
+IDEA uses `*.lastUpdated` file to record history failure dependency download, and forbids next download when `*.lastUpdated` has too many history failure records.
+One can use this to clean up/remove `*.lastUpdated` to trigger IDEA re-download.
+
+```sh
+cd ~/.m2 # or your custom maven repo folder
+find . -name '*.lastUpdated' | xargs rm -rf
+```

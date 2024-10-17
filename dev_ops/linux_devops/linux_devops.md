@@ -239,9 +239,15 @@ When started a process from a local shell, the shell becomes the parent of that 
 
 If the shell exits, the parent of the process is typically reassigned to the init process (PID 1).
 
-
-
 ## Common DevOps
+
+* `|` vs `xargs` for data forwarding
+
+The left side of `|` is standard output (stdout), and right side is standard input (stdin), e.g., `ls | grep ".txt"`.
+Used when the second command can handle input via stdin, which is how many commands (like `grep`, `awk`, `sed`, etc.)
+
+`xargs` is used to take the output of one command and build arguments for another command, e.g., `find . -name "*.txt" | xargs rm`.
+Many commands like `rm`, `cp`, or `mv` don't read from stdin but rather expect filenames or paths as arguments.
 
 * Port Listening
 

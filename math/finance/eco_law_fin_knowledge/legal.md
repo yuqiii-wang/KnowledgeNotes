@@ -203,9 +203,10 @@ A set of illegal activities aimed at commercial profit that may be disguised as 
 
 * face/nominal/par value
 
-Claimed value/price of a security by an authority. 
+Claimed value/price of a security by an authority.
 
-For example, one dollar of a nation's currency is worth of \$0.1 USD by face value (the value is traded via national banks and financial institutions, enforced by the government). However, if people are skeptical of this country's economic trajectory, in dark markets, people might actually trade by less than \$0.1 USD per one the nation's dollar (as actual/intrinsic value).
+For example, one dollar of a nation's currency is worth of \$0.1 USD by face value (the value is traded via national banks and financial institutions, enforced by the government).
+However, if people are skeptical of this country's economic trajectory, in dark markets, people might actually trade by less than \$0.1 USD per one the nation's dollar (as actual/intrinsic value).
 
 * EBITDA
 
@@ -228,6 +229,10 @@ EBIT = (net income) + interest + taxes = EBITDA - (depreciation and amortization
 [Law] Investigation out of legal/regulation requirements
 
 [Finance] A comprehensive appraisal of a business undertaken by a prospective buyer, especially to establish its assets and liabilities and evaluate its commercial potential.
+
+* Common Reporting Standard (统一报告标准)
+
+Developed by Organisation for Economic Co-operation and Development (OECD) in 2014, Common Reporting Standard (CRS) aims to combat tax evasion by facilitating tax info exchange between global level tax authorities.
 
 ## Capital Requirements
 
