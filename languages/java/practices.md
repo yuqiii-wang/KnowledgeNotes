@@ -572,3 +572,45 @@ where
 
 * `queue`: A point-to-point destination where messages are sent and received.
 * `topic`: A publish-subscribe destination where messages are broadcast to all subscribers.
+
+## Post Production Test (PVT)
+
+Post Production Test (PVT) is for after deployment, to test if a new method/class has been implemented.
+
+Assume there is a release of a new method `anExampleStaticMethod`.
+
+```java
+public class Example {
+
+    // A static method in the Example class that takes a String argument
+    public static void anExampleStaticMethod(String message) {
+        System.out.println("Message from aStaticMethod: " + message);
+    }
+}
+```
+
+In PVT, let `testPVTGetDeclaredStaticMethod` be triggered after deployment, that `forName` tests if the class exists, and `getDeclaredMethod` tests if the method exists.
+
+```java
+import org.junit.jupiter.api.Test;
+import java.lang.reflect.Method;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ExamplePVTTest {
+
+    @Test
+    public void testPVTGetDeclaredStaticMethod() {
+        try {
+            // Get the Class object for the Example class
+            String className = "your.package.name.Example";
+            Class<?> clazz = Class.forName(className);
+
+            // Get the declared method 'anExampleStaticMethod' that takes a String argument
+            Method method = clazz.getDeclaredMethod("anExampleStaticMethod", String.class);
+        } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | java.lang.reflect.InvocationTargetException e) {
+            fail("An unexpected exception occurred: " + e.getMessage());
+        }
+    }
+}
+```

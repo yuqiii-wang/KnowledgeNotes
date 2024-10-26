@@ -1,4 +1,4 @@
-#  JavaScript
+# JavaScript
 
 ## Intro
 
@@ -18,6 +18,7 @@ The prototype is an object that is associated with every functions and objects b
 
 Example:
 `studObj1.age = 15;` is not broadcast to `studObj2` in the code given below.
+
 ```js
 function Student() {
     this.name = 'John';
@@ -32,27 +33,18 @@ var studObj2 = new Student();
 alert(studObj2.age); // undefined
 ```
 
-Provided the nature of JS with prototype implementation, `age` attribute can be shared across all derived objects of `Student`. 
+Provided the nature of JS with prototype implementation, `age` attribute can be shared across all derived objects of `Student`.
+
 ```js
 Student.prototype.age = 15;
 ```
+
+## JS, TS and JSX
+
+## ES5 vs ES6
 
 ## Grammar
 
 * `var` vs `let`
 
 `var` is function scoped and `let` is block scoped.
-
-* `async` and `await`
-
-`await` should be used inside `async`
-```js
-async function task(){
-    return 1;
-}
-async function run() {
-    // Your async code here
-    const exampleResp = await task();
-}
-run();
-```

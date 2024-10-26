@@ -1,6 +1,6 @@
 # Evaluation Metrics
 
-## Confusion Matrix 
+## Confusion Matrix
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/confusion_matrix.png" width="40%" height="30%" alt="confusion_matrix.svg" />
@@ -25,7 +25,6 @@ $$
 FPR = \frac{FP}{TP+TN}
 $$
 
-
 * precision or positive predictive value (PPV)
 
 $$
@@ -44,6 +43,140 @@ $$
 MCC= \frac{TP \times TN - FP \times FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}
 $$
 
+### Practice and Code
+
+Accuracy is straightforward simply by comparing exact match between truth labels vs prediction labels $\text{accuracy}=\frac{n_\text{matched}}{n_\text{total}}$.
+
+#### Precision and Recall per Label
+
+For TP, FP, TN, FN only take into account binary data that:
+
+||Truth|Prediction|
+|-|-|-|
+|True Positive (TP)|1|1|
+|False Positive (FP)|0|1|
+|True Negative (TN)|0|0|
+|False Negative (FN)|1|0|
+
+However, in practice, data are often multi-labelled.
+To compute the confusion matrix, iterate each truth label considered as "positive", for all corresponding position mismatched prediction label as "negative".
+
+* For recall (from truth labels how many samples are correctly predicted): $\frac{TP}{TP+FN}$
+* For precision (for predicted labels how many samples correctly hit truth labels): $\frac{TP}{TP+FP}$
+
+For example for three labels `[0, 1, 2]`,
+
+```py
+y_true = [0,0,1,1,2,2,2]
+y_pred = [0,1,1,1,0,0,2]
+```
+
+for label `0`, only consider truth pred pairs included `0`, such that
+
+```py
+y0_true = [0,0,2,2]
+y0_pred = [0,1,0,0]
+# for precision, check from preds
+# how many of which hit truth labels
+y0_true_for_precision = [0,2,2]
+y0_pred_for_precision = [0,0,0]
+y0_precision = 1/3
+# for recall, check from truth labels
+# how many of which are included in prediction labels
+y0_true_for_recall = [0,0]
+y0_pred_for_recall = [0,1]
+y0_recall = 1/2
+```
+
+The same goes with label `1` and `2` to such that
+
+```py
+y1_true = [0,1,1]
+y1_pred = [1,1,1]
+y1_precision = 2/3
+y1_recall = 1 = 2/2
+
+y2_true = [2,2,2]
+y2_pred = [0,0,2]
+y2_precision = 1 = 1/1
+y2_recall = 1/3
+```
+
+Finally, F1 score can be computed by the obtained by $F1=\frac{2\times TP}{2\times TP+FP+FN}=2 \times \frac{\text{precision} \times \text{recall}}{\text{precision}}+\text{recall}$ for each label.
+
+All code shows as below.
+
+```py
+from sklearn.metrics import accuracy_score,precision_score, recall_score, f1_score
+
+y_true = [0,0,1,1,2,2,2]
+y_pred = [0,1,1,1,0,0,2]
+
+# Compute accuracy
+accuracy = accuracy_score(y_true, y_pred)
+precision = precision_score(y_true, y_pred, average=None)
+recall = recall_score(y_true, y_pred, average=None)
+f1 = f1_score(y_true, y_pred, average=None)
+
+print(f"""accuracy:  {accuracy}
+precision: {precision}
+recall   : {recall}
+f1       : {f1}
+""")
+```
+
+#### Aggregate by "average"
+
+Having computed precision, recall and f1 for each label, they can be aggregate by "average" to yield a statistic over all labels.
+
+Quotes from `sklearn.metrics`:
+
+* `micro` : Calculate metrics globally by counting the total true positives, false negatives and false positives.
+
+* `macro` : Calculate metrics for each label, and find their unweighted mean. This does not take label imbalance into account.
+
+* `weighted` : Calculate metrics for each label, and find their average weighted by support (the number of true instances for each label). This takes into consideration of data imbalance.
+
+In `sklearn.metrics`, for example to use `weighted`, simply pass `average="weighted"` as argument.
+
+```py
+from sklearn.metrics import accuracy_score,precision_score, recall_score, f1_score
+
+accuracy = accuracy_score(y_true, y_pred)
+precision = precision_score(y_true, y_pred, average="weighted")
+recall = recall_score(y_true, y_pred, average="weighted")
+f1 = f1_score(y_true, y_pred, average="weighted")
+```
+
+Detail about the `"weighted"`, that given 7 samples having the statistics,
+
+```py
+y_true = [0,0,1,1,2,2,2]
+y_pred = [0,1,1,1,0,0,2]
+
+y0_precision = 1/3
+y1_precision = 2/3
+y2_precision = 1/1
+
+y0_recall = 1/2
+y1_recall = 1
+y2_recall = 1/3
+```
+
+the weighted averaged precision and recall are shown as below, where weights $[\frac{2}{7},\frac{2}{7},\frac{3}{7}]$ correspond to the number of truth labels: two `0`s, two `1`s and three `2`s in `y_true = [0,0,1,1,2,2,2]`.
+
+$$
+\begin{align*}
+\text{precision}: 0.714\approx
+\frac{2}{7}\cdot\frac{1}{3}+
+\frac{2}{7}\cdot\frac{2}{3}+
+\frac{3}{7}\cdot\frac{1}{1}\\
+\text{recall}: 0.571\approx
+\frac{2}{7}\cdot\frac{1}{2}+
+\frac{2}{7}\cdot\frac{2}{2}+
+\frac{3}{7}\cdot\frac{1}{3}
+\end{align*}
+$$
 
 ## Correlations
 

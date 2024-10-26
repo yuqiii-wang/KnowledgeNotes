@@ -1,5 +1,11 @@
 # Network Knowledge
 
+## A typical full HTTPS flow
+
+### CDN
+
+### HTTP Cache in Frontend
+
 ## DNS (Domain Name System)
 
 DNS server maps between IPs and hostnames so such as "www.example.com" to an IP addr.
@@ -62,12 +68,12 @@ Primary NTP servers provide first source time data to secondary servers and forw
 
 A computer-network authentication protocol that works on the basis of tickets to allow communication nodes communicating over a non-secure network to prove their identity to one another in a secure manner.
 
-
 ## MIME
 
 Multipurpose Internet Mail Extensions (MIME) is an Internet standard that extends the format of email messages to support text in character sets other than ASCII, as well as attachments of audio, video, images, and application programs. 
 
 Inside a request's header, `Content-Type` specifies media type, such as
+
 ```bash
 Content-Type: text/plain
 Content-Type: application/json
@@ -80,12 +86,14 @@ Content-Type: application/x-www-form-urlencoded
 ### `Content-Type`
 
 `Content-Type` specifies media type, such as
+
 ```bash
 Content-Type: text/plain
 Content-Type: application/json
 Content-Type: application/octet-stream
 Content-Type: application/x-www-form-urlencoded
 ```
+
 which defines payload format; most typical are json and x-www-form-urlencoded for application data transmission.
 
 ### `Forwarded`
@@ -94,7 +102,7 @@ This header is used for debugging, statistics, and generating location-dependent
 
 Typical usage example: microservices where many program transfer data to each other with this header for delegation identity process.
 
-```
+```txt
 Forwarded: by=<identifier>;for=<identifier>;host=<host>;proto=<http|https>
 ```
 
@@ -111,6 +119,7 @@ Forwarded: by=<identifier>;for=<identifier>;host=<host>;proto=<http|https>
     Indicates which protocol was used to make the request (typically "http" or "https").
 
 For example,
+
 ```
 Forwarded proto=https;host=example.server.com;for=example.client.com
 ```

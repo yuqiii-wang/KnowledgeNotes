@@ -80,16 +80,16 @@ There are many indecies/references of Overnight rates: LIBOR, EONIA, SOFR, SONIA
 
 * LIBOR
 
-The London Inter-Bank Offered Rate (LIBOR) is an interest-rate average calculated from estimates submitted by the leading banks in London. 
+The London Inter-Bank Offered Rate (LIBOR) is an interest-rate average calculated from estimates submitted by the leading banks in London.
 
 * EONIA
 
 Eonia (Euro Overnight Index Average) is computed as a weighted average of all overnight unsecured lending transactions in the interbank market, undertaken in the European Union and European Free Trade Association (EFTA) countries by the Panel Banks
 
-* Secured Overnight Financing Rate (SOFR) 
+* Secured Overnight Financing Rate (SOFR)
 
 SOFR is published by the New York Federal Reserve every business day for the previous business day. 
-SOFR is a reference rate (that is, a rate used by parties in commercial contracts that is outside their direct control) established as an alternative to LIBOR. 
+SOFR is a reference rate (that is, a rate used by parties in commercial contracts that is outside their direct control) established as an alternative to LIBOR.
 
 LIBOR is prone to error since it derives from calculations based on banks' survey, while SOFR reflects the real-time real world rates.
 
@@ -97,9 +97,9 @@ LIBOR is prone to error since it derives from calculations based on banks' surve
 
 the Hong Kong Interbank Offered Rate (HIBOR) is the benchmark interest rate that lenders and borrowers use for interbank lending in the Hong Kong market.
 
-* China Interbank Interest Rate
+* China/Shanghai Interbank Interest Rate (Shibor)
 
-Offered by (China) National Interbank Funding Center.
+Offered by (China/Shanghai) National Interbank Funding Center ((Shibor)).
 
 * SONIA (Sterling Overnight Index Average)
 
