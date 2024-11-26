@@ -1,16 +1,19 @@
 # Docker Practices
 
 ## Start Docker
+
 Download from official website and install it.
 
 Use **Docker Desktop Deb** version.
 
 Example run as a check to success of installation:
+
 ```bash
 docker run -d -p 80:80 docker/getting-started
 ```
 
 Cmd docker start (tested on ubuntu):
+
 ```bash
 # start docker
 service docker start

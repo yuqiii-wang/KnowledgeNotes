@@ -52,6 +52,10 @@ root.render(
 Reference:
 https://stackoverflow.com/questions/71913692/module-not-found-error-cant-resolve-react-dom-client
 
+## React syntax and Cautions
+
+* Do NOT use hooks, e.g., `useState` as an intermediary shared data between functions, but only pass variable.
+
 ## React and Bootstrap
 
 Reference:

@@ -224,9 +224,9 @@ The `top` property specifies the distance from the top edge of the item containe
 
 ### `flex`
 
-* `display: flex;` - define this container as flex
+* `display: flex` - define this container as flex
 * `flex-direction` - define main axis, either row or col（`row`, `row-reverse`, `column`, `column-reverse`）。
-* `justify-content` - align items all to the start, evenly split, put in the middle, or tp the end（`flex-start`, `flex-end`, `center`, `space-between`, `space-around`, `space-evenly`）。
+* `justify-content` - align items all to the start, evenly split, put in the middle, or to the end（`flex-start`, `flex-end`, `center`, `space-between`, `space-around`, `space-evenly`）。
 * `align-items` - （`stretch`, `flex-start`, `flex-end`, `center`, `baseline`）
 * `flex-wrap` - if to start with a new line（`nowrap`, `wrap`, `wrap-reverse`）
 

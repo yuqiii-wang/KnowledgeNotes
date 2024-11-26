@@ -1,6 +1,48 @@
 # React
 
-React is used to prevent full webpage change by DOM partial update.
+## DOM (Document Object Model)
+
+DOM is used to render a UI page, where compiler, e.g., chrome V8 engine, parses a DOM to a tree-structured elements and display such elements per style.
+User can interact with DOM elements.
+
+For example, this DOM
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Page</title>
+</head>
+<body>
+    <h1>Welcome to My Web Page</h1>
+    <p>This is a simple paragraph.</p>
+    <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+</body>
+</html>
+```
+
+is parsed to
+
+```txt
+Document
+├── html
+│   ├── head
+│   │   └── title ("My Web Page")
+│   └── body
+│       ├── h1 ("Welcome to My Web Page")
+│       ├── p ("This is a simple paragraph.")
+│       └── ul
+│           ├── li ("Item 1")
+│           ├── li ("Item 2")
+│           └── li ("Item 3")
+```
+
+For any element change, traditionally, the whole UI page needs re-rendering.
+React is used to prevent full webpage change by taking DOM partial update only.
 
 React relies on a virtual DOM, which is a copy of the actual DOM.
 React's virtual DOM is immediately reloaded to reflect this new change whenever there is a change in the data state.

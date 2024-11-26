@@ -10,7 +10,6 @@ To the party selling the security with the agreement to buy it back, it is a rep
 
 To the party buying the security and agreeing to sell it back, it is a reverse repurchase agreement. The reverse repo is the final step in the repurchase agreement, closing the contract.
 
-
 ## Repo Types by Collateral Ownership
 
 * Classic Repo/Specified Delivery
