@@ -1,6 +1,6 @@
 # JavaScript
 
-## Intro
+## Single thread and Event Loop
 
 * JS is single-thread
 
@@ -8,11 +8,11 @@ JS is an asynchronous and single-threaded interpreted language. A single-thread 
 
 * Event Loop
 
-Call Stack: If your statement is asynchronous, such as setTimeout(), ajax(), promise, or click event, the event is pushed to a queue awaiting execution.
+Call Stack: If your statement is asynchronous, such as `setTimeout()`, `ajax()`, `promise`, or click event, the event is pushed to a queue awaiting execution.
 
 Queue, message queue, and event queue are referring to the same construct (event loop queue). This construct has the callbacks which are fired in the event loop.
 
-* Prototype
+## Inheritance by Prototype Chain
 
 The prototype is an object that is associated with every functions and objects by default in JavaScript.
 
@@ -43,7 +43,7 @@ Student.prototype.age = 15;
 
 ## ES5 vs ES6
 
-## Grammar
+## Syntax and Grammar
 
 * `var` vs `let`
 

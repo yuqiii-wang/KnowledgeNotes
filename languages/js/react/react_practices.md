@@ -162,4 +162,72 @@ function App() {
 }
 ```
 
+## Object, Function and Class
+
+|Function|Object|Class|
+|-|-|-|
+|`function name() { ... }` or `const fn = () => {}`|`{ key: value, ... }`|`class Counter extends React.Component {...}`|
+
+### Functional vs Class Component
+
+* Class Component
+
+It must include a `render()` method that returns JSX.
+
+```js
+class MyComponent extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}!</h1>;
+  }
+}
+```
+
+* Functional Component
+
+No `render()` method.
+
+Lightweight and more concise compared to class components.
+
+```js
+function MyComponent(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+```
+
+|Function Component|Class Component|
+|-|-|-|
+|State Mgt|Uses hooks like `useState`|Uses `this.state` and `this.setState()`|
+|Lifecycle Methods|Uses hooks like `useEffect` for side effects.|Uses lifecycle methods like `componentDidMount`.|
+|Syntax|Simple and Concise|Requires `constructor`, `this`, and `render()`.|
+|Performance|Slightly more performant as they avoid class instantiation overhead.|Heavier runtime due to class instantiation.|
+
+## `null` vs `undefined`
+
+* `undefined`
+
+Absence of value (not assigned).
+
+E.g., `name` is assigned `undefined` automatically once `<MyComponent />` is rendered.
+
+```js
+function MyComponent({ name }) {
+  return <div>{name || "Default Name"}</div>;
+}
+
+<MyComponent />; // Handles undefined prop
+```
+
+* `null`
+
+Intentional absence of value.
+
+```js
+function Example({ value }) {
+  return <div>{value}</div>;
+}
+
+<Example value={undefined} />; // Renders: empty space, but `undefined` is "printed".
+<Example value={null} />;      // Renders: empty space, React skips rendering null.
+```
+
 ## StrictMode in React
