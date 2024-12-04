@@ -136,11 +136,9 @@ In a typical example of rehypothecation, securities that have been posted with a
 
 A complex structured finance product that is backed by a pool of loans and other assets and sold to institutional investors. Most typical are subprime securities made up of good and bad rating assets that triggered 2008 financial crisis.
 
-
 * CLD (Currency Linked Deposit)
 
 A currency-linked investment product is a structured investment product that consists of a time deposit (in the deposit currency) with currency option (derivatives).
-
 
 * Delivery by Value (DBV)
 
@@ -216,6 +214,7 @@ Usually, when an investor uses leverage (borrows money from a broker) to invest 
 Financial institutions (acted as underwriter) guarantee payment in case of damage or financial loss and accept the financial risk for liability arising from such guarantee.
 
 Underwriters purchase securities in bulk from issuers then distribute such securities to the public/clients.
+
 Clients might or might not buy them from underwriters.
 As a result, underwriters take risks when not having such securities sold; or earning underwriting spread if there is rise in security values.
 

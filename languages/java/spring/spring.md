@@ -21,6 +21,61 @@
 * For distributed systems and microservices, especially in cloud environments
 * Characterized by service discovery, circuit breakers, intelligent routing, distributed sessions, etc.
 
+## Spring Servlet and HTTP Handling
+
+In Spring, the handling of HTTP requests, e.g., by multiple `@Controller` and `@FeignClient` components, the underlying management of these requests is handled by the embedded servlet container (e.g., *Tomcat*, *Jetty*).
+
+### Spring MVC Request Handling
+
+Spring Boot uses Spring MVC to manage HTTP requests.
+When a request is made to a Spring Boot application, the following happens:
+
+1. Request Reception
+
+The embedded servlet container (typically Tomcat by default) listens for incoming HTTP requests. When a request is received, the container hands it over to the Spring framework.
+
+The tomcat container's main connector (typically *Http11NioProtocol* or *Http11Protocol*) listens on a specific port (default 8080).
+
+Tomcat manages incoming requests such as by this config in `.properties`.
+
+```properties
+server.tomcat.max-threads=200
+server.tomcat.connection-timeout=20000
+```
+
+2. DispatcherServlet
+
+The `DispatcherServlet` in Spring Boot acts as the central component that receives all HTTP requests. It is responsible for routing requests to the appropriate controller methods. It checks the request URL, HTTP method (GET, POST, etc.), and other factors to determine the matching `@RequestMapping` or `@GetMapping` etc., annotations on your controller methods.
+
+Spring Boot automatically configures the DispatcherServlet when used `@SpringBootApplication` or `@EnableAutoConfiguration`.
+
+3. Controller Resolution
+
+DispatcherServlet uses the HandlerMapping mechanism to map incoming requests to controller methods.
+If the request matches the path defined in a controller method's annotation (e.g., `@GetMapping("/users")`), the request is passed to the corresponding method in the controller.
+
+DispatcherServlet returns an HTTP 404 error if path not found.
+
+4. Execution of the Controller Method
+
+The controller method is executed in the same thread that received the HTTP request (by default). If the method is annotated with `@Async` (for asynchronous execution), it will be delegated to a separate thread from the configured thread pool.
+
+5. Response Generation
+
+Once the controller method executes, a response (usually in the form of a *ModelAndView*, e.g., jsp, or an object that Spring Boot automatically serializes to JSON/XML) is generated (for RESTful API). This response is then sent back to the client via the servlet container.
+
+### Multi-Threading
+
+The servlet container (e.g., Tomcat) uses a thread pool to handle incoming requests.
+Spring itself is just a request handler dispatcher.
+
+If `@Async` is not specified, Tomcat and Spring share the same thread.
+
+If Tomcat not set, by default, there are
+
+* Max threads: 200 (default)
+* Min spare threads: 10
+
 ## Spring Context and Inversion of Control (IoC)
 
 When java objects are under spring context, they are called *beans* and their lifecycles and dependencies are managed by spring.
@@ -44,6 +99,14 @@ public class MySpringBootApplication {
 ```
 
 Beans can be defined using annotations like `@Component`, `@Service`, `@Repository`, `@Controller`, or `@Bean` methods in @Configuration classes.
+
+### Multiple Bean Definition Resolution
+
+When Spring encounters multiple beans of the same type, it cannot decide which one to inject automatically.
+This will result in a `NoUniqueBeanDefinitionException` unless:
+
+* Use `@Primary` to mark one bean as the default.
+* Use `Qualifier` to explicitly specify which bean to inject.
 
 ### Reflection
 

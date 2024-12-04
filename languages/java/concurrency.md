@@ -146,9 +146,8 @@ public class ThreadLocalDemo {
     }
 }
 ```
+
 ## Blocking and Non-Blocking vs Sync and Async
-
-
 
 ## Executor
 
@@ -214,6 +213,86 @@ public class RightWayStopThreadWithSleep {
         Thread.sleep(500);
         // signal the spawned thread to stop
         thread.interrupt();
+    }
+}
+```
+
+## Daemon Thread
+
+A daemon thread is a low-priority thread in Java designed to provide background services to non-daemon threads.
+
+Background services include MQ publish and receive, and garbage collection, etc.
+
+If all non-daemon threads finish execution, the JVM will stop, terminating the daemon thread abruptly.
+
+Example: If the main application exits, the producer thread will stop.
+
+```java
+import javax.jms.*;
+
+public class DaemonMessageProducer implements Runnable {
+    private volatile boolean running = true; // Control flag for stopping the thread
+    private final String brokerURL;
+    private final String queueName;
+
+    public DaemonMessageProducer(String brokerURL, String queueName) {
+        this.brokerURL = brokerURL;
+        this.queueName = queueName;
+    }
+
+    public void stop() {
+        running = false; // Set flag to stop the thread
+    }
+
+    @Override
+    public void run() {
+        Connection connection = null;
+        Session session = null;
+        MessageProducer producer = null;
+
+        try {
+            ConnectionFactory factory = new org.apache.activemq.ActiveMQConnectionFactory(brokerURL);
+            connection = factory.createConnection();
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            Destination destination = session.createQueue(queueName);
+            producer = session.createProducer(destination);
+            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+
+            while (running) {
+                String message = "Hello, World! - " + System.currentTimeMillis();
+                TextMessage textMessage = session.createTextMessage(message);
+                producer.send(textMessage);
+                System.out.println("Sent: " + message);
+
+                Thread.sleep(1000); // Send a message every second
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (producer != null) producer.close();
+                if (session != null) session.close();
+                if (connection != null) connection.close();
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        String brokerURL = "tcp://localhost:61616";
+        String queueName = "TestQueue";
+
+        DaemonMessageProducer producer = new DaemonMessageProducer(brokerURL, queueName);
+        Thread producerThread = new Thread(producer);
+        producerThread.setDaemon(true); // Set the thread as daemon
+        producerThread.start();
+
+        // Simulate application running for 10 seconds
+        Thread.sleep(10000);
+
+        // Stop the producer gracefully
+        producer.stop();
     }
 }
 ```

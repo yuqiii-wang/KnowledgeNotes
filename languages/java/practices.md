@@ -235,6 +235,7 @@ Technically, **Java is always pass by value**.
 
 * For primitives such as `int` and `float`, the pass-by-value behavior does not alter the original value of the primitives.
 For example, `setFoo(int bar)` does not change `int foo = 1;`.
+
 ```java
 public class Run {
 
@@ -255,7 +256,7 @@ public class Run {
 * For non-primitives, the pass-by-value simply means copying *reference value* (similar to c++ pointer).
 The passed object in another function stack actually shares the same pointed heap area.
 
-In other words, objects from the same `new` operator despite being passed to diff stacks, have the same members residing in the same heap area. 
+In other words, objects from the same `new` operator despite being passed to diff stacks, have the same members residing in the same heap area.
 
 For instance, `Mug myMug = new Mug("Tea");` sees its member `this.contents` updated by function `spill(myMug);`.
 
@@ -319,6 +320,45 @@ Standard java containers have default copy constructor such as below.
 ```java
 List<Double> original = new List<Double>{1.0, 2.0};
 List<Double> copy = new ArrayList<Double>(original);
+```
+
+### Argument: Mutable Reference Obj vs Reassignment
+
+For a function taking a mutable argument, e.g., `Map<String, String> map`, that for the same reference obj update, the update will persist outside the function scope.
+For reassignment, the change does not live outside the function scope.
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class PassByReferenceExample {
+    public static void main(String[] args) {
+        Map<String, String> myMap = new HashMap<>();
+        myMap.put("key1", "value1");
+
+        System.out.println("Before function call: " + myMap);
+
+        modifyMap(myMap);
+
+        System.out.println("After function call: " + myMap);
+    }
+
+    public static void modifyMap(Map<String, String> map) {
+        // Adding a new key-value pair
+        map.put("key2", "value2");
+
+        // Reassigning the reference (has no effect on the caller)
+        map = new HashMap<>();
+        map.put("key3", "value3");
+    }
+}
+```
+
+Results show that `map.put("key3", "value3");` has no effect on `map` for the map is re-assigned by `map = new HashMap<>();`.
+
+```txt
+Before function call: {key1=value1}
+After function call: {key1=value1, key2=value2}
 ```
 
 ## `final`, `finally` and `finalize`

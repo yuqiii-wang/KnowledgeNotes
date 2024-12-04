@@ -241,6 +241,20 @@ If the shell exits, the parent of the process is typically reassigned to the ini
 
 ## Common DevOps
 
+* CRLF vs LF for new line
+
+-> LF (Line Feed):
+
+ASCII Code: 10 (or `0x0A` in hexadecimal)
+Character: `\n`
+Commonly used in Unix-like operating systems (Linux, macOS, etc.)
+
+-> CRLF (Carriage Return + Line Feed):
+
+ASCII Code: CR is 13 (`0x0D`), LF is 10 (`0x0A`).
+Characters: `\r\n`
+Commonly used in Windows-based systems
+
 * `|` vs `xargs` for data forwarding
 
 The left side of `|` is standard output (stdout), and right side is standard input (stdin), e.g., `ls | grep ".txt"`.

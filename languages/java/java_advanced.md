@@ -121,7 +121,8 @@ One filename should only have one class.
 We cast the Dog type to the Animal type. Because Animal is the supertype of Dog, this casting is called **upcasting**.
 Note that the actual object type does not change because of casting. The Dog object is still a Dog object. Only the reference type gets changed. 
 
-Here `Animal` is `Dog`'s super class. When `anim.eat();`, it actually calls `dogg.eat()`.
+Here `Animal` is `Dog`'s super class. When `anim.eat();`, it actually calls `dog.eat()`.
+
 ```java
 Dog dog = new Dog();
 Animal anim = (Animal) dog;
@@ -191,6 +192,49 @@ public class S extends C.D {}
 In computing based on the Java Platform, `JavaBeans` are classes that encapsulate many objects into a single object (the bean).
 
 The JavaBeans functionality is provided by a set of classes and interfaces in the java.beans package. Methods include info/description for this bean.
+
+## Java Naming and Directory Interface (JNDI)
+
+Java Naming and Directory Interface (JNDI) gives naming convention and directory functionality.
+It is useful such as in MQ and LDAP.
+
+For example, a typical ActiveMQ `jndi.properties` file looks like
+
+```properties
+java.naming.factory.initial=org.apache.activemq.jndi.ActiveMQInitialContextFactory
+java.naming.provider.url=tcp://localhost:61616
+
+connectionFactoryNames=ConnectionFactory
+queue.jms/MyQueue=MyQueue
+topic.jms/MyTopic=MyTopic
+```
+
+Consider this config `queue.jms/MyQueue=MyQueue`, the `"jms/MyQueue"` is hereby set up and used in the below `JMSExample`, that the message delegation is handled by ActiveMQ run on `tcp://localhost:61616`.
+
+```java
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.jms.*;
+
+public class JMSExample {
+    public static void main(String[] args) throws Exception {
+    // Create Initial Context
+    Context context = new InitialContext();
+
+    // Look up ConnectionFactory
+    ConnectionFactory connectionFactory = (ConnectionFactory) context.lookup("ConnectionFactory");
+
+    // Look up Destination (Queue or Topic)
+    Queue queue = (Queue) context.lookup("jms/MyQueue");
+
+    // Create Connection, Session, and MessageProducer
+    Connection connection = connectionFactory.createConnection();
+    connection.start();
+
+    ...
+    }
+}
+```
 
 ## Java NIO (Non Blocking IO) and EPoll
 

@@ -8,39 +8,125 @@ MVC (Model-View-Controller) is an architectural pattern how to interact with end
 
 Recall that a *bean* refers to an object that is managed by the Spring IoC, i.e., create an object via config.
 
-In `Product.java`, define a class `Product`.
-
-```java
-public class Product {
-    private Long id;
-    private String productName;
-    private Integer productPrice;
-
-    // getter and setter
-    public long getId() {return id;}
-    public String getProductName() {return productName;}
-    public Integer getProductPrice() {return productPrice;}
-    public long setId(long id) { this.id = id;}
-    public String setProductName(String productName) { this.id = productName;}
-    public Integer setProductPrice(Integer productPrice) { this.productPrice = productPrice;}
-}
-```
-
-In `AppConfig.java`, where `@Configuration` and `@Bean` annotations are used to define beans.
+For example, in `CarCompanyConfig.java`, where `@Configuration` and `@Bean` annotations are used to define beans.
 
 ```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AppConfig {
+public class CarCompanyConfig {
 
     @Bean
-    public Product Product() {
+    public Product product() {
         Product productBean = new Product();
         productBean.setProductName("XiaoMi Su 7");
         productBean.setProductPrice(210000);
         return productBean;
+    }
+
+    @Bean
+    public Sales sales() {
+        Product salesBean = new Sales();
+        salesBean.setSalesName("Lisa");
+        salesBean.setGender("F");
+        return salesBean;
+    }
+}
+```
+
+where the `@Configuration` annotation is used to indicate that a class provides bean definitions to the Spring application context.
+The return values of `@Bean` are registered in the application context as Spring-managed beans.
+
+
+#### Bean Injection
+
+Spring manages beans using the ApplicationContext container. When the context starts, Spring:
+
+1. Scans for components (classes annotated with `@Component`, `@Service`, `@Repository`, or `@Controller`) and loads them.
+2. Resolves dependencies for beans using annotations like `@Autowired` or `@Inject`.
+3. Uses `@Configuration` classes and methods annotated with `@Bean` for explicit bean definitions.
+
+##### Bean LifeCycle
+
+1. `@ComponentScan` is used to define the packages Spring should scan for components.
+
+```java
+// Application class
+@SpringBootApplication
+@ComponentScan(basePackages = "com.example.myapp") // Specifies the package to scan
+public class MyApp {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApp.class, args);
+    }
+}
+```
+
+2. Bean Discovery by `@Component`, `@Repository`, `@Service`, and `@Controller`,
+and further definition by `@Configuration` and `@Bean`.
+
+Java classes with such annotations are to set as spring beans.
+
+```java
+@Component
+public class MyBean {
+    public MyBean() {
+        System.out.println("MyBean Constructor Called");
+    }
+
+    public void doSomething() {
+        System.out.println("MyBean is doing something");
+    }
+}
+```
+
+3. Dependency Injection with `@Autowired`
+
+Spring builds beans by dependency order checking constructor (higher priority bean injection) and class member fields (lower priority).
+For example, in `@Autowired public DependentBean(MyBean myBean)`, to build `DependentBean`, `MyBean myBean` needs to build first.
+
+```java
+@Component
+public class DependentBean {
+    private final MyBean myBean;
+
+    @Autowired
+    public DependentBean(MyBean myBean) {
+        this.myBean = myBean;
+        System.out.println("DependentBean Constructor Called with MyBean");
+    }
+
+    public void useMyBean() {
+        myBean.doSomething();
+    }
+}
+```
+
+As a result, output will be
+
+```txt
+MyBean Constructor Called
+DependentBean Constructor Called with MyBean
+```
+
+4. Additionally, after construction and before destruction
+
+```java
+@Component
+public class LifecycleBean {
+
+    public LifecycleBean() {
+        System.out.println("LifecycleBean Constructor Called");
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("LifecycleBean @PostConstruct Called");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("LifecycleBean @PreDestroy Called");
     }
 }
 ```

@@ -22,6 +22,8 @@ Civil law is a comprehensive, codified set of legal statutes created by legislat
 
 Service starts since payment received, such as insurance takes effect when premium received as scheduled.
 
+* Severance （员工被迫离职）遣散费
+
 * take-home income 税后收入
 
 Income after being taxed.
@@ -115,7 +117,7 @@ Often, in addition this clause provides in the case of law enforcement difficult
 
 To link a provision to another provision or to some factual matter.
 
-* Appeal against 上诉
+* Appeal against 起诉/上诉
 
 American Cyanamid appealed against this decision to the House of Lords
 
