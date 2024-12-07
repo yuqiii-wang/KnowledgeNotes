@@ -21,7 +21,7 @@ Services in tomcat by servlets are shown below.
 
 Each `Wrapper` corresponds to one servlet.
 
-### Tomcat Start
+* Tomcat Start
 
 When Tomcat starts, it analyzes `web.xml`, retrieve the definitions for servlet, filter, listener, etc.
 
@@ -251,3 +251,6 @@ public abstract class HttpServlet extends GenericServlet implements java.io.Seri
       <img src="imgs/request_to_servlet.png" width="50%" height="30%" alt="request_to_servlet" />
 </div>
 </br>
+
+## HTTP NIO Protocol Handler
+

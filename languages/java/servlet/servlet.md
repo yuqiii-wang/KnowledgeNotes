@@ -17,7 +17,6 @@ Apache Tomcat (formerly Jakarta Tomcat) is a popular open source web container.
 </div>
 </br>
 
-
 ## Life Cycle
 
 1. Loading and Instantiation

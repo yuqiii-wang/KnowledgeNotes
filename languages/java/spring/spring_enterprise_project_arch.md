@@ -226,3 +226,11 @@ public class RedisDistributedLockExample {
 ## External Request by Feign Client
 
 ## Design Pattern: Facade
+
+## JMS Design
+
+## Tracing and Analytics
+
+### `sleuth` for tracing
+
+### `zipkin` for data collection and analytics
