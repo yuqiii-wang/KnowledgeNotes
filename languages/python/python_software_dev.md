@@ -25,6 +25,41 @@ A regular package is typically implemented as a directory containing an `__init_
 
 *Jinja2* is a web template engine that combines a template with a certain data source to render dynamic web pages.
 
+* The `python-config`
+
+`python-config` is a command-line utility that provides information about the configuration of a Python installation.
+The primary purpose of python-config is to make it easier for developers to compile and link programs or extensions that interact with Python.
+
+Python uses it to locate compiled c++ include and libs folders.
+Error might occur for incompatible libs vs python executable binary.
+
+Check by
+
+```sh
+python-config --includes
+python-config --libs
+
+python --version
+```
+
+* Module not found
+
+For example, `_ctypes` module is not found.
+
+Check sys paths:
+
+```sh
+python -c "import sys; print(sys.path)"
+```
+
+Check where is `_ctypes.cpython-3xx-x86_64-linux-gnu.so` lib
+
+```sh
+python -c "import importlib.util; spec=importlib.util.find_spec('_ctypes'); print(spec)"
+```
+
+Likely it is in `path/to/python/lib/python3.xx/lib-dynload/`
+
 ## Coroutine and Asyncio
 
 Python have two coroutine implementations:

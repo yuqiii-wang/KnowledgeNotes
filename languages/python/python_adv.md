@@ -193,3 +193,37 @@ class Celsius:
         print("Setting value")
         self.temperature = value
 ```
+
+## Where to `import`
+
+For example, `import _ctypes` runs on python3.11.
+
+1. `importlib`
+
+On `import _ctypes`, python calls `importlib.util.find_spec('_ctypes')` to locate the module.
+It searches for a file matching `_ctypes` in the directories listed in `sys.path`, including shared libraries like `_ctypes.cpython-311-x86_64-linux-gnu.so`.
+
+2. Load `.so`
+
+On Linux, Python uses `dlopen()` from `libdl` to load the `.so` file, e.g.,
+
+```cpp
+void* handle = dlopen("_ctypes.cpython-311-x86_64-linux-gnu.so", RTLD_NOW);
+```
+
+If `dlopen()` fails (e.g., due to missing dependencies), Python raises an `ImportError`.
+
+Python locates the symbol using this from the found `.so` file.
+
+```cpp
+dlsym(handle, "PyInit__ctypes");
+```
+
+3. Init
+
+Python calls `PyInit__ctypes()`, inside which `PyModule_Create()` creates module object, and that is created and returned to Python.
+
+4. Integrate the Module with Python
+
+The returned PyObject* module is added to sys.modules.
+Python makes the module's attributes (functions, classes) available to the script.

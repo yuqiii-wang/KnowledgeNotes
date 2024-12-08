@@ -8,13 +8,13 @@ The dealer sells the underlying security to investors and, by agreement between 
 
 To the party selling the security with the agreement to buy it back, it is a repurchase agreement.
 
-To the party buying the security and agreeing to sell it back, it is a reverse repurchase agreement. The reverse repo is the final step in the repurchase agreement, closing the contract.
+To the party buying the security and agreeing to sell it back, it is a reverse repurchase agreement.
 
 ## Repo Types by Collateral Ownership
 
 * Classic Repo/Specified Delivery
 
-Required the delivery of a pre-specified bond at the onset, and at maturity of the contractual period. 
+Required the delivery of a pre-specified bond at the onset, and at maturity of the contractual period.
 
 One party "sells" bonds to the other while simultaneously agreeing to repurchase them or receive them back at a specified future date.
 
@@ -82,8 +82,8 @@ Popular try-party agents are
 
 * The United States Federal Reserve Used Repo for Federal Funds Rate (FFR) Adjustment
 
-Repurchase agreements add reserves to the banking system and then after a specified period of time withdraw them; 
-reverse repos initially drain reserves and later add them back. 
+Repurchase agreements add reserves to the banking system and then after a specified period of time withdraw them;
+reverse repos initially drain reserves and later add them back.
 This tool can also be used to stabilize interest rates (FFR).
 
 * Relationship Between Repo and SOFR
@@ -93,12 +93,11 @@ It is based entirely on transactions (not estimates), hence serving a good alter
 
 SOFR reflects transactions in the Treasury repo market, e.g., UST (U.S. Treasury), that in the Treasury repo market, people borrow money using Treasury debt as collateral.
 
-* The United States Federal Overnight Reverse Repo (O/N RRP)
+* Central bank uses reverse repo to buy securities from financial institutions (typically state-owned banks) to increase their capital reserve/liquidity
 
-This is a cash liquidity management tool that attracts depository institutions to place money in the Fed who pays interests to the depository institutions, so that less funds are being lent in the market.
+SHANGHAI, Nov 29, 2024 (Reuters) - China's central bank said on Friday it conducted 800 billion yuan ($110.59 billion) of outright reverse repos in November.
 
-The Federal Reserve manages *overnight interest rates* (the rates at which banks lend funds to each other at the end of the day in the overnight market to meet federally-mandated reserve requirements) by setting the *interest on reserve balances* (IORB) rate, which is the rate paid to depository institutions (e.g., banks) on balances maintained at Federal Reserve Banks.
+The People's Bank of China (PBOC) said the repo operations aimed to keep liquidity in the banking system adequate at a reasonable level.
 
-Every day, the Federal Reserve accepts overnight cash investments from banks, government-sponsored enterprises (the housing agencies plus the Federal Home Loan Banks), and money market mutual funds and provides Treasury securities (gov bonds) as collateral at its Overnight Reverse Repurchase Agreement (ON RRP) facility.
-
-The overnight means the repo has a duration of one night.
+This happened for real estate saw sharp drops in prices that resulted in banks losing money.
+Feared of banks went bankrupt, PBOC decided to inject temporary liquidity into banks.

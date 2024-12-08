@@ -5,6 +5,7 @@ tsconfig.json
 tslint.json
 
 *.out
+*.so
 .vscode/
 tmpTest/
 myblog/
