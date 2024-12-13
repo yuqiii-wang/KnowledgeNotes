@@ -2,7 +2,7 @@
 
 ## MMU (Memory Management Unit)
 
-The memory management unit logically sits between the processor internal bus and the memory hierarchy—the first level of the hierarchy is most likely the processor’s first level cache on modern embedded processors. The MMU provides the following key features:
+The memory management unit logically sits between the processor internal bus and the memory hierarchy—the first level of the hierarchy is most likely the processor's first level cache on modern embedded processors. The MMU provides the following key features:
 
 * Address translation. The MMU provides per process address translation of linear (virtual) address to physical addresses (see paging for detail).
 
@@ -82,7 +82,7 @@ Segmentation works on top of paging in terms of better mapping from logical memo
 
 Virtual memory makes the primary storage (RAM) hold more data than its max capability by paging data and exchanging data between the primary storage (RAM) and secondary storage (disk).
 
-In practice, only partial code/data is (frequently) executed/used, and there is no need of allocating memory for all declared/requested variables at the same time. 
+In practice, only partial code/data is (frequently) executed/used, and there is no need of allocating memory for all declared/requested variables at the same time.
 However, at the code execution level, user still regards memory ready for all code variables, while actually there are only small chunks of memory blocks used at the physical memory layer. 
 Virtual memory is the abstract layer for this purpose, viewed by user as full and ready memory for all required data, while translated to physical layer occupying small memory blocks.
 

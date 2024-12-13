@@ -9,7 +9,6 @@ Rule of thumb: always remember to make most selective columns as keys.
 * `PRIMARY KEY (a, b, c)`: The partition key is a, the composite clustering key is (b, c).
 * `PRIMARY KEY ((a, b), c)`: The composite partition key is (a, b), the clustering key is c.
 
-
 ## Foreign Key vs Primary Key
 
 *PRIMARY KEY* is used to identify a row entry, that must contain *UNIQUE* values, and cannot contain NULL values.

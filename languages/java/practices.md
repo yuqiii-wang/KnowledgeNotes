@@ -596,23 +596,6 @@ public class CopyFileWithBuffer {
 
 `transient` in Java is used to indicate that a field should not be part of the serialization process.
 
-## Java Message Service (JMS)
-
-Java Message Service (JMS) is an API specification for java message queue for data transfer between a producer and a consumer.
-
-```conf
-# JMS Configuration
-jms.connectionFactory = org.apache.activemq.ActiveMQConnectionFactory
-jms.queue = ExampleQueue
-jms.topic = ExampleTopic
-jms.brokerURL = tcp://localhost:61616
-```
-
-where
-
-* `queue`: A point-to-point destination where messages are sent and received.
-* `topic`: A publish-subscribe destination where messages are broadcast to all subscribers.
-
 ## Post Production Test (PVT)
 
 Post Production Test (PVT) is for after deployment, to test if a new method/class has been implemented.
@@ -650,6 +633,41 @@ public class ExamplePVTTest {
             Method method = clazz.getDeclaredMethod("anExampleStaticMethod", String.class);
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | java.lang.reflect.InvocationTargetException e) {
             fail("An unexpected exception occurred: " + e.getMessage());
+        }
+    }
+}
+```
+
+## Read Configs/Properties
+
+By default, `application-{env}.properties` file is used by Spring framework, however for config, it becomes a standard config file used by many non-Spring projects as well.
+
+* Usually it is put under the path `src/main/resources`.
+* Use `java.util.Properties` to manually read the config
+
+```java
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class PropertiesReader {
+    public static void main(String[] args) {
+        Properties properties = new Properties();
+        
+        try (FileInputStream input = new FileInputStream("src/main/resources/application-uat.properties")) {
+            // Load the properties file
+            properties.load(input);
+            
+            // Access properties
+            String dbUrl = properties.getProperty("db.url");
+            String dbUsername = properties.getProperty("db.username");
+            String dbPassword = properties.getProperty("db.password");
+
+            System.out.println("Database URL: " + dbUrl);
+            System.out.println("Username: " + dbUsername);
+            System.out.println("Password: " + dbPassword);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

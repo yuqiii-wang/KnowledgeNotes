@@ -1,10 +1,10 @@
 # DB Advanced Practices
 
-## Use of Lock 
+## Use of Lock
 
 MySQL
 
-* Table-level lock: 
+* Table-level lock:
 
 ```sql
 LOCK TABLE T READ;
@@ -23,7 +23,7 @@ next-key locking strategy that prevents phantom reads in this isolation level (I
 
 * Page-level lock
 
-A compromised page level is taken with overhead and conflict levels between row-level and table-level locking. 
+A compromised page level is taken with overhead and conflict levels between row-level and table-level locking.
 
 ### Deadlock
 
@@ -38,6 +38,7 @@ It is user-discretionary to say if read/write business is safe to apply optimist
 
 For example, assume the below transactions are run in parallel multiple times.
 It risks write skew.
+
 ```sql
 START TRANSACTION;
 SELECT * FROM test WHERE test.id > 10 AND test.id < 100;
@@ -46,6 +47,7 @@ UPDATE test SET val = 1 WHERE test.id > 10 AND test.id < 100;
 
 The solution is by appending `FOR UPDATE` to `SELECT` (read is not available as the row might be undergoing `UPDATE`).
 For index records the search encounters, `SELECT ... FOR UPDATE` locks the rows and any associated index entries.
+
 ```sql
 START TRANSACTION;
 SELECT * FROM test WHERE test.id > 10 AND test.id < 100 FOR UPDATE;
@@ -61,6 +63,7 @@ Pessimistic locking uses `SELECT ... FOR UPDATE` that locks not only the rows, *
 ## Sub Query: Select-From-Where
 
 Selected columns are by a WHERE condition which is derived from another select. For example:
+
 ```sql
 select ename,deptno,sal
 from emp
@@ -109,7 +112,7 @@ Once applied `COMMIT`, the changes are permanent to DB, not in the user session 
 
 MySQL supports two kinds of replication: *statement-based* replication and *row-based* replications.
 
-MySQL slaves record changes in the master’s binary log 2 and replaying the log on the replica; the playback is an async operation.
+MySQL slaves record changes in the master's binary log 2 and replaying the log on the replica; the playback is an async operation.
 
 There are I/O threads on loop detecting/fetching data from a master.
 
@@ -120,7 +123,8 @@ GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.*
 TO repl@'192.168.0.%' IDENTIFIED BY 'p4ssword',;
 ```
 
-On conf file, add (This makes MySQL synchronize the binary log’s contents to disk each time it commits a transaction, so you don’t lose log events if there’s a crash)
+On conf file, add (This makes MySQL synchronize the binary log's contents to disk each time it commits a transaction, so you don't lose log events if there's a crash)
+
 ```cfg
 sync_binlog=1
 ```
@@ -128,6 +132,7 @@ sync_binlog=1
 ### Master to master replication
 
 The default delay for master to master replication is $0$ seconds, and this can be config by the below statement.
+
 ```sql
 CHANGE MASTER TO MASTER_DELAY = N;
 ```
@@ -136,7 +141,7 @@ CHANGE MASTER TO MASTER_DELAY = N;
 
 About debugging latency in replication:
 
-* `Slave_IO_State`, `SHOW ENGINE INNODB STATUS`, `Slave_SQL_Running_State` or `SHOW PROCESSLIST` – It tells you what the thread is doing. This field will provide you good insights if the replication health is running normally, facing network problems such as reconnecting to a master, or taking too much time to commit data which can indicate disk problems when syncing data to disk.
+* `Slave_IO_State`, `SHOW ENGINE INNODB STATUS`, `Slave_SQL_Running_State` or `SHOW PROCESSLIST` - It tells you what the thread is doing. This field will provide you good insights if the replication health is running normally, facing network problems such as reconnecting to a master, or taking too much time to commit data which can indicate disk problems when syncing data to disk.
 
 * `Master_Log_File` - check bin log
 
@@ -147,11 +152,11 @@ About debugging latency in replication:
 
 ### Temp table
 
-Temporary tables are similar to ordinary persistent tables, except that tmp tables are stored in `Tempdb`. 
+Temporary tables are similar to ordinary persistent tables, except that tmp tables are stored in `Tempdb`.
 
 `Tempdb` typically resides in RAM, but it can be placed in disk if large. `Tempdb` performance tuning can improve performance.
 
-Local `Tempdb`s (with a prefix `#`) are automatically dropped when the current user logout his/her session; global `Tempdb`s (with a prefix `##`) are automatically dropped when all users logout. 
+Local `Tempdb`s (with a prefix `#`) are automatically dropped when the current user logout his/her session; global `Tempdb`s (with a prefix `##`) are automatically dropped when all users logout.
 
 ```sql
 CREATE temporary TABLE tmp
@@ -198,6 +203,7 @@ DECLARE @News Table
 ### Use example
 
 `T` is filled with many rows of `(A,B,C)`, where `A` is an incremental index; `B` is a random `int` col; `C` holds large texts.
+
 ```sql
 CREATE TABLE T(
     A INT IDENTITY PRIMARY KEY, 
@@ -209,6 +215,7 @@ CREATE TABLE T(
 Here the sql query first finds rows where `B % 100000 = 0` stored as `T1` and `T2`, then find rows on `T2.A > T1.A`.
 
 Below is a CTE example. This can be expensive since `T` might be scanned multiple times.
+
 ```sql
 WITH CTETmp
      AS (SELECT *,
@@ -224,6 +231,7 @@ FROM   CTETmp T1
 ```
 
 Below is a temp table example, and this should be fast for `T` is only scanned once and the results are stored in a tempdb.
+
 ```sql
 INSERT INTO #T
 SELECT *,

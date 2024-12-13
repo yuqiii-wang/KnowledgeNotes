@@ -216,19 +216,6 @@ Failed to complete this step might raise "PKIX path building failed: sun.securit
 keytool -import -alias example-mirror -keystore  "/path/to/<jre-version>/lib/security/cacerts" -file example-mirror-id.cer
 ```
 
-## pom.xml
-
-A minimal `POM.xml`
-
-```xml
-<project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.mycompany.app</groupId>
-  <artifactId>my-app</artifactId>
-  <version>1</version>
-</project>
-```
-
 ## Maven Setup in IntelliJ IDEA
 
 1. Make sure Maven plugin is installed.
@@ -282,4 +269,71 @@ One can use this to clean up/remove `*.lastUpdated` to trigger IDEA re-download.
 ```sh
 cd ~/.m2 # or your custom maven repo folder
 find . -name '*.lastUpdated' | xargs rm -rf
+```
+
+### Minimalist `pom.xml` for Maven start
+
+For Maven to work, need to include these in `pom.xml`.
+
+#### Maven Model (`maven-model`)
+
+* Purpose: This dependency provides access to the Maven Project Object Model (POM) classes. These classes are used internally by Maven but can also be used by applications that need to read or manipulate POM files.
+* Use Case: If you're building a tool or an application that needs to interact with Maven projects by reading or writing POM files, this dependency would be necessary.
+
+#### Maven Compiler Plugin (`maven-compiler-plugin`)
+
+* Purpose: The compiler plugin is used to compile the sources of your project.
+* Use Case: Configure this plugin to specify which version of Java you are targeting. It compiles all `.java` source files into `.class` files that can be executed by the Java Virtual Machine (JVM).
+
+#### Maven Surefire Plugin (`maven-surefire-plugin`)
+
+* Purpose: This plugin is responsible for running your project's unit tests and generating reports.
+* Use Case: During the build process, it executes the tests written using frameworks like JUnit. It ensures that your code meets quality standards before packaging and deployment.
+
+Example:
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>example-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>Example Project</name>
+    <description>A simple Maven project example.</description>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies><dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>3.8.6</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
 ```

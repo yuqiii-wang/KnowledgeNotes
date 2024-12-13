@@ -32,8 +32,8 @@ data information about data structure (described by data schema), data operation
 
 A transaction is a group of SQL queries that are treated
 atomically, as a single unit of work. If the database engine can apply the entire group
-of queries to a database, it does so, but if any of them can’t be done because of a crash
-or other reason, none of them is applied. It’s all or nothing.
+of queries to a database, it does so, but if any of them can't be done because of a crash
+or other reason, none of them is applied. It's all or nothing.
 
 A transaction must satisfy a *ACID test*:
 
@@ -196,7 +196,7 @@ Best way to optimize MySQL is to provide high performance hardware (still single
 
 * Scaling Up: prefer multi-core CPU and multi-IO peripherals.
 
-### Scaling Out:
+### Scaling Out
 
 * Replication: simply replicating instances from master db instance.
 

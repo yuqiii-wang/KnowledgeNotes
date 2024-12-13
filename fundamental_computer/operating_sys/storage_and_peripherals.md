@@ -139,6 +139,7 @@ How OS manages
 ### I/O Performance
 
 I/O operations result in significant performance reductions:
+
 1) context switches for CPU resulting forfeiting/reloading cache
 2) expose inefficiencies in the interrupt-handling mechanisms in the kernel
 3) handling between peripheral controllers, physical memory/disk, and kernel memory/buffer
