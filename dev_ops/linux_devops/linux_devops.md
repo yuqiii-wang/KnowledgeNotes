@@ -289,6 +289,17 @@ sudo find / -type f -printf "%s\t%p\n" 2>/dev/null | sort -n | tail -10
 df
 ```
 
+and accordingly the largest files
+
+```bash
+du ./ / 2>/dev/null | sort -n -r | head -n 20
+```
+
+Tips: on Linux after `rm`, the disk space is not immediately released, likely there are still processes own the file descriptor.
+The `rm` simply removes the link between the filename and the mapped `inode`, and only when `inode` linker counter is zero, Linux will release the disk space.
+
+One can use `lsof | grep 'deleted'` to list open files and locate what processes own the file.
+
 * Check I/O to/from devices
 
 ```bash
@@ -326,7 +337,7 @@ sudo dd if=/path/to/ubuntu.iso of=/dev/sda1 bs=1M
 
 `/etc/hosts` contains the mapping of some hostnames to IP addresses before DNS can be referenced. 
 
-```
+```txt
 IPAddress     Hostname    		 Alias
 127.0.0.1			localhost	 	 deep.openna.com
 208.164.186.1		deep.openna.com		 deep

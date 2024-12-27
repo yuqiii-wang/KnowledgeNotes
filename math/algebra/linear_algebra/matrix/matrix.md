@@ -6,7 +6,7 @@ The rank of a matrix $A$ is the dimension of the vector space generated (or span
 
 For example,
 $$
-A = 
+A =
 \begin{bmatrix}
       1 & 4 & 5 \\
       2 & 5 & 7 \\
@@ -195,24 +195,30 @@ which give the volume of a parallelotope.
 ## Adjugate Matrix
 
 Adjugate, adjunct or classical adjoint of a square matrix $Adj(A)$ is the transpose of its cofactor matrix $C$.
+
 $$
 Adj(A) = C^\text{T}
 $$
-where 
+
+where
+
 $$
 C = \big( (-1)^{i+j} M_{i,j} \big)_{1\leq i,j \leq n}
 $$
+
 where $M_{i,j}$ is the determinant of the $(i,j)$-th element of a square matrix $A$ .
 
 For example, given
+
 $$
-A = 
+A =
 \begin{bmatrix}
       a & b & c \\
       d & e & f \\
       g & h & i
 \end{bmatrix}
 $$
+
 the $(1,2)$-th element is $b$, whose determinant can be expressed as
 
 $$

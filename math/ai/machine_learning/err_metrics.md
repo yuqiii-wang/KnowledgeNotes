@@ -8,7 +8,7 @@ A cost function, on the other hand, is about the direct gaps/residuals between o
 
 ## Regression Loss
 
-### Squared Error Loss
+### Squared Error Loss (L2)
 
 Squared Error loss for each training example, also known as L2 Loss, and the corresponding cost function is the Mean of these Squared Errors (MSE).
 
@@ -16,7 +16,7 @@ $$
 L = (y - f(x))^2
 $$
 
-### Absolute Error Loss
+### Absolute Error Loss (L1)
 
 Also known as L1 loss. The cost is the Mean of these Absolute Errors (MAE).
 
@@ -26,9 +26,10 @@ $$
 
 ### Huber Loss
 
-The Huber loss combines the best properties of MSE and MAE. 
-It is quadratic for smaller errors and is linear otherwise (and similarly for its gradient). 
+The Huber loss combines the best properties of MSE and MAE.
+It is quadratic for smaller errors and is linear otherwise (and similarly for its gradient).
 It is identified by its delta parameter $\delta$:
+
 $$
 L_{\delta}(e)=
 \left\{
@@ -47,6 +48,47 @@ Similar to Huber loss, but Cauchy loss provides smooth curve that error output g
 $$
 L(e) = \log (1+e)
 $$
+
+### Discussion: L1 vs L2 in Training
+
+Define $L_2$ Loss ($\bold{w}$ is the weights to optimize):
+
+$$
+\begin{align*}
+&& L_2 = \frac{1}{2} \Big|\Big| \bold{y} - X\bold{w} \Big|\Big|^2_2
+& = \frac{1}{2}\Big(\bold{y} - X\bold{w}\Big)^{\top} \Big(\bold{y} - X\bold{w}\Big) \\
+\Rightarrow && &= \frac{1}{2} \bold{w}X^{\top}X \bold{w}^{\top} - 2\bold{y}^{\top} X \bold{w} + \bold{y}^{\top}\bold{y}
+\end{align*}
+$$
+
+Define $L_1$ Loss ($\bold{w}$ is the weights to optimize):
+
+$$
+L_1=\Big|\Big| \bold{y} - X\bold{w} \Big|\Big|_1 =
+\sum_{i} \Big| y_i - X w_i \Big|
+$$
+
+Discussions:
+
+* $L_2$ is twice differentiable, hence smooth.
+* $\nabla^2 L_2 = X^{\top}X$ must be positive definite so that $L_2$ is convex
+* $L_1$ is NOT smooth, that means there is no $\nabla^2$ indicating how good an iterative step is; if $\nabla^2$ is present, when an iterative step is approaching the extreme/minimum, gradient is small, so that step stride should be set small as well.
+
+$$
+\frac{\partial |w_i|}{\partial w_i} = \begin{cases}
+    1 & w_i > 0 \\
+    -1 & w_i < 0 \\
+    \text{undefined} & w_i = 0 \\
+\end{cases}
+$$
+
+* $X^{\top}X$ must be positive definite so that $L_2$ is convex
+* $L_2$ has wider convergence space (multi-dimension sphere), while $L_1$ has a squared diamond space
+
+For example for 2D space, convergence space is $|w_1|+|w_2|\le c$ for $L_1$, $w_1^2 + w^2_2\le c$ is a circle for $L_2$.
+This circle is enclosing the $L_1$'s squared diamond.
+
+Here $c$ is the constraint to prevent $w_i$ get too large.
 
 ## Classification Loss
 
@@ -92,8 +134,7 @@ where $t=\pm 1$ and $y$ is the prediction score. For example, in SVM, $y=\bold{w
 For two vector $\bold{u}$ and $\bold{v}$, Euclidean distance is calculated as the square root of the sum of the squared differences between the two vectors.
 
 $$
-\sqrt{\sum_i^n (u_i - v_i)^2}
-,\qquad
+\sqrt{\sum_i^n (u_i - v_i)^2},\qquad
 u_i \in \bold{u} \in \mathbb{R}, \space v_i \in \bold{v} \in \mathbb{R}
 $$
 
@@ -203,7 +244,6 @@ $$
 A general form of $D_{JS}$ is by replacing $\frac{Q+P}{2}$ with weighs $\bold{\pi}=\{ \pi_1, \pi_2, ..., \pi_n \}$ on distributions $\bold{P} = \{ P_1, P_2, ..., P_n \}$.
 
 ## Errors
-
 
 ### Root mean Square Deviation (RMSD)
 

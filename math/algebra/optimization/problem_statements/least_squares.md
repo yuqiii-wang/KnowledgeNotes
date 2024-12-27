@@ -7,6 +7,7 @@ $$
 where $r_j$ is a smooth function from $\mathbb{R}^n \rightarrow \mathbb{R}$ given $\bold{x} \in \mathbb{R}^n$. For least squares problem, there is $m \ge n$.
 
 Residual $r_j$ is the error between function $\phi_j(\bold{x})$ and ground truth observation $y_j$:
+
 $$
 r_j(\bold{x}) = y_j - \phi_j(\bold{x})
 $$
@@ -54,14 +55,12 @@ $$
 Its second degree derivative (Hessian) is
 $$
 \begin{align*}
-
 \nabla^2f(\bold{x})&=
 \sum^m_{j=1} \big( r_j(\bold{x}) \nabla r_j(\bold{x})\big)'
 \\ &=
 \sum^m_{j=1} r_j'(\bold{x}) \nabla r_j(\bold{x}) + r_j(\bold{x}) \nabla r_j'(\bold{x})
 \\ &=
-\sum^m_{j=1} \nabla r_j(\bold{x}) \nabla r_j(\bold{x})^\text{T}
-+
+\sum^m_{j=1} \nabla r_j(\bold{x}) \nabla r_j(\bold{x})^\text{T} +
 \sum^m_{j=1} r_j(\bold{x}) \nabla^2 r_j(\bold{x})
 \\ &=
 J(\bold{x})^\text{T} J(\bold{x}) + \sum^m_{j=1} r_j(\bold{x}) \nabla^2 r_j(\bold{x})

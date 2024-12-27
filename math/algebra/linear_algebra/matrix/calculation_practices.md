@@ -15,7 +15,7 @@ $$
 Solution:
 
 $$
-|A - \lambda I| = |
+|A - \lambda I| = \Bigg|
 \begin{bmatrix}
 2 & 1\\
 1 & 2
@@ -24,14 +24,14 @@ $$
 \begin{bmatrix}
 1 & 0\\
 0 & 1
-\end{bmatrix} |=|
-\begin{bmatrix}
+\end{bmatrix} \Bigg|=\Bigg|
+\begin{matrix}
 2-\lambda & 1\\
 1 & 2-\lambda
-\end{bmatrix}|
+\end{matrix}\Bigg|
 $$
 
-$$= 3 - 4 \lambda + \lambda^2 
+$$= 3 - 4 \lambda + \lambda^2
 $$
 
 hence
@@ -40,7 +40,7 @@ $\lambda_1 = 1$ and $\lambda_2 = 3$.
 for eigenvectors:
 
 $$
-(A - \lambda_1 I) v_1 = 
+(A - \lambda_1 I) \bold{v}_1 =
 \begin{bmatrix}
 1 & 1\\
 1 & 1
@@ -58,7 +58,7 @@ $$
 thus derived
 
 $$
-v_{\lambda=1} = 
+\bold{v}_{\lambda_1} =
 \begin{bmatrix}
 1\\
 -1
@@ -68,20 +68,30 @@ $$
 same calculation applied when $\lambda = 3$
 
 $$
-v_{\lambda=3} =
+\bold{v}_{\lambda_2} =
 \begin{bmatrix}
 1\\
 1
 \end{bmatrix}
 $$
 
-Geometrically speaking, the transformation matrix $A$ can be explained as scaling with a multiple of $1$ on $v_{\lambda=1}$ and $3$ on $v_{\lambda=3}$ basis.
+Geometrically speaking, the transformation matrix $A$ can be explained as scaling with a multiple of $1$ on $\bold{v}_{\lambda_1}$ and $3$ on $\bold{v}_{\lambda_2}$ basis.
 
-Illustrated as given animation below, pink arrows are parallel to $v_{\lambda=1}$ with a scaling result of $1$ (unchanged in length), and blue arrows are parallel to $v_{\lambda=3}$ with a scaling result of $3$, red arrows are transformed with a combined effect of $v_{\lambda=1}$ and $v_{\lambda=3}$.
+Illustrated as given animation below, pink arrows are parallel to $\bold{v}_{\lambda_1}$ with a scaling result of $1$ (unchanged in length), and blue arrows are parallel to $\bold{v}_{\lambda_2}$ with a scaling result of $3$, red arrows are transformed with a combined effect of $\bold{v}_{\lambda_1}$ and $\bold{v}_{\lambda_2}$.
+
+For example, there exist points by transform $A\bold{x}_i$:
+
+* $\bold{x}_1=(1,3)$, there is $A\bold{x}_1=(7,5)$
+* $\bold{x}_2=(1,2)$, there is $A\bold{x}_2=(5,4)$
+* $\bold{x}_3=(1,1)$, there is $A\bold{x}_3=(3,3)$, exactly scaled by $\lambda_2=3$
+* $\bold{x}_4=(1,0)$, there is $A\bold{x}_4=(2,1)$
+* $\bold{x}_5=(1,-1)$, there is $A\bold{x}_5=(1,-1)$, exactly scaled by $\lambda_1=1$
+* $\bold{x}_6=(1,-2)$, there is $A\bold{x}_6=(0,-3)$
+* $\bold{x}_7=(1,-3)$, there is $A\bold{x}_7=(-1,-5)$
 
 ![alt text](imgs/Eigenvectors_transformation.gif "Eigenvectors_transformation")
 
-## Calculate $X$ as given below:
+## Calculate $X$ as given below
 
 $$
 X =

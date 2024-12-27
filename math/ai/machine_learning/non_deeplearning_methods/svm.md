@@ -104,7 +104,6 @@ $$
 \\ &=
 (25, 30, 35, 30, 36, 42, 35, 42, 49)\\
 \\
-
 \phi(\overrightarrow{x_2} \cdot \overrightarrow{x_2})&=
 (8,9,10) \cdot (8,9,10)
 \\ &=
@@ -112,7 +111,6 @@ $$
 \\ &=
 (64, 72, 80, 72, 81, 90, 80, 90, 100)\\
 \\
-
 \phi(\overrightarrow{x_1}, \overrightarrow{x_2})
  &=
 \phi(\overrightarrow{x_1} \cdot \overrightarrow{x_1}) \cdot \phi(\overrightarrow{x_2} \cdot \overrightarrow{x_2})

@@ -154,41 +154,54 @@ There is no real file system exists on `/proc` or `/sys`, but virtual files resi
 
 |File name|Description|
 |-|-|
-|`/proc/cpuinfo`|	Information about CPUs in the system.
-|`/proc/meminfo`|	information about memory usage.
-|`/proc/ioports`|	list of port regions used for I/O communication with devices.
-|`/proc/mdstat`|	display the status of RAID disks configuration.
-|`/proc/kcore`|	displays the actual system memory.
-|`/proc/modules`|	displays a list of kernel loaded modules.
-|`/proc/cmdline`|	displays the passed boot parameters.
-|`/proc/swaps`|	displays the status of swap partitions.
-|`/proc/iomem`|	the current map of the system memory for each physical device.
-|`/proc/version`|	displays the kernel version and time of compilation.
+|`/proc/cpuinfo`|Information about CPUs in the system.|
+|`/proc/meminfo`|information about memory usage.|
+|`/proc/ioports`|list of port regions used for I/O communication with devices.|
+|`/proc/mdstat`|display the status of RAID disks configuration.|
+|`/proc/kcore`|displays the actual system memory.|
+|`/proc/modules`|displays a list of kernel loaded modules.|
+|`/proc/cmdline`|displays the passed boot parameters.|
+|`/proc/swaps`|displays the status of swap partitions.|
+|`/proc/iomem`|the current map of the system memory for each physical device.|
+|`/proc/version`|displays the kernel version and time of compilation.|
+
 ### `/sys`
 
 `/sys` can be used to get information about your system hardware.
 
 |File/Directory name|Description|
 |-|-|
-|Block|	list of block devices detected on the system like sda.
-|Bus|	contains subdirectories for physical buses detected in the kernel.
-|Class|	describes the class of device like audio, network, or printer.
-|Devices|	list all detected devices by the physical bus registered with the kernel.
-|Module|	lists all loaded modules.
-|Power|	the power state of your devices.
+|Block|list of block devices detected on the system like sda.|
+|Bus|contains subdirectories for physical buses detected in the kernel.|
+|Class|describes the class of device like audio, network, or printer.|
+|Devices|list all detected devices by the physical bus registered with the kernel.|
+|Module|lists all loaded modules.|
+|Power|the power state of your devices.|
 
 ### Use example
 
+* `lsof` (list open files) shows Linux running processes by query files
+
+`lsof -i -P` can show current running processes and ports
+
+`lsof | grep 'deleted'` to list deleted files and check what live processes own the file.
+
+* Check network card
+
 If you have multiple network cards, you can run below to config computer to use a particular card
+
 ```bash
 echo "1" > /proc/sys/net/ipv4/ip_forward
-``` 
+```
 
 To persist the change, you can either
+
 ```bash
 sysctl -w net.ipv4.ip_forward=1
 ```
+
 or
+
 ```bash
 echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
 ```

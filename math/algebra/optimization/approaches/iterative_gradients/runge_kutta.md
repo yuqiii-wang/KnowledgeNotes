@@ -1,6 +1,6 @@
-# Runge–Kutta
+# Runge-Kutta
 
-Runge–Kutta method can be used for nonlinear equation approximation and curve fitting.
+Runge-Kutta method can be used for nonlinear equation approximation and curve fitting.
 
 The approximation is computed by
 $$
@@ -11,7 +11,7 @@ $$
 $$
 
 where $y_{n}$ is the $n$-th discrete output and the $t_{n}$ is the corresponding input.
-Since Runge–Kutta method is more often used in time-series system, the input notation $x_{n}$ is replaced with $t_{n}$.
+Since Runge-Kutta method is more often used in time-series system, the input notation $x_{n}$ is replaced with $t_{n}$.
 $h$ can be thought of $\Delta x$ equivalent to represent the iterative step.
 
 The step coefficients $k_i$ are computed by

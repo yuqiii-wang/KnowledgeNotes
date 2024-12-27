@@ -50,3 +50,30 @@ This mechanism successfully retains error updating lower layer neurons, differen
 
 ### Explained in Gradient Vanishing/Explosion
 
+## Typical Residual Block in Convolutional Network
+
+### Basic Block
+
+Used in smaller ResNet models (ResNet-18, ResNet-34)
+
+* $3 \times 3$ Convolution Layers.
+* Batch Normalization (BN) and ReLU activation.
+* Shortcut (residual) connections to mitigate the vanishing gradient problem.
+
+$$
+F(x, W) = \underbrace{\text{ReLU}(\text{BN}(\text{Cov}_{3 \times 3}}_{\text{the }l_{+1}\text{-th layer output}}(
+    \underbrace{\text{ReLU}(\text{BN}(\text{Cov}_{3 \times 3}(x)))}_{\text{the }l\text{-th layer output}}))) + x
+$$
+
+### Bottleneck Block
+
+Used in deeper ResNet models (e.g., ResNet-50, ResNet-101, ResNet-152)
+
+* $1 \times 1$ convolution for reducing channel dimensions (dimensionality reduction).
+* $3 \times 3$ convolution for feature extraction.
+* $1 \times 1$ convolution for restoring channel dimensions (dimensionality expansion).
+
+$$
+F(x, W) = \text{Cov}_{1 \times 1}(\text{BN}(\text{Cov}_{3 \times 3}(
+    \text{BN}(\text{Cov}_{1 \times 1}(x))))) + x
+$$

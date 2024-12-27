@@ -1,6 +1,7 @@
 # Positive-definite matrix
 
 Given an $n \times n$ symmetric matrix $A$:
+
 $$
 A=
 \begin{bmatrix}
@@ -9,16 +10,18 @@ a_{2,1} & a_{2,2} & ... & a_{2,n} \\
 ... & ... & ... & ... \\
 a_{n,1} & a_{n,2} & ... & a_{n,n} \\
 \end{bmatrix}
-$$ 
+$$
 
-$A$ is positive-definite if the real number $\bold{x}^\text{T} A \bold{x}$ is positive for every nonzero real column vector $x$ (here $\setminus$ denotes *set minus* operator):
+$A$ is positive-definite if the real number $\bold{x}^\text{T} A \bold{x}$ is positive for every nonzero real column vector $\bold{x}$ (here $\setminus$ denotes *set minus* operator):
+
 $$
 \bold{x}^\text{T} A \bold{x}>0 \quad \forall \bold{x} \in \mathbb{R}^n \setminus \{0\}
 $$
 
-$A$ is positive-semi-definite if if the real number $x^\text{T} A x$ is positive or zero:
+$A$ is positive-semi-definite if if the real number $\bold{x}^\text{T} A \bold{x}$ is positive or zero:
+
 $$
-\bold{x}^\text{T} A \bold{x} \ge 0 \quad \forall \bold{x} \in \mathbb{R}^n 
+\bold{x}^\text{T} A \bold{x} \ge 0 \quad \forall \bold{x} \in \mathbb{R}^n
 $$
 
 $A$ is positive-definite if it satisfies any of the following equivalent conditions.
@@ -28,18 +31,98 @@ $A$ is positive-definite if it satisfies any of the following equivalent conditi
 * $A$ is symmetric or Hermitian, and all its leading principal minors are positive.
 * There exists an invertible matrix $B$ with conjugate transpose $B^*$ such that $A=BB^*$
 
+## Use Examples
+
+### Use Example in Optimization
+
+Given a quadratic function to
+
+$$
+f(\bold{x}) = \frac{1}{2} \bold{x}^{\top} Q \bold{x} + b^{\top}\bold{x} + c
+$$
+
+For $f(\bold{x})$ be convex (indicating it has a unique global minimum.), $Q$ must be positive semi-definite (all eigenvalues are non-negative).
+
+Definition of Convexity, given $\forall \theta \in [0,1]$:
+
+$$
+f(\theta \bold{x}_1+(1-\theta)\bold{x}_2) \le \theta f(\bold{x}_1) + (1-\theta) f(\bold{x}_2)
+$$
+
+Newton's Method updates the parameter $\bold{x}$ iteratively to find the local minimum.
+Each step is defined by the Hessian matrix of $f(\bold{x})$.
+
+$$
+\bold{x}_{k+1} = \bold{x}_k - H^{-1} \nabla f(\bold{x}_k)
+$$
+
+where
+
+* $H=Q$ is the Hessian matrix of $f(\bold{x})$
+* $\nabla f(\bold{x}) = Q\bold{x} - \bold{b}$
+
+Proof of $H=Q$ is the Hessian matrix of $f(\bold{x})$: if $f(\bold{x})$ has an extreme/local minimum, it should have derivative zero at that point $\nabla f(\bold{x}) = \bold{0}$, such that
+
+$$
+\begin{align*}
+    && \bold{x}^{\top} Q + \bold{b} &= \bold{0} \\
+    \Rightarrow && \bold{x} &= -Q^{-1}\bold{b}
+\end{align*}
+$$
+
+Also for the second derivative, there is $\nabla^2 f(\bold{x}) = H = Q$.
+
+As a result, the iterative update can be written as
+
+$$
+\bold{x}_{k+1} = \bold{x}_k - Q^{-1} \nabla f(\bold{x}_k)
+$$
+
+### Use Example in PCA (Principle Component Analysis)
+
+For sample data matrix $X \in \mathbb{R}^{n \times m}$ ($n$ samples each of which has $m$ features), define covariance matrix $\Sigma=\frac{1}{n-1}X^{\top}X$, and $\Sigma \in \mathbb{R}^{m \times m}$ is about the covariance between each of two feature pairs.
+
+* The covariance matrix is symmetric because:
+
+$$
+\Sigma_{i,j} = \text{Cov}(X_i, X_j) = \Sigma_{j,i}
+$$
+
+* It is positive semi-definite because for any vector $\bold{z}\in\mathbb{R}^{m}$:
+
+$$
+\bold{z}^{\top}\Sigma\bold{z} = \text{Var}(\bold{z}^{\top}X) \ge \bold{0}
+$$
+
+Proof:
+
+$$
+\begin{align*}
+    \bold{z}^{\top}\Sigma\bold{z} &=
+    \bold{z}^{\top} \Big(\frac{1}{n-1}X^{\top}X\Big) \bold{z} \\ &=
+    \frac{1}{n-1} \bold{z}^{\top} \Big(X^{\top}X\Big) \bold{z} \\ &=
+    \frac{1}{n-1} (X\bold{z})^{\top} (X\bold{z}) \\ &=
+    \frac{1}{n-1} \big|\big| X\bold{z} \big|\big|^2_2 \ge \bold{0}
+\end{align*}
+$$
+
+This indicates that all eigenvalues of $\Sigma$ are non-negative.
+
+PCA identifies directions (principal components) in the data where variance is maximized.
+Large variance features contain richer info than small ones.
+
 ## Proof of Positive-Definite Matrix
 
 ### Eigenvalues of A Real Symmetric Matrix Are Real
 
-Denote the complex number inner product operator as $\langle \bold{x}, \bold{y} \rangle=\sum_i \overline{x}_i y_i$; denote $A^*$ as the conjugate transpose of $A$, there is $A=A^*=A^\text{T}$. Besides, $\lambda$ is the corresponding eigenvalue.
+Denote the complex number inner product operator as $\langle \bold{x}, \bold{y} \rangle=\sum_i \overline{x}_i y_i$; denote $A^{\dagger}$ as the conjugate transpose of $A$, there is $A=A^{\dagger}=A^\text{T}$. Besides, $\lambda$ is the corresponding eigenvalue.
 
 By $A\bold{x}=\lambda\bold{x}$, there is $A^2 \bold{x}=A(A\bold{x})=A\lambda \bold{x}=\lambda A\bold{x}=\lambda^2\bold{x}$.
 
 $$
-\langle A\bold{x}, A\bold{x} \rangle = 
-\bold{x}^*A^* A\bold{x} = 
-\bold{x}^* (A^2 \bold{x}) = 
+\langle A\bold{x}, A\bold{x} \rangle =
+\bold{x}^*A^{\dagger} A\bold{x} =
+\bold{x}^* (A^2 \bold{x}) =
 \lambda^2 ||\bold{x}||^2
 $$
 
@@ -84,6 +167,7 @@ $$
 where $A$ is a symmetric matrix, and $\lambda_i$ are eigenvalues of $A$. Define $\bold{v}_i$ as the corresponding eigenvectors, the $c_i$ is defined by $c_i=\bold{v}_i\bold{x}$. $Q(\bold{x})$ which is a scalar number.
 
 $A$ has the below properties:
+
 * The eigenvalues of $A$ are real.
 * $A$ is diagonalizable, and the eigenspaces of $A$ are mutually orthogonal.
 
@@ -271,9 +355,3 @@ $$
 \\ &> 0
 \end{align*}
 $$
-
-## Use in Optimization
-
-If $A$ is positive-definite, $x^\text{T}Ax$ has global minima solution $x^*$ (a convex).
-
-If $A$ neither satisfies $x^\text{T}Ax>0$ nor $x^\text{T}Ax<0$, there exist saddle points.

@@ -201,6 +201,13 @@ function MyComponent(props) {
 |Syntax|Simple and Concise|Requires `constructor`, `this`, and `render()`.|
 |Performance|Slightly more performant as they avoid class instantiation overhead.|Heavier runtime due to class instantiation.|
 
+## Reference vs Copy
+
+In React,
+
+* Deep copy: `const xCopyArr = [...xArr];`
+* By reference: `const yArr = xArr;`
+
 ## `null` vs `undefined`
 
 * `undefined`

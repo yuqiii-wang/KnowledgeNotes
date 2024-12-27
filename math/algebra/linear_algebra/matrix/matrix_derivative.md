@@ -111,9 +111,10 @@ Given the above result $df  =  tr \big(   ((\bold{a} \odot e^{X\bold{b}}) \bold{
 ### Appendix: Proof of $\nabla_A tr(AB) = B^\text{T}$
 
 Define $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{k \times n}$
+
 $$
 \begin{align*}
-tr(AB) &= 
+tr(AB) &=
 tr \bigg(
     \begin{bmatrix}
     \bold{a_1} \\
@@ -135,11 +136,10 @@ tr \begin{bmatrix}
     & & & \bold{a_n}\bold{b_n}^\text{T}
 \end{bmatrix}\\ &=
 \sum^n_i \bold{a_i}\bold{b_i}^\text{T}
-
 \end{align*}
 $$
 
-So that (notice here the subscripts of $a_{ij}$ and $b_{ji}$ are in a reverse order. 
+So that (notice here the subscripts of $a_{ij}$ and $b_{ji}$ are in a reverse order)
 $$
 \frac{\partial tr(AB)}{\partial a_{ij}}=
 b_{ji}

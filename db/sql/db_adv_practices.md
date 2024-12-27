@@ -249,3 +249,15 @@ FROM   #T T1
 
 ## Bulk Insertion and Performance Optimization
 
+## Support for Vector Search
+
+Postgre SQL has built-in support for vector, such as
+
+```sql
+CREATE TABLE items (
+    id SERIAL PRIMARY KEY,
+    embedding VECTOR(3) -- 3-dimensional vector
+);
+```
+
+Oracle and MySQL do not natively support `VECTOR`.
