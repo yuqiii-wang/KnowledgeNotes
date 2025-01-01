@@ -208,7 +208,7 @@ $$
 
 ### Minkowski Distance
 
-For two vector $\bold{u}$ and $\bold{v}$, Minkowski distance is a generalization of the Euclidean and Manhattan distance measures and adds a parameter, called the “order” or $p$, that allows different distance measures to be calculated.
+For two vector $\bold{u}$ and $\bold{v}$, Minkowski distance is a generalization of the Euclidean and Manhattan distance measures and adds a parameter, called the "order" or $p$, that allows different distance measures to be calculated.
 
 $$
 \sum_i^n \Big( \big(|u_i - v_i|\big)^p \Big)^{\frac{1}{p}}
@@ -218,9 +218,25 @@ $$
 
 where $p$ is the order parameter.
 
-When $p$ is set to $1$, the calculation is the same as the Manhattan distance. 
+When $p$ is set to $1$, the calculation is the same as the Manhattan distance.
 When $p$ is set to $2$, it is the same as the Euclidean distance.
 Intermediate values provide a controlled balance between the two measures.
+
+### Cosine Distance
+
+$$
+\begin{align*}
+    \text{CosineSimilarity}&=\frac{\bold{u}\bold{v}}{||\bold{u}||\space||\bold{v}||} \\
+    \text{CosineDistance}&=1-\text{CosineSimilarity}
+\end{align*}
+$$
+
+Cosine distance disregards vector length but only considers the angle.
+
+#### Minkowski Distance vs Cosine Distance
+
+For example, given two articles, they are describing the same topic but different in length, say one got 200 words, another one got 3000 words.
+Having computed embeddings on all the words, the summed cosine distance should be much smaller than that from Minkowski distance.
 
 ### Kullback-Leibler Divergence (KLD)
 

@@ -1,6 +1,6 @@
 # Interpolation
 
-Interpolation is used to fill "gaps" between each data points, such as construct a continuous function out of discrete data points. 
+Interpolation is used to fill "gaps" between each data points, such as construct a continuous function out of discrete data points.
 
 ## Nearest
 
@@ -81,3 +81,58 @@ $$
 ## Bicubic
 
 ![bicubic_interpolation](imgs/bicubic_interpolation.png "bicubic_interpolation")
+
+## Thin Plate Splines (TPS)
+
+*Thin plate splines* (TPS) are a spline-based technique for data interpolation and smoothing by "bending" a curve to close/cross over control points.
+The term "thin plate splines" refers to the analogy of the curve be like bending a thin metal plate by force applied on a few "knots" (control points).
+
+Example: 4 control points' TPS curve.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tps_interpolation_example.png" width="40%" height="40%" alt="tps_interpolation_example" />
+</div>
+</br>
+
+Transformation by $f(\bold{x})$ in TPS given $n$ control points $(\bold{x}_i, y_i)$ where observed value is $y_i$ at the location $\bold{x}_i$.
+$\bold{x}\in\mathbb{R}^d$ is assumed to be interpolated points and $f(\bold{x}) \in \mathbb{R}^1$ is the interpolated value.
+
+$$
+f(\bold{x})=
+\underbrace{\bold{a}^{\top}\begin{bmatrix}
+    1 \\ \bold{x}
+\end{bmatrix}}_{\substack{
+    \scriptsize{\text{affine}} \\ \scriptsize{\text{transform}}}} +
+\underbrace{\sum_{i=1}^n w_i U\big(||\bold{x}-\bold{x}_i||\big)}_{\text{radial kernel}}
+$$
+
+where
+
+* $\bold{a}=[a_0,a_1,...,a_d]$ are the coefficients of the affine transformation.
+* $w_i$ is the weights to be optimized by $J(f_{\bold{w}})$ to smooth the curve applied on individual control points
+* $U(r)=r^2\log(r)$ is TPS radial function kernel
+* $r=||\bold{x}-\bold{x}_i||$ is Euclidean distance between a point and a control point.
+
+Minimization by updating the weights $\bold{w} \in \mathbb{R}^n$:
+
+$$
+\argmin_{f_\bold{w}} J=\sum_{i=1}^{n}
+\underbrace{\Big|\Big|y_i-f(\bold{x}_i) \Big|\Big|^2}_{\text{Data Fidelity Term}}+
+\lambda\underbrace{\int_{\mathbb{R}^d} \Big|\Big|\nabla^2f(\bold{x})\Big|\Big|^2 d\bold{x}}_{\text{Smoothness Term}}
+$$
+
+where
+
+* Data Fidelity Term: $y_i$ are the target control points (desired output positions) corresponding to the control points $\bold{x}_i$
+* The TPS-transformed points are $f(\bold{x}_i)$
+* $\lambda>0$ is a regularization parameter controlling the trade-off between fidelity and smoothness
+* $\lambda\approx 0$ Perfect interpolation of the control points, possibly leading to sharp or irregular transformations.
+* Large $\lambda$ Prioritizes smoothness, potentially at the expense of exact alignment with control points.
+
+For example, below is added $0.1$ smoothness TPS curve.
+It is observed that the curve is curvier than that without smoothness, but to some extent deviates from the control points.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tps_interpolation_0.1_smothness.png" width="40%" height="40%" alt="tps_interpolation_0.1_smothness" />
+</div>
+</br>

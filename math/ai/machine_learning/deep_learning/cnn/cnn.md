@@ -4,7 +4,8 @@
 
 ### Convolution Forward and Back Propagation
 
-Given an input image $X$ and a filter $F$, one forward pass of convolution is $O = X \otimes F$
+Given an input image $X$ and a filter $F$, one forward pass of convolution is $O = X \otimes F$.
+The result $O$ is termed *feature map*.
 
 $$
 \begin{bmatrix}
@@ -33,6 +34,12 @@ O_{22} &= X_{22} F_{11} + X_{23} F_{12} + X_{32} F_{21} + X_{33} F_{22} \\
 \end{align*}
 $$
 
+Express convolution to element-wise multiplication, assumed filter size $K_M \times K_N$, for a spatial point at $(i,j)$, there is
+
+$$
+O_{i,j} = \sum_{m}^{K_M} \sum_{n}^{K_N} X_{i+m, j+n} \cdot F_{m,n}
+$$
+
 The back propagation of $F_{11}$ given loss $\mathcal{L}$ is
 
 $$
@@ -45,6 +52,17 @@ $$
 
 ### Other Setups in A Convolutional Layer
 
+#### Channel
+
+Assume filter size $K_M \times K_N$; there are $C_{in}$ input channels, for a spatial point at $(i,j)$, there is
+
+$$
+O_{i,j} = \sum_{m}^{K_M} \sum_{n}^{K_N} \sum_{c}^{C_{in}} X_{i+m, j+n, c} \cdot F_{m,n}
+$$
+
+This means that one output/feature map needs $K_M \times K_N \times C_{in}$ CNN parameters.
+Assume there are $C_{out}$ output channels (also termed the num of filters), total parameters required are $K_M \times K_N \times C_{in} \times C_{out}$ for $C_{out}$ feature maps.
+
 #### Stride
 
 Skip a number of $s$ pixels then do next convolution.
@@ -55,15 +73,37 @@ Use large stride when image resolution is high; small when low.
 
 #### Padding
 
+Insert zeros to the surroundings of input so that the output remains the same size as the input's.
+For example for $O = X \otimes F$, having done $X$ padding by zeros to $X_{\text{padding}} \in \mathbb{R}^{5 \times 5}$, there is convolution result $O \in \mathbb{R}^{3 \times 3}$ same as input $X \in \mathbb{R}^{3 \times 3}$.
+
+$$
+\begin{bmatrix}
+    O_{11} & O_{12} & O_{13} \\
+    O_{21} & O_{22} & O_{23} \\
+    O_{31} & O_{32} & O_{33}
+\end{bmatrix} =
+\begin{bmatrix}
+    0 & 0 & 0 & 0 & 0\\
+    0 & X_{11} & X_{12} & X_{13} & 0\\
+    0 & X_{21} & X_{22} & X_{23} & 0\\
+    0 & X_{31} & X_{32} & X_{33} & 0\\
+    0 & 0 & 0 & 0 & 0\\
+\end{bmatrix} \otimes
+\begin{bmatrix}
+    F_{11} & F_{12} \\
+    F_{21} & F_{22}
+\end{bmatrix}
+$$
+
 #### Pooling
 
 ### Typical Computation Cost of A Convolutional Layer
 
-* Filter kernel size: $k \times k$
-* Image size $m \times n$ divided by stride $s$: $\frac{m \times n}{s \times s}$
-* The number of filters/channels $c$
+* Filter kernel size: $K \times K$
+* Image size $I_M \times I_N$ divided by stride $s$: $\frac{I_M \times I_N}{s \times s}$
+* The number of filters/channels: $C_{in}$ and $C_{out}$
 
-Total: $(k \times k) \times \frac{m \times n}{s \times s} \times c$
+Total: $(K \times K) \times \frac{I_M \times I_N}{s \times s} \times C_{in} \times C_{out}$
 
 ### Calculation Example
 

@@ -1,3 +1,5 @@
+# More Matrix Knowledge
+
 ## Complex conjugate
 
 The complex conjugate of a complex number is the number with an equal real part and an imaginary part equal in magnitude but opposite in sign, such as the complex conjugate of $a + b i$ is equal to $a − b i$.
@@ -57,7 +59,8 @@ $$
 
 ## Conjugate transpose
 
-The conjugate transpose (or Hermitian transpose) of $A_{n \times m}$ is 
+The conjugate transpose (or Hermitian transpose) of $A_{n \times m}$ is
+
 1. take the transpose of $A_{n \times m}$
 2. replace each entry $a_{i,j}$ with its complex conjugate
 
@@ -67,7 +70,7 @@ A permutation matrix is a square binary matrix that has exactly one entry of 1 i
 
 ## Jacobian
 
-In vector calculus, the Jacobian matrix of a vector-valued function of several variables is the matrix of all its first-order partial derivatives. 
+In vector calculus, the Jacobian matrix of a vector-valued function of several variables is the matrix of all its first-order partial derivatives.
 
 Given a mapping: $f : R_n \rightarrow R_m$ is a function such that each of its first-order partial derivatives exist on $R_n$, with input $x \in R^n$ ($n$ dimensions for input) and output $f(x) \in R^m$ ($m$ dimensions for output), define $J_{n \times m}$
 

@@ -96,14 +96,20 @@ $$
 Q^\text{T}Q=QQ^\text{T}=I
 $$
 
-This leads to 
+This leads to
 $$
 Q^\text{T}=Q^{-1}
 $$
 
 The determinant of any orthogonal matrix is either $+1$ or $−1$.
 
-The set of $n \times n$ orthogonal matrices forms a group, $O(n)$, known as the orthogonal group. The subgroup $SO(n)$ consisting of orthogonal matrices with determinant $+1$ is called the *special orthogonal group*, and each of its elements is a *special orthogonal matrix*. 
+The set of $n \times n$ orthogonal matrices forms a group, $O(n)$, known as the orthogonal group. The subgroup $SO(n)$ consisting of orthogonal matrices with determinant $+1$ is called the *special orthogonal group*, and each of its elements is a *special orthogonal matrix*.
+
+### Disjoint Linear Projection
+
+In vector space $V$ define two linear projection $P$ and $Q$, if they satisfy $PQ=QP=\bold{0}$, it is termed *disjoint linear projection*.
+
+This means that the projections are orthogonal to each other, and their ranges (the subspaces they project onto) do not overlap.
 
 ## Determinant
 

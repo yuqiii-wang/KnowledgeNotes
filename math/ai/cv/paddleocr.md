@@ -115,7 +115,7 @@ Up-sampling (e.g., by bi-linear interpolation) is used to align image scales.
 
 #### Box Branch and Fully-Connected Fusion
 
-LK-PAN referenced Mask R-CNN and 
+LK-PAN referenced Mask R-CNN and proposed some customization.
 
 ## DBNet (Differentiable Binarization Net)
 
@@ -163,9 +163,237 @@ The final result is as below Standard Binirization (SB) vs Differentiable Biniri
 </div>
 </br>
 
+## Deep Mutual Learning (DML)
+
+Deep Mutual Learning (DML) is for model distillation to transfer from a powerful large network or ensemble to a small network.
+
+Reference: https://arxiv.org/pdf/1706.00384
+
+Key advantage is that DML does not require a pre-trained, fixed teacher model, but allow for two or multiple models learning from each other.
+
+Given two models $\Theta_1$ and $\Theta_2$ for multi-class prediction $y_i\in\{1,2,3,...,M\}$ for a set of sample labels $Y=\{y_i\}^N_{i=1}$, suppose the prediction is by softmax such that
+
+$$
+p_1^m(\bold{x}_i)=\frac{\exp(z_1^m)}{\sum^M_{m=1} \exp(z_1^m)} \qquad
+p_2^m(\bold{x}_i)=\frac{\exp(z_2^m)}{\sum^M_{m=1} \exp(z_2^m)}
+$$
+
+For prediction vs truth labels, cross entropy error is used.
+
+$$
+L_{C_1} = -\sum_{i=1}^N \sum_{m=1}^M t_i(y_i,m) \log\big(p_1^m(\bold{x}_i)\big) \qquad
+L_{C_2} = -\sum_{i=1}^N \sum_{m=1}^M t_i(y_i,m) \log\big(p_2^m(\bold{x}_i)\big)
+$$
+
+where $t_i(y_i,m)=\begin{cases} 1 & y_i=m \\ 0 & y_i\ne m \end{cases}$ is an indicator function.
+
+To align two models, Kullback Leibler (KL) Divergence ($D_{KL}(P || Q)$ says how prediction probability distribution $Q$ is different from actual probability distribution $P$) is used
+
+$$
+\begin{align*}
+    \text{From } \bold{p}_1 \text{ to } \bold{p}_2 \qquad
+    D_{KL}(\bold{p}_2||\bold{p}_1)=\sum_{i=1}^N \sum_{m=1}^M p_2^m(\bold{x}_i) \log\frac{p_2^m(\bold{x}_i)}{p_1^m(\bold{x}_i)} \\
+    \text{From } \bold{p}_2 \text{ to } \bold{p}_1 \qquad
+    D_{KL}(\bold{p}_1||\bold{p}_2)=\sum_{i=1}^N \sum_{m=1}^M p_1^m(\bold{x}_i) \log\frac{p_1^m(\bold{x}_i)}{p_2^m(\bold{x}_i)}
+\end{align*}
+$$
+
+The loss is defined as **predictions vs truth labels** plus **two model prediction divergence**.
+The key novelty lies on
+
+* $D_{KL}(\bold{p}_i||\bold{p}_j)$ that it is about the two model prediction probabilities instead of model prediction against the truth label probability distribution.
+* In traditional model distillation, there is a fixed teacher model and a student model that only the student model sees parameter updates/learning, while the teacher model is static; in contrast to mutual learning that both models see parameter updates learning from each other.
+
+$$
+\begin{align*}
+    L_{\Theta_1} &= L_{C_1} + D_{KL}(\bold{p}_2||\bold{p}_1) \\
+    L_{\Theta_2} &= L_{C_2} + D_{KL}(\bold{p}_1||\bold{p}_2)
+\end{align*}
+$$
+
+### In PaddleOCR
+
+DML can be applied to train multiple detection/recognition models collaboratively, enhancing their accuracy and robustness.
+
+## RSE-FPN (Residual Squeeze-and-Excitation Feature Pyramid Network)
+
+RSE-FPN is inspired by
+
+* Feature Pyramid Network (FPN):
+
+Feature Pyramid Networks for Object Detection
+
+Reference: https://arxiv.org/abs/1612.03144
+
+* Squeeze-and-Excitation (SE) Networks:
+
+Squeeze-and-Excitation Networks
+
+Reference: https://arxiv.org/abs/1709.01507
+
+* Residual Networks (ResNet):
+
+Deep Residual Learning for Image Recognition
+
+Reference: https://arxiv.org/abs/1512.03385
+
+### Squeeze-and-Excitation (SE) Networks
+
+The *Squeeze-and-Excitation* (SE) block adaptively recalibrates channel-wise feature responses by explicitly modelling inter-dependencies between channels.
+
+Inspiration: for a typical convolution operation over an image $X$ by a kernel filter $F$ such that: assumed filter size $K_M \times K_N$; there are $C_{in}$ input channels, for a spatial point at $(i,j)$, there is
+
+$$
+\tilde{x}_{i,j} = \sum_{m}^{K_M} \sum_{n}^{K_N} \sum_{c}^{C_{in}} x_{i+m, j+n, c} \cdot F_{m,n}
+$$
+
+The output feature map $\tilde{x}_{i,j}$ is a scalar value computed across all-channel as in $\sum_{c}^{C_{in}}$, hence no discrimination between channels.
+
+SE exploits the inter-channel dependency info by global pooling each channel to a statistic, then use two dense networks to encode channel-dependent statistics; the result is then used to scale original input $X$ per channel.
+
+Basically,
+
+* it computes a mean statistic $z_c$ (global pooling by average) per channel from source image $X$
+
+$$
+z_c = \frac{1}{H \times W} \sum^H_{i=1} \sum^W_{j=1} {x}_c(i,j)
+$$
+
+In total, there is $\bold{z}\in\mathbb{R}^{C}$.
+
+* adaptive calibration is done via a ReLU (denoted as $\delta$) and sigmoid (denoted as $\sigma$) gating mechanism to linear transformations
+
+$$
+\bold{s} = \sigma(W_2 \delta(W_1 \bold{z}))
+$$
+
+where $W_1 \in \mathbb{R}^{\frac{C}{r}\times C}$ and $W_2 \in \mathbb{R}^{C \times \frac{C}{r}}$, inside which $r$ is called linear transformation *reduction ratio* to reduce dense network output size.
+
+* scale the input $X$ by the adaptive calibration score $\bold{s}$
+
+$$
+\tilde{{X}} = \bold{s} X
+$$
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/paddleocr_se.png" width="40%" height="50%" alt="paddleocr_se" />
+</div>
+</br>
+
 ## SVTR
+
+SVTR (Scene Text Recognition with a Single Visual Model) proposed an efficient unified arch for text recognition.
+
+Reference:
+
+https://arxiv.org/pdf/2205.00159
+https://arxiv.org/abs/2205.00160
+
+Traditional text recognition pipelines consist of three stages:
+
+1. Visual Feature Extraction: Extracts spatial features from the input image.
+2. Sequence Modeling: Captures contextual dependencies (e.g., using RNNs or transformers).
+3. Prediction: Decodes the sequence into text (e.g., using CTC or attention-based decoders).
+
+These stages are often designed independently, leading to redundant computations and suboptimal feature representations.
+SVTR unifies these stages into a single visual model.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/paddleocr_svtr.png" width="70%" height="30%" alt="paddleocr_svtr" />
 </div>
 </br>
+
+### Input Pre-processing by Distortion Rectification
+
+It rectifies distorted text image to horizontal text.
+
+Reference:
+
+* https://arxiv.org/pdf/1603.03915
+* https://arxiv.org/pdf/2103.06495
+
+Process
+
+* Predicts a set of *fiducial points* via its localization network
+* inside the grid generator, calculate the *Thin-Plate-Spline* (TPS) transformation parameters from the fiducial points, and generates a sampling grid on image $I$
+* The sampler takes both the grid and the input image, and produces a rectified image $I'$ by sampling on the grid points.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/paddleocr_distortion_rectification.png" width="50%" height="25%" alt="paddleocr_distortion_rectification" />
+</div>
+</br>
+
+### Patch Embedding
+
+Patches refer to segmentation of the input image $X \in \mathbb{R}^{H \times W \times 3}$ to a num of $4 \times 4$ segmented image patches $X_{CC_0} \in \mathbb{R}^{\frac{H}{4} \times \frac{W}{4} \times D_0}$.
+
+The embedding on the $4 \times 4$ image patches is generated by two consecutive convolutions and batch normalizations.
+
+1. $3 \times 3 \text{ Conv}$ with stride of $2$
+2. Batch Normalization
+3. $3 \times 3 \text{ Conv}$ with stride of $2$
+4. Batch Normalization
+
+### The backbone: global/local Mixing
+
+At the $i$-th layer, go through this process until the output layer
+
+1. Reshape $\mathbb{R}^{h \times w \times d_{i-1}}$ to $\mathbb{R}^{h \cdot w \times d_{i-1}}$
+2. Layer Normalization
+3. Attention with added residual $\oplus$: $\text{Softmax}\Big(\frac{Q K^{\top}}{\sqrt{d}}\Big)V$
+4. Layer Normalization
+5. Dense network with added residual $\oplus$
+6. Reshape $\mathbb{R}^{h \cdot w \times d_{i-1}}$ back to $\mathbb{R}^{h \times w \times d_{i-1}}$
+7. Merge by $3 \times 3 \text{ Conv}$ with stride of $2$ (this gives $\mathbb{R}^{\frac{h}{2} \times w \times d_{i}}$)
+8. Layer Normalization
+
+#### The attention
+
+The global/local mixing block is basically an attention such that
+
+$$
+\text{Softmax}\Big(\frac{Q K^{\top}}{\sqrt{d}}\Big)V
+$$
+
+The attention is multi-head self-attention such that
+
+$$
+Q = X W_Q,
+\qquad
+K = X W_K,
+\qquad
+V = X W_V,
+\qquad
+$$
+
+where $X \in \mathbb{R}^{h \cdot w \times d_{i-1}}$ is the reshaped input.
+
+#### Global/local Mixing
+
+* Global mixing: the input $X$ refers to the whole input
+* Local mixing: the input is a sliding window (empirically set to $7 \times 11$)
+
+In SVTR, the blocks are recurrently applied many times in each stage for comprehensive feature extraction.
+
+#### Reshape to $\mathbb{R}^{\frac{h}{2} \times w \times d_{i}}$
+
+Typically, most image text appears horizontally or near horizontally, hence by halving the height to $\frac{h}{2}$, the result feature map should still retain text/char info.
+
+### Output: Combining and Prediction
+
+It pools the height dimension to 1 at first, followed by a fully-connected layer, non-linear activation and dropout.
+
+The output labels are $37$ for English chars and $6625$ for Chinese.
+
+### Config
+
+||$[D_0, D_1, D_2]$|$[L_0, L_1, L_2]$|Attention Heads|$D_3$|Global/Local Mixing Permutation|
+|-|-|-|-|-|-|
+|SVTR-T (Tiny)|[64,128,256]|[3,6,3]|[2,4,8]|192|$[L]_6[G]_6$|
+|SVTR-S (Small)|[96,192,256]|[3,6,6]|[3,6,8]|192|$[L]_8[G]_7$|
+|SVTR-B (Base)|[128,256,384]|[3,6,9]|[4,8,12]|256|$[L]_8[G]_{10}$|
+|SVTR-L (Large)|[192,256,512]|[3,9,9]|[6,8,16]|384|$[L]_{10}[G]_{11}$|
+
+* Global/Local Mixing Permutation
+For example, $[G]_6[L]_6$ means for each stage, six global mixing blocks are carried out at first, and then six local mixing blocks.
+* Attention head dimension: $32$.
