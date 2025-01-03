@@ -10,9 +10,102 @@ The left hand side matrix (adjacency matrix) shows topologies of the graph; the 
 
 An adjacency matrix is a square matrix used to represent a finite graph. The elements of the matrix indicate whether pairs of vertices are adjacent or not in the graph.
 
+Let $G=(V,E)$ be a graph, there are
+
+* $V=\{\bold{v}_1,\bold{v}_2,...\}$ is a set of vertices
+* $E=\{(\bold{v}_1, \bold{v}_2), ...\}$ is a set of edges
+
+The adjacency matrix $A$ is defined as
+
+$$
+A[i][j]\begin{cases}
+    1 & \text{if edge } (\bold{v}_i, \bold{v}_j) \text{ exists} \\
+    0 & \text{otherwise}
+\end{cases}
+$$
+
+where the row index $i$ and col index $j$ are vertices.
+
+#### Use Example
+
+Given a sequence of input $\bold{x}=[\bold{x}_1,\bold{x}_2,\bold{x}_3, ...]\in\mathbb{R}^{n \times d}$, e.g., feature vectors $\bold{x}\in\mathbb{R}^{4 \times 2}$, assumed each vertex of graph has $d=2$ dimensions, to apply the input to a graph $A$:
+
+$$
+A = \begin{bmatrix}
+    0 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 0
+\end{bmatrix} \qquad
+\bold{x} = \begin{bmatrix}
+    1 & 0 \\
+    0.5 & 0.5 \\
+    0 & 1 \\
+    0 & 1 \\
+\end{bmatrix}
+$$
+
+there is $A\bold{x}$ that can be thought as aggregating all nodes' features.
+
+$$
+A\bold{x}=\begin{bmatrix}
+    0.5 & 1.5 \\
+    1 & 2 \\
+    0.5 & 0.5 \\
+    1.5 & 0.5 \\
+\end{bmatrix}
+$$
+
+For $A_{ij}\in\{0,1\}$ only has two values either $0$ or $1$ indicating if an edge exists, there is an additional learnable weight matrix $W$ to control how "strong" an edge is, as well as to do linear projection to expand/shrink the output dimensions.
+
+Finally, the output is
+
+$$
+\bold{y}=A\bold{x}W
+$$
+
 ### Incidence matrix
 
-An incidence matrix is a logical matrix that shows the relationship between two classes of objects, usually called an incidence relation. 
+An incidence matrix $M$ is a logical ($M_{ij}\in\{0,1\}$) matrix that shows the relationship between two classes of objects, usually called an *incidence relation*.
+In other words, incidence means a vertex $\bold{v}_i$ is in edge $e_j$. As a result, each edge $e_j$ col only has two "$1$" elements (for non-hyper graph).
+
+$$
+M[i][j]\begin{cases}
+    1 & \text{if vertex } \bold{v}_i \text{ is incident to edge } e_j\\
+    0 & \text{otherwise}
+\end{cases}
+$$
+
+where row index $i$ is for vertices while col index $j$ is for edges, e.g., $[a,b,c,d]$ in the figure above.
+
+### Degree Matrix
+
+A diagonal matrix $D$ is defined where $D_{ii}$ is the degree (number of neighbors) of node $i$.
+Degree matrix can be used to show "importance" of a vertex, that if a node has many edges/neighbors, this node is likely highly important.
+
+For example, given an adjacency matrix $A$:
+
+$$
+A = \begin{bmatrix}
+    0 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 0
+\end{bmatrix}
+$$
+
+The corresponding degree matrix $D$ is
+
+$$
+D = \begin{bmatrix}
+    2 & 0 & 0 & 0 \\
+    0 & 3 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 2
+\end{bmatrix}
+$$
+
+where $D_{ii}$ is the num of neighbors of the node $i$.
 
 ## Sparse Matrix Optimization
 
@@ -30,16 +123,18 @@ This holds truth for many SLAM problems that given a robot's state $\bold{x}_k$ 
 
 ## Hyper-Graph Optimization
 
-A hyper-graph is an extension
-of a graph where an edge can connect multiple nodes and not only two.
+A hyper-graph is an extension of a graph where an edge can connect multiple nodes and not only two.
 
 Graph optimization in nature is a least squares minimization problem:
+
 $$
 \bold{F}_k(\bold{x})=
 arg \space \underset{\bold{x}}{min}
 \sum_{k \in C} \bold{e}_k(\bold{x}_k, \bold{z}_k)^\text{T} \Omega_k \bold{e}_k(\bold{x}_k, \bold{z}_k)
 $$
-where 
+
+where
+
 * $\bold{x}$ is a vector of parameters, in which $\bold{x}_i$ represents a generic parameter block
 * $\bold{x}_k$ represents the set of parameters given the $k$-th constraints, such as the state of a robot at the $k$-th time
 * $\bold{z}_k$ is the measurements/observations.
@@ -47,6 +142,152 @@ where
 * $\bold{e}_k(\bold{x}_k, \bold{z}_k)$ is a vector error function that measures how well the parameter block $\bold{x}_k$ satisfies the observation $\bold{z}_k$
 
 Minimization can be done by Gauss-Newton, Levenber-Marquardt, or dogleg methods.
+
+## Graph Laplacian
+
+The Laplace operator, denoted by $\Delta$ or $\nabla^2$ , is a second-order differential operator.
+
+For a scalar function $f(x)$ in Euclidean space, the Laplace operator is defined as the sum of second derivatives of $f$ with respect to each spatial dimension:
+
+$$
+\Delta f = \nabla^2 f =
+\frac{\partial^2 f}{\partial x_1} +
+\frac{\partial^2 f}{\partial x_2} +
+\frac{\partial^2 f}{\partial x_3} + ...
+$$
+
+In graph terms, the Laplacian measures how much a node's feature differs from its neighbors' features.
+
+### Intuition Behind the Graph Laplacian
+
+Graph Laplacian describes the rate of how nodes change at a vertex $\bold{v}_i$
+
+For example, a type of graph Laplacian is termed *combinatorial Laplacian*, defined as $L_{comb}=D-A$.
+
+The adjacency matrix $A$ can be thought as first-order derivative for $A$ shows if $\bold{v}_i$ to $\bold{v}_j$ edge exists (rate of node change).
+
+The degree matrix $D$ is the summarized info about node neighbors, hence $D-A$ can be thought as second-order derivative (change of edge).
+
+For example, given
+
+$$
+A = \begin{bmatrix}
+    0 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 0
+\end{bmatrix} \qquad
+D = \begin{bmatrix}
+    2 & 0 & 0 & 0 \\
+    0 & 3 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 2
+\end{bmatrix}
+$$
+
+then $D-A$ is for a vertex $\bold{v}_i$, how many nodes flow/aggregate to this vertex, and what combination of neighbor nodes sees opposite flow (deduction from the $\bold{v}_i$).
+
+$$
+D-A=\begin{bmatrix}
+    2 & -1 & 0 & 0 \\
+    -1 & 3 & -1 & -1 \\
+    0 & -1 & 1 & 0 \\
+    -1 & -1 & 0 & 2
+\end{bmatrix}
+$$
+
+### Types of Graph Laplacians
+
+* Combinatorial Laplacian: $L_{comb}=D-A$
+
+Not scale-invariant, meaning it depends on the degree of nodes.
+
+* *Normalized Laplacian*: $L_{norm}=I-D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$
+
+This version is scale-invariant, meaning it adjusts for differences in node degrees.
+
+#### Why normalization by $D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$ instead of just $D^{-1}A$
+
+$D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$ is symmetric while $D^{-1}A$ is asymmetric.
+
+* Symmetric matrices have real eigenvalues and orthogonal eigenvectors, which makes them easier to analyze and more stable during training.
+* Symmetric normalization ensures that the aggregation process treats both incoming and outgoing connections equally, leading to fair propagation of features between nodes.
+
+For example, given the aforementioned $A$ and $D$, there are
+
+$$
+D^{-1}A = \begin{bmatrix}
+    \frac{1}{2} & 0 & 0 & 0 \\
+    0 & \frac{1}{3} & 0 & 0 \\
+    0 & 0 & \frac{1}{1} & 0 \\
+    0 & 0 & 0 & \frac{1}{2}
+\end{bmatrix} \begin{bmatrix}
+    0 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 0
+\end{bmatrix} =
+\begin{bmatrix}
+    0 & \frac{1}{2} & 0 & \frac{1}{2} \\
+    \frac{1}{3} & 0 & \frac{1}{3} & \frac{1}{3} \\
+    0 & 1 & 0 & 0 \\
+    \frac{1}{2} & \frac{1}{2} & 0 & 0
+\end{bmatrix}
+$$
+
+and
+
+$$
+D^{-{\frac{1}{2}}}AD^{-{\frac{1}{2}}} =
+\begin{bmatrix}
+    \frac{1}{\sqrt{2}} & 0 & 0 & 0 \\
+    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\
+    0 & 0 & \frac{1}{1} & 0 \\
+    0 & 0 & 0 & \frac{1}{\sqrt{2}}
+\end{bmatrix} \begin{bmatrix}
+    0 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 0
+\end{bmatrix} \begin{bmatrix}
+    \frac{1}{\sqrt{2}} & 0 & 0 & 0 \\
+    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\
+    0 & 0 & \frac{1}{1} & 0 \\
+    0 & 0 & 0 & \frac{1}{\sqrt{2}}
+\end{bmatrix} =
+\begin{bmatrix}
+    0 & \frac{1}{\sqrt{6}} & 0 & \frac{1}{\sqrt{2}} \\
+    \frac{1}{\sqrt{6}} & 0 & \frac{1}{\sqrt{3}} & \frac{1}{\sqrt{6}} \\
+    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\
+    \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{6}} & 0 & 0
+\end{bmatrix}
+$$
+
+#### Proof of $D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$ Symmetry
+
+To prove $D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$ is symmetric, it is equal to prove $D^{-\frac{1}{2}}AD^{-\frac{1}{2}}=\Big(D^{-\frac{1}{2}}AD^{-\frac{1}{2}}\Big)^{\top}$.
+
+First,
+
+$$
+\Big(D^{-\frac{1}{2}}AD^{-\frac{1}{2}}\Big)^{\top}=
+\big(D^{-\frac{1}{2}}\big)^{\top} A \big(D^{-\frac{1}{2}}\big)^{\top}
+$$
+
+For $D^{-\frac{1}{2}}$ is a diagonal matrix, it is easy to say $D^{-\frac{1}{2}}=\big(D^{-\frac{1}{2}}\big)^{\top}$.
+
+If $A$ represents an undirected graph, $A$ is symmetric by its nature.
+
+As a result,
+
+$$
+\big(D^{-\frac{1}{2}}\big)^{\top} A \big(D^{-\frac{1}{2}}\big)^{\top} =
+D^{-\frac{1}{2}}AD^{-\frac{1}{2}}
+$$
+
+In conclusion, $D^{-\frac{1}{2}}AD^{-\frac{1}{2}}=\Big(D^{-\frac{1}{2}}AD^{-\frac{1}{2}}\Big)^{\top}$ holds true.
+
+For matrix multiplication is NOT commutative, it is easy to say $D^{-1}A\ne AD^{-1}$.
 
 ## G2O implementation example
 

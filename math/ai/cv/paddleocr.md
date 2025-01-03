@@ -395,5 +395,43 @@ The output labels are $37$ for English chars and $6625$ for Chinese.
 |SVTR-L (Large)|[192,256,512]|[3,9,9]|[6,8,16]|384|$[L]_{10}[G]_{11}$|
 
 * Global/Local Mixing Permutation
-For example, $[G]_6[L]_6$ means for each stage, six global mixing blocks are carried out at first, and then six local mixing blocks.
+For example, $[G]_6[L]_6$ means for each stage, six global mixing blocks are carried out at first, and then six local mixing blocks. They are placed in $[L_0, L_1, L_2]$.
 * Attention head dimension: $32$.
+
+## GTC: Attention guides CTC training strategy
+
+Reference: https://arxiv.org/pdf/2002.01276
+
+### CTC (Connectionist Temporal Classification)
+
+CTC is used to train models for sequence-to-sequence tasks where the input length $N_{in}$ and the output length $N_{out}$ differ, and the alignment is unknown.
+
+Let:
+
+* $\bold{x}=(x_1, x_2, ..., x_{N_{in}})$: Input sequence of length $N_{in}$ (e.g., features extracted from an image)
+* $\bold{y}=(y_1, y_2, ..., y_{N_{out}})$: Ground truth sequence of length $N_{out}$ (e.g., text labels)
+* $P(\bold{y})$: Set of all possible alignments (paths) for $\bold{y}$, including repetitions and blanks.
+
+The CTC loss is
+
+$$
+\mathcal{L}_{CTC} = -\ln \sum_{p\in P(\bold{y})} P(p|\bold{x})
+$$
+
+where $P(p|\bold{x})=\prod_{t=1}^{N_{out}}p(p_t|x_t)$
+
+#### Alignment Ambiguity
+
+CTC introduces a blank token (denoted as $\emptyset$) to handle cases where input frames (e.g., image or audio features) outnumber the target sequence length.
+This is problematic such that for example for "MOON", there are likely predictions
+
+* $["M", "O", "O", "N"]$
+* $["M", \emptyset, "O", "O", "N"]$
+* $["M", \emptyset, "O", \emptyset, "O", "N"]$
+* $["M", \emptyset, "O", \emptyset, "O", \emptyset, "N"]$
+* $["M", \emptyset, \emptyset, "O", \emptyset, "O", \emptyset, "N"]$
+
+These alignments all correspond to the same output: "MOON".
+
+### Guided Training
+
