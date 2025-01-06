@@ -8,7 +8,8 @@ The left hand side matrix (adjacency matrix) shows topologies of the graph; the 
 
 ### Adjacency Matrix
 
-An adjacency matrix is a square matrix used to represent a finite graph. The elements of the matrix indicate whether pairs of vertices are adjacent or not in the graph.
+An adjacency matrix is a square matrix used to represent a finite graph.
+The elements of the matrix indicate whether pairs of vertices are adjacent or not in the graph.
 
 Let $G=(V,E)$ be a graph, there are
 
@@ -202,7 +203,7 @@ $$
 
 Not scale-invariant, meaning it depends on the degree of nodes.
 
-* *Normalized Laplacian*: $L_{norm}=I-D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$
+* Normalized Laplacian: $L_{norm}=I-D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$
 
 This version is scale-invariant, meaning it adjusts for differences in node degrees.
 
@@ -288,6 +289,14 @@ $$
 In conclusion, $D^{-\frac{1}{2}}AD^{-\frac{1}{2}}=\Big(D^{-\frac{1}{2}}AD^{-\frac{1}{2}}\Big)^{\top}$ holds true.
 
 For matrix multiplication is NOT commutative, it is easy to say $D^{-1}A\ne AD^{-1}$.
+
+#### Intuition of Adjacency Matrix Normalization by $D$
+
+Recall the definition of Frobenius norm that $||A||_F=\sqrt{\sum_i \sum_j |A_{ij}|^2}$.
+It is a way to measure the size (or magnitude) of the matrix.
+
+However, in adjacency matrix normalization, the norm term is the degree matrix $D$ that measure the total num of edges associated with a vertex $\bold{v}_i$.
+In other words, it is scaled relative to the node degrees.
 
 ## G2O implementation example
 
@@ -583,7 +592,8 @@ class EdgeSE2PointXY
 
 Measurements are under the assumption of white Gaussian noise, hence reasonable being expressed by covariances.
 
-For example, for landmark observation simulation, the information matrix is defined with its diagonal entries fiilled with Gaussian noises.
+For example, for landmark observation simulation, the information matrix is defined with its diagonal entries filled with Gaussian noises.
+
 ```cpp
 Matrix2d covariance;
 covariance.fill(0.);

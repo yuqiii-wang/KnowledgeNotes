@@ -57,12 +57,47 @@ $$
 \end{bmatrix}
 $$
 
-## Conjugate transpose
+## Conjugate transpose (Hermitian transpose)
 
 The conjugate transpose (or Hermitian transpose) of $A_{n \times m}$ is
 
 1. take the transpose of $A_{n \times m}$
 2. replace each entry $a_{i,j}$ with its complex conjugate
+
+Denotation:
+
+$$
+(A^H)_{ij}=\overline{A}_{ji}
+$$
+
+This definition can also be written as
+
+$$
+A^H=\Big(\overline{A}\Big)^{\top}=\overline{\big(A^{\top}\big)}
+$$
+
+where $\overline{A}$ denotes the matrix with complex conjugated entries.
+
+For example, given $A=\begin{bmatrix}1 & -2-i & 5 \\ 1+i & i & 4-2i \end{bmatrix}$,
+the transpose is
+
+$$
+A^{\top} = \begin{bmatrix}
+    1 & 1+i \\
+    -2-i & i \\
+    5 & 4-2i \\
+\end{bmatrix}
+$$
+
+The conjugate transpose is
+
+$$
+A^{H} = \begin{bmatrix}
+    1 & 1-i \\
+    -2+i & -i \\
+    5 & 4+2i \\
+\end{bmatrix}
+$$
 
 ## Permutation matrix
 

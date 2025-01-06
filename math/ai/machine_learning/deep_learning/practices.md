@@ -138,6 +138,82 @@ $$
 
 Regularization can contain parameters from increasing too fast/to large values.
 
+## Matrix Symmetry and Stable Training
+
+Symmetric matrices have real eigenvalues and orthogonal eigenvectors that make training stable.
+
+* If weight matrices $W$ have **small eigenvalues**, the weight matrix may not be effectively transforming the input space.
+* If weight matrices $W$ have **large eigenvalues**, the transformations may be overly redundant or lead to gradient instability.
+
+### Proof: Symmetric Matrices Have Real Eigenvalues Orthogonal Eigenvectors
+
+Let $W$ be a real symmetric matrix, meaning: $W^{\top}=W$.
+Let $\bold{v}$ be eigenvector and $\lambda$ be eigenvalue, there is
+
+$$
+W\bold{v}=\lambda\bold{v}
+$$
+
+#### Symmetric Matrices Have Real Eigenvalues
+
+Let $\bold{v}^{H}$ be Hermitian transpose of $\bold{v}$,
+
+$$
+\begin{align*}
+&& W\bold{v}&=\lambda\bold{v} \\
+\Rightarrow && \bold{v}^{H} W\bold{v}&=\lambda\bold{v}^{H}\bold{v}
+\end{align*}
+$$
+
+Recall the complex number property that mutually conjugate number multiplication must be real and greater than/equal to zero: $(a+bi)(a-bi)=a^2+b^2\ge 0$.
+
+If a complex number's conjugate is equal to the complex number itself, this complex number is real: $a+bi=a-bi$, here the imaginary part could only be zero $bi=0$ so that the equation $a+bi=a-bi$ holds true.
+
+$$
+\begin{align*}
+    \bold{v}^{H} W\bold{v} &=
+    \sum_{i}\sum_{j} \overline{v}_i w_{ij} v_j \\
+    &= \sum_{i=j} \overline{v}_i w_{ii} v_i + \sum_{i\ne j} \overline{v}_i w_{ij} v_j \\
+\end{align*}
+$$
+
+Decompose $\sum_{i\ne j}^{n} \overline{v}_i w_{ij} v_j \Rightarrow \sum_{i\ne j}^{\frac{n}{2}} \overline{v}_i w_{ij} v_j + \overline{v}_j w_{ji} v_i$, and for $\bold{v}^H$ is the hermitian transpose of $\bold{v}$ and $W$ is symmetric, denote $(.)^*$ as conjugate operator, there is
+
+$$
+(\overline{v}_i w_{ij} v_j + \overline{v}_j w_{ji} v_i)^* =
+\overline{v}_j w_{ji} v_i + \overline{v}_i w_{ij} v_j
+$$
+
+For a complex number's conjugate is itself, this complex number must be real.
+
+$\overline{v}_i w_{ii} v_i$ is real for $\overline{v}_i v_i \ge 0$ and $w_{ii}$ is real for $W$ by definition is a real matrix.
+
+For $\bold{v}^{H}\bold{v}$ and $\bold{v}^{H} W\bold{v}$ are real, the eigenvalues $\lambda$ are real as well in $\bold{v}^{H} W\bold{v}=\lambda\bold{v}^{H}\bold{v}$.
+
+#### Symmetric Matrices Have Orthogonal Eigenvectors
+
+Define
+
+$$
+W\bold{v}_1=\lambda_1\bold{v}_1 \qquad
+W\bold{v}_2=\lambda_2\bold{v}_2
+$$
+
+then multiply by $\bold{v}_2^{\top}$, there is
+
+$$
+\begin{align*}
+    && \bold{v}_2^{\top}W\bold{v}_1 &=
+  \bold{v}_2^{\top}\lambda_1\bold{v}_1 \\
+  \Rightarrow && (W\bold{v}_2)^{\top}\bold{v}_1 &=
+  \bold{v}_2^{\top}\lambda_1\bold{v}_1 \\
+  \Rightarrow && \lambda_2\bold{v}_2^{\top}\bold{v}_1 &=
+  \lambda_1\bold{v}_2^{\top}\bold{v}_1 \\
+\end{align*}
+$$
+
+For by eigen-decomposition, there is $\lambda_1 \ne \lambda_2 \ne 0$, there could be only $\bold{v}_2^{\top}\bold{v}_1=0$, hence orthogonal.
+
 ## Overfitting
 
 When training loss curve vs validation loss curve diverge.

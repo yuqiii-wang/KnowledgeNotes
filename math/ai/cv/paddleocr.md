@@ -402,23 +402,34 @@ For example, $[G]_6[L]_6$ means for each stage, six global mixing blocks are car
 
 Reference: https://arxiv.org/pdf/2002.01276
 
+The attention guided training in this implementation means that in training for the label $y_t$ prediction, the previous truth label $y_{t-1}$ is added as well as attention in assistance.
+Such assistance only exists in training and is removed in inference.
+
+The main route (existed in both training and inference) is ResNet50 (feature extraction) -> GCN -> BiLSTM -> Prediction
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/paddleocr_gtc.png" width="70%" height="30%" alt="paddleocr_gtc" />
+</div>
+</br>
+
 ### CTC (Connectionist Temporal Classification)
 
-CTC is used to train models for sequence-to-sequence tasks where the input length $N_{in}$ and the output length $N_{out}$ differ, and the alignment is unknown.
+CTC is used to train models for sequence-to-sequence tasks where the input length $T$ and the output length $T$ differ, and the alignment is unknown.
 
-Let:
+Assume there are $T$ text truth labels,
 
-* $\bold{x}=(x_1, x_2, ..., x_{N_{in}})$: Input sequence of length $N_{in}$ (e.g., features extracted from an image)
-* $\bold{y}=(y_1, y_2, ..., y_{N_{out}})$: Ground truth sequence of length $N_{out}$ (e.g., text labels)
-* $P(\bold{y})$: Set of all possible alignments (paths) for $\bold{y}$, including repetitions and blanks.
+* $\bold{x}^{1:T}=(\bold{x}_1, \bold{x}_2, ..., \bold{x}_{T})$: Input vector sequence of length $T$ (e.g., features extracted from an image), in which $\bold{x}_i$ is a feature sequence vector at the time-step $i$.
+* $\bold{y}=(y_1, y_2, ..., y_{T})$: Ground truth sequence of length $T$ (e.g., text labels), $y_i$ is the char label at the $i$ position.
+* $\hat{\bold{y}}_p$ is one probability distribution/one alignment path for a truth sequence $\bold{y}$
+* $\hat{Y}$: Set of all possible alignments (paths) for $\bold{y}$, including repetitions and blanks.
 
 The CTC loss is
 
 $$
-\mathcal{L}_{CTC} = -\ln \sum_{p\in P(\bold{y})} P(p|\bold{x})
+\mathcal{L}_{CTC} = -\ln \sum_{\hat{\bold{y}}_p\in \hat{Y}} P(\hat{\bold{y}}_p|\bold{x}^{1:T})
 $$
 
-where $P(p|\bold{x})=\prod_{t=1}^{N_{out}}p(p_t|x_t)$
+where $P(\hat{\bold{y}}_p|\bold{x}^{1:T})=\prod_{t=1}^{T}p(\hat{y}_t|\bold{x}^{1:T})$
 
 #### Alignment Ambiguity
 
@@ -432,6 +443,75 @@ This is problematic such that for example for "MOON", there are likely predictio
 * $["M", \emptyset, \emptyset, "O", \emptyset, "O", \emptyset, "N"]$
 
 These alignments all correspond to the same output: "MOON".
+in other words, $["M", "O", "O", "N"]$ is truth path $\bold{y}$, while others are $\hat{\bold{y}}\in \hat{Y}$.
 
-### Guided Training
+### Attention Guidance
 
+Let $\bold{s}_t$ be the hidden state of a Gated Recurrent Cell (GRU).
+Given $\bold{x}_i$ as the feature vector for the $i$-th label, the attention score is computed as follows:
+
+$$
+\bold{a}_t=\text{Attention}(\bold{s}_{t-1},\bold{x}_i)
+$$
+
+where
+
+$$
+\tilde{\bold{h}}_t=\tanh(W_c [])
+$$
+
+### GCN + CTC Decoder
+
+#### Graph Convolutional Network (GCN)
+
+GCNs generalize the concept of convolutions from Euclidean data (like images) to graph data.
+The core idea is that the features of a node can be updated by aggregating features from its neighbors.
+
+For a graph $G=(V,E)$ with $N$ nodes, the GCN layer updates this layer hidden features $\bold{h}^{(l)}$.
+
+$$
+\bold{h}^{(l+1)}=\sigma(\tilde{A} \bold{h}^{(l)} W)
+$$
+
+where
+
+* $\tilde{A}=D^{-\frac{1}{2}}(A+I)D^{-\frac{1}{2}}$ is the normalized adjacency matrix, in which $A$ is the adjacency matrix of the graph
+* $\sigma(.)$ is an activation function
+* $W$ is a learned weight matrix
+
+#### GCN with Similarity and Distance Info
+
+Given the feature map $\bold{x}^{1:T}$ from ResNet CNN, the adjacency matrix is learned by computing pairwise similarity between every two sequence slices:
+
+$$
+A_S(i,j)=\frac{\bold{c}_i \cdot \bold{c}_j}{||\bold{c}_i|| \space || \bold{c}_j ||}
+$$
+
+where $\bold{c}_i$ is a linear transformation result of $\bold{x}_i$.
+
+In addition, a distance matrix is also used to constrain the similarity to focus on neighboring features.
+
+$$
+A_D(i,j)=\frac{\exp(-d_{ij}+\beta)}{\exp(-d_{ij}+\beta)+1}
+$$
+
+where $d_{ij}=|i-j|$ and $\beta$ is a scale factor.
+
+By convolution $A_S$ over $A_D$
+
+$$
+\hat{\bold{x}}^{1:T}=(A_S * A_D) \bold{x}^{1:T} W_g
+$$
+
+The convolution gives that for a feature vector $\bold{x}_i$, $A_{S,ij} * A_{D,ij}$ is large when the another feature vector $\bold{x}_j$ is both spatially-adjacent and embedding-similar.
+
+The $\hat{\bold{x}}^{1:T}$ is then passed to the BiLSTM for sequence modelling.
+
+$$
+\text{logits}=\text{BiLSTM}(\hat{\bold{x}}^{1:T})W_c
+$$
+
+where $W_c$ is a weight matrix for classification.
+BiLSTM with the hidden size of $512$.
+
+The logits and truth label $\bold{y}$ are finally used to calculate CTC loss $\mathcal{L}_{CTC}$ to train the GCN+CTC decoder.

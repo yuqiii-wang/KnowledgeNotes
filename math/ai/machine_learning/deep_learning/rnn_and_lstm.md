@@ -1,4 +1,4 @@
-# Long-Short Term Memory (LSTM)
+# Sequence NNs: RNN, GRU and LSTM
 
 ## Recurrent Neural Network (RNN)
 
@@ -181,11 +181,46 @@ W_z
 \end{align*}
 $$
 
-### Discussions
+### Discussions on RNN
 
 RNN's secrete is $U_h$ that keeps tracking the previous output $\bold{h}_{t-1}$ or $y_{t-1}$. This design has a gradient vanishing problem if $t \rightarrow \infty$, there is $\Delta U_h \rightarrow 0$ in back-propagation.
 
 RNN's $U_h$ holds information for all previous time step, which might not reflect how real world information flows.
+
+## Gated Recurrent Unit (GRU)
+
+GRU is a variant of RNN but much simpler than Long Short-Term Memory (LSTM).
+GRUs have two gates that control the flow of information:
+
+Let $[...]$ be concatenation operation, $\bold{h}_{t-1}$ be previous time-step hidden state, and $\bold{x}_t$ is the current input
+
+* Update gate ($\bold{z_t}$):
+
+$$
+\bold{z_t}=\sigma(W_z\cdot[\bold{h}_{t-1}; \bold{x}_t])
+$$
+
+* Reset gate ($\bold{r_t}$):
+
+$$
+\bold{r_t}=\sigma(W_r\cdot[\bold{h}_{t-1}; \bold{x}_t])
+$$
+
+* Candidate Hidden State ($\hat{\bold{h}}_t$)
+
+$$
+\hat{\bold{h}}_t=\sigma(W_h\cdot[\bold{r_t}; \bold{h}_{t-1}; \bold{x}_t])
+$$
+
+* Final Hidden State ($\bold{h}_t$):
+
+$$
+\bold{h}_t=(\bold{1}-\bold{z}_t)\cdot\bold{h}_{t-1}+\bold{z}_t\cdot\hat{\bold{h}}_t
+$$
+
+### Discussions on GRU
+
+Update gate ($\bold{z_t}$) is used to control the ratio between previous hidden state $\bold{h}_{t-1}$ vs this time hidden state $\bold{h}_{t}$.
 
 ## Long-Short Term Memory (LSTM)
 
@@ -206,6 +241,7 @@ c_t &= f_t \odot c_{t-1} + i_t \odot \hat{c}_t
 $$
 
 where
+
 * $\odot$ denotes the Hadamard product (element-wise product)
 * $\bold{x}_t \in \mathbb{R}^d$ is an input vector
 * $f_t \in (0,1)^h$ is a forget gate's activation vector
@@ -216,7 +252,7 @@ where
 * $c_t \in \mathbb{R}^{h}$ is a cell state vector
 * $W \in \mathbb{R}^{h \times d}, U \in \mathbb{R}^{h \times h}, b_t \in \mathbb{R}^{h}$ are weight matrices and bias vector parameters
 
-### Discussions
+### Discussions on LSTM
 
 RNN suffers from two problems: vanishing gradient and indiscriminate retention of information over the time. LSTM alleviates with the design of a cell state $c_t$.
 
@@ -224,7 +260,7 @@ $\hat{c}_t \in (-1,1)^h$ is similar to the RNN's memory unit that holds informat
 
 Besides, $c_t$ employs addition as the operation that helps mitigate the vanishing gradient issue caused by long chained multiplications. 
 
-## LSTM Back Propagation
+### LSTM Back Propagation
 
 reference: https://www.geeksforgeeks.org/lstm-derivation-of-back-propagation-through-time/
 

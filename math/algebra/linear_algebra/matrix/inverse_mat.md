@@ -23,6 +23,7 @@ Geometrically speaking, an inverse matrix $A^{-1}$ takes a transformation $A$ ba
 Pseudo inverse (aka Moore-Penrose inverse) denoted as $A^{\dagger}$, satisfying the below conditions:
 
 * $AA^{\dagger}$ does not neccessarily give to identity matrix $I$, but mapping to itself
+
 $$
 AA^{\dagger}A=A
 \\
@@ -30,6 +31,7 @@ A^{\dagger}AA^{\dagger}=A^{\dagger}
 $$
 
 * $AA^{\dagger}$ is Hermitian, and vice versa
+
 $$
 (AA^{\dagger})^*=AA^{\dagger}
 \\
@@ -37,6 +39,7 @@ $$
 $$
 
 * If $A$ is invertible, its pseudoinverse is its inverse
+
 $$
 A^{\dagger}=A^{-1}
 $$
