@@ -234,9 +234,9 @@ o_t &= \sigma_g(W_o \bold{x}_t + U_o \bold{h}_{t-1} + b_o)
 \\
 \hat{c}_t &= \sigma_c(W_c \bold{x}_t + U_c \bold{h}_{t-1} + b_c)
 \\
-c_t &= f_t \odot c_{t-1} + i_t \odot \hat{c}_t 
+c_t &= f_t \odot c_{t-1} + i_t \odot \hat{c}_t
 \\
-\bold{h}_t &= o_t \odot \sigma_h(c_t)   
+\bold{h}_t &= o_t \odot \sigma_h(c_t)
 \end{align*}
 $$
 

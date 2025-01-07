@@ -414,12 +414,13 @@ The main route (existed in both training and inference) is ResNet50 (feature ext
 
 ### CTC (Connectionist Temporal Classification)
 
-CTC is used to train models for sequence-to-sequence tasks where the input length $T$ and the output length $T$ differ, and the alignment is unknown.
+CTC is used to train models for sequence-to-sequence tasks where the input length $T$ and the output length $L$ differ, and the alignment is unknown.
 
 Assume there are $T$ text truth labels,
 
-* $\bold{x}^{1:T}=(\bold{x}_1, \bold{x}_2, ..., \bold{x}_{T})$: Input vector sequence of length $T$ (e.g., features extracted from an image), in which $\bold{x}_i$ is a feature sequence vector at the time-step $i$.
-* $\bold{y}=(y_1, y_2, ..., y_{T})$: Ground truth sequence of length $T$ (e.g., text labels), $y_i$ is the char label at the $i$ position.
+* $\bold{x}^{1:T}=(\bold{x}_1, \bold{x}_2, ..., \bold{x}_{T})$: Input vector sequence of length $T$ (e.g., features extracted from an image), in which $\bold{x}_i\in\mathbb{R}^{D}$ is a $D$-dimensional feature vector that corresponds to a local region of an image through its corresponding receptive field.
+* $\bold{y}=(y_1, y_2, ..., y_{L})$: Ground truth sequence of length $L$ (e.g., text labels), $y_i$ is the char label at the $i$ position.
+* $\hat{\bold{y}}=(\hat{y}_1, \hat{y}_2, ..., \hat{y}_{T})$ is the corresponding prediction form $\bold{x}_i$ to a label in $\bold{y}$
 * $\hat{\bold{y}}_p$ is one probability distribution/one alignment path for a truth sequence $\bold{y}$
 * $\hat{Y}$: Set of all possible alignments (paths) for $\bold{y}$, including repetitions and blanks.
 
@@ -433,10 +434,16 @@ where $P(\hat{\bold{y}}_p|\bold{x}^{1:T})=\prod_{t=1}^{T}p(\hat{y}_t|\bold{x}^{1
 
 #### Alignment Ambiguity
 
-CTC introduces a blank token (denoted as $\emptyset$) to handle cases where input frames (e.g., image or audio features) outnumber the target sequence length.
+For the number of feature vectors not likely equal to the number of truth labels $T \ne L$ as $\bold{x}_i$ only covers partial vision feature of a character $y_i$, so that for one truth label $y_i$ there might be multiple $\bold{x}_i$.
+As a result CTC has alignment problems.
+
+Besides, CTC introduces a blank token (denoted as $\emptyset$) to handle cases where input frames (e.g., image or audio features) outnumber the target sequence length.
+
 This is problematic such that for example for "MOON", there are likely predictions
 
 * $["M", "O", "O", "N"]$
+* $["M", "O", "O", "O", "N"]$
+* $["M", "O", "O", "O", "N", "N"]$
 * $["M", \emptyset, "O", "O", "N"]$
 * $["M", \emptyset, "O", \emptyset, "O", "N"]$
 * $["M", \emptyset, "O", \emptyset, "O", \emptyset, "N"]$
@@ -447,17 +454,71 @@ in other words, $["M", "O", "O", "N"]$ is truth path $\bold{y}$, while others ar
 
 ### Attention Guidance
 
-Let $\bold{s}_t$ be the hidden state of a Gated Recurrent Cell (GRU).
-Given $\bold{x}_i$ as the feature vector for the $i$-th label, the attention score is computed as follows:
+Attention guidance aims to mitigate the misalignment problem by *alignment attention* (what feature $\bold{x}_i$ likely corresponds to what label $y_i$) applied on Gated Recurrent Unit (GRU) for $y_k$ prediction dependent on previous label $y_{k-1}$.
+
+Here $y_i$ is a truth label at the $i$-th position of a text sequence, while $\hat{y}_k$ means recurrent sequence prediction at the time-step $k$.
+
+Reference:
+
+* https://arxiv.org/pdf/1508.04025
+* https://arxiv.org/pdf/1603.03101
+* https://openaccess.thecvf.com/content_CVPR_2019/papers/Zhang_Sequence-To-Sequence_Domain_Adaptation_Network_for_Robust_Text_Image_Recognition_CVPR_2019_paper.pdf
+
+Let $\bold{s}_k$ be the hidden state of a Gated Recurrent Cell (GRU).
+Given $\bold{x}_i$ as the $i$-th feature vector, the alignment attention score $\tilde{h}_{k,i}\in\mathbb{R}$ (not the LLM attention) is computed as follows:
 
 $$
-\bold{a}_t=\text{Attention}(\bold{s}_{t-1},\bold{x}_i)
+\begin{align*}
+    \tilde{\bold{h}}_{k,i} &= \tanh(W_c [\bold{s}_{k-1}; \bold{x}_i]) \\
+    \tilde{h}_{k,i} &= W_h \tilde{\bold{h}}_{k,i}
+\end{align*}
 $$
 
-where
+where $[...]$ is concatenation.
+
+The alignment attention is a $T$-step process, at time-step $k$, the representation of the most relevant part to character $y_k$ of encoding feature map $\bold{x}=F(X)$ is defined as a *context vector* $\bold{c}_k$.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/paddleocr_alignment_attention.png" width="30%" height="20%" alt="paddleocr_alignment_attention" />
+</div>
+</br>
+
+The alignment attention weight $a_{k,i}\in\mathbb{R}$ is by normalizing the scores via softmax:
 
 $$
-\tilde{\bold{h}}_t=\tanh(W_c [])
+a_{k,i}=\frac{\exp(\tilde{h}_{k,i})}{\sum_{j=1}^T \exp(\tilde{h}_{k,j})}
+$$
+
+Context vector $\bold{c}_k$ is alignment attention weighted vector
+
+$$
+\bold{c}_k=\sum^T_{i=1} a_{k,i}\bold{x}_i
+$$
+
+The $\bold{c}_k$ is also termed *Glimpse vector* in computer vision that it learns to focus on specific parts of an input, often by "gathering glimpses" from different regions of an image or sequence.
+
+The hidden state $\bold{s}_k$ is updated via the recurrent process of GRU:
+
+$$
+\bold{s}_k=GRU(\bold{y}_{prev}, \bold{c}_k, \bold{s}_{k-1})
+$$
+
+expressed as update gate ($\bold{z_t}$) and reset gate ($\bold{r_t}$):
+
+$$
+\begin{align*}
+    \bold{z_t}&=\sigma(W_z\cdot[\bold{y}_{prev}; \bold{c}_k; \bold{s}_{k-1}]) \\
+    \bold{r_t}&=\sigma(W_r\cdot[\bold{y}_{prev}; \bold{c}_k; \bold{s}_{k-1}])
+\end{align*}
+$$
+
+where $\bold{y}_{prev}$ is the embedding vector of the previous output $\hat{y}_{k-1}$.
+However, truth label ${y}_{k-1}$ is used in training rather than just feeding $\hat{y}_{k-1}$ as input.
+
+Finally, the prediction is
+
+$$
+\hat{y}_k = \text{Softmax}(W_{s}^{\top}\bold{s}_k)
 $$
 
 ### GCN + CTC Decoder
