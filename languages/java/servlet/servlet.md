@@ -43,54 +43,6 @@ It allows all the threads currently running in the service method of the Servlet
 
 After the destroy() method is executed, the Servlet container releases all the references of this Servlet instance so that it becomes eligible for garbage collection.
 
+## JAX-RS Client API and Servlet
 
-## Example:
-
-A servlet container (e.g., tomcat) receives an https request. It processes tls and builds a connection, as well as services including bandwidth throttling, MIME data decoding, etc., then determines which servlet to invoke.
-
-The invoked servlet loads the request and looks into what method, parameters and data the request contains. After processing logic provided the request, the servlet sends a response.
-
-Finally, the servelet container makes sure the response is flushed and close the connection.
-
-### Code example
-
-Tomcat binds a particular request to an url to a Java Spring function.
-
-In java spring
-```java
-@WebServlet("/view_book")
-public class ViewBookServlet extends HttpServlet {
-    ...
-}
-```
-
-In Tomcat config
-```xml
-<servlet-mapping>
-    <servlet-name>ViewBookServlet</servlet-name>
-    <url-pattern>/view_book</url-pattern>
-</servlet-mapping>
-```
-
-## Some specifications
-
-This specification document states the java method name that handles requests such as `doGet` for processing GET request, `doPost` for processing GET request.
-
-Every servlet is a thread.
-
-reference:
-https://download.oracle.com/otn-pub/jcp/servlet-2.4-fr-spec-oth-JSpec/servlet-2_4-fr-spec.pdf?AuthParam=1659722181_7ae40afa61c65c1aa2f1448c000e4623
-
-`WEB-INF` folder's files are used by servlet java code but not visible to public.
-
-## HTTP and HTTPS in Servlet
-
-### HTTP Forward vs Redirect
-
-In code, they have the same delivery results, but in business, they serve diff logics.
-```java
-request.getRequestDispatcher("new.jsp").forward(request, response);// by forward
-response.sendRedirect("new.jsp"); // by redirect 
-```
-
-* 
+The JAX-RS (Java API for RESTful Web Services) Client API is a part of the JAX-RS specification (introduced in Java EE 7) that provides a set of APIs for building HTTP-based client applications. 

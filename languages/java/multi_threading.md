@@ -151,10 +151,11 @@ public class ThreadLocalDemo {
 
 ## Executor
 
-An object that executes submitted Runnable tasks. 
+An object that executes submitted Runnable tasks.
 It helps decouple between a task actually that actually runs and the task submission to a thread.
 
 For example, rather than by `new Thread(new(RunnableTask())).start()`, should try
+
 ```java
 Executor executor = new Executor();
 executor.execute(new RunnableTask1());

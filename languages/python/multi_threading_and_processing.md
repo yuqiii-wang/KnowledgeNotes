@@ -2,70 +2,62 @@
 
 ## GIL (Global Interpreter Lock)
 
-A *global interpreter lock* (GIL) is a mechanism used in computer-language interpreters to synchronize the execution of threads so that only one native thread can execute at a time, even on multi-core processor, hence rendering low concurrency code execution.
+The Global Interpreter Lock (GIL) in Python is a mutex that ensures only one thread executes Python bytecode at a time.
 
-Consider the code
+GIL guarantees atomicity of updating a variable and the below code outputs 4000 as the result.
 
 ```py
-import time
-from threading import Thread
-from multiprocessing import Pool
+import threading
 
-def countdown(n):
-    while n>0:
-        n -= 1
+shared_data = 0
 
-# one thread running countdown
-COUNT = 200000000
-t0 = Thread(target = countdown, args =(COUNT, ))
+def increment():
+    global shared_data
+    for _ in range(1000):
+        current = shared_data
+        shared_data = current + 1
 
-start = time.time()
-t0.start()
-t0.join()
-end = time.time()
-print('Time taken (one thread) in seconds:', end - start)
+threads = [threading.Thread(target=increment) for _ in range(4)]
 
-# four threads running countdown
-t1 = Thread(target = countdown, args =(COUNT//4, ))
-t2 = Thread(target = countdown, args =(COUNT//4, ))
-t3 = Thread(target = countdown, args =(COUNT//4, ))
-t4 = Thread(target = countdown, args =(COUNT//4, ))
-  
-start = time.time()
-t1.start()
-t2.start()
-t3.start()
-t4.start()
-t1.join()
-t2.join()
-t3.join()
-t4.join()
-end = time.time()
-print('Time taken (four threads) in seconds: ', end - start)
+for thread in threads:
+    thread.start()
 
-pool = Pool(processes=4)
-start = time.time()
-r1 = pool.apply_async(countdown, [COUNT//4])
-r2 = pool.apply_async(countdown, [COUNT//4])
-r3 = pool.apply_async(countdown, [COUNT//4])
-r4 = pool.apply_async(countdown, [COUNT//4])
-pool.close()
-pool.join()
-end = time.time()
-print('Time taken (four processes) in seconds: ', end - start)
+for thread in threads:
+    thread.join()
 ```
 
-which outputs
+### Thread Safety Lock
 
-```txt
-Time taken (one thread) in seconds: 7.321912527084351
-Time taken (four threads) in seconds:  7.665801525115967
-Time taken (four processes) in seconds:  2.1135129928588867
+However, GIL does not consider context switch that seemingly only one thread is executing the byte code, OS might assign different CPU threads to complete the task.
+
+The below examples show different results.
+
+* Not thread safe
+
+```py
+def increment():
+    global shared_data
+    for _ in range(1000):
+        current = shared_data
+        time.sleep(0.001)  # Artificial delay to force context switching
+        shared_data = current + 1
+
+threads = [threading.Thread(target=increment) for _ in range(4)]
 ```
 
-where there is no facilitated computation (four threads should have rendered 1/4 countdown time of by one thread). This is caused by GIL that forces CPU to run by only one thread.
+* Thread safe with lock
 
-However, it has no restriction on multi-processes.
+```py
+def increment():
+    global shared_data
+    for _ in range(1000):
+        with lock:  # Acquire lock before modifying shared_data
+            current = shared_data
+            time.sleep(0.001)  # Artificial delay to force context switching
+            shared_data = current + 1
+
+threads = [threading.Thread(target=increment) for _ in range(4)]
+```
 
 ## `Fork` vs `Spawn` in Python Multiprocessing
 

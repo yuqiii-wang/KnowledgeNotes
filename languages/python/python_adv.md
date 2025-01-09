@@ -2,7 +2,7 @@
 
 ## `__new__` and Metaclass
 
-A metaclass is a class whose instances are classes. 
+A metaclass is a class whose instances are classes.
 
 In python, the builtin class `type` is a metaclass.
 
