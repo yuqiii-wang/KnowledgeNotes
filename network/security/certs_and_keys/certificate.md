@@ -22,7 +22,6 @@ generate a new cert/key which involves generating a new key (And provide your CS
 * Renewal: 
 renew you certificat which involves keeping your private key (And provide your CSR to your CA).
 
-
 **Chian of trust**
 
 Certificate Authorities (CAs) is a third-party that has already been vouched for trust by client and server. There are root CAs and intermediate CAs (any certificate that are in between CA and clients), and leaf certificate for end client.
@@ -32,11 +31,14 @@ Client and server communicate through signed leaf certificate ("signed" means tr
 * In the case of browser/client, builtin Object Tokens are root certificates in the default Network Security Services (NSS) database as installed on the user's PC when the user installed the software (e.g., Firefox) that uses them.
 
 * In the case of server, such as tomcat, CA certificate should be added:
+* 
 ```bash
 keytool -import -alias tomcat -keystore example.jks -file example.crt
 ```
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 open tomcat/conf/server.xml, and add your example.jks
+
 ```xml
 <Connector port=”443″ protocol=”HTTP/1.1″
   SSLEnabled=”true”
@@ -67,6 +69,7 @@ To check fingerprint, first convert into .der then hash it and return the result
 `sha1sum cert.cer`
 
 **openssl/keytool examples**
+
 * key pair generation:
 `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out private-key.pem`
 
@@ -83,6 +86,7 @@ To check fingerprint, first convert into .der then hash it and return the result
 `openssl s_client -connect <hostname:port> -showcerts`
 
 * change format
+
 ```bash
 keytool -importkeystore -srckeystore src_keystore.jks -destkeystore dest_keystore.p12 -srcstoretype jks deststoretype pkcs12 -srcstorepass changeit -deststorepass changeit
 ```
@@ -100,7 +104,6 @@ A JSON Web Key Set (JWKS) is a set of keys containing the public keys used to ve
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "sig" (signature)
 
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "enc" (encryption)
  
 * "key_ops" (Key Operations) Parameter
@@ -109,6 +112,7 @@ A JSON Web Key Set (JWKS) is a set of keys containing the public keys used to ve
 * "x5u" (X.509 URL) Parameter
 
 **A private key example**
+
 ```json
 {
   "kty":"RSA",
