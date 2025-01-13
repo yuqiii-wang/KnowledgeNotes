@@ -46,7 +46,7 @@ $$
 
 for $i=1,2,...,n$ and $\bold{z}=(z_1, z_2, ..., z_n)\in \mathbb{R}^n$
 
-$softmax$ is often used in the final layer of a classifier network that outputs each class energy.
+$softmax$ is often used in the final layer of a classifier network that outputs each class energy and in attention mechanism to normalize input energy.
 
 Given one-hot encoded true labels $\bold{y}$, one forward pass of softmax is as below.
 
@@ -58,7 +58,6 @@ $$
 $$
 
 ### Softmax Derivative
-
 
 Recall there is $\frac{\partial {\mathcal{L}}}{\partial \hat{y}_{i}} \frac{\partial \hat{y}_{i}}{\partial z_{i}} = \frac{1}{\hat{y}_{i}} \frac{\partial \hat{y}_{i}}{\partial z_{i}} = \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}_{i})}_{\hat{y}_{i}} \big) \Big)$,
 so that by simply moving $\hat{y}_{i}$ to the opposite side of the equal operator, there derives the derivative for $\text{softmax}$ such that
@@ -77,6 +76,31 @@ $$
 \end{align*}
 $$
 
+### Softmax In Practice
+
+Given $Z$ such as below, apply Softmax along Axis $-1$ (Last Axis):
+
+$$
+Z=\begin{bmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9 \\
+\end{bmatrix}
+$$
+
+For each row $i$:
+
+$$
+\text{softmax}(z_i)=\frac{e^{z_i}}{\sum^n_{j=1}e^{z_{ij}}}
+$$
+
+that gives
+
+|Input|Output|Explained|
+|-|-|-|
+|$[1,2,3]$|$[0.0900, 0.2447, 0.6652]$|$\frac{\exp(1)}{\exp(1)+\exp(2)+\exp(3)},\frac{\exp(2)}{\exp(1)+\exp(2)+\exp(3)},\frac{\exp(3)}{\exp(1)+\exp(2)+\exp(3)}$|
+|$[4,5,6]$|$[0.0900, 0.2447, 0.6652]$|$\frac{\exp(4)}{\exp(4)+\exp(5)+\exp(6)},\frac{\exp(5)}{\exp(4)+\exp(5)+\exp(6)},\frac{\exp(6)}{\exp(4)+\exp(5)+\exp(6)}$|
+|$[7,8,9]$|$[0.0900, 0.2447, 0.6652]$|$\frac{\exp(7)}{\exp(7)+\exp(8)+\exp(9)},\frac{\exp(7)}{\exp(8)+\exp(8)+\exp(9)},\frac{\exp(9)}{\exp(7)+\exp(8)+\exp(9)}$|
 
 ## ReLU
 

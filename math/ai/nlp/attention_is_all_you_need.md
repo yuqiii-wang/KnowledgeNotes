@@ -49,13 +49,10 @@ where one token $\bold{x} \in \mathbb{R}^{1 \times d_{model}}$ is passed to $FFN
 Attention solves **long-distance dependency** issue haunting LSTM and RNN.
 
 The predecessor LSTM (Long Short Term Memory) and GRU (Gated Recurrent Unit) are capable of learning latent info about sequence but have some disadvantages.
+
 * have many step functions/gates that are not differentiable; this causes swings between on/off states that drop info; attention replaces with differentiable softmax
 * long sequence info drops for vanishing gradients over the sequence; attention implements residual addition to amplify errors.
 * LSTM has much more parameters to train, hence hard to train and difficult to explain/interpret the model
-
-## Flash Attention
-
-
 
 ## Transformer
 
