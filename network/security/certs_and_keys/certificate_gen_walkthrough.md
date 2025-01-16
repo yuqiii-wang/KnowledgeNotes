@@ -79,12 +79,13 @@ DNS.1 = threatshield.example.com
 ```
 
 2. Certificate Signing Request, in which you obtain a private key `server.key` and a public key (aka a cert) `server.csr`
+
 ```bash
 openssl req -new -config server-csr.conf -out server.csr \
         -keyout server.key
 ```
 
-3. Create a `CA.conf`
+1. Create a `CA.conf`
 
 ```conf
 [ ca ]

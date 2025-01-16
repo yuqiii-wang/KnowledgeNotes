@@ -9,7 +9,7 @@ Diffs:
 * Asymmetric encryption usually uses complex mathematical operations, such as power and modulus, on very large numbers (2048 bits).
 * Symmetric encryption uses simpler operations, such as XOR and multiply, on smaller numbers (64 or 128 bits)
 
-## SSL 
+## SSL
 
 `SSH tunneling` is a method of transporting arbitrary networking data over an encrypted SSH connection.
 
@@ -41,13 +41,15 @@ After a successful handshake, data is transferred with session key encryption.
 Transport Layer Security (TLS) is a successor of SSL, with most publicly visible use case of https.
 
 The process is illustrated as below, that
+
 1. Hello includes information about itself such as the ciphers it supports and the TLS versions it supports
 2. a pre-master secret is calculated by the server's public key extracted from its cert, meanwhile, a symmetric key is generated
 3. Server generates same symmetric key and switches to using symmetric key encryption
 
 ![TLS_handshake](imgs/TLS_handshake.png "TLS_handshake")
 
-TLS is different from SSL in terms of 
+TLS is different from SSL in terms of
+
 1. Cipher suites
 2. Alert messages
 3. Hash algos

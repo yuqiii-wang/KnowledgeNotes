@@ -41,6 +41,7 @@ curl -X POST --data '{"request": {"url":"index", "method":"GET"}, "response": {"
 ```
 
 ## Headless Browser
+
 A headless browser is a web browser without a graphical user interface.
 
 ## Web Agents vs J2EE Agents

@@ -54,20 +54,97 @@ This step might be auto completed for some open-to-public servers such as `githu
 
 Now, ssh should work as per above setup.
 
+## Under `$HOME/.ssh`
+
+The `.ssh` directory in a user's home folder contains several important files used for SSH authentication and connection management.
+They are `authorized_keys`, `id_rsa`, `id_rsa.pub`, and `known_hosts`.
+
+When user computer connects to a remote computer, the user computer is named *client*, and the remote computer is *server*.
+
 ### `authorized_keys` vs `known_hosts`
 
-* `authorized_keys`
+In summary,
 
-Holds a list of authorized public keys for servers. When the client connects to a server, the server authenticates the client by checking its signed public key stored within this file
+* Server checks client's public key against `authorized_keys`.
+* Client verifies server's public key against `known_hosts`.
 
-* `known_hosts`
+### File Explanation
 
-The first time a client connects to a server, the client needs to check if the public key presented by the server is really the public key of the server (this is why the first time connection requiring user verifying if a public key is trusted).
+#### `authorized_keys`
+
+When a client attempts to connect to a server using SSH key authentication, the server checks if the client's public key matches any key in the authorized_keys file.
+
+Each line contains a single public key:
+`ssh-rsa AAAAB3NzaC1yc2EAAA... user@host`
+
+#### `known_hosts`
+
+When a client connects to a server for the first time, the server's public key is added to client's `known_hosts`.
 If the server's public key has already existed in client's `known_hosts`, client can just `ssh` to the server.
+
+Each line contains a server's hostname, IP address, and public key:
+`server.example.com ssh-rsa AAAAB3NzaC1yc2EAAA...`
+
+#### `id_rsa`
+
+The private key is used to prove the client's identity to the server during SSH key authentication.
+
+#### `id_rsa.pub`
+
+The public key corresponding to the private key (`id_rsa`).
+
+The public key is added to the `authorized_keys` file on the server to allow the client to authenticate.
+
+Example content of `id_rsa.pub`:
+`ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArV1... user@host`
+
+### How Server Authenticates Client
+
+1. Client sends public key
+
+When the client attempts to connect to the server, it sends its public key (`id_rsa.pub`) to the server.
+
+2. Server checks `authorized_keys`, and init *challenge-response process*
+
+The server looks for the client's public key in the `~/.ssh/authorized_keys` file.
+
+If existed, the server proceeds with the challenge-response process.
+
+The challenge-response process begins with server generating a random byte string (challenge text) and send it to client.
+
+3. Client "solves" the challenge and responds with the result
+
+Client uses its private key `id_rsa` to sign/encrypt the challenge text.
+
+4. Server verifies the client's response for authentication
+
+Server decrypts the response with stored public key in `authorized_keys`, and check if the decrypted text matches the original challenge text
+
+#### Challenge-Response Process
+
+1. On server: random text challenge generation
+
+```sh
+openssl rand -base64 32 > challenge.txt
+```
+
+2. On client: sign the challenge text
+
+```sh
+openssl pkeyutl -sign -inkey id_rsa -in challenge.txt -out challenge.sig
+```
+
+3. On server: verify the signature
+
+```sh
+openssl pkeyutl -verify -pubin -inkey authorized_keys -in challenge.txt -sigfile challenge.sig
+```
+
+## Related Protocols
 
 ### `scp` VS `sftp`
 
-`scp` uses `ssh` to file transfer `scp <fromDirectory> <toDirectory>`
+* `scp` uses `ssh` to file transfer `scp <fromDirectory> <toDirectory>`
 
 For example, to download from a remote computer, run
 
@@ -75,7 +152,7 @@ For example, to download from a remote computer, run
 scp -r yuqi@<remote_server>:/path/to/remote/server /path/to/local/server
 ```
 
-`sftp` is more elaborate than `scp`, and allows interactive commands similar to `ftp`.
+* `sftp` also built on top of `ssh`, but is more elaborate than `scp`, and allows interactive commands similar to `ftp`.
 
 For example, use `ftp put` to copy multiple files to remote server.
 
@@ -86,16 +163,23 @@ sftp username@${remotehost} << EOF
 EOF
 ```
 
+Remember, `sftp` only tries to behave (many similar commands/options) like `ftp`, but build on `ssh`.
+
+|FTP|SFTP|
+|-|-|
+|Port 21 for control; Port 20 for data.|Port 22 (same as SSH).|
+|No encryption|Encrypted using SSH|
+
 ### SSH vs Telnet
 
 ||Telnet|SSH|
 |-|-|-|
 |Name|Telecommunications and Networks (Telnet)|Secure Shell (SSH)|
 |Data Format|simple plain text|encrypted text|
-|Data Format|simple plain text|encrypted text|
 |Authentication|No authentication|key pair + username/password|
+|port|23 (default)|22 (default)|
 
-## The Underlying Mechanism
+## Protocol Implementation
 
 SSH protocol starts building from *transport layer*, typically over TCP.
 The SSH protocol is composed of the below three protocols over TCP.

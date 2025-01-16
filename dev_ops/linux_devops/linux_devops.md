@@ -263,12 +263,6 @@ Used when the second command can handle input via stdin, which is how many comma
 `xargs` is used to take the output of one command and build arguments for another command, e.g., `find . -name "*.txt" | xargs rm`.
 Many commands like `rm`, `cp`, or `mv` don't read from stdin but rather expect filenames or paths as arguments.
 
-* Port Listening
-
-```bash
-sudo lsof -i -P -n | grep LISTEN
-```
-
 * Find the largest files
 
 By directory (One common crash is caused by too many logs generated in a directory)
@@ -329,34 +323,6 @@ sudo apt install ./path/to/deb
 ```bash
 sudo umount /dev/sda1
 sudo dd if=/path/to/ubuntu.iso of=/dev/sda1 bs=1M
-```
-
-* Route
-
-`/etc/hostname` contains name of the machine, as known to applications that run locally.
-
-`/etc/hosts` contains the mapping of some hostnames to IP addresses before DNS can be referenced. 
-
-```txt
-IPAddress     Hostname    		 Alias
-127.0.0.1			localhost	 	 deep.openna.com
-208.164.186.1		deep.openna.com		 deep
-208.164.186.2		mail.openna.com		 mail
-208.164.186.3		web.openna.com		 web
-```
-
-`/etc/gateways` file identifies gateways for a routed daemon.
-
-`/etc/resolv.conf` file is used for domain name resolver
-
-In Linux there is a *resolver* performing domain name translation.
-Specifically, it translates domain names to IP addresses by querying the Domain Name Server (DNS). 
-The `/etc/resolv.conf` file is the file that configures the domain name resolver.
-
-For example, `8.8.4.4` is the Google DNS server.
-
-```bash
-nameserver 8.8.4.4
 ```
 
 * `/etc` vs `/var`
