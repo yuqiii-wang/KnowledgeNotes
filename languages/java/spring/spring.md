@@ -204,45 +204,65 @@ The ApplicationContext (or BeanFactory) is responsible for managing the lifecycl
 
 ## Config
 
-### `@Value` and `application.properties`
+### The Config File `application.properties`/`application.yml`
 
-Spring applications by default load from `application.properties`, where items are auto mapped in spring framework via `@Value`.
+Spring applications by default load from `application.properties`/`application.yml`.
+
+#### Location of `application.yml`
+
+Spring Boot looks for the `application.yml` file in the following locations (in order of priority):
+
+* `/config` directory inside the project root (highest priority).
+* Project root directory.
+* `/config` package inside the classpath.
+* Classpath root (lowest priority).
+
+You can also specify a custom location for the configuration file using the `spring.config.location` property.
+
+#### Retrieve by `@Value`
+
+Items in `application.properties` are auto mapped in spring framework via `@Value`.
 
 For example, in `application.properties`
 
-```conf
-greeting.message=Hello World!
+```yml
+app:
+  name: My Spring Boot Application
+  version: 1.0.0
 ```
 
-The `greeting.message` is retrievable in
+To use it:
 
 ```java
-package example.springvalue.annotation.controller;
+@Value("${app.name}")
+private String appName;
+```
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+#### Retrieve by `@ConfigurationProperties`
 
-@RestController
-public class ValueController {
+To use it:
 
-    @Value("${greeting.message}") 
-    private String greetingMessage;
+```java
+@ConfigurationProperties(prefix = "app")
+public class AppConfig {
+    private String name;
+    private String version;
 
-    @GetMapping("")
-    public String sendGreeting(){
-        return greetingMessage;
-    }
+    // Getters and setters
 }
 ```
 
-To prevent error
+#### Retrieve by `Environment`
 
-```txt
-java.lang.IllegalArgumentException: Could not resolve placeholder 'greeting.message' in value "${greeting.message}"
+```java
+@Autowired
+private Environment env;
+
+public void printAppName() {
+    String appName = env.getProperty("app.name");
+    System.out.println(appName);
+}
 ```
-
-one can use `@Value("${greeting.message:Greeting not found!}")`, where `:` is an alternative value in case of `greeting.message` not found.
 
 ### `@Profile`
 

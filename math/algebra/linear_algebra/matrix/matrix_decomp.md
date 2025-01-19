@@ -2,7 +2,7 @@
 
 ## LU Decomposition/Factorization by Gaussian Elimination
 
-Lower–upper (LU) decomposition or factorization factors a matrix as the product of a lower triangular matrix and an upper triangular matrix.
+Lower-upper (LU) decomposition or factorization factors a matrix as the product of a lower triangular matrix and an upper triangular matrix.
 
 *Gaussian elimination* can be used for decomposition, since just some proper row and/or column orderings or permutations can achieve LU decomposition.
 
@@ -25,7 +25,8 @@ $$
 \end{bmatrix}
 $$
 
-Define $P$ as a permutation matrix, there is 
+Define $P$ as a permutation matrix, there is
+
 $$
 PA=LU
 $$
@@ -58,7 +59,7 @@ $$
 
 ## Cholesky Decomposition/Factorization
 
-Cholesky decomposition decomposes a Hermitian, positive-definite matrix $A$ into the product of a lower triangular matrix $L$ and its conjugate transpose $L^*$, such as $A=LL^*$ or in real number $A=LL^\text{T}$. 
+Cholesky decomposition decomposes a Hermitian, positive-definite matrix $A$ into the product of a lower triangular matrix $L$ and its conjugate transpose $L^*$, such as $A=LL^*$ or in real number $A=LL^\text{T}$.
 
 Every Hermitian positive-definite matrix (and thus also every real-valued symmetric positive-definite matrix) has a unique Cholesky decomposition.
 
@@ -571,9 +572,9 @@ $$
 
 ### Gram-Schmidt Process vs Householder
 
-Given that Householder transformation $\~{H}_i$ is orthogonal having $det(\~{H}_i)=\pm 1$, and there is $\~{H}_i \~{\bold{a}}_i=\pm ||\~{\bold{a}}_i||\~{\bold{e}}_i$, Householder transformation $\~{H}_i$ maintains the length of each $\~{\bold{a}}_i$ at to each orthogonal basis vector $\~{\bold{e}}_i$. 
+Given that Householder transformation $\~{H}_i$ is orthogonal having $det(\~{H}_i)=\pm 1$, and there is $\~{H}_i \~{\bold{a}}_i=\pm ||\~{\bold{a}}_i||\~{\bold{e}}_i$, Householder transformation $\~{H}_i$ maintains the length of each $\~{\bold{a}}_i$ at to each orthogonal basis vector $\~{\bold{e}}_i$.
 
-This is in stark contrast to the transformation by Gram–Schmidt process that $\bold{e}_k=\frac{\bold{u}_k}{||\bold{u}_k||}$ sees worsening loss of precision as dimensions grow for $\bold{u}_k$. As a result, $\langle\bold{e}_k,\bold{a}_n\rangle$ in $R$ might not retain full information.
+This is in stark contrast to the transformation by Gram-Schmidt process that $\bold{e}_k=\frac{\bold{u}_k}{||\bold{u}_k||}$ sees worsening loss of precision as dimensions grow for $\bold{u}_k$. As a result, $\langle\bold{e}_k,\bold{a}_n\rangle$ in $R$ might not retain full information.
 
 ### QR vs LU decomposition
 

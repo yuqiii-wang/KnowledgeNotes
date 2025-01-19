@@ -1,9 +1,9 @@
 # Inverse Matrix
 
-A square matrix $A$ has its inverse when its determinant is not zero.
+A square matrix $A$ (non-square matrix has no inverse) has its inverse when its determinant is not zero.
 
 $$
-AA^{-1} - I
+AA^{-1} = I
 $$
 
 and,
@@ -57,12 +57,12 @@ OpenCV has builtin API for $\bold{x}=A^{\dagger}\bold{b}$.
 In the below code, first construct the linear system by pushing back rows (such as robot states) to `A` and `b`.
 Then, find the pseudo inverse of `A` denoted as `pinA`, by which the solution can be constructed as `x = pinA * b;`.
 
-In least squares problem, solution $\bold{x} \in \mathbb{R}^m$ should be derived from an over-determined system where $n > m$. 
+In least squares problem, solution $\bold{x} \in \mathbb{R}^m$ should be derived from an over-determined system where $n > m$.
 
 ```cpp
-double cv::invert	(	InputArray 	src,
-                        OutputArray 	dst,
-                        int 	flags = DECOMP_LU 
+double cv::invert(InputArray src,
+                        OutputArray dst,
+                        int flags = DECOMP_LU 
                     );
 
 cv::Mat A;

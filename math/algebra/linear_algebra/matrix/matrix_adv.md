@@ -6,9 +6,10 @@ The complex conjugate of a complex number is the number with an equal real part 
 
 ## Unitary Matrix
 
-A complex square matrix $U$ is unitary if its conjugate transpose $U^*$ is also its inverse, that is
+A complex square matrix $U$ is unitary if its conjugate transpose $U^{\dagger}$ is also its inverse, that is
+
 $$
-U^*U = UU^* = UU^{-1} = I
+U^{\dagger}U = UU^{\dagger} = UU^{-1} = I
 $$
 
 ## Isometry

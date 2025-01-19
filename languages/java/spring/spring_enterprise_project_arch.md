@@ -229,7 +229,9 @@ public class RedisDistributedLockExample {
 
 ## JMS Design
 
-## Tracing and Analytics
+## Tracing, Monitoring and Analytics
+
+### `prometheus` and Grafana for monitoring
 
 ### `sleuth` for tracing
 

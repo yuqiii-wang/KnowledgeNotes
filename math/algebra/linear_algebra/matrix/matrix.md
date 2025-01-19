@@ -1,23 +1,29 @@
-# Vector and matrix
+# Some Matrix Types
 
 ## Rank
 
-The rank of a matrix $A$ is the dimension of the vector space generated (or spanned) by its columns, corresponding to the max number of linearly indepent columns of $A$.
+The rank of a matrix is the maximum number of linearly independent rows (or columns) in the matrix.
 
-For example,
+For example, below $A$'s rank is $\text{rank}(A)=2$ for
+
 $$
 A =
 \begin{bmatrix}
-      1 & 4 & 5 \\
-      2 & 5 & 7 \\
-      3 & 6 & 9
+      1 & 2 & 3 \\
+      4 & 5 & 6 \\
+      2 & 4 & 6
+\end{bmatrix} \underrightarrow{-2 R_1 + R_3}
+\begin{bmatrix}
+      1 & 2 & 3 \\
+      4 & 5 & 6 \\
+      0 & 0 & 0
 \end{bmatrix}
 $$
-is of rank $2$ since the third column is the sum of the first two columns.
 
 ### Gaussian Elimination
 
-Gaussian elimination, also known as row reduction, does not change column linearity. The above matrix $A$ can be reduced to 
+Gaussian elimination, also known as row reduction, does not change column linearity. The above matrix $A$ can be reduced to
+
 $$\begin{align*}
 A = 
 \begin{bmatrix}
@@ -61,30 +67,95 @@ hence proving rank $2$ for matrix $A$.
 
 ## Transpose
 
-$A_{n \times m}$ can be expressed as row-based ($A=[r_1, r_2, ..., r_n]$) or column-based ($A=[c_1, c_2, ..., c_m]$), so that
+$A\in\mathbb{R}^{n \times m}$'s transpose is denoted as $A^{\top}\in\mathbb{R}^{m \times n}$.
+
+### Gram Matrix
+
+Given a set of vectors $\{\bold{a}_1, \bold{a}_2, ... \bold{a}_n\}$, the Gram matrix $G\in\mathbb{R}^{n \times n}$ has its entries as the inner products of these vectors.
 
 $$
-A^T A = 
-\begin{bmatrix}
-      c_1^T \\
-      c_2^T \\
-      ... \\
-      c_m^T 
-\end{bmatrix}
-[c_1, c_2, ..., c_m] =
-\begin{bmatrix}
-      c_1^T c_1 & c_1^T c_2 & ... & c_1^T c_m \\
-      c_2^T c_1 & c_2^T c_2 & ... & c_2^T c_m\\
-      ... & ... & ... & ... \\
-      c_m^T c_1 & c_m^T c_2& ... & c_m^T c_m
-\end{bmatrix}
+G_{ij}=\langle \bold{a}_i, \bold{a}_j \rangle
 $$
 
-which $A^T A$ is a Gramian matrix (inner products of column vectors). Likewise, $A A^T$ is for inner products of row vectors.
+If $\{\bold{a}_1, \bold{a}_2, ... \bold{a}_n\}$ are arranged as the columns of a matrix $A$, then
+
+$$
+G=A^{\top}A
+$$
+
+#### Proof of $A^{\top}A$ Be Symmetric
+
+For
+
+$$
+\big(A^{\top}A\big)^{\top}=A^{\top}(A^{\top})^{\top}=A^{\top}A
+$$
+
+$A^{\top}A$ is symmetric.
+
+#### Proof of $A^{\top}A$ Be Positive Semi-Definite
+
+For a matrix be positive semi-definite, its quadratic form $\bold{x}\big(A^{\top}A\big)\bold{x} \ge 0$ is non-negative.
+
+$$
+\bold{x}\big(A^{\top}A\big)\bold{x}=\big(A\bold{x}\big)^{\top}A\bold{x}=\big|\big|A\bold{x}\big|\big|^2
+$$
+
+#### $A^{\top}A$ is Symmetric Hence Orthogonal
+
+Define follows for $i\ne j$
+
+$$
+A^{\top}A\bold{v}_i=\sigma_i^2\bold{v}_i \qquad
+A^{\top}A\bold{v}_j=\sigma_j^2\bold{v}_j
+$$
+
+then multiply by $\bold{v}_j^{\top}$, there is
+
+$$
+\begin{align*}
+    && \bold{v}_j^{\top}A^{\top}A\bold{v}_i &=
+  \bold{v}_j^{\top}\sigma_i^2\bold{v}_i \\
+  \Rightarrow && (A^{\top}A\bold{v}_j)^{\top}\bold{v}_i &=
+  \bold{v}_j^{\top}\sigma_i^2\bold{v}_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\
+  \Rightarrow && \sigma_j^2\bold{v}_j^{\top}\bold{v}_i &=
+  \sigma_i^2\bold{v}_j^{\top}\bold{v}_i \\
+\end{align*}
+$$
+
+For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\bold{v}_j^{\top}\bold{v}_i=0$, hence orthogonal.
+
+##### Spectral Theorem
+
+If $M$ is a real symmetric matrix, then:
+
+* All eigenvalues of $M$ are **real**
+* This means the eigenvectors of $M$ can be chosen to **be orthogonal and normalized**.
+* $M$ can be can be orthogonally diagonalized $M=Q\Lambda Q^{\top}$, where 1) $\Lambda$ is a diagonal matrix containing the eigenvalues of $M$, 2) the columns of $Q$ are the orthonormal eigenvectors of $M$.
 
 ## Triangular Matrix
 
-A square matrix is called lower triangular if all the entries above the main diagonal are zero. Similarly, a square matrix is called upper triangular if all the entries below the main diagonal are zero.
+Either upper or lower area relative the diagonal of a matrix is all zeros:
+
+* Upper Triangular Matrix
+
+$$
+A_{\text{upper}} = \begin{bmatrix}
+    1 & 2 & 3 \\
+    0 & 5 & 6 \\
+    0 & 0 & 9
+\end{bmatrix}
+$$
+
+* Lower Triangular Matrix
+
+$$
+A_{\text{lower}} = \begin{bmatrix}
+    1 & 0 & 0 \\
+    4 & 5 & 0 \\
+    7 & 8 & 9
+\end{bmatrix}
+$$
 
 ## Orthogonal matrix
 
@@ -198,7 +269,87 @@ $$
 
 which give the volume of a parallelotope.
 
-## Adjugate Matrix
+### Input Vector Updates With Different Determinants
+
+Given an input vector $\bold{x}$ and linear transform $A$, the result vector $A\bold{x}$ is a combination of scaling, rotation, and shearing, depending on the structure of $A$.
+
+#### $\text{det}(A)>1$ Expansion
+
+$$
+A\bold{x}=\begin{bmatrix}
+    1 & 2 \\
+    3 & 4
+\end{bmatrix} \begin{bmatrix}
+    1 \\ 1
+\end{bmatrix} = \begin{bmatrix}
+    3 \\ 7
+\end{bmatrix}
+$$
+
+#### $\text{det}(A)<1$ Contraction
+
+$$
+A\bold{x}=\begin{bmatrix}
+    0.1 & 0.2 \\
+    0.3 & 0.4
+\end{bmatrix} \begin{bmatrix}
+    1 \\ 1
+\end{bmatrix} = \begin{bmatrix}
+    0.3 \\ 0.7
+\end{bmatrix}
+$$
+
+#### $\text{det}(A)=1$ Volume Preservation/Pure Rotation
+
+$$
+A\bold{x}=\begin{bmatrix}
+    0 & -1 \\
+    1 & 0
+\end{bmatrix} \begin{bmatrix}
+    1 \\ 1
+\end{bmatrix} = \begin{bmatrix}
+    -1 \\ 1
+\end{bmatrix}
+$$
+
+The vector $\bold{x}$ is rotated by $90$ degrees counterclockwise.
+
+#### $\text{det}(A)=0$ Collapse
+
+$\text{det}(A)=0$ happens when $\text{rank}(A)$ is not full.
+
+$$
+A\bold{x}_1=\begin{bmatrix}
+    1 & 1 \\
+    1 & 1
+\end{bmatrix} \begin{bmatrix}
+    1 \\ 1
+\end{bmatrix} = \begin{bmatrix}
+    2 \\ 2
+\end{bmatrix} \\
+A\bold{x}_2=\begin{bmatrix}
+    1 & 1 \\
+    1 & 1
+\end{bmatrix} \begin{bmatrix}
+    1 \\ 2
+\end{bmatrix} = \begin{bmatrix}
+    3 \\ 3
+\end{bmatrix} \\
+A\bold{x}_3=\begin{bmatrix}
+    1 & 1 \\
+    1 & 1
+\end{bmatrix} \begin{bmatrix}
+    2 \\ 1
+\end{bmatrix} = \begin{bmatrix}
+    3 \\ 3
+\end{bmatrix}
+$$
+
+All $\bold{x}_i$ are collapsed into the line $0=x_2-x_1$.
+
+### Derivation
+
+#### Adjugate Matrix
 
 Adjugate, adjunct or classical adjoint of a square matrix $Adj(A)$ is the transpose of its cofactor matrix $C$.
 
@@ -239,7 +390,7 @@ M_{1,2} = -
 \bigg |= -(di-fg)
 $$
 
-Co-matirx $C$:
+Cofactor matirx $C$:
 
 $$
 C =
@@ -251,6 +402,8 @@ C =
 $$
 
 Finding classical adjoint of a matrix is same as applying a linear transformation which brings the coordinates of $i$ and $j$ to a square of area equal to the determinant of that matrix.
+
+#### Laplace Expansion (Cofactor Expansion)
 
 ## Adjoint of A Matrix (Hermitian Adjoint)
 

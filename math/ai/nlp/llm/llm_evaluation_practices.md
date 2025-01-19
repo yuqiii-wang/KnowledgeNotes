@@ -1,6 +1,6 @@
 # LLM Evaluation Practices
 
-Generally speaking, to evaluate an LLM without human intervention, there are 
+Generally speaking, to evaluate an LLM without human intervention, there are
 
 * Lexical stats
 * Convert into a regression or classification problem
@@ -23,13 +23,3 @@ below shows a fast path how to evaluate a fine-tuned LLM with provided source te
 ### Common Checking Items
 
 #### Hallucination
-
-### Open Source Libs
-
-#### LangKit
-
-#### LangCheck
-
-#### Llama Index
-
-#### LangChain

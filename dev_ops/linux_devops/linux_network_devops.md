@@ -113,10 +113,10 @@ In Linux there is a *resolver* performing domain name translation.
 Specifically, it translates domain names to IP addresses by querying the Domain Name Server (DNS).
 The `/etc/resolv.conf` file is the file that configures the domain name resolver.
 
-For example, `8.8.4.4` is the Google DNS server.
+For example, `8.8.8.8` is the Google DNS server.
 
 ```bash
-nameserver 8.8.4.4
+nameserver 8.8.8.8
 ```
 
 #### Resolver Libraries

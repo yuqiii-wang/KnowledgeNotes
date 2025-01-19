@@ -49,3 +49,52 @@ public class CompletableFutureExample {
     }
 }
 ```
+
+## Auto Java Method Generation
+
+### `lombok.Data`
+
+`@Data` is a convenient annotation used to automatically generate boilerplate code.
+Annotate a class with `@Data`, Lombok generates the following:
+
+* Getters: For all non-static fields.
+* Setters: For all non-final, non-static fields.
+* `toString()`: A method that returns a string representation of the object.
+* `equals()` and `hashCode()`: Methods to compare objects based on their fields.
+* Constructor: A constructor that initializes all final or `@NonNull` fields.
+
+For example,
+
+```java
+import lombok.Data;
+
+@Data
+public class Person {
+    private String name;
+    private int age;
+    private final String id; // final field, included in constructor
+}
+```
+
+`lombok.Data` will populate methods such as
+
+```java
+public class Person {
+    ...
+
+    @Override
+    public String toString() {
+        return "Person(name=" + this.name + ", age=" + this.age + ", id=" + this.id + ")";
+    }
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        result = result * PRIME + this.getAge();
+        result = result * PRIME + (this.getName() == null ? 43 : this.getName().hashCode());
+        result = result * PRIME + (this.getId() == null ? 43 : this.getId().hashCode());
+        return result;
+    }
+}
+```

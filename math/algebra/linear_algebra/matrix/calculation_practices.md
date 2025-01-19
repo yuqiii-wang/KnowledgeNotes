@@ -77,8 +77,6 @@ $$
 
 Geometrically speaking, the transformation matrix $A$ can be explained as scaling with a multiple of $1$ on $\bold{v}_{\lambda_1}$ and $3$ on $\bold{v}_{\lambda_2}$ basis.
 
-Illustrated as given animation below, pink arrows are parallel to $\bold{v}_{\lambda_1}$ with a scaling result of $1$ (unchanged in length), and blue arrows are parallel to $\bold{v}_{\lambda_2}$ with a scaling result of $3$, red arrows are transformed with a combined effect of $\bold{v}_{\lambda_1}$ and $\bold{v}_{\lambda_2}$.
-
 For example, there exist points by transform $A\bold{x}_i$:
 
 * $\bold{x}_1=(1,3)$, there is $A\bold{x}_1=(7,5)$
@@ -118,7 +116,6 @@ $$
 3 & 2
 \end{bmatrix}}
 $$
-
 
 Use $e$ log:
 $$
