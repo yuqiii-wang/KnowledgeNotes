@@ -64,12 +64,12 @@ There is a REPO trade:
 * The pledged underlying security is a bond with ACT/360 and coupon rate $6.07\%$
 * The REPO rate is bound to SOFR + 60 bp
 * The start (dirty) price of bond is $100.94$
-* The haircut is $90$
+* The haircut is $10\%$
 
 Business Explained:
 
 * The rate bound to SOFR + 60 bp means that, SOFR is the U.S. interbank rate that can be regarded as risk-free cash cost, and the added 60 bp is the profit
-* The haircut of $90$ means the value of the underlying security is discounted to $\times 90\%$ as the start cash lent to cash borrower; the discount of $10\%$ is risk margin in case the security value fluctuates
+* The haircut of $10\%$ means the value of the underlying security is discounted to $\times 90\%$ as the start cash lent to cash borrower; the discount of $10\%$ is risk margin in case the security value fluctuates
 * The coupon rate of $6.07\%$ does NOT go into calculation for REPO rate does not see title transfer, coupon yield not transferred
 
 Assume today is 15-Jul-2024, to compute end cash:

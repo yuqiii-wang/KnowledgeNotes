@@ -1,4 +1,4 @@
-# Calculation Practices:
+# Calculation Practices
 
 ## Two-dimensional matrix eigenvalue and eigenvector example
 

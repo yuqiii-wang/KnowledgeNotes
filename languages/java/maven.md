@@ -271,6 +271,64 @@ cd ~/.m2 # or your custom maven repo folder
 find . -name '*.lastUpdated' | xargs rm -rf
 ```
 
+If one wishes to manually install a downloaded jar, e.g., proprietary oracle jdbc not on open source maven repo, run
+
+```sh
+mvn install:install-file -Dfile=ojdbc10.19.3.jar -DgroupId=com.oracle.database.jdbc -DartifactId=ojdbc10 -Dversion=10.19.3 -Dpackaging=jar
+```
+
+7. For large project, one might want to disable/enable unit test
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_test_src_dir.png" width="40%" height="70%" alt="idea_test_src_dir" />
+</div>
+</br>
+
+`mvn clean package -DskipTests` can skip unit test.
+
+8. Having done build, use Maven to run the java program.
+
+To run java program with maven, in `pom.xml` add this plugin.
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version> <!-- Use the latest version -->
+        </plugin>
+    </plugins>
+</build>
+```
+
+Then, on terminal run this (need to define the main class name).
+
+```sh
+mvn exec:java -Dexec.mainClass="com.example.Main" -Dexec.args="arg1 arg2 arg3"
+```
+
+The additional runtime parameters are defined in IDEA (if `VM Options` not shown, click `Modify Options` to enable it):
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_run_args.png" width="70%" height="40%" alt="idea_run_args" />
+</div>
+</br>
+
+|Feature|Environment Variables|VM Options|Program Arguments|
+|-|-|-|-|
+|Purpose|Set system-wide configurations. Often used for sensitive data.|Configure JVM settings or global system properties.|Provide runtime parameters specific to the application logic.|
+|Access in Java|`System.getenv("VAR_NAME")`|`System.getProperty("property_name")`|args array in the main method: `public static void main(String[] args)`|
+|Scope|Available to the whole system or user session.|Available to the JVM during the application's lifecycle.|Available only within the running instance of the application.|
+|Examples|`DATABASE_URL=jdbc://localhost`, `-Denv=production`|`-Xmx1024m` (Maximum Heap Size), `-Xms512m` (Initial Heap Size)|`-Dserver.port=8080`, `--inputDir=/data/input`|
+
+9. For any future change/debug, one can just recompile
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_recompile_class.png" width="40%" height="20%" alt="idea_recompile_class" />
+</div>
+</br>
+
 ### Minimalist `pom.xml` for Maven start
 
 For Maven to work, need to include these in `pom.xml`.

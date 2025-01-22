@@ -14,7 +14,7 @@ If banks have enough money to cover potential losses.
 
 * Gilt (英国国债)
 
-A gilt is a UK Government liability in sterling, issued by HM Treasury and listed on the London Stock Exchange. 
+A gilt is a UK Government liability in sterling, issued by HM Treasury and listed on the London Stock Exchange.
 The term "gilt" or "gilt-edged security" is a reference to its high credibility that the UK gov never failed to make interest or principal payments on gilts as they fall due.
 
 * Demand deposit (活期存款)
@@ -48,6 +48,13 @@ In layperson terms, it is like an "IOU" but can be bought and sold because its b
 
 For example, Apple bought some electronic devices from Foxconn.
 Instead of just paying cash on goods' delivery, Apple pays with commercial paper that promises Apple will pay the full amount in 270 days.
+
+* Outright (Purchase) 直接/买断式 持有
+
+Purchase with "direct"/"complete" intent/method.
+
+For example, outright REPO (Repurchase Agreement) means REPO trade with total ownership transfer of underlying securities (against pledge-style REPO with only partial ownership transfer).
+Outright securities holding means ownership without indirect/middleman representative.
 
 ### Secondary Market and Shares
 
@@ -225,14 +232,6 @@ A money market fund (also called a money market mutual fund) is an open-ended mu
 * Fund of Funds (FOF)
 
 A fund of funds (FOF) is a pooled fund that invests in other funds.
-
-### Pledge, Hypothecation and Mortgage
-
-|Pledge|Hypothecation|Mortgage|
-|-|-|-|
-|bailment of goods as security against the loan|pledge of an asset as collateral for a loan, without transferring the property's title to the lender|transfer of an interest in specific immovable property as security against loan|
-|Movable (Gold, Jewellery, Stock, NSC etc.)|Movable (Vehicles, Stock and debtors.)|Immovable (example: house, land, etc.)|
-|Possession remains with lenders|Possession remains  with borrowers|Possession remains  with borrowers|
 
 ### Financing, Loan and Bonds
 

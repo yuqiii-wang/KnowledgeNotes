@@ -452,7 +452,7 @@ The `put` and `get` are assumed used in multi-threaded env, where blocking takes
 and `notEmpty.await();` for `get` if empty.
 
 ```java
-package yuqiexample;
+package com.yuqi.example;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -504,7 +504,7 @@ Elements are taken out and stored in `ArrayBlockingQueue<Integer> q` and `ArrayL
 The result is that, `q` can receive all 1000 elements, while `a` fails for not supporting multi-threaded `add`.
 
 ```java
-package yuqiexample;
+package com.yuqi.example;
 
 import java.util.ArrayList;
 import java.util.concurrent.*;

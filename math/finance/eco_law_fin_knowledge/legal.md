@@ -109,6 +109,10 @@ Out of law enforcement difficulties, e.g., trade settlements in different jurisd
 
 Often, in addition this clause provides in the case of law enforcement difficulties, what arbitration methods are to employ to resolve disputes by an impartial third party, and detailed delivery/settlement action.
 
+* Dispensation 豁免
+
+The granting of a specific exemption or relaxation from the usual requirements, rules, or obligations.
+
 ### Legal Linguitics
 
 * Provisions vs Clauses 条款
@@ -171,12 +175,18 @@ Mediation is even less formal than arbitration.
 
 Arbitration may involve multiple arbitrators/people and often is a binding process; while mediation would just have one mediator/person handling a dispute, usually non-binding.
 
-### Set-off/Netting 净额结算
+### Set-off/Netting (净额)结算
 
 *Set-off* or *netting* is a legal technique replacing gross positions with net positions between parties.
 
 For example, party X and party Y have many transactions with each other trading securities under a master agreement.
 When the agreement expires/ends, party X and party Y should see how much they owe to each other, ending the agreement with delivered securities and paid money, so that the party X and party Y combined total traded amount is "netted".
+
+#### Netting Motivations
+
+In the context of global large-scale transactions between financial institutions, multiple transactions can be troublesome that such frequent large-notional transactions can trigger regulatory scrutiny, e.g., money laundry, and multiples of settlement/broker fees and other overheads.
+
+#### Netting Types
 
 * Payment/Settlement Netting
 
@@ -244,6 +254,19 @@ In the context of balance of convenience, court considers
 -> The apparent merits of each party's case - but only if one party very clearly has a stronger case
 -> The extent to which granting/not granting the injunction would affect each party
 -> Whether the claimant would lose some or all of the value of a time-limited property right (such as a patent) if the injunction is not granted
+
+#### Possession Rights by Different Financing Methods
+
+In this context:
+
+* Borrower: to borrow in money
+* Lender: to lend out money
+
+||Pledge (质押/质权)|Lien (留置权)|Hypothecation (非占有性抵押/押汇)|Mortgage (抵押)|
+|-|-|-|-|-|
+|Description|bailment of **goods as security** against the loan|a creditor has in another's property **until a debt is paid**.|pledge of an **asset as collateral** for a loan, without transferring the property's title to the lender|transfer of an interest in specific **immovable property** as security against loan|
+|Examples|Movable (Gold, Jewellery, Stock, NSC etc.)|A mechanic's lien on a car for unpaid repair bills.|Movable (Vehicles, Stock and debtors.)|Immovable (example: house, land, etc.)|
+|Possession|Possession remains **with lenders**|Possession remains with lenders|Possession remains  with borrowers|Possession remains  with borrowers|
 
 ### Criminal Accusation
 
