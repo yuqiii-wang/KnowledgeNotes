@@ -176,7 +176,45 @@ with postgresql_connection('mydatabase', 'myuser', 'mypassword') as conn:
         cursor.execute('SELECT * FROM mytable')
         result = cursor.fetchall()
         print(result)
+```
 
+## Type Safe by `pydantic`
+
+`pydantic` is a Python library that provides runtime type checking and data validation using Python type annotations.
+
+* `Field`
+
+```py
+from pydantic import BaseModel, validator, Field
+from Typing import Optional
+
+class Person(BaseModel):
+    name: str = Field(default="Anonymous", description="The name of the person")
+    age: int = Field(default=18, gt=0, description="The age of the person, be greater than 0")
+    sex: Optional[str] = Field(default="Unknown", description="The sex of the person, either 'm', 'f', or 'Unknown'")
+
+    @validator("sex")
+    def validate_sex(cls, value):
+        if value not in ["m", "f", "Unknown"]:
+            raise ValueError("Sex must be either 'm', 'f', or 'Unknown'")
+        return value
+
+class Student(Person):
+    student_id: str = Field(description="The unique ID of the student")
+    courses: List[str] = Field(default_factory=list, description="List of courses the student is enrolled in")
+
+#################
+# Create a Student instance and test it
+student_data = {
+    "name": "Alice",
+    "age": 20,
+    "sex": "f",
+    "student_id": "S12345",
+    "courses": ["Math", "Physics"]
+}
+
+student = Student(**student_data)
+print(student.model_dump())
 ```
 
 ## Python Object LifeCycle Management
@@ -306,7 +344,7 @@ del x # `x` is not longer accessable, but not freed
 
 #### `gc` solution
 
-`gc` module comes to rescue by checking the number of allocated objects and de-allocated objects (allocations and de-allocations mismatch demonstrates that there are garbages missed removed). 
+`gc` module comes to rescue by checking the number of allocated objects and de-allocated objects (allocations and de-allocations mismatch demonstrates that there are garbages missed removed).
 
 If the number is greater than a threshold, objects are scheduled being de-allocated. It detects items such as `del` and existence of objects in memory.
 
@@ -325,6 +363,7 @@ print("Garbage collection thresholds:",
 ### Manual trigger
 
 You can manually trigger `gc` to start collecting objects, if the scheduled auto-recycling has not yet met the threshold.
+
 ```py
 import gc
 i = 0
@@ -366,4 +405,4 @@ Creating cycles...
 {9: {...}}
 {10: {...}}
 Garbage collector: collected 10 objects.
-``` 
+```

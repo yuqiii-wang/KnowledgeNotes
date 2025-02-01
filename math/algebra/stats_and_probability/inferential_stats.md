@@ -456,6 +456,7 @@ A very typical use is test against means: $\theta_i := \overline{X}_i$, and $a_i
 There is a base reference that sees $a_t=1$ (treatment group), while others $a_{i \ne t} < 0$ (control groups).
 
 Example:
+
 * Group 1 vs. (Groups 2, 3, and 4): $\Psi = (1)\overline{X}_1 + (-\frac{1}{3})\overline{X}_2 + (-\frac{1}{3})\overline{X}_3 + (-\frac{1}{3})\overline{X}_4$
 
 * Group 1 vs. (Groups 2, and 3): $\Psi = (1)\overline{X}_1 + (-\frac{1}{2})\overline{X}_2 + (-\frac{1}{2})\overline{X}_3$

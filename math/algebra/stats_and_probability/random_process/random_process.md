@@ -45,3 +45,9 @@ The *central limit theorem* (CLT) establishes that, in many situations, for iden
 
 $\bold{x} = \{ \bold{x}_1, \bold{x}_2, ..., \bold{x}_n, ... \}$ are random samples having a mean $\mu$ and finite variance $\sigma^2$.
 If $\overline{\bold{x}}_n$ is the sample mean of the first $n$ samples, then $Z=\lim_{n \rightarrow \infty} \Big( \frac{\overline{\bold{x}}_n - \mu}{\frac{1}{\sqrt{n}} \sigma} \Big)$ is a standard normal distribution (having $\mu_{Z}=0$).
+
+In other words, it states that as $n$ gets larger, the distribution of the normalized mean ${\sqrt{n}}({\overline {\bold{x}}}_{n}-\mu )$, i.e. the difference between the sample average $\overline{\bold{x}}_n$ and its limit $\mu$ scaled by the factor ${\sqrt {n}}$, approaches the normal distribution with mean $0$ and variance $\sigma^{2}$.
+
+$$
+{\sqrt{n}}({\overline {\bold{x}}}_{n}-\mu ) \sim \mathcal{N}(0, \sigma^2)
+$$

@@ -167,8 +167,10 @@ Generally speaking, REPO risk increases as
 * Currency represented country is economy-healthy
 * reputed institution ratings, e.g., S&P
 
-For example, a group of financial experts come up with this determination of risk.
-They might review it quarterly.
+For example, a group of financial experts come up with this determination of risk weights.
+They might review it quarterly to update the risk weights with examined market conditions, e.g., following up central bank policies.
+
+In the example below, US Treasure bond REPO by USD purchase has the lowest risk, while lower-quality bond REPO trading in non-USD currency has much higher risks.
 
 |Currency|Bond Type|Bond Ratings, e.g., S&P|Days to REPO End Date|Days to Bond Maturity|Risk|
 |-|-|-|-|-|-|

@@ -110,7 +110,7 @@ $$
 \end{align*}
 $$
 
-* Use 5.34 for the all remaining days (the inferred SOFR rate can be derived using complex extrapolation methods as well, here used end static 5.34). There are 412 days between 15-Jul-2024 and 31-Aug-2025.
+* Use 5.34 for the all remaining days (the inferred SOFR rate can be derived using complex extrapolation methods as well, here used end static 5.34 for future date rate extrapolation). There are 412 days between 15-Jul-2024 and 31-Aug-2025.
 
 $$
 \begin{align*}

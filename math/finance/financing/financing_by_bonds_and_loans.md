@@ -1,4 +1,4 @@
-# Financing by Bonds and Loans
+# Financing (融资) by Bonds and Loans
 
 ## Bonds, Loans, and Fixed Incomes
 
@@ -17,7 +17,31 @@ The issuer of a bond pays interest, and only interest regularly (usually semi-an
 
 For loans, payments are made including interests + principal, until principal is fully repaid. For example, mortgage receives monthly payment.
 
-## Settlement Type and Payment
+## Margin and Leverage
+
+## Clearing (清算) vs Settlement (结算)
+
+Reference:
+
+* https://www.euroclear.com/services/en/settlement.html
+* https://www.investopedia.com/terms/c/crest.asp
+
+### Clearing
+
+Clearing is the process that occurs after a trade is executed but before settlement.
+
+Clearing prepares the transaction for settlement by confirming details and netting.
+
+#### Clearing Facilities
+
+* HKSCC (for securities)
+* HKEX Clearing Limited (for derivatives)
+
+### Settlement
+
+Settlement is the final step in the transaction process, where the actual exchange of securities and funds takes place.
+
+There are two types of payments:
 
 * FOP (Free of Payment)
 
@@ -27,9 +51,13 @@ Free of payment is a settlement method for a securities transaction in which the
 
 Delivery versus payment (DVP) is a securities industry settlement method that guarantees the transfer of securities only happens after payment has been made.
 
-## Margin
+#### Settlement Facilities
 
-In financing business, 
+Often, a settlement facility is also a tri-party agent managing securities on behalf of financial institutions.
+
+* Euroclear
+* CREST (Certificateless Registry for Electronic Share Transfer)
+* HKSCC (for securities)
 
 ## Security Financing (Borrowing or Lending) Trades (SBL Trades)
 

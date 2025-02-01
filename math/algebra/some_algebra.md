@@ -58,7 +58,30 @@ The Cantor Pairing Function ensures that any countably infinite set (like the se
 This question asks to establish a mapping that every element in $(0,1)$ has one or more mappings to elements in $[0,1]$.
 There can be more than one mappings.
 
+## Gamma Function
 
+Gamma function is the generalization of factorial that is only applied to positive integers.
+
+Recall the typical definition of factorial and it can be folded as recursive.
+
+$$
+\begin{align*}
+    n! &= n \cdot (n-1) \cdot (n-2) \cdot ... \cdot 1 \\
+    n! &= n \cdot (n-1)!
+\end{align*}
+$$
+
+Generalize this concept to
+
+$$
+\Gamma(x+1)=x\cdot\Gamma(x)\qquad \mathcal{R}(x)>0
+$$
+
+Use exponential form to approximate this generalization form
+
+$$
+\Gamma(x)=\int_0^{\infty}t^{x-1}e^{-t} dt
+$$
 
 ## Cauchy-Schwarz Inequality
 

@@ -6,6 +6,7 @@ The name is coined for investigations by American mathematician Norbert Wiener o
 It is often also called Brownian motion due to its historical connection with the physical process of the same name originally observed by Scottish botanist Robert Brown.
 
 It has the below properties:
+
 * $W_0$ = 0 as start
 * $W$ increment is independent: for $t>0$, the future increments $W_{t+\Delta t}-W_t$ over the time interval $\Delta t \ge 0$ are independent of the past value $W_s, s < t$
 * $W$ has Gaussian increments: $W_{t+\Delta t} - W_t \sim N(0, \Delta t)$
