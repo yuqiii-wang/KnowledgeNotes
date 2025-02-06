@@ -16,6 +16,89 @@ GPT (Generative Pre-trained Transformer)
 
 * Encoder-Decoder
 
+## LLM Memory Consumption During Inference
+
+There are
+
+* Model Parameters
+* Key Value Caches
+* Temporary Computation Results
+
+### Model Parameters
+
+Take BERT-base as an example.
+In total, there are $108,369,656$ parameters.
+By FP16, the model memory consumption is $108,369,656 \times 2\text{bytes} = 216.7 \text{MB}$.
+
+#### Embedding Layers
+
+* Token Embeddings $30,000 \times 768 = 23,040,000$
+* Position Embeddings: $512 \times 768 = 393,216$ for a maximum sequence length (commonly 512)
+* Token Type Embeddings: $2 \times 768 = 1,536$ for 2 token types (for sentence A and sentence B)
+
+#### Transformer Layer Components
+
+For each of $12$ transformer layers, there are
+
+* Query, Key, and Value weights: $3 \times 768\times 768 = 1,769,472$
+* Attention Output Linear Projection: $768\times 768=589,824$
+* Feed-Forward: $768\times 3072 + 3072 \times 768 = 4,718,592$
+
+### Key Value Caches
+
+The key $K$ and value $V$ of the $\text{Attention}(Q,K,V)$ are stored for previous tokens for next token prediction.
+
+For example, assumed model has already processed $128$ tokens, base on which to predict the $129$-th token.
+
+For ONE layer of BERT-base, there is
+
+$$
+K\in\mathbb{R}^{\text{numHeads}\times\text{seqLen}\times\text{headDim}}=\mathbb{R}^{12\times 128\times 64} \\
+V\in\mathbb{R}^{\text{numHeads}\times\text{seqLen}\times\text{headDim}}=\mathbb{R}^{12\times 128\times 64}
+$$
+
+These caches are maintained per layer. Thus, there are $12$ independent pairs of caches (one pair per layer).
+
+For 4k context length with FP16, there is KV cache $2 \times 12 \times 12\times 4096\times 64 \times 2\text{bytes}=144\text{MB}$.
+
+### Temporary Intermediate Computation Results
+
+Temporary computation results are used only on the current layer, and on the next layer the intermediate values are re-computed.
+
+Again take BERT-base as example, for each head $h=1,2,...,12$ in ONE layer, given $128$ already predicted tokens, there is
+
+* Raw Attention Score
+
+$$
+S_{h}=\frac{Q_hK_h^{\top}}{\sqrt{64}}\in\mathbb{R}^{128}
+$$
+
+* Attention Score Softmax Normalization
+
+$$
+a_{h,i}=\frac{\exp(S_{h,i})}{\sum_{i=1}^{128}\exp(S_{h,i})},
+\qquad a_{h}\in\mathbb{R}^{128}
+$$
+
+* Weighted Sum over Values
+
+$$
+O_h = \sum^{128}_{i=1}a_{h,i}V_{h,i} \in\mathbb{R}^{64}
+$$
+
+* Output Concatenation for all $12$ heads
+
+$$
+O=\text{Concat}(O_1, O_2, ..., O_{12})\in\mathbb{R}^{12\times 64}
+$$
+
+* Compute the new $K$ and $V$ for the $129$-th token for all $12$ heads, and add them to KV Caches
+
+$$
+K_{i=129} \in\mathbb{R}^{12\times 64} \\
+V_{i=129} \in\mathbb{R}^{12\times 64}
+$$
+
 ## The Problem of Token Repetition
 
 The probability of a token $t_{i+1}$ being selected takes into consideration of all previous tokens $P(t_{i+1}|t_1,t_2,...,t_i)$.

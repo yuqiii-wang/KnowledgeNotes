@@ -2,7 +2,8 @@
 
 ## Series of Power over Factorial Converges
 
-For $x=0$ there is 
+For $x=0$ there is
+
 $$
 \forall n \geq 1 : \frac{0^n}{n!}=0
 $$

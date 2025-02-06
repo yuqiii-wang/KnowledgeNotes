@@ -69,6 +69,12 @@ hence proving rank $2$ for matrix $A$.
 
 $A\in\mathbb{R}^{n \times m}$'s transpose is denoted as $A^{\top}\in\mathbb{R}^{m \times n}$.
 
+### Reverse Order Property
+
+$$
+\big(A_1A_2...A_n\big)^{\top}=A^{\top}_n...A^{\top}_2A^{\top}_1
+$$
+
 ### Gram Matrix
 
 Given a set of vectors $\{\bold{a}_1, \bold{a}_2, ... \bold{a}_n\}$, the Gram matrix $G\in\mathbb{R}^{n \times n}$ has its entries as the inner products of these vectors.

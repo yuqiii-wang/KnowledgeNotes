@@ -2,7 +2,7 @@
 
 ## Laplace transform
 
-### Definition:
+### Definition
 
 $$
 F(s)=\mathcal{L}\big(f(t)\big) = \int_0^{\infty} f(t) e^{-st} dt
@@ -14,7 +14,8 @@ $$
 f(t) = \mathcal{L}^{-1}\big\{F\big\}(t)
 $$
 
-### Application:
+### Application
+
 The output of a linear time-invariant system can be calculated by convolving its unit impulse response with the input signal. The use of Laplace transform turns convolution calculation from time-based space into multiplication in Laplace space.
 
 ### Electric circuit example

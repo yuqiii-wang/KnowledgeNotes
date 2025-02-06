@@ -18,11 +18,11 @@
 
 ## BIOS vs UEFI
 
-### BIOS 
+### BIOS
 
 BIOS stands for Basic Input/Output System.
 
-It is firmware embedded on the chip on the computer's motherboard. BIOS firmware is pre-installed on the motherboard of a PC. It is a non-volatile firmware which means its settings won’t disappear or change even after power off.
+It is firmware embedded on the chip on the computer's motherboard. BIOS firmware is pre-installed on the motherboard of a PC. It is a non-volatile firmware which means its settings won't disappear or change even after power off.
 
 ### UEFI
 
