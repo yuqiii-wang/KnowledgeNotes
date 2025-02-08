@@ -216,6 +216,13 @@ Failed to complete this step might raise "PKIX path building failed: sun.securit
 keytool -import -alias example-mirror -keystore  "/path/to/<jre-version>/lib/security/cacerts" -file example-mirror-id.cer
 ```
 
+### Common Maven Repo Name
+
+||Maven Central|Maven Public|
+|-|-|-|
+|Description|The default, official repository with strict publishing standards. Its URL is `https://repo.maven.apache.org/maven2`.|Often an aggregated endpoint in a repository manager (or simply a repository labeled "public") that can include Maven Central among others.|
+|Maintainer|Sonatype|N/A|
+
 ## Maven Setup in IntelliJ IDEA
 
 1. Make sure Maven plugin is installed.

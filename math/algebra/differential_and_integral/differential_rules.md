@@ -242,23 +242,23 @@ $$
     && &\downarrow& \dot{v}_{0} &= \dot{x}_2 && &=0
     \\ &\downarrow&---- &----&&&--------&& &\downarrow&
     ----& ----&& &--------\\
-    &\downarrow& 
+    &\downarrow&
     v_{1} &= \ln(v_{-1}) && &= \ln(2)
     && &\downarrow& \dot{v}_{1} &= \frac{\dot{v_{-1}}}{v_{-1}} && &= \frac{1}{2}
-    \\ &\downarrow& 
+    \\ &\downarrow&
     v_{2} &= v_{-1} \cdot v_0 && &= 2 \times 5 = 10
     && &\downarrow& \dot{v}_{2} &= \dot{v}_{-1} \cdot {v}_0 + v_{-1} \cdot \dot{v}_0 && &= 1 \times 5 + 0 \times 2 = 5
-    \\ &\downarrow& 
+    \\ &\downarrow&
     v_{3} &= \sin(v_0) && &= \sin(5)
     && &\downarrow& \dot{v}_{3} &= \dot{v_0} \times \cos(v_0) && &= 0 \times \cos(5)=0
-    \\ &\downarrow& 
+    \\ &\downarrow&
     v_{4} &= v_1+v_2 && &= \ln(2)+10
     && &\downarrow& \dot{v}_{4} &= \dot{v}_1+\dot{v}_2 && &= \frac{1}{2}+5=5.5
-    \\ &\downarrow& 
+    \\ &\downarrow&
     v_{5} &= v_4-v_3 && &= \ln(2)+10-\sin(5)
     && &\downarrow& \dot{v}_{5} &= \dot{v}_4-\dot{v}_3 && &= 5.5-0=5.5
     \\ &\downarrow&---- &----&&&--------&& &\downarrow&
-    ----& ----&& &--------\\    &\downarrow& 
+    ----& ----&& &--------\\    &\downarrow&
     f(x_1,x_2)&= v_5 && &= \ln(2)+10-\sin(5)
     && &\downarrow& \dot{f}(x_1,x_2) &= \dot{v}_5 && &=5.5
 \end{matrix}
@@ -273,49 +273,40 @@ In other words, it reverses the directed graph computing from $v_5$ to $v_{-1}$ 
 $$
 \begin{matrix}
     &\downarrow& v_{-1} &= x_1 && &= 2
-    && &\uparrow& \dot{x}_{1} &= \dot{v}_{-1} && &=5.5
-    \\
+    && &\uparrow& \dot{x}_{1} &= \dot{v}_{-1} && &=5.5 \\
     &\downarrow& v_{0} &= x_2 && &= 5
     && &\uparrow& \dot{x}_{2} &= \dot{v}_0 && &=2-\cos(5)
-
     \\ &\downarrow&---- &----&&&--------&& &\uparrow&
     ----& ----&& &--------
-
-    \\&\downarrow& 
+    \\&\downarrow&
     v_{1} &= \ln(v_{-1}) && &= \ln(2)
-    && &\uparrow& 
+    && &\uparrow&
     \dot{v}_{-1} &= \dot{v}_{-1} + \dot{v}_{1}\frac{\dot{v_{1}}}{v_{-1}}=\dot{v}_{-1} + \dot{v}_{1}\frac{1}{v_{-1}} && &= 5 + \frac{1}{2} = 5.5
-    
-    \\ &\downarrow& 
+    \\ &\downarrow&
     v_{2} &= v_{-1} \cdot v_0 && &= 2 \times 5 = 10
-    && &\uparrow& 
+    && &\uparrow&
     \dot{v}_{0} &= \dot{v}_{0} + \dot{v}_2\frac{\partial v_2}{\partial v_0}=\dot{v}_0+\dot{v}_2 \cdot v_{-1} && &= -\cos(5)+1\times 2=2-\cos(5)
     \\ &\downarrow& &&&&&& &\uparrow&
     \dot{v}_{-1} &= \dot{v}_2\frac{\partial v_2}{\partial v_{-1}} = \dot{v}_2 \cdot v_0 && &=1\times 5=5
-    
-    \\ &\downarrow& 
+    \\ &\downarrow&
     v_{3} &= \sin(v_0) && &= \sin(5)
-    && &\uparrow& 
+    && &\uparrow&
     \dot{v}_{0} &= \dot{v}_3\frac{\partial v_3}{\partial v_0} = \dot{v}_3 \cdot \cos(v_0)=0 && &= -\cos(5)
-
-    \\ &\downarrow& 
+    \\ &\downarrow&
     v_{4} &= v_1+v_2 && &= \ln(2)+10
-    && &\uparrow& 
+    && &\uparrow&
     \dot{v}_{1} &= \dot{v}_4\frac{\partial v_4}{\partial v_1} = \dot{v}_4 \cdot 1 && &=1
     \\ &\downarrow& &&&&&& &\uparrow&
     \dot{v}_{2} &= \dot{v}_4\frac{\partial v_4}{\partial v_2} = \dot{v}_4 \cdot 1 && &=1
-    
-    \\ &\downarrow& 
+    \\ &\downarrow&
     v_{5} &= v_4-v_3 && &= \ln(2)+10-\sin(5)
-    && &\uparrow& 
+    && &\uparrow&
     \dot{v}_{3} &= \dot{v}_5\frac{\partial v_5}{\partial v_3} = \dot{v}_5 \cdot (-1) && &=-1
     \\ &\downarrow& &&&&&& &\uparrow&
     \dot{v}_{4} &= \dot{v}_5\frac{\partial v_5}{\partial v_4} = \dot{v}_5 \cdot 1 && &=1
-    
     \\ &\downarrow&---- &----&&&--------&& &\uparrow&
-    ----& ----&& &--------   
-
-    \\ &\downarrow& 
+    ----& ----&& &--------
+    \\ &\downarrow&
     f(x_1,x_2)&= v_5 && &= \ln(2)+10-\sin(5)
     && &\uparrow& \dot{v}_5 &= \dot{f}(x_1,x_2)  && &=1
 \end{matrix}

@@ -48,6 +48,7 @@ To solve this, Flash Attention keeps running statistics for:
 
 $$
 \text{softmax}(x_i)=\frac{\exp(x_i)}{\sum_j \exp(x_j)}
+\Rightarrow \frac{\exp(x_i)}{z_i}
 $$
 
 In other words, the softmax computation is approximated with the help of $m_i$ and $z_i$ without mandating an entire row be joined at once.
@@ -347,7 +348,7 @@ $$
 
 Let $l$ be history output token number, MLA requires a total KV cache containing $(d_c+d^{\text{Ro}}_h)l$ elements.
 
-### Final: Combine the Cache and Rotary Embedding
+### Final: Combine the Cache and RoPE
 
 For each token, the attention is
 

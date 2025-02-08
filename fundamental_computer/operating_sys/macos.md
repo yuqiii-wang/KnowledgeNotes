@@ -4,6 +4,12 @@
 
 https://mirrors.tuna.tsinghua.edu.cn/help/homebrew/
 
+### Tsinghua Mirror
+
+```sh
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+```
+
 ## MacOS Commands
 
 * `spctl`

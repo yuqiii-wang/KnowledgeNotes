@@ -227,7 +227,58 @@ public class RedisDistributedLockExample {
 
 ## Design Pattern: Facade
 
-## JMS Design
+## Message Streaming
+
+||WebSockets|MQ/JMS (Java Message Service)|
+|-|-|-|
+|Communication Type|Bidirectional, real-time, full-duplex|Asynchronous, message-based, store-and-forward|
+|Protocol|WebSocket over TCP (`ws://`, `wss://`)|Messaging middleware (JMS API over TCP, AMQP, MQTT, etc.)|
+|Architecture|Direct client-server connection|Producer-Consumer with a Message Broker|
+|Latency|Very low (<1ms)|Higher due to message persistence and reliability|
+
+### JMS
+
+### Websocket
+
+A java client can make websocket connection to `ChatWebSocketServer` by
+
+```java
+WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+            container.connectToServer(WebSocketClient.class, new URI("ws://localhost:8080/chat"));
+```
+
+The `ChatWebSocketServer` is defined as
+
+```java
+import jakarta.websocket.*;
+import jakarta.websocket.server.ServerEndpoint;
+import java.io.IOException;
+
+@ServerEndpoint("/chat")
+public class ChatWebSocketServer {
+
+    @OnOpen
+    public void onOpen(Session session) {
+        System.out.println("Connected: " + session.getId());
+    }
+
+    @OnMessage
+    public void onMessage(String message, Session session) throws IOException {
+        System.out.println("Received: " + message);
+        session.getBasicRemote().sendText("Echo: " + message);
+    }
+
+    @OnClose
+    public void onClose(Session session) {
+        System.out.println("Disconnected: " + session.getId());
+    }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        throwable.printStackTrace();
+    }
+}
+```
 
 ## Tracing, Monitoring and Analytics
 
