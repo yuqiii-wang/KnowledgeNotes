@@ -4,52 +4,6 @@
 
 By default, maven settings are placed in `~/.m2/setting.xml`.
 
-### Maven Goals
-
-A goal in Maven represents a specific task that contributes to the building and managing of a project.
-
-For example,
-
-* Goal: `clean`/`mvn clean`
-
-This command cleans the maven project by deleting the `target/` directory.
-
-* Goal: `compile`/`mvn compile`
-
-This command compiles the java source classes of the maven project into the `target/classes` directory.
-
-* Goal: `package`/`mvn package`
-
-This command builds the maven project and packages them into a JAR, WAR, etc.
-
-* Goal: `install`/`mvn install`
-
-Installs the package into the local repository, for use as a dependency in other projects locally.
-
-Below config can specify where the local repo is to install/store.
-
-```xml
-<settings>
-    <!-- Local Repository Location -->
-    <localRepository>/path/to/your/local/repo</localRepository>
-</settings>
-```
-
-### Config in China
-
-Make sure `M2_HOME` (for maven repository) set properly for Maven
-
-For a Maven to use CN Mainland mirrors, add the following in Maven root dir `~/.m2/settings.xml`
-
-```xml
-<mirror>
-   <id>alimaven</id>
-   <name>aliyun maven</name>
-　　<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-   <mirrorOf>central</mirrorOf>
-</mirror>
-```
-
 ### Inside `settings.xml`
 
 * `<mirror/>`
@@ -216,12 +170,68 @@ Failed to complete this step might raise "PKIX path building failed: sun.securit
 keytool -import -alias example-mirror -keystore  "/path/to/<jre-version>/lib/security/cacerts" -file example-mirror-id.cer
 ```
 
-### Common Maven Repo Name
+The default password is `changeit`.
+
+Check what JDK/JRE version is used and make sure it matches `/path/to/<jre-version>/lib/security/cacerts`.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_jdk_config.png" width="50%" height="30%" alt="idea_jdk_config" />
+</div>
+</br>
+
+### Common Maven Repo Names
 
 ||Maven Central|Maven Public|
 |-|-|-|
 |Description|The default, official repository with strict publishing standards. Its URL is `https://repo.maven.apache.org/maven2`.|Often an aggregated endpoint in a repository manager (or simply a repository labeled "public") that can include Maven Central among others.|
 |Maintainer|Sonatype|N/A|
+
+### Mirror Config in China
+
+Make sure `M2_HOME` (for maven repository) set properly for Maven
+
+For a Maven to use CN Mainland mirrors, add the following in Maven root dir `~/.m2/settings.xml`
+
+```xml
+<mirror>
+   <id>alimaven</id>
+   <name>aliyun maven</name>
+　　<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+   <mirrorOf>central</mirrorOf>
+</mirror>
+```
+
+
+## Maven Goals
+
+A goal in Maven represents a specific task that contributes to the building and managing of a project.
+
+For example,
+
+* Goal: `clean`/`mvn clean`
+
+This command cleans the maven project by deleting the `target/` directory.
+
+* Goal: `compile`/`mvn compile`
+
+This command compiles the java source classes of the maven project into the `target/classes` directory.
+
+* Goal: `package`/`mvn package`
+
+This command builds the maven project and packages them into a JAR, WAR, etc.
+
+* Goal: `install`/`mvn install`
+
+Installs the package into the local repository, for use as a dependency in other projects locally.
+
+Below config can specify where the local repo is to install/store.
+
+```xml
+<settings>
+    <!-- Local Repository Location -->
+    <localRepository>/path/to/your/local/repo</localRepository>
+</settings>
+```
 
 ## Maven Setup in IntelliJ IDEA
 
@@ -284,7 +294,9 @@ If one wishes to manually install a downloaded jar, e.g., proprietary oracle jdb
 mvn install:install-file -Dfile=ojdbc10.19.3.jar -DgroupId=com.oracle.database.jdbc -DartifactId=ojdbc10 -Dversion=10.19.3 -Dpackaging=jar
 ```
 
-7. For large project, one might want to disable/enable unit test
+To trigger re-downloading dependencies, try `mvn dependency:resolve` that ensures that all the dependencies listed in `pom.xml` are downloaded into local repository (usually located at `~/.m2/repository`).
+
+1. For large project, one might want to disable/enable unit test
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_test_src_dir.png" width="40%" height="70%" alt="idea_test_src_dir" />
@@ -336,26 +348,11 @@ The additional runtime parameters are defined in IDEA (if `VM Options` not shown
 </div>
 </br>
 
-### Minimalist `pom.xml` for Maven start
+## `pom.xml`
 
-For Maven to work, need to include these in `pom.xml`.
+`pom.xml` is used to define a maven project what dependencies to use and how to build.
 
-#### Maven Model (`maven-model`)
-
-* Purpose: This dependency provides access to the Maven Project Object Model (POM) classes. These classes are used internally by Maven but can also be used by applications that need to read or manipulate POM files.
-* Use Case: If you're building a tool or an application that needs to interact with Maven projects by reading or writing POM files, this dependency would be necessary.
-
-#### Maven Compiler Plugin (`maven-compiler-plugin`)
-
-* Purpose: The compiler plugin is used to compile the sources of your project.
-* Use Case: Configure this plugin to specify which version of Java you are targeting. It compiles all `.java` source files into `.class` files that can be executed by the Java Virtual Machine (JVM).
-
-#### Maven Surefire Plugin (`maven-surefire-plugin`)
-
-* Purpose: This plugin is responsible for running your project's unit tests and generating reports.
-* Use Case: During the build process, it executes the tests written using frameworks like JUnit. It ensures that your code meets quality standards before packaging and deployment.
-
-Example:
+A minimalist example:
 
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -375,7 +372,8 @@ Example:
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-    <dependencies><dependency>
+    <dependencies>
+        <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-model</artifactId>
             <version>3.8.6</version>
@@ -402,3 +400,107 @@ Example:
     </build>
 </project>
 ```
+
+### Popular Maven Plugins
+
+#### Maven Model (`maven-model`)
+
+* Purpose: This dependency provides access to the Maven Project Object Model (POM) classes. These classes are used internally by Maven but can also be used by applications that need to read or manipulate POM files.
+* Use Case: If you're building a tool or an application that needs to interact with Maven projects by reading or writing POM files, this dependency would be necessary.
+
+#### Maven Compiler Plugin (`maven-compiler-plugin`)
+
+* Purpose: The compiler plugin is used to compile the sources of your project.
+* Use Case: Configure this plugin to specify which version of Java you are targeting. It compiles all `.java` source files into `.class` files that can be executed by the Java Virtual Machine (JVM).
+
+#### Maven Surefire Plugin (`maven-surefire-plugin`)
+
+* Purpose: This plugin is responsible for running your project's unit tests and generating reports.
+* Use Case: During the build process, it executes the tests written using frameworks like JUnit. It ensures that your code meets quality standards before packaging and deployment.
+
+One can add `<testFailureIgnore>true</testFailureIgnore>` such as below to skip failed unit test that blocks maven package.
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.22.2</version>
+    <configuration>
+        <testFailureIgnore>true</testFailureIgnore>
+    </configuration>
+</plugin>
+```
+
+#### Code Coverage by `jacoco`
+
+`jacoco-maven-plugin` is used for code coverage analysis in Maven projects.
+It integrates JaCoCo (Java Code Coverage) into Maven build.
+
+For example, it can be used with `maven-surefire-plugin` to check how much code is covered in unit test, and finally produce a code coverage report.
+
+```xml
+<plugins>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <configuration>
+        <forkCount>1</forkCount>
+        <reuseForks>true</reuseForks>
+        <systemPropertyVariables>
+            <jacoco-agent.destfile>target/jacoco.exec<jacoco-agent.destfile>
+        </systemPropertyVariables>
+    </configuration>
+</plugin>
+<plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>default-instrument</id>
+            <goals>
+                <goal>instrument</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>default-restore-instrumented-classes</id>
+            <goals>
+                <goal>restore-instrumented-classes</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>default-report</id>
+            <goals>
+                <goal>restore-report</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+</plugins>
+```
+
+where for surefire
+
+* `forkCount`: `1` - This specifies how many JVMs should be forked when running the tests. A value of `1` means that a single JVM will be used to run the tests.
+* `jacoco-agent.destfile`: `target/jacoco.exec`: This is the file where the JaCoCo coverage data will be stored. It's placed in the target directory.
+
+For jacoco execution goals:
+
+* `instrument` - This goal instruments the classes (adds code coverage tracking) before running tests.
+* `restore-instrumented-classes` - After tests are completed, this goal restores the classes back to their original state.
+* `restore-report` - This goal generates the code coverage report after tests are run and the classes have been restored.
+
+#### Java Doc Auto Generation by `javadoc`
+
+The `maven-javadoc-plugin` is a Maven plugin that generates Javadoc documentation for your Java project. It can be run as part of the build process to automatically create HTML documentation for all public and protected classes, methods, and fields in your project.
+
+#### Maven Assembly Plugin `maven-assembly-plugin`
+
+`maven-assembly-plugin` allows for highly custom java class packaging.
+
+For example, to package all compiled code into a large `.jar` with all dependencies included, one can use `mvn assembly:single`.
+
+||`mvn package`|`mvn assembly:single`|
+|-|-|-|
+|Lifecycle Phase|Part of the Maven build lifecycle (default phase)|Part of the Maven Assembly Plugin|
+|Primary Output|Typically a `.jar`, `.war`, `.ear`, etc.|A custom archive (e.g., fat JAR, ZIP, or TAR)|
+|Dependencies|Does not include dependencies by default|Includes dependencies (if configured in the assembly)|

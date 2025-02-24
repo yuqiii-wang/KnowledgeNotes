@@ -76,9 +76,9 @@ $$
 \end{align*}
 $$
 
-### Softmax In Practice
+### Softmax Translation Invariance
 
-Given $Z$ such as below, apply Softmax along Axis $-1$ (Last Axis):
+Example: given $Z$ such as below, apply Softmax along Axis $-1$ (Last Axis):
 
 $$
 Z=\begin{bmatrix}
@@ -101,6 +101,79 @@ that gives
 |$[1,2,3]$|$[0.0900, 0.2447, 0.6652]$|$\frac{\exp(1)}{\exp(1)+\exp(2)+\exp(3)},\frac{\exp(2)}{\exp(1)+\exp(2)+\exp(3)},\frac{\exp(3)}{\exp(1)+\exp(2)+\exp(3)}$|
 |$[4,5,6]$|$[0.0900, 0.2447, 0.6652]$|$\frac{\exp(4)}{\exp(4)+\exp(5)+\exp(6)},\frac{\exp(5)}{\exp(4)+\exp(5)+\exp(6)},\frac{\exp(6)}{\exp(4)+\exp(5)+\exp(6)}$|
 |$[7,8,9]$|$[0.0900, 0.2447, 0.6652]$|$\frac{\exp(7)}{\exp(7)+\exp(8)+\exp(9)},\frac{\exp(7)}{\exp(8)+\exp(8)+\exp(9)},\frac{\exp(9)}{\exp(7)+\exp(8)+\exp(9)}$|
+
+#### Softmax Translation Invariance Proof
+
+The uniform output example (all results are identical as $[0.0900, 0.2447, 0.6652]$) is for that softmax function is invariant to adding the same constant $c$ to every input.
+
+Consider
+
+$$
+z_i=z_i, \quad\text{and}\quad \tilde{z}_i=z_i+c
+$$
+
+then
+
+$$
+s_i=\frac{\exp(z_i+c)}{\sum_k \exp(z_k+c)}=
+\frac{\exp(z_i)\exp(c)}{\exp(c) \sum_k \exp(z_k)}=
+\frac{\exp(z_i)}{\sum_k \exp(z_k)}
+$$
+
+### Softmax Output Range vs Input Distribution and Vector Similarity
+
+Consider the softmax expression for $\bold{x}_i, \bold{y}_i \in \mathbb{R}^{1 \times d}$ for a total of $n$ samples, and study the $\bold{x}_i, \bold{y}_i$ distribution for the resulted $s_i$.
+Here proves that, let $z_i=\bold{x}_i^{\top}\bold{y}_j$, the optimal result of $\min\text{softmax}(z_i)$ is the uniform input $z_1=z_2=...=z_n=c$.
+
+$$
+s_i=\text{softmax}(\bold{x}_i^{\top}\bold{y}_j)=
+\frac{\exp(\bold{x}_i^{\top}\bold{y}_j)}{\sum_k \exp(\bold{x}_i^{\top}\bold{y}_k)}
+$$
+
+#### Result of Uniform Scores
+
+For $z_1=z_2=...=z_n=c$, then for all $s_i$, there is this constant output.
+
+$$
+s_i=\frac{\exp(z_i)}{\sum_j^n \exp(z_j)}=
+\frac{\exp(z_i)}{n \exp(z_j)}=\frac{1}{n}
+$$
+
+#### Result of Uneven Scores
+
+Now assume one score $z_k$ is higher than the others $z_{j\ne k}$ by excess of $\delta>0$ such that $z_k=z_j+\delta$.
+Assume the other $n-1$ scores have the same output, i.e., $z_{j\ne k}=c$.
+
+Then the normalization constant becomes:
+
+$$
+\sum_{j=1}^n z_j=\exp(c+\delta)+(n-1)\exp(c)=\exp(c)\Big(\exp(\delta)+(n-1)\Big)
+$$
+
+Thus, for $z_k=z_j+\delta$, there is
+
+$$
+s_{k}=\frac{\exp(c+\delta)}{\sum_{j=1}^n z_j}=
+\frac{\exp(c+\delta)}{\exp(c)\Big(\exp(\delta)+(n-1)\Big)}=
+\frac{\exp(\delta)}{\exp(\delta)+(n-1)}
+$$
+
+For $\delta>0$, there is $\exp(\delta)>1$, and let $\exp(\delta)=\epsilon+1$, it is easy to prove that (for $\epsilon>0$ and $n\in\mathbb{Z}^{+}$)
+
+$$
+\frac{\exp(\delta)}{\exp(\delta)+(n-1)}=
+\frac{1+\epsilon}{1+\epsilon+(n-1)}=
+\frac{1+\epsilon}{\epsilon+n}\ge
+\frac{1}{n}
+$$
+
+In conclusion, the uneven score has higher softmax values,
+and the optimal result of $\min\text{softmax}(\bold{x}_i^{\top}\bold{y}_j)$ is the uniform input $z_1=z_2=...=z_n=c$.
+
+#### About Vector Similarity
+
+Recall the property of softmax translation invariance, $\bold{x}_i$ and $\bold{y}_i$ can be different (have a small $z_i$) or similar (have a large $z_i$), the softmax value remains unchanged.
+This means, regardless of $\bold{x}_i$ and $\bold{y}_i$ being similar or different, the important focus is that the distance $\bold{x}_i^{\top}\bold{y}_j$ should keep the same to reach $z_1=z_2=...=z_n$.
 
 ## ReLU
 

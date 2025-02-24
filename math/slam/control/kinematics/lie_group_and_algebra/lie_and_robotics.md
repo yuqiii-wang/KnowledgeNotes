@@ -9,25 +9,25 @@ $$
 \begin{align*}
 SO(3) &=
 \big\{
-      R \in \mathbb{R}^{3 \times 3} | RR^\text{T} = I , det(R) = 1 
-\big\}
-\\
-SE(3) &= 
+      R \in \mathbb{R}^{3 \times 3} | RR^\text{T} = I , det(R) = 1
+\big\} \\
+SE(3) &=
 \bigg\{
-   T = 
+   T =
     \begin{bmatrix}
-        R & t \\
+        R & \bold{t} \\
         0 & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
     |
-    R \in SO(3), t \in \mathbb{R}^3
+    R \in SO(3), \bold{t} \in \mathbb{R}^3
 \bigg\}
 \end{align*}
 $$
 
-Matrix operations on $SO(3)$ and $SE(3)$ should be well defined (the operation result should be contained in $SO(3)$ and $SE(3)$ spaces). 
+Matrix operations on $SO(3)$ and $SE(3)$ should be well defined (the operation result should be contained in $SO(3)$ and $SE(3)$ spaces).
 For example, multiplication is well defined.
+
 $$
 \begin{align*}
 R_1  R_2 &\in SO(3)
@@ -36,7 +36,8 @@ T_1  T_2 &\in SE(3)
 \end{align*}
 $$
 
-However, there is no definition of matrix addition, such that 
+However, there is no definition of matrix addition, such that
+
 $$
 \begin{align*}
 R_1 + R_2 &\notin SO(3)
@@ -112,13 +113,10 @@ Denote $\phi(t_0)=\phi_0$ for $\phi(t_0)$ is a constant within the vicinity of $
 Now compute $R(t)$, remember $\dot{R(t)} = \phi_0^{\wedge}R(t)$ is a homogeneous linear differential equation, so that its integral result is
 $$
 \begin{align*}
-
 \int \dot{R(t)} &= 
-\int \phi_0^{\wedge}R(t) dt
-\\
+\int \phi_0^{\wedge}R(t) dt \\
 R(t) &= 
 e^{\phi^{\wedge}_0t}
-
 \end{align*}
 $$
 
@@ -403,7 +401,7 @@ lim_{ \psi \rightarrow 0}
 lim_{ \psi \rightarrow 0} 
 \frac{(e^{\phi^{\wedge}}\bold{p})^\wedge \psi }{\psi}
 \\ & =
--(Rp)^{\wedge}
+-(R\bold{p})^{\wedge}
 \end{align*}$$
 
 ### Perturbation Model Considered Both Translation and Rotation

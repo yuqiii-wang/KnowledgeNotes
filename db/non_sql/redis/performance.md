@@ -78,9 +78,9 @@ HSET CRC32Encoding(“my-key-id”)%5 itemKey itemValue
 
 ## Scaling
 
-* Horizontal scaling allows you to change the number of node groups (shards) in the replication group by adding or removing node groups (shards). 
+* Scale Out (Horizontal Scaling) allows you to change the number of node groups (shards) in the replication group by adding or removing node groups (shards).
 
-* Vertical Scaling - Change the node type to resize the cluster; use larger instances.
+* Scale Up (Vertical Scaling) - Change the node type to resize the cluster; use larger instances.
 
 ### Master-to-Slave Replication Model
 

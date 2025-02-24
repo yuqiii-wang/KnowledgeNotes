@@ -83,9 +83,41 @@ $$
 \Gamma(x)=\int_0^{\infty}t^{x-1}e^{-t} dt
 $$
 
-## Cauchy-Schwarz Inequality
+## Cauchy-Schwarz Inequality 柯西(-施瓦茨)不等式
 
-### Inner Product Space
+In a naive algebra term, Cauchy-Schwarz inequality states that (equality holds when $ad=bc$)
+
+$$
+(a^2+b^2)(c^2+d^2)\ge (ac+bd)^2
+$$
+
+Proof: expand the expression, there are
+
+$$
+\begin{align*}
+    \text{LHS}&=a^2c^2+a^2d^2+b^2c^2+b^2d^2 \\
+    \text{RHS}&=a^2c^2+b^2d^2+2abcd
+\end{align*}
+$$
+
+By $\text{LHS}-\text{RHS}$, there is
+
+$$
+a^2d^2+b^2c^2-2abcd=(ad-bc)^2\ge 0
+$$
+
+### Cauchy-Schwarz Inequality in Continuous Integration Form
+
+In continuous integration, there is
+
+$$
+\int^b_a f^2(x) dx \cdot \int^b_a g^2(x) dx \ge
+\bigg(\int^b_a f(x)g(x) dx\bigg)^2
+$$
+
+### Cauchy-Schwarz Inequality to Vector Space
+
+#### Inner Product Space
 
 The inner product space of two vectors $\bold{u}$ and $\bold{v}$ is defined as an operator that turns a space into a scalar, often denoted with angle brackets such as in $\langle \bold{u}, \bold{v} \rangle$.
 
@@ -103,7 +135,7 @@ $$
 \sum^n_{i=1} u_1 v_1 + u_2 v_2 + ... u_n v_n
 $$
 
-The definition (Euclidean vector space) holds true if and only if there exists a symmetric positive-definite matrix $M$ such that (set $n=2$ as an example for illustration).
+The definition (Euclidean vector space) holds if and only if there exists a symmetric positive-definite matrix $M$ such that (set $n=2$ as an example for illustration).
 
 $$
 \langle \bold{u}, \bold{v} \rangle :=
@@ -122,7 +154,7 @@ This condition says $\text{det}(M)=m_a m_d - m_b^2 > 0$ that keeps the transform
 
 For example, if $M$ is an identity matrix, $\langle \bold{u}, \bold{v} \rangle$ is simply a dot product.
 
-### Cauchy-Schwarz Inequality Definition
+#### Cauchy-Schwarz Inequality Definition
 
 For all vectors $\bold{u}$ and $\bold{v}$ of an inner product space, there is
 
@@ -140,7 +172,7 @@ $$
 
 where the equality is established when $\bold{u}$ and $\bold{v}$ are linearly independent.
 
-### Cauchy-Schwarz Inequality Geometry Explanation
+#### Cauchy-Schwarz Inequality Geometry Explanation
 
 The inner product $\langle \bold{u}, \bold{v} \rangle$ can be thought of as the multiplication of the length of a vector $\bold{u}$'s projection on another vector $\bold{v}$'s length.
 The projection over $\cos\theta_{\bold{u}\bold{v}} \le 1$ shows the inequality.
@@ -154,6 +186,71 @@ $$
 \Rightarrow && \langle \bold{u}, \bold{v} \rangle &\le ||\bold{u}||\space||\bold{v}||
 \end{align*}
 $$
+
+### Cauchy-Schwarz Inequality to Random Variables and Expectation
+
+Let $X$ and $Y$ be two random variables, here proves that $X \cdot Y$ achieves its minimum when $X$, $Y$ are equally distributed.
+
+The expectation is as below.
+
+$$
+E(X \cdot Y)=\sum_{x}\sum_{y}
+p(X=x,Y=y) \cdot x \cdot y
+$$
+
+where $p(X=x,Y=y)$ is the probability of the event $X=x$ and $Y=y$.
+
+By Cauchy-Schwarz inequality, there is
+
+$$
+\big(E(X \cdot Y)\big)^2\le E(X^2) \cdot E(Y^2)
+$$
+
+Equality holds when $X$ and $Y$ are **linearly dependent**/**symmetric**/**uniformly distributed**, and, by extension, the most balanced or "equal" distributions often achieve this state.
+
+### Math Application Tricks by Cauchy-Schwarz Inequality
+
+#### Given $x\sqrt{1-y^2}+y\sqrt{1-x^2}=1$, find solution of $x^2+y^2$
+
+Reference $(a^2+b^2)(c^2+d^2)\ge (ac+bd)^2$, in which equality holds when $ad=bc$
+Let $x=a, y=d$ there is
+
+$$
+x\underbrace{\sqrt{1-y^2}}_{=c}+y\underbrace{\sqrt{1-x^2}}_{=b}\ge
+(x^2+1-x^2)(y^2+1-y^2)=1
+$$
+
+The equality holds only when $x^2y^2=(1-x^2)(1-y^2)$, then
+
+$$
+\begin{align*}
+    x^2y^2&=(1-x^2)(1-y^2) \\
+    x^2y^2&=1-x^2-y^2+x^2y^2 \\
+    x^2+y^2&=1
+\end{align*}
+$$
+
+#### Given $x+2y=1$ and $x,y>0$, find $\min \frac{1}{x}+\frac{8}{y}$
+
+Reference $(a^2+b^2)(c^2+d^2)\ge (ac+bd)^2$, and for $x,y>0$, let $a^2=x, b^2=2y, c^2=\frac{1}{x}, d^2=\frac{8}{y}$, then
+
+$$
+(x+2y)(\frac{1}{x}+\frac{8}{y})=\frac{1}{x}+\frac{8}{y}\ge
+(1+\sqrt{2}\cdot\sqrt{8})^2=25
+$$
+
+#### For $\theta\in\mathbb{R}$, find $\max y=3\sin\theta+2\cos\theta$
+
+Reference $(a^2+b^2)(c^2+d^2)\ge (ac+bd)^2$, let $a=3, b=2, c=\sin\theta, d=\cos\theta$, then
+
+$$
+\begin{align*}
+    (2^2+3^2)(\sin^2\theta+\cos^2\theta) &\ge(3\sin\theta+2\cos\theta)^2 \\
+    3\sin\theta+2\cos\theta &\le\sqrt{13}
+\end{align*}
+$$
+
+As a result, $\max y=\sqrt{13}$.
 
 ## Complete homogeneous symmetric polynomial
 

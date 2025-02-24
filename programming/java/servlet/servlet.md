@@ -45,4 +45,11 @@ After the destroy() method is executed, the Servlet container releases all the r
 
 ## JAX-RS Client API and Servlet
 
-The JAX-RS (Java API for RESTful Web Services) Client API is a part of the JAX-RS specification (introduced in Java EE 7) that provides a set of APIs for building HTTP-based client applications. 
+The JAX-RS (Java API for RESTful Web Services) Client API is a part of the JAX-RS specification (introduced in Java EE 7) that provides a set of APIs for building HTTP-based client applications.
+
+## Servlets vs Micro-Frameworks vs Micro-Services
+
+||Servlets|Micro-Frameworks|Micro-Services|
+|-|-|-|-|
+|Level of Abstraction|Low-level API for HTTP handling|High-level abstraction built on servlets|Architectural style for distributed systems|
+|Primary Use-Case|Building the foundational web components|Rapid development of REST APIs/small apps|Structuring large, decoupled, scalable applications|

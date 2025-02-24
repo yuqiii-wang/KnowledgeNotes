@@ -98,3 +98,51 @@ public class Person {
     }
 }
 ```
+
+## Lightweight Micro Framework
+
+A micro-framework is built on top of servlet to handle http requests/responses, and it is lightweight.
+Spark Java is an HTTP REST lightweight micro-framework.
+
+```java
+// Import the static methods from Spark
+import static spark.Spark.*;
+
+public class SparkExample {
+    public static void main(String[] args) {
+
+        // Define a route for GET requests to "/hello"
+        get("/hello", (request, response) -> {
+            // 'request' is an instance of spark.Request
+            // Retrieve a query parameter named "name" if provided (e.g., /hello?name=Alice)
+            String name = request.queryParams("name");
+
+            // 'response' is an instance of spark.Response
+            // Set the content type of the response
+            response.type("text/html");
+
+            // Return a personalized greeting if a name was provided; otherwise, a default message
+            if (name != null && !name.isEmpty()) {
+                return "<h1>Hello, " + name + "!</h1>";
+            } else {
+                return "<h1>Hello, World!</h1>";
+            }
+        });
+
+        // Another example: a POST endpoint that echoes back the request body
+        post("/echo", (request, response) -> {
+            // Get the raw body of the request
+            String body = request.body();
+            
+            // Set the response type to plain text
+            response.type("text/plain");
+            
+            // Optionally set a custom header
+            response.header("X-Custom-Header", "SparkExample");
+            
+            // Return the same body as the response
+            return "Received: " + body;
+        });
+    }
+}
+```

@@ -1,4 +1,4 @@
-# Some Best Practice Discussions
+# Stable Training Discussions
 
 ## Loss Exploding
 
@@ -300,17 +300,3 @@ In PyTorch Adam optimizer, $\mathcal{L}_2$ regularizer (Decoupled Weight Decay R
 ```python
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4, weight_decay=1e-2)
 ```
-
-### For CV
-
-* Random Image Crop
-* Random Flip/Rotation
-
-### For NLP
-
-## Warmup
-
-Traditionally, training starts with a large learning rate $\eta$ then gradually decreases as iteration num $t$ grows such as $0.95^{t}\eta$.
-This approach is deprecated for novel learning rate *warmup* schemes.
-
-https://d2l.ai/chapter_optimization/lr-scheduler.html

@@ -1,12 +1,13 @@
 # Groovy Basics
 
-Groovy is an object oriented language which is based on Java platform. 
+Groovy is an object oriented language which is based on Java platform.
 
 It supports both static and dynamic typing, and added syntactic sugar makes it easy for scripting.
 
-### Groovy Closure 
+## Groovy Closure 
 
 A closure is a short anonymous block of code. For example,
+
 ```groovy
 class Example {
    static void main(String[] args) {
@@ -51,7 +52,9 @@ EmailDsl.make {
    body "Morning president."
 }
 ```
+
 and the execution result:
+
 ```bash
 Morning president.
 ```

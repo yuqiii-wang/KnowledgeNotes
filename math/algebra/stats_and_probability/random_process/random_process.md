@@ -2,12 +2,22 @@
 
 A stochastic process is defined as a collection of random variables used as mathematical models to simulate a system or a phenomenon.
 
-
-## Law of large numbers
+## Law of large numbers 大数定律
 
 The average of the results obtained from a large number of trials should be close to the expected value and tends to become closer to the expected value as more trials are performed.
 
 In other words, more trials, more accurate the mean value.
+
+### Wiener-khinchin law of large Numbers 辛钦大数定律
+
+Let $X_1, X_2, \cdots, X_n$ be a sequence of independent random variables with the same distribution and $E(X_i) = \mu$.
+Then, for any $\epsilon > 0$,
+
+$$
+\lim_{n \to \infty} P\bigg\{\Big|\frac{1}{n}\sum_{i=1}^n X_i - \mu\Big| < \epsilon\bigg\} = 1
+$$
+
+Intuitively speaking, the mean of the sample is close to the expected value.
 
 ## Bessel's Correction
 

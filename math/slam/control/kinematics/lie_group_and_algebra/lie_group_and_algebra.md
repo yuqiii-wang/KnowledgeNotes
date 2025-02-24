@@ -4,7 +4,7 @@
 
 *Lie Algebra* is described as the tangent space on a point of a Lie Group.
 
-### Smoothness
+## Smoothness
 
 Differentiability class is a classification of functions according to the properties of their derivatives. It is a measure of the highest order of derivative that exists and is continuous for a function. 
 
@@ -12,7 +12,7 @@ It is denoted as $C^k$, where $k$ is the highest order of derivative that exists
 
 Function $f$ is said to be infinitely differentiable, smooth, or of $C^{\infty}$, if it has derivatives of all orders on it domain. 
 
-### Example
+## Example
 
 * the blue sphere $M$ is a Lie Group
 
