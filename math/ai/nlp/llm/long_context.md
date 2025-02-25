@@ -7,6 +7,69 @@ DeepSeek V2 managed to scale to 128K context length with YaRN implementation.
 
 ## Context Length and RoPE
 
+RoPE uses a rotational transformation based on sine and cosine functions to encode the position information.
+The embeddings are "rotated" across the dimensions of the vector space.
+
+
+Set $\bold{q}_i=R_{i}\bold{q}_1$ and $\bold{k}_j=R_{j}\bold{k}_1$ so that their position info is represented via rotation matrices $R_{i}$ and $R_{j}$, there is
+
+$$
+\max \text{score}(\bold{q}_i, \bold{k}_j) =
+(R_{i} \bold{q}_1)^{\top} (R_{j} \bold{k}_1) =
+\bold{q}_1^{\top} R_{i}^{\top}  R_{j} \bold{k}_1 =
+\bold{q}_1^{\top} R_{i-j} \bold{k}_1
+$$
+
+Now use and $\theta_i \in (10^{-4}, 1]$ such that $\theta_i=10000^{-\frac{2i}{\bold{d}}}$ to assign discrete values to $R_{i-j}$.
+
+Let $D$ represent the dimension num of $\bold{v}_i \in \mathbb{R}^{1 \times D}$.
+Let $R(\theta)$ be a rotation matrix for a vector $\bold{v}_i$, there is 
+
+$$
+\cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
+\qquad
+R (\theta) = \begin{bmatrix}
+      \cos \theta & -\sin \theta \\
+      \sin \theta & \cos \theta \\
+\end{bmatrix}
+$$
+
+Rotation relative info can be computed by $R_{\theta_{i}-\theta_{j}}=R_{\theta_{i}}^{\top}{R_{\theta_{j}}}$, there is
+
+$$
+R(\theta) = \begin{bmatrix}
+    \cos \theta_1 & -\sin \theta_1 & 0 & 0 & & & 0 & 0 \\
+    \sin \theta_1 & \cos \theta_1 & 0 & 0 & & & 0 & 0 \\
+    0 & 0 & \cos \theta_2 & -\sin \theta_2 & & & 0 & 0 \\
+    0 & 0 & \sin \theta_2 & \cos \theta_2 & & & 0 & 0 \\
+    & & & & \ddots & \ddots & & & \\
+    & & & & \ddots & \ddots & & & \\
+    0 & 0 & 0 & 0 & & & \cos \theta_{D/2} & -\sin \theta_{D/2} \\
+    0 & 0 & 0 & 0 & & & \sin \theta_{D/2} & \cos \theta_{D/2} \\
+\end{bmatrix}
+$$
+
+If $\bold{v} \in \mathbb{R}^{n \times D}$, where $n$ is the num of tokens
+Here sets $n=D$, there is
+
+$$
+R(\theta) \bold{v} =
+\begin{bmatrix}
+      \bold{v}_1 \\ \bold{v}_2 \\ \bold{v}_3 \\ \bold{v}_4 \\ \vdots \\ \bold{v}_{D-1} \\ \bold{v}_{D}
+\end{bmatrix} \odot
+\begin{bmatrix}
+      \cos \theta_1 \\ \cos \theta_1  \\ \cos \theta_2 \\ \cos \theta_2 \\ \vdots \\ \cos \theta_{D/2} \\ \cos \theta_{D/2}
+\end{bmatrix} +
+\begin{bmatrix}
+      \bold{v}_1 \\ \bold{v}_2 \\ \bold{v}_3 \\ \bold{v}_4 \\ \vdots \\ \bold{v}_{D-1} \\ \bold{v}_{D}
+\end{bmatrix} \odot
+\begin{bmatrix}
+      -\sin \theta_1 \\ \sin \theta_1  \\ -\sin \theta_2 \\ \sin \theta_2 \\ \vdots \\ -\sin \theta_{D/2} \\ \sin \theta_{D/2}
+\end{bmatrix}
+$$
+
+where $\odot$ is element-wise multiplication operator.
+
 ## NTK-Aware Context Length Extension
 
 ### Neural Tangent Kernel (NTK) Introduction
@@ -28,6 +91,15 @@ NTK major conclusions are
 * An infinite-width network is linear.
 * Eigenvalues of NTK matrix determines effectiveness of learning rate $\eta$ setup in training a neural network.
 
+NTK kernel progresses by covariance matrix multiplication.
+
+$$
+\begin{align*}
+    \kappa^{(l)}(\bold{x}, \bold{x}') &= \dot{\Sigma}^{(l)}(\bold{x}, \bold{x}') \cdot
+    \underbrace{E\Big(\big(\nabla_{\bold{\theta}}f^{(l-1)}_{\bold{\theta}}(\bold{x})\big)^\top\big(\nabla_{\bold{\theta}}f^{(l-1)}_{\bold{\theta}}(\bold{x}')\big)\Big)}_{\text{NTK }\kappa^{(l-1)}(\bold{x}, \bold{x}')} +
+    \Sigma^{(l)}(\bold{x}, \bold{x}')
+\end{align*}
+$$
 
 ### Eigenvalue Spectrum and Frequency Learning
 
