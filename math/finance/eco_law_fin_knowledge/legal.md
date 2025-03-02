@@ -309,6 +309,20 @@ EBIT = (net income) + interest + taxes = EBITDA - (depreciation and amortization
 
 Developed by Organisation for Economic Co-operation and Development (OECD) in 2014, Common Reporting Standard (CRS) aims to combat tax evasion by facilitating tax info exchange between global level tax authorities.
 
+### Three Values: Face, Market and Book
+
+* Face value: the face value represents the principal amount that will be repaid at the end of the bond's term.
+* Market value: the market value is the price at which the bond is currently trading in the market.
+* Book value: the book value is the value of the bond as recorded in the company's financial statements.
+
+#### Key Differences
+
+* Face value is fixed, while market and book values can fluctuate.
+* Market value is subject to market conditions, while book value is subject to accounting principles, might get updated daily.
+* Market value is more volatile, while book value is more stable, e.g., updated per season/quarter.
+
+
+
 ## Anti-Laundering Law
 
 * Know Your Customer (KYC)

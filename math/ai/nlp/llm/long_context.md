@@ -1,4 +1,4 @@
-# Long Context Interpolation
+# LLM Long Context Interpolation and Extrapolation
 
 The maximal length of the sequences (the context window) is determined by its training processes, e.g., DeepSeek V2 context length is 4K when DeepSeek V2 is trained.
 
@@ -7,11 +7,12 @@ DeepSeek V2 managed to scale to 128K context length with YaRN implementation.
 
 ## Context Length and RoPE
 
-RoPE uses a rotational transformation based on sine and cosine functions to encode the position information.
-The embeddings are "rotated" across the dimensions of the vector space.
+RoPE (Rotary Position Embedding) uses a rotational transformation based on sine and cosine functions to encode the position information.
 
+$\bold{q}_i$ and $\bold{k}_j$ are a query vector and key vector in the attention formula $\text{softmax} \big(\frac{\bold{q}_i^{\top} \bold{k}_j}{\sqrt{d_k}} \big) \bold{v}_i$.
+The dimensions of $\bold{q}_i$ and $\bold{k}_j$ represent the sinusoidal-scaled position.
 
-Set $\bold{q}_i=R_{i}\bold{q}_1$ and $\bold{k}_j=R_{j}\bold{k}_1$ so that their position info is represented via rotation matrices $R_{i}$ and $R_{j}$, there is
+Let $\bold{q}_i=R_{i}\bold{q}_1$ and $\bold{k}_j=R_{j}\bold{k}_1$ so that their position info is represented via rotation matrices $R_{i}$ and $R_{j}$, there is
 
 $$
 \max \text{score}(\bold{q}_i, \bold{k}_j) =
@@ -23,7 +24,7 @@ $$
 Now use and $\theta_i \in (10^{-4}, 1]$ such that $\theta_i=10000^{-\frac{2i}{\bold{d}}}$ to assign discrete values to $R_{i-j}$.
 
 Let $D$ represent the dimension num of $\bold{v}_i \in \mathbb{R}^{1 \times D}$.
-Let $R(\theta)$ be a rotation matrix for a vector $\bold{v}_i$, there is 
+Let $R(\theta)$ be a rotation matrix for a vector $\bold{v}_i$, there is
 
 $$
 \cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
@@ -70,6 +71,8 @@ $$
 
 where $\odot$ is element-wise multiplication operator.
 
+###
+
 ## NTK-Aware Context Length Extension
 
 ### Neural Tangent Kernel (NTK) Introduction
@@ -106,8 +109,8 @@ $$
 Given the derived $\kappa(\bold{x}, \bold{x}') = \big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)^\top\big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)$ approximated the gradient,
 its eigenvalue spectrum determines which features (low/high-frequency) are learned efficiently:
 
-* High-frequency components: Rapidly varying patterns (e.g., fine-grained details in sequences).
-* Low-frequency components: Slowly varying patterns (e.g., global structure).
+* Low-frequency patterns (slow variation) align with flat directions in parameter space $\rightarrow$ larger eigenvalues (faster convergence).
+* High-frequency patterns (rapid variation) align with sharp directions $\rightarrow$ smaller eigenvalues (slower convergence).
 
 #### Proof of Learning in Respective Frequency
 

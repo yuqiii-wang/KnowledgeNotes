@@ -48,6 +48,14 @@ git rebase --continue
 
 Happens when using `git switch`, run `git switch <branch_name> -f` to ingonre changes and force switch to another branch.
 
+### Temporary Code Store by `git stash`
+
+`git stash` can temporarily store changes in a branch.
+
+* `git stash pop` restores the changes.
+* `git stash list` lists all stashed changes.
+* `git stash drop` removes the changes.
+
 ## git rollback
 
 * rollback from `git add .`
