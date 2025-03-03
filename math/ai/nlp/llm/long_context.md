@@ -21,57 +21,55 @@ $$
 \bold{q}_1^{\top} R_{i-j} \bold{k}_1
 $$
 
-Now use and $\theta_i \in (10^{-4}, 1]$ such that $\theta_i=10000^{-\frac{2i}{\bold{d}}}$ to assign discrete values to $R_{i-j}$.
+### Long Distance
 
-Let $D$ represent the dimension num of $\bold{v}_i \in \mathbb{R}^{1 \times D}$.
-Let $R(\theta)$ be a rotation matrix for a vector $\bold{v}_i$, there is
+When two tokens ($\bold{q}_m$ positioned at $m$ and $\bold{k}_n$ positioned at $n$) are very distant $|n-m|=\Delta\rightarrow \infty$, the score $\langle \bold{q}_m, \bold{k}_n \rangle$ has multiple mappings hence the attention score cannot determine which query token be associated to which key token.
+Consequently, in long distance, the attention mechanism fails.
 
-$$
-\cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
-\qquad
-R (\theta) = \begin{bmatrix}
-      \cos \theta & -\sin \theta \\
-      \sin \theta & \cos \theta \\
-\end{bmatrix}
-$$
-
-Rotation relative info can be computed by $R_{\theta_{i}-\theta_{j}}=R_{\theta_{i}}^{\top}{R_{\theta_{j}}}$, there is
+Consider
 
 $$
-R(\theta) = \begin{bmatrix}
-    \cos \theta_1 & -\sin \theta_1 & 0 & 0 & & & 0 & 0 \\
-    \sin \theta_1 & \cos \theta_1 & 0 & 0 & & & 0 & 0 \\
-    0 & 0 & \cos \theta_2 & -\sin \theta_2 & & & 0 & 0 \\
-    0 & 0 & \sin \theta_2 & \cos \theta_2 & & & 0 & 0 \\
-    & & & & \ddots & \ddots & & & \\
-    & & & & \ddots & \ddots & & & \\
-    0 & 0 & 0 & 0 & & & \cos \theta_{D/2} & -\sin \theta_{D/2} \\
-    0 & 0 & 0 & 0 & & & \sin \theta_{D/2} & \cos \theta_{D/2} \\
-\end{bmatrix}
+\begin{align*}
+\langle \bold{q}_m, \bold{k}_n \rangle = \sum_{i=0}^{D/2-1} \Big(
+    & \underbrace{\big(q_{2i}^m k_{2i}^{m+\Delta} + q_{2i+1}^m k_{2i+1}^{m+\Delta}\big)}_{\alpha_{\cos}} \cos(\Delta\theta_i) + \\
+    & \underbrace{\big(q_{2i+1}^m k_{2i}^{m+\Delta} - q_{2i}^m k_{2i+1}^{m+\Delta}\big)}_{\alpha_{\sin}} \sin(\Delta\theta_i) \Big)
+\end{align*}
 $$
 
-If $\bold{v} \in \mathbb{R}^{n \times D}$, where $n$ is the num of tokens
-Here sets $n=D$, there is
+To study the series $\sum_{i=0}^{D/2-1}\big(\alpha_{\cos}\cos(\Delta\theta_i)+\alpha_{\sin}\sin(\Delta\theta_i)\big)$ as $\Delta\rightarrow\infty$,
+first consider this expression $\cos(\Delta\theta_i)+\sin(\Delta\theta_i)$,
+
+* $\cos(\Delta\theta_i)$ and $\sin(\Delta\theta_i)$ are oscillation function (does not converge to a limit but oscillate within a range)
+* $\cos(\Delta\theta_i)$ and $\sin(\Delta\theta_i)$ linear combinations are also oscillating.
+
+One can prove that
 
 $$
-R(\theta) \bold{v} =
-\begin{bmatrix}
-      \bold{v}_1 \\ \bold{v}_2 \\ \bold{v}_3 \\ \bold{v}_4 \\ \vdots \\ \bold{v}_{D-1} \\ \bold{v}_{D}
-\end{bmatrix} \odot
-\begin{bmatrix}
-      \cos \theta_1 \\ \cos \theta_1  \\ \cos \theta_2 \\ \cos \theta_2 \\ \vdots \\ \cos \theta_{D/2} \\ \cos \theta_{D/2}
-\end{bmatrix} +
-\begin{bmatrix}
-      \bold{v}_1 \\ \bold{v}_2 \\ \bold{v}_3 \\ \bold{v}_4 \\ \vdots \\ \bold{v}_{D-1} \\ \bold{v}_{D}
-\end{bmatrix} \odot
-\begin{bmatrix}
-      -\sin \theta_1 \\ \sin \theta_1  \\ -\sin \theta_2 \\ \sin \theta_2 \\ \vdots \\ -\sin \theta_{D/2} \\ \sin \theta_{D/2}
-\end{bmatrix}
+\begin{align*}
+    \max\big(\cos(\Delta\theta_i)+\sin(\Delta\theta_i)\big)&=\sqrt{2} \\
+    \min\big(\cos(\Delta\theta_i)+\sin(\Delta\theta_i)\big)&=-\sqrt{2} \\
+\end{align*}
 $$
 
-where $\odot$ is element-wise multiplication operator.
+As a result, the convergence behavior of $\langle \bold{q}_m, \bold{k}_n \rangle$ is determined by its linear coefficients $\alpha_{\cos}$ and $\alpha_{\sin}$.
+Further more, for $\alpha_{\cos}>\alpha_{\sin}$, the convergence behavior is dominated by the cosine term.
 
-###
+Recall that for cosine, the monotonic area is $[0, \pi)$, and $[\pi, 2\pi)$ area is the mirror of the $[0, \pi)$.
+To ensure one-to-one mapping query-key computation to attention score, the theoretical context length is $[0, \pi)$.
+
+For a very large $\Delta\rightarrow\infty$, the $\Delta\theta_i$ steps across multiple oscillation ranges $[[0, \pi), [\pi, 2\pi), [2\pi, 3\pi), ...]$,
+so that the attention score cannot determine which query token be associated to which key token.
+
+### Linear Naive RoPE Interpolation and Extrapolation
+
+To extend context length, one can simply do scaling.
+
+Given $\theta_i=10000^{-2i/d}$ for $d=1,2,...,D/2$, with token position gap $\Delta$ and the attention formula $\sum_{i=0}^{D/2-1}\big(\alpha_{\cos}\cos(\Delta\theta_i)+\alpha_{\sin}\sin(\Delta\theta_i)\big)$,
+to scale context length, do $L'=sL$ for $s>1$ by $\Delta\rightarrow\Delta/s$.
+
+Accordingly, the rotation angle is $\frac{1}{s}\Delta\theta_i$.
+
+This approach is not good as it treats all frequencies indiscriminantly.
 
 ## NTK-Aware Context Length Extension
 
@@ -114,16 +112,8 @@ its eigenvalue spectrum determines which features (low/high-frequency) are learn
 
 #### Proof of Learning in Respective Frequency
 
-As already proved that $\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$, each iterative step can be treated equally.
-This means that the conclusion drawn from a single iterative step $\nabla_{\bold{\theta}_t}f_{\bold{\theta}_t}(\bold{x})$ is also valid for all the iterative steps.
-
-Given a sequence of inputs $\bold{x}_1, \bold{x}_2, \cdots, \bold{x}_n$,
-consider the convolution to $K(\bold{x},\bold{x}')$ by discrete Fourier transform $\mathcal{F}(\bold{f(.)})=\sum_{k\in\mathbb{Z}^+}c_k e^{ik\bold{f(.)}}$, where $k$ is the discrete frequency, below expression yields the spectrum of $K(\bold{x},\bold{x}')$.
-
 $$
-\begin{align*}
-    \mathcal{F}(K(\bold{x},\bold{x}')) &= \mathcal{F}\Big(\big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)^\top\big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)\Big) \\
-\end{align*}
+\tilde{\theta}_i = \theta_i \cdot \left( \frac{s^{\alpha}}{s^{\alpha} - 1 + \theta_i^{\beta}} \right)^{\gamma}
 $$
 
 #### RoPE-based Context Length Extension by NTK-Aware Methods

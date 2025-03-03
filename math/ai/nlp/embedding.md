@@ -354,6 +354,8 @@ Further more, for $\alpha_{\cos}>\alpha_{\sin}$, the convergence behavior is dom
 For a very large $\Delta\rightarrow\infty$, the $\Delta\theta_i$ steps across multiple oscillation ranges $[[0, \pi), [\pi, 2\pi), [2\pi, 3\pi), ...]$,
 so that the attention score cannot determine which query token be associated to which key token.
 
+In more detail, for high frequency sequence the $\cos(\Delta\theta_{\text{large}})$
+
 ## Embedding by Deep Learning
 
 Above embedding designs contain rich semantics.
