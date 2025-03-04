@@ -170,23 +170,50 @@ An orthogonal matrix, or orthonormal matrix, is a real square matrix whose colum
 It has the below properties:
 
 $$
-Q^\text{T}Q=QQ^\text{T}=I
+Q^{\top}Q=QQ^{\top}=I
 $$
 
 This leads to
 $$
-Q^\text{T}=Q^{-1}
+Q^{\top}=Q^{-1}
 $$
 
-The determinant of any orthogonal matrix is either $+1$ or $−1$.
+The determinant of any orthogonal matrix is either $+1$ or $−1$, i.e., $\text{det}(Q)=\pm 1$.
 
-The set of $n \times n$ orthogonal matrices forms a group, $O(n)$, known as the orthogonal group. The subgroup $SO(n)$ consisting of orthogonal matrices with determinant $+1$ is called the *special orthogonal group*, and each of its elements is a *special orthogonal matrix*.
+### Proof of Transpose vs Inverse Given Orthogonality
+
+$Q^{\top}=Q^{-1}$ if and only if $Q$ is orthogonal.
+
+From the definition of orthogonality ($Q^{\top}Q=QQ^{\top}=I$) and the inverse property ($Q^{-1}Q=I$),
+it can be derived $Q^{\top}=Q^{-1}$.
+
+### Proof of Product Orthogonality
+
+Assume $A$ and $B$ are orthogonal, to prove $AB$ also orthogonal (The product of two orthogonal matrices retains orthogonality, with determinant $\text{det}(Q)=\pm 1$.)
+
+First, there is $(AB)^{\top}=B^{\top}A^{\top}$.
+Then, multiply $(AB)^{\top}$ by $AB$, there is
+
+$$
+(AB)^{\top}(AB)=B^{\top}A^{\top}AB
+$$
+
+For $A$ and $B$ are orthogonal, there are $A^{\top}A=I$ and $B^{\top}B=I$,
+finally, there is
+
+$$
+B^{\top}A^{\top}AB=B^{\top}IB=I
+$$
 
 ### Disjoint Linear Projection
 
 In vector space $V$ define two linear projection $P$ and $Q$, if they satisfy $PQ=QP=\bold{0}$, it is termed *disjoint linear projection*.
 
 This means that the projections are orthogonal to each other, and their ranges (the subspaces they project onto) do not overlap.
+
+### Orthogonal Group
+
+The set of $n \times n$ orthogonal matrices forms a group, $O(n)$, known as the orthogonal group. The subgroup $SO(n)$ consisting of orthogonal matrices with determinant $+1$ is called the *special orthogonal group*, and each of its elements is a *special orthogonal matrix*.
 
 ## Determinant
 

@@ -47,159 +47,123 @@ https://zhuanlan.zhihu.com/p/662790439
 Positional embeddings represent the position of a word in a sentence/document.
 The order of how vocabularies are arranged in a sentence/document provides rich information in NLP.
 
-Transformer uses the below formulas to compute positional embeddings (PE) by a rotation matrix $R(\bold{\theta}_i)$ where each token position is represented/offset by $\bold{\theta}_i$ with respect to dimension $\bold{d}$.
+Transformer uses the below formulas to compute positional embeddings (PE) by a rotation matrix $R(\bold{\theta}_i)$ where each token position is represented/offset by $\bold{\theta}_i$ with respect to dimension $\bold{i}$.
 
 $$
 \begin{align*}
 \text{PE}(i) &= R (\bold{\theta}_i)
 \qquad
-\text{where } \bold{\theta}_i = 10000^{-\frac{2i}{\bold{d}}}
+\text{where } \bold{\theta}_i = 10000^{-\frac{2i}{\bold{D}}}
 \end{align*}
 $$
 
-where $\bold{d}=\{ 1,2,...,D \} \in \mathbb{Z}^{+}$ is a vector of dimension indices, then define $\bold{\theta}_i=10000^{-\frac{2i}{\bold{d}}}$, where $\bold{\theta}_i = \{ {\theta}_{i_{1}}, {\theta}_{i_{2}}, ..., {\theta}_{i_{D}} \}$,
+where $\bold{i}=\{ 1,2,...,D \} \in \mathbb{Z}^{+}$ is a vector of dimension indices, then define $\bold{\theta}_i=10000^{-\frac{2i}{\bold{D}}}$, where $\bold{\theta}_i = \{ {\theta}_{i_{1}}, {\theta}_{i_{2}}, ..., {\theta}_{i_{D}} \}$,
 and $i \in \mathbb{Z}^{+}$ is the position of a word in a sentence/document.
 
 ## RoPE Derivation
 
 ### Linear Position Embedding
 
-Define a score to be maximized when query $\bold{q}_i$ is positionally "close" to key $\bold{k}_j$.
-The $i$ and $j$ individually represent the positions of query and key in a sentence/document, hence $i-j$ represents the relative position gap.
+Define a score to be maximized when query $\bold{q}_m$ is positionally "close" to key $\bold{k}_n$.
+The $i$ and $j$ individually represent the positions of query and key in a sentence/document, hence $n-m$ represents the relative position gap.
 
 $$
-\max \text{score}(\bold{q}_i, \bold{k}_j) =
-(\bold{q}_i + \bold{p}_{i-j})^{\top} (\bold{k}_j + \bold{p}_{i-j}) - \bold{p}^{\top}_{i-j} \bold{p}_{i-j}
+\max \text{score}(\bold{q}_m, \bold{k}_n) =
+(\bold{q}_m + \bold{p}_{n-m})^{\top} (\bold{k}_n + \bold{p}_{n-m}) - \bold{p}^{\top}_{n-m} \bold{p}_{n-m}
 $$
 
-where $\bold{p}_{i-j}$ serves as a linear relative position gap.
+where $\bold{p}_{n-m}$ serves as a linear relative position gap.
 
 This design's motivation is that in NLP, if a query word is adjacent to a key word, they should be highly semantically related.
-Their multiplication value should be large (this $\text{score}(\bold{q}_i, \bold{k}_j)$ is named *attention score* in transformer), otherwise small, so that attention mechanism can easily produce differences during matrix multiplication in this regard.
+Their multiplication value should be large (this $\text{score}(\bold{q}_m, \bold{k}_n)$ is named *attention score* in transformer), otherwise small, so that attention mechanism can easily produce differences during matrix multiplication in this regard.
 
 ### Position Embedding by Rotation Matrix
 
-Here uses sinusoid to represent the relative position gap by a rotation matrix $R_{i-j}$ to replace the above linear position gap $\bold{p}_{i-j}$.
-Sinusoid not only decreases fast in $\text{score}(\bold{q}_i, \bold{k}_j)$ as positional gap grows against linear decrease by $\bold{p}_{i-j}$, but also has sinusoidal patterns that recursively see highs and lows in different relative position gaps $|i-j|$ with respects to different dimensions $d$.
+Here uses sinusoid to represent the relative position gap by a rotation matrix $R_{n-m}$ to replace the above linear position gap $\bold{p}_{n-m}$.
+Sinusoid not only decreases fast in $\text{score}(\bold{q}_m, \bold{k}_n)$ as positional gap grows against linear decrease by $\bold{p}_{n-m}$, but also has sinusoidal patterns that recursively see highs and lows in different relative position gaps $|n-m|$ with respects to different dimensions $d$.
 
-Set $\bold{q}_i=R_{i}\bold{q}_1$ and $\bold{k}_j=R_{j}\bold{k}_1$ so that their position info is represented via rotation matrices $R_{i}$ and $R_{j}$, there is
-
-$$
-\max \text{score}(\bold{q}_i, \bold{k}_j) =
-(R_{i} \bold{q}_1)^{\top} (R_{j} \bold{k}_1) =
-\bold{q}_1^{\top} R_{i}^{\top}  R_{j} \bold{k}_1 =
-\bold{q}_1^{\top} R_{i-j} \bold{k}_1
-$$
-
-Now use and $\theta_i \in (10^{-4}, 1]$ such that $\theta_i=10000^{-\frac{2i}{\bold{d}}}$ to assign discrete values to $R_{i-j}$.
-
-Let $D$ represent the dimension num of $\bold{v}_i \in \mathbb{R}^{1 \times D}$.
-Let $R(\theta)$ be a rotation matrix for a vector $\bold{v}_i$, there is
+Set $\bold{q}_m=R_{n}\bold{q}_1$ and $\bold{k}_n=R_{m}\bold{k}_1$ so that their position info is represented via rotation matrices $R_{n}$ and $R_{m}$, there is
 
 $$
-\cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
-\qquad
-R (\theta) = \begin{bmatrix}
-      \cos \theta & -\sin \theta \\
-      \sin \theta & \cos \theta \\
-\end{bmatrix}
+\max \text{score}(\bold{q}_m, \bold{k}_n) =
+(R_{n} \bold{q}_1)^{\top} (R_{m} \bold{k}_1) =
+\bold{q}_1^{\top} R_{n}^{\top}  R_{m} \bold{k}_1 =
+\bold{q}_1^{\top} R_{n-m} \bold{k}_1
+$$
+
+Now use and $\theta_i \in (10^{-4}, 1]$ such that $\theta_i=10000^{-\frac{2i}{\bold{D}}}$ to assign discrete values to $R_{n-m}$.
+
+Let $D$ represent the dimension num of $\bold{v} \in \mathbb{R}^{1 \times D}$.
+Let $R(\theta)$ be a rotation matrix for a vector $\bold{v}$, there is
+
+$$
+R (\theta_i) = \begin{bmatrix}
+      \cos \theta_i & -\sin \theta_i \\
+      \sin \theta_i & \cos \theta_i \\
+\end{bmatrix}, \qquad
+i=0,1,...,D/2-1
 $$
 
 Rotation relative info can be computed by $R_{\theta_{i}-\theta_{j}}=R_{\theta_{i}}^{\top}{R_{\theta_{j}}}$, there is
 
 $$
 R(\theta) = \begin{bmatrix}
-    \cos \theta_1 & -\sin \theta_1 & 0 & 0 & & & 0 & 0 \\
-    \sin \theta_1 & \cos \theta_1 & 0 & 0 & & & 0 & 0 \\
-    0 & 0 & \cos \theta_2 & -\sin \theta_2 & & & 0 & 0 \\
-    0 & 0 & \sin \theta_2 & \cos \theta_2 & & & 0 & 0 \\
+    \cos \theta_0 & -\sin \theta_0 & 0 & 0 & & & 0 & 0 \\
+    \sin \theta_0 & \cos \theta_0 & 0 & 0 & & & 0 & 0 \\
+    0 & 0 & \cos \theta_1 & -\sin \theta_1 & & & 0 & 0 \\
+    0 & 0 & \sin \theta_1 & \cos \theta_1 & & & 0 & 0 \\
     & & & & \ddots & \ddots & & & \\
     & & & & \ddots & \ddots & & & \\
-    0 & 0 & 0 & 0 & & & \cos \theta_{D/2} & -\sin \theta_{D/2} \\
-    0 & 0 & 0 & 0 & & & \sin \theta_{D/2} & \cos \theta_{D/2} \\
+    0 & 0 & 0 & 0 & & & \cos \theta_{D/2-1} & -\sin \theta_{D/2-1} \\
+    0 & 0 & 0 & 0 & & & \sin \theta_{D/2-1} & \cos \theta_{D/2-1} \\
 \end{bmatrix}
 $$
 
-If $\bold{v} \in \mathbb{R}^{2 \times D}$, there is
-
-$$
-\begin{align*}
-  R(\theta) \bold{v} &=
-  \begin{bmatrix}
-      \cos \theta & -\sin \theta \\
-      \sin \theta & \cos \theta \\
-  \end{bmatrix}
-  \begin{bmatrix}
-      \bold{v}_1 \\
-      \bold{v}_2 \\
-  \end{bmatrix}
-\\ &=
-  \begin{bmatrix}
-      \bold{v}_1 \cos \theta - \bold{v}_2 \sin \theta \\
-     \bold{v}_1  \sin \theta + \bold{v}_2 \cos \theta \\
-  \end{bmatrix}
-\\ &=
-\begin{bmatrix}
-      \bold{v}_1 \\ \bold{v}_2 
-\end{bmatrix} \odot
-\begin{bmatrix}
-      \cos \theta \\ \cos \theta
-\end{bmatrix} +
-\begin{bmatrix}
-      \bold{v}_1 \\ \bold{v}_2
-\end{bmatrix} \odot
-\begin{bmatrix}
-      -\sin \theta \\ \sin \theta
-\end{bmatrix}
-\end{align*}
-$$
-
-where $\odot$ is element-wise multiplication operator.
-
-If $\bold{v} \in \mathbb{R}^{n \times D}$, where $n$ is the num of tokens
-Here sets $n=D$, there is
+Let $\bold{v} \in \mathbb{R}^{1 \times D}$, group dimensions by pairs: $(v_1, v_2), (v_3, v_4), ..., (v_{D-1}, v_{D})$
 
 $$
 R(\theta) \bold{v} =
 \begin{bmatrix}
-      \bold{v}_1 \\ \bold{v}_2 \\ \bold{v}_3 \\ \bold{v}_4 \\ \vdots \\ \bold{v}_{D-1} \\ \bold{v}_{D}
+      v_1 \\ v_1 \\ v_3 \\ v_3 \\ \vdots \\ v_{D-1} \\ v_{D-1}
 \end{bmatrix} \odot
 \begin{bmatrix}
-      \cos \theta_1 \\ \cos \theta_1  \\ \cos \theta_2 \\ \cos \theta_2 \\ \vdots \\ \cos \theta_{D/2} \\ \cos \theta_{D/2}
+      \cos \theta_0 \\ \cos \theta_0  \\ \cos \theta_1 \\ \cos \theta_1 \\ \vdots \\ \cos \theta_{D/2-1} \\ \cos \theta_{D/2-1}
 \end{bmatrix} +
 \begin{bmatrix}
-      \bold{v}_1 \\ \bold{v}_2 \\ \bold{v}_3 \\ \bold{v}_4 \\ \vdots \\ \bold{v}_{D-1} \\ \bold{v}_{D}
+      v_2 \\ v_2 \\ v_4 \\ v_4 \\ \vdots \\ v_{D} \\ v_{D}
 \end{bmatrix} \odot
 \begin{bmatrix}
-      -\sin \theta_1 \\ \sin \theta_1  \\ -\sin \theta_2 \\ \sin \theta_2 \\ \vdots \\ -\sin \theta_{D/2} \\ \sin \theta_{D/2}
+      -\sin \theta_0 \\ \sin \theta_0  \\ -\sin \theta_1 \\ \sin \theta_1 \\ \vdots \\ -\sin \theta_{D/2-1} \\ \sin \theta_{D/2-1}
 \end{bmatrix}
 $$
 
-For a query token $\bold{q}_{1}$ (set $i=1$ as base position reference index since only relative positional gap is concerned here), plot score $\text{score}(\bold{q}_1, \bold{k}_j)$ for key tokens at growing distances $\bold{k}_{j}$ for $j=1,2,...,512$ and $j=1,2,...,65535$.
-These two plots show the scores as a key $\bold{k}_j$'s positional distance ($\text{dist}=|i-j|$) to $\bold{q}_{1}$ grows.
+where $\odot$ is element-wise multiplication operator.
 
-For easy comparison, both query and key token are set to $\bold{1}$ such that $\bold{q}_i=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$ and $\bold{k}_j=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$, so that the scores' differences only reflect the rotational positional distance ($\bold{q}_1^{\top} R_{1-j} \bold{k}_j$).
+For a query token $\bold{q}_{1}$ (set $m=1$ as base position reference index since only relative positional gap is concerned here), plot score $\text{score}(\bold{q}_1, \bold{k}_n)$ for key tokens at growing distances $\bold{k}_{n}$ for $n=1,2,...,512$ and $n=1,2,...,65535$.
+These two plots show the scores as a key $\bold{k}_n$'s positional distance ($\text{dist}=|n-m|$) to $\bold{q}_{1}$ grows.
 
-By matrix multiplication, score is the sum of each dimension's multiplication result divided by a normalization term $\sqrt{D}$ such that $\text{score}(\bold{q}_i, \bold{k}_j)=\bold{q}_1^{\top} R_{i-j} \bold{k}_1= \frac{1}{\sqrt{D}} \sum^D_{d=1} q_{1_{d}}^{\top} R_{(1-j)_{d}} {k}_{1_{d}}$.
+For easy comparison, both query and key token are set to $\bold{1}$ such that $\bold{q}_m=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$ and $\bold{k}_n=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$, so that the scores' differences only reflect the rotational positional distance ($\bold{q}_1^{\top} R_{1-m} \bold{k}_n$).
+
+The attention score is computed by $\text{score}(\bold{q}_m, \bold{k}_n)=\text{score}(\bold{q}_m, \bold{k}_n)=\sum^{D/2}_{i=1} \bold{q}_{1_{i}}^{\top} R_{(1-m)_{i}} \bold{k}_{1_{i}}$.
 
 The individual dimensions' scores for $i=1$ vs $j$ are shown as below.
 
-* for low dimensions, sinusoids see complete cycles for small $|i-j|$;
-* for high dimensions, sinusoids see complete cycles for large $|i-j|$.
+* for low dimensions, sinusoids see complete cycles for small $|n-m|$;
+* for high dimensions, sinusoids see complete cycles for large $|n-m|$.
 
-By this design, each position embedding dimension learns about info regarding different $|i-j|$.
+By this design, each position embedding dimension learns about info regarding different $|n-m|$.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/rope_query0_keyj_individuald.png" width="80%" height="20%" alt="rope_query0_keyj_individuald" />
 </div>
 </br>
 
-For summed score over all dimensions $\text{score}(\bold{q}_i, \bold{k}_j)=\frac{1}{\sqrt{D}} \sum^D_{d=1} q_{1_{d}}^{\top} R_{(1-j)_{d}} {k}_{1_{d}}$, 
+For summed score over all dimensions $\text{score}(\bold{q}_m, \bold{k}_n)=\sum^{D/2}_{i=1} \bold{q}_{1_{i}}^{\top} R_{(1-m)_{i}} \bold{k}_{1_{i}}$,
 
-* when they are close (small values of $|i-j|$), score is high;
-* when they are far away (large values of $|i-j|$), score is low.
+* when they are close (small values of $|n-m|$), score is high;
+* when they are far away (large values of $|n-m|$), score is low.
 
-Figure 1 is the zoomed-in version of figure 2 for $j=1,2,...,512$.
+Figure 1 is the zoomed-in version of figure 2 for $n=1,2,...,512$.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/rope_query0_keyj.png" width="50%" height="25%" alt="rope_query0_keyj" />
@@ -309,14 +273,14 @@ Let $\lambda_i=\frac{2\pi}{\theta_i}=2\pi \cdot 10000^{2i/16}$ be wavelength.
 |$\theta_4$=0.01|628.32|314.16|
 |$\theta_5$=0.003162|1994.77|997.38|
 |$\theta_6$=0.001|6283.2|3141.6|
-|$\theta_7$=0.0003162|19947.7|9973.8|
+|$\theta_7$=0.0003162|19947.7|9934.6|
 
-The max half wavelength $\lambda_i/2=9973.8$ by the highest frequency $\theta_7$ means theoretical max token length (context length),
-that by incremental rotation of $9973.8$ times so that a half wavelength $\pi$ is covered.
+The max half wavelength $\lambda_i/2=9934.6$ by the highest frequency $\theta_7$ means theoretical max token length (context length),
+that by incremental rotation of $9934.6$ times so that a half wavelength $\pi$ is covered.
 
 However, this is not advised because only the highest frequency dimension by $\theta_7$ can cover the whole $\pi$ area, and lower frequency dimensions are totally lost.
 
-If exceeded the wavelength, for $\alpha_{\cos}>\alpha_{\sin}$, the attention score $\langle \bold{q}_m, \bold{k}_n \rangle$ is dominated by the cosine, that has mirror values when $\Delta\theta_i>\pi$, where $\Delta>9973.8$, i.e., there are multiple mappings of queries vs keys given an attention score by $\bold{q}^{\top}_i\bold{k}_j$.
+If exceeded the wavelength, for $\alpha_{\cos}>\alpha_{\sin}$, the attention score $\langle \bold{q}_m, \bold{k}_n \rangle$ is dominated by the cosine, that has mirror values when $\Delta\theta_i>\pi$, where $\Delta>9934.6$, i.e., there are multiple mappings of queries vs keys given an attention score by $\bold{q}^{\top}_i\bold{k}_n$.
 
 ##### Frequency Study In Long Distance
 
