@@ -122,3 +122,10 @@ The example text sentence is split into this list.
 ```python
 ['this', 'that', 'is' 'toy', 'and', 'th', 'e', 'a', 'b', 'o', 'n', 'e', 't', 'h', 'r' ]
 ```
+
+* A "Strawberry" demo
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tokenization_strawberry.WEBP" width="50%" height="30%" alt="tokenization_strawberry" />
+</div>
+</br>

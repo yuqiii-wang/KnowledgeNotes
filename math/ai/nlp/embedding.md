@@ -2,6 +2,11 @@
 
 Embedding describes information representation and compression, representing a token/word as a vector.
 
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/tokenization_then_embedding.png" width="30%" height="40%" alt="tokenization_then_embedding" />
+</div>
+</br>
+
 ## Semantics/Linguistics
 
 For example, the word "restaurants" has the below attributes:
@@ -29,12 +34,12 @@ The TF-IDF per sentence/document is computed as below.
 
 |No.|Token|Term count (Doc 1)|Term count (Doc 2)|Term count (Doc 3)|Term count (Doc 4)|Document count|IDF|TF $\times$ IDF (Doc 1)|TF $\times$ IDF (Doc 2)|TF $\times$ IDF (Doc 3)|TF $\times$ IDF (Doc 4)|
 |-|-|-|-|-|-|-|-|-|-|-|-|
-|1|many|0.125|0|0|0.043478260869565216|2|0.301|0.038|0|0|0.013|
+|1|many|0.125|0|0|0.04348|2|0.301|0.038|0|0|0.013|
 |2|popular|0.125|0|0|0|1|0.602|0.075|0|0|0|
-|3|restaurants|0.125|0.07692307692307693|0|0.043478260869565216|3|0.125|0.016|0.01|0|0.005|
+|3|restaurants|0.125|0.07692|0|0.04348|3|0.125|0.016|0.01|0|0.005|
 |4|nearby|0.125|0|0|0|1|0.602|0.075|0|0|0|
-|5|church|0.125|0|0.047619047619047616|0|2|0.301|0.038|0|0.014|0|
-|6|offer|0|0.07692307692307693|0|0|1|0.602|0|0.046|0|0|
+|5|church|0.125|0|0.04762|0|2|0.301|0.038|0|0.014|0|
+|6|offer|0|0.07692|0|0|1|0.602|0|0.046|0|0|
 
 For compression, one popular approach is encoder/decoder, where dataset is fed to machine learning study.
 
@@ -57,12 +62,106 @@ $$
 \end{align*}
 $$
 
-where $\bold{i}=\{ 1,2,...,D \} \in \mathbb{Z}^{+}$ is a vector of dimension indices, then define $\bold{\theta}_i=10000^{-\frac{2i}{\bold{D}}}$, where $\bold{\theta}_i = \{ {\theta}_{i_{1}}, {\theta}_{i_{2}}, ..., {\theta}_{i_{D}} \}$,
-and $i \in \mathbb{Z}^{+}$ is the position of a word in a sentence/document.
+where $\bold{i}=\{ 1,2,...,D \} \in \mathbb{Z}^{+}$ is a vector of dimension indices, then define $\bold{\theta}_i=10000^{-\frac{2i}{\bold{D}}}$.
 
-## RoPE Derivation
+### Intuition: Semantics Indicated By Dimensionality Encapsulated Token Distance Info
 
-### Linear Position Embedding
+For a query token $\bold{q}_m\in\mathbb{R}^{1\times D}$ positioned at $m$ and a key token $\bold{k}_n\in\mathbb{R}^{1\times D}$ at $n$, and assume their respective dimensions correlate to the two token distance $|n-m|$ (corresponding frequency denoted as $\frac{1}{|n-m|}$, also distance is termed *wavelength*),
+by learning their embeddings encapsulates latent relationship.
+
+* High frequency features: Detailed, rapid changes in position for local context.
+* Low frequency features: Smooth, gradual changes that encode global structure in a long article.
+
+Besides, as two token distance grows $|n-m|\rightarrow\infty$, from the perspective of human linguistics the two tokens should gradually lose latent connection, and token embeddings should reflect such linguistic phenomenon.
+
+#### Example To Explain High/Low Frequency Features: An Article About Pets
+
+Below is an article discussing pets' role in human society, and the article uses cats and dogs as examples for comparison for explanation.
+
+Pets are considered global features, and cats and dogs are local.
+
+```txt
+Pets have long been cherished companions, bringing joy, comfort, and a sense of purpose into their owners' lives.
+
+... (Some introduction and background)
+
+Cats are admired for their independent yet affectionate nature. They bring a soothing presence into a home, often offering quiet moments of comfort and playful antics that lighten the mood.
+
+Dogs, on the other hand, are renowned for their loyalty and exuberant spirit. They often act as the heartbeat of a household, encouraging physical activity and social interaction.
+
+... (Some discussions on pet's engagement in human society)
+
+As society continues to evolve, so does the landscape of pet ownership.
+Advances in veterinary care, pet nutrition, and animal welfare are shaping a future where pets can lead longer, healthier lives.
+In summary, pets play an indispensable role in enriching our lives through their companionship and unique traits. 
+```
+
+Let $\bold{q}_{\text{dogs}}$ be a query to see the latent relationship with a local concept $\bold{k}_{\text{cats}}$ and a global one $\bold{k}_{\text{pets}}$.
+
+Let $|n_{\text{dogs}}-m_{\text{cats}}|=\Delta_{50}=50$ represent "dogs" sees "cats" with a token distance of $50$,
+and let $|n_{\text{dogs}}-m_{\text{pets}}|=\Delta_{300}=300$ represent "dogs" sees "pets" with a token distance of $300$.
+
+Let $\bold{freqDimTrans}(\Delta)\in\mathbb{R}^{1\times 1000}$ be the transform that maps a token embedding to distance-aware ones so that each dimension represents certain distance (this transform as an example covers $1k$ token length).
+It takes positional gap $\Delta$ as argument.
+
+The dimensionality of the embedding indicates the distance info.
+Let $\Pi(t)=\begin{cases} 1 & \quad t=1 \\ 0 & \quad \text{otherwise}\end{cases}$ be a pulse function that $\Pi(t)=1$ if and only if the input is a unit signal at $t=1$.
+Let $\bold{w}=[w_1, w_2, ..., w_{1000}]$ be the weight coefficients, usually it sees a monotonic decaying progress as $w_i\rightarrow w_{1000}$, e.g., $w_i=1/{\Delta_{i}}$ is set up as reciprocal function.
+
+$$
+\begin{align*}
+    \bold{freqDimTrans}(\Delta)=\bigg[ & w_{1}\Pi(\frac{1}{1}\Delta), w_{2}\Pi(\frac{1}{2}\Delta), ..., w_{50}\Pi(\frac{1}{50}\Delta), ..., w_{300}\Pi(\frac{1}{300}\Delta), ..., w_{1000}\Pi(\frac{1}{1000}\Delta), \bigg]
+\end{align*}
+$$
+
+* $\Pi(\frac{1}{50}\Delta_{\text{dogs-cats}})$ should see weighted peaks at an interval of $50$.
+* $\Pi(\frac{1}{300}\Delta_{\text{dogs-pets}})$ should see peaks at an interval of $300$.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/periodic_pulse_signals.png" width="60%" height="40%" alt="periodic_pulse_signals" />
+</div>
+</br>
+
+For $300>50$ that long distance tokens should see each other less semantics, e.g., by $w_i=1/{\Delta_{i}}$, the peaks in this dimension are dampened to lower values.
+
+Apply $\bold{freqDimTrans}(\Delta)$ to "dogs", "cats", and "pets", only certain frequencies are fired up thereby having learned distance info.
+
+#### RoPE Frequency Resonation Intuition
+
+Instead of using a naive pulse signal, RoPE uses many rotation matrices to represent frequencies,
+where each dimension pair is set up to rotate by an angle $\Delta\theta_i$,
+and such angles have different resolution for different dimensions.
+
+Let $R(\theta)$ be a rotation matrix
+
+$$
+R (\theta_i) = \begin{bmatrix}
+      \cos \theta_i & -\sin \theta_i \\
+      \sin \theta_i & \cos \theta_i \\
+\end{bmatrix}, \qquad
+i=0,1,...,D/2-1
+$$
+
+Group dimensions by pairs for each rotation by $R (\theta_i)$ works on a 2-dimensional vector.
+
+$$
+\begin{align*}
+    \bold{q}&=\big[(q_1, q_2), (q_3, q_4), ..., (q_{D-1}, q_{D})\big] \\
+    \bold{k}&=\big[(k_1, k_2), (k_3, k_4), ..., (k_{D-1}, k_{D})\big] \\
+\end{align*}
+$$
+
+The similarity (inverse correlation to distance) is measured by below.
+
+$$
+\text{similarity}_{\cos}(\bold{q}_{i,i+1}, \bold{k}_{i,i+1}) = \cos(\Delta\theta_i) = \frac{\bold{q}_{i,i+1} \cdot \bold{k}_{i,i+1}}{||\bold{q}_{i,i+1} || \space || \bold{k}_{i,i+1} ||}
+$$
+
+When they are overlapping each other on particular dimensions, e.g., $\max_{\Delta\theta_i=0}=\cos(\Delta\theta_i)=1$ they resonate on the $i$-th dimension mapped token distance/frequency.
+
+### RoPE Derivation
+
+#### Linear Position Embedding
 
 Define a score to be maximized when query $\bold{q}_m$ is positionally "close" to key $\bold{k}_n$.
 The $i$ and $j$ individually represent the positions of query and key in a sentence/document, hence $n-m$ represents the relative position gap.
@@ -77,7 +176,7 @@ where $\bold{p}_{n-m}$ serves as a linear relative position gap.
 This design's motivation is that in NLP, if a query word is adjacent to a key word, they should be highly semantically related.
 Their multiplication value should be large (this $\text{score}(\bold{q}_m, \bold{k}_n)$ is named *attention score* in transformer), otherwise small, so that attention mechanism can easily produce differences during matrix multiplication in this regard.
 
-### Position Embedding by Rotation Matrix
+#### Position Embedding by Rotation Matrix
 
 Here uses sinusoid to represent the relative position gap by a rotation matrix $R_{n-m}$ to replace the above linear position gap $\bold{p}_{n-m}$.
 Sinusoid not only decreases fast in $\text{score}(\bold{q}_m, \bold{k}_n)$ as positional gap grows against linear decrease by $\bold{p}_{n-m}$, but also has sinusoidal patterns that recursively see highs and lows in different relative position gaps $|n-m|$ with respects to different dimensions $d$.
@@ -264,96 +363,73 @@ $$
 
 Let $\lambda_i=\frac{2\pi}{\theta_i}=2\pi \cdot 10000^{2i/16}$ be wavelength.
 
-|$\theta_i$|Full wavelength $\lambda_i$|Half wavelength $\lambda_i/2$|
-|-|-|-|
-|$\theta_0$=1|6.2832|3.1416|
-|$\theta_1$=0.3162|19.9477|9.9738|
-|$\theta_2$=0.1|62.832|31.416|
-|$\theta_3$=0.03162|199.477|99.738|
-|$\theta_4$=0.01|628.32|314.16|
-|$\theta_5$=0.003162|1994.77|997.38|
-|$\theta_6$=0.001|6283.2|3141.6|
-|$\theta_7$=0.0003162|19947.7|9934.6|
+|$\theta_i$|Full wavelength $\lambda_i$|
+|-|-|
+|$\theta_0$=1|6.2832|
+|$\theta_1$=0.3162|19.9477|
+|$\theta_2$=0.1|62.832|
+|$\theta_3$=0.03162|199.477|
+|$\theta_4$=0.01|628.32|
+|$\theta_5$=0.003162|1994.77|
+|$\theta_6$=0.001|6283.2|
+|$\theta_7$=0.0003162|19947.7|
 
-The max half wavelength $\lambda_i/2=9934.6$ by the highest frequency $\theta_7$ means theoretical max token length (context length),
-that by incremental rotation of $9934.6$ times so that a half wavelength $\pi$ is covered.
-
-However, this is not advised because only the highest frequency dimension by $\theta_7$ can cover the whole $\pi$ area, and lower frequency dimensions are totally lost.
-
-If exceeded the wavelength, for $\alpha_{\cos}>\alpha_{\sin}$, the attention score $\langle \bold{q}_m, \bold{k}_n \rangle$ is dominated by the cosine, that has mirror values when $\Delta\theta_i>\pi$, where $\Delta>9934.6$, i.e., there are multiple mappings of queries vs keys given an attention score by $\bold{q}^{\top}_i\bold{k}_n$.
+The max wavelength is $\lambda_7=19947.7$, which is also the max theoretical context length.
 
 ##### Frequency Study In Long Distance
 
-When two tokens are very distant $|n-m|=\Delta\rightarrow \infty$, the score $\langle \bold{q}_m, \bold{k}_n \rangle$ has multiple mappings hence the attention score cannot determine which query token be associated to which key token.
-Consequently, in long distance, the attention mechanism fails.
+When two tokens are very distant $|n-m|=\Delta\rightarrow \infty$, the score $\langle \bold{q}_m, \bold{k}_n \rangle$ has multiple mappings (for $R(\theta)$ is a periodic function) hence the attention score cannot determine which query token be associated to which key token.
 
-Consider
+In other words, need to prove uniqueness of mapping of a full wavelength given a rotation matrix, so that each granular increment of angle step can represent a unit of token distance.
 
-$$
-\begin{align*}
-\langle \bold{q}_m, \bold{k}_n \rangle = \sum_{i=0}^{D/2-1} \Big(
-    & \underbrace{\big(q_{2i}^m k_{2i}^{m+\Delta} + q_{2i+1}^m k_{2i+1}^{m+\Delta}\big)}_{\alpha_{\cos}} \cos(\Delta\theta_i) + \\
-    & \underbrace{\big(q_{2i+1}^m k_{2i}^{m+\Delta} - q_{2i}^m k_{2i+1}^{m+\Delta}\big)}_{\alpha_{\sin}} \sin(\Delta\theta_i) \Big)
-\end{align*}
-$$
+Since the highest dimension sees the most granular angular rotation steps, the highest dimension covered token distance is considered the longest context length.
 
-To study the series $\sum_{i=0}^{D/2-1}\big(\alpha_{\cos}\cos(\Delta\theta_i)+\alpha_{\sin}\sin(\Delta\theta_i)\big)$ as $\Delta\rightarrow\infty$,
-first consider this expression $\cos(\Delta\theta_i)+\sin(\Delta\theta_i)$,
+##### Proof of Unique Rotary Mapping within $\lambda_d=\frac{2\pi}{\theta_i}$
 
-* $\cos(\Delta\theta_i)$ and $\sin(\Delta\theta_i)$ are oscillation function (does not converge to a limit but oscillate within a range)
-* $\cos(\Delta\theta_i)$ and $\sin(\Delta\theta_i)$ linear combinations are also oscillating.
-
-One can prove that
+Assume there are two different angle $\theta_{a}$ and $\theta_{b}$ map to the same rotation $R(\theta_{a})=R(\theta_{b})$.
+The rotated vector is $\bold{v}\ne\bold{0}\in\mathbb{R}^{2}$.
 
 $$
 \begin{align*}
-    \max\big(\cos(\Delta\theta_i)+\sin(\Delta\theta_i)\big)&=\sqrt{2} \\
-    \min\big(\cos(\Delta\theta_i)+\sin(\Delta\theta_i)\big)&=-\sqrt{2} \\
+&&  \begin{bmatrix}
+          \cos \theta_a & -\sin \theta_a \\
+          \sin \theta_a & \cos \theta_a \\
+    \end{bmatrix} \begin{bmatrix}
+        v_x \\ v_y
+    \end{bmatrix} &= \begin{bmatrix}
+          \cos \theta_b & -\sin \theta_b \\
+          \sin \theta_b & \cos \theta_b \\
+    \end{bmatrix} \begin{bmatrix}
+        v_x \\ v_y
+    \end{bmatrix} \\
+\Rightarrow && \begin{bmatrix}
+    v_x \cos \theta_a - v_y \sin \theta_a \\
+    v_x \sin \theta_a + v_y \cos \theta_a \\
+\end{bmatrix} &= \begin{bmatrix}
+    v_x \cos \theta_b - v_y \sin \theta_b \\
+    v_x \sin \theta_b + v_y \cos \theta_b \\
+\end{bmatrix}
 \end{align*}
 $$
 
-As a result, the convergence behavior of $\langle \bold{q}_m, \bold{k}_n \rangle$ is determined by its linear coefficients $\alpha_{\cos}$ and $\alpha_{\sin}$.
-Further more, for $\alpha_{\cos}>\alpha_{\sin}$, the convergence behavior is dominated by the cosine term.
-
-For a very large $\Delta\rightarrow\infty$, the $\Delta\theta_i$ steps across multiple oscillation ranges $[[0, \pi), [\pi, 2\pi), [2\pi, 3\pi), ...]$,
-so that the attention score cannot determine which query token be associated to which key token.
-
-In more detail, for high frequency sequence the $\cos(\Delta\theta_{\text{large}})$
-
-## Embedding by Deep Learning
-
-Above embedding designs contain rich semantics.
-However, embeddings can be trained by large corpus such as by BERT base there is embeddings $W_{EmbBertBase} \in \mathbb{R}^{30522 \times 768}$ corresponding to $30522$ tokens.
-
-Tokens are assigned a id such as $2023$ for "This", and it is one-hot encoded.
+Consider that $R(\theta)$ is an orthonormal matrix $R^{\top}(\theta)R(\theta)=I$, and inverse property of rotation $R^{-1}(\theta)=R(-\theta)$.
+Multiply both side by $R^{-1}(\theta)$, there is
 
 $$
-\bold{t}_{i=2023} = \text{OneHotEncoding}(2023) =
-[\underbrace{0, 0, 0, 0, 0, 0, 0, 0, ..., 0}_{\times 2022}, 1, \underbrace{0, 0, 0, 0, 0, 0, 0, 0, ..., 0}_{\times (30522 - 1 - 2022)}]
+R(-\theta_a)R(\theta_a)\bold{v}=R(-\theta_a)R(\theta_b)\bold{v}
 $$
 
-By matrix multiplication, the token's embedding is retrieved from $E_{emb}$.
+Recall the rotation property that counter-clockwise + clockwise same angle rotation is equivalent to no rotation, i.e., $R(-\theta_a)R(\theta_a)=R(\theta_a-\theta_a)=R(0)=I$, hence
 
 $$
-W_{EmbBertBase}^{\top} \bold{t}_i \in \mathbb{R}^{1 \times 768}
+\bold{v}=R(-\theta_a)R(\theta_b)\bold{v}=\underbrace{R(-\theta_a+\theta_b)}_{=R(0)=I}\bold{v}
 $$
 
-<div style="display: flex; justify-content: center;">
-      <img src="imgs/tokenization_then_embedding.png" width="30%" height="40%" alt="tokenization_then_embedding" />
-</div>
-</br>
+For $\bold{v}=R(-\theta_a+\theta_b)\bold{v}$ to hold, there should be $R(-\theta_a+\theta_b)=R(0)=I$ hence $\theta_a=\theta_b$.
 
-In Hugging face, there is
+Now reconsider the original hypothesis if it can be assumed that two different angles $\theta_{a}$ and $\theta_{b}$ can map to the same rotation $R(\theta_a)=R(\theta_b)$ on the same $\bold{v}$.
+The derived expression $\bold{v}=R(-\theta_a+\theta_b)\bold{v}$ led result $\theta_a=\theta_b\in[0, 2\pi)$ rejected the hypothesis.
 
-```python
-from transformers import BertTokenizer, BertModel
-
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-model = BertModel.from_pretrained("bert-base-uncased")
-
-embedding_matrix = model.embeddings.word_embeddings.weight
-embedding_this = embedding_matrix[2023]
-print(embedding_this.size()) # print "torch.Size([768])"
-print(embedding_matrix[2023][:10]) # top 10 embs are tensor([-0.0571,  0.0153, -0.0047,  0.0105, -0.0279,  0.0218, -0.0006,  0.0224,
-                                   # 0.0225,  0.0135], grad_fn=<SliceBackward0>)
-```
+However, for $R(\theta)=R(\theta+2k\pi), k\in\mathbb{Z}^{+}$ is a periodic function, there can be $\theta_a=\theta_b+2k\pi$, so that two different angles $\theta_{a}$ and $\theta_{b}$ can map to the same rotation.
+This leads to loss of resolution that resonated two embedding $\bold{v}_m^{\top}\bold{v}_n$ can see multiple mappings.
+To maintain unique mappings, the highest dimension's wavelength is essentially the context length.

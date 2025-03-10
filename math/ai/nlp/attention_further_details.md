@@ -41,25 +41,34 @@ output = attention_weights @ V  # Weighted sum of values
 
 ### Attention Score by $Q K^{\top}$
 
-For example, given $Q \in \mathbb{R}^{5 \times 6}$ and $K^{\top} \in \mathbb{R}^{6 \times 5}$,
+For example, given query to key $Q, K\in\mathbb{R}^{8\times 5}$
 
 ```py
 import numpy as np
 
-Q = np.array(
-[[0,0.9,0.1,0,0,0],
- [0,0,1,0,0,0],
- [0,0,1,0,0,0],
- [0,0,1,0,0,0],
- [0,0,1,0,0,0]])
+Q = np.array([
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.025, 0.9, 0.025, 0.025, 0.025],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+])
 
-K = np.array(
-[[0,1,0,0,0,0],
- [0,1,0,0,0,0],
- [0,0.1,0.9,0,0,0],
- [0,1,0,0,0,0],
- [0,1,0,0,0,0]])
+K = np.array([
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+    [0.025, 0.9, 0.025, 0.025, 0.025],
+    [0.2, 0.2, 0.2, 0.2, 0.2],
+])
 
+# Compute raw scores
 S = Q @ K.T
 
 print(S)
@@ -68,18 +77,19 @@ print(S)
 that prints
 
 ```txt
-[[0.9  0.9  0.18 0.9  0.9 ]
- [0.   0.   0.9  0.   0.  ]
- [0.   0.   0.9  0.   0.  ]
- [0.   0.   0.9  0.   0.  ]
- [0.   0.   0.9  0.   0.  ]]
+[[0.2    0.2    0.2    0.2    0.2    0.2    0.2    0.2   ]
+ [0.2    0.2    0.2    0.2    0.2    0.2    0.2    0.2   ]
+ [0.2    0.2    0.2    0.2    0.2    0.2    0.8125 0.2   ]
+ [0.2    0.2    0.2    0.2    0.2    0.2    0.2    0.2   ]
+ [0.2    0.2    0.2    0.2    0.2    0.2    0.2    0.2   ]
+ [0.2    0.2    0.2    0.2    0.2    0.2    0.2    0.2   ]
+ [0.2    0.2    0.2    0.2    0.2    0.2    0.2    0.2   ]
+ [0.2    0.2    0.2    0.2    0.2    0.2    0.2    0.2   ]]
 ```
 
-where the 1st row and 3rd col see large vals.
-The result derives from $0.9$ in the (1st row, 2nd col) entry in $Q$ correlating to 2nd col in $K$, another $0.9$ at the 3rd col in $Q$ correlating to the (3rd row, 3rd col) in $K$.
+It shows that the high attention score $0.8125$ is located at the $3$-rd row and the $7$-th col, which are the token position of the **same token position** of the query and key.
 
-This shows that the first token in query $Q$ is correlated to all tokens in key $K$ (except for the 3rd token);
-and the 3rd token in key $K$ is correlated to all tokens in query $Q$ (also except for the 3rd token).
+In other words, only when two tokens see same dimension resonated with each other, the attention score is high.
 
 ### Why Divided by $\sqrt{d_k}$
 

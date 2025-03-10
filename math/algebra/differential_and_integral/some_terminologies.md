@@ -1,17 +1,27 @@
-# Differential and Integral
+# Terminologies in Differential and Integral
 
-## Differential vs Derivative
+## Derivative vs Differential vs Gradient
 
-Derivative refers to "rate of change" while differential refers to "trivial amount".
+Given a function $f(\bold{x})$ where $\bold{x}\in\mathbb{R}^D$ is an input vector.
 
-### Derivative vs Difference Quotient
-
-The derivative of a function is the rate that a function is changing at a given point.
-
-Derivative can be solved by finding difference quotient such that
+* Derivative: the change rate of an dimension $x_i$ to the function $f(x_i)$.
 
 $$
-f'(x)=\lim_{h \rightarrow 0} \frac{f(x+h)-f(x)}{h}
+f'(x_i)=\lim_{h \rightarrow 0} \frac{f(x_i+h)-f(x_i)}{h}
+$$
+
+* Differential: find trivial function change $df$ (often) by first order derivative approximation
+
+$$
+df=f'(\bold{x})d\bold{x}=
+\frac{\partial f}{\partial x_1} d x_1+\frac{\partial f}{\partial x_2} d x_2+\frac{\partial f}{\partial x_3} d x_3+...
+$$
+
+* Gradient: a vector that collects all the partial derivatives, indicative of each dimensional change rate, contained directional info
+
+$$
+\nabla f=\frac{\partial f}{\partial \bold{x}}=
+\Big(\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \frac{\partial f}{\partial x_3}, ...\Big)
 $$
 
 ### Partial Derivative
@@ -32,7 +42,7 @@ $$
 
 In this expression, $\frac{\partial w}{\partial x_i}dx_i$ are called *partial differentials*.
 
-## Gradient vs Derivative
+### Directional Derivative
 
 *Directional derivative* refers to "total" derivative.
 
