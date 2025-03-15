@@ -36,14 +36,16 @@ If two matrices are similar, then they have the same rank, trace, determinant an
 
 ### Diagonalizable Matrix
 
-Define $A \in \mathbb{C}^{r \times r}$, that $A$ is diagonalizable if and only if it is similar to a diagonal matrix $D$.
+Define $A \in \mathbb{C}^{r \times r}$, that $A$ is diagonalizable if and only if it is similar to a diagonal matrix $\Lambda$.
 
 $$
-D = P^{-1}A P
+\Lambda = Q^{-1}A Q \qquad\text{or}\qquad  A=Q\Lambda Q^{-1}
 $$
 
 To compute/diagonalize a matrix $A$, first check $\text{rank}(A)=r$ if it is full rank, then solve $\text{det}(\lambda I - A)=0$.
-The result $D$ is an eigenvalue-composed diagonal matrix, and $P$ is an eigenvector-composed matrix.
+The result $\Lambda$ is an eigenvalue-composed diagonal matrix, and $Q$ is an eigenvector-composed matrix.
+
+This $A=Q\Lambda Q^{-1}$ expression means that $A$ can be eigen-decomposed to reveal its eigenvalues and eigenvectors.
 
 ## Hermitian matrix
 
@@ -155,11 +157,17 @@ Given a manifold $M$, a tangent space at $x$ on $M$ is $\Tau_x M$.
 
 ## Trace
 
-The trace of a square matrix $A$, denoted $tr(A)$,is defined to be the sum of elements on the main diagonal (from the upper left to the lower right) of $A$. The trace is only defined for a square matrix ($n × n$).
+The trace of a square matrix $A\in\mathbb{C}^{n \times n}$, denoted $tr(A)$,is defined to be the sum of elements on the main diagonal (from the upper left to the lower right) of $A$.
+The trace is only defined for a square matrix ($n × n$).
+
+$$
+\text{tr}(A) = \sum^n_{i=1} a_{ii}
+$$
 
 For example, given $A$
+
 $$
-A = 
+A =
 \begin{bmatrix}
 a_{11} & a_{12} & a_{13} \\
 a_{21} & a_{22} & a_{23} \\
@@ -170,7 +178,7 @@ $$
 its trace is
 
 $$
-tr(A) = 
+\text{tr}(A) =
 \sum^3_i a_{ii} =
 a_{11} + a_{22} + a_{33}
 $$
@@ -184,6 +192,26 @@ $$
       \partial \space B
 } =
 A^{\top} C^{\top}
+$$
+
+### Proof: A Matrix Trace Equals the Sum of Its Diagonal Entries and the Sum of Its Eigenvalues
+
+Let $\lambda_1, \lambda_2, ..., \lambda_n$ be the roots of the characteristic polynomial for $A\in\mathbb{C}^{n \times n}$, here expands it:
+
+$$
+\text{det}(A-\bold{\lambda}I)=
+(-1)^n\lambda_n+(-1)^{n-1}\text{tr}(A)\lambda_{n-1}+...+\text{det}(A)
+$$
+
+By Vieta's formulas, the sum of the roots (eigenvalues) is
+
+$$
+\begin{align*}
+\sum^n_{i=1}\lambda_i&=
+   \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\
+   &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\
+   &= \text{tr}(A)
+\end{align*}
 $$
 
 ## Kronecker Product
@@ -200,6 +228,7 @@ A \otimes B =
 $$
 
 For example,
+
 $$
 \begin{align*}
 \begin{bmatrix}

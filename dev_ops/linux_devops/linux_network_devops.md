@@ -14,6 +14,27 @@
 
 `ssh` establishes an encrypted connection to a remote server using the SSH protocol (default port 22).
 
+* `nslookup`
+
+`nslookup` checks Domain Name bounded IP address.
+
+For example, `nslookup github.com` gives DNS server and queried server IP.
+
+```txt
+Server:         8.8.8.8
+Address:        8.8.8.8#53
+
+Non-authoritative answer:
+Name:   github.com
+Address: 20.205.243.166
+```
+
+where
+
+-> `Server:         8.8.8.8` is the DNS server
+-> `#53` indicates that the request is being sent to port 53, which is the default port for DNS communication using UDP (by default) or TCP.
+-> `Non-authoritative answer`: This means that the DNS server (20.205.243.166) is returning cached data rather than retrieving it directly from the authoritative DNS server.
+
 * `tracert`/`traceroute`
 
 Run traceroute using the following commands:
@@ -46,11 +67,11 @@ traceroute -T -p 80 example.com
 
 ### Comparisons Between The Tools
 
-||Ping (ICMP)|SSH (Secure Shell)|Telnet|Traceroute|
-|-|-|-|-|-|
-|Protocol|ICMP|SSH (TCP-based)|Telnet (TCP-based)|Windows `tracert`: ICMP (default), Unix/Linux `traceroute`: UDP (default), TCP, ICMP|
-|Layer|Network (Layer 3)|Application (Layer 7)|Application (Layer 7)|Network/Transport (Layer 3/4)|
-|Port|None|22 (default)|23 (default)|None|
+||Ping (ICMP)|SSH (Secure Shell)|Telnet|nslookup|Traceroute|
+|-|-|-|-|-|-|
+|Protocol|ICMP|SSH (TCP-based)|Telnet (TCP-based)|DNS protocol (RFC 1035)|Windows `tracert`: ICMP (default), Unix/Linux `traceroute`: UDP (default), TCP, ICMP|
+|Layer|Network (Layer 3)|Application (Layer 7)|Application (Layer 7)|Application (Layer 7):DNS, Transport (Layer 4): UDP (default)/TCP|Network/Transport (Layer 3/4)|
+|Port|None|22 (default)|23 (default)|53 (default)|None|
 
 ## Network Check
 
@@ -180,6 +201,28 @@ github.com.             60      IN      A       20.205.243.166
 
 #### `nslookup`
 
+
+The underlying format of an nslookup request follows the DNS message format, which is structured according to the DNS protocol (RFC 1035).
+The request is typically a binary-encoded packet sent over UDP (default) or TCP (if needed) on port 53.
+
+A typical `nslookup example.com 8.8.8.8` request is
+
+```txt
+AA AA      → Transaction ID (randomly generated)
+01 00      → Standard query (flags: recursion desired)
+00 01      → 1 question
+00 00      → 0 answer records
+00 00      → 0 authority records
+00 00      → 0 additional records
+07 65 78 61 6D 70 6C 65 → "example" (length-prefixed domain name encoding)
+03 63 6F 6D → "com"
+00        → End of domain name
+00 01     → Query Type (A record)
+00 01     → Query Class (IN for Internet)
+```
+
+##### `nslookup` Example
+
 For example, `nslookup github.com` gives DNS server and queried server IP.
 
 ```txt
@@ -190,6 +233,12 @@ Non-authoritative answer:
 Name:   github.com
 Address: 20.205.243.166
 ```
+
+where
+
+* `Server:         8.8.8.8` is the DNS server
+* `#53` indicates that the request is being sent to port 53, which is the default port for DNS communication using UDP or TCP.
+* `Non-authoritative answer`: This means that the DNS server (133.11.162.44) is returning cached data rather than retrieving it directly from the authoritative DNS server.
 
 ## DHCP
 

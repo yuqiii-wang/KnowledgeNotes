@@ -299,3 +299,6 @@ The tokenized pretraining corpus contains 8.1T tokens, where Chinese tokens are 
 2. Keep the maximum learning rate till having trained $60\%$ of tokens
 3. The learning rate is multiplied by $0.316$ after training about $60\%$ of tokens
 4. The learning rate is again multiplied by $0.316$ after training about $90\%$ of tokens
+
+### DeepSeek Reinforcement Learning and Reasoning
+

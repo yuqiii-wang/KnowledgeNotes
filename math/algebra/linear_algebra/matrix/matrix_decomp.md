@@ -228,7 +228,9 @@ A &= LD L^{-1} = LD L^{\text{T}}
 \end{bmatrix}
 \end{align*}
 $$
+
 where
+
 $$
 \begin{align*}
 D_j &= A_{jj} - \sum^{j-1}_{k=1} L^2_{jk} D_k

@@ -5,12 +5,11 @@ The maximal length of the sequences (the context window) is determined by its tr
 The pre-defined max context length is often not enough in practical use, and interpolation with little fine-tuning, or no fine-tuning should be investigated.
 DeepSeek V2 managed to scale to 128K context length with YaRN implementation (empirical study shows only $0.1\%$ pre-training data can give good results).
 
-||Original Context Length|Extended Context Length|Scaling Factor (s)|RoPE Base Setup|
-|-|-|-|-|-|
-|Position Interpolation (PI)|4K tokens|16K tokens|4|10,000|
-|NTK-Aware Scaling (Dynamic NTK)|4K tokens|32K tokens|8|start at 10,000, grow by NTK-Aware scaling|
-|YaRN|4K tokens (pre-training); 16K tokens (FT)|128K tokens|~24 (≈100K⁄4k); ~32 (≈128K⁄4k); ~40 (≈160K⁄4k)|Fine-tuning is done with an increased base (e.g. 1,000,000)|
-|LongRoPE2|4K tokens|128K tokens|32|Scaling factors are optimized via evolutionary search|
+||Original Context Length|Extended Context Length|Scaling Factor (s)|
+|-|-|-|-|
+|Position Interpolation (PI)|4K tokens|16K tokens|4|
+|NTK-Aware Scaling (Dynamic NTK)|4K tokens|32K tokens|8|
+|YaRN|4K tokens (pre-training); 16K tokens (FT)|128K tokens|~24 (≈100K⁄4k); ~32 (≈128K⁄4k); ~40 (≈160K⁄4k)|
 
 References
 
@@ -123,12 +122,6 @@ $$
 
 where $\bold{x}, \bold{x}_{\Delta}\in\mathbb{R}^D$ are the input vectors, and $\bold{w}\in\mathbb{R}^D$ is the parameter vector for the neural network $f_{\bold{w}}(.)$.
 $\bold{x}_{\Delta}$ is the sample point that sees a positional gap of $\Delta=|n-m|$ from $\bold{x}$ (assumed $\bold{x}$ positioned at $m$ and $\bold{x}_{\Delta}$ at n).
-
-NTK major conclusions are
-
-* For an infinite-width network, if parameter $\bold{w}$ is initialized from a certain distribution (e.g., Gaussian distribution), then the kernel $\kappa_{\bold{w}}(\bold{x}, \bold{x}_{\Delta})$ is deterministic (invariant to individual parameter changes), and does not change as optimization progresses (indicated that Jacobian is invariant and equivalent to its initialization $\kappa_{\bold{w}}(\bold{x}, \bold{x}_{\Delta})=\kappa_{\bold{w}_0}(\bold{x}, \bold{x}_{\Delta})$).
-* An infinite-width network is linear.
-* Eigenvalues of NTK matrix determines effectiveness of learning rate $\eta$ setup in training a neural network.
 
 NTK kernel progresses by covariance matrix multiplication.
 

@@ -222,7 +222,7 @@ Determinant is a scalar value that is a function of the entries of a square matr
 Geometrically speaking, determinant is area of the $n \times n$ squared matrix, for example, for a $2 \times 2$ matrix, the area of parallellogram is
 
 $$
-|u||v|sin\theta = 
+|u||v|\sin\theta =
 \begin{array}{c}
     \bigg (
     \begin{array}{c}
@@ -438,6 +438,37 @@ Finding classical adjoint of a matrix is same as applying a linear transformatio
 
 #### Laplace Expansion (Cofactor Expansion)
 
+
+### Proof of Determinant
+
+Take an orthonormal basis $\bold{e}_1,…,\bold{e}_n$ and let columns of $A$ be $a_1,…,a_n$, where $∧$ represents exterior product operator,
+
+$$
+ \bold{a}_1 ∧ ... ∧\bold{a}_n=\text{det}(A) (\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)
+$$
+
+hence
+
+$$
+\text{det}(A)=(\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)^{−1}(a_1 ∧ ⋯ ∧ \bold{a}_n)
+$$
+
+given orthogonality ($E^{-1}=E^T$):
+
+$$
+(\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)^{−1} = (\bold{e}_1 ⋯ \bold{e}_n)^{−1} = \bold{e}_n ⋯ \bold{e}_1 = \bold{e}_n ∧ ⋯ ∧ \bold{e}_1
+$$
+
+Note that $\bold{e}_n ∧ ⋯ ∧ \bold{e}_1$ is a subspace of $a_1 ∧ ⋯ ∧ \bold{a}_n$, we can further write
+
+$$\begin{align*}
+\text{det}(A)
+& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_1)⋅(a_1 ∧ ⋯ ∧ \bold{a}_n) \\
+& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_2)⋅\big(\bold{e}_1⋅(a_1 ∧ ⋯ ∧ \bold{a}_n)\big) \\
+& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \bold{a}_n)−\sum_{i=2}^n (-1)^i \bold{a}_{1,i}(a_1 ∧ ⋯ ∧ \hat{\bold{a}}_i ∧ ⋯ ∧ \bold{a}_n) \bigg)
+\end{align*}
+$$
+
 ## Adjoint of A Matrix (Hermitian Adjoint)
 
 The adjoint of a matrix (Hermitian Adjoint) and classical adjoint are two different things, do not confuse.
@@ -459,27 +490,83 @@ For real matrices, this means that the matrix is symmetric: it equals its transp
 Eigen-decomposition of a real self-adjoint matrix is $A = V\Sigma V^{-1}$ where $\Sigma$ is a diagonal matrix whose diagonal elements are real eigenvalues., and $V$ is composed of eigenvectors by columns.
 Hurthermore, $V$ is unitary, meaning that its invverse is equal to its adjoint $V^{-1}=V^{\dag}$.
 
-## Covariance Matrix
+## Inverse Matrix
 
-A $2 \times 2$ covariance matrix is defined as
+A square matrix $A$ (non-square matrix has no inverse) has its inverse when its determinant is not zero.
 
 $$
-\Sigma = 
-\begin{bmatrix}
-      \sigma(x,x) & \sigma(x,y) \\
-      \sigma(y,x) & \sigma(y,y)
-\end{bmatrix}
+AA^{-1} = I
 $$
 
-in which
+and,
+
 $$
-\sigma(x,y) = E [ \big(x - E(x) \big) \big(y - E(y)\big) ]
+A^{-1} = \frac{1}{|A|}Adj(A)
 $$
 
-where $x$ and $y$ are sample vectors, hence $\sigma(x,y)$ is scalar. 
+where
 
-![covariance_mat_examples](imgs/covariance_mat_examples.png "covariance_mat_examples")
+$|A|$ is determiant of $A$ (denoted as $det(A)$) and $Adj(A)$ is an adjugate matrix of $A$.
 
-The orientations and thickness of the point cloud are eigenvectors and eigenvalues, such as the two arrows shown as below.
+Geometrically speaking, an inverse matrix $A^{-1}$ takes a transformation $A$ back to its origin (same as reseting basis vectors).
 
-![cov_mat_orientations](imgs/cov_mat_orientations.png "cov_mat_orientations")
+### Pseudo Inverse
+
+Pseudo inverse (aka Moore-Penrose inverse) denoted as $A^{\dagger}$, satisfying the below conditions:
+
+* $AA^{\dagger}$ does not neccessarily give to identity matrix $I$, but mapping to itself
+
+$$
+AA^{\dagger}A=A
+\\
+A^{\dagger}AA^{\dagger}=A^{\dagger}
+$$
+
+* $AA^{\dagger}$ is Hermitian, and vice versa
+
+$$
+(AA^{\dagger})^*=AA^{\dagger}
+\\
+(A^{\dagger}A)^*=A^{\dagger}A
+$$
+
+* If $A$ is invertible, its pseudoinverse is its inverse
+
+$$
+A^{\dagger}=A^{-1}
+$$
+
+#### Pseudo Inverse for Non-Square Matrix Inverse
+
+Given a non-square matrix $A \in \mathbb{R}^{n \times m}$ for $m \ne n$, the "best approximation" of the inverse is defined as $A^{\dagger}$ that satisfies the above pseudo inverse definition $AA^{\dagger}A=A$.
+By strict definition, non-square matrix has no inverse.
+
+The motivation is that, consider a linear system $A\bold{x} = \bold{b}$, if $A$ is a square matrix ($m=n$), there is an exact solution for the system $\bold{x}=A^{-1}\bold{b}$, if not ($m \ne n$), there is $AA^{\dagger}A=A$.
+
+To approximate $\bold{x}=A^{-1}\bold{b}$ for non-square matrix $A$, set $\bold{x}=A^{\dagger}\bold{b}$ as the pseudo solution, so that there is $A\bold{x}=AA^{\dagger}\bold{b}=\bold{b}$, where $A^{\dagger} \in \mathbb{R}^{m \times n}$.
+
+OpenCV has builtin API for $\bold{x}=A^{\dagger}\bold{b}$.
+In the below code, first construct the linear system by pushing back rows (such as robot states) to `A` and `b`.
+Then, find the pseudo inverse of `A` denoted as `pinA`, by which the solution can be constructed as `x = pinA * b;`.
+
+In least squares problem, solution $\bold{x} \in \mathbb{R}^m$ should be derived from an over-determined system where $n > m$.
+
+```cpp
+double cv::invert(InputArray src,
+                        OutputArray dst,
+                        int flags = DECOMP_LU 
+                    );
+
+cv::Mat A;
+cv::Mat b;
+cv::Mat pinA;
+ 
+for (int i = 0; i < nRows; i++) {
+    A.push_back(tempA);
+    b.push_back(tempb);
+}
+
+cv::invert(A, pinA, DECOMP_SVD);
+
+cv::Mat x = pinA * b;
+```

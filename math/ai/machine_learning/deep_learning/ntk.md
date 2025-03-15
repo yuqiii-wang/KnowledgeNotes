@@ -14,7 +14,7 @@ Given a deep (with $l$ layers) and very wide (dimension is $d\rightarrow\infty$)
 
 $$
 f_{\bold{\theta}}(\bold{x})=
-\underbrace{\sigma_{l}\big(...
+\underbrace{\sigma_{l}\big(\qquad\qquad...\qquad\qquad
 \underbrace{\sigma_{2}(W_{2}
 \underbrace{\sigma_{1}(W_{1}\bold{x}+\bold{b}_{1})}_{\text{layer }1}
 +\bold{b}_{2})}_{\text{layer }2}
