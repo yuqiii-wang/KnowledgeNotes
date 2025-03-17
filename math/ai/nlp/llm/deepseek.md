@@ -300,5 +300,163 @@ The tokenized pretraining corpus contains 8.1T tokens, where Chinese tokens are 
 3. The learning rate is multiplied by $0.316$ after training about $60\%$ of tokens
 4. The learning rate is again multiplied by $0.316$ after training about $90\%$ of tokens
 
+#### Supervised Fine-Tuning (SFT) for Human Preference Alignment
+
+To align to human preference, DeepSeek-V2 SFT includes
+
+* 1.2M instances for helpfulness and 0.3M instances for safety
+* SFT by 2 epochs
+* Small learning of $5\times 10^{-6}$
+
 ### DeepSeek Reinforcement Learning and Reasoning
 
+#### Reinforcement Learning Formulation
+
+An agent's action selection is modeled as a map called *policy* $\pi$ to a probability $0 \le \pi(a,s) \le 1$ given a state $s$ and action $a$.
+
+$$
+\begin{align*}
+\pi(a,s) = P(A_t = a | S_t = s)
+\end{align*}
+$$
+
+The action-value ("Q-value", Quality) of a state-action pair is
+
+$$
+Q_{\pi}(s,a) = \mathbb{E}_{\pi}(G_t | \underbrace{S_{t} = s, A_{t} = a}_{\pi} )
+$$
+
+The state-value of a state $s$ is the expected return ("Value Function"), that is the "average result given different actions".
+
+$$
+\begin{align*}
+V_{\pi}(s) &= \mathbb{E}_{\pi}(G_t | S_{t} = s) \\
+      &= \sum_{a \in A} Q_{\pi}(s,a) \pi(a|s)
+\end{align*}
+$$
+
+Set $\theta$ as the parameters that influence policy $\pi$, together denoted as $\pi_{\theta}(a|s)$.
+The reward function to be maximized is defined as
+
+$$
+\mathcal{J}(\theta) = \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s)= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi_{\theta}(a|s)
+$$
+
+where $d_{\pi_{\theta}}(s) = \lim_{t \rightarrow \infty} \big(P(S_t=s | S_0, \pi_{\theta}) \big)^t$ is state stationary probability distribution.
+$P$ is Markov chain transition probability matrix.
+
+Markov Decision Processes: stationed on $S_t$ and take action $A_t$ generate a reward $R_t$ such that $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
+The goal is to $\max \mathcal{J}(\theta)$.
+
+#### Proximal Policy Optimization (PPO)
+
+PPO proposed two important ideas
+
+* Advantage function $A(s,a)$ that focuses on action reward by taking away state info
+* Ratio of policy $\gamma_t(\theta)$ to assign higher weights to good policy (old vs current)
+
+Define an advantage function such that $A(s,a)=Q(s,a)-V(s)$. It can be considered as another version of Q-value with lower variance by taking the state-value off as the baseline.
+
+Define $\gamma_t(\theta)=\frac{\pi_{\theta}(a_t|s_t)}{\pi_{\theta_{\text{old}}}(a_t|s_t)}$ is the ratio controlling the probability under the new and old policies, respectively.
+
+* $\gamma_t(\theta)>1$: action $a_t$ at $s_t$ is more likely to stay in the current policy than the old one
+* $1 \ge \gamma_t(\theta) > 0$: action $a_t$ at $s_t$ prefers the old policy than the current one
+
+Finally, the PPO objective is defined as
+
+$$
+\mathcal{J}_{\text{clip}}(\theta) =
+\mathbb{E}\Big( \min\big( \gamma_t(\theta)  A_t,
+\underbrace{\text{clip}(\gamma_t(\theta), 1-\epsilon, 1+\epsilon)}_{\in [1-\epsilon, 1+\epsilon]}
+A_t \big) \Big)
+$$
+
+By (typically) $\epsilon=0.1$ or $\epsilon=0.2$, the ratio is contained to $\gamma_t(\theta) \in [1-\epsilon, 1+\epsilon]$, so that both old and current policies have influences on the objective $\mathcal{J}_{\text{clip}}(\theta)$.
+
+Minimization with Clipping: The use of the $\min$ function ensures that if the probability ratio goes outside the allowed range, the clipped value is used instead. This prevents the update from being too large, maintaining a "proximal" update.
+
+#### Group Relative Policy Optimization (GRPO) in DeepSeek-V2
+
+Group Relative Policy Optimization (GRPO) is adopted by DeepSeek-V2 that
+for each question $\text{quest}$, GRPO samples a group of outputs $\{o_1, o_2, ..., o_G\}$ from the old policy $\pi_{\theta_{old}}$ and then optimizes the policy model $\pi_{\theta}$ by maximizing the following objective:
+
+$$
+\begin{align*}
+    \max\mathcal{J}(\theta) =& \mathbb{E}\big(\text{quest}\sim P(\text{Quest}), \{o_i\}^G_{i=1}\sim \pi_{\theta_{old}}(O|\text{quest})\big) \\
+    =&\frac{1}{G}\sum^G_{i=1}\bigg(\min\bigg(
+        \frac{\pi_{\theta}(o_i|\text{quest})}{\pi_{\theta_{old}}(o_i|\text{quest})}A_i,
+        \text{clip}\bigg(\frac{\pi_{\theta}(o_i|\text{quest})}{\pi_{\theta_{old}}(o_i|\text{quest})}, 1-\epsilon, 1+\epsilon\bigg)A_i
+        \bigg)-\beta D_{KL}(\pi_{\theta}||\pi_{\theta_{ref}}) \bigg)
+\end{align*}
+$$
+
+where the ratio $\frac{\pi_{\theta}(o_i|\text{quest})}{\pi_{\theta_{old}}(o_i|\text{quest})}$ indicates how much more (or less) likely the new policy is to produce $o_i$ compared to the old policy.
+A ratio $>1$ indicates that the policy is more likely to stay in the current policy than the old one
+
+Clipping Mechanism $\text{clip}(...)$: To ensure stable updates (similar to what is done in PPO), the ratio is clipped between $1-\epsilon$ and $1+\epsilon$.
+This avoids overly aggressive changes.
+
+$\beta$ is a hyper parameter
+that controls $D_{KL}(\pi_{\theta}||\pi_{\theta_{ref}})$
+which describes the probability distribution difference between $\pi_{\theta}$ vs $\pi_{\theta_{ref}}$ such that
+
+$$
+D_{KL}(\pi_{\theta}||\pi_{\theta_{ref}})=
+\frac{\pi_{\theta_{ref}}(o_i|\text{quest})}{\pi_{\theta}(o_i|\text{quest})}-
+\log \frac{\pi_{\theta_{ref}}(o_i|\text{quest})}{\pi_{\theta}(o_i|\text{quest})}-1
+$$
+
+$D_{KL}(\pi_{\theta}||\pi_{\theta_{ref}})$ acts as a regularizer.
+It penalizes the new policy for deviating too far from a reference policy $\pi_{\theta_{ref}}$, which can be thought of as a stable baseline.
+
+$A_i$ is the advantage, computed using a group of reward $\{r_1, r_2, ..., r_G\}$ corresponding to the outputs within each group
+
+$$
+A_i=\frac{r_i-\mu(\{r_1, r_2, ..., r_G\})}{\sigma(\{r_1, r_2, ..., r_G\})}
+$$
+
+where $\mu(...)$ and $\sigma(...)$ are mean and standard deviation over the group of reward.
+
+##### The Reward in DeepSeek-V2 Reinforcement Learning
+
+DeepSeek-V2 employs a two-stage RL training strategy, which first performs reasoning alignment, and then performs human preference alignment.
+
+1. Reasoning: $r_i=RM_{\text{reasoning}}(o_i)$
+2. Human Preference (helpfulness + safety + rule): $r_i=c_1 RM_{\text{helpfulness}}(o_i)+c_2 RM_{\text{safety}}(o_i)+c_3 RM_{\text{rule}}(o_i)$
+
+where $RM(...)$ is a reward model that is tailored to different tasks, and  $c_1, c_2, c_3$ are coefficients.
+
+The $RM(...)$ are SFT DeepSeek-V2 fine-tuned on specific datasets, e.g., 1.2M instances for helpfulness and 0.3M instances for safety.
+
+Quotes from DeepSeek-V2:
+
+```txt
+For reward model training, we initialize the reward models with DeepSeek-V2 Chat (SFT) and train them with either a point-wise or a pair-wise loss.
+```
+
+##### Group Relative Policy Optimization (GRPO) Example by A Multi-Choice Question
+
+Given the multi-choice question, there are
+
+* $\text{quest}$: The question
+* $\{o_i\}^{G=4}_{i=1}$: The 4 candidate choices
+* $\pi_{\theta}(o_i|\text{quest})$: assigns a probability to each candidate answer for the given question
+
+```txt
+Question: A sample in a cylindrical container has a cylindrical shape and a
+fixed volume. The state of matter of the sample _
+A. must be solid
+B. could be either solid or liquid
+C. must be liquid
+D. could be either liquid or gas
+Answer: B
+```
+
+## DeepSeek-V3
+
+DeepSeek-V3 employs most of the DeepSeek-V2 algorithmic innovations and pioneers a few 
+
+|Training Costs|Pre-Training|Context Extension|Post-Training|Total|
+|-|-|-|-|-|
+|in H800 GPU Hours|2664K|119K|5K|2788K|
+|in USD|\$5.328M|\$0.238M|\$0.01M|\$5.576M|

@@ -31,23 +31,25 @@ where $\bold{x}, \bold{x}'\in\mathbb{R}^d$ are the input vectors, and $\bold{\th
 
 NTK major conclusions are
 
-* For an infinite-width network, if parameter $\bold{\theta}$ is initialized from a certain distribution (e.g., Gaussian distribution), then the kernel $\kappa_{\bold{\theta}}(\bold{x}, \bold{x}')$ is deterministic (invariant to individual parameter changes), and does not change as optimization progresses (indicated that Jacobian is invariant and equivalent to its initialization $\kappa_{\bold{\theta}}(\bold{x}, \bold{x}')=\kappa_{\bold{\theta}_0}(\bold{x}, \bold{x}')$).
+* For an infinite-width network, if parameter $\bold{\theta}$ is initialized from a certain distribution (e.g., Gaussian distribution), then the kernel $\kappa_{\bold{\theta}}(\bold{x}, \bold{x}')$ is deterministic (invariant to individual parameter changes)
+* NTK kernel $\kappa_{\bold{\theta}}(\bold{x}, \bold{x}')=\kappa_{\bold{\theta}_0}(\bold{x}, \bold{x}')$ is invariant within an arbitrary training iteration step $\Delta t$ equal to before the iteration kernel $\kappa_{\bold{\theta}_0}(\bold{x}, \bold{x}')$.
 * An infinite-width network is linear.
 * Eigenvalues of NTK matrix determines effectiveness of learning rate $\eta$ setup in training a neural network.
 
 ## NTK Intuition
 
 For a neural network $f_{\bold{\theta}}(\bold{x})$ parameterized by $\bold{\theta}\in\mathbb{R}^d$ given input $\{\bold{x}_i\}_{i=1}^n$,
-to converge to the optimal output $f_{\bold{\theta}^*}(\bold{x})$ by gradient descent, at the $t$-th iteration, $f_{\bold{\theta}_t}(\bold{x})$ can be modeled as
+at any iteration, $f_{\bold{\theta}_t}(\bold{x})$ can be modeled as
 
 $$
 f_{\bold{\theta}_t}(\bold{x}) \approx f_{\bold{\theta}_0}(\bold{x}) + \big(\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})\big)^{\top} (\bold{\theta}_t - \bold{\theta}_0)
 $$
 
+where $f_{\bold{\theta}_0}(\bold{x})$ is the previous iteration updated network taken as to-start-update network for the current iteration step, NOT the start of training process.
+
 This first-order Taylor expansion indicates that
 
-* The gradient at initialization $\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$ is invariant through the whole training process.
-* Multiple training iterations $\bold{\theta}_t - \bold{\theta}_0=\sum_t (\bold{\theta}_{t} - \bold{\theta}_{t-1})$ use the same gradient $\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$.
+* The gradient at initialization $\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$ is invariant at the current iteration.
 
 ### NTK Intuition by Terminology
 
@@ -56,6 +58,20 @@ The terminology "Neural Tangent Kernel" can be explained as
 * Neural: neural network parameterized by $\bold{\theta}\in\mathbb{R}^d$
 * Tangent: approximate the gradient by linearity by $\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$
 * Kernel: the function that reveals the core invariant behavior of the network
+
+### NTK Intuition About the "Dynamics" of Gradient Descent
+
+The NTK kernel $\kappa_{\bold{\theta}}(\bold{x}, \bold{x}')$ is derived from $\frac{d f_{\bold{\theta}}(\bold{x})}{dt}$ which describes how $f_{\bold{\theta}}$ changes as $\bold{\theta}$ updates with an iteration step $\Delta t$.
+
+Denote the before update network as $f_{\bold{\theta}_0}$, and after update as $f_{\bold{\theta}_t}$.
+
+The dynamics describes how $f_{\bold{\theta}_0}\rightarrow f_{\bold{\theta}_t}$ in ONE training step.
+
+This means $f_{\bold{\theta}_0}$ takes from previous update output as input, and the kernel $\kappa_{\bold{\theta}}(\bold{x}, \bold{x}')$ revealed covariance distribution does not only concern how parameters are initialized, but also the WHOLE training process in which each iteration input/output needs to get aligned with the same distribution covariance.
+
+This intuition is similar to a generic dynamic system that uses first-order gradient to approximate how system progresses given multiple iterative updates.
+Each iteration $f_{\bold{\theta}_0}\rightarrow f_{\bold{\theta}_t}$ is considered that $f_{\bold{\theta}}$ is changed from last time system update, and in the current iteration $f_{\bold{\theta}_0}$ is used to represent this iteration system state.
+When the update step is small enough $\Delta t\rightarrow 0$, the dynamic system is considered continuous.
 
 ### NTK Intuition by Effects of Different Initialization Distributions
 
@@ -164,7 +180,7 @@ Large learning rate $\eta>\frac{4}{\lambda_{\max}}$ leads to kernel divergent.
 To prove the NTK theorem, the steps are
 
 1. Show input/output to next layer is of a Gaussian process (just by studying one layer could be enough be applied (by chain rule) to all layers)
-2. Throughout the whole training process, the Jacobian is stable, i.e., as iteration increases $t\rightarrow\infty$, there is $\nabla_{\bold{\theta}}f_{\bold{\theta}_t}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$.
+2. In a training step, the Jacobian is stable, i.e., $\nabla_{\bold{\theta}}f_{\bold{\theta}_t}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$.
 3. Show the kernel is linear
 
 ### NTK Definition and Deduction by Gradient Flow
@@ -177,7 +193,7 @@ $$
 \mathcal{L}(\bold{\theta}) = \frac{1}{n} \sum_{i=1}^n \frac{1}{2}\big(y_i - f_{\bold{\theta}}(\bold{x}_i)\big)^2
 $$
 
-At the $t$-th step of the training, define the change rate of the parameter $\bold{\theta}$ as
+At an arbitrary step of training, define the change rate of the parameter $\bold{\theta}$ as
 
 $$
 \frac{\partial\bold{\theta}}{\partial t} = -\nabla_{\bold{\theta}}\mathcal{L}(\bold{\theta}) =
@@ -193,13 +209,15 @@ $$
     &= - \big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)^\top \nabla_{\bold{\theta}}\mathcal{L}(\bold{\theta}) \\
     &= - \big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)^\top \nabla_{\bold{\theta}}\Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\bold{\theta}}(\bold{x}_i)\big)^2\Big) && \text{Expand and compute the gradient} \\
     &= - \big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)^\top \Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\bold{\theta}}(\bold{x}_i)\big)\big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x}_i)\big)\Big) \\
-    &= - \underbrace{\big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)^\top\big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x}')\big)}_{\text{NTK }\kappa(\bold{x}, \bold{x}')} \Big(\frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\bold{\theta}}(\bold{x}_i)\big)\Big) && \text{Defined } \kappa(\bold{x}, \bold{x}') \\
-    &= - \kappa(\bold{x}, \bold{x}') \Big(\frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\bold{\theta}}(\bold{x}_i)\big)\Big) \\
-    &= - \kappa(\bold{x}, \bold{x}') \big|\big|\bold{y} - f_{\bold{\theta}}(\bold{x})\big|\big|
+    &= - \frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\bold{\theta}}(\bold{x}_i)\big) \underbrace{\big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\big)^\top\big(\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x}_i)\big)}_{\text{NTK }\kappa(\bold{x}, \bold{x}')} && \text{Defined } \kappa(\bold{x}, \bold{x}') \\
 \end{align*}
 $$
 
-$\kappa(\bold{x}, \bold{x}')$ is the covariance of the gradient of the network output with respect to the weights.
+Inside $\kappa(\bold{x}, \bold{x}_i)$, the $\bold{x}$ is a continuous input derived from $\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})$, the $\bold{x}_i$ is a training point.
+In computation, $\bold{x}_i$ is often denoted as $\bold{x}'$ to refer any arbitrary sample point.
+So is $\bold{x}$ that $\bold{x}, \bold{x}'\in X$ can take any actual value from the input space, even let $\bold{x}=\bold{x}'$ be equal in computation.
+
+$\kappa(\bold{x}, \bold{x}')$ can be thought of as the covariance of the gradient of the network output with respect to the weights.
 
 ### Proof of Kernel Tendency by Chain Rule Across Multiple Layers
 
@@ -283,27 +301,16 @@ $$
 \Big) d\bold{u} d\bold{v}
 $$
 
-For example, let $\text{ReLU}=\max(\bold{0}, \bold{z})$ be the activation function, then
-
-$$
-\Sigma^{(l)}_{\bold{a}}(\bold{x}, \bold{x}') =
-\frac{1}{2\pi}\Sigma_{\bold{x}}^{(l)}(\bold{x}, \bold{x}')
-\Big( \sqrt{1-\rho^2}+\rho\arcsin\rho \Big)+
-\frac{1}{2\pi}\Sigma_{\bold{x}}^{(l)}(\bold{x}, \bold{x})\Sigma_{\bold{x}}^{(l)}(\bold{x}', \bold{x}')
-$$
-
-where $\rho=\frac{\Sigma_{\bold{x}}^{(l)}(\bold{x}, \bold{x}')}{\sqrt{\Sigma_{\bold{x}}^{(l)}(\bold{x}, \bold{x})\Sigma_{\bold{x}}^{(l)}(\bold{x}', \bold{x}')}}$ is the correlation coefficient.
-
 ### Proof of Jacobian Stability by Existed Infinitesimal Hessian Matrix
 
-Here shows that the Jacobian at initialization can be approximated by $\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$, and throughout the whole training process, the Jacobian is stable, i.e., as iteration increases $t\rightarrow\infty$, there is $\nabla_{\bold{\theta}}f_{\bold{\theta}_t}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$.
+Here shows that the Jacobian at initialization can be approximated by $\nabla_{\bold{\theta}}f_{\bold{\theta}}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$, i.e., as iteration step $\Delta t$ increases, there is $\nabla_{\bold{\theta}}f_{\bold{\theta}_t}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$.
 
 $$
 f_{\bold{\theta}_t}(\bold{x}) \approx f_{\bold{\theta}_0}(\bold{x}) + \big(\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})\big)^{\top} (\bold{\theta}_t - \bold{\theta}_0)
 $$
 
 Let $\bold{\theta}_{t+1}-\bold{\theta}_{t} = -\eta\nabla_{\bold{\theta}}\mathcal{L}(\bold{\theta}_t)$ be a parameter update step,
-then here shows proof of Jacobian stability, that at the $t$-th iteration, for Jacobian is governed by Hessian matrix, that $||\text{Hessian}(.)||\rightarrow 0$ as $d\rightarrow\infty$, and thus the Jacobian is stable, i.e.,
+then here shows proof of Jacobian stability, that at an iteration step, for Jacobian is governed by Hessian matrix, that $||\text{Hessian}(.)||\rightarrow 0$ as $d\rightarrow\infty$, and thus the Jacobian is stable, i.e.,
 
 $$
 ||\nabla_{\bold{\theta}}f_{\bold{\theta}_t}(\bold{x})-\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})|| \leq
@@ -320,7 +327,7 @@ $$
 
 where $\frac{d f_{\bold{\theta}}(\bold{x})}{dt} = - \kappa(\bold{x}, \bold{x}') \big|\big|\bold{y} - f_{\bold{\theta}}(\bold{x})\big|\big|$.
 
-Here $\big|\big|\bold{y} - f_{\bold{\theta}}(\bold{x})\big|\big|$ is a scalar value given a static training dataset $\mathcal{D}$ and optimized parameters $\bold{\theta}$ (which is also static at the convergence iteration $t$),
+Here $\big|\big|\bold{y} - f_{\bold{\theta}}(\bold{x})\big|\big|$ is a scalar value given a static training dataset $\mathcal{D}$ and optimized parameters $\bold{\theta}$ (which is also static at a convergence iteration),
 and $\kappa(\bold{x}, \bold{x}')$ is  mainly concerned with the covariance matrices. $\Sigma(\bold{x}, \bold{x}')$ and $\dot{\Sigma}(\bold{x}', \bold{x}')$.
 Remove the scalar value $\big|\big|\bold{y} - f_{\bold{\theta}}(\bold{x})\big|\big|$, the Hessian matrix is proportional to the NTK kernel $\kappa^2(\bold{x}, \bold{x}')$.
 
@@ -347,7 +354,7 @@ Key insight is here: as a network goes very wide $d\rightarrow\infty$, each indi
 As a result, the Hessian matrix is dominated by $\kappa^2(\bold{x}, \bold{x}')$ and is infinitesimal, i.e., $\frac{d^2 f_{\bold{\theta}}(\bold{x})}{dt^2}\rightarrow 0$.
 
 For the Hessian matrix is infinitesimal, the Jacobian is stable/invariant,
-and for Jacobian is stable/invariant, the Jacobian at initialization can be considered invariant through the whole training process for all iterative steps, i.e., $\nabla_{\bold{\theta}}f_{\bold{\theta}_t}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$.
+and for Jacobian is stable/invariant, the Jacobian at initialization can be considered invariant given a iteration step $\Delta t$, i.e., $\nabla_{\bold{\theta}}f_{\bold{\theta}_t}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$.
 
 ### Proof of NTK That A Wide Network Is Essentially A Linear Network
 
@@ -359,7 +366,8 @@ $$
 
 where $\nabla_{\bold{\theta}}f_{\bold{\theta}_t}(\bold{x})\approx\nabla_{\bold{\theta}}f_{\bold{\theta}_0}(\bold{x})$ is an invariant gradient vector.
 
-Now consider training a purely linear model and expand it by Taylor series (the first-order term in linear expansion always holds), at the $t$-th iteration, there is
+Now consider training a purely linear model and expand it by Taylor series (the first-order term in linear expansion always holds).
+Start from any arbitrary iteration, there is
 
 $$
 g^{\text{linear}}_t(\bold{x}) \equiv g^{\text{linear}}_{\bold{\theta}_0}(\bold{x}) + \big(\nabla_{\bold{\theta}}g^{\text{linear}}_{\bold{\theta}_0}(\bold{x})\big)^{\top} (\bold{\theta}_t - \bold{\theta}_0)

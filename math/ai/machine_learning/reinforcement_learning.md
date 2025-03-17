@@ -54,7 +54,7 @@ Having included $0 \le \gamma < 1$ served as a discount rate that future rewards
 
 $$
 G_t = \sum^{\infty}_{k=0} \gamma^k R_{t+k+1} =
-R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... 
+R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ...
 $$
 
 Reward $R_t$ refers to a custom function to encourage optimization converged to a desired policy distribution.
@@ -64,7 +64,7 @@ During $\max_{\pi} \sum_t G_t$ training, agent is encouraged to take action $a=\
 $\gamma^t R_{t+1}$ says that for distant future where $t \rightarrow +\infty$, the reward $\gamma^t R_{t+1}$ will be very small.
 This renders rewards get weighted more on recent time rather than the faraway future.
 
-The action-value (“Q-value”, Quality) of a state-action pair is
+The action-value ("Q-value", Quality) of a state-action pair is
 
 $$
 Q_{\pi}(s,a) = \mathbb{E}_{\pi}(G_t | \underbrace{S_{t} = s, A_{t} = a}_{\pi} )
@@ -215,3 +215,5 @@ A_t \big) \Big)
 $$
 
 By (typically) $\epsilon=0.1$ or $\epsilon=0.2$, the ratio is contained to $\gamma_t(\theta) \in [1-\epsilon, 1+\epsilon]$, so that both old and current policies have influences on the objective $\mathcal{J}_{\text{clip}}(\theta)$.
+
+Minimization with Clipping: The use of the $\min$ function ensures that if the probability ratio goes outside the allowed range, the clipped value is used instead. This prevents the update from being too large, maintaining a "proximal" update.

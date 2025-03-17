@@ -4,7 +4,6 @@
 
 All you need is Docker (or similarly compatible) container or a Virtual Machine environment, and Kubernetes is a single command away: `minikube start`
 
-
 ## How to Start
 
 Download and Install

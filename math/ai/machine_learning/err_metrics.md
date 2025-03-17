@@ -247,6 +247,54 @@ D_{KL}(P || Q) =
 \sum_{x \in X} P(x) \log \Big( \frac{P(x)}{Q(x)} \Big)
 $$
 
+#### Ratio-Format KL Divergence
+
+Ratio-format KL divergence takes the ratio $\gamma=\frac{Q(x)}{P(x)}$ and decomposes the standard $D_{KL}(P || Q)$ into the sum of individual samples.
+In training/optimization it reveals dynamics of differences among distribution, that is particularly useful on weight-adjusting scenarios.
+
+$$
+D_{KL}=\sum_{x \in X} P(x) \Big(\gamma-\log \gamma -1 \Big)=
+\sum_{x \in X} P(x) \bigg(\frac{Q(x)}{P(x)}-\log\frac{Q(x)}{P(x)}-1\bigg)\ge 0
+$$
+
+The implication in training/optimization is that the ratio-format $D_{KL}(P || Q)$ computes $\gamma-\log\gamma-1$ which is exactly individual sample contribution to the divergence.
+$P(x)$ is the weight.
+
+If only one sample is considered rather than the whole distribution, one can simply define this.
+
+$$
+D_{KL}=\gamma-\log \gamma -1
+$$
+
+##### Ratio-Format KL Divergence Derivation
+
+Given $D_{KL}(P || Q) = \sum_{x \in X} P(x) \log \Big( \frac{P(x)}{Q(x)} \Big)$,
+introduce $\gamma=\frac{Q(x)}{P(x)}$,
+so that $\log \frac{P(x)}{Q(x)}=-\log\gamma$, and take it into the $D_{KL}$, there is
+
+$$
+D_{KL}(P || Q) = \sum_{x \in X} P(x) \Big( -\log\gamma \Big)
+$$
+
+Given the inequality $\log\gamma\le\gamma-1$, there is
+
+$$
+\sum_{x \in X} P(x) \Big( -\log\gamma \Big) \ge
+\sum_{x \in X} P(x) \Big( 1-\gamma \Big)
+$$
+
+where $\sum_{x \in X} P(x) \Big( 1-\gamma \Big)=\sum_{x \in X}(1-\frac{Q(x)}{P(x)})=\sum_{x \in X}(P(x)-Q(x))$ reveals individual sample gap $P(x)-Q(x)$ contribution the the sum over the sample space $\sum_{x \in X}$.
+
+Finally,
+
+$$
+\begin{align*}
+    & \sum_{x \in X} P(x) \Big( -\log\gamma \Big) \ge
+    \sum_{x \in X} P(x) \Big( 1-\gamma \Big) \\
+\Rightarrow\qquad & \sum_{x \in X} P(x) \Big( \gamma-\log\gamma-1 \Big) \ge 0
+\end{align*}
+$$
+
 ### Jensen-Shannon Divergence
 
 In contrast to $D_{KL}$ that tests the prediction distribution $P$ against reference distribution $Q$, *Jensen-Shannon divergence* $D_{JS}$ uses geometric mean $\frac{Q+P}{2}$ as the reference distribution comparing between $P$ and $Q$.
