@@ -1,6 +1,6 @@
 # Linux Network DevOps
 
-## Common Connection Test Tools
+## Common Connection Test Tools (Host Reachable)
 
 * `ping`
 
@@ -72,6 +72,129 @@ traceroute -T -p 80 example.com
 |Protocol|ICMP|SSH (TCP-based)|Telnet (TCP-based)|DNS protocol (RFC 1035)|Windows `tracert`: ICMP (default), Unix/Linux `traceroute`: UDP (default), TCP, ICMP|
 |Layer|Network (Layer 3)|Application (Layer 7)|Application (Layer 7)|Application (Layer 7):DNS, Transport (Layer 4): UDP (default)/TCP|Network/Transport (Layer 3/4)|
 |Port|None|22 (default)|23 (default)|53 (default)|None|
+
+## HTTPS Check
+
+### Full HTTPS Handshake Check with `curl`
+
+With sent `curl -v https://example.com`, there are three protocols for communication.
+
+```txt
+[TCP Handshake]
+Client: SYN → Server
+Server: SYN-ACK → Client
+Client: ACK → Server
+
+[TLS Handshake]
+Client: ClientHello (TLS 1.3, SNI=example.com) → Server
+Server: ServerHello (TLS 1.3), Certificate → Client
+Client: Key Exchange, Finished → Server
+Server: Finished → Client
+
+[HTTP Request]
+Client: GET / HTTP/1.1 → Server (encrypted)
+Server: HTTP/1.1 200 OK → Client (encrypted)
+```
+
+#### TCP Handshake Success/Failure Check
+
+Successful Connection by `curl -v` log:
+
+```txt
+* Trying 93.184.216.34:443...
+* Connected to example.com (93.184.216.34) port 443 (#0)
+```
+
+Failed Connection by `curl -v` log:
+
+```txt
+* Trying 93.184.216.34:443...
+* connect to 93.184.216.34 port 443 failed: Connection timed out
+```
+
+#### TLS Handshake Success/Failure Check
+
+Successful Handshake by `curl -v` log:
+
+```txt
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / AES256-GCM-SHA384
+```
+
+Failed Handshake by `curl -v` log:
+
+```txt
+* SSL certificate problem: unable to get local issuer certificate
+```
+
+#### HTTP Handshake Success/Failure Check
+
+Successful Handshake by `curl -v` log:
+
+```txt
+> GET / HTTP/1.1
+> Host: example.com
+> User-Agent: curl/7.79.1
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< Content-Type: text/html
+< Content-Length: 1234
+```
+
+Failed Handshake by `curl -v` log:
+
+```txt
+> GET / HTTP/1.1
+> Host: example.com
+> User-Agent: curl/7.79.1
+> Accept: */*
+>
+* Empty reply from server
+* Connection #0 to host example.com left intact
+```
+
+### Cert/TLS/SSL Check by `openssl s_client`
+
+`openssl s_client` reveals server certificate.
+
+For example, `openssl s_client Baidu.com:443` shows a certificate chain.
+
+```txt
+CONNECTED(00000006)
+depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root G2
+verify return:1
+depth=1 C = US, O = "DigiCert, Inc.", CN = DigiCert Secure Site Pro G2 TLS CN RSA4096 SHA256 2022 CA1
+verify return:1
+depth=0 C = CN, ST = \E5\8C\97\E4\BA\AC\E5\B8\82, O = "BeiJing Baidu Netcom Science Technology Co., Ltd", CN = www.baidu.cn
+verify return:1
+---
+Certificate chain
+ 0 s:C = CN, ST = \E5\8C\97\E4\BA\AC\E5\B8\82, O = "BeiJing Baidu Netcom Science Technology Co., Ltd", CN = www.baidu.cn
+   i:C = US, O = "DigiCert, Inc.", CN = DigiCert Secure Site Pro G2 TLS CN RSA4096 SHA256 2022 CA1
+   a:PKEY: rsaEncryption, 2048 (bit); sigalg: RSA-SHA256
+   v:NotBefore: Feb 12 00:00:00 2025 GMT; NotAfter: Mar  3 23:59:59 2026 GMT
+ 1 s:C = US, O = "DigiCert, Inc.", CN = DigiCert Secure Site Pro G2 TLS CN RSA4096 SHA256 2022 CA1
+   i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root G2
+   a:PKEY: rsaEncryption, 4096 (bit); sigalg: RSA-SHA256
+   v:NotBefore: Dec 15 00:00:00 2022 GMT; NotAfter: Dec 14 23:59:59 2032 GMT
+ 2 s:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root G2
+   i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA
+   a:PKEY: rsaEncryption, 2048 (bit); sigalg: RSA-SHA256
+   v:NotBefore: Jan 18 00:00:00 2024 GMT; NotAfter: Nov  9 23:59:59 2031 GMT
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+...
+-----END CERTIFICATE-----
+...
+```
 
 ## Network Check
 

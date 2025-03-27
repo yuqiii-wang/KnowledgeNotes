@@ -186,6 +186,27 @@ Check what JDK/JRE version is used and make sure it matches `/path/to/<jre-versi
 |Description|The default, official repository with strict publishing standards. Its URL is `https://repo.maven.apache.org/maven2`.|Often an aggregated endpoint in a repository manager (or simply a repository labeled "public") that can include Maven Central among others.|
 |Maintainer|Sonatype|N/A|
 
+#### Maven Repo Groups
+
+`maven-public` is typically a group repository (a virtual repository aggregating multiple repositories, like `maven-central`, `maven-tools`, and others).
+This holds true unless repo server (e.g., Nexus) has otherwise config.
+
+For example, Maven redirects all repository requests to the mirror URL (`maven-public` in this case),
+despite having set up `<url>host:port/repository/maven-tools</url>` for `maven-tools`.
+
+```xml
+<mirror>
+  <id>corp-mirror</id>
+  <url>host:port/repository/maven-public</url>
+  <mirrorOf>*</mirror> <!-- or specific repositories -->
+</mirror>
+...
+<repository>
+    <id>maven-tools</id>
+    <url>host:port/repository/maven-tools</url>
+</repository>
+```
+
 ### Mirror Config in China
 
 Make sure `M2_HOME` (for maven repository) set properly for Maven
@@ -265,6 +286,8 @@ The java home directory might be admin-protected, e.g., `C:\Program Data\java\`,
     <img src="imgs/idea_maven_repo_indexing.png" width="50%" height="50%" alt="idea_maven_repo_indexing" />
 </div>
 </br>
+
+When new artifacts are added to the repository, the index must be regenerated or incrementally updated to reflect changes. Without this, tools might not recognize new artifacts.
 
 5. If Maven UI tab is not seen from the IDEA, make sure there is a `pom.xml` file present in the project, then add the project as a maven project.
 

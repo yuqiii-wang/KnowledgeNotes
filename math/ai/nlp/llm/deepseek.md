@@ -1,6 +1,10 @@
 # DeepSeek
 
-Generally speaking, most tech and algo innovations are in DeepSeek V2; DeepSeek V3 scales out to host much larger parameter LLMs; DeepSeek R1 added reasoning capability.
+Generally speaking,
+
+* DeepSeek V2 proposed most tech and algo innovations
+* DeepSeek V3 pioneered some engineering implementations to utilize efficient GPU efficiently
+* DeepSeek R1 added reasoning capability.
 
 References:
 
@@ -216,7 +220,7 @@ $$
 $$
 
 Let $\alpha_1, \alpha_2, \alpha_3$ be loss coefficients, $T$ be the number of tokens in a sequence.
-Deepseek V2 sets $\alpha_1=0.003, \alpha_2=0.05, \alpha_3=0.02$.
+DeepSeek-V2 sets $\alpha_1=0.003, \alpha_2=0.05, \alpha_3=0.02$.
 
 ##### Motivation: Load Imbalance
 
@@ -249,6 +253,16 @@ $$
 $$
 
 where $\mathcal{1}(\text{condition})=\begin{cases} 1 & \text{condition is true} \\ 0 & \text{condition is false} \end{cases}$ denotes the indicator function.
+
+$\mathcal{1}(t\text{ if selected expert } \bold{e}_i)$ means that for an expert $\bold{e}_i$,
+if it has equal opportunity as other experts to be selected, given the select action is from $N_r$ to pick up top $K_r$ experts,
+this expert $\bold{e}_i$ as well as other experts have an even pick-up probability of
+$\mu\big(\mathcal{1}(t\text{ if selected expert } \bold{e}_i)\big)\approx\frac{K_r}{N_r}$, where $\mu(...)$ is the mean of the argument.
+
+Over a $T$ sequence of tokens, for each token there is $1\approx f_i=\frac{K_r}{N_r}\mathcal{1}(...)$.
+If each expert has different opportunities of receiving tokens, then $f_i<1$.
+
+$p_i$ is the mean attention score of input $\bold{u}_i$ vs expert $\bold{e}_i$.
 
 ##### Device-Level Balance Loss
 
@@ -454,9 +468,119 @@ Answer: B
 
 ## DeepSeek-V3
 
-DeepSeek-V3 employs most of the DeepSeek-V2 algorithmic innovations and pioneers a few 
+DeepSeek-V3 employs most of the DeepSeek-V2 algorithmic innovations and pioneers a few engineering implementations focusing on training and inference efficiency.
 
 |Training Costs|Pre-Training|Context Extension|Post-Training|Total|
 |-|-|-|-|-|
 |in H800 GPU Hours|2664K|119K|5K|2788K|
 |in USD|\$5.328M|\$0.238M|\$0.01M|\$5.576M|
+
+where the cost assumes the rental price of the H800 GPU is $2 per GPU hour.
+
+### Novel Expert Load Balancing Strategy
+
+In DeepSeek-V2, there are three types of load balancing loss that hold too much influence in training that deviates from learning token semantics.
+Model performance drops in this scenario since such losses are irrelevant to token semantics.
+
+$$
+\mathcal{L}_{\text{expert-balance}}+\mathcal{L}_{\text{device-balance}}+\mathcal{L}_{\text{communication-balance}}
+$$
+
+DeepSeek-V3 attempts to reduce such influence while preserving comparable balancing effects.
+
+#### Auxiliary-Loss-Free Load Balancing
+
+To achieve a better trade-off between load balance and model performance, DeepSeek-V3 pioneered an auxiliary-loss-free load balancing strategy by simply including a bias term $b_i$.
+
+Same as in DeepSeek-V2, given input token $\bold{u}_t$ and an expert $\bold{e}_i$, the inner product $s_{i,t}$ represents the attention score of $\bold{u}_t$ vs $\bold{e}_i$.
+
+$$
+s_{i,t} = \text{Softmax}_i(\bold{u}_t^{\top} \bold{e}_i)
+$$
+
+The attention score $s_{i,t}$ is gated by $g'_{i,t}$ to turn on only if it is high enough to be in $\text{TopK}\big(\{s_{j,t}+b_i\}\big)$.
+
+The number of experts $\text{TopK}\big(\{s_{j,t}+b_i\}\big)$ is learned rather than set static, that $b_i$ bias term is added (only used for routing).
+
+$$
+g'_{i,t} = \begin{cases}
+    s_{i,t} & s_{i,t}+b_i \in \text{TopK}\big(\{s_{j,t}+b_i | 1 \le j \le N_r\}, K_r \big) \\
+    0 & \text{otherwise}
+\end{cases}
+$$
+
+At the end of each parameter update step, the bias $b_i$ is decreased by $\gamma$ if its corresponding expert is overloaded,
+and increased by $\gamma$ if its corresponding expert is underloaded,
+where $\gamma$ is a hyper-parameter called bias update speed.
+
+#### Complementary Sequence-Wise Auxiliary Loss
+
+To prevent extreme imbalance within any single sequence (the bias term $b_i$ is more for a general use scenario), DeepSeek-V3 employed a complementary sequence-wise balance loss.
+
+The complementary balance loss $\mathcal{L}_{\text{compl-bal}}$ is tuned to a very small amount via the coefficient $\alpha$ that is intentionally set trivial.
+
+$$
+\mathcal{L}_{\text{compl-bal}}=
+\alpha\sum_{i=1}^{N_r}\Big(
+    \underbrace{\frac{N_r}{K_r T} \sum_{t=1}^{T}\mathcal{1}\big(s_{i,t} \in \text{TopK}\big(\{s_{j,t} | 1 \le j \le N_r\}, K_r \big)\big)}_{f_i}\Big) \cdot \Big(
+    \underbrace{\frac{1}{T}\sum_{t=1}^{T}\underbrace{\frac{s_{i,t}}{\sum_{j=1}^{N_r}s_{j,t}}}_{s'_{i,t}}}_{p_i} \Big)
+$$
+
+where $\mathcal{1}(\text{condition})=\begin{cases} 1 & \text{condition is true} \\ 0 & \text{condition is false} \end{cases}$ denotes the indicator function.
+
+Same as in DeepSeek-V2, $K_r$ is the number of activated routed experts that $s_{i,t}$ could retain non-zero values only if they are top $K_r$ selects.
+$f_i$ represents the fraction of tokens an expert can receive,
+and $p_i$ is the mean attention score of input $\bold{u}_i$ vs expert $\bold{e}_i$.
+
+Recall Cauchy-Schwarz inequality that $\mathcal{L}_{\text{compl-bal}}$ reaches it minimum when the two random variables $f_i$ and $p_i$ are equally distributed, indicating that each expert $\bold{e}_i$ has the same probability receiving the same number of tokens.
+
+### DeepSeek-V3 Multi-Token Prediction in Training
+
+DeepSeek-V3 employs Multi-Token Prediction (MTP) in training (only in training, removed in inference) as illustrated below.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/deepseek_v3_mtp.png" width="60%" height="50%" alt="deepseek_v3_mtp" />
+</div>
+</br>
+
+Let $i$ be the token index and $k$ be the MTP module index, the previous module input is $\bold{h}_{i}^{k-1}$ and this MTP module input is $\text{Emb}(t_{i+k})$.
+For both two inputs are $\in\mathbb{R}^{d}$, the merge matrix is $M_k\in\mathbb{d\times 2d}$.
+
+$$
+\bold{h}_i'^{k}=M_k[\text{RMSNorm}(\bold{h}_{i}^{k-1});\text{RMSNorm}\big(\text{Emb}(t_{i+k})\big)]
+$$
+
+where $[.;.]$ is vector concatenation.
+
+Each MTP module contains a $\text{Transformer}_k$.
+
+$$
+\bold{h}_{1:T-k}^{k}=\text{Transformer}_k(\bold{h}_{1:T-k}'^{k})
+$$
+
+Then, the output head $\text{OutHead}(.)$ linearly maps the representation to logits and subsequently applies the $\text{softmax}(.)$ function to compute the prediction probabilities of the $k$-th additional token.
+
+$$
+P^{k}_{i+k+1}=\text{OutHead}(\bold{h}_i^k)=
+\frac{\exp({W_h\bold{h}_i^k})}{\sum^V_{v=1}\exp({W_h\bold{h}_i^k})}
+$$
+
+where $P^{k}_{i+k+1}\in\mathbb{R}^V$ is the prediction token given a vocabulary size $V$.
+
+For each MTP output, the training object is
+
+$$
+\mathcal{L}_{\text{MTP}^k}=
+\text{CrossEntropy}(P^{k}_{i+k+1}, t_{i+k+1})
+=-\frac{1}{T}\sum^{T+1}_{i=2+k} \log P_i^k[t_i]
+$$
+
+where $t_i$ denotes the ground-truth token at the $i$-th position,
+and $P_i^k[t_i]$ denotes the corresponding prediction probability of $t_i$.
+
+For cross entropy to work, remember the log monotonicity $\log P_i^k[t_i]=0$ when $P_i^k[t_i]=1$; and $\log P_i^k[t_i]\rightarrow-\infty$ when $P_i^k[t_i]\rightarrow 0$.
+
+### Engineering for Efficient GPU Utilization
+
+### Post-Training: Knowledge Distillation from DeepSeek-R1
+

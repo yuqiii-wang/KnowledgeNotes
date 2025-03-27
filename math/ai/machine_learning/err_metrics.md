@@ -92,7 +92,7 @@ Here $c$ is the constraint to prevent $w_i$ get too large.
 
 ## Classification Loss
 
-### Categorical Cross-Entropy
+### Categorical Cross Entropy
 
 $$
 \begin{align*}

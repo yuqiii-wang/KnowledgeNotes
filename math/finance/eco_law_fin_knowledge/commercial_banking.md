@@ -111,3 +111,15 @@ Business operation expenses, e.g., rent, equipment procurement, salary paid to e
 * Loan Covenants 贷款契约
 
 Loan covenants are circumstances or behaviors that a borrower must (or must not) engage in, and they are expressly documented in the credit agreement or loan contract.
+
+## Commercials
+
+* white-label product/service
+
+A white-label product is a product or service produced by one company (the producer) that other companies (the marketers) rebrand to make it appear as if they had made it.
+
+For example, a compony sells a product without a logo (hence called white-label) and allows its buyer to "stick"/rebrand the buyer's logo so that the product appears as if the buyer has made it.
+
+* sprawling business
+
+A company that has grown very large and expanded its operations widely, often characterized by a lack of centralized control and potentially leading to inefficiencies and challenges in management.

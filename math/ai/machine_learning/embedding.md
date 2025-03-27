@@ -163,3 +163,18 @@ $$
 $$
 
 where L2 normalization is the most used for vector similarity computation, e.g., for cosine similarity.
+
+### RMS Layer Normalization
+
+Given an input tensor $ X\in\mathbb{R}^{B\times T \times D}$,
+where
+
+* $B$: batch size
+* $T$: sequence length
+* $D$: dimensionality
+
+For each embedding $\bold{x}\in\mathbb{R}^D$, the Root Mean Square (RMS) layer normalization can be computed
+
+$$
+\text{RMS}(\bold{x})=\sqrt{\frac{1}{D}\sum^D_{i=1}x_i^2+\epsilon}
+$$

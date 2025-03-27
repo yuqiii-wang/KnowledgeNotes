@@ -92,6 +92,7 @@ memset(p, 0, 1024 * 1024 * 10);
 `vmstat [options] [delay [count]]` shows
 
 For example, `vmstat 2 6` retrieves stats every 2 secs, running/printing for 6 times.
+
 ```
 procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
@@ -108,6 +109,7 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 `pidstat [options] [monitor_period [output_count]]` can monitor individual tasks managed by Linux kernel.
 
 For example, `pidstat -w 10 1` monitors processes' switching activities
+
 ```
 09:58:20 PM   UID       PID   cswch/s nvcswch/s  Command
 09:58:30 PM     0         1      1.80      0.10  systemd
@@ -121,6 +123,7 @@ For example, `pidstat -w 10 1` monitors processes' switching activities
 09:58:30 PM     0        28      1.00      0.00  ksoftirqd/2
 ...
 ```
+
 where `cswch/s` and `nvcswch/s` refer to voluntary/non-voluntary context switch.
 
 A voluntarily switch is about a process requiring resources currently not available, such as I/O operations; a non-voluntary switch happens when a process runs out of its allocated time slice.

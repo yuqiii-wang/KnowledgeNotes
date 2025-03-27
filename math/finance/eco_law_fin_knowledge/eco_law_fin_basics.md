@@ -347,6 +347,21 @@ A qualified domestic institutional investor or QDII is an institutional investor
 
 Popular QDII programs come from the People's Republic of China, where the main regulatory body, the China Securities Regulatory Commission (CSRC), at times grants a limited avenue for institutional investors to invest in foreign-based securities.
 
+### Market Maker 做市商，庄家 vs Brokerage Firm 券商 vs Investment Bank 投行
+
+||Market Maker|Brokerage Firm|Investment Bank|
+|-|-|-|-|
+|Core Function|Liquidity provider that quotes both a buy and a sell price in a tradable asset held in inventory|Trade securities on behalf of individual clients|Conduct IPO, bond issuance, etc.|
+|Clients/Customers|Big financial companies, e.g., brokerage firms|Individuals|Big companies (often in non-financial industry) and governments|
+|Profit|Bid-ask spread, a.k.a., turn|Transaction fee|Service fee|
+|Regulation Compliance|Provide proof of inventory, compliant with central exchange rules, e.g., min/max spread, to prevent market manipulation|Due diligence check on customers to prevent money laundry and maintain customer financial health|Due diligence check on interest parties, anti-fraud, etc.|
+
+#### About Market Maker
+
+* Why market maker is also named liquidity provider: market maker holds a large inventory of assets, execute buy/sell order within itself then soon publish the done deal, so that not all financial institutions need to directly face central exchange. In particular, market maker system allows small financial institutions to participate in trading.
+* The U.S. Securities and Exchange Commission defines a "market maker" as a firm that stands ready to buy and sell stock on a regular and continuous basis at a publicly quoted price.
+* In China, by 2025, market maker trading system is active on China's Sci-Tech Innovation Board (STAR Market).
+
 ### Restructure and Buyout
 
 * Merger, Consolidation, Amalgamation, Transfer, Reorganization, Reincorporation, Reconstitution

@@ -84,12 +84,15 @@ git push origin --delete <remotebranchname>
 
 ## Git Pull vs Fetch
 
-* `Git fetch`
+* `git fetch`
 
-Git fetch is a command that allows you to download objects from another repository.
+Just to download from remote origin to local, no merge.
 
-* `Git pull`
+* `git pull`
 
-Git pull is a command that allows you to fetch from and integrate with another repository or local branch.
+Download from remote origin and merge to local.
+In other words, it is combined `git fetch` + `git merge`.
 
-From this definition, you can see that a Git pull is actually a Git fetch followed by an additional action(s)—typically a Git merge.
+## git diff
+
+
