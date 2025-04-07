@@ -35,3 +35,4 @@ math/ai/nlp/llm/lang_chain/examples/storage
 output
 
 *.log
+logs

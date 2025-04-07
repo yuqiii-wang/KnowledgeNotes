@@ -34,6 +34,7 @@ t=-\frac{f'(x_k)}{f''(x_k)}
 $$
 
 So that the iteration approaching to minima is
+
 $$
 x_{k+1}=x_k+t=x_k-\frac{f'(x_k)}{f''(x_k)}
 $$
@@ -41,9 +42,11 @@ $$
 ### Higher Dimension
 
 For higher dimension $d > 1$, there is
+
 $$
-f''(x)=\triangledown^2 f(x) = H_{f}(x) \in \mathbb{R}^{d \times d}
+f''(x)=\nabla^2 f(x) = H_{f}(x) \in \mathbb{R}^{d \times d}
 $$
+
 where $H$ is a Hessian matrix.
 
 So that

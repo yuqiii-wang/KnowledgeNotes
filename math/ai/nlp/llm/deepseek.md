@@ -582,5 +582,7 @@ For cross entropy to work, remember the log monotonicity $\log P_i^k[t_i]=0$ whe
 
 ### Engineering for Efficient GPU Utilization
 
+#### Dual Pipe for GPU Parallization
+
 ### Post-Training: Knowledge Distillation from DeepSeek-R1
 

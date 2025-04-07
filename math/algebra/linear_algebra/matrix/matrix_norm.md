@@ -91,73 +91,27 @@ Equality of $\sigma_{max}(A) \le ||A||_F$ holds if and only if the matrix $A$ is
 
 This inequality can be derived from the fact that the trace of a matrix is equal to the sum of its eigenvalues $\text{trace}(A) = \sum_{i=1}^n \lambda_i$, where $\lambda_i$ is the eigenvalue of $A$.
 
+### Proof: A Matrix Trace Equals the Sum of Its Diagonal Entries and the Sum of Its Eigenvalues
+
+Let $\lambda_1, \lambda_2, ..., \lambda_n$ be the roots of the characteristic polynomial for $A\in\mathbb{C}^{n \times n}$, here expands it:
+
 $$
-\begin{align*}
-\text{det}(\underbrace{A-tI}_{W}) &=
-\begin{vmatrix}
-    (a_{11}-t) \text{det}(W_{2:n, 2:n}) &
-    a_{12} \text{det}(W_{2:n, (1, 3:n)}) & &
-    a_{1n} \text{det}(W_{2:n, 1:n-1}) \\
-    a_{21} \text{det}(W_{(1, 3:n), 2:n}) &
-    (a_{22}-t) \text{det}(W_{(1, 3:n), (1, 3:n)}) & &
-    a_{2n} \text{det}(W_{(1, 3:n), 1:n-1}) \\
-    & & \ddots & \\
-    a_{n1} \text{det}(W_{1:n-1, 2:n}) &
-    a_{n2} \text{det}(W_{1:n-1, (1, 3:n)}) & &
-    (a_{nn}-t) \text{det}(W_{1:n-1, 1:n-1}) \\
-\end{vmatrix} 
-\\ &=
-\begin{vmatrix}
-    \underbrace{
-    (a_{11}-t) \begin{vmatrix}
-        (a_{22}-t)\text{det}(W_{3:n, 3:n}) &
-        a_{23} \text{det}(W_{3:n, (2, 4:n)}) & ... \\
-        (a_{23}-t)\text{det}(W_{3:n, (2, 4:n)}) &
-        a_{33} \text{det}(W_{(2, 4:n), (2, 4:n)}) & ... \\
-        & \vdots & \\
-        (a_{2n}-t)\text{det}(W_{3:n, 3:n-1}) &
-        a_{3n} \text{det}(W_{(2, 4:n), 3:n-1}) & ... 
-    \end{vmatrix}}_{(a_{11}-t) \text{det}(W_{2:n, 2:n})}
-    &
-    a_{12} \text{det}(W_{2:n, (1, 3:n)}) & &
-    a_{1n} \text{det}(W_{2:n, 1:n-1}) \\
-    a_{21} \text{det}(W_{(1, 3:n), 2:n}) &
-    (a_{22}-t) \text{det}(W_{(1, 3:n), (1, 3:n)}) & &
-    a_{2n} \text{det}(W_{(1, 3:n), 1:n-1}) \\
-    & & \ddots & \\
-    a_{n1} \text{det}(W_{1:n-1, 2:n}) &
-    a_{n2} \text{det}(W_{1:n-1, (1, 3:n)}) & &
-    (a_{nn}-t) \text{det}(W_{1:n-1, 1:n-1}) \\
-\end{vmatrix} 
-\\ &=
-(-1)^n \big(t^n - (t)^{n-1} \text{trace}(A) + ... + \text{det}(A) \big)
-\end{align*}
+\text{det}(A-\bold{\lambda}I)=
+(-1)^n\lambda_n+(-1)^{n-1}\text{tr}(A)\lambda_{n-1}+...+\text{det}(A)
 $$
 
-For any polynomial should see the solution in this format.
+By Vieta's formulas, the sum of the roots (eigenvalues) is
 
 $$
 \begin{align*}
-(-1)^n (t-\lambda_1)(t-\lambda_2) ... (t-\lambda_n) &=
-(-1)^n \big(t^2-(\lambda_1+\lambda_2)t + 2\lambda_1\lambda_2 \big)(t-\lambda_3) ... (t-\lambda_n)
-\\ &=
-(-1)^n \big(t^3-(\lambda_1+\lambda_2+\lambda_3)t^2 +2\lambda_1\lambda_2 t - 2\lambda_1\lambda_2\lambda_3 + (\lambda_1+\lambda_2)\lambda_3 t  \big)(t-\lambda_4) ... (t-\lambda_n)
-\\ &=
-(-1)^n \big(t^4-(\lambda_1+\lambda_2+\lambda_3+\lambda_4)t^3 -(\lambda_1+\lambda_2+\lambda_3)\lambda_4 t^2 + ...  \big)(t-\lambda_4) ... (t-\lambda_n)
-\\ &=
-(-1)^n \big(t^n + (t)^{n-1} \underbrace{\sum_{i=1}^n \lambda_i}_{\text{trace}(A)} + (t)^{n-2}\lambda_n \sum_{i=1}^{n-1} \lambda_i + ... \big)
+\sum^n_{i=1}\lambda_i&=
+   \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\
+   &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\
+   &= \text{tr}(A)
 \end{align*}
 $$
 
-By comparing against the above $\text{det}(A-tI)$, there is
-
-$$
-\text{trace}(A) = \sum_{i=1}^n \lambda_i
-$$
-
-Proof: https://math.stackexchange.com/questions/586663/why-does-the-spectral-norm-equal-the-largest-singular-value/586835#586835
-
-Also,
+### Spectral Radius of A Square Matrix
 
 $$
 ||A^{\dagger} A||_2 = ||A A^{\dagger}||_2 = ||A||^2_2
