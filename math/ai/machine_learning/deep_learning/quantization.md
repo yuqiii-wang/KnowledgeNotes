@@ -79,7 +79,7 @@ $$
 \underbrace{0}_{\text{sign}} \underbrace{10000001}_{2^2} \underbrace{01110000000000000000000}_{.0111}
 $$
 
-## INT4 Quantization
+## INT4 Quantization (Round To Nearest (RTN))
 
 INT4 can be derived/quantized from FLOAT to the int range $[-8, 7]\in\mathbb{Z}$ by the below formula (below assumed *Asymmetric Quantization*, there are other quantization methods, e.g., Symmetric Quantization):
 
@@ -385,7 +385,7 @@ GPTQ splits weights into groups of size $B$ (e.g., 128) and processes them indep
 The "batch" in lazy batch-updates refers to aggregating updates within a group $B$ altogether.
 
 The final rounding decisions for column $j$ in $B$ are only affected by updates performed on this very column, and so updates to later columns are irrelevant at this point in the process.
-This makes it possible to "lazily batch" updates together, thus achieving much better GPU utilization.
+This makes it possible to "lazily batch" updates together, thus achieving much better GPU utilization (less CPU-GPU memory transfer/access).
 
 ##### Cholesky Decomposition
 
@@ -398,3 +398,101 @@ There are $nm/B$ groups after split.
 If they are all run in parallel, the total consumption time is $\mathcal{O}(\frac{nm}{B} \cdot B^3)$.
 
 By batch updates, the CPU-GPU memory access is accelerated by (estimated) 2-10 times.
+
+## Activation-Aware Wight Quantization (AWQ)
+
+Motivations and Summary:
+
+* Some salient weights are much more important than others (empirical study shows that 1% retained FP16 weights can significantly improve prediction)
+* Salient weights are determined by average activation magnitude (larger the average magnitudes, more salient the weights)
+* However, some weights are FP16 and some are INT4/INT3 and it makes hardware process extremely inefficient, need to make all weights be INT4/INT3 while keeping weight saliency
+* AWQ proposes dynamic scaling to weights so that salient weights do not lose wide activation magnitude range/precision while getting quantized to INT4/INT3
+* The underlying rationale is that the scaling factor is applied to weights of various significant levels (weight contributions to activation are NOT uniform, some are salient some are not), and quantization should dynamically adapt such weights via scaling
+
+Let $Q$ be the weight quantization function (e.g., INT3/INT4 quantization with group size 128).,
+AWQ aims to find the optimal scaling factors $\bold{s}^*$ for weights.
+
+$$
+\bold{s}^*=\argmin_{\bold{s}}
+\mathcal{L}(\bold{s}),\qquad
+\mathcal{L}(\bold{s})=\big|\big|Q\big(W\cdot\text{diag}(\bold{s})\big)\big(X\cdot\text{diag}(\bold{s})^{-1}\big)-WX\big|\big|
+$$
+
+The above description can be summarized in this figure,
+where "PPL" means perplexity, the lower the better.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/awq.png" width="80%" height="30%" alt="awq" />
+</div>
+</br>
+
+The scaling factor $s$ is of per-input channel,
+i.e., for $W\in\mathbb{R}^{d_{in}\times d_{out}}$, there is $\bold{s}\in\mathbb{R}^{d_{out}}$ in which each individual $s$ covers the whole $\bold{w}\in\mathbb{R}^{d_{in}}$.
+
+### Analysis on Scaling and Quantization Error
+
+Consider a group/block of weights $\bold{w}$, e.g., size of 128;  the linear operation can be written as $y = \bold{w}\bold{x}$, and the quantized counterpart is $y = Q(\bold{w})\bold{x}$.
+
+A typical quantization function is defined as
+
+$$
+Q(\bold{w})=\Delta \cdot \text{Round}(\frac{\bold{w}}{\Delta}), \qquad
+\Delta=\frac{\max |\bold{w}|}{2^{N-1}}
+$$
+
+where $\Delta$ is quantization grid/step whose precision is determined by the number of bits $N$.
+
+Now consider a weight element $w\in\bold{w}$ and it is scaled by $s>1$, and the input $x$ is inversely scaled by the same $s$ such that
+
+$$
+Q(w\cdot s)\cdot\frac{x}{s}=\Delta'\cdot\text{Round}(\frac{w\cdot s}{\Delta'})\cdot\frac{x}{s}
+$$
+
+where $\Delta'$ is the new quantization scaler after applying $s$.
+
+Statistically speaking, there is $\Delta'\approx\Delta$.
+This is for that AWQ is activation-aware, and the highest weight value $w_{\max}\in\bold{w}$ does not necessarily correlate to the highest activation value
+(need input $x_{\max}\in\bold{x}$ to resonate with $w_{\max}$ as well so that the $w_{\max}x_{\max}$ can give a max activation value, but this does not happen frequently).
+
+#### Quantization Error by Rounding
+
+The $\text{Round}(.)$ introduces a quantization error term $\text{RoundErr}(.)$.
+Since the round function maps a floating-point number to an integer, the error is roughly uniformly distributed from $[0, 0.5]$,
+and this gives an average error of $0.25$, i.e., $\text{RoundErr}(.)\sim 0.25$.
+
+Compare the non-scaling vs scaling quantization error.
+
+$$
+\begin{align*}
+    \text{Err}\big(Q(wx)\big)&=\Delta \cdot \text{RoundErr}(\frac{w}{\Delta})x \\
+    \text{Err}\big(Q(w\cdot s)\cdot\frac{x}{s}\big)&=\Delta'\cdot\text{RoundErr}(\frac{w\cdot s}{\Delta'})\cdot\frac{x}{s} \\
+\end{align*}
+$$
+
+where $\text{RoundErr}(\frac{w}{\Delta})\sim\text{RoundErr}(\frac{w\cdot s}{\Delta'})\sim 0.25$.
+As a result, the ratio of the new error to the original error is $\frac{\Delta'}{\Delta}\frac{1}{s}$, and the $\text{RoundErr}(.)\sim 0.25$ is cancelled out in the ratio.
+
+Given $\Delta'\approx\Delta$ and $s>1$, the scaling-implemented quantization error is $\frac{1}{s}$ of the original non-scaling one.
+
+#### Search for Optimal Scaling Factors
+
+The per-input channel scaling $s$ has below impacts:
+
+* Large $s$: will increase the relative error for the non-salient channels when $\Delta$ increases (the error of non-salient channels will be amplified by $\frac{\Delta'}{\Delta}$)
+* Small $s$: does not retain adequate saliency of weights. In particular when $s\approx 1$, it behaves as if there is no scaling
+
+To automatically search for an optimal (per input channel) scaling factor that minimizes the output difference after quantization for a certain layer,
+need to balance quantization sensitivity to salient weights and quantization grid not to scaled too much that non-salient weights are distorted.
+
+For the saliency of weight channels is actually determined by the activation scale (thus "activation-awareness"),
+the scale factor search space is defined
+
+$$
+\bold{s}=\bold{s}_{X}^{\alpha},\qquad
+\alpha^{*}=\argmin_{\alpha}\mathcal{L}(\bold{s}_{X}^{\alpha})
+$$
+
+$\bold{s}_{X}$ is the average magnitude of activation (per-channel) observed over a calibration dataset (a small subset of training dataset), $\alpha$ a single hyper-parameter to balance between the protection of salient and non-salient channels.
+
+$\alpha\in[0,1]$ is defined when $\alpha=0$, there is no scaling $\bold{s}=\bold{1}$;
+when $\alpha=1$, this corresponds to the most aggressive scaling in search space.
