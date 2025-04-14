@@ -27,53 +27,31 @@ encoder-only, bidirectional model (such as BERT) vs typical auto-regressive (AR)
 </div>
 </br>
 
+## Language Modeling and Architectures Explained
 
-## Common Language Modeling (LM): Causal Language Modeling (CLM), Masked Language Modeling (MLM), and Sequence-to-Sequence (Seq2Seq)
+### Causal Language Modeling (CLM) by Decoder-Only
 
-* Causal Language Modeling (CLM): Decoder-Only
+* Objective: Predict the next token in a sequence using only previous context (autoregressive).
+* Attention: Masked self-attention
+* Directionality: Unidirectional (left-to-right).
+* Examples: GPT models (decoder-only).
+* Training: Maximizes likelihood of each token given prior tokens.
 
-CLM is trained to predict the next token in a sequence only given the previous tokens.
+### Masked Language Modeling (MLM) by Encoder-Only
 
-Architecture: auto-regressive models like GPT; given that the previous tokens are received by the decoder itself, no need of an encoder.
+* Objective: Predict randomly masked tokens in a sequence using bidirectional context.
+* Attention: Full self-attention
+* Directionality: Bidirectional (context from both sides).
+* Examples: BERT (encoder-only).
+* Training: Replaces input tokens with `[MASK]` and predicts them using surrounding context.
 
-CLM is well-suited for tasks such as text generation and summarization. 
-However, CLM models have unidirectional context (only consider past texts as input).
+### Sequence-to-Sequence (Seq2Seq) by Encoder-Decoder
 
-```python
-from transformers import AutoTokenizer, AutoModelForCausalLM
-model_id="gpt2"
-tokenizer = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForCausalLM.from_pretrained(model_id)
-```
-
-* Masked Language Modeling (MLM): Encoder-Only
-
-Some tokens in the input sequence are masked by `[MASK]`. 
-MLM has the advantage of learning from bidirectional context (`[MASK]` is at somewhere in the middle of a sentence, so that tokens preceding and succeeding this `[MASK]` are contextual info, hence it is a bidirectional task).
-
-Architecture: encoder such as BERT
-
-MLM is useful in text classification, sentiment analysis, and named entity recognition.
-
-```python
-from transformers import AutoTokenizer, AutoModelForMaskedLM
-model_id="bert-base-uncased"
-tokenizer = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForMaskedLM.from_pretrained(model_id)
-```
-
-* Seq2Seq: Encoder-Decoder
-
-Seq2Seq models consist of an encoder-decoder architecture (e.g., T5, BART), where the encoder processes the input sequence and the decoder generates the output sequence.
-
-It is useful in machine translation, summarization, and question-answering.
-
-```python
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-model_id="google/flan-t5-small"
-tokenizer = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
-```
+* Objective: Map an input sequence to an output sequence (often of different lengths).
+* Attention: Encoder: Full Self-aAttention + Decoder: Masked + Cross-attention
+* Directionality: Combines bidirectional encoding (input) and autoregressive decoding (output).
+* Examples: T5, BART (encoder-decoder).
+* Training: Uses objectives like denoising (e.g., corrupting input text and reconstructing it).
 
 ## Bidirectional Encoder Representations from Transformers (BERT)
 
@@ -112,7 +90,7 @@ The total of 110m (to be precise: 109,482,240) parameter breakdown is shown as b
 |-|-|-|-|-|
 |Input Embeddings|embeddings.word_embeddings.weight|$30522 \times 768$|$23,440,896$|vocab size $\times$ wordpiece embedding|
 ||embeddings.position_embeddings.weight|$512 \times 768$|$393,216$|context sequence length $\times$ wordpiece embedding|
-||embeddings.token_type_embeddings.weight|$2 \times 768$|$1536$| In tasks like Q&A that feeds two sentences: first as passage and second for question (0’s for first segment and 1’s for second segment)|
+||embeddings.token_type_embeddings.weight|$2 \times 768$|$1536$| In tasks like Q&A that feeds two sentences: first as passage and second for question (0's for first segment and 1's for second segment)|
 ||embedding layer normalization (weight and bias)|$768 + 768$|$1536$|embedding layer normalization weight $+$ bias|
 |Transformer $\times$ 12|encoder.layer.i.attention.self.query (weight and bias)|$(768 \times 768 + 768) \times 12$|$7,087,104$|query $Q$'s weight and bias|
 ||encoder.layer.i.attention.self.key (weight and bias)|$(768 \times 768 + 768) \times 12$|$7,087,104$|key $K$'s weight and bias|

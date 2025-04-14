@@ -30,15 +30,27 @@ The corresponding area is 0.8621,
 </div>
 </br>
 
-## Normal Approximation to the Binomial Distribution
+## Common Normal Distribution Random Variable Operations
 
-For example, given $X \sim \text{Binomial}(4000, 0.8)$ (4000 trials where there are $p=0.8$ probability of hitting true against 0.2 of hitting false), to compute the probability $P(X > 3500)$, 
-a naive solution is to sum all $P(X=3501) + P(X=3502) + ... + P(X=4000)$.
+Given $X,Y\in\mathcal{N}(0,1)$, here shows the arithmetic result distribution of the two standard normal distribution random variables.
 
-However, it can be approximated by converting to a standard normal distribution: $\mu=np=3200$ and $\sigma^2=np(1-p)=640$.
-Let $Y$ be this approximation: $Y \sim N(3200, 640)$.
-Then 
+### Addition/Subtraction
 
+For $Z=X+Y$, there are
+
+* Mean: $E[Z]=E[X]+E[Y]=0+0=0$
+* Variance: $\text{Var}(Z)=\text{Var}(X)+\text{Var}(Y)=1+1=2$
+* $Z\sim\mathcal{N}(0,2)$
+
+### Multiplication
+
+For $Z=X\cdot Y$, there are
+
+* Mean: $E[Z]=E[X]E[Y]=0\times 0=0$
+* Variance: $\text{Var}(Z)=\text{Var}(X)\text{Var}(Y)=1\times 1=1$
+* $Z\sim\mathcal{N}(0,1)$
+
+## Derive Normal Approximation from Binomial Distribution
 
 ## Studentized Range Distribution (q-Distribution)
 

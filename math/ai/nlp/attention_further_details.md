@@ -158,34 +158,6 @@ $$
 
 The standard deviation $\sqrt{d}$ describes the mean variance that $\frac{1}{\sqrt{d}}$ makes every score back to standard normal distribution $s \sim N(0, 1)$.
 
-#### Code Example
-
-```py
-import numpy as np
-
-rand_size = 10000
-
-mu = 0
-sigma = 1
-rands_1 = np.random.normal(mu, sigma, rand_size)
-rands_2 = np.random.normal(mu, sigma, rand_size)
-s = rands_1 * rands_2
-
-s_sum =  np.sum(s)
-print(f"sum: {s_sum}")
-s_mean =  np.mean(s)
-print(f"mean: {s_mean}")
-var_s2 = np.sum([x**2 for x in s]) - np.mean(s)**2
-print(f"var: {var_s2}")
-```
-
-that shows
-
-```txt
-sum: 29.899064924872384
-mean: 0.0029899064924872386
-var: 10317.40248994817
-```
 
 ### Multi-Head Attention
 
@@ -196,6 +168,12 @@ $$
 $$
 
 where $W^O$ is a learned weight matrix.
+
+For each head (per-head projections), there are
+
+$$
+Q_i=XW^Q_i,\quad K_i=XW^K_i,\quad V_i=XW^V_i,\quad
+$$
 
 #### Why Multi-Head
 
@@ -212,6 +190,32 @@ For example for BERT-base with $d_{\text{model}}=768$ and $n_{\text{head}}=12$ h
 Each attention head gives `[batch_size, seq_length, 64]`.
 
 To retain the shape to `[batch_size, seq_length, d_model]`, there is $W^O \in \mathbb{R}^{768 \times 768}$ derived from `[n_head * d_v, d_model]`
+
+### Multi-Query Attention
+
+MQA modifies the above by sharing the key and value projections across all heads. In this case, each head $i$ still has its own query projection, but the keys and values come from shared matrices
+
+For each head (per-head projections), there are
+
+$$
+Q_i=XW^Q_i,\quad K=XW^K,\quad V=XW^V,\quad
+$$
+
+Here, the shared key/value matrices reduce the overall number of parameters and memory accesses compared to maintaining separate $W_i^K$ and $W_i^V$.
+
+### Grouped-Query Attention
+
+GQA introduces a compromise by grouping the heads, allowing each group to have its own key and value projections, while the queries remain head-specific.
+
+Suppose the $h$ heads are partitioned into $g$ groups (with $g<h$).
+Let $G_j$ denote the set of heads in group $j$.
+Then, for a head $i$ in group $j$:
+
+For each head (per-head projections), there are
+
+$$
+Q_i=XW^Q_i,\quad K_j=XW_j^K,\quad V_j=XW_j^V,\quad
+$$
 
 ### Self-Attention vs Cross-Attention
 

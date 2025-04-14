@@ -1,16 +1,84 @@
-# Embedding
+# High Dimension Embedding
 
 Generally speaking, the embedding is vector representation of input aims to encode semantic info by training on an objective.
 
-## Dimensionality
-
-### Intrinsic Dimension
+## Intrinsic Dimension
 
 Minimum dimensions required for representing an entity.
 
-### Curse of Dimensionality
+## Curse of Dimensionality
 
-When num of dimensions goes high, it is generally hard to train and vector representation is sparse.
+When num of dimensions goes large, it is generally hard to train and vector representation is sparse.
+
+### Random Unit Vector Inner Product Orthogonality
+
+Let $\bold{x}, \bold{y}\in\mathbb{R}^n$ constrained on $||\bold{x}||=||\bold{y}||=1$ be random unit vectors, here to show
+
+$$
+\bold{x}\cdot\bold{y} \rightarrow 0, \quad\text{as } n\rightarrow\infty
+$$
+
+Assume each dimension of $\bold{x}, \bold{y}$ follows Gaussian distribution
+
+$$
+\begin{align*}
+\bold{x}&=\frac{\bold{g}}{||\bold{g}||}, \text{ where } \bold{g}=[g_1, g_2, ..., g_n] \text{ with } g_i\sim\mathcal{N}(0,1) \\
+\bold{y}&=\frac{\bold{h}}{||\bold{h}||}, \text{ where } \bold{h}=[h_1, h_2, ..., h_n] \text{ with } h_i\sim\mathcal{N}(0,1)
+\end{align*}
+$$
+
+So that, the inner product can be written as
+
+$$
+\bold{x}\cdot\bold{y}=
+\frac{\bold{g}\cdot\bold{h}}{||\bold{g}||\space||\bold{h}||}
+$$
+
+where the numerator and denominator follow
+
+* $\bold{g}\cdot\bold{h}=\sum^n_{i=1}g_i h_i$. Since $g_i, h_i\sim\mathcal{N}(0,1)$, and the product of two standard normal distribution random variables also follows a standard normal distribution, i.e., $g_i h_i\sim\mathcal{N}(0,1)$, by the Central Limit Theorem (CLT) (Let $X_i$ be a random variable; as sample size $n$ gets larger, there is ${\sqrt{n}}({\overline{X}}_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)$), there is $\bold{g}\cdot\bold{h}\sim\mathcal{N}(0,n)$
+* The Law of Large Numbers states that $||\bold{g}||$ and $||\bold{h}||$ approach their truth means as $n\rightarrow\infty$; the truth means are $||\bold{g}||\approx \sqrt{n}$ and $||\bold{h}||\approx \sqrt{n}$
+
+As a result for a very large $n\rightarrow\infty$,
+the inner product goes to $\rightarrow \mathcal{N}(0,0)$, therefore totally orthogonal.
+
+$$
+\bold{x}\cdot\bold{y}\approx\frac{\mathcal{N}(0,n)}{n}=
+\mathcal{N}(0,\frac{1}{n})
+$$
+
+### High Dimensionality Geometric Explanation by HyperSphere
+
+A hypersphere in $n$-dimensional space is defined by all points at a fixed radius $R$ from the origin $\bold{0}$.
+Denote its volume as $V_n(R)$ and surface area as $S_n(R)$:
+
+$$
+\begin{align*}
+    V_n(R) &=\frac{\pi^{n/2}}{\Gamma(\frac{n}{2}+1)}R^n \\
+    S_n(R) &=\frac{d}{dR}V_n(R)=\frac{2\pi^{n/2}}{\Gamma(\frac{n}{2})}R^{n-1}
+\end{align*}
+$$
+
+where $\Gamma(z)$ is gamma function such that
+
+* $\Gamma(k)=(k-1)!$ for $k\in\mathbb{Z}^+$
+* $\Gamma(1/2)=\sqrt{\pi}$
+
+$\bold{x}, \bold{y}$ can be said be drawn from the surface of a unit hypersphere $S_{n}(1)$.
+For $\bold{x}\cdot\bold{y}\sim\mathcal{N}(0,\frac{1}{n})$, as $n\rightarrow\infty$, the two vectors $\bold{x}, \bold{y}$ are likely irrelevant/orthogonal.
+
+The surface area of a hypersphere scales as $S_{n}(1)\propto n^{n/2}$.
+Consequently, the number of points needed to "cover" the surface grows exponentially.
+
+#### Example of HyperSphere Surface Point Sampling and Density/Sparsity Intuition
+
+Define two vector $\bold{x}, \bold{y}$ that are dense/relevant/close to each other if they happen to fall in the same $\pi/2$ segment of a hypersphere.
+
+* For $n=2$ (a circle), there are $4$ segments
+* For $n=3$ (a sphere), there are $8$ segments
+
+For $n$ is very large such as $n=10000$, there are $2^{10000}$ vectors from which on average only one vector is considered close to a vector existed in an arbitrary $\pi/2$ hypersphere segment.
+It is impractical to collect such a large size sample hence the sample feature space is sparse.
 
 ## t-SNE for Embedding Visualization
 
@@ -139,42 +207,3 @@ For example, below results show that as the prediction uncertainty increases, pe
 In t-SNE, it is defined ${H(p_i)}=2^{-\sum_{j}p_{j|i}\log_2 p_{j|i}}$.
 Perplexity can be interpreted as a smooth measure of the effective number of neighbors.
 For example in the scenario 4, the insignificant neighbors of $x_i$ represented by $\sum_{x_j\notin\{x_1, x_2, x_3\}}p_{x_j}=0.001$ see $0\approx{-0.001\times\log_2 0.001}$, and $\{x_1, x_2, x_3\}$ are mostly related to the three nearest neighbors indicative by $3.137$.
-
-## Embedding Normalization
-
-For example, given a vector $\bold{v}=[3,4]$, there are
-
-* L1 Normalization (Manhattan Distance)
-
-$$
-\bold{v}_{\text{norm}} = \frac{[3,4]}{3+4} = [\frac{3}{7},\frac{4}{7}] \approx [0.4286, 0.5714]
-$$
-
-* L2 Normalization (Euclidean Distance)
-
-$$
-\bold{v}_{\text{norm}} = \frac{[3,4]}{\sqrt{3^2+4^2}} = \frac{[3,4]}{5} = [0.6, 0.8]
-$$
-
-* MAX Normalization (Chebyshev Distance)
-
-$$
-\bold{v}_{\text{norm}} = \frac{[3,4]}{\max(\{3, 4\})} = \frac{[3,4]}{4} = [0.75, 1]
-$$
-
-where L2 normalization is the most used for vector similarity computation, e.g., for cosine similarity.
-
-### RMS Layer Normalization
-
-Given an input tensor $ X\in\mathbb{R}^{B\times T \times D}$,
-where
-
-* $B$: batch size
-* $T$: sequence length
-* $D$: dimensionality
-
-For each embedding $\bold{x}\in\mathbb{R}^D$, the Root Mean Square (RMS) layer normalization can be computed
-
-$$
-\text{RMS}(\bold{x})=\sqrt{\frac{1}{D}\sum^D_{i=1}x_i^2+\epsilon}
-$$

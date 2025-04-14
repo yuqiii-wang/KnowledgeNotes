@@ -167,8 +167,7 @@ If an infinite series of real numbers is conditionally convergent, then its term
 Example: alternating harmonic series
 $$
 \begin{align*}
-& 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - ... = \ln 2
-\\
+& 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - ... = \ln 2 \\
 & 1 + (- \frac{1}{2} + \frac{1}{3}) + (- \frac{1}{4} + \frac{1}{5}) - ... = \frac{3}{2} \ln 2
 \end{align*}
 $$
@@ -176,8 +175,7 @@ $$
 Example: alternating sign unit sum
 $$
 \begin{align*}
-& 1 - 1 + 1 - 1 + 1 - ... = 0
-\\
+& 1 - 1 + 1 - 1 + 1 - ... = 0 \\
 & 1 + (- 1 + 1) + (- 1 + 1) - ... = 1
 \end{align*}
 $$
