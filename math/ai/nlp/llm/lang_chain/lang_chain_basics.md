@@ -2,7 +2,20 @@
 
 LangChain is an LLM framework. It provides the three main services (by year 2023).
 
-#### Model I/O:
+
+## LangChain Framework
+
+### LangServe
+
+### LangFuse
+
+### LangKit
+
+### LangCheck
+
+## Langchain Basic Functions
+
+### Model I/O
 
 Interface with language models
 
@@ -15,7 +28,7 @@ llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0.9)
 resp = llm.invoke("Hello, how are you?")
 ```
 
-#### Retrieval:
+### Retrieval
 
 Interface with domain/application-specific data;
 store user-provided documents, and perform tokenization and embedding on the documents, and retrieve the documents' contents as response to a query.
@@ -41,7 +54,7 @@ docs = db.similarity_search(query)
 print(docs[0].page_content)
 ```
 
-#### Agents:
+### Agents
 
 Interface with chaining a series of actions for a specific task with help of tools (tools are customized functions such as triggering external google search);
 models should be first fine-tuned to using tools (modern OpenAI GPTs have done such fine-tuning).

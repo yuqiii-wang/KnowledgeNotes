@@ -25,7 +25,7 @@ This is problematic that the aggregated embeddings may not reflect in semantics 
 For example, in domain knowledge rich texts, informational significance is strongly related to some key terminologies while most other/remaining texts look alike.
 However, it is questionable if contrastive learning can pick up such key terminologies as factors for document discrimination.
 
-### Time Series Data Embedding
+### Embedding for Time Series Data
 
 Time series data refers to msgs identifiable by a timestamp plus contents.
 Timestamp itself contains rich semantics but for embeddings are learned per token then aggregated to represent the document, the semantic significance might not be reflected.
@@ -37,7 +37,7 @@ Timestamp itself contains rich semantics but for embeddings are learned per toke
 [2025-04-12 12:33:42:791] Derek->Yuqi, "Hii, yes, wait"
 ```
 
-### Domain Knowledge Text Embedding
+### Embedding for Domain Knowledge Data
 
 Domain knowledge language is characterized by containing rich domain knowledge terminologies/wording formatted in a particular way that only industry professionals could understand.
 

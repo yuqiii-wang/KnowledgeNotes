@@ -1,15 +1,5 @@
 # LLM Frameworks
 
-## LangChain
-
-### LangServe
-
-### LangFuse
-
-### LangKit
-
-### LangCheck
-
 ## Llama Index
 
 ## LLM Hosting Frameworks
