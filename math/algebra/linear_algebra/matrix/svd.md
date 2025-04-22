@@ -103,8 +103,13 @@ In geometry intuition in $A=U \Sigma V^{\top}$, the $U$ and $V^{\top}$ are consi
 #### $V$ and $U$ As Reflection/Rotation
 
 * If $\text{det}(V)=-1$, it is a reflection.
-
 * If $\text{det}(V)=1$, it is a rotation.
+
+This is for that
+
+1) For $|\text{det}(V)|=1$, there is no scaling.
+2) For $\text{det}(V)>0$, orientation is preserved.
+3) For $\text{det}(V)<0$, orientation is reversed.
 
 * During reflection/rotation, the linear space angle is preserved.
 
@@ -126,10 +131,19 @@ $\Sigma$ is a diagonal matrix, hence its non-zero entries act as pure scaling.
 
 #### SVD Explanation by Geometry
 
+Let $\bold{x}_i=[3, 3]$ and $\bold{x}_i=[3, 1]$ that are transformed by $A=\begin{bmatrix} -1 & 1 \\ 0 & 1 \end{bmatrix}$.
+Below process shows how $A\bold{x}=U \Sigma V^{\top}\bold{x}$ is computed.
+
+* For $\text{det}(V)=-1$, the $V^{\top}\bold{x}$ is a reflection operation.
+* For $\Sigma$ is a diagonal matrix, the $\Sigma V^{\top}\bold{x}$ is a scaling operation.
+* For $\text{det}(U)=1$, the $U\Sigma V^{\top}\bold{x}$ is a rotation operation.
+
 <div style="display: flex; justify-content: center;">
       <img src="imgs/svd_example.png" width="70%" height="30%" alt="svd_example" />
 </div>
 </br>
+
+where during reflection and rotation, the angle $\theta'=\theta$ is preserved.
 
 ## SVD in Machine Learning
 
@@ -225,4 +239,4 @@ By the *Spectral Theorem*, if $A$ is a real symmetric matrix, then:
 
 * All eigenvalues of $A$ are **real**
 * This means the eigenvectors of $A$ can be chosen to **be orthogonal and normalized**.
-* $A$ can be can be orthogonally diagonalized $A=P\Lambda P^{\top}$, where 1) $\Lambda$ is a diagonal matrix containing the eigenvalues of $A$, 2) the columns of $Q$ are the orthonormal eigenvectors of $A$.
+* $A$ can be can be orthogonally diagonalized $A=P\Lambda P^{\top}$, where 1) $\Lambda$ is a diagonal matrix containing the eigenvalues of $A$, 2) the columns of $P$ are the orthonormal eigenvectors of $A$.
