@@ -72,10 +72,11 @@ Consequently, the number of points needed to "cover" the surface grows exponenti
 
 #### Example of HyperSphere Surface Point Sampling and Density/Sparsity Intuition
 
-Define two vector $\bold{x}, \bold{y}$ that are dense/relevant/close to each other if they happen to fall in the same $\pi/2$ segment of a hypersphere.
+Define two vector $\bold{x}, \bold{y}$ that are dense/relevant/close to each other if they happen to fall in the same $\pi/2$ segment of a hypersphere (for $\text{cos}(\bold{x}, \bold{y})\in[0, 1]$ it can be said that the two vectors are positively related).
 
 * For $n=2$ (a circle), there are $4$ segments
 * For $n=3$ (a sphere), there are $8$ segments
+* For $n=4$ (a hyper-sphere), there are $16$ segments
 
 For $n$ is very large such as $n=10000$, there are $2^{10000}$ vectors from which on average only one vector is considered close to a vector existed in an arbitrary $\pi/2$ hypersphere segment.
 It is impractical to collect such a large size sample hence the sample feature space is sparse.

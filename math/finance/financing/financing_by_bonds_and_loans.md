@@ -1,6 +1,8 @@
-# Financing (融资) by Bonds and Loans
+# Financing (融资)
 
-## Bonds, Loans, and Fixed Incomes
+## Financing Underlying Securities
+
+### Bonds, Loans, and Fixed Incomes
 
 * subprime mortgage 次级（房屋）贷款
 
@@ -16,6 +18,10 @@ for example UK gilts or AA-rated sterling Eurobonds.
 The issuer of a bond pays interest, and only interest regularly (usually semi-annually), and the principal is repaid at maturity in a lump sum.
 
 For loans, payments are made including interests + principal, until principal is fully repaid. For example, mortgage receives monthly payment.
+
+### Commercial Paper
+
+### Equity Securities
 
 ## Margin and Leverage
 

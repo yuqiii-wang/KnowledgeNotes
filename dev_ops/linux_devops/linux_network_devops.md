@@ -363,6 +363,54 @@ where
 * `#53` indicates that the request is being sent to port 53, which is the default port for DNS communication using UDP or TCP.
 * `Non-authoritative answer`: This means that the DNS server (133.11.162.44) is returning cached data rather than retrieving it directly from the authoritative DNS server.
 
+### DNS Pollution
+
+Internet Service Provider (ISP) or malware can direct user to a wrong website (for advertisements or other purposes) via DNS pollution that DNS (usually based on UDP, easy to monitor) was intercepted and returned a false IP.
+
+#### DNS Pollution Example
+
+The below lookup
+
+```sh
+nslookup www.google.com 8.8.8.8
+```
+
+returns
+
+```txt
+Server:         8.8.8.8
+Address:        8.8.8.8#53
+
+Non-authoritative answer:
+Name:   www.google.com
+Address: 31.13.94.37
+```
+
+However, `31.13.94.37` is the IP of `instagram-p15-shv-01-eze1.fbcdn.net` (tested in Apr 2025) not Google.
+This proves that the DNS is polluted.
+
+#### DNS Pollution Mitigation with Enhanced Cyber security Protocol
+
+HTTPS is a very commonly used protocol that is unlikely blocked.
+DNS can run on HTTPS.
+
+```sh
+curl -H 'accept: application/dns-json' 'https://cloudflare-dns.com/dns-query?name=www.google.com&type=A'
+```
+
+that returns
+
+```json
+{"Status":0,"TC":false,"RD":true,"RA":true,"AD":false,"CD":false,"Question":[{"name":"www.google.com","type":1}],
+    "Answer":[{
+        "name":"www.google.com",
+        "type":1,
+        "TTL":210,
+        "data":"142.251.32.36"}
+    ]
+}
+```
+
 ## DHCP
 
 DHCP (Dynamic Host Configuration Protocol) can provide various network services but not limited to:

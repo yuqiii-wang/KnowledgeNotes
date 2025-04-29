@@ -55,6 +55,93 @@ Haircut serves as a discount factor to reflect risk aversion consideration of th
 where "naive*" means $\text{RepoRate}$ and $\text{CouponRate}$ are assumed constant, in fact they may link to various benchmarks or at trader's discretion.
 A real-world example see below *A REPO Trade End Cash Estimation Example*.
 
+## REPO Rate (As Profit) Estimation
+
+A trader earns profits from a REPO trade via *level* (a.k.a, REPO rate), which is the lending interest rate of a security.
+Some traders may use *fee* but it is converted to $\text{level}=\frac{\text{fee}}{\text{lentCash}}$ as the benchmark for analysis.
+
+### Naive Lending Interest Rate Estimation
+
+The most accurate and easiest REPO rate estimation is to use the most recent (spot rate) same security dealing price and REPO rate.
+The market reference price and rate are accurate unless market observed high volatility, e.g., black swan events.
+
+If market price/rate reference is not available, the below formula can be used.
+
+#### Floating REPO Rate
+
+Floating rate refers to using a currency benchmark + spread (as profit) for REPO rate quote.
+The benchmarks are often the interbank overnight rate per currency.
+
+$$
+\text{level}=\text{BenchmarkRate}+\text{spread}
+$$
+
+Popular currency benchmarks are
+
+* EUR -> ESTER
+* USD -> SOFR
+* GBP -> SONIA
+* CAD -> CORRA
+
+#### Risk-Based REPO Rate Setup
+
+A trader can reference below factors and give a conclusive REPO rate quote.
+
+* Underlying security: whether it is corp ro govt bond, what are institutional ratings, e.g., Moody.
+* FX risk
+* Counterparty risk
+* Macro economic conditions and movements, e.g., black swan event that drive hot money to bond markets
+
+### Available Inventory for Lending
+
+If in inventory there exists adequate inventory the above REPO rate formula can be used.
+However, if client asks (borrowing securities) for more quantity than internal inventory (trader compony provision),
+the trader can only suffice partial fill.
+
+This trader will need to ask external inventory to borrow the client requested securities and re-lend to the client.
+Under this external request scenario, there incurs extra borrow cost.
+
+$$
+\text{level}=\text{outboundLendingREPORate}+\text{inboundBorrowCostRate}
+$$
+
+#### Multi-Source Financing Quotes
+
+External inventory refers to external financial institutions that have large and diverse security inventory.
+
+External inventory financial institutions often would sign a prime financing agreement (a contract defined discount/low borrowing rate for long-term strategic financing partnership) with the trader affiliated company,
+thereby this trader can borrow the security with low cost and re-lend the security to (usually small size) clients, while he/she can still make profit.
+
+For example, trader's institution has signed prime borrowing/lending rate agreements with below large institutions.
+
+|Institution|Prime Rate (bp)|Quantity (mil)|
+|-|-|-|
+|Institution A|SOFR+10|1-10|
+|Institution A|SOFR+8|10-100|
+|Institution A|SOFR+6|100+|
+|Institution B|SOFR+20|0.1-0.5|
+|Institution B|SOFR+12|0.5-1|
+|Institution B|SOFR+10|1-7.5|
+|Institution B|SOFR+9|7.5-20|
+|Institution B|SOFR+8.5|20-110|
+|Institution B|SOFR+6|110+|
+
+The $\text{inboundBorrowCostRate}$ is exactly the prime rate.
+
+#### Multi-Settlement Date Inventory for Financing
+
+In business practice when a client asks for financing, he/she does not necessarily need today settlement ($t+1$),
+and for in large financial institutions everyday there are thousands of REPO trades mature and securities are returned available in internal inventory,
+One can do dynamic programming to find the optimal $\text{inboundBorrowCostRate}$.
+
+For example, assume a client can on agree any of the 6 available settlement days $t,t+1,t+2,t+3,t+4,t+7$ to borrow 100mil units of a security.
+For the security to be borrowed by client, there are 2 related REPO trades soon matured: 5mil in 2 days, 18mil in 4 days.
+At today spot the available internal inventory is 35mil.
+
+Take into account the above institution A and institution B offers, there is
+
+
+
 ## A REPO Trade End Cash Estimation Example
 
 There is a REPO trade:

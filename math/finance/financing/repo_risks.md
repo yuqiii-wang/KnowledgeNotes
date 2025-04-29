@@ -7,12 +7,12 @@ Banks internally rate all counterparties and assign exposure limits to each, by 
 
 * Collateral risk / Issuer risk
 
-Quality of collateral held suffering due to decline in fortunes of issuer; 
+Quality of collateral held suffering due to decline in fortunes of issuer;
 lower grade collateral trades at a higher spread to government repo rate
 
 * Market Risk
 
-Risk exposure from changes in market levels, interest rates, asset values, etc. 
+Risk exposure from changes in market levels, interest rates, asset values, etc.
 One reason for continuing popularity in stock lending
 
 * FX risk

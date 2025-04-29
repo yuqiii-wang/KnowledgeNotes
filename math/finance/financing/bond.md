@@ -1,5 +1,29 @@
 # Bond
 
+## Bond Issuance
+
+When a company needs financing (500 mil), it issues bond by credit.
+Then financial institutions bid to help bond issuance with proposed rates.
+
+|Institutions|Proposed Rates|Quantity (million)|
+|-|-|-|
+|Institution A|3.975%|150|
+|Institution B|4.00%|100|
+|Institution C|3.95%|250|
+
+Financial institutions will pay cash to the company, then
+
+## Bond Related Trading
+
+* Bond trading
+* Repurchase Agreement (REPO) (by pledge)
+* Repurchase Agreement (REPO) (outright)
+* Bond buy/sell back
+
+## Bond Types
+
+### Classification by Interest Payment
+
 * Zero coupon bonds
 
 A zero-coupon bond, also known as an accrual bond, is a debt security that does not pay interest but instead trades at a deep discount, rendering a profit at maturity, when the bond is redeemed for its full face value.
@@ -12,6 +36,18 @@ A step-up bond is a bond that pays a lower initial interest rate but includes a 
 
 A deferred interest bond, also called a deferred coupon bond, is a debt instrument that pays all of its interest that has accrued in the form of a single payment made at a later date rather than in periodic increments.
 
+### Classification by Credibility
+
+* Rate/Govt Bond
+
+Govt bonds are usually high quality, seldomly default
+
+* Credit/Corp Bond
+
+Corp bonds have higher risks of default
+
+## Bond Basic Stats
+
 * Coupon Factor
 
 The Factor to be used when determining the amount of interest paid by the issuer on coupon payment dates.
@@ -22,7 +58,7 @@ The interest rate on the security or loan-type agreement, e.g., $5.25\%$. In the
 
 * Day Count Factor
 
-Figure representing the amount of the Coupon Rate to apply in calculating Interest. 
+Figure representing the amount of the Coupon Rate to apply in calculating Interest.
 
 * Pool factor
 
@@ -91,40 +127,75 @@ $$
 
 where coupon interest rate is $r=\frac{C}{F}$.
 
-## Terminologies
+## Terminologies in Bonds
 
-* Interlife
+### Bond Issue Price/Size/Factor
 
-Any action in the life cycle (between start/end date) of this repo.
+* Issue Price
+
+Usually, issue price for a bond is $100$ same as bond face value.
+However, some zero-coupon bonds have $\text{IssuePrice}<100$.
+
+It can be used for profit and tax calculation.
+
+$$
+\begin{align*}
+\text{profit}&=100-\text{issuePrice} \\
+\text{withholdingTax}&=\text{profit} \times \text{taxRate}
+\end{align*}
+$$
+
+* Issue Size
+
+Total bond issuance size.
+
+An individual trader's position of a bond indicates how much exposure/manipulation he/she is to the market.
+For example, if a trader has a high position of a bond $\frac{\text{traderThisBondPosition}}{\text{thisBondTotalIssueSize}}>90\%$, he/she could very much manipulate the price of this bond.
+
+* Issue Factor
+
+A custom discount factor to issue price, usually 100.
+
+### Bond Pool Factor
+
+Pool factor is used for amortizing lent securities.
+
+Below code simulates for mortgage-based securities assumed the underlying is fully paid off after 12 months, how pool factor is updated every month.
+
+```py
+remaining_principal = original_principal
+monthly_rate = annual_interest_rate / 12
+monthly_payment = original_principal * (monthly_rate * (1 + monthly_rate)**term_months) / ((1 + monthly_rate)**term_months - 1)
+for month in range(0, 12):
+    remaining_principal -= monthly_payment
+    pool_factor = remaining_principal / original_principal
+```
+
+### Bond Value/Price Calculation
 
 * Accrued interest
 
 Accrued interest is the interest on a bond or loan that has accumulated since the principal investment, or since the previous coupon payment if there has been one already.
 
-In other words, the interest accounts for the time since the bond's start date or the last coupon payment date. 
+In other words, the interest accounts for the time since the bond's start date or the last coupon payment date.
 
 * Clean and dirty price
 
 "Clean price" is the price excluding any interest that has accrued.
 
-"Dirty price" (or "full price" or "all in price" or "Cash price") includes accrued interest
-
-* Matched book
-
-A matched book is an approach that banks and other institutions may take to ensure that the maturities of its assets and liabilities are equally distributed. 
-A matched book is also known as "asset/liability management" or "cash matching."
-
-* Weighted Average Maturity (WAM)
-
-  * Bond A is a \$ 5,000 bond (16.7% of the total portfolio) and matures in 10 years
-  * Bond B is a \$ 10,000 investment (33.3%) that matures in 6 years.
-  * Bond C is a \$ 15,000 bond (50%) with a maturity of 4 years.
-
-The WAM is
+"Dirty price" (or "full price" or "all in price" or "Cash price") includes accrued interest.
 
 $$
-\text{WAM} =
-0.167 \times 10 + 0.333 \times 6 + 0.5 \times 4 = 5.67 \text{ years}
+\text{dirtyPrice}=\text{poolFactor}\times(\text{cleanPrice}+\text{accruedInterest})
+$$
+
+* Value and value factor
+
+A value factor is a custom bond value adjustment factor, usually 100.
+
+$$
+\text{bondPositionValue}=
+\text{dirtyPrice} \times \text{Quantity} \div \text{issueFactor} \times \text{valueFactor}
 $$
 
 ## Businesses
@@ -134,22 +205,6 @@ $$
 When the bond price goes up the interest rate goes down, and vice versa. If a bond matures at a price \$ 110, initial purchase price is \$ 100; the interest rate is 10%. If the initial purchase price is $105, the interest rate is lower than 5%.
 
 When bonds are in high demand, the spot price rises, and the interest rate drops. Central bank can bulk purchase bonds so that interest rates are low, and companies and individuals are motivated to spend money rather than purchasing bonds as savings.
-
-### Bond Types
-
-* Convertible Bond (可转换债券, 可换股债券)
-
-A convertible bond or convertible note or convertible debt (or a convertible debenture if it has a maturity of greater than 10 years) is a type of bond that the holder can convert into a specified number of shares of common stock in the issuing company or cash of equal value.
-
-* Negotiable Certificate of Deposit (NCD) (可转让大额存单)
-
-CDs are fixed of maturity and ownership.
-NCDs are flexible in terms of maturity date, ownership and interest rate.
-
-* Bullet Loan vs Amortizing Loan
-
-A typical amortizing loan schedule requires the gradual repayment of the loan principal over the borrowing term. 
-However, a bullet loan requires one lump sum repayment of the loan principal on the date of the maturity.
 
 ## Bond Trading Platforms
 
