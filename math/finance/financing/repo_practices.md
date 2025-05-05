@@ -55,7 +55,7 @@ Haircut serves as a discount factor to reflect risk aversion consideration of th
 where "naive*" means $\text{RepoRate}$ and $\text{CouponRate}$ are assumed constant, in fact they may link to various benchmarks or at trader's discretion.
 A real-world example see below *A REPO Trade End Cash Estimation Example*.
 
-## REPO Rate (As Profit) Estimation
+## REPO Rate Estimation
 
 A trader earns profits from a REPO trade via *level* (a.k.a, REPO rate), which is the lending interest rate of a security.
 Some traders may use *fee* but it is converted to $\text{level}=\frac{\text{fee}}{\text{lentCash}}$ as the benchmark for analysis.
@@ -64,6 +64,10 @@ Some traders may use *fee* but it is converted to $\text{level}=\frac{\text{fee}
 
 The most accurate and easiest REPO rate estimation is to use the most recent (spot rate) same security dealing price and REPO rate.
 The market reference price and rate are accurate unless market observed high volatility, e.g., black swan events.
+
+The validity of last price/repo rate can be measured by benchmark fluctuation.
+For example, if SOFR stayed within $\sigma^2<100 \text{ bp}$ over the last few days (had just fluctuated within 10 bp),
+it can be said that the monetary market was stable and the last traded repo rate of a bond still holds.
 
 If market price/rate reference is not available, the below formula can be used.
 
@@ -128,6 +132,8 @@ For example, trader's institution has signed prime borrowing/lending rate agreem
 
 The $\text{inboundBorrowCostRate}$ is exactly the prime rate.
 
+There are other concerns such as if a bond is used as rehype, it is less preferential as others that the trader's institution has long-term ownership.
+
 #### Multi-Settlement Date Inventory for Financing
 
 In business practice when a client asks for financing, he/she does not necessarily need today settlement ($t+1$),
@@ -138,9 +144,12 @@ For example, assume a client can on agree any of the 6 available settlement days
 For the security to be borrowed by client, there are 2 related REPO trades soon matured: 5mil in 2 days, 18mil in 4 days.
 At today spot the available internal inventory is 35mil.
 
-Take into account the above institution A and institution B offers, there is
+Take into account the above institution A and institution B offers, by dynamic programming, there is this optimal combination.
 
-
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/repo_external_borrow.png" width="60%" height="40%" alt="repo_external_borrow" />
+</div>
+</br>
 
 ## A REPO Trade End Cash Estimation Example
 

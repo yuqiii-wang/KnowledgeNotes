@@ -26,6 +26,8 @@ Demand deposits or checkbook money are funds held in demand accounts in commerci
 Before the age of credit card, cheque can be used to exchange for hard currency guaranteed by the credit of the cheque's issuer.
 Nowadays, credit card almost replaces cheque.
 
+* Promissory Note (期票)
+
 * Savings account (儲蓄存款帳戶)
 
 * Money market account (大额长期储蓄账户)

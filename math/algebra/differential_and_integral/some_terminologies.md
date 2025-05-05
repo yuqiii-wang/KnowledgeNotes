@@ -1,5 +1,7 @@
 # Terminologies in Differential and Integral
 
+## Operator Explained $\frac{d^n}{d x^n}f$
+
 ## Derivative vs Differential vs Gradient
 
 Given a function $f(\bold{x})$ where $\bold{x}\in\mathbb{R}^D$ is an input vector.

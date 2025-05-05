@@ -198,6 +198,20 @@ $$
 \text{dirtyPrice} \times \text{Quantity} \div \text{issueFactor} \times \text{valueFactor}
 $$
 
+* Cash Flow and Present Value
+
+Let $C_{t_1},C_{t_2},...,C_{t_n}$ be bond cash flow, the present value estimate is
+
+$$
+P=\sum^n_{i=1} C_{t_i} e^{-r(t_i)t_i}
+$$
+
+For example, a three-year maturity bond with 3% annualized coupon rate would see cash flow:
+
+$$
+C_{t_1}=3,\quad C_{t_2}=3,\quad C_{t_3}=103
+$$
+
 ## Businesses
 
 ### Bond Interest Rate and Spot Price

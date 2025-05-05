@@ -15,30 +15,29 @@ tiers = [
 ]
 
 # Generate quantities from 0.1 to 200 million with a step of 0.1
-quantities = np.arange(0.1, 200.1, 0.1)
+base_quantities = np.arange(0.1, 200.1, 0.1)
 min_spreads = []
 institutions_list = []
 
-for q in quantities:
-    applicable_tiers = []
-    for tier in tiers:
-        if tier['min'] <= q:
-            if tier['max'] == float('inf') or q < tier['max']:
-                applicable_tiers.append(tier)
-    if applicable_tiers:
-        min_spread = min(t['spread'] for t in applicable_tiers)
-        min_tiers = [t for t in applicable_tiers if t['spread'] == min_spread]
-        institutions = list(set([t['institution'] for t in min_tiers]))
+# Right-shift by 35 + 5 + 18 = 58 million
+total_shift = 35 + 5 + 18
+quantities = base_quantities + total_shift
+
+for q in base_quantities:
+    applicable = [t for t in tiers if t['min'] <= q < (t['max'] if t['max'] != float('inf') else q+1)]
+    if applicable:
+        min_sp = min(t['spread'] for t in applicable)
+        min_spreads.append(min_sp)
+        institutions_list.append(list({t['institution'] for t in applicable if t['spread'] == min_sp}))
     else:
-        min_spread = None
-        institutions = []
-    min_spreads.append(min_spread)
-    institutions_list.append(institutions)
+        min_spreads.append(np.nan)
+        institutions_list.append([])
+min_spreads = np.array(min_spreads)
 
 # Detect turning points where the spread changes
 turning_points = []
 prev_spread = None
-for i in range(1, len(quantities)):
+for i in range(0, len(quantities)):
     current_spread = min_spreads[i]
     if current_spread != min_spreads[i-1]:
         x_turn = quantities[i]
@@ -68,13 +67,47 @@ for x_turn, y_turn, institutions in turning_points:
         ha='left',
         fontsize=8,
         color='darkgreen',
-        arrowprops=dict(arrowstyle="-", color='gray', alpha=0.5)
+        arrowprops=dict(arrowstyle="-", color='gray', alpha=0.)
     )
+
+ax.text(0.1, 1, '    35mil at t+0', color='orange', va='bottom', ha='left')
+x_t2 = 35
+y_t2 = np.interp(x_t2, quantities, min_spreads)
+ax.axvline(x=x_t2, color='gray', linestyle='--', alpha=0.2)
+x_t4 = 35+5
+y_t4 = np.interp(x_t4, quantities, min_spreads)
+ax.axvline(x=x_t4, color='gray', linestyle='--', alpha=0.2,)
+x_borrow = 35+5+18
+y_borrow = np.interp(x_borrow, quantities, min_spreads)
+ax.axvline(x=x_borrow, color='gray', linestyle='--', alpha=0.2)
+
+ticks = list(ax.get_xticks()) + [x_t2, x_t4, x_borrow]
+ticks = sorted(set(ticks))
+labels = []
+for t in ticks:
+    if np.isclose(t, x_t2):
+        labels.append('t+2 available new 5mil')
+    elif np.isclose(t, x_t4):
+        labels.append('t+4 available new 18mil')
+    elif np.isclose(t, x_borrow):
+        labels.append('need to borrow from external')
+    else:
+        labels.append(f'{int(t)}')
+ax.set_xticks(ticks)
+ax.set_xticklabels(labels, rotation=-45)
+for lbl in ax.get_xticklabels():
+    if 'available' in lbl.get_text() or 'need' in lbl.get_text():
+        lbl.set_rotation(90)
+        lbl.set_color('orange')
+        lbl.set_verticalalignment('bottom')
+        lbl.set_y(0.1)
+    else:
+        lbl.set_rotation(45)
 
 plt.xlabel('Quantity (million USD)')
 plt.ylabel('Spread over SOFR (basis points)')
-plt.title('Lowest Available Spread vs Quantity with Institution Annotations')
-plt.grid(True, linestyle='--', alpha=0.7)
+plt.title('Lowest Available Spread vs Quantity with Institution Borrow')
+plt.grid(False, linestyle='--', alpha=0.1)
 plt.legend()
 plt.xlim(0, 200)
 plt.ylim(0, 22)
