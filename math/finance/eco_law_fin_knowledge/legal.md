@@ -274,6 +274,11 @@ In this context:
 
 A set of illegal activities aimed at commercial profit that may be disguised as legitimate business deals
 
+### Employment
+
+* Non-Compete (竞业协议)
+* 
+
 ## Auditing
 
 * face/nominal/par value
@@ -320,8 +325,6 @@ Developed by Organisation for Economic Co-operation and Development (OECD) in 20
 * Face value is fixed, while market and book values can fluctuate.
 * Market value is subject to market conditions, while book value is subject to accounting principles, might get updated daily.
 * Market value is more volatile, while book value is more stable, e.g., updated per season/quarter.
-
-
 
 ## Anti-Laundering Law
 

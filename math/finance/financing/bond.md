@@ -11,7 +11,7 @@ Then financial institutions bid to help bond issuance with proposed rates.
 |Institution B|4.00%|100|
 |Institution C|3.95%|250|
 
-Financial institutions will pay cash to the company, then
+Financial institutions will pay cash to the company, then distribute the bond per each 100 face value to individual clients.
 
 ## Bond Related Trading
 
@@ -24,17 +24,31 @@ Financial institutions will pay cash to the company, then
 
 ### Classification by Interest Payment
 
+* Fixed-Rate Bonds
+
+Interest Payment: Pay a fixed interest rate (coupon) periodically (usually semi-annually or annually).
+
+* Floating-Rate Bonds (FRBs)
+
+Interest Payment: Pay variable interest linked to a benchmark rate (e.g., LIBOR, SOFR, EURIBOR) plus a fixed spread.
+
 * Zero coupon bonds
 
-A zero-coupon bond, also known as an accrual bond, is a debt security that does not pay interest but instead trades at a deep discount, rendering a profit at maturity, when the bond is redeemed for its full face value.
+Interest Payment: No periodic interest. Issued at a discount and redeemed at face value.
 
-* Step-up bonds
+* Step-up/down bonds
 
-A step-up bond is a bond that pays a lower initial interest rate but includes a feature that allows for rate increases at periodic intervals.
+Step-Up Bonds: Interest rate increases at predefined intervals.
+
+Step-Down Bonds: Interest rate decreases over time.
 
 * Deferred interest bonds
 
-A deferred interest bond, also called a deferred coupon bond, is a debt instrument that pays all of its interest that has accrued in the form of a single payment made at a later date rather than in periodic increments.
+Interest Payment: No interest paid for an initial period; then periodic payments begin.
+
+* Payment-in-Kind (PIK) Bonds
+
+Interest Payment: Pay interest in additional bonds or equity instead of cash.
 
 ### Classification by Credibility
 
@@ -106,26 +120,6 @@ $$
 DayCountFactor=
 \frac{AccrualDays}{360}
 $$
-
-## Bond valuation (Discounted Cash Flow)
-
-The theoretical fair value of a bond is the present value of the stream of cash flows it is expected to generate. Hence, the value of a bond is obtained by discounting the bond's expected cash flows to the present using an appropriate discount rate.
-
-Present value $V_{present}$ can be computed by coupon payment $C$ over a number of periods $n$ with an interest rate $r$, plus the its face value $F$ (equal to its maturity value) on the final date. 
-
-$$
-V_{present} =
-\big(
-    \frac{C}{1+r}
-    + \frac{C}{(1+r)^2}
-    + \frac{C}{(1+r)^3}
-    + ...
-    + \frac{C}{(1+r)^n}
-\big) +
-\frac{F}{(1+r)^n}
-$$
-
-where coupon interest rate is $r=\frac{C}{F}$.
 
 ## Terminologies in Bonds
 
@@ -203,7 +197,7 @@ $$
 Let $C_{t_1},C_{t_2},...,C_{t_n}$ be bond cash flow, the present value estimate is
 
 $$
-P=\sum^n_{i=1} C_{t_i} e^{-r(t_i)t_i}
+PV=\sum^n_{i=1} C_{t_i} e^{-r(t_i)t_i}
 $$
 
 For example, a three-year maturity bond with 3% annualized coupon rate would see cash flow:
@@ -211,29 +205,3 @@ For example, a three-year maturity bond with 3% annualized coupon rate would see
 $$
 C_{t_1}=3,\quad C_{t_2}=3,\quad C_{t_3}=103
 $$
-
-## Businesses
-
-### Bond Interest Rate and Spot Price
-
-When the bond price goes up the interest rate goes down, and vice versa. If a bond matures at a price \$ 110, initial purchase price is \$ 100; the interest rate is 10%. If the initial purchase price is $105, the interest rate is lower than 5%.
-
-When bonds are in high demand, the spot price rises, and the interest rate drops. Central bank can bulk purchase bonds so that interest rates are low, and companies and individuals are motivated to spend money rather than purchasing bonds as savings.
-
-## Bond Trading Platforms
-
-* CFETS (China Foreign Exchange Trade System) is a major global trading platform and pricing center for RMB and related products.
-
-## Flat Bond
-
-When a bond does not yield any interest.
-
-* Flat Trading
-
-A situation in which a market or security is neither rising nor declining in price or valuation.
-
-* Default
-
-* Payment-in-kind
-
-Payment-in-kind (PIK) is the use of a good or service as payment instead of cash.

@@ -12,7 +12,7 @@
 
 * `kubelet`: a node-level agent that is in charge of executing pod requirements, managing resources, and guaranteeing cluster health; each node has a Kubelet, which is an agent for managing the node and communicating with the Kubernetes control plane. 
 * `kubeadm`: a tool that is used to bootstrap a Kubernetes cluster from scratch
-* `kubectl`: a command line tool that you use to communicate with the Kubernetes API server. 
+* `kubectl`: a command line tool that you use to communicate with the Kubernetes API server.
 
 ### K8S Internal Management
 
@@ -20,6 +20,65 @@
 * etcd: Key-value store for cluster data
 * scheduler: Watches for newly created pods and assigns a worker node to run them.
 * controller-manager: Runs a control loop that watches the state of the cluster through the api-server and if necessary, moves the current state to the desired state.
+
+### Common `kubectl` Use Cases and Debug
+
+For example, here to find what host addr and port `grafana` is running.
+
+1. Check the pod
+
+```sh
+kubectl get pods -n <namespace> -l app.kubernetes.io/name=grafana -o wide
+```
+
+Is it Ready (e.g., 1/1 or 2/2)?
+
+2. Check the service
+
+Is TYPE NodePort? Must got a node port so that it is accessible externally.
+Does PORT(S) show 80:30080/TCP? (Internal port 80 mapped to external NodePort 30080).
+
+```sh
+kubectl get svc -n <namespace> -l app.kubernetes.io/name=grafana
+```
+
+Assume the service returns this
+
+```txt
+NAME                      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+prom-stack-grafana   NodePort   10.96.246.174   <none>        80:30080/TCP   142m
+```
+
+3. Further check the service
+
+```sh
+kubectl describe svc prom-stack-grafana -n <namespace>
+```
+
+Port and NodePort: should match 80 and 30080.
+TargetPort: should be the port Grafana listens on inside the pod.
+Endpoints: should list the IP address and port of your running Grafana pod(s).
+
+Assume
+
+```txt
+
+Name:                     prom-stack-grafana
+Namespace:                monitoring
+...
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.96.246.174
+IPs:                      10.96.246.174
+Port:                     http-web  80/TCP
+TargetPort:               3000/TCP
+NodePort:                 http-web  30080/TCP
+Endpoints:                10.244.0.54:3000
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+```
 
 ## Pod and Deployment
 
@@ -132,7 +191,6 @@ A stateless application is one that does not care which network it is using, and
 
 On the other hand, a stateful applications have persistent/modifiable data, such as DBs.
 
-
 ## Labels and Selector
 
 `labels` and `selector` are used to group and reference resources.
@@ -162,7 +220,6 @@ selector:
 ...
 type: LoadBalancer
 ```
-
 
 ## Node
 
@@ -199,11 +256,9 @@ Each node has a Kubelet, which is an agent for managing the node and communicati
 </div>
 </br>
 
-
 ## Services
 
 Service is a method for exposing a network application that is running as one or more Pods in cluster.
-
 
 ### Service Port Type 
 

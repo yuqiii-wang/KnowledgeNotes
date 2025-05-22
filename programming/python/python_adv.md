@@ -52,9 +52,9 @@ class Car(object, metaclass=AttributeInitType):
 new_car = Car(make='Toyota', model='Prius', year=2005, color='Green', engine='Hybrid')
 ```
 
-### `__new__`
+### The `__new__` Method
 
-When you create an instance of a class, Python first calls the `__new__()` method to create the object and then calls the `__init__()` method to initialize the object’s attributes.
+When you create an instance of a class, Python first calls the `__new__()` method to create the object and then calls the `__init__()` method to initialize the object's attributes.
 
 The `__new__()` is a static method of the object class:
 
@@ -65,6 +65,29 @@ object.__new__(class, *args, **kwargs)
 When you define a new class, that class implicitly inherits from the `object` class. It means that you can override the `__new__` static method and do something before and after creating a new instance of the class.
 
 Instead, should run by `asyncio.run(helloWorld())` that prints `"Hello World"`.
+
+### Metaclass Example
+
+A good use of metaclass is to create a singleton that is a common design for a DB connection pool.
+
+```py
+import threading
+
+class SingletonMeta(type):
+    _instance = None
+    _lock = threading.Lock()
+
+    def __call__(cls, *args, **kwargs):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__call__(*args, **kwargs)
+        return cls._instance
+
+class DBConnectionPool(metaclass=SingletonMeta):
+    def __init__(self, host_port_list: list, maxsize=3, timeout=60):
+        ...
+```
 
 ## Decorator
 
@@ -97,9 +120,39 @@ Decorators can help in many scenarios such as below.
 
 Similar to `static` in C++.
 
-* `@abstractmethod`
+* `@abstractmethod` and `ABC`
 
-Similar to `virtual` in C++.
+`ABC` stands for Abstract Base Class, worked with `@abstractmethod` to define abstract class where some methods must be implemented in inherited classes.
+
+`@abstractmethod` is similar to `virtual` in C++.
+
+For example, below code explains how inheritance works with MUST-to-implement `__call__` as declared abstract in `class AuthHandler(ABC)`.
+
+```py
+from abc import ABC, abstractmethod
+
+class AuthHandler(ABC):
+    async def __call__(self, request: Request) -> User:
+        """AuthHandler"""
+
+class ReadOnlyAuthHandler(AuthHandler):
+    async def __call__(self, request: Request) -> User:
+        sub = request.state.username == "read_only"
+        user, _ = await storage.get_read_only_user()
+        return user
+
+class BasicWriteAuthHandler(AuthHandler):
+    async def __call__(self, request: Request) -> User:
+        sub = request.state.username == "basic_write"
+        user, _ = await storage.get_basic_write_user()
+        return user
+
+class SudoAuthHandler(AuthHandler):
+    async def __call__(self, request: Request) -> User:
+        sub = request.state.username == "sudo"
+        user, _ = await storage.get_sudo_user()
+        return user
+```
 
 * `@contextmanager`
 
@@ -194,6 +247,23 @@ class Celsius:
         self.temperature = value
 ```
 
+* `@lru_cache`
+
+`@lru_cache` maintains a global `dict` to store last function return values, and the subsequent calls with the same arguments are faster.
+
+For example, `get_auth_cred` can be facilitated in retrieving credential.
+
+```py
+@lru_cache(maxsize=1)
+def get_auth_cred(auth_type: str) -> AuthCredential:
+    auth_cred = None
+    if auth_type == "jwt_local":
+        auth_cred =  get_jwt_local()
+    elif auth_type == "jwt_local":
+        auth_cred =  get_jwt_oidc()
+    return auth_cred
+```
+
 ## Where to `import`
 
 For example, `import _ctypes` runs on python3.11.
@@ -227,3 +297,56 @@ Python calls `PyInit__ctypes()`, inside which `PyModule_Create()` creates module
 
 The returned PyObject* module is added to sys.modules.
 Python makes the module's attributes (functions, classes) available to the script.
+
+### Smart Imports with `TYPE_CHECKING`
+
+`TYPE_CHECKING` is a constant provided by `typing` that `TYPE_CHECKING` is always `False` at runtime but evaluates to `True` during typing checking.
+
+Type checking happens before runtime to validate type annotations such as when a user write code in IDE that IDE will perform type analysis.
+
+#### To Prevent Circular Imports
+
+When two modules depend on each other, importing them directly can cause circular import issues.
+
+Use `TYPE_CHECKING` to address it.
+For example, below code
+(Python allows type hints to reference classes or types that maynot yet be defined or imported as the time the function is defined. wrap the type in string to defer its evaluation until later)
+shows two files importing each other but no circular import error raised.
+
+```py
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from module_b import ClassB
+
+class ClassA:
+    def __init__(self, b:"ClassB"):
+        self.b = b
+```
+
+```py
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from module_a import ClassA
+
+class ClassB:
+    def __init__(self, a:"ClassB"):
+        self.a = a
+```
+
+#### Load Objects/Classes Only When Needed
+
+For example, for `pandas` is a heavy module,
+it is not loaded on program start.
+It is not imported unless explicitly needed.
+
+```py
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pandas import pd
+
+def process_df(df: "pd.DataFrame") -> None:
+    ...
+```

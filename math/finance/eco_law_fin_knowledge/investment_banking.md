@@ -38,6 +38,12 @@ Flow trading is where the bank acts as principal (thus often called principal tr
 
 For heavily traded, liquid securities traded on an exchange (NASDAQ, NYSE, CME), you don't really need market markets (flow traders).
 
+## Investment Firms
+
+* pod Shop
+
+A pod shop, also known as a multimanager hedge fund or platform, is a type of investment firm that employs multiple independent teams (or pods) to manage capital.
+
 ## Employee Classification
 
 ### Employee Hierarchy

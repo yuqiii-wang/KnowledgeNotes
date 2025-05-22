@@ -384,7 +384,7 @@ Leverage buyout: by borrowed money
 
 * Leveraged Buyout (LBO) 杠杆收购
 
-A leveraged buyout (LBO) is the acquisition of another company using a significant amount of borrowed money (bonds or loans) to meet the cost of acquisition. 
+A leveraged buyout (LBO) is the acquisition of another company using a significant amount of borrowed money (bonds or loans) to meet the cost of acquisition.
 
 * Goodwill （商业信誉/品牌溢价）
 

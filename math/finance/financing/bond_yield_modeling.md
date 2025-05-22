@@ -109,6 +109,21 @@ On 2025 May 5, China bond market observes below rate curves.
 </div>
 </br>
 
+In the plot there are two types of bonds: a China corp bond and govt bond, and the corp bond sees higher yield rate than the govt's.
+
+In early maturity days, YTM and spot rate almost overlap,
+as market considers likely there is no recent black swan event and the bond will generate cash flow.
+
+Also noticed that at the 30-year maturity point, the YTM and spot rate curves converge.
+This is a result of 30 year usually picked up as a control point where market agrees as a unified yield.
+
+##### Why YTM is below spot rate
+
+In summary, upward-sloping spot curves make coupon bond yields (YTM) lower than the final spot rate.
+Usually investors consider earlier cash flows are relatively more valuable now (long-term duration yields are distrust as investors expect inflation rise).
+
+The heavy weighting of early coupons at lower spot rates depresses the overall YTM below the 30-year spot.
+
 #### Calculation Example of Spot Rate vs YTM Rate, and Arbitrage-Free Price
 
 Find YTM rate and spot rate of a 3-year 5% coupon face value \$1000 bond now traded at \$978.12.
