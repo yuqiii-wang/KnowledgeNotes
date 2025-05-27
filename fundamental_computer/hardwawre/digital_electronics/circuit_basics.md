@@ -13,8 +13,8 @@ Generally speaking, a 0.1uF capacitor will cover a broad range of frequencies su
 
 ## Latching (Flip-flop)
 
-Flip-flop or latch is a circuit that has two stable states and can be used to store state information - a bistable multivibrator. 
-The circuit can be made to change state by signals applied to one or more control inputs and will have one or two outputs. 
+Flip-flop or latch is a circuit that has two stable states and can be used to store state information - a bistable multivibrator.
+The circuit can be made to change state by signals applied to one or more control inputs and will have one or two outputs.
 
 A flip-flop is a device serving as a basic storage unit holding one bit value. A single SRAM or DRAM cell is a flip-flop.
 
@@ -54,6 +54,18 @@ $BL$: Bit Line, input/output;
 
 $WL$: Word Line, addr select;
 
+* EEPROM
+
+Electrically Erasable Programmable ROM: non-volatile memory chip can be electrically erased using field electron emission.
+
+### Related Electronic Components
+
+* Plug 插头
+* Receptacle 插口
+* Interface/slot 接口
+* Overmold二次注塑或包覆成型
+* Pin 引脚
+
 ### $\space \space$ Operation flow:
 
 $\space \space$ 1. Standby (idle):
@@ -69,7 +81,3 @@ Reading starts when $WL$ is truned on, both $M_5$ and $M_6$'s bases receive elec
 $\space \space$ 3. Writing:
 
 When $WL$ is truned on, and input truns on $\overline{BL}$. $\overline{Q}$ has elec current flow which turns off $M_4$ and switches on $M_3$'s base. $M_3$'s collector and emitter then have elec current flow through. This behavior changes the bit info $1$ to bit $0$.
-
-* EEPROM
-
-Electrically Erasable Programmable ROM: non-volatile memory chip can be electrically erased using field electron emission.
