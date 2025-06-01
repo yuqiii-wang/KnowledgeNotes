@@ -126,9 +126,55 @@ The low-level software that is permanently stored in the non-volatile memory (RO
 
 ## Development Practice
 
+### JTAG (Joint Test Action Group)
+
+JTAG (Joint Test Action Group) in embedded systems is a standardized interface (IEEE 1149.1) primarily used for testing, programming, and debugging hardware.
+
+#### Key Components
+
+* Host Interface (USB/Ethernet):
+
+Manages communication with the host PC (e.g., via USB bulk transfers).
+
+Example ICs: FTDI FT2232H (dual high-speed USB-UART/JTAG), Cypress FX2LP.
+
+* JTAG Engine:
+
+Generates precise TCK/TMS/TDI signals and samples TDO based on host commands.
+
+Implements the JTAG state machine (TAP controller) in hardware/firmware.
+
+> TDI (Test Data In): Serial data input.
+>
+> TDO (Test Data Out): Serial data output.
+>
+> TCK (Test Clock): Synchronizes data.
+>
+> TMS (Test Mode Select): Controls the state machine.
+>
+> (Optional) TRST (Test Reset): Resets the JTAG controller.
+
+* Voltage Level Shifting:
+
+Adapts logic levels (e.g., 3.3V host <-> 1.8V target) using voltage translators like TXS0108E.
+
+* Buffer Memory:
+
+Caches JTAG data to handle speed mismatches (e.g., USB 2.0 vs. 10 MHz TCK).
+
+* Firmware/Microcontroller:
+
+Runs protocol translators (e.g., USB <-> JTAG commands).
+
+Example: Segger J-Link uses an ARM Cortex-M core with proprietary firmware.
+
+### OpenOCD
+
+OpenOCD (Open On-Chip Debugger) is open-source software that controls JTAG probes for debugging/programming.
+
 ### Some Terminologies
 
-* HAL (Hardware Abstraction Layer)
+#### HAL (Hardware Abstraction Layer)
 
 The Hardware Abstraction Layer is a software layer that provides a standard interface between the hardware and the software.
 
@@ -143,3 +189,40 @@ rather than
 ```c
 GPIOA->ODR |= (1 << 5);
 ```
+
+#### lwIP (lightweight IP)
+
+lwIP is a lightweight TCP/IP protocol designed dedicated to embedded system, required only 10-20 KB RAM and dozens of ROM.
+
+* TCP/IP Stack: It implements the core protocols of the Internet Protocol Suite, including:
+    * IP (Internet Protocol): For addressing and routing packets.
+    * ICMP (Internet Control Message Protocol): For error messages and diagnostics (e.g., ping).
+    * UDP (User Datagram Protocol): A connectionless, unreliable transport protocol often used for speed (e.g., DNS, DHCP, streaming).
+    * TCP (Transmission Control Protocol): A connection-oriented, reliable transport protocol (e.g., HTTP, MQTT, FTP).
+* Network Services: LwIP often includes or facilitates common network services:
+    * DHCP (Dynamic Host Configuration Protocol): Client (to get an IP address) and sometimes server (to assign IP addresses).
+    * DNS (Domain Name System): Client (to resolve hostnames to IP addresses).
+    * HTTP (Hypertext Transfer Protocol): Server or client (for web communication).
+    * MQTT (Message Queuing Telemetry Transport): Client (popular for IoT).
+
+Two modes in lwIP:
+
+* STA (Station Mode): a Wi-Fi client
+* AP (Access Point Mode): creates its own Wi-Fi network that other Wi-Fi enabled devices (Stations, like phones or laptops) can connect to, e.g., personal hotspot
+
+STA mode example scan results:
+
+```txt
+I (4116) scan: SSID             CU_bqPT
+I (4116) scan: RSSI             -97
+I (4116) scan: Authmode         WIFI_AUTH_WPA2_WPA3_PSK
+I (4118) scan: Pairwise Cipher  WIFI_CIPHER_TYPE_CCMP
+I (4123) scan: Group Cipher     WIFI_CIPHER_TYPE_CCMP
+I (4127) scan: Channel          6
+```
+
+* SSID: Stands for "Service Set Identifier." This is the human-readable name of the Wi-Fi network.
+* RSSI: Stands for "Received Signal Strength Indicator." It's a measure of how strong the Wi-Fi signal from this Access Point is. $-97$ is measured in dBm (decibels relative to a milliwatt), and is very weak.
+* Authmode: Refers to the "Authentication Mode." `WIFI_AUTH_WPA2_WPA3_PSK` supports WPA2-PSK (Wi-Fi Protected Access 2 - Pre-Shared Key) and WPA3-PSK (Wi-Fi Protected Access 3 - Pre-Shared Key)
+* Pairwise Cipher: This specifies the encryption algorithm
+* Channel: Wi-Fi operates on specific radio frequency channels. In the 2.4 GHz Wi-Fi band, channels typically range from 1 to 11 (in North America) or 1 to 13/14 (in other regions).

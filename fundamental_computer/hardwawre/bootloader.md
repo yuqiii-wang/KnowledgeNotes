@@ -39,3 +39,6 @@ UEFI extends BIOS's services in many ways, such as:
 * UEFI has faster booting time
 
 * UEFI supports secure startup, checking malware during the startup process
+
+## Example for Windows Installation
+
