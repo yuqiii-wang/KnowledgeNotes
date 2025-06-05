@@ -65,6 +65,27 @@ PSRAM's "Pseudo-Static" Nature: By integrating the refresh circuitry directly on
 
 ### Power Supply
 
+Most MCUs operate at 3.3V or 5V.
+Sensors and peripherals might also use these, or sometimes 1.8V, 12V, etc.
+
+#### Power and Ground Pins
+
+* VCC/VDD: These typically refer to the positive power supply voltage.
+* GND: This is the common ground reference for the circuit, typically 0V.
+* VIN: Input for an unregulated voltage, often used when an on-board voltage regulator converts it to the required operating voltage (VCC/VDD).
+
+#### Power for High Voltage Machines
+
+An embedded system board CANNOT drive a high-power motor.
+The motor could sink high current flow and burns out the board.
+
+Instead, an intermediary dedicated motor driver circuit needs to build up.
+
+* Voltage Level Shifting: signals from the MCU to control motor voltage
+* Current Amplification
+* Back-EMF Protection: Motors are inductive. Drivers often include flyback diodes (or other mechanisms) to dissipate "inductive spikes"
+* Over-current/Thermal Protection: Many dedicated driver ICs have built-in protection.
+
 ### Software
 
 #### Firmware
@@ -75,20 +96,6 @@ The low-level software that is permanently stored in the non-volatile memory (RO
 
 * For simpler embedded systems, the application code might run directly on the hardware (bare-metal programming)
 * Real-Time Operating System (RTOS): RTOSes are designed for applications where timing and responsiveness are critical.
-
-## Common Pins and Use Cases
-
-### General Purpose Input/Output (GPIO) Pins
-
-* Reading Switches/Buttons: As inputs, GPIO pins can detect when a button is pressed or a switch is toggled.
-* Controlling LEDs: As outputs, they can turn LEDs on or off.
-* Controlling Relays/Motors: They can activate relays or control the on/off state of motors (often requiring additional driver circuits).
-
-### Power and Ground Pins
-
-* VCC/VDD: These typically refer to the positive power supply voltage.
-* GND: This is the common ground reference for the circuit, typically 0V.
-* VIN: Input for an unregulated voltage, often used when an on-board voltage regulator converts it to the required operating voltage (VCC/VDD).
 
 ## Main Controller
 
@@ -124,7 +131,35 @@ The low-level software that is permanently stored in the non-volatile memory (RO
 |Power Consumption|Low|Low|Moderate (continuous clock)|Moderate|Can supply power to devices|
 |Typical Use Cases|Debugging, connecting MCU to PC (console), GPS modules, Bluetooth modules, simple sensor communication|Sensors (temperature, accelerometer), EEPROMs, LCDs, RTCs, communication between MCUs|SD cards, flash memory, displays (TFT), ADCs, high-speed sensors, communication with co-processors|Automotive (ECU communication), industrial automation, medical equipment|Connecting to PC peripherals (keyboard, mouse, camera, storage), charging, complex device interaction|
 
+## Multi-Media
+
+### Audio
+
+Codec stands for Coder-Decoder. These ICs typically handle both:
+
+* Encoding: Converting analog audio (from a microphone or line-in) into digital audio data (ADC - Analog-to-Digital Converter).
+* Decoding: Converting digital audio data (from a microcontroller/processor) back into analog audio (to drive headphones or speakers) (DAC - Digital-to-Analog Converter).
+
+An audio codec IC, e.g., ES8388, is a mixed-signal integrated circuit that acts as the bridge between the analog audio world and the digital processing world of a microcontroller (MCU), digital signal processor (DSP), or System-on-Chip (SoC).
+
+### Image/Video
+
+||RGB (Parallel TTL)|SPI|MIPI DSI|
+|-|-|-|-|
+|Description|A parallel interface where dedicated lines carry red, green, and blue color data simultaneously|A synchronous serial interface. For displays, it typically uses 3 or 4 wires|A high-speed, differential, serial interface standard developed by Mobile Industry Processor Interface Alliance DSI (Display Serial Interface)|
+|Pin Count|Very High (20-30+)|Very Low (3-5)|Low to Moderate (4-10+)|
+|Bandwidth|Moderate|Low|Very High|
+
 ## Development Practice
+
+### Example by Video Processing
+
+1. Storage (Long-term): The video file lives on Flash (e.g., SD card or internal flash).
+2. DMA (Direct Memory Access): Allows data to be transferred from the storage interface (e.g., SDIO controller) directly to RAM/PSRAM without CPU intervention, freeing up the CPU for decoding.
+3. Staging Area (Short-term, Active): Chunks of that video file are read from Flash and loaded into PSRAM (or internal SRAM if sufficient) to create an input buffer.
+4. Codec (Coder-Decoder): The algorithm used to compress/decompress/decode the video (e.g., H.264, H.265/HEVC, MJPEG, VP9). If hardware is present, e.g., ES8388, decoding takes place in the dedicated hardware, otherwise, CPU comes in help.
+5. DMA (Direct Memory Access): Come in help again transfer video data from RAM to display. If there is no DMA, CPU will help transfer the data.
+6. Display Interface: Show pixel on display (e.g., SPI, Parallel RGB, MIPI DSI), no decoding.
 
 ### JTAG (Joint Test Action Group)
 
@@ -173,6 +208,12 @@ Example: Segger J-Link uses an ARM Cortex-M core with proprietary firmware.
 OpenOCD (Open On-Chip Debugger) is open-source software that controls JTAG probes for debugging/programming.
 
 ### Some Terminologies
+
+#### General Purpose Input/Output (GPIO) Pins
+
+* Reading Switches/Buttons: As inputs, GPIO pins can detect when a button is pressed or a switch is toggled.
+* Controlling LEDs: As outputs, they can turn LEDs on or off.
+* Controlling Relays/Motors: They can activate relays or control the on/off state of motors (often requiring additional driver circuits).
 
 #### HAL (Hardware Abstraction Layer)
 
@@ -226,3 +267,43 @@ I (4127) scan: Channel          6
 * Authmode: Refers to the "Authentication Mode." `WIFI_AUTH_WPA2_WPA3_PSK` supports WPA2-PSK (Wi-Fi Protected Access 2 - Pre-Shared Key) and WPA3-PSK (Wi-Fi Protected Access 3 - Pre-Shared Key)
 * Pairwise Cipher: This specifies the encryption algorithm
 * Channel: Wi-Fi operates on specific radio frequency channels. In the 2.4 GHz Wi-Fi band, channels typically range from 1 to 11 (in North America) or 1 to 13/14 (in other regions).
+
+#### Flash
+
+Flash is a block of non-volatile storage/a filesystem for embedded system.
+
+##### Flash Partition
+
+A flash partition is a way to logically divide this single physical block of flash memory into several distinct sections.
+
+Typically, there are
+
+* `app` partitions: Store executable application code (raw binary).
+* `nvs`: Stores key-value data (NVS format).
+* `spiffs`/`littlefs`/`fat`: Can host a filesystem for storing larger files.
+* `phy_init`: Stores PHY (physical layer for Wi-Fi/Bluetooth) calibration data.
+* `ota_data`: Stores information about which app partition to boot.
+
+##### NVS (Non-Volatile Storage)
+
+NVS is a software library/API designed specifically for storing small pieces of data (key-value pairs) in flash memory on embedded devices.
+
+NVS is not a general-purpose filesystem like SPIFFS or FAT, but used ot store configuration settings, calibration data, counters, Wi-Fi credentials, etc.
+
+NVS persists when
+
+* Device reboot
+* Application code flash, e.g., by `idf.py flash` for ESP32
+
+NVS will be overwritten when
+
+* Full chip erase, e.g., `idf.py erase_flash` for ESP32
+* Flash partition changes
+* Explicit write in application code, e.g., `nvs_set_str(...)`
+
+##### NAND Flash
+
+NAND Flash is type of Raw flash that requires a Flash Translation Layer (FTL) to manage wear-leveling, bad blocks, and present a block device interface.
+
+SPIFFS: Filesystems designed for raw flash, but typically for smaller files due to performance limitations. Less common for large video files unless the "disk" is raw SPI flash.
+
