@@ -97,6 +97,8 @@ The low-level software that is permanently stored in the non-volatile memory (RO
 * For simpler embedded systems, the application code might run directly on the hardware (bare-metal programming)
 * Real-Time Operating System (RTOS): RTOSes are designed for applications where timing and responsiveness are critical.
 
+## Pins and Explanation
+
 ## Main Controller
 
 |Feature/Aspect|8051 Microcontroller (e.g., Atmel AT89C51)|STM32 (STMicroelectronics)|ESP32 (Espressif Systems)|
@@ -117,49 +119,57 @@ The low-level software that is permanently stored in the non-volatile memory (RO
 
 ## Common Data Communication Protocols in Embedded Systems
 
-|Feature|UART (Universal Asynchronous Receiver/Transmitter)|I2C (Inter-Integrated Circuit)|SPI (Serial Peripheral Interface)|CAN (Controller Area Network)|USB (Universal Serial Bus)|
-|-|-|-|-|-|-|
-|Type|Asynchronous Serial|Synchronous Serial, Multi-master, Half-duplex|Synchronous Serial, Master-Slave, Full-duplex|Asynchronous Serial, Multi-master, Broadcast|Asynchronous Serial, Master-Slave, Full-duplex|
-|Wires|2 (TX, RX)|2 (SDA - Data, SCL - Clock)|4 (MOSI, MISO, SCLK, SS) + 1 SS per slave for multiple slaves|2 (CAN_H, CAN_L - differential pair)|4 (D+, D-, VBUS, GND) and more|
-|Speed|Low to Moderate (e.g., 9600 bps to 1 Mbps)|Moderate (100 kbps to 3.4 Mbps, up to 5 Mbps in Ultra-fast)|High (1 Mbps to 50+ Mbps, limited by devices/wiring)|High (up to 1 Mbps for CAN 2.0, up to 5 Mbps for CAN FD)|Very High (1.5 Mbps to 40 Gbps+ depending on USB version)|
-|Number of Devices|Point-to-point (typically 2 devices)|Up to 127 (7-bit address), 1023 (10-bit address)|Limited by available Chip Select (SS) lines on master|Up to 64 nodes (electrical loading)|Up to 127 peripherals per host controller|
-|Topology|Point-to-point|Bus (Multi-master, multi-slave)|Master-slave (usually star or daisy-chain)|Bus (Multi-master, multi-slave)|Star (hierarchical tree)|
-|Clock|No shared clock (relies on baud rate agreement)|Shared clock (SCL)|Shared clock (SCLK)|No shared clock (uses bit stuffing and synchronization)|Dedicated clock/data lines|
-|Error Handling|Optional parity bit|ACK/NACK for each byte, arbitration for multi-master|No built-in error checking (software implementation needed)|Robust, built-in error detection (CRC, ACK, bit stuffing, etc.)|Robust, with error correction and re-transmission mechanisms|
-|Complexity|Simple|Moderate|Simple to Moderate|Moderate to High (requires dedicated controllers)|High (complex protocol stack, enumeration)|
-|Distance|Long (with appropriate transceivers like RS-232/485)|Short (typically on-board, < 1 meter)|Short (on-board, < 1 meter)|Moderate (up to 40m at 1 Mbps, 500m at 125 kbps)|Short (up to 5 meters without hubs, 2 meters for USB-C active)|
-|Power Consumption|Low|Low|Moderate (continuous clock)|Moderate|Can supply power to devices|
-|Typical Use Cases|Debugging, connecting MCU to PC (console), GPS modules, Bluetooth modules, simple sensor communication|Sensors (temperature, accelerometer), EEPROMs, LCDs, RTCs, communication between MCUs|SD cards, flash memory, displays (TFT), ADCs, high-speed sensors, communication with co-processors|Automotive (ECU communication), industrial automation, medical equipment|Connecting to PC peripherals (keyboard, mouse, camera, storage), charging, complex device interaction|
+|Feature|UART|I2C|SPI|I2S|CAN|USB|HDMI|Parallel RGB|MIPI (CSI/DSI)|
+|-|-|-|-|-|-|-|-|-|-|
+|**Full Name**|Universal Asynchronous Receiver/Transmitter|Inter-Integrated Circuit|Serial Peripheral Interface|Inter-IC Sound|Controller Area Network|Universal Serial Bus|High-Definition Multimedia Interface|Parallel Red, Green, Blue|MIPI Alliance (Camera/Display Serial Interface)|
+|**Type**|Asynchronous Serial|Synchronous Serial, Multi-master, Half-duplex|Synchronous Serial, Master-Slave, Full-duplex|Synchronous Serial, Master-Slave, Full-duplex (audio)|Asynchronous Serial, Multi-master, Broadcast|Asynchronous Serial, Master-Slave, Full-duplex|Synchronous Serial, Uncompressed Video/Audio|Synchronous Parallel, Unidirectional|High-speed Differential Serial for Video/Imaging|
+|**Wires**|2 (TX, RX)|2 (SDA, SCL)|4 (MOSI, MISO, SCLK, SS) + 1 SS per slave|3 (SCK, WS, SD) + optional MCLK|2 (CAN_H, CAN_L)|4 (D+, D-, VBUS, GND) and more|19 (Type A) with multiple TMDS pairs|Many (e.g., 16-24 for data + 3-4 for control)|Variable (e.g., 4-10+), 1 clock pair + 1-4+ data pairs|
+|**Speed**|Low to Moderate (9600 bps - 1 Mbps)|Moderate (100 kbps - 5 Mbps)|High (1 - 50+ Mbps)|High (1.4 - 10+ Mbps)|High (up to 5 Mbps)|Very High (1.5 Mbps - 40+ Gbps)|Extremely High (5 Gbps to 48 Gbps)|High (tied to pixel clock, e.g., 20-70+ MHz)|Extremely High (e.g., 2.5 Gbps per lane, scalable)|
+|**Number of Devices**|Point-to-point (2)|Up to 127|Limited by SS lines|Point-to-point (2)|Up to 64 nodes|Up to 127 per host|Point-to-point (1 source, 1 sink)|Point-to-point (1 controller, 1 display)|Point-to-point (1 peripheral to 1 host)|
+|**Topology**|Point-to-point|Bus|Master-slave (star)|Point-to-point|Bus|Star|Point-to-point|Point-to-point|Point-to-point|
+|**Clock**|No shared clock|Shared clock (SCL)|Shared clock (SCLK)|Shared clocks (SCK, WS)|No shared clock|Dedicated clock/data|Shared clock (TMDS clock lane)|Shared clock (PCLK) + Sync Signals (HSYNC, VSYNC)|Shared differential clock pair|
+|**Complexity**|Simple|Moderate|Simple to Moderate|Simple|Moderate to High|High|Very High (EDID, HDCP)|Low (protocol) but High (pin count & timing)|High (Low-power states, specific PHY required)|
+|**Distance**|Long (with transceivers)|Short (< 1m)|Short (< 1m)|Very Short (< 30cm)|Moderate (up to 40m)|Short (up to 5m)|Medium (up to 15m)|Extremely Short (on-board only, < 30cm)|Extremely Short (on-board only, < 30cm)|
+|**Power Consumption**|Low|Low|Moderate|Low to Moderate|Moderate|Can supply power|High|High (many pins switching at high speed)|Very Low (optimized for mobile)|
+|**Typical Use Cases**|Debugging, GPS, Bluetooth|Sensors, EEPROMs|Flash memory, SD cards, ADCs|Digital audio (MCU to Codec)|Automotive, industrial|PC peripherals, charging|Connecting TVs, Monitors, Consoles|Directly driving raw LCD/TFT panels in embedded systems|Internal Camera & Display connections in Phones, Tablets|
+---
 
-## Multi-Media
+### I2C vs SPI vs UART
 
-### Audio
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/topology_i2c_spi_uart.png" width="30%" height="40%" alt="topology_i2c_spi_uart" />
+</div>
 
-Codec stands for Coder-Decoder. These ICs typically handle both:
+where
 
-* Encoding: Converting analog audio (from a microphone or line-in) into digital audio data (ADC - Analog-to-Digital Converter).
-* Decoding: Converting digital audio data (from a microcontroller/processor) back into analog audio (to drive headphones or speakers) (DAC - Digital-to-Analog Converter).
+* UART is a simply TX/RX one-to-one connection.
+* SPI: Dedicated Chip Select (CS) or Slave Select (SS) pin for each device.
+    * Master pulls the CS pin of the desired slave device LOW. That slave is now active; all others are ignored.
+    * Simpler protocol, hence higher speed
+* I2C: Master sends a START, then the slave's 7-bit address. Only the matching slave responds with an ACK.
+    * Protocol overhead (addressing, ACKs) slows it down.
 
-An audio codec IC, e.g., ES8388, is a mixed-signal integrated circuit that acts as the bridge between the analog audio world and the digital processing world of a microcontroller (MCU), digital signal processor (DSP), or System-on-Chip (SoC).
+### Common Cables/Wires
 
-### Image/Video
+#### FFC (Flexible Flat Cable)
 
-||RGB (Parallel TTL)|SPI|MIPI DSI|
-|-|-|-|-|
-|Description|A parallel interface where dedicated lines carry red, green, and blue color data simultaneously|A synchronous serial interface. For displays, it typically uses 3 or 4 wires|A high-speed, differential, serial interface standard developed by Mobile Industry Processor Interface Alliance DSI (Display Serial Interface)|
-|Pin Count|Very High (20-30+)|Very Low (3-5)|Low to Moderate (4-10+)|
-|Bandwidth|Moderate|Low|Very High|
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/cable_ffc.png" width="20%" height="20%" alt="cable_ffc" />
+</div>
+
+#### FPC (Flexible Printed Circuit)
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/cable_fpc.png" width="20%" height="20%" alt="cable_fpc" />
+</div>
+ 
+#### Ribbon Cable (杜邦线)
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/cable_ribbon.png" width="20%" height="20%" alt="cable_ribbon" />
+</div>
 
 ## Development Practice
-
-### Example by Video Processing
-
-1. Storage (Long-term): The video file lives on Flash (e.g., SD card or internal flash).
-2. DMA (Direct Memory Access): Allows data to be transferred from the storage interface (e.g., SDIO controller) directly to RAM/PSRAM without CPU intervention, freeing up the CPU for decoding.
-3. Staging Area (Short-term, Active): Chunks of that video file are read from Flash and loaded into PSRAM (or internal SRAM if sufficient) to create an input buffer.
-4. Codec (Coder-Decoder): The algorithm used to compress/decompress/decode the video (e.g., H.264, H.265/HEVC, MJPEG, VP9). If hardware is present, e.g., ES8388, decoding takes place in the dedicated hardware, otherwise, CPU comes in help.
-5. DMA (Direct Memory Access): Come in help again transfer video data from RAM to display. If there is no DMA, CPU will help transfer the data.
-6. Display Interface: Show pixel on display (e.g., SPI, Parallel RGB, MIPI DSI), no decoding.
 
 ### JTAG (Joint Test Action Group)
 
@@ -307,3 +317,64 @@ NAND Flash is type of Raw flash that requires a Flash Translation Layer (FTL) to
 
 SPIFFS: Filesystems designed for raw flash, but typically for smaller files due to performance limitations. Less common for large video files unless the "disk" is raw SPI flash.
 
+#### Circuit Component Acronyms
+
+| Designator | Component Type                 | Description                                    |
+| :--------- | :----------------------------- | :--------------------------------------------- |
+| **U**      | **Integrated Circuit (IC)**    | The "chips" on the board, like the MCU, RAM, etc. |
+| **J**      | **Jack / Jumper / Connector**  | Connectors for power, data (USB), or debugging (JTAG). |
+| **P**      | **Plug / Pin Header**          | Connectors, often male pin headers for cables/jumpers. |
+| **R**      | **Resistor**                   | Used to limit current or create voltage dividers.   |
+| **C**      | **Capacitor**                  | Used for filtering power or storing energy.    |
+| **L**      | **Inductor**                   | A coil, used in power supplies and filters.    |
+| **Q**      | **Transistor**                 | A semiconductor switch (e.g., BJT, MOSFET).   |
+| **D**      | **Diode**                      | Allows current to flow in only one direction.  |
+| **LED**    | **Light Emitting Diode**       | A diode that lights up. Often a D, but LED is clearer. |
+| **X / Y**  | **Crystal / Oscillator**       | Generates a precise clock signal for the MCU.  |
+| **SW**     | **Switch**                     | A user-pressable button or a configuration switch. |
+| **F**      | **Fuse**                       | A protection device that breaks a circuit if current is too high. |
+| **TP**     | **Test Point**                 | A small metal pad on the board for probing with a multimeter. |
+| **FB**     | **Ferrite Bead**               | Used to suppress high-frequency noise on power lines. |
+
+Example: Jack2 (Acronym "J2") in this board is a TF card.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/jack_tf_card.png" width="20%" height="20%" alt="jack_tf_card" />
+</div>
+
+from schematics is referred as
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/jack_schematics.png" width="30%" height="20%" alt="jack_schematics" />
+</div>
+
+where data read and write are carried on SPI.
+
+* `SPI_MOSI` is connected to the MCU's GPIO Pin 11.
+* `SPI_SCK` is connected to the MCU's GPIO Pin 12.
+* `SPI_MISO` is connected to the MCU's GPIO Pin 13.
+
+#### VCC vs VDD
+
+##### VCC - Voltage at the Common Collector
+
+* Transistor Type: Bipolar Junction Transistor (BJT)
+* Terminals: A BJT has three terminals: Collector, Base, and Emitter.
+* Origin: In early digital logic families like TTL (Transistor-Transistor Logic), the positive voltage rail was connected to the Collector terminals of the internal NPN transistors. Hence, it was the "Voltage at the Common Collector" or VCC.
+* Typical Voltage: For decades, the standard for TTL logic was +5V. This is why you often see VCC associated with 5V supplies.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/transistor_bjt.png" width="30%" height="30%" alt="transistor_bjt" />
+</div>
+
+
+##### VDD - Voltage at the Common Drain
+
+* Transistor Type: Field-Effect Transistor (FET), specifically a MOSFET.
+* Terminals: A MOSFET has three terminals: Drain, Gate, and Source.
+* Origin: In logic families using FETs, such as NMOS, PMOS, and especially CMOS, the positive voltage rail is connected to the Drain terminals of the internal P-channel MOSFETs. Hence, it was the "Voltage at the Common Drain" or VDD.
+* Typical Voltage: CMOS technology is much more flexible and power-efficient. VDD can be a wide range of voltages, such as +5V, +3.3V, +1.8V, or even lower for modern CPUs.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/transistor_fet.png" width="20%" height="30%" alt="transistor_fet" />
+</div>

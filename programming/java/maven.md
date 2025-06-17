@@ -424,6 +424,42 @@ A minimalist example:
 </project>
 ```
 
+### Maven Dependency Management by Transitive Dependency
+
+A *transitive dependency* is a dependency of your dependency.
+Maven auto downloads transitive dependencies when a parent dependency is declared in user project `pom.xml`.
+
+By `mvn dependency:tree -Dverbose` the dependencies are all revealed.
+
+#### The Role of the `pom.xml` and `META-INF` of A Dependency
+
+When the author of a library builds and packages it into a JAR file, Maven places a copy of that library's `pom.xml` file inside the final JAR.
+
+The `META-INF` directory is a special folder inside a JAR file that holds metadata about the archive.
+This is where Maven stores the copy of the `pom.xml`.
+
+#### Dependency Conflict
+
+A dependency conflict arises when project (or, more commonly, the dependencies of your dependencies) requires different versions of the same library. Maven attempts to resolve these conflicts automatically, but the resolution might not always lead to the desired outcome.
+
+* Order of Declaration (First-Declared Wins):
+If two dependencies are on the same level of the dependency tree (same distance from your project) and of equal distance, the one **listed first** in `pom.xml` will be used.
+
+#### The `<scope>provided</scope>`
+
+When a dependency is declared `provided`, this dependency will not be included in the final built jar/war, but loaded in runtime env.
+
+For example, if a web server is already using tomcat, there is no need to bundle servlet jars into user application jar.
+
+```xml
+<dependency>
+    <groupId>jakarta.servlet</groupId>
+    <artifactId>jakarta.servlet-api</artifactId>
+    <version>6.0.0</version>
+    <scope>provided</scope> <!-- Don't package this into my .war file; Tomcat will provide it. -->
+</dependency>
+```
+
 ### Popular Maven Plugins
 
 #### Maven Model (`maven-model`)

@@ -67,3 +67,19 @@ where
       <img src="imgs/type_c_pcb_design.png" width="75%" height="40%" alt="type_c_pcb_design" />
 </div>
 </br>
+
+### Why differential signals ?
+
+#### Noise Immunity (Common-Mode Rejection)
+
+Uses two wires carrying complementary signals (e.g., if one is HIGH, the other is LOW, and vice-versa). The receiver looks at the difference in voltage between these two wires.
+For example,
+
+1. Wire A: Signal = +1V, Wire B: Signal = -1V. Difference = 2V.
+2. Noise adds +0.5V to both: Wire A = +1.5V, Wire B = -0.5V. Difference is still 2V.
+3. The receiver correctly interprets the signal despite the noise.
+
+#### Reduced EMI Emission
+
+* Single-ended: Current flows down the signal wire and returns through the ground plane. This can create larger current loops, which act like antennas, radiating electromagnetic interference (EMI). This can cause the device to fail EMC (Electromagnetic Compatibility) testing or interfere with other nearby devices.
+* Differential: The current flowing out on one wire is nearly equal and opposite to the current returning on the other wire of the pair. These opposing currents create magnetic fields that largely cancel each other out, significantly reducing EMI emissions.
