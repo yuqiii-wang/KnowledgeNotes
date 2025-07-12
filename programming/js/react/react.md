@@ -98,6 +98,16 @@ export default function DiceRoll(){
 
 * React View
 
+## File Extensions
+
+|Feature|`.js`|`.ts`|`.tsx`|
+|:---|:---|:---|:---|
+|Language|JavaScript|TypeScript|TypeScript|
+|JSX Support|Yes (with a tool like Babel)|No|Yes|
+|Type Safety|No|Yes|Yes|
+|Common Use|Basic React components|Non-component TypeScript logic|React components in TypeScript|
+
+
 ## React Native
 
 ## `redux`

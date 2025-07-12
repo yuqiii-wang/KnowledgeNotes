@@ -162,6 +162,52 @@ function App() {
 }
 ```
 
+* `useMemo`
+
+The `useMemo` hook in React is used to optimize application performance by caching the result of a calculation between re-renders. This process, known as memoization.
+
+
+This is particularly useful in computation-intense task.
+For example, a user may perform various aggregation action (action registered in `someOtherProp`) on a sales data table `salesData`.
+Every action will triggers recomputation which is unnecessary and expensive.
+
+```tsx
+function SalesReport({ salesData, someOtherProp }) {
+  // This calculation runs on every single render
+  const aggregatedData = aggregateSalesByCategory(salesData);
+
+  // ... rest of the component to display the table
+}
+```
+
+The smart solution should be `useMemo`
+
+```tsx
+import React, { useMemo } from 'react';
+
+function SalesReport({ salesData, someOtherProp }) {
+  const aggregatedData = useMemo(() => {
+    console.log("Performing expensive aggregation...");
+    // This is a placeholder for your actual aggregation logic
+    const aggregation = {};
+    salesData.forEach(sale => {
+      if (!aggregation[sale.category]) {
+        aggregation[sale.category] = 0;
+      }
+      aggregation[sale.category] += sale.amount;
+    });
+    return aggregation;
+  }, [salesData]); // The dependency array
+
+  // ... rest of the component to display the table
+}
+```
+
+where
+
+* When `salesData` changes: The aggregation function will run again to compute the new totals.
+* When `someOtherProp` or any other unrelated state changes: useMemo will see that salesData has not changed and will return the previously calculated `aggregatedData` without re-running the expensive logic.
+
 ## Object, Function and Class
 
 |Function|Object|Class|

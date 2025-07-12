@@ -3,6 +3,7 @@
 **WebSocket** is a computer communications protocol, providing full-duplex communication channels over a single TCP connection, facilitating real-time data transfer from and to the server.
 
 Below is an example request and response to confirm the availability of using websocket.
+
 ```yaml
 GET /chat HTTP/1.1
 Host: server.example.com
@@ -14,13 +15,31 @@ Sec-WebSocket-Version: 13
 Origin: http://example.com
 ```
 
+where
+
+*  `Sec-WebSocket-Key`: This is a randomly generated, Base64-encoded value. It's not for security/authentication. Its purpose is to ensure that the server is a genuine WebSocket server and not a misconfigured HTTP server that might be confused by the Upgrade header.
+
 The server's response is 
+
 ```yaml
 HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
 Connection: Upgrade
-Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+Sec-WebSocket-Accept: oS107k9qaJ7i7NpzgWsuAtm1/9M=
 Sec-WebSocket-Protocol: chat
+```
+
+where `Sec-WebSocket-Accept: oS107k9qaJ7i7NpzgWsuAtm1/9M=`:
+
+1. It takes the client's key: `x3JJHMbDL1EzLkh9GBhXDw==`
+2. It appends the globally defined "magic string", e.g., generated UUID of the server: `258695E5-E914-47DA-95CA-C5AB0DC85B11`
+3. It calculates the SHA-1 hash of that combined string.
+4. It Base64 encodes the resulting hash.
+
+For example, `oS107k9qaJ7i7NpzgWsuAtm1/9M=` can be derived by
+
+```sh
+echo -n "x3JJHMbDL1EzLkh9GBhXDw==258695E5-E914-47DA-95CA-C5AB0DC85B11" | openssl dgst -sha1 -binary | base64
 ```
 
 After the initial request/response, a secure websocket tunnel is built.

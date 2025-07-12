@@ -10,6 +10,16 @@
 
 Security group rules: A security rule applies either to inbound traffic (**ingress**) or outbound traffic (**egress**). 
 
+## mbed TLS
+
+mbed TLS (formerly known as PolarSSL) is the SSL cryptographic framework designed for embedded system.
+
+||mbed TLS|OpenSSL|
+|-|-|-|
+|Footprint|Small & modular|Larger|
+|Portability|Optimized for embedded|Broad but heavier|
+|Ease of Use|Simpler API|More complex|
+
 ## Log in vs Log on
 
 Log in is a verb phrase. When you log in to something, you provide credentials to access material.
