@@ -2,11 +2,51 @@
 
 ## React State vs Property
 
+||Attribute|Props|State|
+|:---|:---|:---|:---|
+|Purposes|Defines HTML element characteristics. In JSX, they become props.|Passes data from parent to child.|Manages a component's internal, changing data.|
+___
+
 * State
 
 State is local and private to the component where it is defined.
 
-State is used for re-rendering on change.
+The `count` is state of `Counter`.
+When `setCount` is invoked that triggers state update, the `Counter` will be re-rendered.
+
+```js
+import React, { useState } from 'react';
+
+function Counter() {
+  // Declare a state variable named "count"
+  // setCount is the function to update it
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+```
+
+Regular JS variables are NOT states, React does NOT track the change of such variables, hence UI will not update accordingly.
+
+```js
+function MyComponent() {
+  let count = 0; // This is NOT state.
+
+  const handleClick = () => {
+    count = count + 1; // This change will NOT re-render the component.
+    console.log(count); // The console will show the new value, but the UI won't update.
+  };
+
+  return <button onClick={handleClick}>Count is {count}</button>;
+}
+```
 
 * Props
 
@@ -45,6 +85,18 @@ const CounterApp = () => {
 
 export default CounterApp;
 ```
+
+* Attribute
+
+Attribute refers to traditional/default props, e.g., `src` of the DOM `img`.
+
+```js
+<img id="main-logo" class="logo" src="/logo.png" alt="Company Logo">
+```
+
+### On What Conditions React Renders
+
+By default, a component will re-render if **its parent re-renders**, or if **its own state or props change**.
 
 ## React Component Lifecycle
 
@@ -303,7 +355,7 @@ const boundGreet = greet.bind(obj); // Bind `this` to `obj`
 boundGreet(); // Logs "Alice"
 ```
 
-## React Rendering
+## React Rendering Event Process Flow
 
 ### How React responds on `onClick`
 
@@ -506,35 +558,404 @@ useEffect(() => {
   }, []);
 ```
 
-## Iteration
-
-### How React uses mapping as a for loop
-
 ## Virtual DOM vs Actual DOM
+
+* Actual DOM
+
+It represents the structure of an HTML or XML document as a tree of nodes that actually interact with rendering engine, e.g., web browser.
+
+However, directly manipulating the actual DOMs is heavy.
+There should be a lightweight preceding operation that optimizes todo actual DOMs.
+
+* Virtual DOM
+
+Virtual DOM is a lightweight, in-memory representation of the actual DOM as a JavaScript object and is not directly tied to the browser's rendering engine.
+
+### How React Uses the Virtual DOM: The Reconciliation Process
+
+1. When the state of a component changes, React creates a new Virtual DOM tree that reflects this updated state.
+2. React then compares this new Virtual DOM tree with the previous one. This comparison process is known as "diffing."
+3. React calculates the most efficient way to apply these changes to the real DOM with batched pending updates.
+4. React renders the actual changes to actual DOM.
+
+### Diffing and `key`
+
+React uses diffing algo with `key` to determine if a DOM element needs to get created/destroyed.
+
+Despite that the `key` for each row remains the same, the key prop's purpose is **for reconciliation and identification, not for preventing re-renders**.
+As a result, if any of item in `initialUsers` got changed by `setUsers`, all four users are updated.
+This is triggered by the state `users` of `App` updated as a parent, whose children the four `UserRow` are updated by a cascading effect.
+
+React uses the key to efficiently determine:
+
+* Which item was added?
+* Which item was removed?
+* Which item was re-ordered?
+
+By having a stable identity (`key`), React can avoid destroying and re-creating DOM nodes unnecessarily and can preserve the state of components within the list.
+In other words, whether DOM nodes are to re-rendered does not concern the `key`, and diffing is about DOM node construction/destruction, not DOM's prop.
+
+```js
+import React, { Component } from 'react';
+
+const initialUsers = [
+  { id: 1, name: 'Alice', age: 28 },
+  { id: 2, name: 'Bob', age: 35 },
+  { id: 3, name: 'Charlie', age: 42 },
+  { id: 4, name: 'Diana', age: 31 },
+];
+
+class UserRow extends Component {
+  render() {
+    console.log(`Rendering PURE Row for: ${this.props.user.name}`);
+    return (
+      <tr>
+        <td>{this.props.user.id}</td>
+        <td>{this.props.user.name}</td>
+        <td>{this.props.user.age}</td>
+      </tr>
+    );
+  }
+}
+
+function App() {
+  const [users, setUsers] = useState(initialUsers);
+
+  return (<div className="App">
+            <tbody>
+              {users.map(user => (
+                <UserRow key={user.id} user={user} />
+              ))}
+          </tbody>
+        </div>);
+}
+```
 
 ### Some tricks using DOM tree diffs to improve rendering performance
 
+The primary mechanism React uses to track elements and optimize its diffing process is the `key` attribute.
+For long array and nested objects, smart key design is the key to cater to the "diffing" process.
+
+For example,
+without `key`, React will, by default, use the array index as the key.
+When the list is modified. React will assume that every subsequent element has changed because their indices have shifted.
+The updates are heavy.
+
+Bad implementation:
+
+```js
+// Unstable and can lead to issues
+const items = ['Apple', 'Banana', 'Cherry'];
+items.map((item, index) => <li key={index}>{item}</li>);
+```
+
+Good Practice: Using a Stable ID from Data
+
+```js
+// Stable and unique IDs from data
+const items = [
+  { text: 'Apple' },
+  { text: 'Banana' },
+  { text: 'Cherry' },
+];
+items.map(item => <li key={item.text}>{item.text}</li>);
+```
+
+For complex nested objects, need to manually construct semantic ids as keys.
+
+```js
+const categories = [
+  {
+    id: 'fruit1',
+    name: 'Fruits',
+    items: [
+      { id: 'item1', name: 'Apple' },
+      { id: 'item2', name: 'Banana' },
+    ],
+  },
+];
+
+const CategoryList = () => (
+  <ul>
+    {categories.map(category => (
+      <li key={category.id}>
+        <h3>{category.name}</h3>
+        <ul>
+          {category.items.map(item => (
+            // A composite key ensures uniqueness across all inner list items
+            <li key={`${category.id}-${item.id}`}>{item.name}</li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
+);
+```
+
 ## How to check and improve React performance
 
-### `shouldComponentUpdate`
-
 ### `pureComponent`
+
+By default, a standard React.Component re-renders whenever its parent component re-renders, or when its own state or props change, regardless of whether the new state or props are identical to the old ones. 
+
+`React.PureComponent` addresses this by implementing the `shouldComponentUpdate()` lifecycle method with a "shallow comparison" of its current and next props and state.
+
+#### Shallow Comparison Mechanism
+
+* For primitive types (like strings, numbers, and booleans), a shallow comparison checks for value equality.
+* For complex types (like objects and arrays), a shallow comparison checks for reference equality. **NOT for nested objects**.
+
+#### Example Use Case
+
+In a requirement of grid table, where user may just edit one entry but depending on component dependency chain, the whole parent grid component is updated that has a cascading effect on all child rows.
+This is expensive.
+
+In the example provided `UserRow` vs `PureUserRow` in `./UserRow`,
+
+```js
+import React, { Component, PureComponent } from 'react';
+
+class UserRow extends Component {
+  render() {
+    console.log(`Rendering PURE Row for: ${this.props.user.name}`);
+    return (
+      <tr>
+        <td>{this.props.user.id}</td>
+        <td>{this.props.user.name}</td>
+        <td>{this.props.user.age}</td>
+      </tr>
+    );
+  }
+}
+
+class PureUserRow extends PureComponent {
+  render() {
+    console.log(`Rendering PURE Row for: ${this.props.user.name}`);
+    return (
+      <tr>
+        <td>{this.props.user.id}</td>
+        <td>{this.props.user.name}</td>
+        <td>{this.props.user.age}</td>
+      </tr>
+    );
+  }
+}
+```
+
+Consider a grid table of four rows.
+When user clicks a button to update Bob's age, every `<UserRow key={user.id} user={user} />` is re-rendered, while for `<PureUserRow key={user.id} user={user} />` only the Bob's entry is re-rendered.
+
+This (the standard `UserRow` scenario) is triggered by the state `users` of `App` updated as a parent, whose children the four `UserRow` are updated by a cascading effect:
+
+1. State Change: User clicks the button, which calls `setUsers`. This updates the state of the `App` component with a new array of users.
+2. Parent Re-renders: Because `App`'s state has changed, the `App` component's `render()` method is executed again.
+3. If a parent component (`App`) re-renders, React will re-render all of its child components by default.
+
+The above issue can be addressed by child component implementing `PureComponent`.
+
+```js
+import React, { useState } from 'react';
+import { UserRow, PureUserRow } from './UserRow';
+import './App.css';
+
+const initialUsers = [
+  { id: 1, name: 'Alice', age: 28 },
+  { id: 2, name: 'Bob', age: 35 },
+  { id: 3, name: 'Charlie', age: 42 },
+  { id: 4, name: 'Diana', age: 31 },
+];
+
+function App() {
+  const [users, setUsers] = useState(initialUsers);
+  
+  const updateUser = () => {
+    setUsers(prevUsers => {
+      // Create a new array to ensure state immutability
+      const newUsers = [...prevUsers];
+      // "Update" Bob's age
+      newUsers[1] = { ...newUsers[1], age: newUsers[1].age + 1 };
+      return newUsers;
+    });
+  };
+
+  return (
+    <div className="App">
+      <button onClick={updateUser}>Update Bob's Age</button>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map(user => (
+            <UserRow key={user.id} user={user} />
+          ))}
+        </tbody>
+        <tbody>
+          {users.map(user => (
+            <PureUserRow key={user.id} user={user} />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+```
 
 ### Chrome V8 Engine Garbage Collection (GC)
 
 ### Worker, thread worker
 
+JavaScript is single-threaded, that means at its core, JavaScript has a single call stack, which is a data structure that records where in the program the execution is.
+
+However, for heavy tasks, JS spawns worker threads.
+The worker threads have below limitations out of main thread safety concerns.
+
+* No DOM access: For safety and to prevent race conditions, Web Workers cannot directly manipulate the Document Object Model (DOM).
+* Communication via messaging: The main thread and a worker thread communicate by sending messages to each other using the `postMessage()` method and responding to them via the onmessage event handler. Data is copied, not shared, between the threads.
+
+Write a heavy workload task `/heavyTask.worker.js`
+
+```js
+// eslint-disable-next-line no-restricted-globals
+self.onmessage = function(event) {
+  console.log("Worker: Message received from main script");
+  const number = event.data;
+  // Simulate a CPU-intensive task
+  let result = 0;
+  for (let i = 0; i < number * 200000000; i++) {
+    result += Math.sqrt(i);
+  }
+  console.log("Worker: Posting message back to main script");
+  postMessage(result);
+};
+```
+
+In the main thread, the worker thread is launched via `new Worker(...)` when `HeavyTaskComponent` is mounted awaiting user action.
+When user inputs number and clicks button that triggers `handleCalculate` that send the input num via `workerRef.current.postMessage(inputNumber);`, the worker thread on receiving the event msg starts execution.
+
+When the spawned worker thread finishes its computation, the main thread receives completion signal via `workerRef.current.onmessage`.
+
+```js
+function HeavyTaskComponent() {
+  const [result, setResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [inputNumber, setInputNumber] = useState(5);
+
+  // useRef to hold the worker instance so it persists through re-renders
+  const workerRef = useRef(null);
+
+  useEffect(() => {
+    // Create a new worker
+    workerRef.current = new Worker('/heavyTask.worker.js');
+
+    // Set up the listener for messages from the worker
+    workerRef.current.onmessage = (event) => {
+      console.log("Main: Message received from worker");
+      setResult(event.data);
+      setIsLoading(false);
+    };
+
+    // Clean up the worker when the component unmounts
+    return () => {
+      console.log("Main: Terminating worker");
+      workerRef.current.terminate();
+    };
+  }, []); // Empty dependency array ensures this runs only once on mount
+
+  const handleCalculate = () => {
+    setIsLoading(true);
+    setResult(null);
+    console.log("Main: Posting message to worker");
+    workerRef.current.postMessage(inputNumber);
+  };
+
+  return(
+    <div>
+      <input
+        type="number"
+        value={inputNumber}
+        onChange={(e) => setInputNumber(parseInt(e.target.value, 10))}
+        disabled={isLoading}
+      />
+      <button onClick={handleCalculate} disabled={isLoading}>
+        {isLoading ? 'Calculating...' : 'Start Heavy Calculation'}
+      </button>
+    </div>);
+  }
+```
+
 ## What is HOC `highOrderComponent`
 
-## React Storage
+High order component is basically a wrap component to make easy for code reuse.
 
-### General practices concerning state management
+For example, there is `withBackgroundColor` that defines some generic styles.
+Instead writing css for every individual component, make `withBackgroundColor` the wrapper component.
 
-* `hooks`+`context`
-* `redux`
+```js
+import React from 'react';
 
-### Resilient File System (ReFS)
+const withBackgroundColor = (WrappedComponent) => {
+  // The new component returned by the HOC
+  const WithBackgroundColor = (props) => {
+    const style = {
+      backgroundColor: 'lightblue',
+      padding: '10px',
+      borderRadius: '5px'
+    };
 
-### Session vs Local Storage
+    // Render the original component with the new style prop
+    return (
+      <div style={style}>
+        <WrappedComponent {...props} />
+      </div>
+    );
+  };
 
-### `usememo`
+  return WithBackgroundColor;
+};
+
+export default withBackgroundColor;
+```
+
+For an individual component,
+
+```js
+import React from 'react';
+
+const MyComponent = ({ message }) => {
+  return (
+    <div>
+      <h1>Hello from MyComponent!</h1>
+      <p>{message}</p>
+    </div>
+  );
+};
+
+export default MyComponent;
+```
+
+wrap it within `withBackgroundColor`.
+
+```js
+import React from 'react';
+import MyComponent from './MyComponent';
+import withBackgroundColor from './withBackgroundColor';
+
+// Create the enhanced component by calling the HOC with the original component
+const EnhancedComponent = withBackgroundColor(MyComponent);
+
+// Use the new component in your application
+const App = () => {
+  return (
+    <div>
+      <EnhancedComponent message="This component has a background color from the HOC." />
+    </div>
+  );
+};
+
+export default App;
+```

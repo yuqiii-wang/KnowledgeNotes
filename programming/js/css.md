@@ -1,89 +1,6 @@
 # Cascading Style Sheets (CSS)
 
-## Syntax
-
-### Scope
-
-* Tag: `tagname { property: value; }`
-
-```css
-p {
-  color: blue;
-}
-```
-
-* `.` class: `.classname { property: value; }`
-
-```css
-.highlight {
-  background-color: yellow;
-}
-```
-
-* `#` id: `#idname { property: value; }`
-
-```css
-#header {
-  font-size: 24px;
-}
-```
-
-* `*` Universal/apply to all: `* { property: value; }`
-
-```css
-* {
-  margin: 0;
-  padding: 0;
-}
-```
-
-* `:` and `::`: Pseudo-classes and Pseudo-elements:
-
-Take effect on certain conditions or part of an element `selector:pseudo-class { property: value; }` or `selector::pseudo-element { property: value; }`.
-
-```css
-p:hover {
-  color: red;
-}
-/* Changes the link color to red when hovered over. */
-
-p::first-line {
-  font-weight: bold;
-}
-/* Makes the first line of a paragraph bold. */
-```
-
-The above css applies to this `<p>` tag element.
-
-```html
-<p>This is the first line of the paragraph, and it will be bold.
-The rest of the text in this paragraph will not be bold. This is just some additional text to show that only the first line is affected by the CSS rule.
-When on hover, the whole paragraph will be red.</p>
-```
-
-### Naming Convention in React: Inline vs in `.css`
-
-In React, to JavaScript objects to define the styles, the property names must follow JavaScript's naming conventions, which do not allow hyphens in object keys.
-
-For example, in `.css`, there is
-
-```css
-margin-top: 10px;
-```
-
-But in a React component by inline style, there is
-
-```jsx
-const myStyle = {
-  marginTop: '10px'
-};
-
-function MyComponent() {
-  return <div style={myStyle}>This div has a 10px margin on top.</div>;
-}
-```
-
-### Style Precedence
+## Style Precedence
 
 1. `!important`
 2. Javascript editing style
@@ -152,6 +69,166 @@ Only inlined `!important` can overwrites external css `!important` styles.
 
 ```jsx
 <a href="#" style={{ color: 'yellow !important' }}>Link</a>
+```
+
+## CSS Scope and Compilation
+
+### CSS Inheritance
+
+A `example.css` writes as below.
+
+```css
+/* Rule #1 */
+.base {
+  color: blue;
+  padding: 10px;
+}
+
+/* Rule #2 */
+.base .primary {
+  background-color: lightblue;
+}
+```
+
+where `.base .primary` is a descendant selector.
+Only when `primary` stays nested inside DOM element `base` that it matches the rule `.base .primary`.
+
+```html
+<!-- This is the parent element -->
+<div class="base">
+  Some text in the base container.
+  
+  <!-- This is a descendant element -->
+  <p class="primary">
+    This part is primary and inside base.
+  </p>
+</div>
+```
+
+Or in `.tsx`, there is
+
+```tsx
+import styles from './css/example.module.css';
+
+const app = () => {
+  return (
+    <div className={styles.base}>
+      <div className={styles.primary}>
+      </div>
+    </div>
+    );
+};
+```
+
+### Module Scope vs Global Scope
+
+If just write `import './example.css';`, all styles are set in a global scope.
+Instead, a better solution would be `import styles from './example.css';` that gives a local scope.
+
+To compile `example.css`, for each class name, build tool creates a brand new, unique string such as
+
+```css
+.a_base__a123b {
+  color: blue;
+  font-family: sans-serif;
+}
+
+.a_base__a123b .a_primary__c456d {
+  border: 2px solid navy;
+}
+```
+
+Then, they are mapped to where they are referenced in use.
+
+### The `.module.css` for React
+
+The `.module.css` file extension is a special convention that is not part of standard CSS.
+It's a signal to build tool (like Webpack or Vite, commonly used with frameworks like React, Vue, or Next.js) to treat this file as a CSS Module.
+
+When imported a module file (`import styles from './example.module.css'`), the build tool intercepts it.
+It automatically transforms every class name in that file into a unique, hashed string that is guaranteed not to conflict with any other class in project.
+
+## Syntax and Common Styles
+
+### Target Element Scope
+
+* Tag: `tagname { property: value; }`
+
+```css
+p {
+  color: blue;
+}
+```
+
+* `.` class: `.classname { property: value; }`
+
+```css
+.highlight {
+  background-color: yellow;
+}
+```
+
+* `#` id: `#idname { property: value; }`
+
+```css
+#header {
+  font-size: 24px;
+}
+```
+
+* `*` Universal/apply to all: `* { property: value; }`
+
+```css
+{
+  margin: 0;
+  padding: 0;
+}
+```
+
+* `:` and `::`: Pseudo-classes and Pseudo-elements:
+
+Take effect on certain conditions or part of an element `selector:pseudo-class { property: value; }` or `selector::pseudo-element { property: value; }`.
+
+```css
+p:hover {
+  color: red;
+}
+/* Changes the link color to red when hovered over. */
+
+p::first-line {
+  font-weight: bold;
+}
+/* Makes the first line of a paragraph bold. */
+```
+
+The above css applies to this `<p>` tag element.
+
+```html
+<p>This is the first line of the paragraph, and it will be bold.
+The rest of the text in this paragraph will not be bold. This is just some additional text to show that only the first line is affected by the CSS rule.
+When on hover, the whole paragraph will be red.</p>
+```
+
+### Naming Convention in React: Inline vs in `.css`
+
+In React, to JavaScript objects to define the styles, the property names must follow JavaScript's naming conventions, which do not allow hyphens in object keys.
+
+For example, in `.css`, there is
+
+```css
+margin-top: 10px;
+```
+
+But in a React component by inline style, there is
+
+```jsx
+const myStyle = {
+  marginTop: '10px'
+};
+
+function MyComponent() {
+  return <div style={myStyle}>This div has a 10px margin on top.</div>;
+}
 ```
 
 ## Size: `rem`, `px`, `vh`, and `%`
@@ -259,7 +336,7 @@ In css, having declared `display: flex`, use `justify-content` and `align-items`
 
 ### `grid`
 
-## `clip-path` and Border
+### `clip-path` and Border
 
 `clip-path` clips off an element and renders this element of a particular shape.
 

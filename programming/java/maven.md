@@ -358,11 +358,20 @@ The additional runtime parameters are defined in IDEA (if `VM Options` not shown
 </br>
 
 |Feature|Environment Variables|VM Options|Program Arguments|
-|-|-|-|-|
+|:---|:---|:---|:---|
 |Purpose|Set system-wide configurations. Often used for sensitive data.|Configure JVM settings or global system properties.|Provide runtime parameters specific to the application logic.|
 |Access in Java|`System.getenv("VAR_NAME")`|`System.getProperty("property_name")`|args array in the main method: `public static void main(String[] args)`|
 |Scope|Available to the whole system or user session.|Available to the JVM during the application's lifecycle.|Available only within the running instance of the application.|
 |Examples|`DATABASE_URL=jdbc://localhost`, `-Denv=production`|`-Xmx1024m` (Maximum Heap Size), `-Xms512m` (Initial Heap Size)|`-Dserver.port=8080`, `--inputDir=/data/input`|
+
+
+For example, below VM options are can resolve "PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target".
+The VM options are used for runtime java for application, not for maven build itself.
+
+```sh
+-Djava.net.ssl.trustStore=/path/to/<jre-version>/lib/security/cacerts
+-Djava.net.ssl.trustStorePassword=changeit
+```
 
 9. For any future change/debug, one can just recompile
 
