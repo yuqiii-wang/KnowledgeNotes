@@ -86,6 +86,17 @@ class D {
 }
 ```
 
+In Java, `==` is used for reference addr/object id comparison, not for value.
+For value comparison, need to use primitive type, e.g., `double`/`int`, instead of `Double`/`Integer`,
+or with method such as `Double::doubleValue()`.
+
+|Comparison|Description|Result for `a` and `b`|
+|:---|:---|:---|
+|`a == b`|Compares object references.|`false`|
+|`a != b`|Compares object references.|`true`|
+|`a.equals(b)`|Compares the primitive double values.|`true`|
+|`Double.compare(a, b)`|Compares the primitive double values, returning `0` if they are equal.|`0`|
+
 P.S. in Java 1.6, Integer calls `valueOf` when assigning an integer.
 
 ```java

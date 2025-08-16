@@ -192,3 +192,6 @@ function ResponsiveGrid() {
   );
 }
 ```
+
+
+## StrictMode in React

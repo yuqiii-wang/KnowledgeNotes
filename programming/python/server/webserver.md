@@ -26,13 +26,29 @@ Definition: A synchronous + asynchronous Python standard (ASGI spec) that extend
 
 ## Servers
 
-|Server|Protocol|Key Features|Description|Used With|Launched Year|
-|-|-|-|-|-|-|
+|Server|Protocol|Key Features|Description|Used With Framework|Launched Year|
+|:---|:---|:---|:---|:---|:---|
 |Werkzeug|WSGI|Simple as a WSGI utility tool|A WSGI utility library used by Flask for routing, request/response handling|Flask|~2007|
-|Gunicorn|WSGI/ASGI|Production-grade, process management|Uses a pre-fork worker model (each worker is a separate process) for handling requests.|Flask, Django, FastAPI|~2009|
+|uWSGI|WSGI/ASGI|High-performance, extensive configuration, Emperor mode| It uses a master-worker model and a native uwsgi binary protocol for optimized communication with web servers.|Flask, Django|~2008|
+|Gunicorn|WSGI/ASGI|Production-grade, process management|Uses a pre-fork worker model (each worker is a separate process) for handling requests.|Flask, Django, FastAPI|~2010|
 |Daphne|ASGI|WebSocket support, Django integration|An ASGI server originally built for Django Channels (WebSocket support)|Django (ASGI mode)|~2015|
 |Uvicorn|ASGI|Async, lightweight, FastAPI's default|A lightweight ASGI server built on `uvloop` (a fast, drop-in replacement for Python's default event loop written in C) and `httptools` (a fast HTTP parser). Optimized for FastAPI and Starlette.|FastAPI, Starlette|~2018|
 |Hypercorn|ASGI|HTTP/2, WebSockets, Gunicorn-like|ASGI server inspired by Gunicorn, supporting HTTP/2 and WebSockets.|FastAPI, Quart|~2018|
+
+### Web Server vs. Web Framework
+
+#### Web Server
+
+* Accepting Connections: port listening and request queuing
+* Serving Static Files: serving static assets like images (`.jpg`, `.png`), stylesheets (`.css`), or JavaScript files (`.js`) by direct retrieval without much engagement of web framework
+* Security and SSL/TLS
+* Load Balancing and Reverse Proxying
+
+#### Web Framework
+
+* URL Routing
+* Request Handling: process headers, cookies, and any submitted form data.
+* Response: based on request processing result, return response.
 
 ## Core Libraries
 

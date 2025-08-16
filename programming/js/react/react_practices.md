@@ -457,4 +457,20 @@ function Navbar() {
 export default Navbar;
 ```
 
-## StrictMode in React
+## Common ESLint Warnings and Best Coding Practices
+
+### Using Template Literals
+
+Prefer template literals over string concatenation.
+
+Bad example:
+
+```js
+badStr = var1 + " " + var2;
+```
+
+Good example:
+
+```js
+goodStr = `${var1} ${var2}`;
+```
