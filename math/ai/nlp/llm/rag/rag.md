@@ -108,3 +108,35 @@ collection = client.create_collection(
 |Squared L2|'l2'|$d = \sum\left(\bold{v}_i-\bold{v}_j\right)^2$|
 |Inner product|'ip'|$d = 1.0 - \sum\left(\bold{v}_i \times \bold{v}_j\right)$|
 |Cosine similarity|'cosine'|$d = 1.0 - \frac{\sum\left(\bold{v}_i \times \bold{v}_j\right)}{\sqrt{\sum\left(\bold{v}_i^2\right)} \cdot \sqrt{\sum\left(\bold{v}_j^2\right)}}$|
+
+## RAG Enterprise Project Difficulties
+
+Business side:
+
+* Business cooperation with simple demo
+* Business quality assurance (need IT to provide performance metrics as biz is likely NOT known AI capability and how to measure the output quality)
+* Business feedback and correction, need to make feedback easy to input (biz should NOT spend too much time on correcting data)
+
+Tech side:
+
+* Domain knowledge terminology comprehension by GraphRAG
+* Domain knowledge tailored pre/post retrieval enhancement
+* Knowledge graph to assist in entity lookup
+* Chronological and frequency weights applied on new and highly select retrieval documents
+
+### Engage Biz to Init Setup and Feedback
+
+The goal is to save biz effort as much as possible, meanwhile extracted sufficient biz knowledge and operations.
+
+One solution is to build a comprehensive UI that can track user action on scroll/read/copy/paste action.
+Biz user can read PFD documents as they were as before, so that there is impact/addition effort from the biz side to give feedback.
+
+Let $x$ be user mouse action; design user UI action priority list
+
+* $f_{\text{copy}}(x)$: copy and paste are highly important that the info is very likely what user needs
+* $f_{\text{scroll}}(x)=\frac{\text{scrollSpeed}}{\text{textWordsOnPage}}$ that if user is reading slowly on a page (indicative of slow mouse scroll and mouse movements on the page), this page likely contains user desired contents
+* $f_{\text{static}}(x)=\begin{cases}\frac{\text{inactionTime}}{\text{textWordsOnPage}}&\text{inactionTime}<T_{\text{cutoff}}\\0&\text{inactionTime}\ge T_{\text{cutoff}}\end{cases}$ that inaction time may indicate user read action, but too long inaction time may indicate user not on the UI page
+
+### Domain Knowledge Graph Design
+
+* Abbreviation explained
