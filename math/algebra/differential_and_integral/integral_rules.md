@@ -65,3 +65,15 @@ $$
 \bigg)=
 \int^{c_b}_{c_a} \frac{\partial}{\partial x} f(x,t) dt
 $$
+
+## Integral Over A Random Variable
+
+Assume there is a random variable $Z$ that is governed by a probability distribution $P(z)$.
+To find the average value (or expected value) of some function of that variable, $g(Z)$, calculate the following integral:
+
+$$
+\mathbb{E}_{P(z)}\left[g(z)\right] = \int g(z) P(z) dz
+$$
+
+This formula tells that the expectation is a weighted average. For every possible value $z$ calculate $g(z)$ and weight it by its probability density $P(z)$.
+The integral $\int$ sums up all these weighted values over the entire space of possible $z$.

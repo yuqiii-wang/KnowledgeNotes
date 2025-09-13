@@ -1,4 +1,6 @@
-# Webpack
+# JS Frontend Build and Development Tools
+
+## Webpack
 
 ```js
 const path = require('path');
@@ -73,8 +75,12 @@ module.exports = {
 
 `--save-dev`: dependencies are only used during development.
 
-## General Flow of Webpack
+#### General Flow of Webpack
 
-## Plugins
+#### Plugins
 
-## module federation
+#### module federation
+
+## Vite
+
+Vite (pronounced "veet," the French word for "quick") is a high-performance equivalent to webpack.

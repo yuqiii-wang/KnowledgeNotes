@@ -146,3 +146,95 @@ public class SparkExample {
     }
 }
 ```
+
+## Logging by Log4j
+
+Log4j is a popular java logging tool.
+Example is such as below
+
+```java
+package com.example.dao;
+
+import org.apache.log4j.Logger;
+
+public class UserDao {
+
+    // Get a logger instance for this specific class.
+    private static final Logger logger = Logger.getLogger(UserDao.class);
+
+    public void findUser(int userId) {
+        logger.info("Attempting to find user with ID: " + userId);
+    }
+}
+```
+
+A log4j.properties file is structured around three main components:
+
+* Loggers: corresponds to java class to pinpoint logging control.
+* Appenders: responsible for determining the destination of the log messages, console, files, databases, and more.
+* Layouts: specify what information is included in the log output, such as the timestamp, logging level, class name, and the actual log message.
+
+For example,
+
+```txt
+src
+├── com
+│   └── example
+│       ├── MainApp.java
+│       ├── dao
+│       │   └── UserDao.java
+│       └── service
+│           └── OrderService.java
+└── log4j.properties
+```
+
+Then in below config `.properties` file,
+`log4j.logger.com.example.dao=DEBUG, DAO_FILE` and `log4j.logger.com.example.service=DEBUG, SERVICE_FILE` are sued to bind java class vs config
+
+```properties
+# Root logger prints to the console at INFO level.
+# This will catch logs from any class not specifically configured otherwise.
+log4j.rootLogger=INFO, CONSOLE
+
+# --- Console Appender Configuration ---
+# All logs at INFO level or higher from any logger will also go here,
+# unless additivity is turned off for that logger.
+log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender
+log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout
+log4j.appender.CONSOLE.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+
+# --- DAO File Appender Configuration (for UserDao) ---
+# This appender will write to dao.log
+log4j.appender.DAO_FILE=org.apache.log4j.RollingFileAppender
+log4j.appender.DAO_FILE.File=logs/dao.log
+log4j.appender.DAO_FILE.MaxFileSize=5MB
+log4j.appender.DAO_FILE.MaxBackupIndex=5
+log4j.appender.DAO_FILE.layout=org.apache.log4j.PatternLayout
+log4j.appender.DAO_FILE.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c - %m%n
+
+# --- Service File Appender Configuration (for OrderService) ---
+# This appender will write to service.log
+log4j.appender.SERVICE_FILE=org.apache.log4j.RollingFileAppender
+log4j.appender.SERVICE_FILE.File=logs/service.log
+log4j.appender.SERVICE_FILE.MaxFileSize=5MB
+log4j.appender.SERVICE_FILE.MaxBackupIndex=5
+log4j.appender.SERVICE_FILE.layout=org.apache.log4j.PatternLayout
+log4j.appender.SERVICE_FILE.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c - %m%n
+
+
+# --- Logger Configuration for DAO Package ---
+# Logger for any class in the 'com.example.dao' package.
+# It will log at DEBUG level and send output to the DAO_FILE appender.
+log4j.logger.com.example.dao=DEBUG, DAO_FILE
+# This is crucial: it prevents logs from this logger from also being sent
+# to the rootLogger's appenders (i.e., the CONSOLE).
+log4j.additivity.com.example.dao=false
+
+
+# --- Logger Configuration for Service Package ---
+# Logger for any class in the 'com.example.service' package.
+# It will log at DEBUG level and send output to the SERVICE_FILE appender.
+log4j.logger.com.example.service=DEBUG, SERVICE_FILE
+# Prevent these logs from also going to the CONSOLE.
+log4j.additivity.com.example.service=false
+```

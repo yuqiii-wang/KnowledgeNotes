@@ -108,6 +108,11 @@ For example, `maven-javadoc-plugin` has a goal javadoc:javadoc that generates Ja
 </settings>
 ```
 
+#### Repository vs Mirror
+
+The URL of the mirror completely replaces the URL of the original repository.
+Maven does not append any part of the original repository's path to the mirror's URL.
+
 ### Setting Security
 
 #### Security Password
@@ -222,6 +227,73 @@ For a Maven to use CN Mainland mirrors, add the following in Maven root dir `~/.
 </mirror>
 ```
 
+### Sonatype Nexus Repository Manager
+
+Sonatype Nexus Repository Manager is an enterprise maven repo server.
+
+Typically it features three types of repositories
+
+* Hosted Repositories: where developers would publish your organization's internal libraries, builds, and other proprietary components.
+* Proxy Repositories: A proxy repository is linked to a remote repository, such as Maven Central, npmjs, or Docker Hub. Nexus first checks if it has a cached copy. If not, it downloads the artifact from the remote repository and copy it as cache.
+* Group Repositories: combines multiple hosted and proxy repositories under a single URL.
+
+It provide other services such as cyber security scanning and admin control.
+
+#### Example: How Nexus Repository Manager Would Set up `maven-public`
+
+A typical setup would be a group named `maven-public` that includes:
+
+* maven-releases (a hosted repository for your company's internal release artifacts)
+* maven-snapshots (a hosted repository for your internal snapshot/development artifacts)
+* maven-central-proxy (a proxy of the public Maven Central repository)
+
+In user `settings.xml`, write
+
+```xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <mirrors>
+    <mirror>
+      <!-- A unique identifier for this mirror. -->
+      <id>nexus</id>
+      <!-- The '*' means this mirror will be used for all repository requests. -->
+      <mirrorOf>*</mirrorOf>
+      <!-- A descriptive name for the mirror. -->
+      <name>Nexus Repository Manager</name>
+      <!-- This is the crucial URL pointing to your Nexus group. -->
+      <url>http://your-nexus-server:8081/repository/maven-public/</url>
+    </mirror>
+  </mirrors>
+
+  <profiles>
+    <profile>
+      <id>nexus-profile</id>
+      <!-- Define repositories here. It seems redundant, but it ensures that
+           Maven has repositories to apply the mirror setting to. Overriding
+           'central' is a common practice. -->
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://central.maven.org/maven2</url> <!-- This URL will be ignored by the mirror -->
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://central.maven.org/maven2</url> <!-- This URL will also be ignored -->
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <!-- This activates the profile above, making the configuration effective. -->
+    <activeProfile>nexus-profile</activeProfile>
+  </activeProfiles>
+</settings>
+```
 
 ## Maven Goals
 
@@ -256,14 +328,37 @@ Below config can specify where the local repo is to install/store.
 
 ## Maven Setup in IntelliJ IDEA
 
-1. Make sure Maven plugin is installed.
+### Typical Checklist
+
+#### 0. IDEA Pre-Setup
+
+Depending on scenarios, if it were an enterprise environment, public/internal maven repository server might need proxy on/off.
+
+A typical setup would be to turn on proxy if repository server is external, and turn off proxy if repository server is internal.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/idea_proxy.png" width="50%" height="40%" alt="idea_proxy" />
+</div>
+</br>
+
+Also need to make sure the to be used maven artifacts/dependencies exist in repository.
+
+Some artifacts need login and read privileges.
+Existence checking from browser can prove that user does have privileges to download.
+
+<div style="display: flex; justify-content: center;">
+    <img src="imgs/maven_repo.png" width="40%" height="40%" alt="maven_repo" />
+</div>
+</br>
+
+#### 1. Make sure Maven plugin is installed.
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_maven_plugin_is_install.png" width="50%" height="50%" alt="idea_maven_plugin_is_install" />
 </div>
 </br>
 
-2. Add cert so that IDEA can trust a maven repository host to download dependencies.
+#### 2. Add cert so that IDEA can trust a maven repository host to download dependencies.
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_trust_certs.png" width="50%" height="50%" alt="idea_trust_certs" />
@@ -273,14 +368,14 @@ Below config can specify where the local repo is to install/store.
 If to use private maven repository, e.g., enterprise nexus, remember to import the private maven repository cert to `"/path/to/<jre-version>/lib/security/cacerts"` as well.
 The java home directory might be admin-protected, e.g., `C:\Program Data\java\`, copy to user home directory and import the cert.
 
-3. Add custom Maven settings, where `Override` should be ticked to force using custom settings.
+#### 3. Add custom Maven settings, where `Override` should be ticked to force using custom settings.
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_maven_seetings.png" width="50%" height="50%" alt="idea_maven_seetings" />
 </div>
 </br>
 
-4. Index/sync between remote repo vs local env by `Update`, otherwise maven may see errors about many dependencies not found, though repos are present in maven repo host.
+#### 4. Index/sync between remote repo vs local env by `Update`, otherwise maven may see errors about many dependencies not found, though repos are present in maven repo host.
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_maven_repo_indexing.png" width="50%" height="50%" alt="idea_maven_repo_indexing" />
@@ -289,14 +384,14 @@ The java home directory might be admin-protected, e.g., `C:\Program Data\java\`,
 
 When new artifacts are added to the repository, the index must be regenerated or incrementally updated to reflect changes. Without this, tools might not recognize new artifacts.
 
-5. If Maven UI tab is not seen from the IDEA, make sure there is a `pom.xml` file present in the project, then add the project as a maven project.
+#### 5. If Maven UI tab is not seen from the IDEA, make sure there is a `pom.xml` file present in the project, then add the project as a maven project.
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_add_as_a_maven_project.png" width="20%" height="90%" alt="idea_add_as_a_maven_project" />
 </div>
 </br>
 
-6. Having all set up, trigger Maven for downloading dependencies by `refresh`, then select `maven clean` to remove cached builds, and `maven package` to compile the project.
+#### 6. Having all set up, trigger Maven for downloading dependencies by `refresh`, then select `maven clean` to remove cached builds, and `maven package` to compile the project.
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_maven_download_deps_and_build.png" width="70%" height="40%" alt="idea_maven_download_deps_and_build" />
@@ -319,7 +414,7 @@ mvn install:install-file -Dfile=ojdbc10.19.3.jar -DgroupId=com.oracle.database.j
 
 To trigger re-downloading dependencies, try `mvn dependency:resolve` that ensures that all the dependencies listed in `pom.xml` are downloaded into local repository (usually located at `~/.m2/repository`).
 
-1. For large project, one might want to disable/enable unit test
+#### 7. For large project, one might want to disable/enable unit test
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_test_src_dir.png" width="40%" height="70%" alt="idea_test_src_dir" />
@@ -328,7 +423,7 @@ To trigger re-downloading dependencies, try `mvn dependency:resolve` that ensure
 
 `mvn clean package -DskipTests` can skip unit test.
 
-8. Having done build, use Maven to run the java program.
+#### 8. Having done build, use Maven to run the java program.
 
 To run java program with maven, in `pom.xml` add this plugin.
 
@@ -373,7 +468,7 @@ The VM options are used for runtime java for application, not for maven build it
 -Djava.net.ssl.trustStorePassword=changeit
 ```
 
-9. For any future change/debug, one can just recompile
+#### 9. For any future change/debug, one can just recompile
 
 <div style="display: flex; justify-content: center;">
     <img src="imgs/idea_recompile_class.png" width="40%" height="20%" alt="idea_recompile_class" />
@@ -432,6 +527,38 @@ A minimalist example:
     </build>
 </project>
 ```
+
+### Maven Password Setup
+
+In Maven 3, the process of setting up and using encrypted passwords involves two key files:
+
+* `~/.m2/settings-security.xml`: This file stores your encrypted master password.
+* `~/.m2/settings.xml`: This is your standard Maven settings file where you'll place the encrypted server passwords.
+
+Run `mvn --encrypt-master-password` with key (usually easy-to-remember phrase such as `abcd`) that gives `{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}` in `settings-security.xml`.
+
+```xml
+<settingsSecurity>
+  <master>{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}</master>
+</settingsSecurity>
+```
+
+Then, run `mvn --encrypt-password`, usually password that will be decrypted used by repository server for authentication.
+Then put the encryption `{COQLCE6DU6GtcS5P=}` in `settings.xml`.
+
+```xml
+<servers>
+  <server>
+    <id>my.server</id>
+    <username>myuser</username>
+    <password>{COQLCE6DU6GtcS5P=}</password>
+  </server>
+</servers>
+```
+
+In Maven 4, maven introduces a more advanced and secure way to handle passwords with a new command-line tool called `mvnenc` and a new configuration file, `settings-security4.xml`.
+
+This new system offers more flexibility in how the master key is stored and managed.
 
 ### Maven Dependency Management by Transitive Dependency
 

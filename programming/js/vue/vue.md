@@ -1,11 +1,5 @@
 # Vue
 
-## Intro
-
-### Vite
-
-Vite (pronounced "veet," the French word for "quick") is a high-performance equivalent to webpack.
-
 ## Basic Syntax
 
 ### Vue DSL
@@ -42,10 +36,46 @@ export default {
 </style>
 ```
 
-Event handling:
+### Event handling
 
-```js
-<button @click="handleClick">Click Me</button>
+`WelcomeBanner.vue` has `@click="logout"` that emits the "logout" signal.
+
+```ts
+<template>
+  <h1>Welcome, {{ username }}!</h1>
+  <button @click="logout">Log Out</button>
+</template>
+
+<script setup>
+defineProps(['username'])
+const emit = defineEmits(['logout'])
+
+function logout() {
+  emit('logout')
+}
+</script>
+```
+
+In parent `App.vue` the "logout" signal is caught by `@logout="handleLogout"` that then runs `handleLogout`.
+
+```ts
+<template>
+  <WelcomeBanner :username="userName" @logout="handleLogout" />
+  <p v-if="isLoggedIn">User is logged in.</p>
+  <p v-else>User has logged out.</p>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import WelcomeBanner from './WelcomeBanner.vue'
+
+const userName = ref('Alice')
+const isLoggedIn = ref(true)
+
+function handleLogout() {
+  isLoggedIn.value = false
+}
+</script>
 ```
 
 ### Nested Components
@@ -428,4 +458,86 @@ watchEffect(() => {
   <input v-model="question" />
   <p>{{ answer }}</p>
 </template>
+```
+
+## Dependency Rendering
+
+When a method in the parent component mutates a data property that is passed as a **prop** to a child, the child will re-render.
+
+```ts
+<template>
+  <view>
+    <ChildComponent :message="parentMessage" />
+    <button @click="changeMessage">Change Message</button>
+  </view>
+</template>
+
+<script>
+import ChildComponent from './ChildComponent.vue';
+
+export default {
+  components: {
+    ChildComponent
+  },
+  data() {
+    return {
+      parentMessage: 'Hello from Parent'
+    };
+  },
+  methods: {
+    changeMessage() {
+      this.parentMessage = 'Message has been updated!';
+    }
+  }
+};
+</script>
+```
+
+## Scoped CSS
+
+In Vue.js, the `<style scoped>` attribute is used to write component-specific CSS that is encapsulated and does not leak out to affect other components.
+
+For example,
+
+```ts
+<template>
+  <div class="example">Hi</div>
+</template>
+
+<style scoped>
+.example {
+  color: red;
+}
+</style>
+```
+
+will be compiled to
+
+```ts
+<div class="example" data-v-f3f3eg9>hi</div>
+```
+
+with a separate css
+
+```css
+.example[data-v-f3f3eg9] {
+  color: red;
+}
+```
+
+### Style Inheritance
+
+By default, scoped styles from a parent component will not affect the styles of its child components.
+However, the root element of a child component will be affected by both the parent's and the child's scoped CSS, which is intentional for layout purposes.
+
+There are times when user needs to style a deeply nested element within a child component from the parent. For this, Vue provides "deep" selectors.
+
+The `:deep()` (since Vue 3, or alias `/deep/` and `::v-deep` for Vue 2) pseudo-class can extends parent styles to children's.
+
+```css
+<style scoped>
+.a :deep(.b) {
+  /* styles for .b inside .a */
+}
+</style>
 ```

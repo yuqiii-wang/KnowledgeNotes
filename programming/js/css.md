@@ -353,3 +353,57 @@ For example, `clip-path: polygon( <point-list> );` defines a polygon, where inpu
 * `50% 0%`: mid top vertex
 * `0% 100%`: left bottom vertex
 * `100% 100%`: right bottom vertex
+
+## Media
+
+The primary purpose of `@media` is to create a tailored style sheet for different contexts.
+
+For example, `.css` should render differently to view on tablet or phone, or whether screen orientation is landscape or profile.
+
+```css
+/* Default styles for all orientations */
+body {
+  font-family: sans-serif;
+  margin: 2em;
+}
+
+.container {
+  border: 2px solid #333;
+  padding: 1em;
+}
+
+/* Styles for portrait orientation */
+@media (orientation: portrait) {
+  body {
+    background-color: #f0f8ff; /* AliceBlue */
+  }
+
+  .container {
+    display: block;
+  }
+
+  .box {
+    background-color: #90ee90; /* LightGreen */
+    margin-bottom: 1em;
+    padding: 1em;
+  }
+}
+
+/* Styles for landscape orientation */
+@media (orientation: landscape) {
+  body {
+    background-color: #fffacd; /* LemonChiffon */
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .box {
+    background-color: #add8e6; /* LightBlue */
+    width: 48%;
+    padding: 1em;
+  }
+}
+```

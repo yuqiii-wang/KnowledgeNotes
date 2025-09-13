@@ -252,6 +252,72 @@ $$
 
 As a result, $\max y=\sqrt{13}$.
 
+## Jensen's Inequality
+
+Jensen's inequality generalizes the statement that a secant line of a convex function lies above its graph.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/jensen_inequality_secant_line.png" width="40%" height="20%" alt="jensen_inequality_secant_line" />
+</div>
+</br>
+
+For $t\in[0,1]$ and $f(x)$ is a convex function, there is
+
+$$
+f(tx_1+(1-t)x_2) \le tf(x_1)+(1-t)f(x_2)
+$$
+
+In the context of probability theory, it is generally stated in the following form: if $X$ is a random variable and $\phi$ is a convex function, then
+
+$$
+\phi(\mathbb{E}[X]) \le \mathbb{E}\phi(X)
+$$
+
+## Power and Logarithm
+
+Power and logarithm conversion:
+
+$$
+y = \log_b(x) \Leftrightarrow b^y = x
+$$
+
+Plus/Subtraction and multiplication/division:
+
+$$
+\log_b\left(\frac{m}{n}\right) = \log_b(m) - \log_b(n) \\
+\log_b\left(mn\right) = \log_b(m) + \log_b(n)
+$$
+
+Power
+
+$$
+\log_b(m^p) = p \cdot \log_b(m)
+$$
+
+### Power and Logarithm in Matrix
+
+A matrix has a logarithm if and only if it is invertible.
+
+$$
+e^B = A \Leftrightarrow B = \log(A)
+$$
+
+where $e^B$ is the matrix exponential, defined by the power series:
+
+$$
+e^B = \sum_{n=0}^{\infty} \frac{B^n}{n!} = I + B + \frac{B^2}{2!} + \frac{B^3}{3!} + \dots
+$$
+
+#### Property: Logarithm of a Matrix Product
+
+If $X$ and $Y$ can **commute**, there is
+
+$$
+\log(XY) = \log(X) + \log(Y)
+$$
+
+If $X$ and $Y$ do not commute, the relationship is described by the more complex *Baker-Campbell-Hausdorff* formula.
+
 ## Notations
 
 ### Number Set Notations

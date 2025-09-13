@@ -107,9 +107,54 @@ Total: $(K \times K) \times \frac{I_M \times I_N}{s \times s} \times C_{in} \tim
 
 ### Calculation Example
 
-Given an image $224 \times 224 \times 3$, consider $11 \times 11$ kernel with stride by $4$,
+Given an image $224 \times 224 \times 3$, consider $11 \times 11$ kernel with stride by $4$.
+There are $64$ filters.
 
 * Num convolutions over a row/col: $56=224/4$
+
+## Up-Convolution
+
+Up-convolution typically surrounds entries with zeros and apply a typical convolution operation.
+
+Below is an example.
+
+$$
+A = \begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+\quad\xRightarrow[\text{zero insertion and padding}]{}
+P = \begin{bmatrix}
+0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 2 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 3 & 0 & 4 & 0 \\
+0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+$$
+
+Denote $\otimes$ as a convolution operator.
+Below $P$ is convolved by kernel $K$.
+
+$$
+K\otimes P = \begin{bmatrix}
+1 & 0 & 1 \\
+0 & 1 & 0 \\
+1 & 0 & 1
+\end{bmatrix} \otimes
+\begin{bmatrix}
+0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 2 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 3 & 0 & 4 & 0 \\
+0 & 0 & 0 & 0 & 0
+\end{bmatrix} =
+\begin{bmatrix}
+1 & 0 & 2 \\
+0 & 10 & 0 \\
+3 & 0 & 4 \\
+\end{bmatrix}
+$$
 
 ## Convolutional Neural Network (CNN) vs Fully Convolutional Network (FCN)
 

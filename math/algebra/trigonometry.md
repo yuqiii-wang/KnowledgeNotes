@@ -93,7 +93,7 @@ $$
 By geometry, the sum and difference angle identities can be derived.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/sum_diff_trigonometry_identities.png" width="50%" height="50%" alt="sum_diff_trigonometry_identities" />
+      <img src="imgs/sum_diff_trigonometry_identities.jpg" width="50%" height="50%" alt="sum_diff_trigonometry_identities" />
 </div>
 </br>
 

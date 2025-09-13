@@ -74,32 +74,109 @@ Call Stack: If your statement is asynchronous, such as `setTimeout()`, `ajax()`,
 
 Queue, message queue, and event queue are referring to the same construct (event loop queue). This construct has the callbacks which are fired in the event loop.
 
-## Inheritance by Prototype Chain
+Modern JS uses features like `Promises` and the `async`/`await` syntax to give better performance.
 
-The prototype is an object that is associated with every functions and objects by default in JavaScript.
+### Parallelism by Web Workers
 
-Example:
-`studObj1.age = 15;` is not broadcast to `studObj2` in the code given below.
+Web Workers can give multiple threads for execution.
+
+## JS Inheritance by Prototype
+
+JS is a scripting language not required compilation such as observed in c++ and java, as a result, the JS hidden property `Prototype` much more flexible in inheritance against c++ or java parent class.
+
+For example, `Person.prototype.greet` can be added just in time without prior declaration that is often observed in c++ and java.
 
 ```js
-function Student() {
-    this.name = 'John';
-    this.gender = 'Male';
+// 1. Define a constructor function
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
 }
 
-var studObj1 = new Student();
-studObj1.age = 15;
-alert(studObj1.age); // 15
+// 2. Add a method to the Person function's prototype object
+Person.prototype.greet = function() {
+  console.log(`Hello, my name is ${this.name}.`);
+};
 
-var studObj2 = new Student();
-alert(studObj2.age); // undefined
+// 3. Let's inspect the prototype itself
+console.log(Person.prototype);
+
+// greet: f(): The function we just defined.
+// constructor: f Person(name, age): A property that points back to the Person function itself. This is a default property on every function's prototype.
+// __proto__: Object: This shows that the Person.prototype object itself has a prototype, which is the base Object.prototype. This is the foundation of the prototype chain.
+
+// 4. Create an instance of Person
+const person1 = new Person('Alice', 30);
+
+// 5. Inspect the instance
+console.log(person1);
+
+// name: "Alice"
+// age: 30
+// __proto__: Object: This is the crucial link. It points to the object that serves as the prototype for person1.
 ```
 
-Provided the nature of JS with prototype implementation, `age` attribute can be shared across all derived objects of `Student`.
+Now create inheritance `Student`.
+
+```javascript
+function Student(name, age, studentId) {
+  Person.call(this, name, age);
+  this.studentId = studentId;
+}
+
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.constructor = Student;
+
+// Add a method specific to Student
+Student.prototype.study = function() {
+  console.log(`${this.name} is studying.`);
+};
+
+const student1 = new Student('Bob', 22, 'S12345');
+
+student1.greet(); // Output: Hello, my name is Bob. (Inherited!)
+student1.study();    // Output: Bob is studying. (Own prototype method)
+
+console.log('\n--- Inspecting the prototype chain ---');
+console.log('Student instance:', student1);
+console.log('Student.prototype:', Student.prototype);
+console.log('Person.prototype:', Person.prototype);
+```
+
+### Prototype Chain
+
+To access a property on an object, JavaScript's engine will
+
+1. first look for the property on the object itself
+2. if it doesn't find it, it will then look at the Object's prototype
+3. continues up what is known as the prototype chain until `Object`
+4. if still not found the end of the chain is reached (which is `null`)
 
 ```js
-Student.prototype.age = 15;
+// This demonstrates the chain:
+// student1 -> Student.prototype -> Person.prototype -> Object.prototype -> null
+console.log(Object.getPrototypeOf(student1) === Student.prototype); // true
+console.log(Object.getPrototypeOf(Student.prototype) === Person.prototype); // true
 ```
+
+### Common Confusion: `__proto__` vs `prototype`
+
+* `__proto__` serves as pointer for fast object location
+* `prototype` is the actual object
+
+To execute `student1.study();`
+
+1. JS checks `student1` for a study method. Not found.
+2. JS follows `student1.__proto__` to `Student.prototype`.
+3. JS checks `Student.prototype` for a study method. Found! It executes the function.
+
+To execute `student1.greet();`
+
+1. JS checks `student1` for a greet method. Not found.
+2. JS follows `student1.__proto__` to `Student.prototype`.
+3. JS checks `Student.prototype` for a greet method. Not found.
+4. JS follows `Student.prototype.__proto__` to `Person.prototype`.
+5. JS checks `Person.prototype` for a greet method. Found! It executes the function.
 
 ## JS, TS and TSX Grammar
 
@@ -366,7 +443,24 @@ let a = volume || 0.5; // If volume is "0", `a` becomes 0.5 (undesirable)
 let b = volume ?? 0.5; // If volume is "0", `b` remains "0"
 ```
 
-## Compiler: Node JS
+## Execution Env: Node JS vs Browser Chrome
+
+* Browser: The browser provides a **client-side execution environment**
+
+Designed to create interactive and dynamic web pages, manipulate the Document Object Model (DOM), and respond to user events like clicks and keyboard presses, and communicate with servers.
+
+JavaScript runs in a browser-restricted sandboxed environment with limited access to computer resources, e.g., filesystem, OS executables.
+
+* Node.js: Node.js offers a **server-side runtime environment**
+
+Allow developers to use JavaScript to build back-end services, APIs, command-line tools, and other applications that run outside of a browser.
+
+Node.js does not have a DOM because it doesn't render HTML pages.
+Consequently, user cannot access objects like `document` or `window` in a Node.js environment.
+
+Node.js has full access to the system's resources.
+
+### Node JS
 
 * npx vs npm
 
