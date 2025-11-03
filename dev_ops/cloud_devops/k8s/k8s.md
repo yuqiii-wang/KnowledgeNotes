@@ -21,175 +21,246 @@
 * scheduler: Watches for newly created pods and assigns a worker node to run them.
 * controller-manager: Runs a control loop that watches the state of the cluster through the api-server and if necessary, moves the current state to the desired state.
 
-### Common `kubectl` Use Cases and Debug
+## K8S Resources
 
-For example, here to find what host addr and port `grafana` is running.
+Resources are K8S managing
 
-1. Check the pod
+### Workload Resources
 
-```sh
-kubectl get pods -n <namespace> -l app.kubernetes.io/name=grafana -o wide
-```
+Workload resources are used to manage and run applications on cluster.
 
-Is it Ready (e.g., 1/1 or 2/2)?
+#### Pod
 
-2. Check the service
+The smallest and most basic deployable object in Kubernetes.
+A Pod represents a single instance of a running process in cluster and can contain one or more containers. Containers within the same Pod share the same network and storage resources.
 
-Is TYPE NodePort? Must got a node port so that it is accessible externally.
-Does PORT(S) show 80:30080/TCP? (Internal port 80 mapped to external NodePort 30080).
+#### Deployment
 
-```sh
-kubectl get svc -n <namespace> -l app.kubernetes.io/name=grafana
-```
+Deployments provide declarative updates to Pods to easily manage replicas, perform rolling updates, and roll back to previous versions.
 
-Assume the service returns this
+#### StatefulSet
 
-```txt
-NAME                      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-prom-stack-grafana   NodePort   10.96.246.174   <none>        80:30080/TCP   142m
-```
+Used for managing stateful applications that require stable, unique network identifiers and persistent storage.
+This is ideal for applications like databases (e.g., MySQL, PostgreSQL) and message queues.
 
-3. Further check the service
+#### DaemonSet
 
-```sh
-kubectl describe svc prom-stack-grafana -n <namespace>
-```
+Ensures that all (or some) Nodes run a copy of a Pod.
+This is useful for cluster-level services like log collectors or monitoring agents.
 
-Port and NodePort: should match 80 and 30080.
-TargetPort: should be the port Grafana listens on inside the pod.
-Endpoints: should list the IP address and port of your running Grafana pod(s).
+#### Job
 
-Assume
+Creates one or more Pods and ensures that a specified number of them successfully terminate.Jobs are designed for tasks that run to completion, such as batch processing or backups.
 
-```txt
+#### CronJob
 
-Name:                     prom-stack-grafana
-Namespace:                monitoring
-...
-Type:                     NodePort
-IP Family Policy:         SingleStack
-IP Families:              IPv4
-IP:                       10.96.246.174
-IPs:                      10.96.246.174
-Port:                     http-web  80/TCP
-TargetPort:               3000/TCP
-NodePort:                 http-web  30080/TCP
-Endpoints:                10.244.0.54:3000
-Session Affinity:         None
-External Traffic Policy:  Cluster
-Events:                   <none>
-```
+Manages time-based Jobs. It's used for tasks that need to be executed on a schedule, like periodic backups or report generation.
 
-## Pod and Deployment
+#### ReplicaSet
 
-A Pod is a Kubernetes representation of a functioning "logic host", included of one or many containers and shared resources.
-Pods are the smallest deployable unit in Kubernetes.
+Ensures that a specified number of Pod replicas are running at any given time.
+Deployments are a higher-level resource that manage ReplicaSets, and it's generally recommended to use Deployments directly.
 
-Some shared resources for those containers. Those resources include:
+### Service Discovery and Networking Resources
 
-1. Shared storage, as Volumes
-2. Networking, as a unique cluster IP address
-3. Information about how to run each container, such as the container image version or  specific ports to use
+These resources are responsible for exposing your applications and managing network traffic between them.
 
-<div style="display: flex; justify-content: center;">
-      <img src="imgs/pod.png" width="25%" height="25%" alt="pod" />
-</div>
-</br>
+#### Service
 
-One pod can have multiple containers.
+An abstraction that defines a logical set of Pods and a policy by which to access them.
+Services provide a stable IP address and DNS name, enabling communication between different parts of an application.Kubernetes offers different types of services, including `ClusterIP`, `NodePort`, and `LoadBalancer`.
+
+#### Ingress
+
+Manages e**xternal access to services** within a cluster, typically HTTP and HTTPS.
+Ingress can provide load balancing, SSL termination, and name-based virtual hosting.
+
+#### EndpointSlice
+
+A resource that represents a subset of the network endpoints of a Service. It allows for more scalable and efficient service discovery.
+
+### Storage Resources
+
+These resources manage how data is stored and accessed by applications.
+
+#### PersistentVolume (PV)
+
+A piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using `StorageClasses`.
+
+PVs are independent of the Pod lifecycle, ensuring that data persists even if Pods are recreated.
+
+#### PersistentVolumeClaim (PVC)
+
+A request for storage by a user. It's similar to how a Pod consumes Node resources, a PVC consumes PV resources.
+
+#### StorageClass
+
+Provides a way for administrators to describe the "classes" of storage they offer.
+Different classes might map to quality-of-service levels, backup policies, or arbitrary policies determined by the cluster administrators.This allows for dynamic provisioning of storage.
+
+#### Volume
+
+A directory containing data, which is accessible to the containers in a Pod. Kubernetes supports various types of volumes to provide storage to containers.
+
+### Configuration and Secret Management
+
+These resources help manage application configuration and sensitive data separately from application code.
+
+#### ConfigMap
+
+Used to store non-confidential configuration data in key-value pairs.
+This allows you to decouple configuration from your application logic.
+
+#### Secret
+
+Used to store and manage sensitive information such as passwords, OAuth tokens, and ssh keys.
+Storing this information in a Secret is more secure than putting it verbatim in a Pod definition or a container image.
+
+### Cluster-Level Resources
+These resources are used to manage the overall behavior and organization of the cluster.
+
+#### Namespace
+
+A way to divide cluster resources between multiple users or teams.
+It provides a scope for names, allowing you to have resources with the same name in different namespaces.
+
+#### Role and ClusterRole
+
+Define permissions for resources. A Role grants permissions within a particular namespace, while a ClusterRole grants permissions cluster-wide.
+
+#### RoleBinding and ClusterRoleBinding
+
+Grant the permissions defined in a Role or ClusterRole to a set of users.
+ServiceAccount: Provides an identity for processes that run in a Pod.
+
+## K8S Config Yaml Syntax
+
+### The Four Top-Level Fields
+
+#### `apiVersion`
+
+The specific `apiVersion` determines the available features and the structure of the spec field for the object user are creating.
+
+#### `kind`
+
+Some of the most common kinds include `Pod`, `Deployment`, `Service`, and `Namespace`.
+
+#### `metadata`
+
+It helps uniquely identify the object within the Kubernetes cluster.
+
+Typically, there are
+
+* `name`: A unique name for the object within its namespace.
+* `namespace`: An optional field that specifies the virtual cluster to which the object belongs.
+* `labels`: tags helpful to selection. For example, you might label all the components of a specific application with `app: my-webapp`.
+
+#### `spec`
+
+The specifications define the details of resource.
+
+The structure and content of the `spec` section are highly dependent on what `kind` the resource is.
+
+* `template` in `spec`
+
+This section defines the blueprint for the Pods that the Deployment will create.
+It has its own metadata (with labels) and spec for the containers within the Pods.
 
 ```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: test-pod
-spec:
-  containers:
-  - name: test-container
-    image: registry.k8s.io/busybox
-    env:
-    - name: DB_URL
-      value: postgres://db_url:5432
-  - name: proxy-container
-    image: envoyproxy/envoy:v1.12.2
-    ports:
-      - containerPort: 80
-```
-
-where `busybox` coming in somewhere between 1 and 5 Mb in on-disk size (depending on the variant), it combines tiny versions of many common UNIX utilities into a single small executable as an compressed version of such tools.
-
-### `kind: Pod` vs `kind: Deployment`
-
-Pods are the smallest deployable unit in Kubernetes, and there is no much additional config that can do about `kind: pod`. Here `kind: Deployment` comes in to rescue as preferred with added configs such as relaunched dead pod to maintain minimal replicas and logging/monitoring.
-
-check a service by `kubectl describe service hello-world`.
-
-In `Deployment`, K8s creates two different objects: a Pod definition, using as its specification what is available in the "template" field of the Deployment, and a ReplicaSet.
-
-```yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world
+  name: my-app-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hello-world 
+      app: my-app
   template:
     metadata:
       labels:
-        app: hello-world
+        app: my-app
     spec:
       containers:
-      - name: hello-world-pod
-        image: webapp-flask-helloworld-docker:latest
-        imagePullPolicy: Never
-        ports: 
+      - name: my-app-container
+        image: nginx:1.14.2
+        ports:
         - containerPort: 80
-        - containerPort: 443
 ```
 
-### `template`
+### `volumes` vs `volumeMounts`
 
-`template` describes how to config pods in `Deployment`, `Job`, etc.
+In short, `volumes` is the declaration of the use of file, while `volumeMounts` gives the actual file name to read.
 
-### `Job` vs `Deployment`
-
-The main difference between `Deployment`s and `Job`s is how they handle a Pod that is terminated. A Deployment is intended to be a "service", e.g. it should be up-and-running, so it will try to restart the Pods it manage, to match the desired number of replicas. While a Job is intended to execute and successfully terminate.
-
-Jobs ensure that a specified number of pods complete successfully, whereas Deployments maintain a desired number of replicas, continuously monitoring and managing their state.
-
-
-### Deployment Strategy
-
-A K8S Deployment strategy encompasses the methods of creating, upgrading, or downgrading to a different version of a K8S application (typically a pod/container).
-
-* Recreate
-Demise old pods then launch new pods. There will be downtime during this strategy deployment
-
-* RollingUpdate
-When new launched pods are in service that available pods exceed the minimal, then start demising old pods. Recycling are through updating the pods according to the parameters: `maxSurge` and `maxUnavailable`.
-
-`.spec.strategy.rollingUpdate.maxUnavailable` is an optional field that specifies the maximum number of Pods that can be unavailable during the update process.
-
-`.spec.strategy.rollingUpdate.maxSurge` is an optional field that specifies the maximum number of Pods that can be created over the desired number of Pods.
-
-For example, to recycle pod one by one, use the config below.
+Consider a use case to deploy an nginx server with written `/etc/nginx/conf.d/default.conf` and `/usr/share/nginx/html/index.html` as the index homepage.
+Assume that a config map `webserver-content` is already finished and stored in `etcd`.
 
 ```yaml
-strategy:
-  type: RollingUpdate
-  rollingUpdate:
-     maxSurge: 1
-     maxUnavailable: 0 
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # The name of our ConfigMap, which the volume will reference.
+  name: webserver-content
+  namespace: default
+data:
+  # The first key-value pair. The key 'custom.conf' will be used as a filename.
+  custom.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }2
 ```
 
-### StatelessSet vs StatefulSet
+Below sees two separate `volumeMounts` but they both reference the same `volume` (`nginx-files-volume`).
 
-A stateless application is one that does not care which network it is using, and it does not need permanent storage. Examples of stateless apps may include web servers (Apache, Nginx, or Tomcat).
+Instead of mounting the entire volume (which would create a directory with two files), `subPath` tells Kubernetes to only take the value associated with the `custom.conf key` from ConfigMap and mount it as the file `default.conf` (also apply for `index.html` in the second file).
 
-On the other hand, a stateful applications have persistent/modifiable data, such as DBs.
+Nginx automatically loads `.conf` files from this directory.
+
+```yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-webserver
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+      - name: nginx-files-volume         # 1. We declare a volume and give it a logical name for this Pod.
+        configMap:                       # 2. We specify its source is a ConfigMap.
+          name: webserver-content        # 3. We tell it to use the ConfigMap named 'webserver-content'.
+
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-files-volume                   # 4a. Use the volume we declared above.
+          mountPath: /etc/nginx/conf.d/default.conf  # 5a. Mount it at this exact file path inside the container.
+          subPath: custom.conf                       # 6a. IMPORTANT: Only use the 'custom.conf' key from the ConfigMap.
+
+        - name: nginx-files-volume                    # 4b. Use the SAME volume again.
+          mountPath: /usr/share/nginx/html/index.html # 5b. Mount it at the default homepage path.
+          subPath: index.html                         # 6b. IMPORTANT: This time, only use the 'index.html' key.
+```
 
 ## Labels and Selector
 
@@ -231,21 +302,20 @@ There are master nodes and worker nodes:
 
 ### Master Node
 
+The Control Plane (master node) is responsible for managing the entire cluster. It maintains the desired state of the cluster, handles scheduling of applications, and responds to events like a pod or node failure.
+
 * API Server: acts as Cluster Gateway, functions such as authentication, routing requests to diff processes
-
 * Scheduler: receives request from API Server and schedule launching pods based on rules (such as CPU and memory usage)
-
 * Controller Manager: detects/monitors cluster, and launches new pods when pods fail
-
 * etcd: has key/value store that tells pods' and nodes' information, such as health of running pods
 
 ### Worker Node
 
+A Worker Node is the machine where applications actually run. It receives instructions from the Control Plane and manages the networking and execution of containers.
+
 * Kubelet: the primary "node agent" that runs on each node. It takes a set of PodSpecs (yaml or json config files) and make sure a pod run accordingly to the PodSpecs.
-
-* Kube Proxy
-
-* Container Runtime
+* Kube Proxy (`kube-proxy`): Kube Proxy's job is to manage the network rules on the node that allow for communication to and from pods. It ensures a request be sent to a Service's IP, that request is intelligently forwarded to one of the correct backing Pods, even if that Pod is on a different node. It does this by directly manipulating the node's networking rules (using tools like iptables or IPVS).
+* Container Runtime: `containerd` or `docker`
 
 ### Pods run on nodes
 
@@ -256,155 +326,56 @@ Each node has a Kubelet, which is an agent for managing the node and communicati
 </div>
 </br>
 
-## Services
+## Kubernetes Cluster's Database (`etcd`)
 
-Service is a method for exposing a network application that is running as one or more Pods in cluster.
+`etcd` is a highly available, consistent, distributed key-value store, the single source of truth for all cluster data.
 
-### Service Port Type 
+`etcd` stores the desired state and the current state of every object in the Kubernetes cluster. This includes:
 
-Reference: https://kubernetes.io/docs/concepts/services-networking/service/
+* Workload Definitions: The complete YAML/JSON definitions for every `Pod`, `Deployment`, `StatefulSet`, `Service`, etc.
+* Cluster State: The real-time status of those objects. For example: "Pod grafana-xyz is currently Running on worker-node-2 with IP 10.42.2.5."
+* Configuration and Secrets: All ConfigMap and Secret objects.
+* Network Information: `Service` definitions, `Ingress` rules, and network policies.
+* RBAC Rules: All roles, cluster roles, and their bindings that define who can do what in the cluster.
 
-The available type values and their behaviors are:
+A typical use in config map is that (as an example):
 
-* ClusterIP
-Exposes the Service on a cluster-internal IP. Choosing this value makes the Service only reachable from within the cluster. This is the default that is used if you don't explicitly specify a type for a Service. You can expose the Service to the public internet using an Ingress or a Gateway.
-
-* NodePort
-Exposes the Service on each Node's IP at a static port (the NodePort). To make the node port available, Kubernetes sets up a cluster IP address, the same as if you had requested a Service of type: ClusterIP.
-
-* LoadBalancer
-Exposes the Service externally using an external load balancer. Kubernetes does not directly offer a load balancing component; you must provide one, or you can integrate your Kubernetes cluster with a cloud provider.
-
-* ExternalName
-Maps the Service to the contents of the externalName field (for example, to the hostname api.foo.bar.example). The mapping configures your cluster's DNS server to return a CNAME record with that external hostname value. No proxying of any kind is set up.
-
-To implement a Service of `type: LoadBalancer`, Kubernetes typically starts off by making the changes that are equivalent to you requesting a Service of type: `NodePort`. The cloud-controller-manager component then configures the external load balancer to forward traffic to that assigned node port.
-
-`containerPort: 80`: Indicates that the container will listen on port 80.
-For example, a mysql container has `containerPort: 3306`.
-
-There can be multiple container port listening, such as
+Write config to a file `alertmanager.yml`.
 
 ```yaml
-ports: 
-    - containerPort: 80
-    - containerPort: 443
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config  #<-- The source name
+data:
+  alertmanager.yml: |-     #<-- This key becomes the filename
+    route:
+      receiver: 'do-nothing'
+    receivers:
+    - name: 'do-nothing'
 ```
 
-## Ingress
-
-`Ingress` is an API object that manages external access to the services in a cluster, typically HTTP.
-
-It provides functions such as firewall, load balancing, virtual DNS name hosting, etc.
-
-<div style="display: flex; justify-content: center;">
-      <img src="imgs/ingress.svg" width="40%" height="25%" alt="ingress.svg" />
-</div>
-</br>
-
-### Ingress Controller and Ingress Class
-
-In order for the Ingress resource to work, the cluster must have an *ingress controller* running.
-
-Ingresses can be implemented by different controllers with different configs
-An `IngressClass` is the controller implementation that contains additional configuration including the name of the controller.
-
-Default `IngressClass` is used when setting `ingressclass.kubernetes.io/is-default-class: true` or `ingressClassName` is not set.
-
-Below is an example that implements nginx as the controller.
+Deploy the config map via matching `configMap.name: alertmanager-config`.
+The `'args'` array is part of the container's definition
 
 ```yaml
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/component: controller
-  name: nginx-example
-  annotations:
-    ingressclass.kubernetes.io/is-default-class: "true"
+  name: alertmanager
 spec:
-  controller: k8s.io/ingress-nginx
-```
-
-### Specifications
-
-* Access Rules
-
-|Path Type `pathType`|Rule|Example Path|Match|
-|-|-|-|-|
-|Prefix|\ |(all paths) |Yes|
-|Exact| \foo|\foo |Yes|
-|Exact| \foo|\foo\ |No|
-|Prefix| \foo|\foo |Yes|
-|Prefix| \foo|\foo\ |Yes|
-|Prefix| \foo|\foo\bar |Yes|
-
-* Backend
-
-`backend` describes what services are assigned to handles requests.
-
-```yaml
-...
-- http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: hello-world-service
-            port:
-              number: 80
-```
-
-* Hostname
-
-Ingress can provide DNS name hosting.
-
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-wildcard-host
-spec:
-  rules:
-  - host: "foo.bar.com"
-    http:
-        ...
-  - host: "*.foo.com"
-    http:
-        ...
-```
-
-To get k8s locally host an DNS name;
-reference: https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/
-
-## Storage `PersistentVolume` (PV) and `PersistentVolumeClaim` (PVC)
-
-A `PersistentVolume` (PV) is a piece of storage in the cluster provisioned by an administrator or dynamically allocated using Storage Classes, and it has a lifecycle independent of any individual Pod that uses the PV.
-
-A `PersistentVolumeClaim` (PVC) is a request for storage by a user, similar to a Pod consuming node resources, but PVC consuming PV resources.
-Claims can request specific size and access modes (e.g., they can be mounted ReadWriteOnce, ReadOnlyMany).
-
-* Host Path
-
-A `hostPath` volume mounts a file or directory from the host node's filesystem into your Pod.
-
-A popular use case is `hostPath.path: /var/log` for node-level system centralized logging.
-
-* Storage Class
-
-*Storage class* is used to administer how volume is provisioned.
-The administration includes access mode (e.g., ReadWriteOnce, ReadOnlyMany), lifecycle (e.g., to or not to be deleted after PVC ends), etc.
-
-When a PVC does not specify a `storageClassName` or `storageClassName=""`, the default StorageClass is used; when set
-`storageclass.kubernetes.io/is-default-class: true` annotation in PV and PVC, the default StorageClass is used.
-
-A `manual` storage class is a name used in PV/PVC without actually creating a StorageClass.
-
-```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: manual
-provisioner: kubernetes.io/no-provisioner
+  template:
+    spec:
+      volumes:
+      - name: config-volume            # <-- Nickname is defined here
+        configMap:
+          name: alertmanager-config  # <-- Points to the ConfigMap's real name
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:latest
+        args: # <-- The 'args' array is part of the container's definition
+          - "--config.file=/etc/alertmanager/alertmanager.yml"
+        volumeMounts:
+        - name: config-volume            # <-- Must match the nickname from Part 1
+          mountPath: /etc/alertmanager/  # <-- The destination directory inside the container
 ```

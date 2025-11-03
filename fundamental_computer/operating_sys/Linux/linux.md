@@ -20,9 +20,14 @@ Kernel has below functionalities
 
 ## Linux Distributions
 
-RedHat, SUSE, Fedora, Debian, Slackware, and Ubuntu.
+The most popular Linux distributions are RHEL/CentOS and Debian/Ubuntu.
 
-`DEB` files are installation files for Debian based distributions. `RPM` files are installation files for Red Hat based distributions. Ubuntu is based on Debian's package manage based on `APT` (apt-get repos) and `DPKG`. Red Hat, CentOS and Fedora are based on the old Red Hat Linux package management system, `RPM`.
+* RHEL/CentOS features strong commercial support and participated in various linux tool development
+* Ubuntu features toC customers with provided desktop.
+
+### Red Hat Enterprise Linux (RHEL) and CentOS
+
+### Debian Ubuntu
 
 ### Yum Repos
 

@@ -72,3 +72,7 @@ Ethereum Private Keys are 64 random hex characters or 32 random bytes.
 The public key is derived from the private key using ECDSA.
 
 The private key creates a signature. The public key verifies the signature.
+
+## MultiSig Wallet
+
+Multi-signature wallets are a type of cryptocurrency wallet that requires **multiple keys** to unlock funds or approve transactions. 
