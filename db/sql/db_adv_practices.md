@@ -1,5 +1,73 @@
 # DB Advanced Practices
 
+## Data Underlying Physical Layout
+
+The B+ Tree is used for index storage, the actual data content storage is diff.
+
+### Row-Oriented Storage (OLTP Databases)
+
+* Optimized for: Transactional workloads (OLTP).
+* Optimization example: `SELECT * FROM employees WHERE employee_id = 123;`. The database can go to one spot on the disk and **read the entire row** in a single I/O operation.
+* BExamples: PostgreSQL, MySQL, SQL Server, Oracle.
+
+||Heap-Organized (PostgreSQL, Oracle)|Clustered Index / IOT (SQL Server, MySQL)|
+|:---|:---|:---|
+|Data Ordered by Primary Key (PK)?|No. Data is in an **unordered heap**.|Yes. The **PK** defines the **physical row order**.|
+|PK Index contains...|**Pointers** to the row data.|The **full row data itself**.|
+|PK Range Scan/`SELECT` on PK Speed|Slower (many random I/Os to the heap).|Extremely Fast (sequential I/O).|
+|`INSERT` Performance|Very fast, as new rows can go anywhere.|Slower, as new rows must be inserted in order, which can cause page splits.|
+|Impact of PK Choice|Less critical. Random keys are okay.|Highly critical. Sequential keys are strongly preferred.|
+
+### Column-Oriented Storage (OLAP Databases)
+
+* Optimized for: Analytical workloads (OLAP).
+* Optimization example: `SELECT AVG(price) FROM sales WHERE product_category = 'Electronics';`. The database only needs to read the `price` and `product_category` column files; not read other cols.
+* Examples: Snowflake, Google BigQuery, Amazon Redshift, ClickHouse.
+
+In physical data storage is diff per col, that each col is sorted by diff algos.
+
+For example, a table got `product_name`, `price`, `transaction_date`.
+They are sorted by
+
+The `transaction_date.col` file is physically sorted by `date`.
+The `price.col` file is also sorted in the order of the transaction `dates`. The Nth price in the file corresponds to the Nth date.
+The `product.col` file is also sorted in the order of the transaction `dates`.
+
+### DB Data Page File
+
+The physical bearer of data on memory/disk is named *Data Page File*.
+
+For example, in PostgreSQL, a page is a fixed-size chunk of memory and disk, almost always 8 KB. Every single thing—table data, indexes, metadata—is stored inside these 8 KB pages.
+
+The CRUD operation, e.g., `UPDATE`/`INSERT`/`DELETE` instructions are applied on the files.
+For example, an `UPDATE` operation of a row will first locate the row belonged 8 kB file, then read and write back this file.
+
+Below is an example of an  8 KB file layout.
+
+```txt
++----------------------------------------------------------------------+  <-- Start of 8KB Block
+|   PageHeaderData (24 bytes)                                          |
+|   - Information about this page (LSN, free space pointers, etc.)     |
++----------------------------------------------------------------------+
+|   ItemIdData Array (Line Pointers)                                   |
+|   [ptr4] [ptr3] [ptr2] [ptr1]  <-- Grows downwards                  |
++----------------------------------------------------------------------+
+|                                                                      |
+|                          F R E E   S P A C E                         |
+|                                                                      |
+|                                                                      |
++----------------------------------------------------------------------+
+|   <-- Grows upwards                                                  |
+|   Heap Tuple 4: [Header | User Data (col1, col2...)]                  |
++----------------------------------------------------------------------+
+|   Heap Tuple 3: [Header | User Data (col1, col2...)]                  |
++----------------------------------------------------------------------+
+|   Heap Tuple 2: [Header | User Data (col1, col2...)]                  |
++----------------------------------------------------------------------+
+|   Heap Tuple 1: [Header | User Data (col1, col2...)]                  |
++----------------------------------------------------------------------+  <-- End of 8KB Block
+```
+
 ## Use of Lock
 
 MySQL

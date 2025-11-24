@@ -1,6 +1,6 @@
 # Python Software Development
 
-## Python Software Setup and Build
+## Python Software Setup and Build Basics
 
 * Python Egg
 
@@ -60,123 +60,7 @@ python -c "import importlib.util; spec=importlib.util.find_spec('_ctypes'); prin
 
 Likely it is in `path/to/python/lib/python3.xx/lib-dynload/`
 
-## Coroutine and Asyncio
-
-Python have two coroutine implementations:
-
-* `yield` + `generator`
-* `asyncio`
-
-### Coroutine and Generator
-
-A coroutine in python is implemented by `yield` that returns a `generator` (by this time execution is paused and contexts are stored/stacked), then once reached `next`/`send`, execution resumes.
-
-```py
-def my_gen_coroutine():
-    print("Coroutine started.")
-    while True:
-      received = yield # pause here
-      print(f"Coroutine received msg: {received}.")
-
-my_coro = my_gen_coroutine()
-# print "Coroutine started."
-
-result = next(my_coro)
-# or
-result = my_coro.send("Coroutine yielded")
-# print "Coroutine received msg: Coroutine yielded."
-
-my_coro.close()
-```
-
-### Asyncio
-
-`asyncio` is a python library providing async concurrency functions implemented by coroutines + multiplexing I/O over socket.
-
-`asyncio` uses `await` to conduct pauses and resumptions of execution, that are all managed in an asyncio event loop.
-
-```py
-import asyncio
-
-async def my_async_coroutine():
-    print("async coroutine started.")
-    await asyncio.sleep(1) # execution pause and resumption
-    print("async coroutine ended.")
-
-my_async_coro = my_async_coroutine()
-
-my_async_task = asyncio.create_task(my_async_coro)
-# my_async_task is a coroutine object
-
-# get my_async_task and run
-asyncio.run(my_async_task)
-# or (in older version python)
-loop = asyncio.get_event_loop()
-loop.run_until_complete(my_async_task)
-```
-
-`nest_asyncio` is used to run nested asyncio, because by default, asyncio does not support running an event inside another event loop.
-This is useful, for example, in Jupyter notebook that runs an asyncio loop by default.
-
-```py
-import asyncio
-import nest_asyncio
-
-nest_asyncio.apply()
-
-async def inner_coro():
-    print("Started inner coroutine")
-    await asyncio.sleep(1)
-    print("Done inner coroutine")
-
-async def outer_coro():
-    print("Started outer coroutine")
-    await asyncio.sleep(1)
-    print("Started inner coroutine")
-    await inner_coro()
-    print("Done inner coroutine")
-
-async def main():
-    print("Started main coroutine")
-    await outer_coro()
-    print("Done main coroutine")
-
-asyncio.run(main())
-```
-
-### Iterables vs Generators
-
-`iterable`/`__iter__`: When you create a list, you can read its items one by one. Reading its items one by one is called iteration,
-
-`generator` are iterators, a kind of iterable you can only iterate over once. Generators do not store all the values in memory, they generate the values on the fly.
-
-### `@contextmanager` and Coroutine
-
-`@contextmanager` annotation is to simulate a full class scope management with `with` (`__enter__` and `__exit__` methods).
-
-Define a generator function, where a `yield` statement is executed when entering the context, and the code after the `yield` statement is executed when exiting the context.
-
-```py
-import psycopg2
-from contextlib import contextmanager
-
-@contextmanager
-def postgresql_connection(dbname, user, password, host='localhost', port=5432):
-    conn = None
-    try:
-        conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
-        yield conn
-    finally:
-        if conn is not None:
-            conn.close()
-
-# Usage example
-with postgresql_connection('mydatabase', 'myuser', 'mypassword') as conn:
-    with conn.cursor() as cursor:
-        cursor.execute('SELECT * FROM mytable')
-        result = cursor.fetchall()
-        print(result)
-```
+## Poetry and `pyproject.toml`
 
 ## Type Safe by `pydantic`
 
@@ -217,192 +101,107 @@ student = Student(**student_data)
 print(student.model_dump())
 ```
 
-## Python Object LifeCycle Management
+## Unit Test by PyTest
 
-Acquired resource must be released if no longer used.
-Some typical concerns are DB connection sessions are limited, and when DB query ends, need to `close()` DB connection.
+Pytest is a popular, open-source testing framework for Python.
 
-* Use `with` statement (context manager)
+### PyTest Fixtures
 
-For example, for postgresql, the connected session will be closed once exited the `with` scope.
+PyTest Fixtures provides a consistent context where common use scenarios such as "run-before" and "run-after" are prepared.
+
+In this example, the `sample_data` function is decorated with `@pytest.fixture` to mark it as a fixture.
+Before `test_sum` and `test_prod` are executed, Pytest will call `sample_data` and pass its return value to the test function.
+The `sample_data` is the "run-before" context for `test_sum` and `test_prod`.
 
 ```py
-with psycopg2.connect("<db connection>") as connection:
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT current_database();")
-        query_result = cursor.fetch_one()
-        print(query_result)
+import pytest
+import math
+
+# A fixture to provide a sample list of numbers
+@pytest.fixture
+def sample_data():
+    return [1, 2, 3, 4, 5]
+
+# A test function that uses the sample_data fixture
+def test_sum(sample_data):
+    assert sum(sample_data) == 15
+
+# A corrected test function that uses the sample_data fixture to test the product
+def test_prod(sample_data):
+    assert math.prod(sample_data) == 120
 ```
 
-* `try`-`except`-`finally` statement
+#### Scope in PyTest Fixtures
+
+In Pytest, the scope parameter for a fixture determines its lifecycle—how often it is created and destroyed.
+
+`scope="session"` and `scope="module"` are two common test lifecycle scopes:
+
+* When a fixture is defined with `scope="module"`, it is set up once per test module (i.e., per `.py` file); typical use is loading read-only data.
+* A fixture with `scope="session"` is the most long-lived. It is created only once for the entire test session, before any tests are run; typical use case is DB conn.
+
+#### The `yield` in Fixtures
+
+In `scope`, the fixture-annotated func is `yield`ed so that the context is retained.
+
+For example, a db conn needs to be closed once done testing, the `yield conn` and temp store the context and resume once all tests are done.
 
 ```py
-try:
-    conn = psycopg2.connect("<db connection>")
-    cursor.execute("SELECT current_database();")
-    query_result = cursor.fetch_one()
-    print(query_result)
-except Exception as err:
-    print(f"DB err: {err}")
-finally:
+import pytest
+import sqlite3
+
+@pytest.fixture(scope="module")
+def db_connection():
+    # --- SETUP phase ---
+    print("\n[Setting up DB connection...]")
+    conn = sqlite3.connect(":memory:") # Create an in-memory database
+    
+    yield conn  # Provide the connection to the test and PAUSE
+
+    # --- TEARDOWN phase (resumes here after test is done) ---
+    print("\n[Tearing down DB connection...]")
     conn.close()
+
+def test_database_write(db_connection):
+    cursor = db_connection.cursor()
+    cursor.execute("CREATE TABLE users (id INT, name TEXT)")
+    cursor.execute("INSERT INTO users VALUES (1, 'Alice')")
+    db_connection.commit()
+
+    # Some assertion to make it a real test
+    user = cursor.execute("SELECT name FROM users WHERE id=1").fetchone()
+    assert user[0] == "Alice"
 ```
 
-* Use `__del__()` and manage by python garbage collector `gc.collect()`
+### The `pytest.ini`
 
-When an object reference count goes to zero, the object is marked to be deleted.
-Python garbage collector will pick up a time to actually release the object's resources (the exact timing is uncertain).
-To immediately trigger garbage collector execution, use `gc.collect()`.
+The `pytest.ini` file serves as the primary configuration file for the `pytest` testing framework.
 
-```py
-import gc
+For example,
 
-class MyCls:
-    def __init__(self):
-        print("MyCls created")
-    def __del__(self):
-        print("MyCls ended")
+```ini
+[pytest]
 
-# created
-my_cls = MyCls()
+addopts = 
+    -v
+    --tb=short
+    --color=yes
+    -ra
+    --no-cov
 
-# reference count to two
-my_another_same_cls = my_cls
-
-# `__del__()` will NOT be called for reference count is one
-del my_cls
-
-# `__del__()` will be called for reference count is zero
-del my_another_same_cls
-
-# However, the exact timing of `__del__()` execution is uncertain depending on 
-# how garbage collector schedules executions
-# to immediately trigger garbage collector execution, use `gc.collect()`
-gc.collect()
+# Logging
+log_cli = true
+log_cli_level = INFO
+log_cli_format = %(asctime)s [%(levelname)8s] %(message)s
+log_cli_date_format = %Y-%m-%d %H:%M:%S
 ```
 
-Reference count fails when there is circular reference:
+where
 
-```py
-class A:
-    def __init__(self):
-        self.field = None
-class B:
-    def __init__(self):
-        self.field = None
+* `-v` (`--verbose`): Increases the verbosity of the output. 
+* `--tb=short`: Controls the traceback style for failing tests. The short format is a cleaner and more concise representation of the error stack than the default
+* `--color=yes`: This option forces the test output to be colorized
+* `-ra`: The `-r` flag is for reporting, and the `a` character specifies which reports to show. `a` stands for "all" except for passes, delivered detailed non-passing tests.
+* `--no-cov`: It disable code coverage test
 
-a = A()
-b = B()
-
-# circular dependency that if there are
-# `del a` and `del b`, their reference count will not go to zero.
-a.field = b
-b.field = a
-
-# use weak reference to solve circular dependency,
-# so that `del a` and `del b` will actually get their reference count to zeros.
-import weakref
-a.field = weakref.ref(b)
-b.field = weakref.ref(a)
-```
-
-## Python Garbage Collection
-
-Python has two strategies managing object de-allocation: *reference count* and *garbage collection*
-
-### Reference count
-
-The main garbage collection mechanism in CPython is through reference counts. Whenever you create an object in Python, the underlying C object has both a Python type (such as list, dict, or function) and a reference count.
-
-When references to an object are removed, the reference count for an object is decremented. When the reference count becomes zero, the object is deallocated.
-
-You can get a var's reference count by
-
-```py
-import sys
-a = 'my-string'
-b = [a] # Make a list with a as an element.
-c = { 'key': a } # Create a dictionary with a as one of the values.
-sys.getrefcount(a)
-
-###
-# result is 4
-```
-
-### GC module
-
-#### Motivation: de-allocation failure
-
-This is never freed since `x` has a reference to itself, and reference counter does not work on this scenario.
-
-```py
-x = []
-x.append(x) # `x` has a reference to itself
-
-del x # `x` is not longer accessable, but not freed
-```
-
-#### `gc` solution
-
-`gc` module comes to rescue by checking the number of allocated objects and de-allocated objects (allocations and de-allocations mismatch demonstrates that there are garbages missed removed).
-
-If the number is greater than a threshold, objects are scheduled being de-allocated. It detects items such as `del` and existence of objects in memory.
-
-You can check the threshold by this.
-
-```py
-# loading gc
-import gc
- 
-# get the current collection
-# thresholds as a tuple
-print("Garbage collection thresholds:",
-                    gc.get_threshold())
-```
-
-### Manual trigger
-
-You can manually trigger `gc` to start collecting objects, if the scheduled auto-recycling has not yet met the threshold.
-
-```py
-import gc
-i = 0
- 
-# create a cycle and on each iteration x as a dictionary
-# assigned to 1
-def create_cycle():
-    x = { }
-    x[i+1] = x
-    print x
- 
-# lists are cleared whenever a full collection or
-# collection of the highest generation (2) is run
-collected = gc.collect() # or gc.collect(2)
-print "Garbage collector: collected %d objects." % (collected)
- 
-print "Creating cycles..."
-for i in range(10):
-    create_cycle()
- 
-collected = gc.collect()
- 
-print "Garbage collector: collected %d objects." % (collected)
-```
-
-which prints
-
-```bash
-Garbage collector: collected 0 objects.
-Creating cycles...
-{1: {...}}
-{2: {...}}
-{3: {...}}
-{4: {...}}
-{5: {...}}
-{6: {...}}
-{7: {...}}
-{8: {...}}
-{9: {...}}
-{10: {...}}
-Garbage collector: collected 10 objects.
-```
+The logging config prints log messages from application directly to the console during the test run.

@@ -155,6 +155,28 @@ ports:
     - containerPort: 443
 ```
 
+### `kube-proxy` to Service
+
+The `Service` is just an abstract concept --- an object defined in the Kubernetes API. It doesn't actually do anything on its own.
+`kube-proxy` is the component that brings the Service abstraction to life.
+
+`kube-proxy` is a daemon (a background process) that runs on every single node; it's a core piece of the cluster's infrastructure.
+
+The core work of `kube-proxy` is to maintain IP lookup table and makes sure data be routed to the defined destinations.
+
+#### Example of How `kube-proxy` Routes Traffic
+
+For example, `hello-service` with ClusterIP `10.100.20.30` is et up.
+This service has two healthy backend pods with IPs `192.168.1.5` and `192.168.2.8`.
+`kube-proxy` on every node sees this information.
+
+1. An NGINX Ingress pod receives a user request and determines it needs to go to `hello-service`.
+2. The NGINX pod sends the request to the Service's stable ClusterIP: `10.100.20.30`.
+3. The packet leaves the NGINX pod and is immediately handled by the Linux kernel on the node where the NGINX pod is running.
+4. The kernel sees the `iptables` or `IPVS` rule that `kube-proxy` created.
+5. The kernel performs Destination Network Address Translation (DNAT). It rewrites the destination IP on the packet from `10.100.20.30` to `192.168.1.5` (for example).
+6. The packet is now routed directly to the application pod.
+
 ## Ingress
 
 `Ingress` is an API object that manages external access to the services in a cluster, typically HTTP.
@@ -241,6 +263,107 @@ spec:
 
 To get k8s locally host an DNS name;
 reference: https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/
+
+### Full K8S Ingress Example with Nginx
+
+Summary: The Complete Flow of a Request
+
+1. A user requests `http://foo.bar.com/app1`.
+2. DNS resolves `foo.bar.com` to the IP address of the External L4 Load Balancer.
+3. The External LB receives the request and forwards the TCP connection to a healthy NGINX Ingress Controller pod.
+---------------------------
+The above are usually set up in cloud provider.
+Below are the actual K8S internal processes.
+
+4. The NGINX pod inspects the request (L7 inspection). It sees the host `foo.bar.com` and the path `/app1`.
+5. Based on the Ingress rules, it determines the request should go to the `hello-service-1` Service.
+6. The request is sent to the virtual IP of `hello-service-1`.
+7. The `Service` (via `kube-proxy`) performs L4 load balancing and forwards the request to one of the healthy `hello-app-1` pods.
+8. The pod processes the request and the response travels back along the same path.
+
+In `ingress-class.yaml` define controller.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+  name: nginx-example
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  controller: k8s.io/ingress-nginx
+```
+
+Define `Service` where internal networking is set up.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service-1
+spec:
+  selector:
+    app: hello-app-1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service-2
+spec:
+  selector:
+    app: hello-app-2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+```
+
+To route data from external to services, here finally define `example-ingress.yaml` with specified paths.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx-example
+  rules:
+  - host: "foo.bar.com"
+    http:
+      paths:
+      - path: /app1
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-service-1
+            port:
+              number: 80
+      - path: /app2
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-service-2
+            port:
+              number: 80
+  - host: "*.foo.com"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-service-1
+            port:
+              number: 80
+```
 
 ## K8S FileSystem and Block Device
 

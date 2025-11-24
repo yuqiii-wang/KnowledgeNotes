@@ -151,6 +151,14 @@ Take into account the above institution A and institution B offers, by dynamic p
 </div>
 </br>
 
+### The Four Factors of REPO Rate Pricing
+
+* Counterparty client credit
+* Traded Currency and ISIN
+* Auto-rolling from a previous trade
+* Margin and volatility
+* Benchmark (e.g., ester, sofr, libor) volatility
+
 ## A REPO Trade End Cash Estimation Example
 
 There is a REPO trade:

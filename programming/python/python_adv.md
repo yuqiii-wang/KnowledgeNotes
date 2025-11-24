@@ -350,3 +350,122 @@ if TYPE_CHECKING:
 def process_df(df: "pd.DataFrame") -> None:
     ...
 ```
+
+
+## Coroutine and Asyncio
+
+Python have two coroutine implementations:
+
+* `yield` + `generator`
+* `asyncio`
+
+### Coroutine and Generator
+
+A coroutine in python is implemented by `yield` that returns a `generator` (by this time execution is paused and contexts are stored/stacked), then once reached `next`/`send`, execution resumes.
+
+```py
+def my_gen_coroutine():
+    print("Coroutine started.")
+    while True:
+      received = yield # pause here
+      print(f"Coroutine received msg: {received}.")
+
+my_coro = my_gen_coroutine()
+# print "Coroutine started."
+
+result = next(my_coro)
+# or
+result = my_coro.send("Coroutine yielded")
+# print "Coroutine received msg: Coroutine yielded."
+
+my_coro.close()
+```
+
+### Asyncio
+
+`asyncio` is a python library providing async concurrency functions implemented by coroutines + multiplexing I/O over socket.
+
+`asyncio` uses `await` to conduct pauses and resumptions of execution, that are all managed in an asyncio event loop.
+
+```py
+import asyncio
+
+async def my_async_coroutine():
+    print("async coroutine started.")
+    await asyncio.sleep(1) # execution pause and resumption
+    print("async coroutine ended.")
+
+my_async_coro = my_async_coroutine()
+
+my_async_task = asyncio.create_task(my_async_coro)
+# my_async_task is a coroutine object
+
+# get my_async_task and run
+asyncio.run(my_async_task)
+# or (in older version python)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(my_async_task)
+```
+
+`nest_asyncio` is used to run nested asyncio, because by default, asyncio does not support running an event inside another event loop.
+This is useful, for example, in Jupyter notebook that runs an asyncio loop by default.
+
+```py
+import asyncio
+import nest_asyncio
+
+nest_asyncio.apply()
+
+async def inner_coro():
+    print("Started inner coroutine")
+    await asyncio.sleep(1)
+    print("Done inner coroutine")
+
+async def outer_coro():
+    print("Started outer coroutine")
+    await asyncio.sleep(1)
+    print("Started inner coroutine")
+    await inner_coro()
+    print("Done inner coroutine")
+
+async def main():
+    print("Started main coroutine")
+    await outer_coro()
+    print("Done main coroutine")
+
+asyncio.run(main())
+```
+
+### Iterables vs Generators
+
+`iterable`/`__iter__`: When you create a list, you can read its items one by one. Reading its items one by one is called iteration,
+
+`generator` are iterators, a kind of iterable you can only iterate over once. Generators do not store all the values in memory, they generate the values on the fly.
+
+### `@contextmanager` and Coroutine
+
+`@contextmanager` annotation is to simulate a full class scope management with `with` (`__enter__` and `__exit__` methods).
+
+Define a generator function, where a `yield` statement is executed when entering the context, and the code after the `yield` statement is executed when exiting the context.
+
+```py
+import psycopg2
+from contextlib import contextmanager
+
+@contextmanager
+def postgresql_connection(dbname, user, password, host='localhost', port=5432):
+    conn = None
+    try:
+        conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+        yield conn
+    finally:
+        if conn is not None:
+            conn.close()
+
+# Usage example
+with postgresql_connection('mydatabase', 'myuser', 'mypassword') as conn:
+    with conn.cursor() as cursor:
+        cursor.execute('SELECT * FROM mytable')
+        result = cursor.fetchall()
+        print(result)
+```

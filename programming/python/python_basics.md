@@ -24,9 +24,27 @@ Run by `python setup.py install`.
 
 `python -m pip install ...` is preferred because that ensures the use of the pip from the current virtual environment.
 
-## Python Interpreter
+## Python Interpreter Implementations
 
-* Cython vs Jython
+There are below Python interpreter implementations
+
+* Cpython: The standard with good C extensions
+* Pypy: RPython (Restricted Python) python script execution speed up by JIT bytecode compiling but limited support for C extensions
+* Jython: Python on the Java Virtual Machine (JVM)
+* IronPython: Python for the .NET Framework
+* MicroPython: Python for Microcontrollers
+
+where Cpython and Pypy are two most popular implementations.
+
+General guide is
+
+||Cpython|Pypy|
+|:---|:---|:---|
+|Features|Standard python implementation, most compatible, great support for C extensions|Speed up by JIT bytecode compiling but limited support for C extensions|
+|Use Scenarios|CPU-bound tasks; libs with C extensions|Heavy pure Python script executions|
+|Recommended libs|NumPy, Pandas, SciPy, PyTorch|FastAPI|
+
+### Python New Process Launch
 
 * Spawn vs Fork
 
@@ -272,3 +290,7 @@ print(A.__annotations__)
 Before executing a program, the Python interpreter assigns the name of the Python module into a special variable called `__name__`.
 
 By direct execution `python <your_py_filename>.py`, Python interpreter will automatically assign the string `'__main__'` to the special variable `__name__`.
+
+## Use of `-m` Flag in Running Python
+
+When user invokes Python with the -m flag followed by a module name, the Python interpreter searches for that module in its path (sys.path) and executes its content as the main program. 

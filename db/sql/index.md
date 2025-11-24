@@ -1,17 +1,37 @@
-# Indexing
+# Index
 
 Rule of thumb: always remember to make most selective columns as keys.
 
-## Summary
+## Primary Key vs Index
 
-* `PRIMARY KEY (a)`: The partition key is a.
-* `PRIMARY KEY (a, b)`: The partition key is a, the clustering key is b.
-* `PRIMARY KEY (a, b, c)`: The partition key is a, the composite clustering key is (b, c).
-* `PRIMARY KEY ((a, b), c)`: The composite partition key is (a, b), the clustering key is c.
+Primary key is about physical data layout/data row locations, while index is about building b+ tree where tree nodes as index records pointing to the actual data rows.
+
+If there are multiple keys/indices are grouped in parentheses, it is named *composite ket/index*.
+
+For example, an EMPLOYEE table is defined with key pointing to his/her name such as
+
+```sql
+-- As a Primary Key
+PRIMARY KEY (last_name, first_name, middle_name)
+
+-- As a Composite Index
+CREATE INDEX idx_name ON table_name (last_name, first_name, middle_name)
+```
+
+The employee data rows are placed by the order of grouped `(last_name, first_name, middle_name)` key.
+In index design, the actual data rows are fetched via index pointers.
+
+```txt
++------------------------------------------------------------+
+| Key: (Goldman, Anne, S.)     | Pointer to original Row 1   |
++------------------------------------------------------------+
+| Key: (Callahan, Donald, J.)  | Pointer to original Row 2   |
++------------------------------------------------------------+
+```
 
 ## Foreign Key vs Primary Key
 
-*PRIMARY KEY* is used to identify a row entry, that must contain *UNIQUE* values, and cannot contain NULL values.
+*PRIMARY KEY* is used to identify a row entry, that must contain **UNIQUE** values, and cannot contain `NULL` values.
 
 A *FOREIGN KEY* is a field (or collection of fields) in one table, that refers to the PRIMARY KEY in another table.
 

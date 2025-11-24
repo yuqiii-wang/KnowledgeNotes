@@ -58,6 +58,62 @@ External Traffic Policy:  Cluster
 Events:                   <none>
 ```
 
+### The K8S Config `.kube/config`
+
+By default, `kubectl` looks for this file in the `~/.kube/` directory.
+It acts as a bridge, holding the details that allow user to securely communicate with the Kubernetes API server.
+
+For example, without it, every cmd needs explicit authentication.
+
+```txt
+kubectl get pods --server=https://dev-k8s.example.com --client-key=dev.key --client-certificate=dev.crt --certificate-authority=dev-ca.crt --namespace=my-app
+```
+
+Usually the config contains three themes:
+
+* `contexts` summarizes all controls
+* `users` is about who to access
+* `clusters` is (typically) the load balancer or K8S API Server
+
+```yaml
+apiVersion: v1
+kind: Config
+preferences: {}
+
+clusters:
+- name: development
+  cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://192.168.1.10:6443
+- name: production
+  cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://k8s.example.com
+
+users:
+- name: dev-user
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+- name: prod-user
+  user:
+    token: "prod-token-string"
+
+contexts:
+- name: dev-context
+  context:
+    cluster: development
+    user: dev-user
+    namespace: my-app-dev
+- name: prod-context
+  context:
+    cluster: production
+    user: prod-user
+    namespace: my-app-prod
+
+current-context: dev-context
+```
+
 ## General Standard Practice for Deployment Setup
 
 ### The deployment of The App

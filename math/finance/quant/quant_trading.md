@@ -55,22 +55,29 @@ An order submitted without the specified limit price and to be executed against 
 
 ### Validity Periods and Conditions
 
-* Good for Day (GFD)
+* Good for Day (GFD)/Good till Date (GTD)
 
-Valid until the end of the Day Session of the day (or, until the end of the Night Session if the order is submitted at the Night Session.).
+Valid **until the end of the Day Session** of the day (or, until the end of the Night Session if the order is submitted at the Night Session.).
 
-* Good till Date/ Good till Cancel (GTD/GTC)
+* Good till Cancel (GTC)
 
-Valid until the end of the Day Session on the date the specified period ends.
-Selectable from either GTD (valid until the end of the day session on the date the specified period ends) or GTC (valid until the cancellation. (If not cancelled, it is valid until the end of the day session on the last trading day.)).
+**Cancellable** GFD/GTD
 
 * Fill and Kill (FAK)
 
-In the case where there is unfilled volume after the order is partially executed, cancel the unfilled volume.
+In the case where there is unfilled volume after the order **is partially executed, cancel the unfilled volume**.
 
 * Fill or Kill (FOK)
 
-In the case where all the volume is not executed immediately, cancel all the volume.
+In the case where **all** the volume is **not executed immediately**, **cancel all** the volume.
+
+* All or None (AON)
+
+An AON order dictates that the **entire quantity** of the order must be filled, This is useful for traders who want to **avoid partial fills** but do not require the immediacy of a FOK order.
+
+* Outright Order
+
+An outright order is a straightforward, single transaction to buy or sell a financial instrument. An outright order still requires a validity period (like GFD or GTC) and can be subject to other execution conditions.
 
 ### Stop Conditions
 

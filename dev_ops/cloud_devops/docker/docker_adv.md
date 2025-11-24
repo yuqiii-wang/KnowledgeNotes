@@ -121,6 +121,25 @@ Space can be release by deleting docker files such as by
 
 that deletes files of different scopes, in which `system` is the all scope file deletion.
 
+### Container File Layers
+
+#### Read-Only Image Layers
+
+A Docker image is a blueprint for a container, composed of a series of read-only layers.
+Each instruction in the Dockerfile, such as `FROM`, `RUN`, or `COPY`, creates a new layer.
+These layers are stacked on top of each other to form the foundation of the container's filesystem.
+This layered approach promotes efficiency by allowing layers to be cached and reused across different images.
+
+#### Writable Container Layer
+
+When a container is launched from an image, Docker adds a thin, writable layer on top of the read-only image layers.
+
+This is often referred to as the "container layer." Any changes made to the running container, such as creating, modifying, or deleting files, are stored in this writable layer.
+
+When the container is stopped and removed, this writable layer and all the data within it, including the downloaded file, are also deleted. The original image remains unchanged.
+
+As a result, a container is supposed to be stateless not storing stateful data; the best practice is vy docker volume to persist data.
+
 ## Docker Volume
 
 By default all files created inside a container are stored on a writable container layer. This means that:

@@ -206,3 +206,37 @@ Might have limitations when high concurrency writes for data syncs.
 
 This is about business level of providing db instances for targeted usage, such as one db for user login (db stores token, user profile, etc.) and another for user business services (db stores subscribed news, purchased products, etc.).
 
+## Write-Ahead Log (WAL)
+
+Write-Ahead Log (WAL), also known as the Transaction Log or Redo Log, is used to record data change by which data is later persisted on disk.
+
+The database does not immediately write changes to the main data files. Instead, it first records the intention to make the change in a special, high-speed log. The actual update to the main table files on disk is delayed.
+
+### Example: `UPDATE` and `COMMIT`
+
+Below uses `UPDATE` as the example to explain how WAL works.
+
+```sql
+BEGIN;
+UPDATE paragraphs SET content = 'new text' WHERE paragraph_id = 123;
+COMMIT;
+```
+
+#### Step 1: The UPDATE Command is Issued
+
+* The database finds the data page containing `paragraph_id = 123`.
+* It does not write to the disk file. Instead, it copies that page from disk into its memory buffer (the "buffer cache"), and mark the page dirty.
+
+#### Step 2: A Log Record is Generated
+
+* Before the `COMMIT`, the database creates a log record that describes the change in meticulous detail. This record contains information like:
+    * The transaction ID.
+    * The table, page, and row being changed.
+    * The "before" image of the data (for rolling back).
+    * The "after" image of the data (for redoing the change).
+* This log record is written and **flushed to the WAL file on disk**. 
+
+#### Step 3: The COMMIT Command is Issued
+
+* It writes a special `COMMIT` record to the WAL file on disk.
+* It ensures this `COMMIT` record has been physically flushed from all operating system caches and is durably stored on the disk platter or SSD.

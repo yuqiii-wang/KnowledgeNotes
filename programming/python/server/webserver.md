@@ -18,11 +18,11 @@ By Jan 2025, FastAPI is the optimal for most use cases.
 
 * WSGI (Web Server Gateway Interface)
 
-Definition: A synchronous Python standard (PEP 3333) for communication between web servers and Python apps. Designed for blocking I/O.
+Definition: A **synchronous** Python standard (PEP 3333) for communication between web servers and Python apps. Designed for blocking I/O.
 
 * ASGI (Asynchronous Server Gateway Interface)
 
-Definition: A synchronous + asynchronous Python standard (ASGI spec) that extends WSGI. Supports async/await for non-blocking I/O.
+Definition: A synchronous + **asynchronous** Python standard (ASGI spec) that extends WSGI. Supports async/await for non-blocking I/O.
 
 ## Servers
 
