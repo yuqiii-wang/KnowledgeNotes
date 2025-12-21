@@ -80,6 +80,8 @@ docker tag my-app:1.0 registry.cn-hangzhou.aliyuncs.com/<repo-namespace>/my-app:
 docker push registry.cn-hangzhou.aliyuncs.com/my-project/my-app:1.0
 ```
 
+Be aware that should select the right Geo location, e.g., an image might be present in one city repo Guangzhou but not in Hangzhou repo.
+
 ### AliCloud Env Provisioning
 
 #### Elastic Network Interfaces (ENIs)

@@ -58,6 +58,10 @@ Purchase with "direct"/"complete" intent/method.
 For example, outright REPO (Repurchase Agreement) means REPO trade with total ownership transfer of underlying securities (against pledge-style REPO with only partial ownership transfer).
 Outright securities holding means ownership without indirect/middleman representative.
 
+* Prospectus 公开披露/发行书
+
+In finance and law, a *prospectus* is a mandatory, detailed disclosure document providing potential investors with all material information about a security offering (like stocks, bonds, or mutual funds) to help them make informed decisions, while also protecting the issuer legally by proving investors were informed of risks and facts, covering company business, financials, management, and risks.
+
 ### Secondary Market and Shares
 
 * Preferred vs. Common Stock
@@ -124,6 +128,13 @@ SMM is used to measure how much client has prepaid loan, and debtor will lose pa
 
 Suppose one month payment to debt is \$10,000 for a debt totalled \$100,000. However, client anticipated increased interest rate and would like to pay \$12000 this month.
 The SMM is $2\%=\frac{12,000-10,000}{100,000}$ for this month.
+
+### Markets Treasury
+
+* Treasury Bills (T-Bills): Short-term securities with maturities ranging from four weeks to 52 weeks, sold at a discount to their face value.
+* Treasury Notes (T-Notes): Intermediate-term securities that mature in two, three, five, seven, or ten years, paying a fixed interest rate (coupon) every six months.
+* Treasury Bonds (T-Bonds): Long-term securities with maturities of 20 or 30 years, also paying a fixed interest rate every six months.
+* Treasury Inflation-Protected Securities (TIPS): Securities where the principal is indexed to inflation to protect investors' purchasing power. 
 
 ### Underlying Asset
 
