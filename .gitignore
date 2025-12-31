@@ -34,5 +34,8 @@ math/ai/nlp/llm/lang_chain/examples/storage
 *.spacy
 output
 
+lib
+broadcast
+
 *.log
 logs

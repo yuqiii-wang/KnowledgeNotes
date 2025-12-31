@@ -17,6 +17,7 @@ An XML Entity allows tags to be defined that will be replaced by content when th
 An XML External Entity attack is a type of attack against an application that parses XML input. This attack occurs when XML input containing a reference to an external entity is processed by a weakly configured XML parser. 
 
 In the example below, `js` is replaced with `passwd` when parsed, that contains user's passwords.
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE author [

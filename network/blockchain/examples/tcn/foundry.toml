@@ -1,0 +1,7 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+evm_version = "paris" # target pre-Shanghai chains that lack EIP-3855 (PUSH0)
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
