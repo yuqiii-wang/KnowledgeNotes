@@ -37,10 +37,10 @@ In practice, policy $\pi(a,s)$ is learned via optimization.
 
 $$
 \begin{matrix}
-                        & \text{OnStartTile} & \text{OnDestinationTile} & \text{OnPlainTile} & \text{OnForestTile} & \text{OnGrasslandTile} \\
-\text{TravelByPlain}    & 1.0                & \text{Not Available}     & 0.0                & 0.0                 & 0.0                    \\
-\text{TravelByGrassland}& 0.0                & \text{Not Available}     & 0.8                & 0.0                 & 1.0                    \\
-\text{TravelByForest}   & 0.0                & \text{Not Available}     & 0.2                & 1.0                 & 0.0                    \\
+                        & \text{OnStartTile} & \text{OnDestinationTile} & \text{OnPlainTile} & \text{OnForestTile} & \text{OnGrasslandTile} \\\\
+\text{TravelByPlain}    & 1.0                & \text{Not Available}     & 0.0                & 0.0                 & 0.0                    \\\\
+\text{TravelByGrassland}& 0.0                & \text{Not Available}     & 0.8                & 0.0                 & 1.0                    \\\\
+\text{TravelByForest}   & 0.0                & \text{Not Available}     & 0.2                & 1.0                 & 0.0                    \\\\
 \end{matrix}
 $$
 
@@ -74,7 +74,7 @@ The state-value of a state $s$ is the expected return ("Value Function"), that i
 
 $$
 \begin{align*}
-V_{\pi}(s) &= \mathbb{E}\_{\pi}(G_t | S_{t} = s) \\
+V_{\pi}(s) &= \mathbb{E}\_{\pi}(G_t | S_{t} = s) \\\\
       &= \sum_{a \in A} Q_{\pi}(s,a) \pi(a|s)
 \end{align*}
 $$
@@ -117,14 +117,14 @@ Below shows how Markov decision process as time progresses against how $V_{\pi}(
 
 $$
 \begin{align*}
-V_{\pi}(s) &= \mathbb{E}\_{\pi}(G_t | S_{t} = s) \\
-      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... | S_{t} = s) \\
-      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma G_{t+1} | S_{t} = s) \\
-      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | S_{t} = s) \\
-\space \\
-Q_{\pi}(s,a) &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | {S_{t} = s, A_{t} = a} ) \\
-      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma \sum_{a \in A} Q_{\pi}(S_t,A_t) \pi(A_t| S_t) \space \big| \space {S_{t} = s, A_{t} = a} ) \\
-      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma \mathbb{E}\_{a \sim \pi} Q_{\pi}(S_t,a)  \space \big| \space {S_{t} = s, A_{t} = a} ) \\
+V_{\pi}(s) &= \mathbb{E}\_{\pi}(G_t | S_{t} = s) \\\\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... | S_{t} = s) \\\\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma G_{t+1} | S_{t} = s) \\\\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | S_{t} = s) \\\\
+\space \\\\
+Q_{\pi}(s,a) &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | {S_{t} = s, A_{t} = a} ) \\\\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma \sum_{a \in A} Q_{\pi}(S_t,A_t) \pi(A_t| S_t) \space \big| \space {S_{t} = s, A_{t} = a} ) \\\\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma \mathbb{E}\_{a \sim \pi} Q_{\pi}(S_t,a)  \space \big| \space {S_{t} = s, A_{t} = a} ) \\\\
 \end{align*}
 $$
 
@@ -140,7 +140,7 @@ The result is shown as bellow.
 $$
 \begin{align*}
 \nabla_{\theta}\mathcal{J}(\theta) &=
-\nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s) \\&= \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi(a|s) \\
+\nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s) \\&= \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi(a|s) \\\\
 &\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \nabla_{\theta} \pi(a|s) \\&= \mathbb{E}\_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
 \end{align*}
 $$
@@ -168,9 +168,9 @@ $$
 \begin{align*}
 \nabla_{\theta} \mathcal{J}(\theta) &=
   \nabla_{\theta} V_{\pi_\theta} (s_0) \\&= \sum_{s_x \in S} \eta(s) \phi(s_x) \\&= \Big( \sum_{s \in S} \eta(s) \Big) \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) 
-&& \sum_{s \in S} \eta(s) \text{ is a constant} \\
+&& \sum_{s \in S} \eta(s) \text{ is a constant} \\\\
 &\propto \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) \\&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} \nabla_{\theta} \Big(\pi_{\theta}(a|s) Q_{\pi_\theta}(s,a) \Big)
-&& d_{\pi_{\theta}}(s)=\frac{\eta(s)}{\sum_{s \in S} \eta(s)} \text{ is a stationary distribution} \\
+&& d_{\pi_{\theta}}(s)=\frac{\eta(s)}{\sum_{s \in S} \eta(s)} \text{ is a stationary distribution} \\\\
 &\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \nabla_{\theta} \Big(\pi_{\theta}(a|s) \Big) \\&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \pi_{\theta}(a|s) \frac{\nabla_{\theta} \pi_{\theta}(a|s)}{ \pi_{\theta}(a|s)}
 && \text{ by } \frac{dx}{x}=\frac{d(\ln x)}{dx}dx= d(\ln x)  \\&= \underbrace{\sum_{s \in S} d_{\pi_{\theta}}(s)}\_{s \sim d_{\pi_{\theta}}} \quad \underbrace{\sum_{a \in A} \pi_{\theta}(a|s)}\_{a \sim \pi_{\theta}} Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \\&= \mathbb{E}\_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
 \end{align*}

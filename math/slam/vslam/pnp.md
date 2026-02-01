@@ -11,26 +11,26 @@ or RGB-D visual odometry, PnP can be directly implemented to estimate camera mot
 Consider a 3D spatial point $\mathbf{p}$ , its homogeneous coordinates are $\mathbf{P} = (X, Y, Z, 1)^\text{T}$ . In image $I_1$ , it is projected to the feature point $\mathbf{x}_1=(u_1,v_1,1)^\text{T}$. Define a rotation plus translation matrix $[\mathbf{R}|\mathbf{t}]$. Given a scaling factor $s$ and camera intrinsic matrix $\mathbf{K}$ considered focal length $(f_x, f_y)$ and optical center $(c_x, c_y)$, there is
 $$
 s \begin{bmatrix}
-    u_1 \\
-    v_1 \\
+    u_1 \\\\
+    v_1 \\\\
     1
 \end{bmatrix}=
 \begin{bmatrix}
-    f_x & 0 & c_x \\
-    0 & f_y & c_y \\
+    f_x & 0 & c_x \\\\
+    0 & f_y & c_y \\\\
     0 & 0 & 1
 \end{bmatrix}
 \underbrace{
     \begin{bmatrix}
-        t_1 & t_2 & t_3 & t_4 \\
-        t_5 & t_6 & t_7 & t_8 \\
-        t_9 & t_{10} & t_{11} & t_{12} \\
+        t_1 & t_2 & t_3 & t_4 \\\\
+        t_5 & t_6 & t_7 & t_8 \\\\
+        t_9 & t_{10} & t_{11} & t_{12} \\\\
     \end{bmatrix}
 }\_{[\mathbf{R}|\mathbf{t}]}
 \begin{bmatrix}
-    X \\
-    Y \\
-    Z \\
+    X \\\\
+    Y \\\\
+    Z \\\\
     1
 \end{bmatrix}
 $$
@@ -39,38 +39,37 @@ Set the optical center at the origin $(0,0)$ and focal point to $(1,1)$, such as
 $$
 \mathbf{K} = 
 \begin{bmatrix}
-    f_x & 0 & c_x \\
-    0 & f_y & c_y \\
+    f_x & 0 & c_x \\\\
+    0 & f_y & c_y \\\\
     0 & 0 & 1
 \end{bmatrix}=
 \begin{bmatrix}
-    1 & 0 & 0 \\
-    0 & 1 & 0 \\
+    1 & 0 & 0 \\\\
+    0 & 1 & 0 \\\\
     0 & 0 & 1
 \end{bmatrix}=\mathbf{I}
 $$
 
 So that,
+
 $$
 \begin{align*}
 s u_1 &= 
-t_1 X + t_2 Y + t_3 Z + t_4
-\\
+t_1 X + t_2 Y + t_3 Z + t_4 \\\\
 s v_1 &= 
-t_5 X + t_6 Y + t_7 Z + t_8
-\\
+t_5 X + t_6 Y + t_7 Z + t_8 \\\\
 s &= 
 t_9 X + t_{10} Y + t_{11} Z + t_{12}
 \end{align*}
 $$
 
 By eliminating $s$, there are
+
 $$
 \begin{align*}
 u_1 &= 
 \frac{t_1 X + t_2 Y + t_3 Z + t_4}
-{t_9 X + t_{10} Y + t_{11} Z + t_{12}}
-\\
+{t_9 X + t_{10} Y + t_{11} Z + t_{12}} \\\\
 v_1 &= 
 \frac{t_5 X + t_6 Y + t_7 Z + t_8}
 {t_9 X + t_{10} Y + t_{11} Z + t_{12}}
@@ -94,14 +93,13 @@ where the point represented by the lowercase letter is the projection of the poi
 </br>
 
 * Known condition 1: length of $\overrightarrow{AB}, \overrightarrow{AC}, \overrightarrow{BC}$ given by
+
 $$
 \begin{align*}
 \overrightarrow{AB} &= 
-\sqrt{(X_A-X_B)^2+(Y_A-Y_B)^2+(Z_A-Z_B)^2}
-\\
+\sqrt{(X_A-X_B)^2+(Y_A-Y_B)^2+(Z_A-Z_B)^2} \\\\
 \overrightarrow{AC} &= 
-\sqrt{(X_A-X_C)^2+(Y_A-Y_C)^2+(Z_A-Z_C)^2}
-\\
+\sqrt{(X_A-X_C)^2+(Y_A-Y_C)^2+(Z_A-Z_C)^2} \\\\
 \overrightarrow{BC} &= 
 \sqrt{(X_B-X_C)^2+(Y_B-Y_C)^2+(Z_B-Z_C)^2}
 \end{align*}
@@ -110,10 +108,11 @@ $$
 * Known condition 2: $\angle aOb, \angle aOc, \angle bOc$
 
 Given the projection in homography, a pixel $(u,v)$ on an image can be normalized as $(\frac{X}{Z},\frac{Y}{Z},1)$. Consider an optical center $(c_x, c_y)$ and focal length $(f_x, f_y)$ there are
+
 $$
 \begin{align*}
     u &= f_x \frac{X}{Z} + c_x
-    \\
+    \\\\
     v &= f_y \frac{Y}{Z} + c_y
 \end{align*}
 $$
@@ -122,25 +121,24 @@ Denote three pixels on the image $a=(u_a, v_a, 1), b=(u_b, v_b, 1), c=(u_c, v_c,
 
 $$
 \begin{align*}
-cos\angle aOb = \frac{\overrightarrow{Oa} \cdot \overrightarrow{Ob}}{\big|\overrightarrow{Oa} \cdot \overrightarrow{Ob}\big|}
-\\
-cos\angle aOc = \frac{\overrightarrow{Oa} \cdot \overrightarrow{Oc}}{\big|\overrightarrow{Oa} \cdot \overrightarrow{Oc}\big|}
-\\
+cos\angle aOb = \frac{\overrightarrow{Oa} \cdot \overrightarrow{Ob}}{\big|\overrightarrow{Oa} \cdot \overrightarrow{Ob}\big|} \\\\
+cos\angle aOc = \frac{\overrightarrow{Oa} \cdot \overrightarrow{Oc}}{\big|\overrightarrow{Oa} \cdot \overrightarrow{Oc}\big|} \\\\
 cos\angle cOb = \frac{\overrightarrow{Oc} \cdot \overrightarrow{Ob}}{\big|\overrightarrow{Oc} \cdot \overrightarrow{Ob}\big|}
 \end{align*}
 $$
 
 * Known condition 3: geometrical relationship; by the law of cosines, there are
+
 $$
 \begin{align*}
     \overrightarrow{OA}^2 + \overrightarrow{OB}^2
     - 2 \space \overrightarrow{OA} \cdot \overrightarrow{OB} \cdot cos\angle aOb
     &= \overrightarrow{AB}^2
-    \\
+    \\\\
     \overrightarrow{OA}^2 + \overrightarrow{OC}^2
     - 2 \space \overrightarrow{OA} \cdot \overrightarrow{OC} \cdot cos\angle aOc
     &= \overrightarrow{AC}^2
-    \\
+    \\\\
     \overrightarrow{OB}^2 + \overrightarrow{OC}^2
     - 2 \space \overrightarrow{OB} \cdot \overrightarrow{OC} \cdot cos\angle bOc
     &= \overrightarrow{BC}^2
@@ -152,12 +150,10 @@ $$
 To format the above equations and solve for $A,B,C$, perform substitution to remove $\overrightarrow{OC}$.
 $$
 x=\frac{\overrightarrow{OA}}{\overrightarrow{OC}}, \quad
-y=\frac{\overrightarrow{OB}}{\overrightarrow{OC}}
-\\
+y=\frac{\overrightarrow{OB}}{\overrightarrow{OC}} \\\\
 p = \frac{\overrightarrow{AB}^2}{\overrightarrow{OC}^2}=\frac{\overrightarrow{ab}^2}{\overrightarrow{Oc}^2}, \quad
 q = \frac{\overrightarrow{BC}^2}{\overrightarrow{AB}^2}=\frac{\overrightarrow{bc}^2}{\overrightarrow{ab}^2}, \quad
-g = \frac{\overrightarrow{AC}^2}{\overrightarrow{AB}^2}=\frac{\overrightarrow{ac}^2}{\overrightarrow{ab}^2}, \quad
-\\
+g = \frac{\overrightarrow{AC}^2}{\overrightarrow{AB}^2}=\frac{\overrightarrow{ac}^2}{\overrightarrow{ab}^2}, \quad \\\\
 q \cdot p = \frac{\overrightarrow{BC}^2}{\overrightarrow{OC}^2}=\frac{\overrightarrow{bc}^2}{\overrightarrow{Oc}^2}, \quad
 g \cdot p = \frac{\overrightarrow{AC}^2}{\overrightarrow{OC}^2}=\frac{\overrightarrow{ac}^2}{\overrightarrow{Oc}^2}, \quad
 
@@ -165,21 +161,20 @@ $$
 where $x$ and $y$ are unknowns but $p,q, g$ are known since they are on the same projection lines.
 
 The result of the substitution is
+
 $$
 \begin{align*}
-x^2+y^2-2 x y \space cos \angle aOb - p &= 0
-\\
-y^2+1^2-2 y \space cos \angle bOc -  q \cdot p &= 0
-\\
+x^2+y^2-2 x y \space cos \angle aOb - p &= 0 \\\\
+y^2+1^2-2 y \space cos \angle bOc -  q \cdot p &= 0 \\\\
 x^2+1^2-2 x \space cos \angle aOc -  g \cdot p &= 0
 \end{align*}
 $$
 
 Take another substitution work removing $p$, there is
+
 $$
 \begin{align*}
-(1-q)y^2 - qx^2 - 2 y \space cos\angle bOc + 2 q x y \space cos\angle aOb + 1 = 0
-\\
+(1-q)y^2 - qx^2 - 2 y \space cos\angle bOc + 2 q x y \space cos\angle aOb + 1 = 0 \\\\
 (1-g)x^2 - gy^2 - 2 x \space cos\angle aOc + 2 g x y \space cos\angle aOb + 1 = 0
 \end{align*}
 $$
@@ -198,10 +193,10 @@ and then construct a least-squares optimization problem to adjust the estimated 
 If $O, A, B, C$ are the same plane, the determinant should be zero.
 $$
 \begin{array}{|cccc|}
-    X_A & Y_A & Z_A & 1 \\
-    X_B & Y_B & Z_B & 1 \\
-    X_C & Y_C & Z_C & 1 \\
-    0 & 0 & 0 & 1 \\
+    X_A & Y_A & Z_A & 1 \\\\
+    X_B & Y_B & Z_B & 1 \\\\
+    X_C & Y_C & Z_C & 1 \\\\
+    0 & 0 & 0 & 1 \\\\
 \end{array}=
 0
 $$
@@ -216,15 +211,15 @@ Suppose there are $n$ known 3D space points $\mathbf{P}$ (denote the element as 
 and their projection (projected pixel coordinates denoted as $\mathbf{x}\_i=[u_i, v_i]^\text{T}$) on an image, we want to calculate the transform from the world coordinates to camera coordinates $\mathbf{P}'=\big[\mathbf{R}|\mathbf{t} \big]\mathbf{P}$.
 $$
 s_i \begin{bmatrix}
-    u_i \\
-    v_i \\
+    u_i \\\\
+    v_i \\\\
     1
 \end{bmatrix}=
 \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big]
 \begin{bmatrix}
-    X_i \\
-    Y_i \\
-    Z_i \\
+    X_i \\\\
+    Y_i \\\\
+    Z_i \\\\
     1
 \end{bmatrix}
 $$
@@ -263,23 +258,24 @@ $$
 $$
 
 For $\mathbf{x}=[u, v, 1]^\text{T}$, there is the mapping from the camera frame point to the pixel position, such as
+
 $$
 \begin{align*}
 s\mathbf{x} &= \mathbf{K} \mathbf{P}'
-\\    
+\\\\    
 s \begin{bmatrix}
-    u \\
-    v \\
+    u \\\\
+    v \\\\
     1
 \end{bmatrix}&=
 \begin{bmatrix}
-    f_x & 0 & c_x \\
-    0 & f_y & c_y \\
+    f_x & 0 & c_x \\\\
+    0 & f_y & c_y \\\\
     0 & 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-    X' \\
-    Y' \\
+    X' \\\\
+    Y' \\\\
     Z'
 \end{bmatrix}
 \end{align*}
@@ -289,7 +285,7 @@ Eliminating $s$ gives the exact result of a pixel representation on an image.
 $$
 \begin{align*}
     u &= f_x \frac{X'}{Z'} + c_x
-    \\
+    \\\\
     v &= f_y \frac{Y'}{Z'} + c_y
 \end{align*}
 $$
@@ -297,86 +293,92 @@ $$
 When the error is found, then to compare the $u$, $v$ here with the measured value to find the difference.
 
 Define the perturbation as $\Delta\mathbf{\xi}$, by the rule of left perturbation multiplication in Lie algebra, there is
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}&=
 \underset{\Delta\mathbf{\xi} \rightarrow 0}{lim}
 \frac{\mathbf{e}(\Delta\mathbf{\xi} \oplus \mathbf{\xi})-\mathbf{e}(\mathbf{\xi})}{\Delta\mathbf{\xi}}
-\\ &=
+\\\\ &=
 \frac{\partial \mathbf{e}}{\partial \mathbf{P}'}
 \frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}
 \end{align*}
 $$
+
 where
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{e}}{\partial \mathbf{P}'}&= - \begin{bmatrix}
     \frac{\partial u}{\partial X'} &
     \frac{\partial u}{\partial Y'} &
-    \frac{\partial u}{\partial Z'} \\
+    \frac{\partial u}{\partial Z'} \\\\
     \frac{\partial v}{\partial X'} &
     \frac{\partial v}{\partial Y'} &
     \frac{\partial v}{\partial Z'}
 \end{bmatrix}
-\\ &= - \begin{bmatrix}
+\\\\ &= - \begin{bmatrix}
     \frac{\partial (f_x \frac{X'}{Z'} + c_x)}{\partial X'} &
     \frac{\partial (f_x \frac{X'}{Z'} + c_x)}{\partial Y'} &
-    \frac{\partial (f_x \frac{X'}{Z'} + c_x)}{\partial Z'} \\
+    \frac{\partial (f_x \frac{X'}{Z'} + c_x)}{\partial Z'} \\\\
     \frac{\partial (f_y \frac{Y'}{Z'} + c_y)}{\partial X'} &
     \frac{\partial (f_y \frac{Y'}{Z'} + c_y)}{\partial Y'} &
     \frac{\partial (f_y \frac{Y'}{Z'} + c_y)}{\partial Z'}
 \end{bmatrix}
-\\ &= - \begin{bmatrix}
-    \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
-    0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
+\\\\ &= - \begin{bmatrix}
+    \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\\\
+    0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\\\
 \end{bmatrix}
 \end{align*}
 $$
 
 and, this term $\frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}&=
 \frac{\partial \big[\mathbf{R}|\mathbf{t}\big] \mathbf{P}}{\partial \Delta\mathbf{\xi}}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    \mathbf{I} & -\mathbf{P}'^{\wedge} \\ 
+    \mathbf{I} & -\mathbf{P}'^{\wedge} \\\\ 
     \mathbf{0} & \mathbf{0}
 \end{bmatrix}
 \end{align*}
 $$
+
 where 
 $$
 \begin{align*}
 \mathbf{P}'^{\wedge}&=
 \begin{bmatrix}
-    0 & Z' & Y' \\
-    -Z' & 0 & -X' \\
+    0 & Z' & Y' \\\\
+    -Z' & 0 & -X' \\\\
     -Y' & X' & 0
 \end{bmatrix}
 \end{align*}
 $$
 
 Combined, and removed $\mathbf{0}$ from $\frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}$, there is
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}&=
 \frac{\partial \mathbf{e}}{\partial \mathbf{P}'}
 \frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}
-\\ &= - \begin{bmatrix}
-    \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
-    0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
+\\\\ &= - \begin{bmatrix}
+    \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\\\
+    0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\\\
 \end{bmatrix}
 \begin{bmatrix}
-    1 & 0 & 0 & 0 & -Z' & -Y' \\
-    0 & 1 & 0 & Z' & 0 & X' \\
+    1 & 0 & 0 & 0 & -Z' & -Y' \\\\
+    0 & 1 & 0 & Z' & 0 & X' \\\\
     0 & 0 & 1 & Y' & -X' & 0
 \end{bmatrix}
-\\ &=
+\\\\ &=
 -\begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} &
     -\frac{f_x X' Y'}{Z'^2} & f_x + \frac{f_x X'^2}{Z'^2} & -\frac{f_x Y'}{Z'}
-    \\
+    \\\\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} &
     -f_y - \frac{f_y Y'^2}{Z'^2} & \frac{f_y Y'X'}{Z'} & \frac{f_y X'}{Z'}
     
@@ -399,22 +401,24 @@ $$
 \frac{\partial \mathbf{e}}{\partial \mathbf{P}'}
 \frac{\partial \mathbf{P}'}{\partial \mathbf{P}}
 $$
+
 where
 $$
 \mathbf{P}'=\big(\big[\mathbf{R}|\mathbf{t}\big] \mathbf{P}\big)_{1:3}= \mathbf{R}\mathbf{P}+\mathbf{t}
 $$
 
 So that
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{e}}{\partial \mathbf{P}}&= - \begin{bmatrix}
-    \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
-    0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
+    \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\\\
+    0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\\\
 \end{bmatrix}
 \frac{\partial \big(\mathbf{R} \mathbf{P} + \mathbf{t}\big)}{\partial \mathbf{P}}
-\\ &= - \begin{bmatrix}
-    \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
-    0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
+\\\\ &= - \begin{bmatrix}
+    \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\\\
+    0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\\\
 \end{bmatrix}
 \mathbf{R}
 \end{align*}

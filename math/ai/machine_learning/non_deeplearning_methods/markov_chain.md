@@ -20,9 +20,9 @@ Transition at the $i$-th time for the below graph can be expressed as
 $$
 p_i=
 \begin{bmatrix}
-      0.4 & 0.6 & 0 & 0 \\
-      0.6 & 0.4 & 0 & 0 \\
-      0.25 & 0.25 & 0.25 & 0.25 \\
+      0.4 & 0.6 & 0 & 0 \\\\
+      0.6 & 0.4 & 0 & 0 \\\\
+      0.25 & 0.25 & 0.25 & 0.25 \\\\
       0 & 0 & 0 & 1
 \end{bmatrix}
 $$
@@ -43,11 +43,11 @@ $$
 &
 \left \{
     \begin{align*}
-      x &= 0.97x + 0.05y \\
-      y &= 0.03x + 0.95y \\
+      x &= 0.97x + 0.05y \\\\
+      y &= 0.03x + 0.95y \\\\
       10 &= x + y 
     \end{align*}
-\right. \\
+\right. \\\\
 \Rightarrow &
 \qquad x=\frac{5}{3}y \qquad x=6.25 \qquad y=3.75
 \end{align*}
@@ -60,13 +60,13 @@ A more general solution is to treat the transitions as a transition probability 
 $$
 P =
 \begin{bmatrix}
-      0.97 & 0.05 \\
+      0.97 & 0.05 \\\\
       0.03 & 0.95
 \end{bmatrix}
 \qquad
 \text{det}(P) \Rightarrow
 \begin{vmatrix}
-      0.97-\lambda & 0.05 \\
+      0.97-\lambda & 0.05 \\\\
       0.03 & 0.95-\lambda
 \end{vmatrix} = 0
 $$
@@ -82,7 +82,7 @@ $$
 where for $\lambda_1=1$ that says about probability always summed up to $1$ before and after transition, its corresponding eigenvectors are $0.625=\frac{5/3}{5/3+1}$ and $0.375=\frac{1}{5/3+1}$.
 
 In fact, $\lim_{n \rightarrow \infty} P^n$ represents that after some steps as $n$ increases, the stationary probability distribution result is converged.
-For example, $P^{10} = \begin{bmatrix} 0.78789567 & 0.35350722 \\ 0.21210433 & 0.64649278 \end{bmatrix}$ and $P^{100} = \begin{bmatrix} 0.6250897 & 0.62485049 \\ 0.3749103 & 0.37514951 \end{bmatrix}$ shows that as time progresses, population of the two countries on the $10$-th and $100$-th year results are converged to $[0.625, 0.375]$.
+For example, $P^{10} = \begin{bmatrix} 0.78789567 & 0.35350722 \\\\ 0.21210433 & 0.64649278 \end{bmatrix}$ and $P^{100} = \begin{bmatrix} 0.6250897 & 0.62485049 \\\\ 0.3749103 & 0.37514951 \end{bmatrix}$ shows that as time progresses, population of the two countries on the $10$-th and $100$-th year results are converged to $[0.625, 0.375]$.
 
 ## Markov Decision Process
 

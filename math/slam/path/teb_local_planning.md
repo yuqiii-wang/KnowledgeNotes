@@ -20,8 +20,7 @@ $$
 Define a number of objective function $f_k(B)$ to be optimized, where $\gamma_k$ refers to relative importance/weight of different real world considerations (admissible path, obstacles, speed, acceleration, fastest path)
 $$
 \begin{align*}
-f(B) &= \sum_k \gamma_k f_k(B)
-\\
+f(B) &= \sum_k \gamma_k f_k(B) \\\\
 B^* &= arg \space \underset{B}{min} \space f(B)
 \end{align*}
 $$
@@ -32,7 +31,7 @@ e_{\Gamma}(x,x_r,\epsilon,S,n)=
 \left\{ 
     \begin{array}{cc}
         (\frac{x-(x_r-\epsilon)}{S})^n &\quad x>x_r-\epsilon
-        \\
+        \\\\
         0 &\quad \text{otherwise}
     \end{array}
 \right.
@@ -48,8 +47,7 @@ Way points attract the elastic band whereas obstacles repel it.
 
 $$
 \begin{align*}
-f_{path} &= e_{\Gamma}(d_{min,j}, r_{p_{max}}, \epsilon, S, n)
-\\
+f_{path} &= e_{\Gamma}(d_{min,j}, r_{p_{max}}, \epsilon, S, n) \\\\
 f_{obstacle} &= e_{\Gamma}(-d_{min,j}, r_{o_{max}}, \epsilon, S, n)
 \end{align*}
 $$
@@ -65,17 +63,18 @@ where
 A robot has hardware constraints to its velocity and acceleration.
 
 For velocity, computations are
+
 $$
 \begin{align*}
 v_i &\simeq \frac{1}{\Delta T_i} 
 ||
 \left(
 \begin{array}{c}
-    x_{i+1} - x\_i \\
+    x_{i+1} - x\_i \\\\
     y_{i+1} - y_i
 \end{array}
 \right) 
-||\\
+||\\\\
 \omega_i &\simeq \frac{\theta_{i+1}-\theta_i}{\Delta T_i}
 \end{align*}
 $$
@@ -89,10 +88,8 @@ Here defines objective functions to reflect such constraints:
 
 $$
 \begin{align*}
-f_{v} &= e_{\Gamma}(v_i, v_{max}, \epsilon, S, n)
-\\
-f_{\omega} &= e_{\Gamma}(\omega_i, \omega_{max}, \epsilon, S, n)
-\\
+f_{v} &= e_{\Gamma}(v_i, v_{max}, \epsilon, S, n) \\\\
+f_{\omega} &= e_{\Gamma}(\omega_i, \omega_{max}, \epsilon, S, n) \\\\
 f_{a} &= e_{\Gamma}(a_i, a_{max}, \epsilon, S, n)
 \end{align*}
 $$
@@ -103,12 +100,11 @@ It is assumed that a robot's transition from $\mathbf{x}\_i$ to $\mathbf{x}\_{i+
 
 $$
 \begin{align*}
-\vartheta_i &= \vartheta_{i+1}
-\\
+\vartheta_i &= \vartheta_{i+1} \\\\
 \left(
 \begin{array}{c}
-    cos\theta_i \\
-    sin\theta_i \\
+    cos\theta_i \\\\
+    sin\theta_i \\\\
     0
 \end{array}
 \right) 
@@ -118,8 +114,8 @@ $$
 \times
 \left(
 \begin{array}{c}
-    cos\theta_{i+1} \\
-    sin\theta_{i+1} \\
+    cos\theta_{i+1} \\\\
+    sin\theta_{i+1} \\\\
     0
 \end{array}
 \right) 
@@ -131,8 +127,8 @@ $$
 \mathbf{d}\_{i,i+1}=
 \left(
 \begin{array}{c}
-    x_{i+1} - x\_i \\
-    y_{i+1} - y_i \\
+    x_{i+1} - x\_i \\\\
+    y_{i+1} - y_i \\\\
     0
 \end{array}
 \right) 
@@ -148,16 +144,16 @@ f_{arc}(\mathbf{x}\_i, \mathbf{x}\_{i+1})=
     \bigg[
         \left(
             \begin{array}{c}
-                cos\theta_i \\
-                sin\theta_i \\
+                cos\theta_i \\\\
+                sin\theta_i \\\\
                 0
             \end{array}
         \right)
         +
         \left(
             \begin{array}{c}
-                cos\theta_{i+1} \\
-                sin\theta_{i+1} \\
+                cos\theta_{i+1} \\\\
+                sin\theta_{i+1} \\\\
                 0
             \end{array}
         \right)

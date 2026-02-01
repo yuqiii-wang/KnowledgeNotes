@@ -21,9 +21,9 @@ $$
     &=
     2 (\mathbf{x}^\top\mathbf{w})
     \frac{\partial }{\partial \mathbf{w}}(\mathbf{x}^\top\mathbf{w})
-    \\ &=
+    \\\\ &=
     2 (\mathbf{x}^\top\mathbf{w}) \mathbf{x}^\top
-    \\ &=
+    \\\\ &=
     2 \mathbf{w}^\top ( \mathbf{x} \mathbf{x}^\top )
 \end{align*}
 $$

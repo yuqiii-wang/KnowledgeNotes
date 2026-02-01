@@ -156,13 +156,13 @@ In case of bank insolvency, bank must pay in accordance to this priority queue:
 $$
 \text{Deposit} \rightarrow
 \begin{matrix}
-    \text{Debt,} \\ \text{Convertibles}
+    \text{Debt,} \\\\ \text{Convertibles}
 \end{matrix} \rightarrow
 \begin{matrix}
-    \text{Sub-prime debt,} \\ \text{Tier 2 common capital}
+    \text{Sub-prime debt,} \\\\ \text{Tier 2 common capital}
 \end{matrix} \rightarrow
 \begin{matrix}
-    \text{Priority stock} \\ \text{Evergreen debt}
+    \text{Priority stock} \\\\ \text{Evergreen debt}
 \end{matrix} \rightarrow
 \text{Ordinary stock}
 $$
@@ -173,11 +173,10 @@ $$
 \text{Capital} > 10.5\%
 \left\{ \begin{matrix}
     & \text{Tier 1 common capital} > 8.5\% & \left\{ \begin{matrix}
-            \text{Tier 1 core capital} > 7.5\% & \text{Included Stocks and convertibles} \\
+            \text{Tier 1 core capital} > 7.5\% & \text{Included Stocks and convertibles} \\\\
             \text{Others} & \text{Included Priority stocks and evergreen debt} 
         \end{matrix}
-    \right.
-\\
+    \right. \\\\
     & \text{Tier 2 common capital} &
 \end{matrix}
 \right.

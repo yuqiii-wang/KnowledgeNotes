@@ -16,21 +16,21 @@ $$
 \begin{align*}
   \frac{d}{d x} \text{sigmoid}(x) &=
   \frac{d}{d x} \Big( \frac{1}{1+e^{-x}} \Big) 
-\\ &=
+\\\\ &=
   \frac{d}{d x} ( {1+e^{-x}} )^{-1}
-\\ &=
+\\\\ &=
   -( {1+e^{-x}} )^{-2} (-e^{-x})
-\\ &=
+\\\\ &=
   \frac{e^{-x}}{({1+e^{-x}})^2}
-\\ &=
+\\\\ &=
   \frac{e^{-x}}{{1+e^{-x}}}   \frac{1}{{1+e^{-x}}}
-\\ &=
+\\\\ &=
   \frac{(e^{-x}+1)-1}{{1+e^{-x}}}   \frac{1}{{1+e^{-x}}}
-\\ &=
+\\\\ &=
   \Big( \frac{e^{-x}+1}{{1+e^{-x}}} - \frac{1}{{1+e^{-x}}} \Big) \frac{1}{{1+e^{-x}}}
-\\ &=
+\\\\ &=
   \Big( 1 - \frac{1}{{1+e^{-x}}} \Big) \frac{1}{{1+e^{-x}}}
-\\ &=
+\\\\ &=
   \sigma(x) \cdot \big( 1-\sigma(x) \big)
 \end{align*}
 $$
@@ -53,7 +53,7 @@ Given one-hot encoded true labels $\mathbf{y}$, one forward pass of softmax is a
 $$
 \begin{align*}
     \hat{\mathbf{y}} &= \text{softmax}(\mathbf{z}) 
-\\  \mathcal{L} &= - \mathbf{y}^{\top} \log \hat{\mathbf{y}}
+\\\\  \mathcal{L} &= - \mathbf{y}^{\top} \log \hat{\mathbf{y}}
 \end{align*}
 $$
 
@@ -66,11 +66,11 @@ $$
 \begin{align*}
   \frac{\partial \hat{y}\_{i}}{\partial z_{i}} &=
   \hat{y}\_{i} \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}\_{i})}\_{\hat{y}\_{i}} \big) \Big) 
-\\ &=
+\\\\ &=
   \hat{y}\_{i} \Big( \underbrace{\frac{e^{z_{t,j}}}{\sum_i^n e^{z_{i}}}}\_{\hat{y}\_{j}} - \frac{\partial z_{i}}{\partial z_{t,j}} \Big)
-\\ &=
+\\\\ &=
     \left\{ \begin{array}{r}
-        \hat{y}\_{i} (\hat{y}\_{j} - 1) \qquad i = j \\
+        \hat{y}\_{i} (\hat{y}\_{j} - 1) \qquad i = j \\\\
         \hat{y}\_{i}\hat{y}\_{j} \qquad i \ne j
     \end{array}\right.
 \end{align*}
@@ -82,9 +82,9 @@ Example: given $Z$ such as below, apply Softmax along Axis $-1$ (Last Axis):
 
 $$
 Z=\begin{bmatrix}
-    1 & 2 & 3 \\
-    4 & 5 & 6 \\
-    7 & 8 & 9 \\
+    1 & 2 & 3 \\\\
+    4 & 5 & 6 \\\\
+    7 & 8 & 9 \\\\
 \end{bmatrix}
 $$
 
@@ -265,11 +265,11 @@ $$
 \begin{align*}
   \frac{d}{d x} \text{tanh}(x) &=
   \frac{d}{d x} \Big( \frac{e^x - e^{-x}}{e^x + e^{-x}} \Big)
-\\ &=
+\\\\ &=
   \frac{(e^x + e^{-x})(e^x + e^{-x}) - (e^x - e^{-x})(e^x - e^{-x})}{(e^x + e^{-x})^2}
-\\ &=
+\\\\ &=
   1 - \frac{(e^x - e^{-x})^2}{(e^x + e^{-x})^2}
-\\ &=
+\\\\ &=
   1 - \text{tanh}^2(x)
 \end{align*}
 $$

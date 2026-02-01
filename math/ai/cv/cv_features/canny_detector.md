@@ -5,12 +5,13 @@ reference: http://www.pages.drexel.edu/~nk752/cannyTut2.html
 ## Apply Gaussian Blur
 
 A Gaussian blur is applied. E.g., a $5 \times 5$ Gaussian blur matrix is
+
 $$
 \begin{bmatrix}
-    2/159 & 4/159 & 5/159 & 4/159 & 2/159 \\
-    4/159 & 9/159 & 12/159 & 9/159 & 4/159 \\
-    5/159 & 12/159 & 15/159 & 12/159 & 5/159 \\
-    4/159 & 9/159 & 12/159 & 9/159 & 4/159 \\
+    2/159 & 4/159 & 5/159 & 4/159 & 2/159 \\\\
+    4/159 & 9/159 & 12/159 & 9/159 & 4/159 \\\\
+    5/159 & 12/159 & 15/159 & 12/159 & 5/159 \\\\
+    4/159 & 9/159 & 12/159 & 9/159 & 4/159 \\\\
     2/159 & 4/159 & 5/159 & 4/159 & 2/159
 \end{bmatrix}
 $$
@@ -26,8 +27,8 @@ Sobel operator uses two $3 \times 3$ kernels which are convolved with the origin
 $$
 G_x=
 \begin{bmatrix}
-+1 & 0 & -1 \\
-+2 & 0 & -2 \\
++1 & 0 & -1 \\\\
++2 & 0 & -2 \\\\
 +1 & 0 & -1
 \end{bmatrix}
 $$
@@ -35,16 +36,15 @@ $$
 $$
 G_y=
 \begin{bmatrix}
-+1 & +2 & +1 \\
-0 & 0 & 0 \\
++1 & +2 & +1 \\\\
+0 & 0 & 0 \\\\
 -1 & -2 & -1
 \end{bmatrix}
 $$
 
 ### Find the gradient strength and direction
 $$
-G = \sqrt{G_x^2 + G_y^2}
-\\
+G = \sqrt{G_x^2 + G_y^2} \\\\
 \Theta = atan(\frac{G_x}{G_y})
 $$
 
@@ -109,12 +109,12 @@ discard = False
 \\& \quad\quad\quad
 \mathbf{\text{if }} same(b_i, b_j) > \lambda_{nms} \mathbf{\text{ then}}
 && \text{Test if the two boxes have the same IoU,}
-\\ & && \quad\text{having the same IoU indicates two }
-\\ & && \quad\text{rectangular frames are referring to the same object }
+\\\\ & && \quad\text{having the same IoU indicates two }
+\\\\ & && \quad\text{rectangular frames are referring to the same object }
 \\& \quad\quad\quad\quad
 \mathbf{\text{if }} score(c, b_j) > score(c, b_i) \mathbf{\text{ then}}
 && \text{Score judgement, higher the score, }
-\\ & && \quad\text{more accurate the box fits the object}
+\\\\ & && \quad\text{more accurate the box fits the object}
 \\& \quad\quad\quad\quad\quad
 discard = True
 && \text{Set } discard \text{ to True, } b_i \text{ should be discarded}
@@ -127,6 +127,7 @@ B_{nms} \leftarrow B_{nms} \cup b_i
 \mathbf{\text{return }} B_{nms}
 \end{align*}
 $$
+
 where $B$ is the input set consisting of many rectangular frames where one object may see multiple frames overlapping each other; $B_{nms}$ is the total number of retained rectangular frames, where each frame corresponds to one object.
 
 ## Hysteresis: Thresholding

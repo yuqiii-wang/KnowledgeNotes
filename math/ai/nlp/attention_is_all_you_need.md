@@ -310,7 +310,7 @@ It is implemented in transformer as well.
 
 $$
 \begin{align*}
-& \text{LayerNorm} \big( X + \text{MultiHeadAttention}(X) \big) \\
+& \text{LayerNorm} \big( X + \text{MultiHeadAttention}(X) \big) \\\\
 & \text{LayerNorm} \big( X + \text{FeedForward}(X) \big)  
 \end{align*}
 $$

@@ -58,7 +58,7 @@ $$
 Different from transformer (scaled dot-product attention $QK^{\top}$), additive attention $\text{ReLU}\big(\theta(x) + \phi(g)\big)$ combines the two input tensors (input signals and gates) and uses a learned weight vector ($W_s^{\top}$) to decide on the importance of each spatial location.
 
 $$
-\mathbf{s}^{[l]} = \text{ReLU}(\theta(\mathbf{x}) + \phi(\mathbf{g})) \in \mathbb{R}^{2H\times 2W\times C_{in}} \\
+\mathbf{s}^{[l]} = \text{ReLU}(\theta(\mathbf{x}) + \phi(\mathbf{g})) \in \mathbb{R}^{2H\times 2W\times C_{in}} \\\\
 \mathbf{a}^{[l]} = \sigma(W_s^{\top} \mathbf{s}^{[l]} + \mathbf{b}_s) \in \mathbb{R}^{2H\times 2W\times 1}
 $$
 
@@ -75,7 +75,7 @@ Finally, $\hat{X}\_{enc}^{[l]}$ and $X_{up}^{[l]}$ are concatenated and applied 
 
 $$
 \begin{align*}
-X_{concat}^{[l]} &=[\hat{X}\_{enc}^{[l]};X_{up}^{[l]}]\in\mathbb{R}^{2H\times 2W\times (C_{enc}+C_{dec})} \\
+X_{concat}^{[l]} &=[\hat{X}\_{enc}^{[l]};X_{up}^{[l]}]\in\mathbb{R}^{2H\times 2W\times (C_{enc}+C_{dec})} \\\\
 K \otimes X_{concat}^{[l]} &= X_o^{[l]}\in\mathbb{R}^{2H\times 2W\times C_{o}}
 \end{align*}
 $$
@@ -142,7 +142,7 @@ Apply the dot-product attention
 
 $$
 \begin{align*}
-\text{AttentionWeights} &=\text{softmax}\left(\frac{QK^{\top}}{\sqrt{d_k}}\right) \in \mathbb{R}^{2W \times 2H \times L} \\
+\text{AttentionWeights} &=\text{softmax}\left(\frac{QK^{\top}}{\sqrt{d_k}}\right) \in \mathbb{R}^{2W \times 2H \times L} \\\\
 \text{Attention} &=\text{AttentionWeights}\space\cdot\space V  \in \mathbb{R}^{2W \times 2H \times d_v}
 \end{align*}
 $$
@@ -167,7 +167,7 @@ Finally, $\hat{X}\_{enc}^{[l]}$ and $X_{att}^{[l]}$ are concatenated and applied
 
 $$
 \begin{align*}
-X_{concat}^{[l]} &=[\hat{X}\_{enc}^{[l]};X_{att}^{[l]}]\in\mathbb{R}^{2H\times 2W\times (C_{enc}+C_{dec})} \\
+X_{concat}^{[l]} &=[\hat{X}\_{enc}^{[l]};X_{att}^{[l]}]\in\mathbb{R}^{2H\times 2W\times (C_{enc}+C_{dec})} \\\\
 K \otimes X_{concat}^{[l]} &= X_o^{[l]}\in\mathbb{R}^{2H\times 2W\times C_{o}}
 \end{align*}
 $$

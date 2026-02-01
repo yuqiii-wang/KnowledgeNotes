@@ -82,8 +82,12 @@ There are parallel operations during loading and non-dependency arithmetic opera
 |LD r4, e|
 |LD r5, c|
 
-The level of parallelism can be described by Amdahl's Law$$
-\frac{1}{(1-f)+\frac{f}{p}}$$
+The level of parallelism can be described by Amdahl's Law
+
+$$
+\frac{1}{(1-f)+\frac{f}{p}}
+$$
+
 in which, $f$ is the percentage of parallelised code running on $p$ processors.
 
 ## Parallelism
@@ -105,30 +109,38 @@ where `X[j]` has $O(n)$ access operation complexity, which means the `i`-th dime
 
 This rule is summarised by `rank` of dimensionanlity. Full rank matrix access operations do not have parallelism.
 
-`X[i][j]` has access operation $O$ of$$
+`X[i][j]` has access operation $O$ of
+
+$$
 \begin{bmatrix}
-      1 & 0 \\
+      1 & 0 \\\\
       0 & 1
-\end{bmatrix}$$
+\end{bmatrix}
+$$
 
 
-`X[i]` has access operation $O$ of$$
+`X[i]` has access operation $O$ of
+
+$$
 \begin{bmatrix}
-      1 & 0 \\
+      1 & 0 \\\\
       0 & 0
-\end{bmatrix}$$
+\end{bmatrix}
+$$
 
 Defines `Z[n][m][l]` of three dimensionalities. `Z[i][j][i+j]` has access operation $O$ of $$
 \begin{bmatrix}
-      1 & 0 & 0 \\
-      0 & 1 & 0 \\
+      1 & 0 & 0 \\\\
+      0 & 1 & 0 \\\\
       1 & 1 & 0
 \end{bmatrix}
 \begin{bmatrix}
-      i \\
-      j \\
+      i \\\\
+      j \\\\
       k
-\end{bmatrix}$$
+\end{bmatrix}
+$$
+
 which has a rank of $2$, hence parallelizable.
 
 ### Space-temporal partition

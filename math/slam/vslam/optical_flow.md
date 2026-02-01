@@ -57,13 +57,14 @@ $$
 $$
 
 Consider the constant gray scale condition, here derive
+
 $$
 \begin{align*}
 &
 \frac{\partial \mathbf{I}}{\partial x} dx
 +\frac{\partial \mathbf{I}}{\partial y} dy
 +\frac{\partial \mathbf{I}}{\partial t} dt=0
-\\ \text{divide by } dt
+\\\\ \text{divide by } dt
 \Rightarrow \quad &
 \frac{\partial \mathbf{I}}{\partial x} 
 \frac{dx}{dt}
@@ -73,17 +74,19 @@ $$
 -\frac{\partial \mathbf{I}}{\partial t}
 \end{align*}
 $$
+
 where $\frac{dx}{dt}, \frac{dy}{dt}$ (denoted as $(u,v)$) refer to the speed of the pixel $(x,y)$ motion, 
 and $\frac{\partial \mathbf{I}}{\partial x} , \frac{\partial \mathbf{I}}{\partial y}$ refer to the gradient of the image with respect to the $x$- and $y$- axis, denoted as $\mathbf{I}_x, \mathbf{I}_y$, respectively.
 Denote the change rate of image brightness as $\frac{\partial \mathbf{I}}{\partial t}=\mathbf{I}_t$.
 
 By the above denotations, the equation can be written in the matrix form
+
 $$
 \begin{bmatrix}
     \mathbf{I}_x &  \mathbf{I}_y
 \end{bmatrix}
 \begin{bmatrix}
-    u \\
+    u \\\\
     v
 \end{bmatrix}=
 -\mathbf{I}_t
@@ -99,11 +102,11 @@ $$
 \begin{bmatrix}
     \begin{bmatrix}
         \mathbf{I}_x &  \mathbf{I}_y
-    \end{bmatrix}_1 \\
+    \end{bmatrix}_1 \\\\
     \begin{bmatrix}
         \mathbf{I}_x &  \mathbf{I}_y
-    \end{bmatrix}_2 \\
-    \vdots \\
+    \end{bmatrix}_2 \\\\
+    \vdots \\\\
     \begin{bmatrix}
         \mathbf{I}_x &  \mathbf{I}_y
     \end{bmatrix}\_{w^2}
@@ -111,9 +114,9 @@ $$
 , \quad
 \mathbf{b} = 
 \begin{bmatrix}
-    \mathbf{I}\_{t_1} \\
-    \mathbf{I}\_{t_2} \\
-    \vdots \\
+    \mathbf{I}\_{t_1} \\\\
+    \mathbf{I}\_{t_2} \\\\
+    \vdots \\\\
     \mathbf{I}\_{t_{w^2}} 
 \end{bmatrix}
 $$
@@ -121,15 +124,17 @@ $$
 The whole equation is
 $$
 \mathbf{A} \begin{bmatrix}
-    u \\
+    u \\\\
     v
 \end{bmatrix}=
 \mathbf{b}
 $$
+
 whose result is
+
 $$
 \begin{bmatrix}
-    u \\
+    u \\\\
     v
 \end{bmatrix}^*=
 -(\mathbf{A}^\text{T}\mathbf{A})^{-1} \mathbf{A}^\text{T} \mathbf{b}
@@ -163,16 +168,15 @@ $$
 \begin{align*}
 \mathbf{p}_1 &=
 \begin{bmatrix}
-    x \\
-    y \\
+    x \\\\
+    y \\\\
     1
 \end{bmatrix}_1=
-\frac{1}{Z_1} \mathbf{K} \mathbf{P}
-\\
+\frac{1}{Z_1} \mathbf{K} \mathbf{P} \\\\
 \mathbf{p}_2 &=
 \begin{bmatrix}
-    x \\
-    y \\
+    x \\\\
+    y \\\\
     1
 \end{bmatrix}_2=
 \frac{1}{Z_2} \mathbf{K} (\mathbf{R}\mathbf{P}+\mathbf{t})
@@ -190,7 +194,7 @@ $$
 arg \space \underset{[\mathbf{R}|\mathbf{t}]}{min} \space
 \mathbf{J}([\mathbf{R}|\mathbf{t}]) &= 
 ||\mathbf{e}||^2
-\\ & =
+\\\\ & =
 \sum^n\_{i=1} e_i^\text{T} e_i
 \end{align*}
 $$
@@ -219,14 +223,14 @@ $$
 \begin{bmatrix}
     \frac{\partial x}{\partial X} &
     \frac{\partial x}{\partial Y} &
-    \frac{\partial x}{\partial Z} \\
+    \frac{\partial x}{\partial Z} \\\\
     \frac{\partial y}{\partial X} &
     \frac{\partial y}{\partial Y} &
-    \frac{\partial y}{\partial Z} \\
+    \frac{\partial y}{\partial Z} \\\\
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    \frac{f_x}{Z} & 0 & -\frac{f_x Z}{Z^2} \\
+    \frac{f_x}{Z} & 0 & -\frac{f_x Z}{Z^2} \\\\
     0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2}
 \end{bmatrix}
 \end{align*}
@@ -240,10 +244,10 @@ $$
 \begin{bmatrix}
     \mathbf{I} & [\mathbf{R}|\mathbf{t}]^\wedge
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    1 & 0 & 0 & 0 & Z & Y \\
-    0 & 1 & 0 & -Z & 0 & X \\
+    1 & 0 & 0 & 0 & Z & Y \\\\
+    0 & 1 & 0 & -Z & 0 & X \\\\
     0 & 0 & 1 & -Y & -X & 0
 \end{bmatrix}
 \end{align*}

@@ -75,7 +75,7 @@ $$
 \begin{align*}
 && R_{lcs} &= \frac{LCS(\mathbf{v}_A, \mathbf{v}_B)}{\text{len}(\mathbf{v}_A)}
 &&
-P_{lcs} &= \frac{LCS(\mathbf{v}_A, \mathbf{v}_B)}{\text{len}(\mathbf{v}_B)} \\
+P_{lcs} &= \frac{LCS(\mathbf{v}_A, \mathbf{v}_B)}{\text{len}(\mathbf{v}_B)} \\\\
 \Rightarrow && F_{lcs} &= \frac{(1+\beta^2)R_{lcs}P_{lcs}}{R_{lcs}+\beta^2 P_{lcs}}
 \end{align*}
 $$
@@ -102,10 +102,10 @@ Set $P$ as the label truth token sequence, and $Q$ as the LLM prediction token s
 
 $$
 \begin{align*}
-\text{H}(P, Q) &= E_P \big( -\log Q \big) \\
-    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \log Q(x_t) \\
-    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \big(\log P(x_t) +  \log Q(x_t) -\log P(x_t) \big) \\
-    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \log P(x_t) - \sum_{x_t \in \mathbf{x}} P(x_t) \log \frac{Q(x_t)}{P(x_t)} \\
+\text{H}(P, Q) &= E_P \big( -\log Q \big) \\\\
+    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \log Q(x_t) \\\\
+    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \big(\log P(x_t) +  \log Q(x_t) -\log P(x_t) \big) \\\\
+    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \log P(x_t) - \sum_{x_t \in \mathbf{x}} P(x_t) \log \frac{Q(x_t)}{P(x_t)} \\\\
     &= \text{H}(P) + D_{KL}(P || Q)
 \end{align*}
 $$
@@ -153,7 +153,7 @@ This is for model may over-elaborate semantics with repeated n-gram tokens, such
 $$
 \text{BrevityPenalty} = \left\{
     \begin{matrix}
-        1 && c > r \\
+        1 && c > r \\\\
         e^{1-\frac{r}{c}} && c \le r
     \end{matrix}
 \right.

@@ -85,15 +85,16 @@ J(\mathbf{\theta}) \equiv
 $$
 
 The Jacobian over $\mathbf{\theta}$ is
+
 $$
 \begin{align*}
 J'(\mathbf{\theta}) = \frac{\partial J}{\partial \mathbf{\theta}}&=
 \frac{\partial \space \frac{1}{2} (\mathbf{\theta}-\mu_{\mathbf{\theta}})^\top \Sigma_\mathbf{\theta}^{-1} (\mathbf{\theta}-\mu_{\mathbf{\theta}})}{\partial \mathbf{\theta}}
-\\ &=
+\\\\ &=
 \frac{1}{2} (\mathbf{\theta}-\mu_{\mathbf{\theta}})^\top
 \Sigma_\mathbf{\theta}^{-1} 
 \frac{\partial (\mathbf{\theta}-\mu_{\mathbf{\theta}})}{\partial \mathbf{\theta}}
-\\ &=
+\\\\ &=
 (\mathbf{\theta}-\mu_{\mathbf{\theta}})^\top
 \Sigma_\mathbf{\theta}^{-1} 
 \end{align*}

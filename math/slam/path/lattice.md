@@ -35,23 +35,25 @@ $$
 $$
 
 Finally, the Frenet–Serret formulas is a skew-symmetric matrix given as below
+
 $$
 \begin{bmatrix}
-    \mathbf{T}' \\
-    \mathbf{N}' \\
+    \mathbf{T}' \\\\
+    \mathbf{N}' \\\\
     \mathbf{B}'
 \end{bmatrix}=
 \begin{bmatrix}
-    0 & \kappa & 0 \\
-    -\kappa & 0 & \tau \\
+    0 & \kappa & 0 \\\\
+    -\kappa & 0 & \tau \\\\
     0 & -\tau & 0
 \end{bmatrix}
 \begin{bmatrix}
-    \mathbf{T} \\
-    \mathbf{N} \\
+    \mathbf{T} \\\\
+    \mathbf{N} \\\\
     \mathbf{B}
 \end{bmatrix}
 $$
+
 where $\kappa=||\frac{d \mathbf{T}}{d s}||$ is the curvature, that when $\kappa \rightarrow 0$, the trajectory is nearly a straight line. 
 
 and $\tau=-\mathbf{N} \cdot \mathbf{B}$ is the torsion, $\tau$ measures the speed of rotation of the binormal vector at the given point such that $\mathbf{B}'=\tau \mathbf{N}$. When $\tau \rightarrow 0$, the trajectory tends to move on the same plane.
@@ -94,14 +96,14 @@ l &=
 \big)
 \cdot
 \mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}
-\\ &=
+\\\\ &=
 ||\overrightarrow{x}-\overrightarrow{r}||_2
 \space
 cos(
     \theta_{\overrightarrow{x}-\overrightarrow{r}}
     -(\theta_{\overrightarrow{r}} + \frac{\pi}{2})
 )
-\\ &=
+\\\\ &=
 ||\overrightarrow{x}-\overrightarrow{r}||_2
 \space
 \big(
@@ -109,7 +111,7 @@ cos(
     -
     cos(\theta_{\overrightarrow{x}-\overrightarrow{r}})sin(\theta_{\overrightarrow{r}})
 \big)
-\\ &=
+\\\\ &=
 \sqrt{(x_x-x_r)^2+(y_x-y_r)^2}
 \space
 \big(

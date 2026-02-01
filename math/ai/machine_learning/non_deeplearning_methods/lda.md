@@ -15,15 +15,14 @@ There are $k$ classes such that $\mathbf{y}\_i \in \mathbf{C}=[C_1, C_2, ..., C_
 The mean $\mathbf{\mu}_j$ and variance $\mathbf{\Sigma}_j$ for each class $C_j$ can be computed as below.
 $$
 \begin{align*}
-\mathbf{\mu}_j &= \frac{1}{N_j} \sum_{\mathbf{x}\_i \in X_j} \mathbf{x}\_i
-\\
+\mathbf{\mu}_j &= \frac{1}{N_j} \sum_{\mathbf{x}\_i \in X_j} \mathbf{x}\_i \\\\
 \mathbf{\Sigma}_j &= \sum_{\mathbf{x}\_i \in X_j} (\mathbf{x}\_i - \mathbf{\mu}_j)(\mathbf{x}\_i - \mathbf{\mu}_j)^\text{T}
 \end{align*}
 $$
 
 ## $2$-d Binary Classification Example
 
-$2$-d data binary classification can be described as having the input $\mathbf{x}=\big[ \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}_1, \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}_2, ..., \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}\_i, ..., \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}_n \big]^\text{T}$, 
+$2$-d data binary classification can be described as having the input $\mathbf{x}=\big[ \begin{bmatrix} x_1 \\\\ x_2 \end{bmatrix}_1, \begin{bmatrix} x_1 \\\\ x_2 \end{bmatrix}_2, ..., \begin{bmatrix} x_1 \\\\ x_2 \end{bmatrix}\_i, ..., \begin{bmatrix} x_1 \\\\ x_2 \end{bmatrix}_n \big]^\text{T}$, 
 and their corresponding labels $\mathbf{y}\_i \in \mathbf{C}=[C_1, C_2]$. 
 
 Still consider this example. A good separation such as LD1 should have vastly different $\mu_1$ and $\mu_2$, and large $\Sigma_1, \Sigma_2$ (indicating two distinctive "lean" Gaussian distributions). LD2 in contrast, has $\mu_1 \approx \mu_2$ and small $\Sigma_1, \Sigma_2$ (indicating two overlapping "fat" Gaussian distributions).
@@ -49,13 +48,13 @@ $$
     \sum_{j=1}^{C=2} \sum_{\mathbf{x} \in X_j}\big(
         \mathbf{w}^\text{T}\ (\mathbf{x}-\mathbf{\mu}_j)
     \big)^2
-    \\ &=
+    \\\\ &=
     \sum_{j=1}^{C=2} \sum_{\mathbf{x} \in X_j}
     \mathbf{w}^\text{T} (\mathbf{x}-\mathbf{\mu}_j)(\mathbf{x}-\mathbf{\mu}_j)^\text{T} \mathbf{w}
-    \\ &=
+    \\\\ &=
     \mathbf{w}^\text{T} \sum_{j=1}^{C=2}  \sum_{\mathbf{x} \in X_j}
     (\mathbf{x}-\mathbf{\mu}_j)(\mathbf{x}-\mathbf{\mu}_j)^\text{T} \mathbf{w}
-    \\ &=
+    \\\\ &=
     \mathbf{w}^\text{T} \mathbf{\Sigma}
      \mathbf{w}
 \end{align*}
@@ -92,9 +91,9 @@ $$
     \frac{\partial \mathcal{L}}{\partial \mathbf{w}}
     &=
     2 S_b \mathbf{w} - 2 \lambda S_w \mathbf{w} = 0
-    \\ \Rightarrow && 
+    \\\\ \Rightarrow && 
     S_b \mathbf{w} &= \lambda S_w \mathbf{w}
-    \\ \Rightarrow && 
+    \\\\ \Rightarrow && 
     S_w^{-1} S_b \mathbf{w} &= \lambda \mathbf{w}
 \end{align*}
 $$
@@ -111,10 +110,10 @@ $$
 S_w^{-1} S_b \mathbf{w} = 
 S_w^{-1} (\mathbf{\mu_1}-\mathbf{\mu_2})(\mathbf{\mu_1}-\mathbf{\mu_2})^\text{T} \mathbf{w}&=
 \lambda \mathbf{w}
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 S_w^{-1} (\mathbf{\mu_1}-\mathbf{\mu_2}) \lambda_m&=
 \lambda \mathbf{w}
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 \mathbf{w} &= S_w^{-1} (\mathbf{\mu_1}-\mathbf{\mu_2}) 
 \end{align*}
 $$
@@ -128,7 +127,7 @@ $$
 \left\{
     \begin{array}{cc}
         C_1 & \mathbf{w}^{*\text{T}}\mathbf{x}\_i \ge t
-        \\
+        \\\\
         C_2 & \mathbf{w}^{*\text{T}}\mathbf{x}\_i < t
     \end{array}
 \right.
@@ -136,7 +135,7 @@ $$
 
 ## Multivariate Scenarios
 
-For multivariate distributions such as $\mathbf{x}=\bigg[ \begin{bmatrix} x_1 \\ x_2 \\ \vdots  \\ x_d\end{bmatrix}_1, \begin{bmatrix} x_1 \\ x_2 \\ \vdots  \\ x_d \end{bmatrix}_2, ..., \begin{bmatrix} x_1 \\ x_2 \\ \vdots  \\ x_d \end{bmatrix}\_i, ..., \begin{bmatrix} x_1 \\ x_2 \\ \vdots  \\ x_d \end{bmatrix}_N \bigg]^\text{T}$, 
+For multivariate distributions such as $\mathbf{x}=\bigg[ \begin{bmatrix} x_1 \\\\ x_2 \\\\ \vdots  \\\\ x_d\end{bmatrix}_1, \begin{bmatrix} x_1 \\\\ x_2 \\\\ \vdots  \\\\ x_d \end{bmatrix}_2, ..., \begin{bmatrix} x_1 \\\\ x_2 \\\\ \vdots  \\\\ x_d \end{bmatrix}\_i, ..., \begin{bmatrix} x_1 \\\\ x_2 \\\\ \vdots  \\\\ x_d \end{bmatrix}_N \bigg]^\text{T}$, 
 and their corresponding labels $\mathbf{y}\_i \in \mathbf{C}=[C_1, C_2, ..., C_k]$, the $S_b$ and $S_w$ can be computed as below.
 
 ![lda_multiDims](imgs/lda_multiDims.png "lda_multiDims")

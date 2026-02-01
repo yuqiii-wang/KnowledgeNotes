@@ -9,7 +9,7 @@ To find eigenvalues and eigenvectors for $A$ as given
 $$
 A =
 \begin{bmatrix}
-2 & 1\\
+2 & 1\\\\
 1 & 2
 \end{bmatrix}
 $$
@@ -20,18 +20,18 @@ $$
 \begin{align*}
     |A - \lambda I| &= \Bigg|
 \begin{bmatrix}
-2 & 1\\
+2 & 1\\\\
 1 & 2
 \end{bmatrix} -
 \lambda
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 0 & 1
 \end{bmatrix} \Bigg|=\Bigg|
 \begin{matrix}
-2-\lambda & 1\\
+2-\lambda & 1\\\\
 1 & 2-\lambda
-\end{matrix}\Bigg| \\
+\end{matrix}\Bigg| \\\\
 &= 3 - 4 \lambda + \lambda^2
 \end{align*}
 $$
@@ -43,12 +43,12 @@ for eigenvectors:
 
 $$
 (A - \lambda_1 I) \mathbf{v}_1 = \begin{bmatrix}
-1 & 1\\
+1 & 1\\\\
 1 & 1
 \end{bmatrix} \begin{bmatrix}
-v_1 \\ v_2
+v_1 \\\\ v_2
 \end{bmatrix}=\begin{bmatrix}
-0 \\ 0
+0 \\\\ 0
 \end{bmatrix}
 $$
 
@@ -56,7 +56,7 @@ thus derived
 
 $$
 \mathbf{v}\_{\lambda_1} = \begin{bmatrix}
--1 \\ 1
+-1 \\\\ 1
 \end{bmatrix}
 $$
 
@@ -64,7 +64,7 @@ same calculation applied when $\lambda = 3$
 
 $$
 \mathbf{v}\_{\lambda_2} = \begin{bmatrix}
-1 \\ 1
+1 \\\\ 1
 \end{bmatrix}
 $$
 
@@ -156,10 +156,10 @@ plt.show()
 $$
 X =
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix}^{ \begin{bmatrix}
-2 & -1\\
+2 & -1\\\\
 -3 & 2
 \end{bmatrix}^{-1}}
 $$
@@ -170,11 +170,11 @@ Calculate inverse:
 
 $$
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix}^{
 \begin{bmatrix}
-2 & 1\\
+2 & 1\\\\
 3 & 2
 \end{bmatrix}}
 $$
@@ -184,11 +184,11 @@ Use $e$ log:
 $$
 e^{
 ln(\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix})
 \begin{bmatrix}
-2 & 1\\
+2 & 1\\\\
 3 & 2
 \end{bmatrix}
 }
@@ -199,12 +199,12 @@ get the eigenvalues and eigenvectors
 $$
 \lambda_1=1
 \begin{bmatrix}
-1 \\
+1 \\\\
 3 
 \end{bmatrix},
 \lambda_2=2
 0\begin{bmatrix}
-0 \\
+0 \\\\
 1 
 \end{bmatrix}
 $$
@@ -213,7 +213,7 @@ for
 
 $$
 e^{ ln(\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix})}
 $$
@@ -222,16 +222,16 @@ thus,
 
 $$
 ln(\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix})=\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 3 & 1
 \end{bmatrix}\begin{bmatrix}
-ln(1) & 0\\
+ln(1) & 0\\\\
 0 & ln(2)
 \end{bmatrix}\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 3 & 1
 \end{bmatrix}^{-1}
 $$
@@ -240,10 +240,10 @@ thus
 
 $$
 ln(\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix})=ln(2)\begin{bmatrix}
-0 & 0\\
+0 & 0\\\\
 -3 & 1
 \end{bmatrix}
 $$
@@ -252,17 +252,17 @@ Consider the original equation
 
 $$
 e^{ln(\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix}) \begin{bmatrix}
-2 & 1\\
+2 & 1\\\\
 3 & 2
 \end{bmatrix}}=e^{
 ln(2)\begin{bmatrix}
-0 & 0\\
+0 & 0\\\\
 -3 & 1
 \end{bmatrix}\begin{bmatrix}
-2 & 1\\
+2 & 1\\\\
 3 & 2
 \end{bmatrix}}
 $$
@@ -271,14 +271,14 @@ then
 
 $$
 e^{ln(\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix}) \begin{bmatrix}
-2 & 1\\
+2 & 1\\\\
 3 & 2
 \end{bmatrix}}=
 e^{ln(2)\begin{bmatrix}
-0 & 0\\
+0 & 0\\\\
 -3 & -1
 \end{bmatrix}}
 $$
@@ -288,7 +288,7 @@ again, get the eigenvalues and eigenvectors
 $$
 \lambda_1=0
 \begin{bmatrix}
-1 \\ -3 \end{bmatrix},
+1 \\\\ -3 \end{bmatrix},
 \lambda_2=-ln(2)
 \begin{bmatrix}
 0 \\1 \end{bmatrix}
@@ -298,7 +298,7 @@ for
 
 $$
 e^{ln(2)\begin{bmatrix}
-0 & 0\\
+0 & 0\\\\
 -3 & -1\end{bmatrix}}
 $$
 
@@ -308,20 +308,20 @@ $$
 e^{
 ln(2)
 \begin{bmatrix}
-0 & 0\\
+0 & 0\\\\
 -3 & -1
 \end{bmatrix}
 }=
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & -1
 \end{bmatrix}
 \begin{bmatrix}
-e^{0} & 0\\
+e^{0} & 0\\\\
 0 & e^{-ln(2)}
 \end{bmatrix}
 \begin{bmatrix}
-0 & 0\\
+0 & 0\\\\
 -3 & -1
 \end{bmatrix}^{-1}
 $$
@@ -330,17 +330,17 @@ thus, derived the final solution
 
 $$
 X = \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3 & 2
 \end{bmatrix}^{ \begin{bmatrix}
-2 & -1\\
+2 & -1\\\\
 -3 & 2
 \end{bmatrix}^{-1}}=
 e^{ ln(2) \begin{bmatrix}
-0 & 0\\
+0 & 0\\\\
 -3 & -1
 \end{bmatrix}}=\begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 -3/2 & 1/2
 \end{bmatrix}
 $$
@@ -352,7 +352,7 @@ A $2 \times 2$ covariance matrix is defined as
 $$
 \Sigma =
 \begin{bmatrix}
-      \sigma(x,x) & \sigma(x,y) \\
+      \sigma(x,x) & \sigma(x,y) \\\\
       \sigma(y,x) & \sigma(y,y)
 \end{bmatrix}
 $$
@@ -387,12 +387,12 @@ The determinant of a square matrix $A$ representing a linear transformation is a
 
 $$
 A\mathbf{x}=\begin{bmatrix}
-    1 & 2 \\
+    1 & 2 \\\\
     3 & 4
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 1
+    1 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    3 \\ 7
+    3 \\\\ 7
 \end{bmatrix}
 $$
 
@@ -400,12 +400,12 @@ $$
 
 $$
 A\mathbf{x}=\begin{bmatrix}
-    0.1 & 0.2 \\
+    0.1 & 0.2 \\\\
     0.3 & 0.4
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 1
+    1 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    0.3 \\ 0.7
+    0.3 \\\\ 0.7
 \end{bmatrix}
 $$
 
@@ -413,12 +413,12 @@ $$
 
 $$
 A\mathbf{x}=\begin{bmatrix}
-    0 & -1 \\
+    0 & -1 \\\\
     1 & 0
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 1
+    1 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    -1 \\ 1
+    -1 \\\\ 1
 \end{bmatrix}
 $$
 
@@ -430,28 +430,28 @@ $\text{det}(A)=0$ happens when $\text{rank}(A)$ is not full.
 
 $$
 A\mathbf{x}_1=\begin{bmatrix}
-    1 & 1 \\
+    1 & 1 \\\\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 1
+    1 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    2 \\ 2
-\end{bmatrix} \\
+    2 \\\\ 2
+\end{bmatrix} \\\\
 A\mathbf{x}_2=\begin{bmatrix}
-    1 & 1 \\
+    1 & 1 \\\\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 2
+    1 \\\\ 2
 \end{bmatrix} = \begin{bmatrix}
-    3 \\ 3
-\end{bmatrix} \\
+    3 \\\\ 3
+\end{bmatrix} \\\\
 A\mathbf{x}_3=\begin{bmatrix}
-    1 & 1 \\
+    1 & 1 \\\\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
-    2 \\ 1
+    2 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    3 \\ 3
+    3 \\\\ 3
 \end{bmatrix}
 $$
 
@@ -512,8 +512,8 @@ For example, a rotation matrix is orthogonal.
 
 $$
 R (\theta) = \begin{bmatrix}
-      \cos \theta & -\sin \theta \\
-      \sin \theta & \cos \theta \\
+      \cos \theta & -\sin \theta \\\\
+      \sin \theta & \cos \theta \\\\
 \end{bmatrix}
 $$
 

@@ -35,7 +35,7 @@ L\_{\delta}(e)=
 \left\{
     \begin{array}{c}
         \frac{1}{2}e^2 &\quad \text{for} |e|\le \delta
-        \\
+        \\\\
         \delta \cdot (|e|-\frac{1}{2}\delta) &\quad \text{otherwise}
     \end{array}
 \right.
@@ -56,7 +56,7 @@ Define $L_2$ Loss ($\mathbf{w}$ is the weights to optimize):
 $$
 \begin{align*}
 && L_2 = \frac{1}{2} \Big|\Big| \mathbf{y} - X\mathbf{w} \Big|\Big|^2_2
-& = \frac{1}{2}\Big(\mathbf{y} - X\mathbf{w}\Big)^{\top} \Big(\mathbf{y} - X\mathbf{w}\Big) \\
+& = \frac{1}{2}\Big(\mathbf{y} - X\mathbf{w}\Big)^{\top} \Big(\mathbf{y} - X\mathbf{w}\Big) \\\\
 \Rightarrow && &= \frac{1}{2} \mathbf{w}X^{\top}X \mathbf{w}^{\top} - 2\mathbf{y}^{\top} X \mathbf{w} + \mathbf{y}^{\top}\mathbf{y}
 \end{align*}
 $$
@@ -76,9 +76,9 @@ Discussions:
 
 $$
 \frac{\partial |w_i|}{\partial w_i} = \begin{cases}
-    1 & w_i > 0 \\
-    -1 & w_i < 0 \\
-    \text{undefined} & w_i = 0 \\
+    1 & w_i > 0 \\\\
+    -1 & w_i < 0 \\\\
+    \text{undefined} & w_i = 0 \\\\
 \end{cases}
 $$
 
@@ -97,7 +97,7 @@ Here $c$ is the constraint to prevent $w_i$ get too large.
 $$
 \begin{align*}
 L\_{CE}&=
--\sum_i^C t_i \space \log(s_i) \\ &=
+-\sum_i^C t_i \space \log(s_i) \\\\ &=
 -\sum_i^C t_i \space \log(\frac{e^{z_i}}{\sum^C_{j=1}e^{z_j}})
 \end{align*}
 $$
@@ -112,7 +112,7 @@ t_i=
 \left\{
     \begin{array}{c}
         1 &\quad i=c
-        \\
+        \\\\
         0 &\quad i \ne c
     \end{array}
 \right.
@@ -159,7 +159,7 @@ The longest common substring is the longest consecutive char sequence.
 
 $$
 \begin{align*}
-& \underbrace{A,\underbrace{B,C,D,E,F,G}\_{\text{Longest Comm Sub-Str}},H,\underbrace{I,J,K},L,M,N}\_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K} \\ \space \\
+& \underbrace{A,\underbrace{B,C,D,E,F,G}\_{\text{Longest Comm Sub-Str}},H,\underbrace{I,J,K},L,M,N}\_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K} \\\\ \space \\\\
 & \underbrace{X,\underbrace{B,C,D,E,F,G}\_{\text{Longest Comm Sub-Str}},X,X,Y,Y,\underbrace{I,J,K},X,X,Y,Y}\_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K}
 \end{align*}
 $$
@@ -173,13 +173,13 @@ The formula is recursive comparing the front char between two strings then recur
 $$
 \text{Lev}(\mathbf{u}, \mathbf{v}) =
 \left\{ \begin{array}{cc}
-    |\mathbf{u}| & \text{if } |\mathbf{u}| = 0 \\
-    |\mathbf{v}| & \text{if } |\mathbf{v}| = 0 \\
-    \text{Lev}(\text{tail}(\mathbf{u}), \text{tail}(\mathbf{v})) & \text{if } \text{head}(\mathbf{u}) = \text{head}(\mathbf{v}) \\
+    |\mathbf{u}| & \text{if } |\mathbf{u}| = 0 \\\\
+    |\mathbf{v}| & \text{if } |\mathbf{v}| = 0 \\\\
+    \text{Lev}(\text{tail}(\mathbf{u}), \text{tail}(\mathbf{v})) & \text{if } \text{head}(\mathbf{u}) = \text{head}(\mathbf{v}) \\\\
     1+\min \left\{
         \begin{array}{c}
-            \text{Lev}(\text{tail}(\mathbf{u}), \mathbf{v}) \\
-            \text{Lev}(\mathbf{u}, \text{tail}(\mathbf{v})) \\
+            \text{Lev}(\text{tail}(\mathbf{u}), \mathbf{v}) \\\\
+            \text{Lev}(\mathbf{u}, \text{tail}(\mathbf{v})) \\\\
             \text{Lev}(\text{tail}(\mathbf{u}), \text{tail}(\mathbf{v}))
         \end{array}
         \right. & \text{Otherwise}
@@ -226,7 +226,7 @@ Intermediate values provide a controlled balance between the two measures.
 
 $$
 \begin{align*}
-    \text{CosineSimilarity}&=\frac{\mathbf{u}\mathbf{v}}{||\mathbf{u}||\space||\mathbf{v}||} \\
+    \text{CosineSimilarity}&=\frac{\mathbf{u}\mathbf{v}}{||\mathbf{u}||\space||\mathbf{v}||} \\\\
     \text{CosineDistance}&=1-\text{CosineSimilarity}
 \end{align*}
 $$
@@ -290,7 +290,7 @@ Finally,
 $$
 \begin{align*}
     & \sum_{x \in X} P(x) \Big( -\log\gamma \Big) \ge
-    \sum_{x \in X} P(x) \Big( 1-\gamma \Big) \\
+    \sum_{x \in X} P(x) \Big( 1-\gamma \Big) \\\\
 \Rightarrow\qquad & \sum_{x \in X} P(x) \Big( \gamma-\log\gamma-1 \Big) \ge 0
 \end{align*}
 $$

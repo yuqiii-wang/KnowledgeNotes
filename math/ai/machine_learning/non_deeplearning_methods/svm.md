@@ -17,8 +17,7 @@ $$
 $$
 where $\mathbf{w}$  is the (not necessarily normalized) normal vector to the hyperplane.
 $$
-\mathbf{w}^T \mathbf{x} - b = 1,\quad \text{for } y_i=1
-\\
+\mathbf{w}^T \mathbf{x} - b = 1,\quad \text{for } y_i=1 \\\\
 \mathbf{w}^T \mathbf{x} - b = -1,\quad \text{for } y_i=-1
 $$
 
@@ -65,16 +64,17 @@ L &=
     \Bigg( 
     \frac{1}{n}\sum_{i=1}^n \big(0, 1 - y_i (\mathbf{w}^\top \mathbf{x}\_i) - b \big) 
     \Bigg)
-\\ &=
+\\\\ &=
     \lambda \big|\big|\mathbf{w}\big|\big|^2 +
     C \sum_{i=1}^n \xi_i
-\\ \text{subject to } 
-\\ &
+\\\\ \text{subject to } 
+\\\\ &
 1 - y_i (\mathbf{w}^\top \mathbf{x}\_i - b) \ge 1 - \xi_i
 , \quad\quad
 \xi_i \ge 0, \space \forall i \in \{1,2,...,n\}
 \end{align*}
 $$
+
 where $\lambda$ is a scaling factor for minimizing $\big|\big|\mathbf{w}\big|\big|^2$ which makes the separation margin as wide as possible; $C$ is an overall error tolerance factor for the summed error $\sum_{i=1}^n \xi_i$.
 
 It can tell that $\lambda$ and $C$ are inversely related such that, 
@@ -90,7 +90,8 @@ Choice of kernels depends on dataset distributions.
 Some typical kernels are
 
 * Polynomial
-$$\phi(\overrightarrow{x\_i}, \overrightarrow{x_j}) = (\overrightarrow{x\_i} \cdot \overrightarrow{x_j})^d
+$$
+\phi(\overrightarrow{x\_i}, \overrightarrow{x_j}) = (\overrightarrow{x\_i} \cdot \overrightarrow{x_j})^d
 $$
 
 **Example**: set $d=2$, and given two sample points $\overrightarrow{x_1}=(5,6,7)$ and $\overrightarrow{x_2}=(8,9,10)$
@@ -99,31 +100,29 @@ $$
 \begin{align*}
 \phi(\overrightarrow{x_1} \cdot \overrightarrow{x_1})&=
 (5,6,7) \cdot (5,6,7)
-\\ &=
+\\\\ &=
 (x_1x_1, x_1x_2, x_1x_3, x_2x_1, x_2x_2, x_2x_3, x_3x_1, x_3x_2, x_3x_3)
-\\ &=
-(25, 30, 35, 30, 36, 42, 35, 42, 49)\\
-\\
+\\\\ &=
+(25, 30, 35, 30, 36, 42, 35, 42, 49)\\\\ \\\\
 \phi(\overrightarrow{x_2} \cdot \overrightarrow{x_2})&=
 (8,9,10) \cdot (8,9,10)
-\\ &=
+\\\\ &=
 (x_1x_1, x_1x_2, x_1x_3, x_2x_1, x_2x_2, x_2x_3, x_3x_1, x_3x_2, x_3x_3)
-\\ &=
-(64, 72, 80, 72, 81, 90, 80, 90, 100)\\
-\\
+\\\\ &=
+(64, 72, 80, 72, 81, 90, 80, 90, 100)\\\\ \\\\
 \phi(\overrightarrow{x_1}, \overrightarrow{x_2})
  &=
 \phi(\overrightarrow{x_1} \cdot \overrightarrow{x_1}) \cdot \phi(\overrightarrow{x_2} \cdot \overrightarrow{x_2})
-\\ &=
+\\\\ &=
 (5,6,7)^2 \cdot (8,9,10)^2
-\\ &=
+\\\\ &=
 (1600, 2160, 2800, 2160, 2916, 3780, 2800, 3780, 4900)
-\\ &=
-26896\\ \text{alternatively}\\ &=
+\\\\ &=
+26896\\\\ \text{alternatively}\\\\ &=
 (\overrightarrow{x_1} \cdot \overrightarrow{x_2})^2
-\\ &=
+\\\\ &=
 (5 \cdot 8 + 6 \cdot 9 + 7 \cdot 10)^2
-\\ &=
+\\\\ &=
 26896
 \end{align*}
 $$

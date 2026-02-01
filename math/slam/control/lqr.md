@@ -3,11 +3,11 @@
 Consider this linear system:
 $$
 \begin{align*}
-\dot{\mathbf{x}}(t) &= A\mathbf{x}(t) + B \mathbf{u}(t)
-\\
+\dot{\mathbf{x}}(t) &= A\mathbf{x}(t) + B \mathbf{u}(t) \\\\
 \mathbf{y}(t) &= C{\mathbf{x}}(t)
 \end{align*}
 $$
+
 for $\mathbf{x}(0)=\mathbf{x}_0 \ne \mathbf{0}$.
 
 <div style="display: flex; justify-content: center;">
@@ -62,40 +62,41 @@ and vehicle angular velocity is $\dot{\theta}=\omega$.
 Now, want to adjust $\omega$ to get the vehicle back to the road reference line $e_h=0$.
 
 The system is defined as
+
 $$
 \begin{align*}
 \begin{bmatrix}
-    \dot{S} \\
+    \dot{S} \\\\
     \dot{\theta}
 \end{bmatrix}&=
 \underbrace{\begin{bmatrix}
-    0 & v \\
+    0 & v \\\\
     0 & 0
 \end{bmatrix}}\_{A}
 \begin{bmatrix}
-    S \\
+    S \\\\
     \theta
 \end{bmatrix}
 +
 \underbrace{\begin{bmatrix}
-    0 \\
+    0 \\\\
     1
 \end{bmatrix}}\_{B}
 \omega
 \end{align*}
 $$
 
-The output $\mathbf{y}=S$ is simply the horizontal positioning translation such that $\mathbf{y}=C\mathbf{x}$, where $C=\begin{bmatrix}  1 & 0 \\ 0 & 0 \end{bmatrix}$.
+The output $\mathbf{y}=S$ is simply the horizontal positioning translation such that $\mathbf{y}=C\mathbf{x}$, where $C=\begin{bmatrix}  1 & 0 \\\\ 0 & 0 \end{bmatrix}$.
 
 The cost coefficient matrices can be defined as
 $$
 Q=\begin{bmatrix}
-    1 & 0 \\
+    1 & 0 \\\\
     0 & 1
 \end{bmatrix}
 ,\qquad
 R=\begin{bmatrix}
-    1 & 0 \\
+    1 & 0 \\\\
     0 & 0
 \end{bmatrix}
 $$
@@ -105,8 +106,7 @@ By Riccati Equation, $K$ can be computed to update the new close loop system coe
 Finally, by this new $A_{cl}$, the output $\mathbf{y}(t)$ should gradually converge to the horizon reference line as $t \rightarrow t_f$.
 $$
 \begin{align*}
-\dot{\mathbf{x}}(t) &= A_{cl}\mathbf{x}(t) + B \mathbf{u}(t)
-\\
+\dot{\mathbf{x}}(t) &= A_{cl}\mathbf{x}(t) + B \mathbf{u}(t) \\\\
 \mathbf{y}(t) &= C{\mathbf{x}}(t)
 \end{align*}
 $$

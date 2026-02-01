@@ -49,7 +49,7 @@ where
 
 $$
 \text{Smooth}\_{L_1}(x)=\begin{cases}
-    0.5 x^2 & |x|<1 \\
+    0.5 x^2 & |x|<1 \\\\
     |x|-0.5 & \text{otherwise}
 \end{cases}
 $$

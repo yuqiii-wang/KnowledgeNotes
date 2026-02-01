@@ -134,7 +134,7 @@ Hence, only $E[s^2]$ needs to be computed.
 $$
 \begin{align*}
 &&& \quad s^2 = \Bigg( \sum_{i=1}^d q_i k_i \Bigg)^2
-    = \sum_{i=1}^d (q_i k_i)^2 + \sum_{i \ne j} q_i k_i q_j k_j \\
+    = \sum_{i=1}^d (q_i k_i)^2 + \sum_{i \ne j} q_i k_i q_j k_j \\\\
 \Rightarrow &&& E(s^2) 
     = \sum_{i=1}^d E\Big[ (q_i k_i)^2 \Big] + \sum_{i \ne j} E\Big[q_i k_i q_j k_j \Big]
 \end{align*}
@@ -144,7 +144,7 @@ where, for $q_i, k_i \sim N(0,1)$, and $q_i$ and $k_i$ are assumed independent t
 
 $$
 \begin{align*}
-E\Big[ (q_i k_i)^2 \Big] &= E[q_i^2] E[k_i^2] = 1 \cdot 1 = 1 \\
+E\Big[ (q_i k_i)^2 \Big] &= E[q_i^2] E[k_i^2] = 1 \cdot 1 = 1 \\\\
 E\Big[q_i k_i q_j k_j \Big] &= E[q_i] E[k_i] E[q_j] E[k_j] = 0
 \end{align*}
 $$

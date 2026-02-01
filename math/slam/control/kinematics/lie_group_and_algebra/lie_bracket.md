@@ -73,10 +73,10 @@ $$
 \frac{d \overrightarrow{R}}{d \lambda} &=
 \underbrace{\frac{\partial \overrightarrow{R}}{\partial x}}\_{\mathbf{e_x}} \frac{dx}{d \lambda} + 
 \underbrace{\frac{\partial \overrightarrow{R}}{\partial y}}\_{\mathbf{e_y}} \frac{dy}{d \lambda}
-\\ &=
+\\\\ &=
 \frac{dx}{d \lambda} \mathbf{e}_x +
 \frac{dy}{d \lambda} \mathbf{e}_y
-\\ &=
+\\\\ &=
 1 \cdot \mathbf{e}_x +
 x \cdot \mathbf{e}_y
 \end{align*}
@@ -110,7 +110,7 @@ $$
       \bigg) } {
             d \lambda
       } \mathbf{u}
-      \\ &=
+      \\\\ &=
       \bigg( \frac{d  \begin{bmatrix}
             0 & x 
       \end{bmatrix} } {
@@ -128,14 +128,14 @@ $$
             d \lambda
       }}\_{=\mathbf{0}}
       \bigg) \mathbf{u}
-      \\ &=
+      \\\\ &=
       \bigg( \begin{bmatrix}
             0 & 1
       \end{bmatrix}
       \begin{bmatrix}
             \mathbf{e}_x & \mathbf{e}_y
       \end{bmatrix} \bigg) \mathbf{u}
-      \\ &=
+      \\\\ &=
       \mathbf{e}_y
 \end{align*}
 $$
@@ -154,7 +154,7 @@ $$
       \bigg) } {
             d \lambda
       } \mathbf{v}
-      \\ &=
+      \\\\ &=
       \bigg( \frac{d  \begin{bmatrix}
             1 & 0
       \end{bmatrix} } {
@@ -171,16 +171,17 @@ $$
       \end{bmatrix} } {
             d \lambda
       } \bigg) \mathbf{v}
-      \\ &=
+      \\\\ &=
       \mathbf{0}
 \end{align*}
 $$
 
 Since $\nabla \mathbf{v} \mathbf{u}=\mathbf{e}_y$, $\nabla \mathbf{u} \mathbf{v}=\mathbf{0}$, there is Lie bracket
+
 $$
 \begin{align*}
 [\mathbf{u}, \mathbf{v}] &= \nabla \mathbf{v} \mathbf{u} - \nabla \mathbf{u} \mathbf{v}
-\\ &=
+\\\\ &=
 \mathbf{e}_y
 \end{align*}
 $$
@@ -216,7 +217,7 @@ $$
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
 (T e^{\mathcal{E}\tau} T^{-1}) &= 
 T \tau e^{0 \cdot \tau}T^{-1}
-\\ &=
+\\\\ &=
 T \tau  T^{-1}
 \end{align*}
 $$
@@ -229,7 +230,7 @@ $$
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
 (e^{\mathcal{E}\tau_2} \tau_1 e^{-\mathcal{E}\tau_2}) &= 
 e^{0 \cdot \tau_2} \tau_1 e^{-0 \cdot \tau_2} 
-\\ &=
+\\\\ &=
 \tau_2 \tau_1 - \tau_1 \tau_2
 \end{align*}
 $$
@@ -246,21 +247,21 @@ e^{\mathcal{E}\tau_3}[\tau_2, \tau_1]e^{-\mathcal{E}\tau_3}&=
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
 e^{\mathcal{E}\tau_3} (\tau_2 \tau_1 - \tau_1 \tau_2
 ) e^{-\mathcal{E}\tau_3}
-\\ &=
+\\\\ &=
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
 e^{\mathcal{E}\tau_3} (\tau_2 \tau_1) e^{-\mathcal{E}\tau_3}
 -
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
 e^{\mathcal{E}\tau_3} (\tau_1 \tau_2) e^{-\mathcal{E}\tau_3}
-\\ &=
+\\\\ &=
 \tau_3 (\tau_2 \tau_1) - (\tau_2 \tau_1) \tau_3
-\\ & \quad -
+\\\\ & \quad -
 \tau_3 (\tau_1 \tau_2) + (\tau_1 \tau_2) \tau_3
-\\ &=
+\\\\ &=
 \tau_3 ((\tau_2 \tau_1) - (\tau_1 \tau_2))+((\tau_1 \tau_2)-(\tau_2 \tau_1))\tau_3
-\\ &=
+\\\\ &=
 \tau_3 [\tau_2, \tau_1] - [\tau_2, \tau_1] \tau_3
-\\ &=
+\\\\ &=
 [\tau_3, [\tau_2, \tau_1]]
 \end{align*}
 $$
@@ -271,25 +272,25 @@ $$
 \begin{align*}
       [\tau_1, [\tau_2, \tau_3]] &= 
       \tau_1[\tau_2, \tau_3] - [\tau_2, \tau_3]\tau_1
-      \\ &=
+      \\\\ &=
       \tau_1 (\tau_2 \tau_3) - \tau_1(\tau_3 \tau_2) 
-      \\ & \quad -
+      \\\\ & \quad -
       (\tau_2 \tau_3)\tau_1 + (\tau_3 \tau_2)\tau_1
 
-      \\
+      \\\\
       [\tau_2, [\tau_3, \tau_1]] &= 
       \tau_2[\tau_3, \tau_1] - [\tau_3, \tau_1]\tau_2
-      \\ &=
+      \\\\ &=
       \tau_2 (\tau_3 \tau_1) - \tau_2(\tau_1 \tau_3) 
-      \\ & \quad -
+      \\\\ & \quad -
       (\tau_3 \tau_1)\tau_2 + (\tau_1 \tau_3)\tau_2
 
-      \\
+      \\\\
       [\tau_3, [\tau_1, \tau_2]] &= 
       \tau_3[\tau_1, \tau_2] - [\tau_1, \tau_2]\tau_3
-      \\ &=
+      \\\\ &=
       \tau_3 (\tau_1 \tau_2) - \tau_3(\tau_2 \tau_1) 
-      \\ & \quad -
+      \\\\ & \quad -
       (\tau_1 \tau_2)\tau_3 + (\tau_2 \tau_1)\tau_3
 \end{align*}
 $$
@@ -327,21 +328,21 @@ $$
 \begin{align*}
       e^A e^B &=
       (I+A+\frac{1}{2}A^2+...+\frac{1}{n!}A^n)(I+B+\frac{1}{2}B^2+...+\frac{1}{n!}B^n)
-      \\ &=
+      \\\\ &=
       I+A+\frac{1}{2}A^2+\frac{1}{6}A^3+\frac{1}{24}A^4+...
-      \\ & \quad +
+      \\\\ & \quad +
       B+AB+\frac{1}{2}A^2B+\frac{1}{6}A^3B+\frac{1}{24}A^4B+...
-      \\ & \quad +
+      \\\\ & \quad +
       \frac{1}{2}B^2+\frac{1}{2}AB^2+\frac{1}{4}A^2B^2+\frac{1}{12}A^3B^2+\frac{1}{48}A^4B^2+...
-      \\ & \quad +
+      \\\\ & \quad +
       \frac{1}{6}B^3+\frac{1}{12}AB^3+\frac{1}{24}A^2B^3+\frac{1}{72}A^3B^3+\frac{1}{288}A^4B^3+...
-      \\ &=
+      \\\\ &=
       I+A+B+\frac{1}{2}(A^2+AB+BA+B^2)+\frac{1}{2}(AB-BA)
-      \\ & \quad +
+      \\\\ & \quad +
       \frac{1}{6} (A^3+3A^2B+3AB^2+B^3)+\frac{1}{12} (A^2B+AB^2-2ABA+B^2A+BA^2-2BAB)+...
-      \\ &=
+      \\\\ &=
       I+A+B+\frac{1}{2}(A+B)^2+\frac{1}{2}[A,B]
-      \\ & \quad +
+      \\\\ & \quad +
       \frac{1}{6}(A+B)^3+\frac{1}{12}([A,[A, B]]+[B,[B, A]])+...
 \end{align*}
 $$
@@ -352,14 +353,14 @@ $$
 \begin{align*}
 && e^C &= 
 e^A e^B
-\\ && &=
+\\\\ && &=
 I+(A+B)+\frac{1}{2}(A+B)^2+\frac{1}{6}(A+B)^3+...
-\\ && & \quad +
+\\\\ && & \quad +
 \frac{1}{2}[A,B] + \frac{1}{12}([A,[A, B]]+[B,[B, A]])+...
-\\ && &=
+\\\\ && &=
 e^{A+B}+
 \frac{1}{2}[A,B] + \frac{1}{12}([A,[A, B]]+[B,[B, A]])+...
-\\ \Rightarrow && 
+\\\\ \Rightarrow && 
 C
 &\approx
 A+B+\frac{1}{2}[A,B] 
@@ -374,8 +375,8 @@ For a 3-d matrix $\mathbf{\Phi}$, here uses $\wedge$ to represent a vecto of an 
 $$
 \mathbf{\Phi} = \phi^{\wedge}=
 \begin{bmatrix}
-      0 & -\phi_3 & \phi_2 \\
-      \phi_3 & 0 & -\phi_1 \\
+      0 & -\phi_3 & \phi_2 \\\\
+      \phi_3 & 0 & -\phi_1 \\\\
       -\phi_2 & \phi_1 & 0
 \end{bmatrix}
 $$
@@ -384,6 +385,7 @@ Recall Lie Bracket, now here derives
 $$
 [\phi_1, \phi_2] = (\mathbf{\Phi}_1 \mathbf{\Phi}_2 - \mathbf{\Phi}_2 \mathbf{\Phi}_1)^{\vee}
 $$
+
 where $\vee$ denotes vector representation of a skew-symmetric matrix.
 
 The below approximation is useful in perturbation model where a trivial perturbation rotation $\Delta R$ is multiplied to an existing rotation $R$. The trivial perturbation is approximated by $J_l(\phi_2)^{-1}\phi_1$ or $J_r(\phi_1)^{-1}\phi_2$, and the existing rotation is $\phi_1$ or $\phi_2$.
@@ -394,17 +396,17 @@ ln(exp(\phi^{\wedge}_1)exp(\phi^{\wedge}_2))
 \left\{
 \begin{align*}
       &\quad \phi^{\wedge}_1 + \phi^{\wedge}_2 + \frac{1}{2}[\phi^{\wedge}_1, \phi^{\wedge}_2] &
-      \\ &= 
+      \\\\ &= 
       \phi^{\wedge}_1 + \phi^{\wedge}_2 + \phi^{\wedge}_1\phi^{\wedge}_2 - \phi^{\wedge}_2 \phi^{\wedge}_1 &
-      \\ &\approx
+      \\\\ &\approx
       J_l(\phi_2)^{-1}\phi_1 + \phi_2 &\quad \text{if } \phi_1 \text{is sufficiently small} 
 
       
-      \\
+      \\\\
       &\quad \phi^{\wedge}_1 + \phi^{\wedge}_2 + \frac{1}{2}[\phi^{\wedge}_1, \phi^{\wedge}_2] &
-      \\ &= 
+      \\\\ &= 
       \phi^{\wedge}_1 + \phi^{\wedge}_2 + \phi^{\wedge}_1\phi^{\wedge}_2 - \phi^{\wedge}_2 \phi^{\wedge}_1 &
-      \\ &\approx
+      \\\\ &\approx
       J_r(\phi_1)^{-1}\phi_2 + \phi_1 &\quad \text{if } \phi_2 \text{is sufficiently small} 
 \end{align*}
 \right.
@@ -415,6 +417,7 @@ where $J_l$ and $J_r$ are
 $$
 J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})\mathbf{v}\mathbf{v}^\text{T} + \frac{1-cos\theta}{\theta}\mathbf{v}^{\wedge}
 $$
+
 whose derivative is 
 $$
 J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})\mathbf{v}\mathbf{v}^\text{T} - \frac{\theta}{2}\mathbf{v}^{\wedge}

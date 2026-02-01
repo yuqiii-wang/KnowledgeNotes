@@ -15,6 +15,7 @@ $$
 representing a time-dependent ($t \in \mathbf{R}$, $R$ is a time range) vector field on $M$, aka $f(t, p) \in T_p M$,
 
 For a suitable time interval $I \subseteq \mathbf{R}$ containing $0$, the flow of $f$ is a function $\phi : I \times M \rightarrow M$ that satisfies
+
 $$
 \begin{align*}
 \phi(0, x_0) = x_0
@@ -24,8 +25,7 @@ $$
 \space\space\space\space\space\space\space\space
 \space\space\space\space\space\space\space\space
 \space\space
-\forall x_0 \in M
-\\
+\forall x_0 \in M \\\\
 \frac{d}{dt}\big|_{t=t_0} \phi(t, x_0) = f(t_0, \phi(t_0, x_0))
 \space\space\space\space\space\space\space\space\space
 \forall x_0 \in M

@@ -10,8 +10,7 @@ The transform between IMU frame $\tiny{B}$ and camera frame $\tiny{C}$ is $[\mat
 $$
 \begin{align*}
     \mathbf{\phi}\_{\tiny{CBk_c}} &= 
-    \mathbf{\phi}\_{\tiny{Ck_c}} \otimes \mathbf{\phi}\_{\tiny{BC}}^{-1}
-\\
+    \mathbf{\phi}\_{\tiny{Ck_c}} \otimes \mathbf{\phi}\_{\tiny{BC}}^{-1} \\\\
     s\mathbf{p}\_{\tiny{CBk_c}} &=
     s \mathbf{p}\_{\tiny{Ck_c}} - \mathbf{R}\_{\tiny{Ck_c}} \mathbf{p}\_{\tiny{BC}}
 \end{align*}
@@ -52,23 +51,20 @@ $$
     \Delta\hat{\mathbf{p}}\_{\tiny{{K+1}}} &=
 \mathbf{R}\_{\tiny{BK+1}}
 \big(\mathbf{p}\_{\tiny{WK+1}}-\mathbf{p}\_{\tiny{WK}}+\frac{1}{2}\mathbf{g}\_{earth}\Delta t^2
--\mathbf{v}\_{\tiny{WK}}\Delta t \big)+\mathbf{n}\_{\tiny{Bp}}
-\\
+-\mathbf{v}\_{\tiny{WK}}\Delta t \big)+\mathbf{n}\_{\tiny{Bp}} \\\\
     \Delta\hat{\mathbf{v}}\_{\tiny{{K+1}}} &=
 \mathbf{R}\_{\tiny{W{K+1}}}
-\big(\mathbf{v}\_{\tiny{W{K+1}}}-\mathbf{v}\_{\tiny{WK}}+\mathbf{g}\_{earth}\Delta t \big)+\mathbf{n}\_{\tiny{Bv}}
-\\
+\big(\mathbf{v}\_{\tiny{W{K+1}}}-\mathbf{v}\_{\tiny{WK}}+\mathbf{g}\_{earth}\Delta t \big)+\mathbf{n}\_{\tiny{Bv}} \\\\
     \Delta\hat{\mathbf{\phi}}\_{\tiny{{K+1}}} &=
 \mathbf{\phi}\_{\tiny{WK}}^{-1} \otimes
-\mathbf{\phi}\_{\tiny{W{K+1}}}+\mathbf{n}\_{\tiny{B\phi}}
-\\
+\mathbf{\phi}\_{\tiny{W{K+1}}}+\mathbf{n}\_{\tiny{B\phi}} \\\\
     \mathbf{b}\_{\tiny{ak_i}}-\mathbf{b}\_{\tiny{ak_i+1}} &=
-\mathbf{0} + \mathbf{n}\_{\tiny{Bb_a}}
-\\
+\mathbf{0} + \mathbf{n}\_{\tiny{Bb_a}} \\\\
     \mathbf{b}\_{\tiny{\omega k_i}}-\mathbf{b}\_{\tiny{\omega k_i+1}} &=
 \mathbf{0} + \mathbf{n}\_{\tiny{Bb_\omega}}
 \end{align*}
 $$
+
 where $\otimes$ represents the multiplication operation between two quaternions; $\mathbf{g}\_{earth}$ is a constant vector for earth's gravity.
 
 $\mathbf{n}\_{\tiny{Bp}}$, $\mathbf{n}\_{\tiny{Bv}}$ and $\mathbf{n}\_{\tiny{B\phi}}$ are Gaussian noises (measurement errors) 
@@ -138,11 +134,10 @@ $$
 \begin{bmatrix}
     \Delta \mathbf{p}\_{\tiny{BK}}
     + \mathbf{R}\_{\tiny{BC}}\mathbf{R}\_{\tiny{CK}} \mathbf{p}\_{\tiny{BCK}}
-    - \mathbf{p}\_{\tiny{BCK}}
-\\
+    - \mathbf{p}\_{\tiny{BCK}} \\\\
     \Delta \mathbf{v}\_{\tiny{BK}}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \mathbf{H}\_{\tiny{BK}} \mathbf{\mathcal{X}_V}+ \delta\mathbf{n}\_{\tiny{BK}}
 \end{align*}
 $$
@@ -166,14 +161,13 @@ $$
 \begin{align*}
     \mathbf{\mathcal{X}} &= [
 \mathbf{x}_0, \quad \mathbf{x}_1, \quad, ... , \quad \mathbf{x}_n, \quad
-\lambda_0, \quad \lambda_1, \quad, ... , \quad \lambda_m]
-\\
+\lambda_0, \quad \lambda_1, \quad, ... , \quad \lambda_m] \\\\
 \mathbf{x}\_{\tiny{k}} &= [
-\mathbf{p}\_{\tiny{WBk}}, \quad \mathbf{v}\_{\tiny{WBk}}, \quad \mathbf{\phi}\_{\tiny{WBk}}, \quad \mathbf{b}\_{{\omega}}, \quad \mathbf{p}\_{{a}}]
-\\
+\mathbf{p}\_{\tiny{WBk}}, \quad \mathbf{v}\_{\tiny{WBk}}, \quad \mathbf{\phi}\_{\tiny{WBk}}, \quad \mathbf{b}\_{{\omega}}, \quad \mathbf{p}\_{{a}}] \\\\
 \mathbf{x}\_{\tiny{BC}} &= [\mathbf{\phi}\_{\tiny{BC}}|\mathbf{p}\_{\tiny{BC}}]
 \end{align*}
 $$
+
 where $\mathbf{x}_k, k\in[0,n]$ is the IMU state at the time that the $k$-th image is captured. It contains position, velocity, and orientation of the IMU in the world frame, and acceleration bias $\mathbf{b}\_{{a}}$ and gyroscope bias $\mathbf{b}\_{{\omega}}$ in the IMU body frame.
 
 $n$ is the total number of keyframes, and $m$ is the total number of features in the sliding window. 
@@ -196,11 +190,12 @@ $$
 \big|\big|^2 \Big)}\_{
 \text{Visual measurement residuals}}
 $$
+
 where $\rho(e)$ is a Huber norm. 
 $$
 \rho(e) = \left\{
     \begin{align*}
-        & 1 && e \ge 1 \\
+        & 1 && e \ge 1 \\\\
         & 2\sqrt{s}-1 && e < 1
     \end{align*}
 \right.
@@ -217,11 +212,11 @@ frames $k_i$ and $k_{i+1}$
 $$
 \mathbf{r}\_\mathcal{B} ( \hat{\mathbf{z}}\_{\tiny{Bk_i+1}} ,\mathbf{\mathcal{X}} )=
 \begin{bmatrix}
-    \delta \Delta \mathbf{p}\_{\tiny{Bk_i+1}} \\
-    \delta \Delta \mathbf{v}\_{\tiny{Bk_i+1}} \\
-    \delta \Delta \mathbf{\phi}\_{\tiny{Bk_i+1}} \\
-    \delta \Delta \mathbf{b}\_{\mathbf{a}} \\
-    \delta \Delta \mathbf{b}\_{\mathbf{\omega}} \\
+    \delta \Delta \mathbf{p}\_{\tiny{Bk_i+1}} \\\\
+    \delta \Delta \mathbf{v}\_{\tiny{Bk_i+1}} \\\\
+    \delta \Delta \mathbf{\phi}\_{\tiny{Bk_i+1}} \\\\
+    \delta \Delta \mathbf{b}\_{\mathbf{a}} \\\\
+    \delta \Delta \mathbf{b}\_{\mathbf{\omega}} \\\\
 \end{bmatrix}=
 \begin{bmatrix}
 \begin{align*}
@@ -230,17 +225,17 @@ $$
 \mathbf{R}\_{\tiny{BK+1}}
 \big(\mathbf{p}\_{\tiny{WK+1}}-\mathbf{p}\_{\tiny{WK}}+\frac{1}{2}\mathbf{g}\_{earth}\Delta t^2
 -\mathbf{v}\_{\tiny{WK}}\Delta t \big)
-\\ &
+\\\\ &
     \Delta\hat{\mathbf{v}}\_{\tiny{{K+1}}} -
 \mathbf{R}\_{\tiny{W{K+1}}}
 \big(\mathbf{v}\_{\tiny{W{K+1}}}-\mathbf{v}\_{\tiny{WK}}+\mathbf{g}\_{earth}\Delta t \big)
-\\ &
+\\\\ &
     \Delta\hat{\mathbf{\phi}}\_{\tiny{{K+1}}} 
 \mathbf{\phi}\_{\tiny{WK}}^{-1} \otimes
 \mathbf{\phi}\_{\tiny{W{K+1}}}
-\\ &
+\\\\ &
     \mathbf{b}\_{\tiny{ak_i}}-\mathbf{b}\_{\tiny{ak_i+1}} 
-\\ &
+\\\\ &
     \mathbf{b}\_{\tiny{\omega k_i}}-\mathbf{b}\_{\tiny{\omega k_i+1}} 
     
 \end{align*}
@@ -254,22 +249,23 @@ the perfect reprojection of this the feature observation in the $j$-th image can
 
 $$
 \begin{bmatrix}
-    x_{\tiny{Cjl}} \\
-    y_{\tiny{Cjl}} \\
-    z_{\tiny{Cjl}} \\
-    1 \\
+    x_{\tiny{Cjl}} \\\\
+    y_{\tiny{Cjl}} \\\\
+    z_{\tiny{Cjl}} \\\\
+    1 \\\\
 \end{bmatrix}=
 \mathbf{T}\_{\tiny{BC}}^{-1}
 \mathbf{T}\_{\tiny{WBj}}^{-1}
 \mathbf{T}\_{\tiny{WBi}}
 \mathbf{T}\_{\tiny{BC}}
 \begin{bmatrix}
-    \frac{1}{\lambda_l}u_{\tiny{Cil}} \\
-    \frac{1}{\lambda_l}v_{\tiny{Cil}} \\
-    \frac{1}{\lambda_l} \\
-    1 \\
+    \frac{1}{\lambda_l}u_{\tiny{Cil}} \\\\
+    \frac{1}{\lambda_l}v_{\tiny{Cil}} \\\\
+    \frac{1}{\lambda_l} \\\\
+    1 \\\\
 \end{bmatrix}
 $$
+
 where $\mathbf{T}\_{\tiny{BC}}\mathbf{T}\_{\tiny{WBi}}$ describes the transform first from camera frame to body frame, then from body frame to world frame.
 
 For non-perfect reprojection, the residual of one shared-observed feature can be defined as
@@ -277,7 +273,7 @@ $$
 \mathbf{r}\_{\mathcal{C}\tiny{ijl}} = 
 \begin{bmatrix}
     \frac{x_{\tiny{Cjl}}}{z_{\tiny{Cjl}}}
-    - \frac{1}{\lambda_l}u_{\tiny{Cil}} \\
+    - \frac{1}{\lambda_l}u_{\tiny{Cil}} \\\\
     - \frac{y_{\tiny{Cjl}}}{z_{\tiny{Cjl}}}
     - \frac{1}{\lambda_l}v_{\tiny{Cil}}
 \end{bmatrix}
@@ -300,20 +296,22 @@ This process is coined *Marginalization*
 Recall Schur trick that
 attempts to remove $\Delta \mathbf{x}\_{\mathbf{\xi}'}$ (old $\mathbf{x}_k$) and retain $\Delta \mathbf{x}\_{\mathbf{\xi}}$ (existing $\mathbf{x}_k$),
 and takes into consideration the Gaussian noises $\mathbf{g}=[\mathbf{v} \quad \mathbf{w}]^\text{T}$, there is
+
 $$
 \begin{bmatrix}
-    \mathbf{B} & \mathbf{E} \\
+    \mathbf{B} & \mathbf{E} \\\\
     \mathbf{E}^\text{T} & \mathbf{C}
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{\mathbf{\xi}} \\
+    \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
     \Delta \mathbf{x}\_{\mathbf{\xi}'}
 \end{bmatrix}=
 \begin{bmatrix}
-    \mathbf{v} \\
+    \mathbf{v} \\\\
     \mathbf{w}
 \end{bmatrix}
 $$
+
 that has a result
 $$
 \underbrace{(\mathbf{B}-\mathbf{E}\mathbf{C}^{-1}\mathbf{E}^\text{T})}\_{

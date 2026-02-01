@@ -13,14 +13,11 @@ Another notation is $\overrightarrow{x} \perp \overrightarrow{y}$.
 $$
 \begin{align*}
 ||\overrightarrow{x}||^2 + ||\overrightarrow{y}||^2&=
-||\overrightarrow{y}-\overrightarrow{x}||^2
-\\
+||\overrightarrow{y}-\overrightarrow{x}||^2 \\\\
 \overrightarrow{x} \cdot \overrightarrow{x} + \overrightarrow{y} \cdot \overrightarrow{y}&=
-(\overrightarrow{y}-\overrightarrow{x})(\overrightarrow{y}-\overrightarrow{x})
-\\
+(\overrightarrow{y}-\overrightarrow{x})(\overrightarrow{y}-\overrightarrow{x}) \\\\
 \overrightarrow{x} \cdot \overrightarrow{x} + \overrightarrow{y} \cdot \overrightarrow{y}&=
-\overrightarrow{x} \cdot \overrightarrow{x} + \overrightarrow{y} \cdot \overrightarrow{y} + 2 \overrightarrow{x} \cdot \overrightarrow{y}
-\\
+\overrightarrow{x} \cdot \overrightarrow{x} + \overrightarrow{y} \cdot \overrightarrow{y} + 2 \overrightarrow{x} \cdot \overrightarrow{y} \\\\
 2 \overrightarrow{x} \cdot \overrightarrow{y}&=
 0
 \end{align*}
@@ -34,18 +31,18 @@ Any vector parallel to $u$ or $v$ is conjugate to $u$ or $v$.
 
 ### Example
 
-Given $u=[1,1]^T, v=[1,-1]^T$, and an identity matrix $I=\begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix}$, there is
+Given $u=[1,1]^T, v=[1,-1]^T$, and an identity matrix $I=\begin{bmatrix}1 & 0 \\\\ 0 & 1\end{bmatrix}$, there is
 $$
 u^T A v=
 \begin{bmatrix}
 1 & 1
 \end{bmatrix}
 \begin{bmatrix}
-1 & 0 \\
+1 & 0 \\\\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-1 \\
+1 \\\\
 -1
 \end{bmatrix}= 0
 $$

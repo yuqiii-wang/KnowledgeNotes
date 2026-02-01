@@ -42,7 +42,7 @@ $$
 \begin{align*}
     S_w &= \sum^m_{j=1} \sum_{v_i \in \mathbf{Q}_j}
     (v_i - \mu_j)(v_i - \mu_j)^\text{T}
-    \\
+    \\\\
     S_b &= \sum^m_{j=1} 
     N_j (\mu_j-\mu)(\mu_j-\mu)^\text{T}
 \end{align*}
@@ -136,15 +136,15 @@ Below is an example, where a matrix $\mathbf{\Lambda}$ is composed of $\mathbf{B
 
 $$
 \begin{bmatrix}
-    \mathbf{B} & \mathbf{E} \\
+    \mathbf{B} & \mathbf{E} \\\\
     \mathbf{E}^\text{T} & \mathbf{C}
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{\mathbf{\xi}} \\
+    \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
     \Delta \mathbf{x}\_{\mathbf{p}}
 \end{bmatrix}=
 \begin{bmatrix}
-    \mathbf{v} \\
+    \mathbf{v} \\\\
     \mathbf{w}
 \end{bmatrix}
 $$
@@ -160,15 +160,15 @@ Schur trick works on this linear system, where $\mathbf{v}'$ refers to permuted 
 The marginalization aims to compute $\Delta \mathbf{x}\_{{\mathbf{x}_1 } \notin \mathbf{x}}$.
 $$
 \begin{bmatrix}
-    \mathbf{B}' & \mathbf{E}' \\
+    \mathbf{B}' & \mathbf{E}' \\\\
     \mathbf{E}'^\text{T} & \mathbf{C}'
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{{\mathbf{x}_1 }} \\
+    \Delta \mathbf{x}\_{{\mathbf{x}_1 }} \\\\
     \Delta \mathbf{x}\_{{\mathbf{x}_1 } \notin \mathbf{x}}
 \end{bmatrix}=
 \begin{bmatrix}
-    \mathbf{v}'_{{\mathbf{x}_1 }} \\
+    \mathbf{v}'_{{\mathbf{x}_1 }} \\\\
     \mathbf{v}'_{{\mathbf{x}_1 } \notin \mathbf{x}}
 \end{bmatrix}
 $$
@@ -180,21 +180,22 @@ $$
 \mathbf{v}'_{{\mathbf{x}_1 } \notin \mathbf{x}} - \mathbf{E}'^\text{T}\mathbf{B}'^{-1} \mathbf{v}'_{\mathbf{x}_1 }
 $$
 
-The coefficient matrix $\mathbf{S}'=\mathbf{C}'-\mathbf{E}'^\text{T}\mathbf{B}'^{-1}\mathbf{E}'$ is not sparse as a result of marginalization that removes $\mathbf{x}_1$. Fill-in refers to the dense matrix $\mathbf{S}'$ that derives from $\begin{bmatrix}    \mathbf{B} & \mathbf{E} \\    \mathbf{E}^\text{T} & \mathbf{C}   \end{bmatrix}$ which is a sparse matrix.
+The coefficient matrix $\mathbf{S}'=\mathbf{C}'-\mathbf{E}'^\text{T}\mathbf{B}'^{-1}\mathbf{E}'$ is not sparse as a result of marginalization that removes $\mathbf{x}_1$. Fill-in refers to the dense matrix $\mathbf{S}'$ that derives from $\begin{bmatrix}    \mathbf{B} & \mathbf{E} \\\\    \mathbf{E}^\text{T} & \mathbf{C}   \end{bmatrix}$ which is a sparse matrix.
 
-Denote $\mathbf{S}' = \begin{bmatrix}    \mathbf{B}\_{\mathbf{S}'} & \mathbf{E}\_{\mathbf{S}'}  \\    \mathbf{E}\_{\mathbf{S}'} ^\text{T} & \mathbf{C}\_{\mathbf{S}'}    \end{bmatrix}$, now the linear system without $\mathbf{x}_1$ can be expressed as
+Denote $\mathbf{S}' = \begin{bmatrix}    \mathbf{B}\_{\mathbf{S}'} & \mathbf{E}\_{\mathbf{S}'}  \\\\    \mathbf{E}\_{\mathbf{S}'} ^\text{T} & \mathbf{C}\_{\mathbf{S}'}    \end{bmatrix}$, now the linear system without $\mathbf{x}_1$ can be expressed as
+
 $$
 \begin{bmatrix}    
     \mathbf{B}\_{\mathbf{S}'} & \mathbf{E}\_{\mathbf{S}'}  
-    \\    
+    \\\\    
     \mathbf{E}\_{\mathbf{S}'} ^\text{T} & \mathbf{C}\_{\mathbf{S}'}    
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{\mathbf{\xi}\_{\mathbf{x}_1 \notin \mathbf{x}}} \\
+    \Delta \mathbf{x}\_{\mathbf{\xi}\_{\mathbf{x}_1 \notin \mathbf{x}}} \\\\
     \Delta \mathbf{x}\_{\mathbf{p}\_{\mathbf{x}_1 \notin \mathbf{x}}}
 \end{bmatrix}=
 \begin{bmatrix}
-    \mathbf{v}\_{\mathbf{x}_1 \notin \mathbf{x}} \\
+    \mathbf{v}\_{\mathbf{x}_1 \notin \mathbf{x}} \\\\
     \mathbf{w}\_{\mathbf{x}_1 \notin \mathbf{x}}
 \end{bmatrix}
 $$

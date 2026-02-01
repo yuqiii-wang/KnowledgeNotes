@@ -170,7 +170,7 @@ $$
 \text{precision}: 0.714\approx
 \frac{2}{7}\cdot\frac{1}{3}+
 \frac{2}{7}\cdot\frac{2}{3}+
-\frac{3}{7}\cdot\frac{1}{1}\\
+\frac{3}{7}\cdot\frac{1}{1}\\\\
 \text{recall}: 0.571\approx
 \frac{2}{7}\cdot\frac{1}{2}+
 \frac{2}{7}\cdot\frac{2}{2}+

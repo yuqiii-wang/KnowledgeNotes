@@ -16,9 +16,9 @@ $$
 \begin{align*}
 \mathbf{P}'&=
 [\mathbf{R}|\mathbf{t}] \mathbf{p}
-\\ &=
+\\\\ &=
 \mathbf{R} \mathbf{p} + \mathbf{t}
-\\ &=
+\\\\ &=
 [X',Y',Z']^\text{T}
 \end{align*}
 $$
@@ -27,7 +27,7 @@ $$
 $$
 \begin{align*}
 \mathbf{P}_c &= [u_c, v_c, 1]^\text{T}
-\\ &=
+\\\\ &=
 [\frac{X'}{Z'}, \frac{Y'}{Z'}, 1]^\text{T}
 \end{align*}
 $$
@@ -37,7 +37,7 @@ $$
 $$
 \begin{align*}
     u_c' &= u_c (1+k_1 r_c^2 +k_2 r_c^4)
-    \\
+    \\\\
     v_c' &= v_c (1+k_1 r_c^2 +k_2 r_c^4)
 \end{align*}
 $$
@@ -47,7 +47,7 @@ $$
 $$
 \begin{align*}
     u_s &= f_x u_c' + c_x
-    \\
+    \\\\
     v_s &= f_y v_c' + c_y
 \end{align*}
 $$
@@ -112,7 +112,7 @@ $$
     \mathbf{x}\_\mathbf{\xi} &= [
         \mathbf{\xi}_1, \mathbf{\xi}_2, ..., \mathbf{\xi}_n
     ]^\text{T}
-    \\
+    \\\\
     \mathbf{x}\_\mathbf{p} &= [
         \mathbf{p}_1, \mathbf{p}_2, ..., \mathbf{p}_m
     ]^\text{T}
@@ -140,7 +140,7 @@ $$
     \mathbf{F} & \mathbf{E}
 \end{array}
 \right]
-\\ &=
+\\\\ &=
 \left[
 \begin{array}{ccccc|ccccc}
     \frac{\partial \mathbf{e}\_{11}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
@@ -151,7 +151,7 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \mathbf{0}\_{2 \times 3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} &
     \frac{\partial \mathbf{e}\_{21}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
     \mathbf{0}\_{2 \times 6} &
@@ -160,7 +160,7 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \mathbf{0}\_{2 \times 3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} &
     \mathbf{0}\_{2 \times 6} &
     \frac{\partial \mathbf{e}\_{31}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
@@ -169,10 +169,10 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \mathbf{0}\_{2 \times 3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     & & & \ddots & &
     & & & \ddots & &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} & 
     \mathbf{0}\_{2 \times 6} & 
     \mathbf{0}\_{2 \times 6} & &
@@ -182,7 +182,7 @@ $$
     \mathbf{0}\_{2 \times 3} & 
     & \mathbf{0}\_{2 \times 3} & 
 
-    \\
+    \\\\
     \frac{\partial \mathbf{e}\_{12}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
     \mathbf{0}\_{2 \times 6} &
     \mathbf{0}\_{2 \times 6} &
@@ -191,7 +191,7 @@ $$
     \frac{\partial \mathbf{e}\_{12}}{\partial \mathbf{p}_2} &
     \mathbf{0}\_{2 \times 3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} &
     \frac{\partial \mathbf{e}\_{22}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
     \mathbf{0}\_{2 \times 6} &
@@ -200,7 +200,7 @@ $$
     \frac{\partial \mathbf{e}\_{22}}{\partial \mathbf{p}_2} &
     \mathbf{0}\_{2 \times 3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} &
     \mathbf{0}\_{2 \times 6} &
     \frac{\partial \mathbf{e}\_{32}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
@@ -209,10 +209,10 @@ $$
     \frac{\partial \mathbf{e}\_{32}}{\partial \mathbf{p}_2} &
     \mathbf{0}\_{2 \times 3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     & & & \ddots & &
     & & & \ddots & &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} & 
     \mathbf{0}\_{2 \times 6} & 
     \mathbf{0}\_{2 \times 6} & &
@@ -222,7 +222,7 @@ $$
     \mathbf{0}\_{2 \times 3} & 
     & \mathbf{0}\_{2 \times 3} & 
 
-    \\
+    \\\\
     \frac{\partial \mathbf{e}\_{13}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
     \mathbf{0}\_{2 \times 6} &
     \mathbf{0}\_{2 \times 6} &
@@ -231,7 +231,7 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \frac{\partial \mathbf{e}\_{13}}{\partial \mathbf{p}_3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} &
     \frac{\partial \mathbf{e}\_{23}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
     \mathbf{0}\_{2 \times 6} &
@@ -240,7 +240,7 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \frac{\partial \mathbf{e}\_{23}}{\partial \mathbf{p}_3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} &
     \mathbf{0}\_{2 \times 6} &
     \frac{\partial \mathbf{e}\_{33}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
@@ -249,10 +249,10 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \frac{\partial \mathbf{e}\_{33}}{\partial \mathbf{p}_3} &
     & \mathbf{0}\_{2 \times 3} &
-    \\
+    \\\\
     & & & \ddots & &
     & & & \ddots & &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} & 
     \mathbf{0}\_{2 \times 6} & 
     \mathbf{0}\_{2 \times 6} & &
@@ -262,11 +262,11 @@ $$
     \frac{\partial \mathbf{e}\_{n3}}{\partial \mathbf{p}_3} &
     & \mathbf{0}\_{2 \times 3} & 
 
-    \\
+    \\\\
     & & \vdots & &
     & & \vdots & &
 
-    \\
+    \\\\
     \frac{\partial \mathbf{e}\_{1m}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
     \mathbf{0}\_{2 \times 6} &
     \mathbf{0}\_{2 \times 6} &
@@ -275,7 +275,7 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \mathbf{0}\_{2 \times 3} &
     & \frac{\partial \mathbf{e}\_{1m}}{\partial \mathbf{p}_m} &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} &
     \frac{\partial \mathbf{e}\_{2m}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
     \mathbf{0}\_{2 \times 6} &
@@ -284,7 +284,7 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \mathbf{0}\_{2 \times 3} &
     & \frac{\partial \mathbf{e}\_{2m}}{\partial \mathbf{p}_m} &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} &
     \mathbf{0}\_{2 \times 6} &
     \frac{\partial \mathbf{e}\_{3m}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
@@ -293,10 +293,10 @@ $$
     \mathbf{0}\_{2 \times 3} &
     \mathbf{0}\_{2 \times 3} &
     & \frac{\partial \mathbf{e}\_{3m}}{\partial \mathbf{p}_m} &
-    \\
+    \\\\
     & & & \ddots & &
     & & & \ddots & &
-    \\
+    \\\\
     \mathbf{0}\_{2 \times 6} & 
     \mathbf{0}\_{2 \times 6} & 
     \mathbf{0}\_{2 \times 6} & &
@@ -309,6 +309,7 @@ $$
 \right]
 \end{align*}
 $$
+
 where each row $\mathbf{J}\_{ij}$ can be expressed as below. Inside, $\frac{\partial \mathbf{e}\_{ij}}{\partial [\mathbf{R}|\mathbf{t}]_i}$ is of a size $2 \times 6$ and $\frac{\partial \mathbf{e}\_{ij}}{\partial \mathbf{p}_j}$ is of a size $2 \times 3$.
 
 $$
@@ -332,14 +333,15 @@ However, computation of $(\mathbf{J}^\text{T} \mathbf{J})^{-1}$ remains impracti
 ### Sparsity Exploitation
 
 The quadratic form for $\mathbf{J}$ can be computed by
+
 $$
 \begin{align*}
 \mathbf{J}^\text{T} \mathbf{J} &= 
 \begin{bmatrix}
-    \mathbf{F}^\text{T} \mathbf{F} & \mathbf{F}^\text{T} \mathbf{E} \\
-    \mathbf{E}^\text{T} \mathbf{F} & \mathbf{E}^\text{T} \mathbf{E} \\
+    \mathbf{F}^\text{T} \mathbf{F} & \mathbf{F}^\text{T} \mathbf{E} \\\\
+    \mathbf{E}^\text{T} \mathbf{F} & \mathbf{E}^\text{T} \mathbf{E} \\\\
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \sum^n\_{i=1} \sum^m_{j=1} 
 \mathbf{J}^\text{T}\_{ij} \mathbf{J}\_{ij}
 \end{align*}
@@ -350,20 +352,22 @@ $\mathbf{F}^\text{T} \mathbf{F}$ and $\mathbf{E}^\text{T} \mathbf{E}$ only relat
 Depending on the specific observation data, $\mathbf{F}^\text{T} \mathbf{E}$ and $\mathbf{E}^\text{T} \mathbf{F}$ might be dense or sparse.
 
 Rewrite the denotations of four sub matrices of $\mathbf{J}^\text{T} \mathbf{J}$, such as
+
 $$
 \begin{align*}
 \mathbf{J}^\text{T} \mathbf{J}&=
 \begin{bmatrix}
-    \mathbf{F}^\text{T} \mathbf{F} & \mathbf{F}^\text{T} \mathbf{E} \\
-    \mathbf{E}^\text{T} \mathbf{F} & \mathbf{E}^\text{T} \mathbf{E} \\
+    \mathbf{F}^\text{T} \mathbf{F} & \mathbf{F}^\text{T} \mathbf{E} \\\\
+    \mathbf{E}^\text{T} \mathbf{F} & \mathbf{E}^\text{T} \mathbf{E} \\\\
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    \mathbf{B} & \mathbf{E} \\
+    \mathbf{B} & \mathbf{E} \\\\
     \mathbf{E}^\text{T} & \mathbf{C}
 \end{bmatrix}
 \end{align*}
 $$
+
 where, as clearly observed in the figure below, $\mathbf{B}$ and $\mathbf{C}$ exhibit obvious diagonal formats. $\mathbf{E}$ and $\mathbf{E}^\text{T}$ are rectangular. 
 
 In real world scenarios, for example, an autonomous vehicle carrying $6$ cameras touring a street, should see thousands of visual features/landmarks just in one camera shot. Therefore, there should be $n \ll m$ that renders the shape of $\mathbf{E}$ being a long rectangle, and $\mathbf{C}$'s size being much larger than $\mathbf{B}$'s.
@@ -380,55 +384,55 @@ Perform Gaussian elimination to triangulate the matrix for solution.
 $$
 \begin{align*}
    \mathbf{J}^\text{T} \mathbf{J} \mathbf{x} &= \mathbf{g}
-   \\
+   \\\\
     \begin{bmatrix}
-        \mathbf{B} & \mathbf{E} \\
+        \mathbf{B} & \mathbf{E} \\\\
         \mathbf{E}^\text{T} & \mathbf{C}
     \end{bmatrix}
     \begin{bmatrix}
-        \Delta \mathbf{x}\_{\mathbf{\xi}} \\
+        \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
         \Delta \mathbf{x}\_{\mathbf{p}}
     \end{bmatrix}
     &=
     \begin{bmatrix}
-        \mathbf{v} \\
+        \mathbf{v} \\\\
         \mathbf{w}
     \end{bmatrix}
-    \\
+    \\\\
     \begin{bmatrix}
-        \mathbf{I} & -\mathbf{E}\mathbf{C}^{-1} \\
+        \mathbf{I} & -\mathbf{E}\mathbf{C}^{-1} \\\\
         \mathbf{0} & \mathbf{I}
     \end{bmatrix}
     \begin{bmatrix}
-        \mathbf{B} & \mathbf{E} \\
+        \mathbf{B} & \mathbf{E} \\\\
         \mathbf{E}^\text{T} & \mathbf{C}
     \end{bmatrix}
     \begin{bmatrix}
-        \Delta \mathbf{x}\_{\mathbf{\xi}} \\
+        \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
         \Delta \mathbf{x}\_{\mathbf{p}}
     \end{bmatrix}
     &=
     \begin{bmatrix}
-        \mathbf{I} & -\mathbf{E}\mathbf{C}^{-1} \\
+        \mathbf{I} & -\mathbf{E}\mathbf{C}^{-1} \\\\
         \mathbf{0} & \mathbf{I}
     \end{bmatrix}
     \begin{bmatrix}
-        \mathbf{v} \\
+        \mathbf{v} \\\\
         \mathbf{w}
     \end{bmatrix}
-    \\
+    \\\\
     \begin{bmatrix}
         \mathbf{B}-\mathbf{E}\mathbf{C}^{-1}\mathbf{E}^\text{T} & \mathbf{0}
-        \\
+        \\\\
         \mathbf{E}^\text{T} & \mathbf{C}
     \end{bmatrix}
     \begin{bmatrix}
-        \Delta \mathbf{x}\_{\mathbf{\xi}} \\
+        \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
         \Delta \mathbf{x}\_{\mathbf{p}}
     \end{bmatrix}
     &=
     \begin{bmatrix}
-        \mathbf{v} - \mathbf{E}\mathbf{C}^{-1} \mathbf{w} \\
+        \mathbf{v} - \mathbf{E}\mathbf{C}^{-1} \mathbf{w} \\\\
         \mathbf{w}
     \end{bmatrix}
 \end{align*}
@@ -461,7 +465,7 @@ L\_{\delta}(e)=
 \left\{
     \begin{array}{c}
         \frac{1}{2}e^2 &\quad \text{for} |e|\le \delta
-        \\
+        \\\\
         \delta \cdot (|e|-\frac{1}{2}\delta) &\quad \text{otherwise}
     \end{array}
 \right.

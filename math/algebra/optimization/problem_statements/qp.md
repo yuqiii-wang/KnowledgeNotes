@@ -13,6 +13,7 @@ QP attempts to
 $$
 arg \space \underset{\mathbf{x}}{min} \space \frac{1}{2} \mathbf{x}^TQ\mathbf{x} + \mathbf{c}^T\mathbf{x}
 $$
+
 subject to
 $$
 A\mathbf{x} \le \mathbf{b}
@@ -34,6 +35,7 @@ subject to
 $$
 A\mathbf{x} \le \mathbf{b}
 $$
+
 where $Q=R^TR$ follows from the Cholesky decomposition of $Q$ and $\mathbf{c}=-R^\top \mathbf{d}$.
 
 ## KKT Conditions
@@ -61,8 +63,7 @@ $$
 Stationary points $\mathbf{x}^*$ are computed on the conditions when derivatives are zeros:
 $$
 \begin{align*}
-\nabla_x L &= \frac{\partial L}{\partial \mathbf{x}} = \nabla f + \lambda \nabla g = \mathbf{0}
-\\
+\nabla_x L &= \frac{\partial L}{\partial \mathbf{x}} = \nabla f + \lambda \nabla g = \mathbf{0} \\\\
 \nabla_{\lambda} L &= \frac{\partial L}{\partial \lambda} = g(\mathbf{x}) = 0
 \end{align*}
 $$
@@ -77,8 +78,7 @@ $$
 $$
 subject to
 $$
-g_j(\mathbf{x}) = 0 \quad j=1,2,...,m
-\\
+g_j(\mathbf{x}) = 0 \quad j=1,2,...,m \\\\
 h_k(\mathbf{x}) \le 0 \quad k=1,2,...,p
 $$
 
@@ -114,8 +114,7 @@ This means that $L$ must have at least one optimal point where its derivative is
 
 * Primal feasibility
 $$
-g(\mathbf{x}) = 0
-\\
+g(\mathbf{x}) = 0 \\\\
 h(\mathbf{x}) \le 0
 $$
 

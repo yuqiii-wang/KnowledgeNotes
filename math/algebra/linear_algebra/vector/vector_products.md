@@ -23,8 +23,8 @@ $$
 \mathbf{u} \times \mathbf{v} = |\mathbf{u}| |\mathbf{v}| \space \mathbf{n} \space \sin\theta= \Bigg |
 \begin{array}{ccc}
     \begin{array}{ccc}
-      \overrightarrow{i} & \overrightarrow{j} & \overrightarrow{k} \\
-      u_1 & u_2 & u_3 \\
+      \overrightarrow{i} & \overrightarrow{j} & \overrightarrow{k} \\\\
+      u_1 & u_2 & u_3 \\\\
       v_1 & v_2 & v_3
     \end{array}
 \end{array}
@@ -54,11 +54,12 @@ Very interesting is that $\big|\mathbf{u} \times \mathbf{v}\big|$ happens to be 
 
 Wedge/exterior product of vectors is an algebraic construction used in geometry to study areas, volumes, and their higher-dimensional analogues, operator denoted as below:
 
-$$\begin{align*}
-\mathbf{u} \space ∧ \space \mathbf{v} \\
-& = (a e_1 + b e_2)∧(c e_1 + d e_2) \\
-& = ac (e_1 ∧ e1) + ad (e_1 ∧ e_2) + bc (e_2 ∧ e_1) + bd (e_2 ∧ e_2) \\
-& = ad (e_1 ∧ e_2) - bc (e_1 ∧ e_2) \\
+$$
+\begin{align*}
+\mathbf{u} \space ∧ \space \mathbf{v} \\\\
+& = (a e_1 + b e_2)∧(c e_1 + d e_2) \\\\
+& = ac (e_1 ∧ e1) + ad (e_1 ∧ e_2) + bc (e_2 ∧ e_1) + bd (e_2 ∧ e_2) \\\\
+& = ad (e_1 ∧ e_2) - bc (e_1 ∧ e_2) \\\\
 & = (ad-bc)(e_1 ∧ e_2)
 \end{align*}
 $$
@@ -70,7 +71,7 @@ e_1=
 \begin{array}{c}
     \bigg (
     \begin{array}{c}
-      1 \\
+      1 \\\\
       0
     \end{array}
     \bigg )
@@ -80,12 +81,13 @@ e_2=
 \begin{array}{c}
     \bigg (
     \begin{array}{c}
-      0 \\
+      0 \\\\
       1
     \end{array}
     \bigg )
 \end{array}
 $$
+
 that constructs a real Cartesian plane $R^2$.
 
 ![parallellogram_as_determinant](imgs/parallellogram_as_determinant.svg.png "parallellogram_as_determinant")

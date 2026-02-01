@@ -87,12 +87,13 @@ $$
 \forall X,Y,Z \in \mathbb{V};
 a,b \in \mathbb{F}
 $$
+
 there is
+
 $$
 \begin{align*}
 [aX + bY, Z] &=
-a[X, Z] + y[Y, Z],
-\\
+a[X, Z] + y[Y, Z], \\\\
 [Z, aX + bY] &= a[Z,X] + b[Z,Y]
 \end{align*}
 $$
@@ -104,10 +105,10 @@ $$
 $$ 
 
 * Jacobi identity
+
 $$
 \begin{align*}
-\forall X,Y,Z &\in \mathbb{V};
-\\
+\forall X,Y,Z &\in \mathbb{V}; \\\\
 [X, [Y,Z]] + [Y, [X,Z]] &+ [Z, [X,Y]] = 0
 \end{align*}
 $$
@@ -124,7 +125,7 @@ $$
 \frac{\partial f(\mathbf{x})}{\partial \mathbf{x}}
 &\approx
 \frac{\partial f(\mathbf{x})}{\partial \Delta \mathbf{\xi}}
-\\ &=
+\\\\ &=
 \underset{\Delta \mathbf{\xi} \rightarrow 0}{lim}
 \frac{f(\mathbf{x}+\Delta \mathbf{\xi})-f(\mathbf{x})}{\Delta \mathbf{\xi}}
 \end{align*}

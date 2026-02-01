@@ -37,12 +37,13 @@ $$
 $$
 
 The minima exists at $\frac{\partial\space \mathbf{r}^\top \mathbf{r}}{\partial \Delta\mathbf{x}}=0$, so that
+
 $$
 \begin{align*}
   &&
   2 J_0^\top J_0 \Delta\mathbf{x} &=
   2 J_0^\top \mathbf{r}_0
-  \\ \Rightarrow &&
+  \\\\ \Rightarrow &&
   \Delta\mathbf{x} &=
   \frac{J_0^\top \mathbf{r}_0}{J_0^\top J_0}
 \end{align*}
@@ -64,35 +65,36 @@ whose residuals with respects to each pixel are
 $$
 \mathbf{r}(dx,dy) = 
 \begin{bmatrix}
-    r_{x=1, y=1}(dx,dy) \\
-    r_{x=1, y=2}(dx,dy) \\
+    r_{x=1, y=1}(dx,dy) \\\\
+    r_{x=1, y=2}(dx,dy) \\\\
     \vdots
-    \\
-    r_{x=i, y=j}(dx,dy) \\
+    \\\\
+    r_{x=i, y=j}(dx,dy) \\\\
     \vdots
-    \\
-    r_{x=n, y=n}(dx,dy) \\
+    \\\\
+    r_{x=n, y=n}(dx,dy) \\\\
 \end{bmatrix}=
 \begin{bmatrix}
-    I_A(1,1) - I_B(1+dx, 1+dy) \\
-    I_A(1,2) - I_B(1+dx, 2+dy) \\
+    I_A(1,1) - I_B(1+dx, 1+dy) \\\\
+    I_A(1,2) - I_B(1+dx, 2+dy) \\\\
     \vdots
-    \\
-    I_A(i,j) - I_B(i+dx, j+dy) \\
+    \\\\
+    I_A(i,j) - I_B(i+dx, j+dy) \\\\
     \vdots
-    \\
-    I_A(n,n) - I_B(n+dx, n+dy) \\
+    \\\\
+    I_A(n,n) - I_B(n+dx, n+dy) \\\\
 \end{bmatrix}
 $$
 
 For a particular pixel $p(x\_i,y_j)$, the residual can be approximated by Jacobian
+
 $$
 \begin{align*}
     &&
     r_{x=i, y=j}(dx,dy)
     &=
     I_A(i,j) - I_B(i+dx, j+dy)
-    \\ \Rightarrow &&
+    \\\\ \Rightarrow &&
     r_{x=i, y=j}(\Delta dx,\Delta dy)
     &= 
     \underbrace{\begin{bmatrix}
@@ -100,7 +102,7 @@ $$
         \frac{\partial r_{x=i, y=j} p(x\_i,y_j)}{\partial dy}
     \end{bmatrix}}\_{\text{Jacobian}}
     \begin{bmatrix}
-        \Delta dx \\
+        \Delta dx \\\\
         \Delta dy
     \end{bmatrix}
     + r_{x=i, y=j}
@@ -116,15 +118,15 @@ $$
 \begin{align*}
     \frac{\partial \mathbf{r}(dx,dy)}{\partial dx}
     \bigg|_{\begin{align*}
-        \footnotesize{dx=a, dy=b} \\
-        \footnotesize{x=1,2,...,n} \\
-        \footnotesize{y=1,2,...,n} \\
+        \footnotesize{dx=a, dy=b} \\\\
+        \footnotesize{x=1,2,...,n} \\\\
+        \footnotesize{y=1,2,...,n} \\\\
     \end{align*}}
     &=
     \frac{\partial 
     \big(I_A(x,y)-I_B(x+dx, y+dy)\big)}{\partial dx}
     \bigg|_{dx=a, dy=b}
-    \\ &=
+    \\\\ &=
     \frac{\partial 
     \big(-I_B(x+dx, y+dy)\big)}{\partial dx}
     \bigg|_{dx=a, dy=b}
@@ -144,7 +146,7 @@ $$
     \lim_{\Delta \rightarrow 0} - 
     \frac{I_B(x+a-\Delta, y+b)-I_B(x+a+\Delta, y+b)}
     {2\Delta}
-    \\ & \underset{\Delta=1}{\approx}
+    \\\\ & \underset{\Delta=1}{\approx}
     - 
     \frac{I_B(x+a-1, y+b)-I_B(x+a+1, y+b)}
     {2}
@@ -154,15 +156,15 @@ $$
 Actually, the $\Delta=1$ approximation is exactly the operation of Sobel Derivatives:
 $$
 G_x=\begin{bmatrix}
-    -1 & 0 & +1 \\
-    -2 & 0 & +2 \\
-    -1 & 0 & +1 \\
+    -1 & 0 & +1 \\\\
+    -2 & 0 & +2 \\\\
+    -1 & 0 & +1 \\\\
 \end{bmatrix}
 , \quad
 G_y=\begin{bmatrix}
-    -1 & -2 & -1 \\
-    0 & 0 & 0 \\
-    +1 & +2 & +1 \\
+    -1 & -2 & -1 \\\\
+    0 & 0 & 0 \\\\
+    +1 & +2 & +1 \\\\
 \end{bmatrix}
 $$
 

@@ -45,10 +45,11 @@ $$
     \frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}
     e^{-\frac{1}{2}(\mathbf{y}-\mu)^\text{T}\Sigma^{-1}(\mathbf{y}-\mu)}
 \bigg)
-\\ &=
+\\\\ &=
 -ln\bigg(\frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}\bigg)
 +\frac{1}{2}(\mathbf{y}-\mu)^\text{T}\Sigma^{-1}(\mathbf{y}-\mu)
-\end{align*}$$
+\end{align*}
+$$
 
 $-ln\bigg(\frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}\bigg)$ is discarded since optimization to finding optimum is by the change of hidden parameter $\mathbf{\theta}$ that does not affect the source data distribution $\mathbf{y}$.
 
@@ -57,7 +58,7 @@ $$
 \begin{align*}
 \hat{\theta} &=
  arg \space \underset{\theta \in \Theta}{max} \space L_n(\mathbf{y};\theta)
-\\ &=
+\\\\ &=
 arg\space \underset{\theta \in \Theta}{min}\space
 \frac{1}{2}(\mathbf{y}-\mu)^\text{T}\Sigma^{-1}(\mathbf{y}-\mu)
 \end{align*}

@@ -73,44 +73,46 @@ Constrained by the geometry, finally there is $AX=XB$.
 </br> 
 
 Further decompose the homogeneous transforms to translation and rotation, there is
-$$\begin{align*}
+
+$$
+\begin{align*}
 &&&
 AX=XB
-\\ \Rightarrow &&&
+\\\\ \Rightarrow &&&
 A_i A_j^{-1} X=X B^{-1}\_i B_j
-\\ \Rightarrow &&&
+\\\\ \Rightarrow &&&
 \space^{c}T_{t}^{(i)} \Big(\space^{c}T_{t}^{(j)}\Big)^{-1} X=X \Big(\space^{b}T_{g}^{(i)}\Big)^{-1} \space^{b}T_{g}^{(j)}
-\\ \Rightarrow &&&
+\\\\ \Rightarrow &&&
 \begin{bmatrix}
-    \space^{c}R_{t}^{(ij)} & \space^{c}\mathbf{t}\_{t}^{(ij)} \\
+    \space^{c}R_{t}^{(ij)} & \space^{c}\mathbf{t}\_{t}^{(ij)} \\\\
     \mathbf{0} & 1
 \end{bmatrix}   
 \begin{bmatrix}
-    \space^{g}R_{c} & \space^{g}\mathbf{t}\_{c} \\
+    \space^{g}R_{c} & \space^{g}\mathbf{t}\_{c} \\\\
     \mathbf{0} & 1
 \end{bmatrix}=
 \begin{bmatrix}
-    \space^{g}R_{c} & \space^{g}\mathbf{t}\_{c} \\
+    \space^{g}R_{c} & \space^{g}\mathbf{t}\_{c} \\\\
     \mathbf{0} & 1
 \end{bmatrix}
 \begin{bmatrix}
-    \space^{b}R_{g}^{(ij)} & \space^{b}\mathbf{t}\_{g}^{(ij)} \\
+    \space^{b}R_{g}^{(ij)} & \space^{b}\mathbf{t}\_{g}^{(ij)} \\\\
     \mathbf{0} & 1
 \end{bmatrix}
-\\ \Rightarrow &&&
+\\\\ \Rightarrow &&&
 \left\{
     \begin{align*}
       \space^{c}R_{t}^{(ij)} \space^{g}R_{c} &= \space^{g}R_{c} \space^{b}R_{g}^{(ij)}
-      \\
+      \\\\
       \space^{c}R_{t}^{(ij)} \space^{g}\mathbf{t}\_{c} + \space^{c}\mathbf{t}\_{t}^{(ij)} &=
         \space^{g}R_{c} \space^{b}\mathbf{t}\_{g}^{(ij)} + \space^{g}\mathbf{t}\_{c}
     \end{align*}
 \right.
-\\ \Rightarrow &&&
+\\\\ \Rightarrow &&&
 \left\{
     \begin{align*}
       \space^{c}R_{t}^{(ij)} \space^{g}R_{c} &= \space^{g}R_{c} \space^{b}R_{g}^{(ij)}
-      \\
+      \\\\
       (\space^{c}R_{t}^{(ij)} - I) \space^{g}\mathbf{t}\_{c} &=
         \space^{g}R_{c} \space^{b}\mathbf{t}\_{g}^{(ij)} - \space^{c}\mathbf{t}\_{t}^{(ij)} 
     \end{align*}
@@ -127,7 +129,7 @@ The Sai-Lenz method is used to compute the above $AX=XB$ equation for $\space^{g
 $$
 \left\{
     \begin{align*}
-       \space^{c}\mathbf{r}\_{t}^{(ij)} = \text{rodrigues}(\space^{c}R_{t}^{(ij)}) \\
+       \space^{c}\mathbf{r}\_{t}^{(ij)} = \text{rodrigues}(\space^{c}R_{t}^{(ij)}) \\\\
        \space^{b}\mathbf{r}\_{g}^{(ij)} = \text{rodrigues}(\space^{b}R_{g}^{(ij)})    
     \end{align*}
 \right.
@@ -141,7 +143,7 @@ $$
         \space^{c}\mathbf{r}\_{t}^{*(ij)} = 2 \sin \Big( \frac{\big|\big|\space^{c}\mathbf{r}\_{t}^{(ij)}\big|\big|_2}{2} \Big) \space^{c}\mathbf{n}\_{t}^{(ij)}
         , \qquad \text{where }
         \space^{c}\mathbf{n}\_{t}^{(ij)} = \frac{\space^{c}\mathbf{r}\_{t}^{(ij)}}{\big|\big|\space^{c}\mathbf{r}\_{t}^{(ij)}\big|\big|_2}
-        \\ 
+        \\\\ 
         \space^{b}\mathbf{r}\_{g}^{*(ij)} = 2 \sin \Big( \frac{\big|\big|\space^{b}\mathbf{r}\_{g}^{(ij)}\big|\big|_2}{2} \Big) \space^{b}\mathbf{n}\_{g}^{(ij)}
         , \qquad \text{where }
         \space^{b}\mathbf{n}\_{g}^{(ij)} = \frac{\space^{b}\mathbf{r}\_{g}^{(ij)}}{\big|\big|\space^{b}\mathbf{r}\_{g}^{(ij)}\big|\big|_2}
@@ -154,6 +156,7 @@ $$
 $$
 \big( \space^{c}\mathbf{r}\_{t}^{*(ij)} + \space^{b}\mathbf{r}\_{g}^{*(ij)} \big)^{\wedge} \space^{g}\hat{\mathbf{r}}\_{c} = \space^{b}\mathbf{r}\_{g}^{*(ij)} - \space^{c}\mathbf{r}\_{t}^{*(ij)}
 $$
+
 where $\space^{\wedge}$ represents the skew-symmetric representation of a vector.
 
 4. Compute $\space^{g}R_{c}$

@@ -60,12 +60,12 @@ $$
 \text{IDF}_k &= \log \Big(
     \frac{\text{NumberOfAllImages}}{\text{NumberOfImagesReachingTheK-thLeafNode}}
 \Big)
-\\ \space
-\\ &&
+\\\\ \space
+\\\\ &&
 \text{TF}_k &= 
 \frac{\text{NumberOfFeaturesLocatedInLeafNodeK}}{\text{NumberOfAllFeatures}}
-\\ \space
-\\ \Rightarrow &&
+\\\\ \space
+\\\\ \Rightarrow &&
 \text{TF-IDF}_k &= \text{IDF}_k \cdot \text{TF}_k
 \end{align*}
 $$

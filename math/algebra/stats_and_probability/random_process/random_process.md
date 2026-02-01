@@ -40,6 +40,7 @@ One can understand Bessel's correction as the degrees of freedom in the residual
 $$
 \{ x_1-\overline{x}, x_2-\overline{x}, ..., x_n-\overline{x} \}
 $$
+
 where $\overline{x}$ is the sample mean.
 For $n$ independent observations in the sample, there are only $n − 1$ independent residuals, as they sum to $0$. 
 

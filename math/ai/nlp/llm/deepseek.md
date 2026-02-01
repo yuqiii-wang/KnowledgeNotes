@@ -37,9 +37,9 @@ For standard multi-head attention, $\mathbf{q}_t, \mathbf{k}, \mathbf{v}_t$ are 
 
 $$
 \begin{align*}
-    [\mathbf{q}\_{t,1};\mathbf{q}\_{t,2};...;\mathbf{q}\_{t,n_h}]=\mathbf{q}_t=W^{Q}\mathbf{h}_t \\
-    [\mathbf{k}\_{t,1};\mathbf{k}\_{t,2};...;\mathbf{k}\_{t,n_h}]=\mathbf{k}_t=W^{K}\mathbf{h}_t \\
-    [\mathbf{v}\_{t,1};\mathbf{v}\_{t,2};...;\mathbf{v}\_{t,n_h}]=\mathbf{v}_t=W^{V}\mathbf{h}_t \\
+    [\mathbf{q}\_{t,1};\mathbf{q}\_{t,2};...;\mathbf{q}\_{t,n_h}]=\mathbf{q}_t=W^{Q}\mathbf{h}_t \\\\
+    [\mathbf{k}\_{t,1};\mathbf{k}\_{t,2};...;\mathbf{k}\_{t,n_h}]=\mathbf{k}_t=W^{K}\mathbf{h}_t \\\\
+    [\mathbf{v}\_{t,1};\mathbf{v}\_{t,2};...;\mathbf{v}\_{t,n_h}]=\mathbf{v}_t=W^{V}\mathbf{h}_t \\\\
 \end{align*}
 $$
 
@@ -47,7 +47,7 @@ The sliced $\mathbf{q}_t, \mathbf{k}, \mathbf{v}_t$ are used for the multi-head 
 
 $$
 \begin{align*}
-    \mathbf{o}\_{t,i} &= \sum_{j=1}^{t} \text{softmax}_j\Big(\frac{\mathbf{q}^{\top}\_{t,i}\mathbf{k}\_{j,i}}{\sqrt{d_h}}\Big)\mathbf{v}\_{j,i} \\
+    \mathbf{o}\_{t,i} &= \sum_{j=1}^{t} \text{softmax}_j\Big(\frac{\mathbf{q}^{\top}\_{t,i}\mathbf{k}\_{j,i}}{\sqrt{d_h}}\Big)\mathbf{v}\_{j,i} \\\\
     \mathbf{o}\_{t} &= W^{O}[\mathbf{o}\_{t,1};\mathbf{o}\_{t,2};...;\mathbf{o}\_{t,n_h}]
 \end{align*}
 $$
@@ -62,9 +62,9 @@ During inference, MLA only needs to cache $\mathbf{c}_t^{KV}$.
 
 $$
 \begin{align*}
-    \mathbf{c}_t^{KV} &= W^{\text{Down-}KV}\mathbf{h}_t \\
-    \mathbf{k}_t^{C} &= W^{\text{Up-}K}\mathbf{c}_t^{KV} \\
-    \mathbf{v}_t^{C} &= W^{\text{Up-}V}\mathbf{c}_t^{KV} \\
+    \mathbf{c}_t^{KV} &= W^{\text{Down-}KV}\mathbf{h}_t \\\\
+    \mathbf{k}_t^{C} &= W^{\text{Up-}K}\mathbf{c}_t^{KV} \\\\
+    \mathbf{v}_t^{C} &= W^{\text{Up-}V}\mathbf{c}_t^{KV} \\\\
 \end{align*}
 $$
 
@@ -77,8 +77,8 @@ Also perform low-rank compression for the queries (this is for training):
 
 $$
 \begin{align*}
-    \mathbf{c}_t^{Q} &= W^{\text{Down-}Q}\mathbf{h}_t \\
-    \mathbf{q}_t^{C} &= W^{\text{Up-}Q}\mathbf{c}_t^{Q} \\
+    \mathbf{c}_t^{Q} &= W^{\text{Down-}Q}\mathbf{h}_t \\\\
+    \mathbf{q}_t^{C} &= W^{\text{Up-}Q}\mathbf{c}_t^{Q} \\\\
 \end{align*}
 $$
 
@@ -90,8 +90,8 @@ RoPE is position-sensitive for both keys and queries, that only $Q$ and $K$ are 
 
 $$
 \begin{align*}
-    [\mathbf{q}\_{t,1}^{\text{Ro}};\mathbf{q}\_{t,2}^{\text{Ro}};...;\mathbf{q}\_{t,n_h}^{\text{Ro}}]=\mathbf{q}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}Q}\mathbf{c}_t^Q) \\
-    \mathbf{k}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}K}\mathbf{h}_t) \\
+    [\mathbf{q}\_{t,1}^{\text{Ro}};\mathbf{q}\_{t,2}^{\text{Ro}};...;\mathbf{q}\_{t,n_h}^{\text{Ro}}]=\mathbf{q}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}Q}\mathbf{c}_t^Q) \\\\
+    \mathbf{k}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}K}\mathbf{h}_t) \\\\
 \end{align*}
 $$
 
@@ -99,8 +99,8 @@ Accordingly, the $Q$ and $K$ are
 
 $$
 \begin{align*}
-    \mathbf{q}\_{t,i}=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\
-    \mathbf{k}\_{t,i}=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\
+    \mathbf{q}\_{t,i}=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\\\
+    \mathbf{k}\_{t,i}=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\\\
 \end{align*}
 $$
 
@@ -137,8 +137,8 @@ Introduce $W^{\text{Ro-}Q}\in\mathbb{R}^{d^{\text{Ro}}_hn_h\times d_c^Q}$ and $W
 
 $$
 \begin{align*}
-    [\mathbf{q}\_{t,1}^{\text{Ro}};\mathbf{q}\_{t,2}^{\text{Ro}};...;\mathbf{q}\_{t,n_h}^{\text{Ro}}]=\mathbf{q}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}Q}\mathbf{c}_t^Q) \\
-    \mathbf{k}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}K}\mathbf{h}_t) \\
+    [\mathbf{q}\_{t,1}^{\text{Ro}};\mathbf{q}\_{t,2}^{\text{Ro}};...;\mathbf{q}\_{t,n_h}^{\text{Ro}}]=\mathbf{q}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}Q}\mathbf{c}_t^Q) \\\\
+    \mathbf{k}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}K}\mathbf{h}_t) \\\\
 \end{align*}
 $$
 
@@ -146,8 +146,8 @@ Accordingly, the $Q$ and $K$ are
 
 $$
 \begin{align*}
-    \mathbf{q}\_{t,i}=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\
-    \mathbf{k}\_{t,i}=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\
+    \mathbf{q}\_{t,i}=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\\\
+    \mathbf{k}\_{t,i}=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\\\
 \end{align*}
 $$
 
@@ -159,9 +159,9 @@ For each token, the attention is
 
 $$
 \begin{align*}
-    \mathbf{q}\_{t,i} &=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\
-    \mathbf{k}\_{t,i} &=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\
-    \mathbf{o}\_{t,i} &= \sum_{j=1}^{t} \text{softmax}_j\Big(\frac{\mathbf{q}^{\top}\_{t,i}\mathbf{k}\_{j,i}}{\sqrt{d_h+d^{\text{Ro}}_h}}\Big)\mathbf{v}\_{j,i}^C \\
+    \mathbf{q}\_{t,i} &=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\\\
+    \mathbf{k}\_{t,i} &=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\\\
+    \mathbf{o}\_{t,i} &= \sum_{j=1}^{t} \text{softmax}_j\Big(\frac{\mathbf{q}^{\top}\_{t,i}\mathbf{k}\_{j,i}}{\sqrt{d_h+d^{\text{Ro}}_h}}\Big)\mathbf{v}\_{j,i}^C \\\\
     \mathbf{o}\_{t} &= W^{O}[\mathbf{o}\_{t,1};\mathbf{o}\_{t,2};...;\mathbf{o}\_{t,n_h}]
 \end{align*}
 $$
@@ -185,11 +185,11 @@ residual + $N_s$ shared experts and $N_r$ routed experts.
 
 $$
 \begin{align*}
-    \mathbf{h}_t^{(L+1)} &= \mathbf{u}_t+\sum^{N_s}\_{i=1} \text{FNN}\_i^{(s)}(\mathbf{u}_t)+\sum^{N_r}_ig_{i,t} \text{FNN}\_i^{(r)}(\mathbf{u}_t) \\
+    \mathbf{h}_t^{(L+1)} &= \mathbf{u}_t+\sum^{N_s}\_{i=1} \text{FNN}\_i^{(s)}(\mathbf{u}_t)+\sum^{N_r}_ig_{i,t} \text{FNN}\_i^{(r)}(\mathbf{u}_t) \\\\
     g_{i,t} &= \begin{cases}
-        s_{i,t} & s_{i,t} \in \text{TopK}\big(\{s_{j,t} | 1 \le j \le N_r\}, K_r \big) \\
+        s_{i,t} & s_{i,t} \in \text{TopK}\big(\{s_{j,t} | 1 \le j \le N_r\}, K_r \big) \\\\
         0 & \text{otherwise}
-    \end{cases} \\
+    \end{cases} \\\\
     s_{i,t} &= \text{Softmax}\_i(\mathbf{u}_t^{\top} \mathbf{e}\_i)
 \end{align*}
 $$
@@ -252,7 +252,7 @@ $$
     \underbrace{\frac{1}{T}\sum_{t=1}^{T}s_{i,t}}\_{p_i} \Big)
 $$
 
-where $\mathcal{1}(\text{condition})=\begin{cases} 1 & \text{condition is true} \\ 0 & \text{condition is false} \end{cases}$ denotes the indicator function.
+where $\mathcal{1}(\text{condition})=\begin{cases} 1 & \text{condition is true} \\\\ 0 & \text{condition is false} \end{cases}$ denotes the indicator function.
 
 $\mathcal{1}(t\text{ if selected expert } \mathbf{e}\_i)$ means that for an expert $\mathbf{e}\_i$,
 if it has equal opportunity as other experts to be selected, given the select action is from $N_r$ to pick up top $K_r$ experts,
@@ -344,7 +344,7 @@ The state-value of a state $s$ is the expected return ("Value Function"), that i
 
 $$
 \begin{align*}
-V_{\pi}(s) &= \mathbb{E}\_{\pi}(G_t | S_{t} = s) \\
+V_{\pi}(s) &= \mathbb{E}\_{\pi}(G_t | S_{t} = s) \\\\
       &= \sum_{a \in A} Q_{\pi}(s,a) \pi(a|s)
 \end{align*}
 $$
@@ -396,7 +396,7 @@ for each question $\text{quest}$, GRPO samples a group of outputs $\{o_1, o_2, .
 
 $$
 \begin{align*}
-    \max\mathcal{J}(\theta) =& \mathbb{E}\big(\text{quest}\sim P(\text{Quest}), \{o_i\}^G_{i=1}\sim \pi_{\theta_{old}}(O|\text{quest})\big) \\
+    \max\mathcal{J}(\theta) =& \mathbb{E}\big(\text{quest}\sim P(\text{Quest}), \{o_i\}^G_{i=1}\sim \pi_{\theta_{old}}(O|\text{quest})\big) \\\\
     =&\frac{1}{G}\sum^G_{i=1}\bigg(\min\bigg(
         \frac{\pi_{\theta}(o_i|\text{quest})}{\pi_{\theta_{old}}(o_i|\text{quest})}A_i,
         \text{clip}\bigg(\frac{\pi_{\theta}(o_i|\text{quest})}{\pi_{\theta_{old}}(o_i|\text{quest})}, 1-\epsilon, 1+\epsilon\bigg)A_i
@@ -504,7 +504,7 @@ The number of experts $\text{TopK}\big(\{s_{j,t}+b_i\}\big)$ is learned rather t
 
 $$
 g'_{i,t} = \begin{cases}
-    s_{i,t} & s_{i,t}+b_i \in \text{TopK}\big(\{s_{j,t}+b_i | 1 \le j \le N_r\}, K_r \big) \\
+    s_{i,t} & s_{i,t}+b_i \in \text{TopK}\big(\{s_{j,t}+b_i | 1 \le j \le N_r\}, K_r \big) \\\\
     0 & \text{otherwise}
 \end{cases}
 $$
@@ -526,7 +526,7 @@ $$
     \underbrace{\frac{1}{T}\sum_{t=1}^{T}\underbrace{\frac{s_{i,t}}{\sum_{j=1}^{N_r}s_{j,t}}}\_{s'_{i,t}}}\_{p_i} \Big)
 $$
 
-where $\mathcal{1}(\text{condition})=\begin{cases} 1 & \text{condition is true} \\ 0 & \text{condition is false} \end{cases}$ denotes the indicator function.
+where $\mathcal{1}(\text{condition})=\begin{cases} 1 & \text{condition is true} \\\\ 0 & \text{condition is false} \end{cases}$ denotes the indicator function.
 
 Same as in DeepSeek-V2, $K_r$ is the number of activated routed experts that $s_{i,t}$ could retain non-zero values only if they are top $K_r$ selects.
 $f_i$ represents the fraction of tokens an expert can receive,

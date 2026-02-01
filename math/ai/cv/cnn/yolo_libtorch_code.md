@@ -183,9 +183,10 @@ result = result.view({batch_size, grid_size*grid_size*num_anchors, bbox_attrs});
 ```
 
 Bounding box $x$ and $y$ offset to the image are computed by
+
 $$
 \begin{align*}
-    b_x &= \sigma(t_x) + c_x \\
+    b_x &= \sigma(t_x) + c_x \\\\
     b_y &= \sigma(t_y) + c_y
 \end{align*}
 $$
@@ -197,10 +198,11 @@ result.slice(2, 0, 2).add_(x_y_offset);
 ```
 
 Bounding box width and height are computed by
+
 $$
 \begin{align*}
-    b_w &= p_w e^{t_w} \\
-    b_h &= p_h e^{t_h} \\
+    b_w &= p_w e^{t_w} \\\\
+    b_h &= p_h e^{t_h} \\\\
 \end{align*}
 $$
 ```cpp

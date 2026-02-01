@@ -13,9 +13,9 @@ SVD generalizes the eigen-decomposition of a square normal matrix with an orthon
 Compute the eigenvalues and eigenvectors of $A^{\top}A$
 
 $$
-A^{\top}A \mathbf{v}_1 = \sigma_1^2 \mathbf{v}_1 \\
-A^{\top}A \mathbf{v}_2 = \sigma_2^2 \mathbf{v}_2 \\
-... \\
+A^{\top}A \mathbf{v}_1 = \sigma_1^2 \mathbf{v}_1 \\\\
+A^{\top}A \mathbf{v}_2 = \sigma_2^2 \mathbf{v}_2 \\\\
+... \\\\
 A^{\top}A \mathbf{v}_n = \sigma_n^2 \mathbf{v}_n
 $$
 
@@ -24,8 +24,8 @@ $$
 $$
 V=
 \begin{bmatrix}
-    \vdots & & \vdots \\
-    \mathbf{v}_1 & ... & \mathbf{v}_n \\
+    \vdots & & \vdots \\\\
+    \mathbf{v}_1 & ... & \mathbf{v}_n \\\\
     \vdots & & \vdots
 \end{bmatrix}
 $$
@@ -35,9 +35,9 @@ $$
 $$
 \Sigma=
 \begin{bmatrix}
-    \sigma_1 & & & \\
-     & \ddots & & \mathbf{0} \\
-     & & \sigma_n & \\
+    \sigma_1 & & & \\\\
+     & \ddots & & \mathbf{0} \\\\
+     & & \sigma_n & \\\\
 \end{bmatrix}
 $$
 
@@ -46,9 +46,9 @@ or (depending on the relative matrix sizes of $m$ vs $n$)
 $$
 \Sigma=
 \begin{bmatrix}
-    \sigma_1 & & \\
-     & \ddots & \\
-     & & \sigma_n \\
+    \sigma_1 & & \\\\
+     & \ddots & \\\\
+     & & \sigma_n \\\\
      & \mathbf{0} &
 \end{bmatrix}
 $$
@@ -75,17 +75,17 @@ then multiply by $\mathbf{v}_j^{\top}$, there is
 $$
 \begin{align*}
     && \mathbf{v}_j^{\top}A^{\top}A\mathbf{v}\_i &=
-  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \\
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \\\\
   \Rightarrow && (A^{\top}A\mathbf{v}_j)^{\top}\mathbf{v}\_i &=
-  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\\\
   \Rightarrow && \sigma_j^2\mathbf{v}_j^{\top}\mathbf{v}\_i &=
-  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}\_i \\
+  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}\_i \\\\
 \end{align*}
 $$
 
 For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\mathbf{v}_j^{\top}\mathbf{v}\_i=0$, hence orthogonal.
 
-For $\{\mathbf{v}_1, \mathbf{v}_2, ..., \mathbf{v}_n\}$ are defined as eigenvectors of $A$ such that $V=\begin{bmatrix} \vdots & & \vdots \\ \mathbf{v}_1 & ... & \mathbf{v}_n \\ \vdots & & \vdots \end{bmatrix}$, $V$ is orthogonal.
+For $\{\mathbf{v}_1, \mathbf{v}_2, ..., \mathbf{v}_n\}$ are defined as eigenvectors of $A$ such that $V=\begin{bmatrix} \vdots & & \vdots \\\\ \mathbf{v}_1 & ... & \mathbf{v}_n \\\\ \vdots & & \vdots \end{bmatrix}$, $V$ is orthogonal.
 
 #### $U$ Is Orthogonal For It Is Equivalent of $V$ For $AA^{\top}$
 
@@ -131,7 +131,7 @@ $\Sigma$ is a diagonal matrix, hence its non-zero entries act as pure scaling.
 
 #### SVD Explanation by Geometry
 
-Let $\mathbf{x}\_i=[3, 3]$ and $\mathbf{x}\_i=[3, 1]$ that are transformed by $A=\begin{bmatrix} -1 & 1 \\ 0 & 1 \end{bmatrix}$.
+Let $\mathbf{x}\_i=[3, 3]$ and $\mathbf{x}\_i=[3, 1]$ that are transformed by $A=\begin{bmatrix} -1 & 1 \\\\ 0 & 1 \end{bmatrix}$.
 Below process shows how $A\mathbf{x}=U \Sigma V^{\top}\mathbf{x}$ is computed.
 
 * For $\text{det}(V)=-1$, the $V^{\top}\mathbf{x}$ is a reflection operation.
@@ -174,24 +174,24 @@ Process:
 
 $$
 \begin{align*}
-& ||A \mathbf{x} - \mathbf{b}||^2 \\ =& 
-||U \Sigma V^{\top} \mathbf{x} - \mathbf{b}||^2 \\ =&
-||U^{\top}(U \Sigma V^{\top} \mathbf{x} - \mathbf{b})||^2 \\ =& 
+& ||A \mathbf{x} - \mathbf{b}||^2 \\\\ =& 
+||U \Sigma V^{\top} \mathbf{x} - \mathbf{b}||^2 \\\\ =&
+||U^{\top}(U \Sigma V^{\top} \mathbf{x} - \mathbf{b})||^2 \\\\ =& 
 ||U^{\top}U \Sigma V^{\top} \mathbf{x} - U^{\top}\mathbf{b}||^2
-\quad U\text{ is orthoganal that } U^{\top}U=I\\ =&
-||\Sigma V^{\top} \mathbf{x} - U^{\top}\mathbf{b}||^2\\ =&
+\quad U\text{ is orthoganal that } U^{\top}U=I\\\\ =&
+||\Sigma V^{\top} \mathbf{x} - U^{\top}\mathbf{b}||^2\\\\ =&
 ||\Sigma \mathbf{y} - U^{\top}\mathbf{b}||^2
 \quad \text{denote } \mathbf{y}=V^\top\mathbf{x}
-\text{ and } \mathbf{z}=U^\top\mathbf{b} \\ =&
+\text{ and } \mathbf{z}=U^\top\mathbf{b} \\\\ =&
 \Bigg|\Bigg|
 \begin{bmatrix}
-    \sigma_1 & & & \\
-     & \ddots & & \\
-    & & \sigma_n & \\
+    \sigma_1 & & & \\\\
+     & \ddots & & \\\\
+    & & \sigma_n & \\\\
     & & & \mathbf{0}
 \end{bmatrix}
 \mathbf{y} - \mathbf{z}
-\Bigg|\Bigg|^2\\ =&
+\Bigg|\Bigg|^2\\\\ =&
 \sum^{n}\_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2
 \end{align*}
 $$
@@ -203,7 +203,7 @@ y_i=
 \left\{
     \begin{array}{cc}
         \frac{\mathbf{u}^{\top}\_i \mathbf{b}}{\sigma_i} &\quad \sigma_i \ne 0 \text{ same as } i \le n
-        \\
+        \\\\
         \text{any value} &\quad \sigma_i = 0 \text{ same as } i > n
     \end{array}
 \right.

@@ -21,7 +21,8 @@ Steepest descent finds every step $\mathbf{x}_k$ 's gradient $A\mathbf{x}_k + \m
 $\mathbf{r}_k$ is the residual to optimal solution $\mathbf{x}^*$ given by $\mathbf{r}_k = \mathbf{b} - A \mathbf{x}_k$. Ideally, $A\mathbf{x}^* + \mathbf{b} = 0$.
 
 The distance $\lambda = \frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathbf{r}_k^T A \mathbf{r}_k}$ is computed by 
-$$\frac{d f(\mathbf{x_k})}{d\lambda} = 
+$$
+\frac{d f(\mathbf{x_k})}{d\lambda} = 
 \frac{d f(\mathbf{x_{k-1}+\Delta \mathbf{x}})}{d\lambda} =
 \frac{d f(\mathbf{x_{k-1} + \lambda \triangledown f})}{d\lambda} =
 0
@@ -56,7 +57,7 @@ $$
 \begin{align*}
 f(\mathbf{x}+\Delta{\mathbf{x}})&=
 \frac{1}{2} (\mathbf{x}+\Delta{\mathbf{x}})^T A (\mathbf{x}+\Delta{\mathbf{x}}) + \mathbf{b}^T (\mathbf{x}+\Delta{\mathbf{x}}) + \mathbf{c}
-\\ &=
+\\\\ &=
 \frac{1}{2} \mathbf{x}^T A \mathbf{x} + \mathbf{b}^T \mathbf{x} + \mathbf{c} + \frac{1}{2} \Delta{\mathbf{x}}^T A \Delta{\mathbf{x}}
 \end{align*}
 $$
@@ -71,17 +72,17 @@ $$
 \begin{align*}
 \frac{d f(\mathbf{x_k})}{d\lambda}&=
 f'(\mathbf{x}_k)\frac{d \mathbf{x}_k}{d \lambda}
-\\ &=
+\\\\ &=
 f'(\mathbf{x}_k)\mathbf{r}\_{k-1}
-\\ &=
+\\\\ &=
 -\mathbf{r}^\text{T}\_{k} \mathbf{r}\_{k-1}
-\\ &=
+\\\\ &=
 -(\mathbf{b}-A\mathbf{x}_k)^{\text{T}} \mathbf{r}\_{k-1}
-\\ &=
+\\\\ &=
 -(\mathbf{b}-A (\mathbf{x}\_{k-1} + \lambda \mathbf{r}\_{k-1}))^{\text{T}} \mathbf{r}\_{k-1}
-\\ &=
+\\\\ &=
 -(\mathbf{r}\_{k-1}-\lambda A \mathbf{r}\_{k-1})^{\text{T}} \mathbf{r}\_{k-1}
-\\ &=
+\\\\ &=
 0
 \end{align*}
 $$

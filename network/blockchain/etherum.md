@@ -451,7 +451,7 @@ If there is a transaction moving out some assets, e.g., transferring $\$\text{US
 
 $$
 \begin{align*}
-(10^9 \times 0.13)\times (10^8 \times 0.998)&=(10^9 \times c_{\text{pol}})\times \big((10^8-5\times 10^6) \times 0.998\big) \\
+(10^9 \times 0.13)\times (10^8 \times 0.998)&=(10^9 \times c_{\text{pol}})\times \big((10^8-5\times 10^6) \times 0.998\big) \\\\
 c_{\text{pol}} &\approx 0.1368
 \end{align*}
 $$

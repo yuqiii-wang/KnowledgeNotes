@@ -7,20 +7,21 @@ Lower-upper (LU) decomposition or factorization factors a matrix as the product 
 *Gaussian elimination* can be used for decomposition, since just some proper row and/or column orderings or permutations can achieve LU decomposition.
 
 Let $A$ be a $3 \times 3$ square matrix, LU can be
+
 $$
 \begin{bmatrix}
-      a_{1,1} & a_{1,2} & a_{1,3} \\
-      a_{2,1} & a_{2,2} & a_{2,3} \\
+      a_{1,1} & a_{1,2} & a_{1,3} \\\\
+      a_{2,1} & a_{2,2} & a_{2,3} \\\\
       a_{3,1} & a_{3,2} & a_{3,3}
 \end{bmatrix}=
 \begin{bmatrix}
-      l_{1,1} & 0 & 0 \\
-      l_{2,1} & l_{2,2} & 0 \\
+      l_{1,1} & 0 & 0 \\\\
+      l_{2,1} & l_{2,2} & 0 \\\\
       l_{3,1} & l_{3,2} & l_{3,3}
 \end{bmatrix}
 \begin{bmatrix}
-      u_{1,1} & u_{1,2} & u_{1,3} \\
-      0 & u_{2,2} & u_{2,3} \\
+      u_{1,1} & u_{1,2} & u_{1,3} \\\\
+      0 & u_{2,2} & u_{2,3} \\\\
       0 & 0 & u_{3,3}
 \end{bmatrix}
 $$
@@ -52,6 +53,7 @@ Given the nature of triangular matrix, by forward and backward substitution, def
 $$
 L\mathbf{y}=P\mathbf{b}
 $$
+
 Then, solve $\mathbf{y}$, and use $\mathbf{y}$ to solve $\mathbf{x}$ by
 $$
 U\mathbf{x} = \mathbf{y}
@@ -74,71 +76,72 @@ $\alpha$ is a scalar number.
 $$
 A = 
 \begin{bmatrix}
-      \~{A} & \mathbf{a} \\
+      \~{A} & \mathbf{a} \\\\
       \mathbf{a}^\text{T} & \alpha
 \end{bmatrix}
 $$
 
 Since a principal submatrix of a positive definite matrix is positive definite, so that $\~{A}$ is positive definite as well, and $\~{A}$ has Cholesky factorization $\~{A}=\~{L}\~{L}^\text{T}$.
 
-Define $L_1^{-1}:=\begin{bmatrix}      \~{L}^{-1} & 0 \\      0 & 1\end{bmatrix}$, then consider
+Define $L_1^{-1}:=\begin{bmatrix}      \~{L}^{-1} & 0 \\\\      0 & 1\end{bmatrix}$, then consider
 
 $$
 \begin{align*}
 L_1^{-1} A L_1^{-\text{T}} &= 
 \begin{bmatrix}
-      \~{L}^{-1} & 0 \\
+      \~{L}^{-1} & 0 \\\\
       0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-      \~{A} & \mathbf{a} \\
+      \~{A} & \mathbf{a} \\\\
       \mathbf{a}^\text{T} & \alpha
 \end{bmatrix}
 \begin{bmatrix}
-      \~{L}^{-\text{T}} & 0 \\
+      \~{L}^{-\text{T}} & 0 \\\\
       0 & 1
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-      I & \mathbf{b} \\
+      I & \mathbf{b} \\\\
       \mathbf{b}^\text{T} & \alpha
 \end{bmatrix}
-\\ : &=
+\\\\ : &=
 B
 \end{align*}
 $$
+
 where $\mathbf{b}:=\~{L}^{-1}\mathbf{a}$.
 
-Then, to eliminate $\mathbf{b}$, define $L_2^{-1}:=\begin{bmatrix}      I & 0 \\      -\mathbf{b}^\text{T} & 1\end{bmatrix}$, then consider
+Then, to eliminate $\mathbf{b}$, define $L_2^{-1}:=\begin{bmatrix}      I & 0 \\\\      -\mathbf{b}^\text{T} & 1\end{bmatrix}$, then consider
 
 $$
 \begin{align*}
 L_2^{-1} B L_2^{-\text{T}} &= 
 \begin{bmatrix}
-      I & 0 \\
+      I & 0 \\\\
       -\mathbf{b}^\text{T} & 1
 \end{bmatrix}
 \begin{bmatrix}
-      I & \mathbf{b} \\
+      I & \mathbf{b} \\\\
       \mathbf{b}^\text{T} & \alpha
 \end{bmatrix}
 \begin{bmatrix}
-      I & -\mathbf{b} \\
+      I & -\mathbf{b} \\\\
       0 & 1
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-      I & 0 \\
+      I & 0 \\\\
       0 & \alpha-\mathbf{b}^\text{T}\mathbf{b}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-      I & 0 \\
+      I & 0 \\\\
       0 & \alpha-\mathbf{a}^\text{T} \~{L}_1^{-\text{T}}\~{L}_1^{-1} \mathbf{a}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-      I & 0 \\
+      I & 0 \\\\
       0 & \alpha-\mathbf{a}^\text{T} \~{A}^{-1} \mathbf{a}
 \end{bmatrix}
 \end{align*}
@@ -152,45 +155,47 @@ $$
 
 This is a congruent transformation on a positive definite matrix $A$, so that the diagonal matrix has positive real entries including $\alpha-\mathbf{a}^\text{T} \~{A}^{-1} \mathbf{a} > 0$.
 
-Define $\lambda^2 = \alpha-\mathbf{a}^\text{T} \~{A}^{-1} \mathbf{a}$, and $L_3:=\begin{bmatrix}      I & 0 \\     0 & \lambda\end{bmatrix}$, so that
+Define $\lambda^2 = \alpha-\mathbf{a}^\text{T} \~{A}^{-1} \mathbf{a}$, and $L_3:=\begin{bmatrix}      I & 0 \\\\     0 & \lambda\end{bmatrix}$, so that
 
 $$
 \begin{align*}
 &&
 (L_2^{-1}L_1^{-1}) A (L_1^{-\text{T}}L_2^{-\text{T}}) &=
 L_3 L_3^\text{T} 
-\\ \Rightarrow && 
+\\\\ \Rightarrow && 
 A&=
 \underbrace{L_1 L_2 L_3}\_{:= L} 
 \underbrace{L_3^\text{T} L_2^\text{T} L_1^\text{T}}\_{:= L^\text{T}}
-\\ && &=
+\\\\ && &=
 L L^\text{T}
 \end{align*}
 $$
+
 where
+
 $$
 \begin{align*}
 L=L_1 L_2 L_3 &= 
 \begin{bmatrix}
-      \~{L} & 0 \\
+      \~{L} & 0 \\\\
       0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-      I & 0 \\
+      I & 0 \\\\
       -\mathbf{b}^\text{T} & 1
 \end{bmatrix}
 \begin{bmatrix}
-      I & 0 \\
+      I & 0 \\\\
       0 & \lambda
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-      \~{L} & 0 \\
+      \~{L} & 0 \\\\
       \mathbf{b}^\text{T} & \lambda
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-      \~{L} & 0 \\
+      \~{L} & 0 \\\\
       \mathbf{a}^\text{T}\~{L}^{-\text{T}} & \lambda
 \end{bmatrix}
 \end{align*}
@@ -201,29 +206,30 @@ Hence, $A=LL^\text{T}$ is Cholesky decomposition. Recall that $\~{A} \in \mathbb
 ### Computation by LDLT
 
 Given that $A$ is positive definite, $A$ can be decomposed as below
+
 $$
 \begin{align*}
 A &= LD L^{-1} = LD L^{\text{T}}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-      1 & 0 & 0 \\
-      L\_{21} & 1 & 0 \\
+      1 & 0 & 0 \\\\
+      L\_{21} & 1 & 0 \\\\
       L\_{31} & L\_{32} & 1
 \end{bmatrix}
 \begin{bmatrix}
-      D_1 & 0 & 0 \\
-      0 & D_2 & 0 \\
+      D_1 & 0 & 0 \\\\
+      0 & D_2 & 0 \\\\
       0 & 0 & D_3
 \end{bmatrix}
 \begin{bmatrix}
-      1 & L\_{21} & L\_{31} \\
-      0 & 1 & L\_{32} \\
+      1 & L\_{21} & L\_{31} \\\\
+      0 & 1 & L\_{32} \\\\
       0 & 0 & 1
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-      D_1 &  & (\text{symmetric}) \\
-      L\_{21}D_1 & L^2_{21}D_1+D_2 &  \\
+      D_1 &  & (\text{symmetric}) \\\\
+      L\_{21}D_1 & L^2_{21}D_1+D_2 &  \\\\
       L\_{31}D_1 & L\_{31}L\_{21}D_1+L\_{32}D_2 & L^2_{31}D_1+L^2_{32}D_2+D_3
 \end{bmatrix}
 \end{align*}
@@ -233,8 +239,7 @@ where
 
 $$
 \begin{align*}
-D_j &= A_{jj} - \sum^{j-1}\_{k=1} L^2_{jk} D_k
-\\
+D_j &= A_{jj} - \sum^{j-1}\_{k=1} L^2_{jk} D_k \\\\
 L\_{ij} &= \frac{1}{D_j} \bigg( 
       A_{ij} - \sum^{j-1}\_{k=1} L\_{ik} L\_{jk} D_{k}
 \bigg) \quad i>j 
@@ -272,28 +277,29 @@ proj_{\mathbf{u}}(\mathbf{a})=
 \frac{\langle \mathbf{u},\mathbf{a} \rangle}
 {\langle \mathbf{u},\mathbf{u} \rangle}\mathbf{u}
 $$
+
 where $\langle\mathbf{u},\mathbf{a}\rangle=\mathbf{u}^\text{T}\mathbf{a}$ represents inner product operation.
 
 $$
 \begin{array}{cc}
     \mathbf{u}_1 = \mathbf{a}_1 & 
     \mathbf{e}_1=\frac{\mathbf{u}_1}{||\mathbf{u}_1||}
-    \\
+    \\\\
     \mathbf{u}_2 = \mathbf{a}_2 - proj_{\mathbf{u}_1}(\mathbf{a}_2) & 
     \mathbf{e}_2=\frac{\mathbf{u}_2}{||\mathbf{u}_2||}
-    \\
+    \\\\
     \mathbf{u}_3 = \mathbf{a}_3 - proj_{\mathbf{u}_1}(\mathbf{a}_3) - proj_{\mathbf{u}_2}(\mathbf{a}_3) & 
     \mathbf{e}_3=\frac{\mathbf{u}_3}{||\mathbf{u}_3||}
-    \\
+    \\\\
     \mathbf{u}_4 = \mathbf{a}_4 - proj_{\mathbf{u}_1}(\mathbf{a}_4) - proj_{\mathbf{u}_2}(\mathbf{a}_4) - proj_{\mathbf{u}_3}(\mathbf{a}_4) & 
     \mathbf{e}_4=\frac{\mathbf{u}_4}{||\mathbf{u}_4||}
-    \\
+    \\\\
     \space
-    \\
+    \\\\
     ... & ...
-    \\
+    \\\\
     \space
-    \\
+    \\\\
     \mathbf{u}_k = \mathbf{a}_k - \sum^{k-1}\_{j}proj_{\mathbf{u}_j}(\mathbf{a}_k) &
     \mathbf{e}_k=\frac{\mathbf{u}_k}{||\mathbf{u}_k||}
 \end{array}
@@ -310,44 +316,44 @@ Express $\mathbf{a}\_i$ over our newly computed orthonormal basis:
 $$
 \begin{align*}
       \mathbf{a}_1 &= \langle\mathbf{e}_1,\mathbf{a}_1\rangle \mathbf{e}_1
-      \\
+      \\\\
       \mathbf{a}_2 &= \langle\mathbf{e}_1,\mathbf{a}_2\rangle \mathbf{e}_1 + \langle\mathbf{e}_2,\mathbf{a}_2\rangle \mathbf{e}_2
-      \\
+      \\\\
       \mathbf{a}_3 &= \langle\mathbf{e}_1,\mathbf{a}_3\rangle \mathbf{e}_1 + \langle\mathbf{e}_2,\mathbf{a}_3\rangle \mathbf{e}_2 + \langle\mathbf{e}_3,\mathbf{a}_3\rangle \mathbf{e}_3
-      \\
+      \\\\
       & \vdots
-      \\
+      \\\\
       \mathbf{a}_n &= \sum^k_{j=1} \langle\mathbf{e}_j,\mathbf{a}_k\rangle \mathbf{e}_j
 \end{align*}
 $$
 
 So that $A=QR$, where
+
 $$
 \begin{align*}
-Q &= [\mathbf{e}_1, \mathbf{e}_2, ..., \mathbf{e}_n]
-\\
+Q &= [\mathbf{e}_1, \mathbf{e}_2, ..., \mathbf{e}_n] \\\\
 R &= \begin{bmatrix}
       \langle\mathbf{e}_1,\mathbf{a}_1\rangle & 
       \langle\mathbf{e}_1,\mathbf{a}_2\rangle &
       \langle\mathbf{e}_1,\mathbf{a}_3\rangle &
       ... &
-      \langle\mathbf{e}_1,\mathbf{a}_n\rangle \\
+      \langle\mathbf{e}_1,\mathbf{a}_n\rangle \\\\
       0 & 
       \langle\mathbf{e}_2,\mathbf{a}_2\rangle &
       \langle\mathbf{e}_2,\mathbf{a}_3\rangle &
       ... &
-      \langle\mathbf{e}_2,\mathbf{a}_n\rangle \\
+      \langle\mathbf{e}_2,\mathbf{a}_n\rangle \\\\
       0 & 
       0 &
       \langle\mathbf{e}_3,\mathbf{a}_3\rangle &
       ... &
-      \langle\mathbf{e}_3,\mathbf{a}_n\rangle \\
-      \vdots & \vdots & \vdots & \ddots & \vdots \\
+      \langle\mathbf{e}_3,\mathbf{a}_n\rangle \\\\
+      \vdots & \vdots & \vdots & \ddots & \vdots \\\\
       0 & 
       0 &
       0 &
       ... &
-      \langle\mathbf{e}_k,\mathbf{a}_n\rangle \\
+      \langle\mathbf{e}_k,\mathbf{a}_n\rangle \\\\
 \end{bmatrix}
 \end{align*}
 $$
@@ -382,52 +388,54 @@ $$
 \begin{align*}
 (I-2\mathbf{u}\mathbf{u}^\text{H})\mathbf{z} &=
 \mathbf{z} - 2\mathbf{u} \underbrace{\mathbf{u}^\text{H}\mathbf{z}}\_{=0}
-\\ &= \mathbf{z}
+\\\\ &= \mathbf{z}
 \end{align*}
 $$
 
 Any vector $\mathbf{x}$ can be written as $\mathbf{x}=\mathbf{z}+\mathbf{u}^\text{H} \mathbf{x} \mathbf{u}$, whose Householder transform/reflection can be computed as
+
 $$
 \begin{align*}
 (I-2\mathbf{u}\mathbf{u}^\text{H})\mathbf{x} &=
 (I-2\mathbf{u}\mathbf{u}^\text{H}) (\mathbf{z}+\mathbf{u}^\text{H} \mathbf{x} \mathbf{u})
-\\ &=
+\\\\ &=
 \mathbf{z} + \mathbf{u}^\text{H} \mathbf{x} \mathbf{u} 
 -2\mathbf{u} \underbrace{\mathbf{u}^\text{H}\mathbf{z}}\_{=0} -2\mathbf{u}\mathbf{u}^\text{H} \mathbf{u}^\text{H} \mathbf{x} \mathbf{u}
-\\ &=
+\\\\ &=
 \mathbf{z} + \mathbf{u}^\text{H} \mathbf{x} \mathbf{u} - \underbrace{
       2\mathbf{u}\mathbf{u}^\text{H} \mathbf{u}^\text{H} \mathbf{x} \mathbf{u}}\_{= 2 \mathbf{u}^\text{H}\mathbf{x} \underbrace{
             \mathbf{u}^\text{H} \mathbf{u}}\_{=1} \mathbf{u}}
-\\ &=
+\\\\ &=
 \mathbf{z} + \mathbf{u}^\text{H} \mathbf{x} \mathbf{u} 
 -2\mathbf{u}^\text{H} \mathbf{x} \mathbf{u} 
-\\ &=
+\\\\ &=
 \mathbf{z} - \mathbf{u}^\text{H} \mathbf{x} \mathbf{u} 
 \end{align*}
 $$
 
 Householder transformation $H$ is an orthogonal symmetric matrix
+
 $$
 \begin{align*}
-\\ H &=
+\\\\ H &=
 I-2\mathbf{u}\mathbf{u}^\text{H}
-\\ &=
+\\\\ &=
 I-2\mathbf{u}^\text{H}\mathbf{u}
-\\ &=
+\\\\ &=
 (I-2\mathbf{u}\mathbf{u}^\text{H})^\text{H}
-\\ &=
+\\\\ &=
 H^\text{H}
-\\ \space \\
+\\\\ \space \\\\
 HH^\text{H} &= 
 (I-2\mathbf{u}\mathbf{u}^\text{H})
 (I-2\mathbf{u}\mathbf{u}^\text{H})^\text{H}
-\\ &=
+\\\\ &=
 (I-2\mathbf{u}\mathbf{u}^\text{H})
 (I-2\mathbf{u}^\text{H}\mathbf{u})
-\\ &=
+\\\\ &=
 I - 2 \underbrace{\mathbf{u}^\text{H}\mathbf{u}}\_{=\mathbf{u}\mathbf{u}^\text{H}}
 -2\mathbf{u}\mathbf{u}^\text{H}+4\mathbf{u}\mathbf{u}^\text{H} \underbrace{\mathbf{u}^\text{H}\mathbf{u}}\_{=1}
-\\ &=
+\\\\ &=
 I
 \end{align*}
 $$
@@ -447,7 +455,7 @@ $$
 \left\{
       \begin{align*}
       H_1 &= I-2\mathbf{u}_1\mathbf{u}_1^\text{H}
-      \\
+      \\\\
       \mathbf{u}_1 &= \frac{\mathbf{x}_1}{||\mathbf{x}_1||}
       \end{align*}
 \right.
@@ -466,11 +474,11 @@ $$
 \begin{align*}
 H_1 \mathbf{a}_1 &=
 \mathbf{a}_1 - 2 
-\frac{(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1)^\text{H} \mathbf{a}_1 }{(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1)^2} (\beta\mathbf{a}_1 + \alpha\mathbf{e}_1) ∂\\ &=
+\frac{(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1)^\text{H} \mathbf{a}_1 }{(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1)^2} (\beta\mathbf{a}_1 + \alpha\mathbf{e}_1) ∂\\\\ &=
 \mathbf{a}_1 - 2 
 \frac{(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1)^\text{H} \mathbf{a}_1 }
 {\beta^2\mathbf{a}^\text{H}_1\mathbf{a}_1 + \alpha^2\mathbf{e}^\text{H}_1\mathbf{e}_1+2\alpha\beta\mathbf{a}_1\mathbf{e}_1}
-(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1) \\ &=
+(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1) \\\\ &=
 \bigg(
   1- 2
   \frac{\beta(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1)^\text{H} \mathbf{a}_1 }
@@ -485,6 +493,7 @@ $$
 
 For $\mathbf{e}_1$ and $\mathbf{a}_1$ are linearly independent (if not, just use $\mathbf{e}_1$ to represent $\mathbf{a}_1$, no need of $H_1$ computation), 
 and $H_1\mathbf{a}_1=\pm ||\mathbf{a}_1||\mathbf{e}_1$, there are
+
 $$
 \begin{align*}
 &\space
@@ -493,12 +502,12 @@ $$
 1 - 2 
   \frac{\beta(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1)^\text{H} \mathbf{a}_1 }
   {\beta^2\mathbf{a}^\text{H}_1\mathbf{a}_1 + \alpha^2\mathbf{e}^\text{H}_1\mathbf{e}_1+2\alpha\beta\mathbf{a}_1\mathbf{e}_1} &= 0
-\\ - 2 
+\\\\ - 2 
   \frac{\alpha(\beta\mathbf{a}_1 + \alpha\mathbf{e}_1)^\text{H} \mathbf{a}_1 }
   {\beta^2\mathbf{a}^\text{H}_1\mathbf{a}_1 + \alpha^2\mathbf{e}^\text{H}_1\mathbf{e}_1+2\alpha\beta\mathbf{a}_1\mathbf{e}_1} &= \pm ||\mathbf{a}_1||
 \end{align*}
 \right.
-\\ \Rightarrow & \quad
+\\\\ \Rightarrow & \quad
 \beta^2 \mathbf{a}^\text{H}_1 \mathbf{a} = \alpha^2
 \end{align*}
 $$
@@ -518,7 +527,7 @@ Hence, the $H_1$ is
 
 $$
 \begin{align*}
-H_1 &= I-2\mathbf{u}_1\mathbf{u}_1^\text{H} \\ &=
+H_1 &= I-2\mathbf{u}_1\mathbf{u}_1^\text{H} \\\\ &=
 I - 2
 \bigg(
   \frac{\mathbf{a}_1 \space sgn(\mathbf{a}_1) ||\mathbf{a}_1||}
@@ -539,22 +548,23 @@ H_1 A =
 \quad
 H_1 A_1' \big]=
 \begin{bmatrix}
-      * & * \\
+      * & * \\\\
       0 & \~{A_2}
 \end{bmatrix}
 $$
+
 where $A'_1$ represents the $2$-th to $n$-th columns of $A$, and $*$ represents some computed scalar numbers.
 
 Repeat the above process (set $\~{\mathbf{e}}_2=[1 \quad 0 \quad ... \quad 0]^\text{T} \in \mathbb{R}^{n-1}$) to find the Householder transformation $\~{H}_2$ corresponding to $\~{A_2} \in \mathbb{R}^{(n-1) \times (n-1)}$, 
-and mark $H_2=\begin{bmatrix}      1 & 0 \\      0 & \~{H_2}\end{bmatrix}$,
+and mark $H_2=\begin{bmatrix}      1 & 0 \\\\      0 & \~{H_2}\end{bmatrix}$,
 and define $\~{\mathbf{a}}_2 \in \mathbb{R}^{n-1}$ as the first column of $\~{A_2}$.
 Then, the second Householder transformation result is
 
 $$
 H_2 H_1 A=
 \begin{bmatrix}
-      * & * & * \\
-      0 & * & * \\
+      * & * & * \\\\
+      0 & * & * \\\\
       0 & 0 & \~{A_3}
 \end{bmatrix}
 $$
@@ -565,9 +575,9 @@ $$
 \begin{align*}
 &&
 \underbrace{H_n H_{n-1} ... H_2 H_1}\_{=Q^\text{H}} A &= R
-\\ \Rightarrow && 
+\\\\ \Rightarrow && 
 Q^\text{H}A &= R
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 A &= QR
 \end{align*}
 $$

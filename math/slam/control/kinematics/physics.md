@@ -20,7 +20,7 @@ by the most primitive definition, an object's moment of inertia $I$ is
 
 $$
 \begin{align*}
-I &= \int r^2 d m \\
+I &= \int r^2 d m \\\\
 &= m r^2 && \text{If mass evenly distributed/point mass}
 \end{align*}
 $$
@@ -53,7 +53,7 @@ $L$ is defined in a similar way with replacements to  $m \rightarrow I$ and $\ma
 
 $$
 \begin{align*}
-\mathbf{p} &= m \mathbf{v} && \text{Linear} \\
+\mathbf{p} &= m \mathbf{v} && \text{Linear} \\\\
 {L} &= I \mathbf{\omega} && \text{Angular}
 \end{align*}
 $$

@@ -67,18 +67,20 @@ In other words, if $p_2 p_2'$ is one pixel,  how long is $p'$ and $p$.
 </br>
 
 Given the geometry, there are
+
 $$
 \begin{align*}
-    a &= p - t \\
-    \alpha &= \arccos \langle p,t \rangle \\
+    a &= p - t \\\\
+    \alpha &= \arccos \langle p,t \rangle \\\\
     \beta &= \arccos \langle a,-t \rangle
 \end{align*}
 $$
 
 For the perturbed $p_2$, there are
+
 $$
 \begin{align*}
-    \beta' &= \arccos \langle O_2 p_2', -t \rangle \\
+    \beta' &= \arccos \langle O_2 p_2', -t \rangle \\\\
     \gamma &= \pi - \alpha - \beta
 \end{align*}
 $$

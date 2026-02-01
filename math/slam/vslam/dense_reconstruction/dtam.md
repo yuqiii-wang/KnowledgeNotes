@@ -8,7 +8,7 @@ Define the pose of a camera $c$ with respect to the world frame of reference $w$
 $$
 T_{wc} = 
 \begin{bmatrix}
-    R_{wc} & \mathbf{c}\_{w} \\
+    R_{wc} & \mathbf{c}\_{w} \\\\
     \mathbf{0}^\top & 1
 \end{bmatrix}
 $$
@@ -84,7 +84,7 @@ L\_{\delta}(e)=
 \left\{
     \begin{array}{c}
         \frac{1}{2}e^2 &\quad \text{for} |e|\le \delta
-        \\
+        \\\\
         \delta \cdot (|e|-\frac{1}{2}\delta) &\quad \text{otherwise}
     \end{array}
 \right.
@@ -118,6 +118,7 @@ E_{\mathbf{\xi}} =
     \lambda C\big(\mathbf{u}, \mathbf{\xi}(\mathbf{u})\big)
 \big\} d\mathbf{u}
 $$
+
 where regularizer $g(\mathbf{u}) \cdot \big|\big|\nabla \mathbf{\xi}(\mathbf{u})\big|\big|_\delta$ is a convex function while $C\big(\mathbf{u}, \mathbf{\xi}(\mathbf{u})\big)$ is non-convex.
 
 In order to optimize the non-convex function, the below approximation is proposes.
@@ -131,6 +132,7 @@ E_{\mathbf{\xi}, \mathbf{\alpha}} =
     \lambda C\big(\mathbf{u}, \mathbf{\alpha}(\mathbf{u})\big)
 \big\} d\mathbf{u}
 $$
+
 where, the coupling term $Q(\mathbf{u})=\frac{1}{2\theta} \big( \mathbf{\xi}(\mathbf{u})-\mathbf{\alpha}(\mathbf{u}) \big)^2$ serves to drive the original and auxiliary variables together in optimization, enforcing $\mathbf{\xi}=\mathbf{\alpha}$ as $\theta \rightarrow 0$.
 
 $g(\mathbf{u}) \cdot \big|\big|\nabla \mathbf{\xi}(\mathbf{u})\big|\big|_\delta + Q(\mathbf{u})$ can be solved via a primal-dual approach. $Q(\mathbf{u})+\lambda C\big(\mathbf{u}, \mathbf{\alpha}(\mathbf{u})\big)$ is trivially point-wise optimizable and can be solved using an exhaustive search over a finite range of discretely sampled inverse depth values.

@@ -2,7 +2,7 @@
 
 ## Scalar and Vector Rule Table
 
-|$\text{Scalar derivative} \\ f(x) \rightarrow \frac{df}{dx}$ | $\text{Vector derivative} \\ f(\mathbf{x}) \rightarrow \frac{df}{d\mathbf{x}}$|
+|$\text{Scalar derivative} \\\\ f(x) \rightarrow \frac{df}{dx}$ | $\text{Vector derivative} \\\\ f(\mathbf{x}) \rightarrow \frac{df}{d\mathbf{x}}$|
 |-|-|
 |$bx \rightarrow b$|$\mathbf{x}^\mathsf{T} \mathbf{B} \rightarrow \mathbf{B}$|
 |$bx \rightarrow b$|$\mathbf{x}^\mathsf{T} \mathbf{b} \rightarrow \mathbf{b}$|
@@ -24,7 +24,7 @@ $$
     & && \frac{\partial y}{\partial x_2} &= 
     \frac{\partial y}{\partial z_2}
     \frac{\partial z_2}{\partial x_2}
-    \\ && &=
+    \\\\ && &=
     \frac{\partial y}{\partial z_2}
     \frac{\partial z_2}{\partial z_1}
     \frac{\partial z_1}{\partial x_1}
@@ -60,27 +60,27 @@ $$
     && \frac{\partial\space f(x,y)}{\partial\space x} \bigg|_{(x,y)=(1,3)}
      &=
     \lim_{\epsilon \rightarrow 0} \frac{f(x+\Delta x,y)}{\Delta x}
-    \\ \\ \begin{matrix}
-        \text{Define an infinitesimal amount} \\
+    \\\\ \\\\ \begin{matrix}
+        \text{Define an infinitesimal amount} \\\\
         \text{such that } \epsilon=\Delta x
     \end{matrix}
     \Rightarrow && &=
     \lim_{\epsilon \rightarrow 0} \frac{f(x+\epsilon,y)}{\epsilon}
-    \\ && &=
+    \\\\ && &=
     \lim_{\epsilon \rightarrow 0} \frac{(x+\epsilon)^2+(x+\epsilon)y}{\epsilon}
-    \\ && &=
+    \\\\ && &=
     \lim_{\epsilon \rightarrow 0} \frac{ \underbrace{x^2+xy}\_{=f(x,y)}
     +(2x+y)\epsilon+\epsilon^2}{\underbrace{\epsilon}\_{\frac{d \epsilon}{d \epsilon}=1}}
-    \\ \begin{matrix}
-        \text{By L'Hôpital's rule, there is} \\
+    \\\\ \begin{matrix}
+        \text{By L'Hôpital's rule, there is} \\\\
         \lim_{(x,y)\rightarrow (1,3)} f(x,y)=0
     \end{matrix}
     \Rightarrow && &=
     \lim_{\epsilon \rightarrow 0} \frac{(2x+y)+2\epsilon}{1}
-    \\ && &=
+    \\\\ && &=
     2x+y
-    \\ && &=2+3
-    \\ && &=5
+    \\\\ && &=2+3
+    \\\\ && &=5
 \end{align*}
 $$
 
@@ -94,11 +94,12 @@ Dual numbers introduce an *infinitesimal* unit $\epsilon$ that has the property 
 This simple change leads to a convenient method for computing exact derivatives without needing to manipulate complicated symbolic expressions.
 
 For example, $f(x+\epsilon)$ can be expressed as
+
 $$
 \begin{align*}
     f(x+\epsilon) &=
     f(x) + kf(x)\epsilon + k^2f(x)\frac{\epsilon^2}{2} + k^3f(x)\frac{\epsilon^3}{6}
-    \\ &=
+    \\\\ &=
     f(x) + kf(x)\epsilon 
 \end{align*}
 $$
@@ -111,7 +112,7 @@ Define a  Jet: a Jet is a $n$-dimensional dual number: $\mathbf{\epsilon}=[\epsi
 $$
 \begin{align*}
 x &= a+\sum_{i=1}^{n} v_i \epsilon_i
-\\ &= a + \mathbf{v}
+\\\\ &= a + \mathbf{v}
 \end{align*}
 $$
 
@@ -140,10 +141,11 @@ $$
 ## Automatic Differentiation
 
 Explained by this example: $f(x_1, x_2)=\ln(x_1)+x_1x_2-\sin(x_2)$, whose partial derivatives at $(x_1,x_2)=(2,5)$ are
+
 $$
 \begin{align*}
     \frac{\partial f}{\partial x_1} \bigg|_{(x_1,x_2)=(2,5)} &= \frac{1}{2} + 5 = 5.5
-    \\
+    \\\\
     \frac{\partial f}{\partial x_2} \bigg|_{(x_1,x_2)=(2,5)} &= 2 -\cos(5)
 \end{align*}
 $$
@@ -179,23 +181,24 @@ $$
 Numerical differentiation only taking care of the final output is bad since it discards many intermediate steps, especially when the differentiation includes a long chain rule.
 
 For example, compute $\frac{\partial f}{\partial x_1} \bigg|_{(x_1,x_2)=(2,5)}$ by forward differentiation, set $\epsilon=10^{-6}$, there is
+
 $$
 \begin{align*}
     \frac{\partial f(\mathbf{x})}{\partial x_1}
     \bigg|_{(x_1,x_2)=(2,5)}
     &\approx
     \frac{f(\mathbf{x}+\epsilon)-f(\mathbf{x})}{\epsilon}
-    \\ &=
+    \\\\ &=
     \frac{\big(\ln(x_1+\epsilon)+(x_1+\epsilon)x_2-\sin(x_2)\big)-\big(\ln(x_1)+x_1x_2-\sin(x_2)\big)}{\epsilon}
-    \\ &=
+    \\\\ &=
     \frac{\big(\ln(2+10^{-6})+(2+10^{-6})5-\sin(5)\big)-\big(\ln(2)+10-\sin(5)\big)}{10^{-6}}
-    \\ &=
+    \\\\ &=
     \frac{\ln(2+10^{-6})-\ln(2)+5\cdot 10^{-6}}{10^{-6}}
-    \\ &\approx 
+    \\\\ &\approx 
     \frac{4.9999988\cdot 10^{-7}+5\cdot 10^{-6}}{10^{-6}}
-    \\ &=
+    \\\\ &=
     0.49999988+5
-    \\ &=
+    \\\\ &=
     5.49999988
 \end{align*}
 $$
@@ -210,13 +213,13 @@ $$
 \left\{
     \begin{align*}
         v_1 &=\ln(v_{-1})=\ln(x_1)
-        \\
+        \\\\
         v_2 &=v_0v_{-1}=x_1 x_2
-        \\
+        \\\\
         v_3 &=v_1+v_2=\ln(x_1) + x_1 x_2
-        \\
+        \\\\
         v_4 &=-\sin(v_0)=-\sin(x_2)
-        \\
+        \\\\
         v_5 &=v_3+v_4=\ln(x_1)+x_1x_2-\sin(x_2)
     \end{align*}
 \right.
@@ -237,28 +240,28 @@ $$
 \begin{matrix}
     &\downarrow& v_{-1} &= x_1 && &= 2
     && &\downarrow& \dot{v}\_{-1} &= \dot{x}_1 && &=1
-    \\
+    \\\\
     &\downarrow& v_{0} &= x_2 && &= 5
     && &\downarrow& \dot{v}\_{0} &= \dot{x}_2 && &=0
-    \\ &\downarrow&---- &----&&&--------&& &\downarrow&
-    ----& ----&& &--------\\
+    \\\\ &\downarrow&---- &----&&&--------&& &\downarrow&
+    ----& ----&& &--------\\\\
     &\downarrow&
     v_{1} &= \ln(v_{-1}) && &= \ln(2)
     && &\downarrow& \dot{v}\_{1} &= \frac{\dot{v_{-1}}}{v_{-1}} && &= \frac{1}{2}
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     v_{2} &= v_{-1} \cdot v_0 && &= 2 \times 5 = 10
     && &\downarrow& \dot{v}\_{2} &= \dot{v}\_{-1} \cdot {v}_0 + v_{-1} \cdot \dot{v}_0 && &= 1 \times 5 + 0 \times 2 = 5
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     v_{3} &= \sin(v_0) && &= \sin(5)
     && &\downarrow& \dot{v}\_{3} &= \dot{v_0} \times \cos(v_0) && &= 0 \times \cos(5)=0
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     v_{4} &= v_1+v_2 && &= \ln(2)+10
     && &\downarrow& \dot{v}\_{4} &= \dot{v}_1+\dot{v}_2 && &= \frac{1}{2}+5=5.5
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     v_{5} &= v_4-v_3 && &= \ln(2)+10-\sin(5)
     && &\downarrow& \dot{v}\_{5} &= \dot{v}_4-\dot{v}_3 && &= 5.5-0=5.5
-    \\ &\downarrow&---- &----&&&--------&& &\downarrow&
-    ----& ----&& &--------\\    &\downarrow&
+    \\\\ &\downarrow&---- &----&&&--------&& &\downarrow&
+    ----& ----&& &--------\\\\    &\downarrow&
     f(x_1,x_2)&= v_5 && &= \ln(2)+10-\sin(5)
     && &\downarrow& \dot{f}(x_1,x_2) &= \dot{v}_5 && &=5.5
 \end{matrix}
@@ -273,40 +276,40 @@ In other words, it reverses the directed graph computing from $v_5$ to $v_{-1}$ 
 $$
 \begin{matrix}
     &\downarrow& v_{-1} &= x_1 && &= 2
-    && &\uparrow& \dot{x}\_{1} &= \dot{v}\_{-1} && &=5.5 \\
+    && &\uparrow& \dot{x}\_{1} &= \dot{v}\_{-1} && &=5.5 \\\\
     &\downarrow& v_{0} &= x_2 && &= 5
     && &\uparrow& \dot{x}\_{2} &= \dot{v}_0 && &=2-\cos(5)
-    \\ &\downarrow&---- &----&&&--------&& &\uparrow&
+    \\\\ &\downarrow&---- &----&&&--------&& &\uparrow&
     ----& ----&& &--------
     \\&\downarrow&
     v_{1} &= \ln(v_{-1}) && &= \ln(2)
     && &\uparrow&
     \dot{v}\_{-1} &= \dot{v}\_{-1} + \dot{v}\_{1}\frac{\dot{v_{1}}}{v_{-1}}=\dot{v}\_{-1} + \dot{v}\_{1}\frac{1}{v_{-1}} && &= 5 + \frac{1}{2} = 5.5
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     v_{2} &= v_{-1} \cdot v_0 && &= 2 \times 5 = 10
     && &\uparrow&
     \dot{v}\_{0} &= \dot{v}\_{0} + \dot{v}_2\frac{\partial v_2}{\partial v_0}=\dot{v}_0+\dot{v}_2 \cdot v_{-1} && &= -\cos(5)+1\times 2=2-\cos(5)
-    \\ &\downarrow& &&&&&& &\uparrow&
+    \\\\ &\downarrow& &&&&&& &\uparrow&
     \dot{v}\_{-1} &= \dot{v}_2\frac{\partial v_2}{\partial v_{-1}} = \dot{v}_2 \cdot v_0 && &=1\times 5=5
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     v_{3} &= \sin(v_0) && &= \sin(5)
     && &\uparrow&
     \dot{v}\_{0} &= \dot{v}_3\frac{\partial v_3}{\partial v_0} = \dot{v}_3 \cdot \cos(v_0)=0 && &= -\cos(5)
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     v_{4} &= v_1+v_2 && &= \ln(2)+10
     && &\uparrow&
     \dot{v}\_{1} &= \dot{v}_4\frac{\partial v_4}{\partial v_1} = \dot{v}_4 \cdot 1 && &=1
-    \\ &\downarrow& &&&&&& &\uparrow&
+    \\\\ &\downarrow& &&&&&& &\uparrow&
     \dot{v}\_{2} &= \dot{v}_4\frac{\partial v_4}{\partial v_2} = \dot{v}_4 \cdot 1 && &=1
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     v_{5} &= v_4-v_3 && &= \ln(2)+10-\sin(5)
     && &\uparrow&
     \dot{v}\_{3} &= \dot{v}_5\frac{\partial v_5}{\partial v_3} = \dot{v}_5 \cdot (-1) && &=-1
-    \\ &\downarrow& &&&&&& &\uparrow&
+    \\\\ &\downarrow& &&&&&& &\uparrow&
     \dot{v}\_{4} &= \dot{v}_5\frac{\partial v_5}{\partial v_4} = \dot{v}_5 \cdot 1 && &=1
-    \\ &\downarrow&---- &----&&&--------&& &\uparrow&
+    \\\\ &\downarrow&---- &----&&&--------&& &\uparrow&
     ----& ----&& &--------
-    \\ &\downarrow&
+    \\\\ &\downarrow&
     f(x_1,x_2)&= v_5 && &= \ln(2)+10-\sin(5)
     && &\uparrow& \dot{v}_5 &= \dot{f}(x_1,x_2)  && &=1
 \end{matrix}

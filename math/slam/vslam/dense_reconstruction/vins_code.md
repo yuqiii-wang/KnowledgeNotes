@@ -145,18 +145,12 @@ that acceleration is transformed/rotated linearly between $\mathbf{R}\_{j, t-1}$
 
 $$
 \begin{align*}
-\hat{\mathbf{a}}\_{t, t-1} &= \mathbf{R}\_{j, t-1} (\mathbf{a}\_{t-1} - \mathbf{b}_a) - \mathbf{g}\_{earth}
-\\
-{\mathbf{\omega}}\_{t} &= \frac{1}{2} (\mathbf{\omega}\_{t-1} + \hat{\mathbf{\omega}}\_{t}) - \mathbf{b}\_\omega
-\\
-{\mathbf{R}}\_{j, t} &= \mathbf{R}\_{j, t-1} \cdot ({\mathbf{\omega}}\_{t} \cdot \delta t)^\wedge
-\\
-\hat{\mathbf{a}}\_{t,t} &= {\mathbf{R}}\_{j, t} (\hat{\mathbf{a}}\_{t} - \mathbf{b}_a) - \mathbf{g}\_{earth}
-\\
-\mathbf{a}\_{t} &= \frac{1}{2} (\hat{\mathbf{a}}\_{t,t-1} + \hat{\mathbf{a}}\_{t,t})
-\\
-\mathbf{p}\_{j, t} &= \mathbf{p}\_{j, t-1} + \mathbf{v}\_{j, t-1} \cdot \delta t + \frac{1}{2} \mathbf{a}\_{t} (\delta t)^2
-\\
+\hat{\mathbf{a}}\_{t, t-1} &= \mathbf{R}\_{j, t-1} (\mathbf{a}\_{t-1} - \mathbf{b}_a) - \mathbf{g}\_{earth} \\\\
+{\mathbf{\omega}}\_{t} &= \frac{1}{2} (\mathbf{\omega}\_{t-1} + \hat{\mathbf{\omega}}\_{t}) - \mathbf{b}\_\omega \\\\
+{\mathbf{R}}\_{j, t} &= \mathbf{R}\_{j, t-1} \cdot ({\mathbf{\omega}}\_{t} \cdot \delta t)^\wedge \\\\
+\hat{\mathbf{a}}\_{t,t} &= {\mathbf{R}}\_{j, t} (\hat{\mathbf{a}}\_{t} - \mathbf{b}_a) - \mathbf{g}\_{earth} \\\\
+\mathbf{a}\_{t} &= \frac{1}{2} (\hat{\mathbf{a}}\_{t,t-1} + \hat{\mathbf{a}}\_{t,t}) \\\\
+\mathbf{p}\_{j, t} &= \mathbf{p}\_{j, t-1} + \mathbf{v}\_{j, t-1} \cdot \delta t + \frac{1}{2} \mathbf{a}\_{t} (\delta t)^2 \\\\
 \mathbf{v}\_{j, t} &= \mathbf{v}\_{j, t-1} + \mathbf{a}\_{j, t} \cdot \delta t 
 \end{align*}
 $$
@@ -313,6 +307,7 @@ $$
 \big|\big|^2 \Big)}\_{
 \text{Visual measurement residuals}}
 $$
+
 where $\rho(e)$ is a Huber norm. 
 
 Variables $\mathcal{X}$ to be optimized (`problem.AddParameterBlock`):
@@ -685,10 +680,10 @@ bool Estimator::visualInitialAlign()
 Define the $i$-th and $j$-th frame rotation difference (the $j$-th frame is the next frame to the $i$-th's: $j=i+1$): `q_ij` by $R_{ij}=R_{i}^\top R_{j}$.
 
 Then define $A\mathbf{x}=\mathbf{b}$ such that
+
 $$
 \begin{align*}
-A_{3 \times 3} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \mathbf{b}\_{\omega}}\Big)^\top \frac{\partial R_j}{\partial \mathbf{b}\_{\omega}}
-\\
+A_{3 \times 3} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \mathbf{b}\_{\omega}}\Big)^\top \frac{\partial R_j}{\partial \mathbf{b}\_{\omega}} \\\\
 \mathbf{b}\_{3 \times 1} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \mathbf{b}\_{\omega}}\Big)^\top \big( 2 \Delta R_j R_{ij} \big)
 \end{align*}
 $$
@@ -706,36 +701,32 @@ A_{\text{tmp, i}} &=
     \frac{\partial \mathbf{p}}{\partial \mathbf{p}}
     & \frac{\partial \mathbf{p}}{\partial \mathbf{v}}
     & \frac{\partial \mathbf{p}}{\partial \mathbf{a}}
-    & \frac{\partial \mathbf{p}}{\partial s}
-\\
+    & \frac{\partial \mathbf{p}}{\partial s} \\\\
     \frac{\partial \mathbf{v}}{\partial \mathbf{p}}
     & \frac{\partial \mathbf{v}}{\partial \mathbf{v}}
     & \frac{\partial \mathbf{v}}{\partial \mathbf{a}}
     & \frac{\partial \mathbf{v}}{\partial s}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
     -\mathbf{I}\_{3 \times 3} \cdot (\delta t)
     & \mathbf{0}\_{3 \times 3}
     & \frac{1}{2} R_i^\top \cdot (\delta t)^2
-    & \frac{1}{100} R_i^\top (\mathbf{t}_j - \mathbf{t}\_i)
-\\
+    & \frac{1}{100} R_i^\top (\mathbf{t}_j - \mathbf{t}\_i) \\\\
     -\mathbf{I}\_{3 \times 3}
     & R_i^\top R_j
     & R_i^\top \cdot (\delta t)
     & \mathbf{0}\_{3 \times 3}
-\end{bmatrix}
-\\
-\space
-\\
+\end{bmatrix} \\\\
+\space \\\\
 \mathbf{b}\_{\text{tmp, i}} &= 
 \begin{bmatrix}
-    \Delta \mathbf{p}_j + R_i^\top R_j \mathbf{t}\_{ce} - \mathbf{t}\_{ce}
-\\
+    \Delta \mathbf{p}_j + R_i^\top R_j \mathbf{t}\_{ce} - \mathbf{t}\_{ce} \\\\
     \Delta \mathbf{v}_j
 \end{bmatrix}
 \end{align*}
 $$
+
 where $\mathbf{t}\_{ce}$ is camera extrinsics.
 
 Then define $A\mathbf{x}=\mathbf{b}$, where $A \in \mathbb{R}^{\big((n \times 3) + 3 + 1\big) \times \big((n \times 3) + 3 + 1\big)}$ and $\mathbf{b} \in \mathbb{R}^{(n \times 3) + 3 + 1}$ $n$ is the total number of frames.
@@ -746,38 +737,32 @@ A &=
 \begin{bmatrix}
     \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 1:3} 
     & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 4:6} 
-    & \mathbf{0}\_{3 \times 3} & & & & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 7:10} 
-\\
+    & \mathbf{0}\_{3 \times 3} & & & & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 7:10}  \\\\
     \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 1:3} 
     & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 4:6} + \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 1:3} 
     & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 4:6} 
     & & & 
-    & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 7:10} +  \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 7:10} 
-\\
+    & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 7:10} +  \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 7:10}  \\\\
     \mathbf{0}\_{3 \times 3} & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 1:3} 
     & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 4:6} + \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{1:3, 1:3} 
     & & & 
-    & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 7:10} +  \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{1:3, 7:10} 
-\\
-\space
-\\
+    & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 7:10} +  \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{1:3, 7:10}  \\\\
+\space \\\\
     & & & & \ddots & & & 
-\\ 
-\space
-\\
+\\\\ 
+\space \\\\
     \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{7:10, 1:3} 
     & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{7:10, 4:6} +  \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{7:10, 1:3}
     & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{7:10, 4:6} +  \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{7:10, 1:3}
     & & & 
     & \sum_i \Big( A_{\text{tmp, i}}^\top A_{\text{tmp, i}} \Big)_{7:10, 7:10} 
-\end{bmatrix}
-\\
+\end{bmatrix} \\\\
 \mathbf{b} &= 
 \begin{bmatrix}
-    \mathbf{b}\_{\text{tmp, 1}, 1:3} \\
-    \mathbf{b}\_{\text{tmp, 1}, 4:6} + \mathbf{b}\_{\text{tmp, 2}, 1:3} \\
-    \mathbf{b}\_{\text{tmp, 2}, 4:6} + \mathbf{b}\_{\text{tmp, 3}, 1:3} \\
-    \vdots \\
+    \mathbf{b}\_{\text{tmp, 1}, 1:3} \\\\
+    \mathbf{b}\_{\text{tmp, 1}, 4:6} + \mathbf{b}\_{\text{tmp, 2}, 1:3} \\\\
+    \mathbf{b}\_{\text{tmp, 2}, 4:6} + \mathbf{b}\_{\text{tmp, 3}, 1:3} \\\\
+    \vdots \\\\
     \sum_i \mathbf{b}\_{\text{tmp, i}, 7:10}
 \end{bmatrix}
 \end{align*}
@@ -1041,15 +1026,15 @@ finally, there is $A_{mm}^{-1}=V_{mm} \Sigma^{-1}\_{mm} V_{mm}^{\top}$
 The marginalization aims to compute $\Delta \mathbf{x}\_{{\mathbf{x}_m } \notin \mathbf{x}}$.
 $$
 \begin{bmatrix}
-    A_{mm} & A_{mr} \\
+    A_{mm} & A_{mr} \\\\
     A_{rm} & A_{rr}
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{{\mathbf{x}_m }} \\
+    \Delta \mathbf{x}\_{{\mathbf{x}_m }} \\\\
     \Delta \mathbf{x}\_{{\mathbf{x}_m } \notin \mathbf{x}}
 \end{bmatrix}=
 \begin{bmatrix}
-    \mathbf{b}\_{mm} \\
+    \mathbf{b}\_{mm} \\\\
     \mathbf{b}\_{rr}
 \end{bmatrix}
 $$
@@ -1068,10 +1053,10 @@ where $\sigma_i \in \Sigma_A$ is the non-zero eigenvalues of $A$, similarly,
 define element-wise inverse $\mathbf{s}^{-1}=[\sigma_1^{-1}, \sigma_2^{-1}, ..., \sigma_r^{-1}]$ (denoted as `S` and `S_inv` in code).
 
 Take the element-wise square root of $\mathbf{s}$ and $\mathbf{s}^{-1}$ (denoted as $|\mathbf{s}|$ and $|\mathbf{s}^{-1}|$), and the linearized Jacobians $\mathbf{J}$ and residuals $\mathbf{r}$ are
+
 $$
 \begin{align*}
-\mathbf{J} &= \text{diag}(|\mathbf{s}|) \cdot V_A^\top
-\\
+\mathbf{J} &= \text{diag}(|\mathbf{s}|) \cdot V_A^\top \\\\
 \mathbf{r} &=
 \underbrace{\text{diag}(|\mathbf{s}^{-1}|) \cdot V_A^\top}\_{\mathbf{J}^{-1}}
  \cdot \mathbf{b}
@@ -1085,14 +1070,15 @@ $$
 \begin{align*}
 &&
 \mathbf{x}\_{k+1} &= \mathbf{x}_k - (\mathbf{J}^\top \mathbf{J})^{-1} \mathbf{J}^\top \mathbf{r}(\mathbf{x})
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 \mathbf{J}^\top \mathbf{J}(\mathbf{x}\_{k+1} - \mathbf{x}_k) &=  -\mathbf{J}^\top \mathbf{r}(\mathbf{x})
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 \underbrace{\mathbf{J}^\top \mathbf{J}}\_{A} 
 \Delta \mathbf{x}_k &=  
 \underbrace{-\mathbf{J}^\top \mathbf{r}(\mathbf{x})}\_{\mathbf{r}}
 \end{align*}
 $$
+
 where $\mathbf{r}(\mathbf{x}) := \mathbf{b}$ is defined interchangeably as in the code's notation.
 
 ```cpp
@@ -1267,29 +1253,27 @@ IMU noises $\mathbf{N}\_{18 \times 18}$ are simulated as below
 
 $$
 \mathbf{N}\_{ma} = \begin{bmatrix}
-    n\_{ma} & 0 & 0 \\
-    0 &  n\_{ma} & 0 \\
-    0 & 0 & n\_{ma} \\
+    n\_{ma} & 0 & 0 \\\\
+    0 &  n\_{ma} & 0 \\\\
+    0 & 0 & n\_{ma} \\\\
 \end{bmatrix}
 , \qquad
 \mathbf{N}\_{m\omega} = \begin{bmatrix}
-    n\_{m\omega} & 0 & 0 \\
-    0 &  n\_{m\omega} & 0 \\
-    0 & 0 & n\_{m\omega} \\
-\end{bmatrix}
-\\
-\space
-\\
+    n\_{m\omega} & 0 & 0 \\\\
+    0 &  n\_{m\omega} & 0 \\\\
+    0 & 0 & n\_{m\omega} \\\\
+\end{bmatrix} \\\\
+\space \\\\
 \mathbf{N}\_{ba} = \begin{bmatrix}
-    n\_{ba} & 0 & 0 \\
-    0 &  n\_{ba} & 0 \\
-    0 & 0 & n\_{ba} \\
+    n\_{ba} & 0 & 0 \\\\
+    0 &  n\_{ba} & 0 \\\\
+    0 & 0 & n\_{ba} \\\\
 \end{bmatrix}
 , \qquad
 \mathbf{N}\_{b\omega} = \begin{bmatrix}
-    n\_{b\omega} & 0 & 0 \\
-    0 &  n\_{b\omega} & 0 \\
-    0 & 0 & n\_{b\omega} \\
+    n\_{b\omega} & 0 & 0 \\\\
+    0 &  n\_{b\omega} & 0 \\\\
+    0 & 0 & n\_{b\omega} \\\\
 \end{bmatrix}
 $$
 
@@ -1362,49 +1346,43 @@ where `midPointIntegration(...)` computes $\Delta \mathbf{p}, \Delta \mathbf{\th
 $$
 \begin{align*}
     \hat{\mathbf{a}}\_{t, t-1} &= (\Delta \mathbf{\omega}\_{t-1})_\mathbf{Q} (\mathbf{a}\_{t-1} - \mathbf{b}\_{a})
-    \qquad&& (.)_\mathbf{Q} \text{ denotes quaternion rotating a vector}
-\\
-    \mathbf{\omega}_t &= \frac{1}{2} (\mathbf{\omega}\_{t-1} + \hat{\mathbf{\omega}}\_{t}) - \mathbf{b}\_{\omega}
-\\
+    \qquad&& (.)_\mathbf{Q} \text{ denotes quaternion rotating a vector} \\\\
+    \mathbf{\omega}_t &= \frac{1}{2} (\mathbf{\omega}\_{t-1} + \hat{\mathbf{\omega}}\_{t}) - \mathbf{b}\_{\omega} \\\\
     \Delta \mathbf{\theta}\_{t} &= \Delta \mathbf{\theta}\_{t-1} \otimes \begin{bmatrix}
-        1 \\
+        1 \\\\
         \frac{1}{2} \mathbf{\omega}_t \cdot \delta t
     \end{bmatrix} 
     \qquad&& \otimes \text{ denotes quaternion multiplication}
-    \\ & && \frac{1}{2} \mathbf{\omega}_t \cdot \delta t \text{ is right perturbation}
-\\
-    \hat{\mathbf{a}}\_{t,t} &= (\Delta \mathbf{\theta}\_{t})_{\mathbf{Q}} (\hat{\mathbf{a}}\_{t} - \mathbf{b}_a)
-\\
-    \mathbf{a}\_{t} &= \frac{1}{2} (\hat{\mathbf{a}}\_{t,t} + \hat{\mathbf{a}}\_{t, t-1})
-\\
-    \Delta\mathbf{p}\_{j, t} &= \Delta \mathbf{p}\_{j, t-1} + \Delta \mathbf{v}\_{j, t-1} \cdot \delta t + \frac{1}{2} \mathbf{a}\_{t} (\delta t)^2
-\\
+    \\\\ & && \frac{1}{2} \mathbf{\omega}_t \cdot \delta t \text{ is right perturbation} \\\\
+    \hat{\mathbf{a}}\_{t,t} &= (\Delta \mathbf{\theta}\_{t})_{\mathbf{Q}} (\hat{\mathbf{a}}\_{t} - \mathbf{b}_a) \\\\
+    \mathbf{a}\_{t} &= \frac{1}{2} (\hat{\mathbf{a}}\_{t,t} + \hat{\mathbf{a}}\_{t, t-1}) \\\\
+    \Delta\mathbf{p}\_{j, t} &= \Delta \mathbf{p}\_{j, t-1} + \Delta \mathbf{v}\_{j, t-1} \cdot \delta t + \frac{1}{2} \mathbf{a}\_{t} (\delta t)^2 \\\\
     \Delta \mathbf{v}\_{j, t} &= \Delta \mathbf{v}\_{j, t-1} + \mathbf{a}\_{j, t} \cdot \delta t 
 \end{align*}
 $$
 
 Rewrite some vectors to matrix representations
+
 $$
 \begin{align*}
 R_{\omega} &= \begin{bmatrix}
-    0 & -{\omega}_z & {\omega}_y \\
-    {\omega}_z & 0 & -{\omega}_x \\
-    -{\omega}_y & {\omega}_x & 0 \\
+    0 & -{\omega}_z & {\omega}_y \\\\
+    {\omega}_z & 0 & -{\omega}_x \\\\
+    -{\omega}_y & {\omega}_x & 0 \\\\
 \end{bmatrix}
 ,\qquad
 R_{a,t-1} = \begin{bmatrix}
-    0 & -{a}\_{t-1,z} & {a}\_{t-1,y} \\
-    {a}\_{t-1,z} & 0 & -{a}\_{t-1,x} \\
-    -{a}\_{t-1,y} & {a}\_{t-1,x} & 0 \\
+    0 & -{a}\_{t-1,z} & {a}\_{t-1,y} \\\\
+    {a}\_{t-1,z} & 0 & -{a}\_{t-1,x} \\\\
+    -{a}\_{t-1,y} & {a}\_{t-1,x} & 0 \\\\
 \end{bmatrix}
 ,\qquad
 R_{a,t} = \begin{bmatrix}
-    0 & -{a}\_{t,z} & {a}\_{t,y} \\
-    {a}\_{t,z} & 0 & -{a}\_{t,x} \\
-    -{a}\_{t,y} & {a}\_{t,x} & 0 \\
-\end{bmatrix}
-\\
-\space\\
+    0 & -{a}\_{t,z} & {a}\_{t,y} \\\\
+    {a}\_{t,z} & 0 & -{a}\_{t,x} \\\\
+    -{a}\_{t,y} & {a}\_{t,x} & 0 \\\\
+\end{bmatrix} \\\\
+\space\\\\
 R_{\Delta \theta} :&= \text{Quaternion }\Delta \theta \rightarrow \text{RotationMatrix } R_{\Delta \theta} 
 \end{align*}
 $$
@@ -1418,26 +1396,22 @@ $$
     & \frac{\partial \Delta\mathbf{p}}{\partial \Delta\mathbf{\theta}} 
     & \frac{\partial \Delta\mathbf{p}}{\partial \Delta\mathbf{v}} 
     & \frac{\partial \Delta\mathbf{p}}{\partial \mathbf{b}_a} 
-    & \frac{\partial \Delta\mathbf{p}}{\partial \mathbf{b}\_\omega} 
-\\
+    & \frac{\partial \Delta\mathbf{p}}{\partial \mathbf{b}\_\omega}  \\\\
     \frac{\partial \Delta\mathbf{\theta}}{\partial \Delta\mathbf{p}} 
     & \frac{\partial \Delta\mathbf{\theta}}{\partial \Delta\mathbf{\theta}} 
     & \frac{\partial \Delta\mathbf{\theta}}{\partial \Delta\mathbf{v}} 
     & \frac{\partial \Delta\mathbf{\theta}}{\partial \mathbf{b}_a} 
-    & \frac{\partial \Delta\mathbf{\theta}}{\partial \mathbf{b}\_\omega} 
-\\
+    & \frac{\partial \Delta\mathbf{\theta}}{\partial \mathbf{b}\_\omega}  \\\\
     \frac{\partial \Delta\mathbf{v}}{\partial \Delta\mathbf{p}} 
     & \frac{\partial \Delta\mathbf{v}}{\partial \Delta\mathbf{\theta}} 
     & \frac{\partial \Delta\mathbf{v}}{\partial \Delta\mathbf{v}} 
     & \frac{\partial \Delta\mathbf{v}}{\partial \mathbf{b}_a} 
-    & \frac{\partial \Delta\mathbf{v}}{\partial \mathbf{b}\_\omega} 
-\\
+    & \frac{\partial \Delta\mathbf{v}}{\partial \mathbf{b}\_\omega}  \\\\
     \frac{\partial \mathbf{b}_a}{\partial \Delta\mathbf{p}} 
     & \frac{\partial \mathbf{b}_a}{\partial \Delta\mathbf{\theta}} 
     & \frac{\partial \mathbf{b}_a}{\partial \Delta\mathbf{v}} 
     & \frac{\partial \mathbf{b}_a}{\partial \mathbf{b}_a} 
-    & \frac{\partial \mathbf{b}_a}{\partial \mathbf{b}\_\omega} 
-\\
+    & \frac{\partial \mathbf{b}_a}{\partial \mathbf{b}\_\omega}  \\\\
     \frac{\partial \mathbf{b}\_{\omega}}{\partial \Delta\mathbf{p}} 
     & \frac{\partial \mathbf{b}\_{\omega}}{\partial \Delta\mathbf{\theta}} 
     & \frac{\partial \mathbf{b}\_{\omega}}{\partial \Delta\mathbf{v}} 
@@ -1453,26 +1427,22 @@ $$
     & -\frac{1}{4} \Big( R_{\Delta \theta, t-1} R_{a,t-1} +  R_{\Delta \theta, t} R_{a,t} \big(\mathbf{I}\_{3 \times 3} - R_{\omega}\cdot (\delta t) \big) \Big) \cdot (\delta t)^2 
     & \mathbf{I}\_{3 \times 3} \cdot (\delta t)
     & -\frac{1}{4} (R_{\Delta \theta, t-1} + R_{\Delta \theta,t} ) \cdot (\delta t)^2 
-    & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot (-\delta t)
-\\
+    & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot (-\delta t) \\\\
     \mathbf{0}\_{3 \times 3}
     & \mathbf{I}\_{3 \times 3} - R_{\omega}\cdot (\delta t)
     & \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
-    & - \mathbf{I}\_{3 \times 3} \cdot (\delta t)
-\\
+    & - \mathbf{I}\_{3 \times 3} \cdot (\delta t) \\\\
     \mathbf{0}\_{3 \times 3}
     & -\frac{1}{2} \Big(R_{\Delta \theta, t-1} R_{a,t-1} + R_{\Delta \theta, t} R_{a,t} \big(\mathbf{I}\_{3 \times 3} - R_{\omega}\cdot (\delta t) \big) \Big) \cdot (\delta t)
     & \mathbf{I}\_{3 \times 3} 
     & -\frac{1}{2} (R_{\Delta \theta, t-1} + R_{\Delta \theta,t} ) \cdot (\delta t)
-    & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot (-\delta t)
-\\
+    & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot (-\delta t) \\\\
     \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
     & \mathbf{I}\_{3 \times 3}
-    & \mathbf{0}\_{3 \times 3}
-\\
+    & \mathbf{0}\_{3 \times 3} \\\\
     \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
@@ -1498,29 +1468,25 @@ $$
     & \frac{1}{4} R_{\Delta \theta, t} \cdot (\delta t)^2
     & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot \frac{1}{2}\delta t
     & \mathbf{0}\_{3 \times 3}
-    & \mathbf{0}\_{3 \times 3}
-\\
+    & \mathbf{0}\_{3 \times 3} \\\\
     \mathbf{0}\_{3 \times 3}
     & \frac{1}{2} \mathbf{I}\_{3 \times 3} \cdot (\delta t)
     & \mathbf{0}\_{3 \times 3}
     & \frac{1}{2} \mathbf{I}\_{3 \times 3} \cdot (\delta t)
     & \mathbf{0}\_{3 \times 3}
-    & \mathbf{0}\_{3 \times 3}
-\\
+    & \mathbf{0}\_{3 \times 3} \\\\
     \frac{1}{2}R_{\Delta \theta, t-1} \cdot (\delta t)
     & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot \frac{1}{2}\delta t
     & \frac{1}{2} R_{\Delta \theta, t} \cdot (\delta t)
     & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot \frac{1}{2}\delta t
     & \mathbf{0}\_{3 \times 3}
-    & \mathbf{0}\_{3 \times 3}
-\\
+    & \mathbf{0}\_{3 \times 3} \\\\
     \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
     & \mathbf{I}\_{3 \times 3} \cdot (\delta t)
-    & \mathbf{0}\_{3 \times 3}
-\\
+    & \mathbf{0}\_{3 \times 3} \\\\
     \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
     & \mathbf{0}\_{3 \times 3}
@@ -1629,8 +1595,7 @@ $$
 \mathbf{\theta}\_i \in \mathbb{R}^4, \qquad
 \mathbf{v}\_i \in \mathbb{R}^3, \qquad
 \mathbf{b}\_{a,i} \in \mathbb{R}^3, \qquad
-\mathbf{b}\_{\omega,i} \in \mathbb{R}^3
-\\
+\mathbf{b}\_{\omega,i} \in \mathbb{R}^3 \\\\
 \mathbf{p}_j \in \mathbb{R}^3, \qquad
 \mathbf{\theta}_j \in \mathbb{R}^4, \qquad
 \mathbf{v}_j \in \mathbb{R}^3, \qquad
@@ -1672,19 +1637,15 @@ $$
 (\mathbf{\theta}\_{i}^{-1} )_{\mathbf{Q}} \big(
     \frac{1}{2} \mathbf{g}\_{earth} (\delta t)^2 + \mathbf{p}_j - \mathbf{p}\_i - \mathbf{v}\_i \cdot (\delta t)
 \big)
-&& (.)_{\mathbf{Q}} \text{ means quaternion operation}
-\\
+&& (.)_{\mathbf{Q}} \text{ means quaternion operation} \\\\
 \mathbf{r}\_{4:6} &= 
 \Big((\Delta\mathbf{\theta})_\mathbf{Q} (\mathbf{\theta}\_{i}^{-1} )_{\mathbf{Q}} (\mathbf{\theta}\_{j} )_{\mathbf{Q}}\Big)_{\mathbf{E}}
-&& \text{ Quaternion } (.)_{\mathbf{Q}}  \text{ to Euler } (.)_{\mathbf{E}}: \quad \mathbb{R}^4 \rightarrow \mathbb{R}^3
-\\
+&& \text{ Quaternion } (.)_{\mathbf{Q}}  \text{ to Euler } (.)_{\mathbf{E}}: \quad \mathbb{R}^4 \rightarrow \mathbb{R}^3 \\\\
 \mathbf{r}\_{7:9} &= 
 (\mathbf{\theta}\_{i}^{-1} )_{\mathbf{Q}} \big(
     \mathbf{g}\_{earth} (\delta t) + \mathbf{v}_j - \mathbf{v}\_i - \Delta\mathbf{v}
-\big)
-\\
-\mathbf{r}\_{10:12} &= \mathbf{b}\_{a,j} - \mathbf{b}\_{a,i}
-\\
+\big) \\\\
+\mathbf{r}\_{10:12} &= \mathbf{b}\_{a,j} - \mathbf{b}\_{a,i} \\\\
 \mathbf{r}\_{13:15} &= \mathbf{b}\_{\omega,j} - \mathbf{b}\_{\omega,i}
 \end{align*}
 $$
@@ -1694,16 +1655,15 @@ $$
 \frac{\partial \mathbf{r}}{\partial (\mathbf{p}\_i, \mathbf{\theta}\_i)} = \begin{bmatrix}
     \frac{\partial \mathbf{p}\_i}{\partial \mathbf{p}\_i}
     & \frac{\partial \mathbf{p}\_i}{\partial \mathbf{\theta}\_i}
-    & \mathbf{0}\_{1 \times 3}
-\\
+    & \mathbf{0}\_{1 \times 3} \\\\
     \mathbf{0}\_{3 \times 3}
     & \frac{\partial \mathbf{\theta}\_i}{\partial \mathbf{\theta}\_i}
     & \mathbf{0}\_{1 \times 3}
-\\ 
+\\\\ 
     \mathbf{0}\_{3 \times 3}
     & \frac{\partial \mathbf{v}\_i}{\partial \mathbf{\theta}\_i}
     & \mathbf{0}\_{1 \times 3}
-\\ 
+\\\\ 
     \mathbf{0}\_{6 \times 3}
     & \mathbf{0}\_{6 \times 3}
     & \mathbf{0}\_{1 \times 3}
@@ -1895,11 +1855,9 @@ ProjectionTdFactor(const Eigen::Vector3d &_pts_i, const Eigen::Vector3d &_pts_j,
 $$
 \begin{align*}
 \mathbf{x}\_{imu,i} &= (\mathbf{\theta}\_{ce})_{\mathbf{Q}} (\mathbf{x}\_{cam,i} / d_i) + \mathbf{t}\_{ce}
-\\    
-\mathbf{X}\_{world} &= (\mathbf{\theta}\_i)_{\mathbf{Q}} \mathbf{x}\_{imu,i} + \mathbf{p}\_i
-\\
-\mathbf{x}\_{imu,j} &= (\mathbf{\theta}_j^{-1})_{\mathbf{Q}} (\mathbf{X}\_{world} - \mathbf{p}_j)
-\\
+\\\\    
+\mathbf{X}\_{world} &= (\mathbf{\theta}\_i)_{\mathbf{Q}} \mathbf{x}\_{imu,i} + \mathbf{p}\_i \\\\
+\mathbf{x}\_{imu,j} &= (\mathbf{\theta}_j^{-1})_{\mathbf{Q}} (\mathbf{X}\_{world} - \mathbf{p}_j) \\\\
 \hat{\mathbf{x}}\_{cam,j} &= (\mathbf{\theta}\_{ce}^{-1})_{\mathbf{Q}} (\mathbf{x}\_{imu,j} - \mathbf{t}\_{ce})
 \end{align*}
 $$
@@ -1908,7 +1866,7 @@ The residual is defined as $\mathbf{r}\_{proj,cam,j} = \big(d_j\hat{\mathbf{x}}\
 
 $$
 R_r = \begin{bmatrix}
-    1/d_j & 0 & \hat{\mathbf{x}}\_{cam,j}.x / (d_j^2) \\
+    1/d_j & 0 & \hat{\mathbf{x}}\_{cam,j}.x / (d_j^2) \\\\
     0 & 1/d_j & \hat{\mathbf{x}}\_{cam,j}.y / (d_j^2)
 \end{bmatrix}
 \in \mathbb{R}^{2 \times 3}
@@ -1923,6 +1881,7 @@ R_r
     & \mathbf{0}\_{2 \times 1}
 \end{bmatrix}
 $$
+
 where $(\mathbf{p}_j, \mathbf{\theta}_j) \in \mathbb{R}^{7}$ consists of 3d translation elements and 4d quaternion for rotation.
 The 4d rotation representation by quaternion is here replaced with rotation matrix that gives a 3d vector, hence the last col is $\mathbf{0}\_{2 \times 1}$.
 

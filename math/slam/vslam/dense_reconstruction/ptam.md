@@ -6,12 +6,13 @@ The $j$-th point in the map can be defined as
 $$
 \mathbf{p}\_{\mathcal{W}j} = 
 \begin{bmatrix}
-    x_{\mathcal{W}j}  \\
-    y_{\mathcal{W}j}  \\
-    z_{\mathcal{W}j}  \\
+    x_{\mathcal{W}j}  \\\\
+    y_{\mathcal{W}j}  \\\\
+    z_{\mathcal{W}j}  \\\\
     1
 \end{bmatrix}
 $$
+
 where $\mathcal{W}$ means in "world frame". 
 
 The point in a camera-centred coordinate (denoted as $\mathcal{C}$) frame can be defined by
@@ -26,29 +27,31 @@ distortion $\omega$ are assumed to be known.
 $$
 CamProj(\mathbf{p}\_{\mathcal{C}j})=
 \begin{bmatrix}
-    u_j \\
+    u_j \\\\
     v_j
 \end{bmatrix}=
 \begin{bmatrix}
-    u_0 \\
+    u_0 \\\\
     v_0
 \end{bmatrix}
 +
 \frac{r'}{r}
 \begin{bmatrix}
-    f_u & 0 \\
-    0 & f_v \\
+    f_u & 0 \\\\
+    0 & f_v \\\\
 \end{bmatrix}
 \begin{bmatrix}
-    {x_{\mathcal{C}j}}/{z_{\mathcal{C}j}} \\
-    {y_{\mathcal{C}j}}/{z_{\mathcal{C}j}} \\
+    {x_{\mathcal{C}j}}/{z_{\mathcal{C}j}} \\\\
+    {y_{\mathcal{C}j}}/{z_{\mathcal{C}j}} \\\\
 \end{bmatrix}
 $$
+
 where $r \rightarrow r'$ is radial distortion correction
+
 $$
 \begin{align*}
     r &= \sqrt{\frac{x_{\mathcal{C}j}^2+y_{\mathcal{C}j}^2}{z_{\mathcal{C}j}^2}}
-    \\
+    \\\\
     r' &= \frac{1}{\omega} \arctan(2r \tan \frac{\omega}{2}) 
 \end{align*}
 $$
@@ -61,7 +64,7 @@ $$
 A = 
 \begin{bmatrix}
     \frac{\partial u_c}{\partial u_s} &
-    \frac{\partial u_c}{\partial v_s} \\
+    \frac{\partial u_c}{\partial v_s} \\\\
     \frac{\partial v_c}{\partial u_s} &
     \frac{\partial v_c}{\partial v_s} 
 \end{bmatrix}
@@ -93,9 +96,9 @@ $$
 \left\{
     \begin{matrix}
         x(1-\frac{x^2}{c^2})^2 &
-        |x| < c \\
+        |x| < c \\\\
         0 &
-        |x| \ge c \\
+        |x| \ge c \\\\
     \end{matrix}
 \right.
 $$
@@ -162,8 +165,8 @@ where $\mathbf{e}_j$ is the reprojection error vector:
 $$
 \mathbf{e}_j = 
 \begin{bmatrix}
-    \hat{u}_j \\
-    \hat{v}_j \\
+    \hat{u}_j \\\\
+    \hat{v}_j \\\\
 \end{bmatrix} - 
 CamProj(\mathbf{p}\_{\mathcal{C}j})
 $$

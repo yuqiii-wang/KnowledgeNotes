@@ -27,9 +27,9 @@ here defines the below reciprocals: *cosecant* (csc), *secant* (sec), and *cotan
 
 $$
 \begin{align*}
-\csc\theta_B &= \frac{1}{\sin\theta_B} = \frac{c}{b} \\
-\sec\theta_B &= \frac{1}{\cos\theta_B} = \frac{c}{a} \\
-\cot\theta_B &= \frac{1}{\tan\theta_B} = \frac{a}{b} \\
+\csc\theta_B &= \frac{1}{\sin\theta_B} = \frac{c}{b} \\\\
+\sec\theta_B &= \frac{1}{\cos\theta_B} = \frac{c}{a} \\\\
+\cot\theta_B &= \frac{1}{\tan\theta_B} = \frac{a}{b} \\\\
 \end{align*}
 $$
 
@@ -54,8 +54,8 @@ Applying the Pythagoras theorem to the triangle, there is
 
 $$
 \begin{align*}
-&&& a^2+b^2=c^2 \\
-\Rightarrow &&& \Big(\frac{a}{c}\Big)^2+ \Big(\frac{b}{c}\Big)^2=1 \\
+&&& a^2+b^2=c^2 \\\\
+\Rightarrow &&& \Big(\frac{a}{c}\Big)^2+ \Big(\frac{b}{c}\Big)^2=1 \\\\
 \Rightarrow &&& \sin^2 \theta + \cos^2 \theta = 1
 \end{align*}
 $$
@@ -73,9 +73,9 @@ provided the sum of interior angles of triangle $180^\circ$, and an already exis
 
 $$
 \begin{align*}
-\sin(\alpha+\beta)=\cos\alpha\sin\beta+\sin\alpha\cos\beta \\
-\sin(\alpha-\beta)=\sin\alpha\cos\beta-\cos\alpha\sin\beta \\
-\cos(\alpha+\beta)=\cos\alpha\cos\beta-\sin\alpha\sin\beta \\
+\sin(\alpha+\beta)=\cos\alpha\sin\beta+\sin\alpha\cos\beta \\\\
+\sin(\alpha-\beta)=\sin\alpha\cos\beta-\cos\alpha\sin\beta \\\\
+\cos(\alpha+\beta)=\cos\alpha\cos\beta-\sin\alpha\sin\beta \\\\
 \cos(\alpha-\beta)=\cos\alpha\cos\beta+\sin\alpha\sin\beta
 \end{align*}
 $$
@@ -85,7 +85,7 @@ given a hypotenuse of length $1$ for $\angle \beta$, the opposite and adjacent a
 
 $$
 \begin{align*}
-&&& \sin\alpha=\frac{a_{\alpha}}{\cos\beta}, \qquad \cos\alpha=\frac{b_{\alpha}}{\cos\beta} \\
+&&& \sin\alpha=\frac{a_{\alpha}}{\cos\beta}, \qquad \cos\alpha=\frac{b_{\alpha}}{\cos\beta} \\\\
 \Rightarrow &&& a_{\alpha} = \sin\alpha\cos\beta, \qquad b_{\alpha}=\cos\beta\cos\alpha
 \end{align*}
 $$
@@ -101,7 +101,7 @@ By geometry, the sum and difference angle identities can be derived.
 
 $$
 \begin{align*}
-\sin(2\theta) &= 2 \sin\theta \cos\theta  \\
+\sin(2\theta) &= 2 \sin\theta \cos\theta  \\\\
 \cos(2\theta) &= \cos^2\theta - \sin^2\theta
 \end{align*}
 $$
@@ -111,13 +111,13 @@ by the sum and difference angle identities, set $\theta=\alpha=\beta$ there are
 
 $$
 \begin{align*}
-&&& \sin(\alpha+\beta)&&=\cos\alpha\sin\beta+\sin\alpha\cos\beta \\
-\Rightarrow &&& \sin(2\theta)&&=\cos\theta\sin\theta+\sin\theta\cos\theta \\
-&&& &&=2 \sin\theta \cos\theta \\
-\text{and} \\
-&&& \cos(\alpha+\beta)&&=\cos\alpha\cos\beta-\sin\alpha\sin\beta \\
-\Rightarrow &&& \cos(2\theta)&&=\cos\theta\cos\theta-\sin\theta\sin\theta \\
-&&& &&=\cos^2\theta - \sin^2\theta \\
+&&& \sin(\alpha+\beta)&&=\cos\alpha\sin\beta+\sin\alpha\cos\beta \\\\
+\Rightarrow &&& \sin(2\theta)&&=\cos\theta\sin\theta+\sin\theta\cos\theta \\\\
+&&& &&=2 \sin\theta \cos\theta \\\\
+\text{and} \\\\
+&&& \cos(\alpha+\beta)&&=\cos\alpha\cos\beta-\sin\alpha\sin\beta \\\\
+\Rightarrow &&& \cos(2\theta)&&=\cos\theta\cos\theta-\sin\theta\sin\theta \\\\
+&&& &&=\cos^2\theta - \sin^2\theta \\\\
 \end{align*}
 $$
 
@@ -137,8 +137,8 @@ for shared height $h$ between $\angle C$ and $\angle B$, there is
 $$
 \begin{align*}
 &&& \frac{h}{b} = \sin C, \qquad
-\frac{h}{c} = \sin B \\
-\Rightarrow &&& b \sin C = c \sin B \\
+\frac{h}{c} = \sin B \\\\
+\Rightarrow &&& b \sin C = c \sin B \\\\
 \Rightarrow &&& \frac{c}{\sin C} =
 \frac{b}{\sin B}
 \end{align*}
@@ -155,9 +155,9 @@ Similarly, the rule holds true for between $\angle A$ and $\angle B$, and betwee
 
 $$
 \begin{align*}
-    & c^2 = a^2 + b^2 - 2ab \cos C \\
-    & a^2 = c^2 + b^2 - 2bc \cos A \\
-    & b^2 = a^2 + c^2 - 2ac \cos B \\
+    & c^2 = a^2 + b^2 - 2ab \cos C \\\\
+    & a^2 = c^2 + b^2 - 2bc \cos A \\\\
+    & b^2 = a^2 + c^2 - 2ac \cos B \\\\
 \end{align*}
 $$
 
@@ -166,12 +166,12 @@ for $\angle C$, there is
 
 $$
 \begin{align*}
-\text{By geometry: } &&& CD &&= a \cos C \qquad\Rightarrow\qquad DA = b - \cos C \\
-&&& BD &&= a \sin C \\
-\text{By Pythagoras theorem: } &&& c^2 &&= BD^2 + DA^2 \\
-&&& &&= (a \sin C)^2 + (b - \cos C)^2 \\
-&&& &&= a^2 \sin^2 C + b^2 + \cos^2 C - 2b\cos C \\
-&&& &&= a^2 (\underbrace{\sin^2 C + \cos^2 C}\_{=1}) + b^2 - 2b\cos C \\
+\text{By geometry: } &&& CD &&= a \cos C \qquad\Rightarrow\qquad DA = b - \cos C \\\\
+&&& BD &&= a \sin C \\\\
+\text{By Pythagoras theorem: } &&& c^2 &&= BD^2 + DA^2 \\\\
+&&& &&= (a \sin C)^2 + (b - \cos C)^2 \\\\
+&&& &&= a^2 \sin^2 C + b^2 + \cos^2 C - 2b\cos C \\\\
+&&& &&= a^2 (\underbrace{\sin^2 C + \cos^2 C}\_{=1}) + b^2 - 2b\cos C \\\\
 &&& &&= a^2 + b^2 - 2ab\cos C
 \end{align*}
 $$

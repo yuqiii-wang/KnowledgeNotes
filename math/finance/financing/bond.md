@@ -97,7 +97,7 @@ DayCountFactor=
 \left\{
     \begin{array}{cc}
         \frac{AccrualDays}{365} &\quad \text{non-leap years}
-        \\
+        \\\\
         \frac{AccrualDays}{366} &\quad \text{leap years}
     \end{array}
 \right.
@@ -134,7 +134,7 @@ It can be used for profit and tax calculation.
 
 $$
 \begin{align*}
-\text{profit}&=100-\text{issuePrice} \\
+\text{profit}&=100-\text{issuePrice} \\\\
 \text{withholdingTax}&=\text{profit} \times \text{taxRate}
 \end{align*}
 $$

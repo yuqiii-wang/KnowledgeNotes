@@ -34,18 +34,20 @@ A \mathbf{x}^* = \sum_{i=1}^{n} \lambda_i A \mathbf{p}\_i
 $$
 
 Multiplying by $\mathbf{p}_k^\text{T}$ yields
+
 $$
 \begin{align*}
 \mathbf{p}_k^\text{T} \mathbf{b}&=
 \mathbf{p}_k^\text{T} A \mathbf{x}^*
-\\ &=
+\\\\ &=
 \sum_{i=1}^{n} \lambda_i \mathbf{p}_k^\text{T} A \mathbf{p}\_i
-\\ &=
+\\\\ &=
 \sum_{i=1}^{n} \lambda_i {\langle \mathbf{p}_k, \mathbf{p}\_i \rangle}_A
-\\ &=
+\\\\ &=
 \lambda_i {\langle\mathbf{p}_k, \mathbf{p}_k\rangle}_A
 \end{align*}
 $$
+
 where ${\langle\space\cdot\space\rangle}_A$ denotes inner product operation with or without respect to $A$: 
 
 * ${\langle\mathbf{p}_j, \mathbf{p}\_i\rangle}_A=\mathbf{p}_j^\text{T} A \mathbf{p}\_i$

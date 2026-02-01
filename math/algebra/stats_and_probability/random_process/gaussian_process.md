@@ -21,8 +21,8 @@ For multivariate case, and assume the dimensions are independent, there is
 
 $$
 \begin{align*}
-    p(\mathbf{x}) &=p(x_1, x_2, ..., x_n)=\prod_{i=1}^n p(x\_i) = \\
-    &= \frac{1}{\sqrt{(2\pi)^n\sigma^2_1\sigma^2_2...\sigma^2_n}}\exp\bigg(-\frac{1}{2}\Big(\big(\frac{x_1-\mu_1}{\sigma_1}\big)^2+\big(\frac{x_2-\mu_2}{\sigma_2}\big)^2+...+\big(\frac{x_n-\mu_n}{\sigma_n}\big)^2\Big)\bigg) \\
+    p(\mathbf{x}) &=p(x_1, x_2, ..., x_n)=\prod_{i=1}^n p(x\_i) = \\\\
+    &= \frac{1}{\sqrt{(2\pi)^n\sigma^2_1\sigma^2_2...\sigma^2_n}}\exp\bigg(-\frac{1}{2}\Big(\big(\frac{x_1-\mu_1}{\sigma_1}\big)^2+\big(\frac{x_2-\mu_2}{\sigma_2}\big)^2+...+\big(\frac{x_n-\mu_n}{\sigma_n}\big)^2\Big)\bigg) \\\\
     &= \frac{1}{\sqrt{(2\pi)^n\prod_{i=1}^n\sigma^2_i}}\exp\bigg(-\frac{1}{2}\sum_{i=1}^n\big(\frac{x\_i-\mu_i}{\sigma_i}\big)^2\bigg)
 \end{align*}
 $$
@@ -33,9 +33,9 @@ let $\mathbf{x}-\mathbf{\mu}=[x_1-\mu_1, x_2-\mu_2, ..., x_n-\mu_n]^{\top}$, and
 
 $$
 \Sigma = \begin{bmatrix}
-    \sigma_1^2 & 0 &  & 0 \\
-    0 & \sigma_2^2 &  & 0 \\
-    & & \ddots &  \\
+    \sigma_1^2 & 0 &  & 0 \\\\
+    0 & \sigma_2^2 &  & 0 \\\\
+    & & \ddots &  \\\\
     0 & 0 & & \sigma_n^2
 \end{bmatrix}
 $$
@@ -91,12 +91,12 @@ Assume prior $f(\mathbf{x})\sim\mathcal{N}(\mathbf{\mu}_f, \Sigma_{ff})$ follows
 
 $$
 \begin{bmatrix}
-    f(\mathbf{x}) \\ \mathbf{y}^*
+    f(\mathbf{x}) \\\\ \mathbf{y}^*
 \end{bmatrix}
 \sim\mathcal{N}\bigg(\begin{bmatrix}
-    \mathbf{\mu}_f \\ \mathbf{\mu}_y
+    \mathbf{\mu}_f \\\\ \mathbf{\mu}_y
 \end{bmatrix}, \begin{bmatrix}
-    \Sigma_{ff} & \Sigma_{fy} \\
+    \Sigma_{ff} & \Sigma_{fy} \\\\
     \Sigma_{fy} & \Sigma_{yy}
 \end{bmatrix}\bigg)
 $$
@@ -138,7 +138,7 @@ In the above example, the Gaussian process is defined with static $l=0.5$ and $\
 
 $$
 \begin{align*}
-    \min\log p(\mathbf{y}|\mathbf{x}) &= \log\mathcal{N}\big(\mathbf{0}, \Sigma_{yy}(\sigma, l)\big) \\
+    \min\log p(\mathbf{y}|\mathbf{x}) &= \log\mathcal{N}\big(\mathbf{0}, \Sigma_{yy}(\sigma, l)\big) \\\\
     &= \frac{1}{2}\log|\Sigma_{yy}(\sigma, l)|+\frac{1}{2}\mathbf{y}^{\top}\Sigma_{yy}(\sigma, l)^{-1}\mathbf{y}
 \end{align*}
 $$

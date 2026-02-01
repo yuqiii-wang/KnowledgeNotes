@@ -3,23 +3,26 @@
 A robot's state $\mathbf{x}$ is measured collectively by its own motion dynamics $\mathbf{f}$ plus noises $\mathbf{w}$, and observation $\mathbf{z}$ by landmark $\mathbf{y}$ plus noises $\mathbf{v}$.
 
 For the $k$-step given a number of landmark observations $j=1,2,...$, there is
+
 $$
 \begin{align*}
     \mathbf{x}_k &= \mathbf{f}(\mathbf{x}\_{k-1}, \mathbf{u}_k)+\mathbf{w}_k
-    \\
+    \\\\
     \mathbf{z}\_{k,j} &= \mathbf{h}(\mathbf{x}\_{k}, \mathbf{y}_j)+\mathbf{v}_k
 \end{align*}
 $$
 
 By Bayes equation, there is
+
 $$
 \begin{align*}
 P(\mathbf{x}, \mathbf{y} | \mathbf{z}, \mathbf{u}) &=
 \frac{P(\mathbf{z}, \mathbf{u}| \mathbf{x}, \mathbf{y})P(\mathbf{x}, \mathbf{y})}{P(\mathbf{z}, \mathbf{u})}
-\\ & \propto
+\\\\ & \propto
 P(\mathbf{z}, \mathbf{u}| \mathbf{x}, \mathbf{y})P(\mathbf{x}, \mathbf{y})
 \end{align*}
 $$
+
 where $P(\mathbf{z}, \mathbf{u}| \mathbf{x}, \mathbf{y})$ is the likelihood and $P(\mathbf{x}, \mathbf{y})$ is the prior.
 
 A Maximum Likelihood Estimation problem is defined as
@@ -40,7 +43,7 @@ $$
 \begin{align*}
 (\mathbf{x}_k, \mathbf{y}_j)^* &=
 arg \space \underset{\mathbf{z}}{max}\space N (\mathbf{h}(\mathbf{y}_j, \mathbf{x}_k), \mathbf{Q}_k)
-\\ &=
+\\\\ &=
 arg \space \underset{\mathbf{z}}{min}\space \bigg(
     \big(\mathbf{z}\_{k,j}-\mathbf{h}(\mathbf{y}_j, \mathbf{x}_k)\big)^\text{T}
     \mathbf{Q}\_{k,j}^{-1}
@@ -65,8 +68,7 @@ The error $\mathbf{e}$ can be measured separately since dynamics $\mathbf{u}$ an
 $$
 \begin{align*}
 \mathbf{e}\_{u,k} &= 
-\mathbf{x}_k - \mathbf{f}(\mathbf{x}_k, \mathbf{u}_k)
-\\
+\mathbf{x}_k - \mathbf{f}(\mathbf{x}_k, \mathbf{u}_k) \\\\
 \mathbf{e}\_{z,j,k} &= 
 \mathbf{z}\_{k,j} - \mathbf{h}(\mathbf{z}\_{k,j}, \mathbf{y}_j)
 \end{align*}
@@ -92,8 +94,7 @@ This relationship will give a sparse least-square problem for all $k$ steps.
 Consider a very simple linear system that describes a vehicle running on a 1-d space either forward or backward.
 $$
 \begin{align*}
-x_k &= x_{k-1}+u_{k}+w_k, & \quad w_k & \sim N(0,Q_k)
-\\
+x_k &= x_{k-1}+u_{k}+w_k, & \quad w_k & \sim N(0,Q_k) \\\\
 z_k &= x_k + n_k, & \quad n_k & \sim N(0,R_k)
 \end{align*}
 $$
@@ -105,27 +106,28 @@ $$
 \begin{align*}
 \mathbf{x}^* &= 
 arg \space \underset{}{max} \mathbf{P} (\mathbf{x}|\mathbf{u},\mathbf{z})
-\\ &=
+\\\\ &=
 arg \space \underset{}{max} \mathbf{P} (\mathbf{u},\mathbf{z}|\mathbf{x})
-\\ &=
+\\\\ &=
 \prod^n\_{k=1} P(u_k|x_{k-1},x_k)
 \prod^n\_{k=1} P(z_k|x_k)
 \end{align*}
 $$
+
 where each probability is given by a Gaussian distribution, such as
+
 $$
 \begin{align*}
-P(u_k|x_{k-1},x_k) &\sim N(x_k-x_{k-1},R_k)
-\\
+P(u_k|x_{k-1},x_k) &\sim N(x_k-x_{k-1},R_k) \\\\
 P(z_k|x_k) &\sim N(x_k,Q_k)
 \end{align*}
 $$
 
 The errors to the motion and observation are
+
 $$
 \begin{align*}
-e_{u,k} &= x_k-x_{k-1}-u_k
-\\
+e_{u,k} &= x_k-x_{k-1}-u_k \\\\
 e_{z,k} &= z_k-x_k
 \end{align*}
 $$
@@ -148,19 +150,20 @@ where $\mathbf{H}$ is
 $$
 \mathbf{H}=
 \begin{bmatrix}
-    1 & -1 & 0 & 0 &  & 0 & 0 \\
-    0 & 1 & -1 & 0 &  & 0 & 0 \\
-    0 & 0 & 1 & -1 &  & 0 & 0 \\
-     &  &  &  & \ddots & &  \\
-    0 & 0 & 0 & 0 &  & 1 & -1 \\
+    1 & -1 & 0 & 0 &  & 0 & 0 \\\\
+    0 & 1 & -1 & 0 &  & 0 & 0 \\\\
+    0 & 0 & 1 & -1 &  & 0 & 0 \\\\
+     &  &  &  & \ddots & &  \\\\
+    0 & 0 & 0 & 0 &  & 1 & -1 \\\\
     \hline
-    0 & 1 & 0 & 0 &  & 0 & 0 \\
-    0 & 0 & 1 & 0 &  & 0 & 0 \\
-    0 & 0 & 0 & 1 &  & 0 & 0 \\
-     &  &  &  & \ddots & &  \\
-    0 & 0 & 0 & 0 &  & 1 & 0 \\
+    0 & 1 & 0 & 0 &  & 0 & 0 \\\\
+    0 & 0 & 1 & 0 &  & 0 & 0 \\\\
+    0 & 0 & 0 & 1 &  & 0 & 0 \\\\
+     &  &  &  & \ddots & &  \\\\
+    0 & 0 & 0 & 0 &  & 1 & 0 \\\\
 \end{bmatrix}
 $$
+
 and the covariance matrix is $\Sigma=diag(R_1, R_2, R_3,...,R_n,Q_1,Q_2,Q_3,...,Q_n)$.
 
 The Maximum Likelihood optimization given the objective function $\mathbf{e}^\text{T} \Sigma^{-1} \mathbf{e}$ (this is a quadratic function that has a global minimum) can be approximated by the Gauss-Newton method, so that the optimal state $\mathbf{x}^*$ can be computed via the below expression.
@@ -168,7 +171,7 @@ $$
 \begin{align*}
 \mathbf{x}^* &=
 arg \space \underset{\mathbf{x}}{min}\space \mathbf{e}^\text{T} \Sigma^{-1} \mathbf{e}
-\\ &=
+\\\\ &=
 \big(\mathbf{H}^{\text{T}}\Sigma^{-1}\mathbf{H}\big)^{-1}
 \mathbf{H}^{\text{T}}\Sigma^{-1} \mathbf{y}
 \end{align*}

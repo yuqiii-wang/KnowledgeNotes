@@ -60,7 +60,7 @@ $$
 a(x) =
 \left\{
     \begin{matrix}
-      x, & \text{if } x>0 \\
+      x, & \text{if } x>0 \\\\
       0.1 x, & \text{otherwise}
     \end{matrix}
 \right.
@@ -135,14 +135,16 @@ In addition, define $(c_x, c_y)$ as the grid cell offset from the top left corne
 The bounding box width and height priors are $(p_w, p_h)$ that are fine-tuned by $(e^{t_w}, e^{t_h})$.
 
 Then the four anchor prediction parameters are defined as
+
 $$
 \begin{align*}
-    b_x &= \sigma(t_x) + c_x \\
-    b_y &= \sigma(t_y) + c_y \\
-    b_w &= p_w e^{t_w} \\
-    b_h &= p_h e^{t_h} \\
+    b_x &= \sigma(t_x) + c_x \\\\
+    b_y &= \sigma(t_y) + c_y \\\\
+    b_w &= p_w e^{t_w} \\\\
+    b_h &= p_h e^{t_h} \\\\
 \end{align*}
 $$
+
 where $\sigma(.)$ is a sigmoid function.
 
 <div style="display: flex; justify-content: center;">

@@ -63,9 +63,9 @@ in continuous compound rate scenario, there is $e^{(t_2-t_1)f(t_1,t_2)}=\frac{e^
 
 $$
 \begin{align*}
-    && e^{(t_2-t_1)f(t_1,t_2)} &=\frac{e^{t_2 r(t_2)}}{e^{t_1 r(t_1)}} \\
-    \Rightarrow && e^{(t_2-t_1)f(t_1,t_2)}&=e^{t_2 r(t_2)-t_1 r(t_1)} \\
-    \text{take log } \Rightarrow && (t_2-t_1)f(t_1,t_2) &=t_2 r(t_2)-t_1 r(t_1) \\
+    && e^{(t_2-t_1)f(t_1,t_2)} &=\frac{e^{t_2 r(t_2)}}{e^{t_1 r(t_1)}} \\\\
+    \Rightarrow && e^{(t_2-t_1)f(t_1,t_2)}&=e^{t_2 r(t_2)-t_1 r(t_1)} \\\\
+    \text{take log } \Rightarrow && (t_2-t_1)f(t_1,t_2) &=t_2 r(t_2)-t_1 r(t_1) \\\\
     \Rightarrow && f(t_1,t_2) &=\frac{t_2 r(t_2)-t_1 r(t_1)}{t_2-t_1}
 \end{align*}
 $$
@@ -89,7 +89,7 @@ Continuous spot rate growth is
 
 $$
 \begin{align*}
-    && e^{-r(t)t}&=\exp\Big(-\int^t_0 f(u)du \Big) \\
+    && e^{-r(t)t}&=\exp\Big(-\int^t_0 f(u)du \Big) \\\\
 \text{and instantaneous spot rate is } && r(t) &=\frac{1}{t}\int^t_0 f(u)du
 \end{align*}
 $$
@@ -253,10 +253,10 @@ where
 
 $$
 \begin{align*}
-    h_{00}(t)&=2t^3-3t^2+1 \\
-    h_{01}(t)&=-2t^3+3t^2 \\
-    h_{10}(t)&=t^3-2t^2+t \\
-    h_{11}(t)&=t^3-t^2 \\
+    h_{00}(t)&=2t^3-3t^2+1 \\\\
+    h_{01}(t)&=-2t^3+3t^2 \\\\
+    h_{10}(t)&=t^3-2t^2+t \\\\
+    h_{11}(t)&=t^3-t^2 \\\\
 \end{align*}
 $$
 
@@ -267,9 +267,9 @@ A common two-step differential method is (used by `numpy.gradient`)
 
 $$
 \nabla f_i=\begin{cases}
-    \frac{f_{i+1}-f_i}{h} &\qquad i=0 \\
-    \frac{f_{i}-f_{i-1}}{h} &\qquad i=n-1 \\
-    \frac{f_{i+1}-f_{i-1}}{2h} &\qquad \text{otherwise} \\
+    \frac{f_{i+1}-f_i}{h} &\qquad i=0 \\\\
+    \frac{f_{i}-f_{i-1}}{h} &\qquad i=n-1 \\\\
+    \frac{f_{i+1}-f_{i-1}}{2h} &\qquad \text{otherwise} \\\\
 \end{cases}
 $$
 
@@ -293,10 +293,10 @@ In detail for $k=3$,
 
 $$
 \begin{align*}
-N_{i-3,3}(t)&=\frac{1}{6}(1-t)^3 \\
-N_{i-2,3}(t)&=\frac{1}{6}(3t^3+6t^2+1) \\
-N_{i-1,3}(t)&=\frac{1}{6}(-3t^3+3t^2+3t+1) \\
-N_{i,3}(t)&=\frac{1}{6}t^3 \\
+N_{i-3,3}(t)&=\frac{1}{6}(1-t)^3 \\\\
+N_{i-2,3}(t)&=\frac{1}{6}(3t^3+6t^2+1) \\\\
+N_{i-1,3}(t)&=\frac{1}{6}(-3t^3+3t^2+3t+1) \\\\
+N_{i,3}(t)&=\frac{1}{6}t^3 \\\\
 \end{align*}
 $$
 
@@ -346,7 +346,7 @@ Integrate instantaneous rate $f(t)$, the result is
 $$
 \begin{align*}
     && r(t)&=\beta_0+(\beta_1+\beta_2)\frac{\tau_1}{t} (1-e^{-t/\tau_1})-
-    \beta_2 e^{-t/\tau_1} \\
+    \beta_2 e^{-t/\tau_1} \\\\
     \text{or}\quad &&
     &=\beta_0+\beta_1\Big(\frac{1-e^{\lambda_1 t}}{\lambda_1 t}\Big)+\beta_2\Big(\frac{1-e^{\lambda_1 t}}{\lambda_1 t}-e^{-\lambda_1 t}\Big)
 \end{align*}
@@ -417,7 +417,7 @@ $f(0,t)$ is the forward rate at the initial state.
 $$
 \begin{align*}
 \int_0^T r_u du &=
-\int_0^T r_0 du + \int_0^T\int_0^t \theta_u du dt + \sigma\int_0^T\int_0^t dW_u dt \\
+\int_0^T r_0 du + \int_0^T\int_0^t \theta_u du dt + \sigma\int_0^T\int_0^t dW_u dt \\\\
 &= r_0 T + \int_0^T\int_0^t \theta_u du dt + \underbrace{\sigma\int_0^T (T-u) dt}\_{\sim N(0, \sigma^2\int_0^T(T-u)^2 du)}
 \end{align*}
 $$
@@ -429,14 +429,14 @@ $\theta_t$ can be deduced as such
 
 $$
 \begin{align*}
-&& P(0,T)&=E\left[e^{-\int_0^T r_t dt}\right] \\
-&& &=\exp\bigg(E\left[-\int_0^T r_u du\right]+\frac{1}{2}Var\left[-\int_0^T r_u du\right]\bigg) \\
-&& &= \exp\bigg(-r_0 T - \int_0^T\int_0^t \theta_u du dt + \frac{\sigma^2}{6}T^3\bigg) \\
-\Rightarrow && \int_0^T\int_0^t \theta_u du dt &= \ln P(0,T)-r_0 T + \frac{\sigma^2}{6}T^3 \\
-\Rightarrow && \int_0^T \theta_u du &= \frac{\partial}{\partial T}\bigg(\ln P(0,T)-r_0 T + \frac{\sigma^2}{6}T^3\bigg) \\
-&& &= \frac{\partial}{\partial T}\bigg(\ln P(0,T)\bigg)-r_0 + \frac{\sigma^2}{2}T^2 \\
-&& &= f(0,T)-r_0 + \frac{\sigma^2}{2}T^2 \\
-\Rightarrow && \theta_T &=\frac{\partial}{\partial T}\bigg(f(0,T)-r_0 + \frac{\sigma^2}{2}T^2\bigg) \\
+&& P(0,T)&=E\left[e^{-\int_0^T r_t dt}\right] \\\\
+&& &=\exp\bigg(E\left[-\int_0^T r_u du\right]+\frac{1}{2}Var\left[-\int_0^T r_u du\right]\bigg) \\\\
+&& &= \exp\bigg(-r_0 T - \int_0^T\int_0^t \theta_u du dt + \frac{\sigma^2}{6}T^3\bigg) \\\\
+\Rightarrow && \int_0^T\int_0^t \theta_u du dt &= \ln P(0,T)-r_0 T + \frac{\sigma^2}{6}T^3 \\\\
+\Rightarrow && \int_0^T \theta_u du &= \frac{\partial}{\partial T}\bigg(\ln P(0,T)-r_0 T + \frac{\sigma^2}{6}T^3\bigg) \\\\
+&& &= \frac{\partial}{\partial T}\bigg(\ln P(0,T)\bigg)-r_0 + \frac{\sigma^2}{2}T^2 \\\\
+&& &= f(0,T)-r_0 + \frac{\sigma^2}{2}T^2 \\\\
+\Rightarrow && \theta_T &=\frac{\partial}{\partial T}\bigg(f(0,T)-r_0 + \frac{\sigma^2}{2}T^2\bigg) \\\\
 && &=\frac{\partial f(0,T)}{\partial T}+\sigma^2 T
 \end{align*}
 $$

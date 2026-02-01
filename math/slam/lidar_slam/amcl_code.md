@@ -183,27 +183,27 @@ For robot pose $(x, y)$ given its orientation $\theta$, the predicted robot pose
 
 $$
 \begin{bmatrix}
-  x_{z^{k}\_{t}} \\ y_{z^{k}\_{t}}
+  x_{z^{k}\_{t}} \\\\ y_{z^{k}\_{t}}
 \end{bmatrix} =
 \underbrace{\begin{bmatrix}
-  x \\ y
+  x \\\\ y
 \end{bmatrix}
 }\_{\text{translation by robot pose}}
 +
 \underbrace{\begin{bmatrix}
-  \cos \theta & -\sin \theta \\
+  \cos \theta & -\sin \theta \\\\
   \sin \theta & \cos \theta
 \end{bmatrix}
 \begin{bmatrix}
-  x_{k} \\ y_{k}
+  x_{k} \\\\ y_{k}
 \end{bmatrix}
 }\_{ 
-  \text{aligned with } \\ 
+  \text{aligned with } \\\\ 
   \text{robot pose orientation}
 } +
 \underbrace{z^{k}\_{t}
 \begin{bmatrix}
-  \cos (\theta+\theta_{k}) \\ \sin (\theta+\theta_{k})
+  \cos (\theta+\theta_{k}) \\\\ \sin (\theta+\theta_{k})
 \end{bmatrix}
 }\_{ \text{laser length decomposed into the } x \text{- and } y \text{-axis}}
 $$

@@ -655,18 +655,19 @@ ORBextractor::ORBextractor(int _nfeatures, float _scaleFactor, int _nlevels,
 ### FAST Feature Orientation
 
 For a radius of $15$ patch, there is
+
 $$
 \begin{align*}
 m_{10} &= 
 \sum^{15}\_{u=-15} \sum^{15}\_{v=-15} u^1 v^0 i(u,v)
-\\ &=
+\\\\ &=
 \sum^{15}\_{u=-15} \sum^{15}\_{v=-15} u \space i(u,v)
 \end{align*}
 \qquad
 \begin{align*}
 m_{01} &= 
 \sum^{15}\_{u=-15} \sum^{15}\_{v=-15} u^0 v^1 i(u,v)
-\\ &=
+\\\\ &=
 \sum^{15}\_{u=-15} \sum^{15}\_{v=-15} v \space i(u,v)
 \end{align*}
 $$
@@ -744,8 +745,8 @@ $$
 t(p,q) = 
 \left\{ 
     \begin{matrix}
-        1 & \quad p > q \\
-        0 & \quad p \le q \\
+        1 & \quad p > q \\\\
+        0 & \quad p \le q \\\\
     \end{matrix}
 \right.
 $$
@@ -1350,12 +1351,12 @@ $$
 &&
 T_{wc} = T_{cw}^{-1} &= 
 \begin{bmatrix}
-    R_{cw}^{\top} & -R_{cw}^{\top}\mathbf{t}\_{cw} \\
+    R_{cw}^{\top} & -R_{cw}^{\top}\mathbf{t}\_{cw} \\\\
     \mathbf{0}^{\top} & 1
 \end{bmatrix}
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 \mathbf{t}\_{wc} &= -R_{cw}^{\top}\mathbf{t}\_{cw}
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 \mathbf{t}\_{lc} &= R_{lw} \mathbf{t}\_{wc}  + \mathbf{t}\_{lw}
 \end{align*}
 $$
@@ -2017,15 +2018,15 @@ $$
 &&
 T = T^{-1} &= 
 \begin{bmatrix}
-    R^{\top} & -R^{\top}\mathbf{t} \\
+    R^{\top} & -R^{\top}\mathbf{t} \\\\
     \mathbf{0}^{\top} & 1
 \end{bmatrix}
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 {R}\_{12} &= R_{1}R_{2}^{\top}
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 \mathbf{t}\_{12}^\wedge &= \big( -R_{1}R_{2}^{\top}\mathbf{t}\_{2} + \mathbf{t}\_{1} \big)^\wedge
-\\ \space
-\\ \Rightarrow &&
+\\\\ \space
+\\\\ \Rightarrow &&
 F &= (K_1^{\top})^{-1} \mathbf{t}\_{12}^\wedge \mathbf{R}\_{12} K_2^{-1}
 \end{align*}
 $$
@@ -2216,8 +2217,8 @@ $$
 \rho_M \big( d^2 \big) =
 \left\{
     \begin{matrix}
-        T_H - d^2 & \text{if } d^2 < T_M \\
-        0 & \text{if } d^2 \ge T_M \\
+        T_H - d^2 & \text{if } d^2 < T_M \\\\
+        0 & \text{if } d^2 \ge T_M \\\\
     \end{matrix}
 \right.
 $$
@@ -2274,20 +2275,20 @@ Define a $3$-d point $\mathbf{p}=[X\quad Y\quad Z]^\top$ and its transformation 
 $$
 \begin{align*}
     \mathbf{p}' &= \begin{bmatrix}
-    s\mathbf{R} & \mathbf{t} \\
+    s\mathbf{R} & \mathbf{t} \\\\
     \mathbf{0} & 1
     \end{bmatrix}
     \mathbf{p}
-    \\ &=
+    \\\\ &=
     \begin{bmatrix}
-    s\mathbf{R} & \mathbf{t} \\
+    s\mathbf{R} & \mathbf{t} \\\\
     \mathbf{0} & 1
     \end{bmatrix}
     \begin{bmatrix}
-        \mathbf{p} \\
+        \mathbf{p} \\\\
         \mathbf{0}
     \end{bmatrix}
-    \\ &=
+    \\\\ &=
     s\mathbf{R}\mathbf{p} + \mathbf{t}
 \end{align*}
 $$
@@ -2298,23 +2299,22 @@ $$
 \begin{align*}
 Sim(3) &= \bigg\{
     \mathbf{S} = \begin{bmatrix}
-        s\mathbf{R} & \mathbf{t} \\
+        s\mathbf{R} & \mathbf{t} \\\\
         \mathbf{0} & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
-\bigg\}
-\\
+\bigg\} \\\\
 sim(3) &= \bigg\{
     \mathbf{\zeta} = \begin{bmatrix}
-        \mathbf{\rho} \\
-        \mathbf{\phi} \\
+        \mathbf{\rho} \\\\
+        \mathbf{\phi} \\\\
         \sigma
     \end{bmatrix}
     \in \mathbb{R}^{7}
     , \quad
     \mathbf{\zeta}^\wedge =
     \begin{bmatrix}
-        \sigma \mathbf{I}+\mathbf{\phi}^\wedge & \mathbf{\rho} \\
+        \sigma \mathbf{I}+\mathbf{\phi}^\wedge & \mathbf{\rho} \\\\
         \mathbf{0} & \mathbf{0}
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
@@ -2354,7 +2354,7 @@ $$
 \begin{align*}
 \mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}\_i &= 
 \mathbf{r}\_{r,i} - \hat{\mathbf{r}}\_{r,i} 
-\\ &= 
+\\\\ &= 
 \mathbf{r}\_{r,i} - s R( \mathbf{r}\_{l,i}) - \mathbf{t}    
 \end{align*}
 $$
@@ -2394,7 +2394,7 @@ $$
 \begin{align*}
 \min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &= 
 \sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') - \mathbf{t}' \big|\big|^2
-\\ &=
+\\\\ &=
 \sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2 - nd{align*}
 $$
 
@@ -2424,19 +2424,19 @@ $$
 &&
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
 \sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2
-\\ && &=
+\\\\ && &=
 \sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' \big|\big|^2 
 -2s \sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)+\sum_{i=1}^n \underbrace{ \big|\big| R( \mathbf{r}\_{l,i}') \big|\big|^2}\_{
     \begin{matrix}
-        =\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2  \\
-        \text{ for they have} \\
+        =\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2  \\\\
+        \text{ for they have} \\\\
         \text{the same length}
     \end{matrix}
 }
-\\ \text{Just rewrite the notations}
+\\\\ \text{Just rewrite the notations}
 && &=
 S_r - 2sD + s^2 S_l
-\\ && &=
+\\\\ && &=
 \underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}\_{\ge 0}+\frac{S_r S_l - D^2}{S_l}
 \end{align*}
 $$
@@ -2453,6 +2453,7 @@ s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}\_{l,i}' \cdot R( \
 {\sum_{i=1}^n \big|\big| R( \mathbf{r}\_{r,i}') \big|\big|^2}
 \ne \frac{1}{s} \text{ likely for the most of the time}
 $$
+
 where $\big|\big| R( \mathbf{r}\_{r,i}') \big|\big|^2=\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2$ is constant.
 
 This expression $s^{*\space -1} \ne \frac{1}{s}$ means that, the error computed with respect to scale $s$ according to transform from the left's to the right's $\mathbf{e}\_{i, l \rightarrow r}=\mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}')$ does not have the inverse scale $\frac{1}{s}$ when transformed from the right's to the left's.
@@ -2465,11 +2466,12 @@ $$
 $$
 
 The least squared problem becomes
+
 $$
 \begin{align*}
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
-\\ &= 
+\\\\ &= 
 \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0}+2(S_l S_r -D)
 \end{align*}
 $$
@@ -2481,6 +2483,7 @@ s^* = \sqrt{
     { \sum_{i=1}^n \big|\big| {\mathbf{r}'_{l,i}} \big|\big|^2 }
 }
 $$
+
 which has a great form where rotation $R$ is removed, that the optimal scale computation only concerns the vectors/map points ${\mathbf{r}'_{l}}$ and ${\mathbf{r}'_{r}}$ in the left and right coordinate systems.
 
 The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)$ grows to maximum.
@@ -2498,17 +2501,19 @@ Express $R$ in quaternion form: $\mathbf{r}$ rotation by quaternion $\mathring{\
 $$
 \mathring{\mathbf{r}}' = \mathring{\mathbf{q}} \mathring{\mathbf{r}} \mathring{\mathbf{q}}^{\dagger}
 $$
+
 where the rotation is defined as rotating an angle of $\theta$ about the axis defined by the unit vector $\mathbf{u}$ such that $\mathring{\mathbf{q}} = \cos \frac{\theta}{2} + \sin\frac{\theta}{2} \big( \overrightarrow{i}u_x + \overrightarrow{j}u_y + \overrightarrow{k}u_z \big)$.
 Here $\mathring{\mathbf{q}}^{\dagger}$ is the normalization term.
 
 Then, 
 $$
 M= \sum_{i=1}^{n} \mathbf{r}'_{l,i} \mathbf{r'}\_{l,i}^{\top}= \begin{bmatrix}
-    S_{xx} & S_{xy} & S_{xz} \\
-    S_{yx} & S_{yy} & S_{yz} \\
-    S_{zx} & S_{zy} & S_{zz} \\
+    S_{xx} & S_{xy} & S_{xz} \\\\
+    S_{yx} & S_{yy} & S_{yz} \\\\
+    S_{zx} & S_{zy} & S_{zz} \\\\
 \end{bmatrix}
 $$
+
 where, for example, $S_{xx}=\sum_{i=1}^{n} x'_{l,i} x'_{r,i}, S_{xy}=\sum_{i=1}^{n} x'_{l,i} y'_{r,i}$.
 
 Recall that $D=\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)$  needs to grow to maximum for 
@@ -2519,10 +2524,10 @@ Take $\mathbf{r}\_{l,i}' \rightarrow \mathring{\mathbf{r'}}\_{l,i}$, then by qua
 $$
 \mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' = 
 \begin{bmatrix}
-    0 & -x'_{l,i} & -y'_{l,i} & -z'_{l,i} \\
-    x'_{l,i} & 0 & z'_{l,i} & -y'_{l,i} \\
-    y'_{l,i} & -z'_{l,i} & 0 & x'_{l,i} \\
-    z'_{l,i} & y'_{l,i} & -x'_{l,i} & 0 \\
+    0 & -x'_{l,i} & -y'_{l,i} & -z'_{l,i} \\\\
+    x'_{l,i} & 0 & z'_{l,i} & -y'_{l,i} \\\\
+    y'_{l,i} & -z'_{l,i} & 0 & x'_{l,i} \\\\
+    z'_{l,i} & y'_{l,i} & -x'_{l,i} & 0 \\\\
 \end{bmatrix}
 \mathring{\mathbf{q}}=\overline{\mathcal{R}}\_{l,i} \mathring{\mathbf{q}}
 $$
@@ -2530,19 +2535,20 @@ $$
 Similarly, there is $\mathring{\mathbf{r}}\_{r,i}' \mathring{\mathbf{q}} = \mathcal{R}\_{r,i} \mathring{\mathbf{q}}$.
 
 So that, $D$ can be expressed as
+
 $$
 \begin{align*}
 D &=
 \sum_{i=1}^{n} \Big( \mathring{\mathbf{q}}\mathbf{r}\_{r,i}' \Big) \cdot \Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' \Big)
-\\ &=
+\\\\ &=
 \sum_{i=1}^{n} \Big( \overline{\mathcal{R}}\_{l,i} \mathring{\mathbf{q}} \Big) \cdot \Big( {\mathcal{R}}\_{r,i} \mathring{\mathbf{q}}  \Big)
-\\ &=
+\\\\ &=
 \sum_{i=1}^{n} \mathring{\mathbf{q}}^{\top} 
 \underbrace{\overline{\mathcal{R}}\_{l,i}^{\top} {\mathcal{R}}\_{r,i} }\_{=N_i}
 \mathring{\mathbf{q}}
-\\ &=
+\\\\ &=
 \mathring{\mathbf{q}}^{\top} \Big( \sum_{i=1}^{n} N_i \Big) \mathring{\mathbf{q}}
-\\ &=
+\\\\ &=
 \mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}}
 \end{align*}
 $$
@@ -2550,10 +2556,10 @@ $$
 The $N$ can be expressed as
 $$
 N = \begin{bmatrix}
-    S_{xx}+S_{yy}+S_{zz} & S_{yz}-S{zy} & S_{zx}-S{xz} & S_{xy}-S{yx} \\
-    S_{yz}-S{zy} & S_{xx}-S_{yy}-S_{zz} & S_{xy}+S{yx} & S_{zx}+S{xz} \\
-    S_{zx}-S{xz} & S_{xy}+S{yx} & -S_{xx}+S_{yy}-S_{zz} & S_{yz}+S{zy} \\
-    S_{xy}-S{yx} & S_{zx}+S{xz} & S_{yz}+S{zy} & -S_{xx}-S_{yy}+S_{zz} \\
+    S_{xx}+S_{yy}+S_{zz} & S_{yz}-S{zy} & S_{zx}-S{xz} & S_{xy}-S{yx} \\\\
+    S_{yz}-S{zy} & S_{xx}-S_{yy}-S_{zz} & S_{xy}+S{yx} & S_{zx}+S{xz} \\\\
+    S_{zx}-S{xz} & S_{xy}+S{yx} & -S_{xx}+S_{yy}-S_{zz} & S_{yz}+S{zy} \\\\
+    S_{xy}-S{yx} & S_{zx}+S{xz} & S_{yz}+S{zy} & -S_{xx}-S_{yy}+S_{zz} \\\\
 \end{bmatrix}
 $$
 
@@ -3691,7 +3697,7 @@ $$
 \big|\big|
     \mathbf{e}\_{ij} + \mathbf{F}\_{ij}\Delta\mathbf{\xi}\_i + \mathbf{E}\_{ij} \Delta \mathbf{p}_j
 \big|\big|
-\\ &\approx
+\\\\ &\approx
 \frac{1}{2} \big|\big|
     \mathbf{e} + \mathbf{F}\Delta\mathbf{x}\_{\mathbf{\xi}} + \mathbf{E}\Delta\mathbf{x}\_{\mathbf{p}}
 \big|\big|^2
@@ -3699,20 +3705,21 @@ $$
 $$
 
 The Jacobian can be computed as below
+
 $$
 \begin{align*}
 \mathbf{J}^\text{T} \mathbf{J} &= 
 \begin{bmatrix}
-    \mathbf{F}^\text{T} \mathbf{F} & \mathbf{F}^\text{T} \mathbf{E} \\
-    \mathbf{E}^\text{T} \mathbf{F} & \mathbf{E}^\text{T} \mathbf{E} \\
+    \mathbf{F}^\text{T} \mathbf{F} & \mathbf{F}^\text{T} \mathbf{E} \\\\
+    \mathbf{E}^\text{T} \mathbf{F} & \mathbf{E}^\text{T} \mathbf{E} \\\\
 \end{bmatrix}
 \overset{\Delta}{=}
 \begin{bmatrix}
-    \mathbf{B} & \mathbf{E} \\
+    \mathbf{B} & \mathbf{E} \\\\
     \mathbf{E}^\text{T} & \mathbf{C}
 \end{bmatrix}
 \qquad \text{rewrite variable notation }\mathbf{E}:=\mathbf{F}^\text{T} \mathbf{E}
-\\ &=
+\\\\ &=
 \sum^n\_{i=1} \sum^m_{j=1} 
 \mathbf{J}^\text{T}\_{ij} \mathbf{J}\_{ij}
 \end{align*}
@@ -3727,20 +3734,20 @@ $$
 \begin{align*}
 &&
 \mathbf{J}^\text{T} \mathbf{J} \mathbf{x} &= \mathbf{g}
-\\ &&
+\\\\ &&
 \begin{bmatrix}
-    \mathbf{B} & \mathbf{E} \\
+    \mathbf{B} & \mathbf{E} \\\\
     \mathbf{E}^\text{T} & \mathbf{C}
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{\mathbf{\xi}} \\
+    \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
     \Delta \mathbf{x}\_{\mathbf{p}}
 \end{bmatrix}&=
 \begin{bmatrix}
-    \mathbf{v} \\
+    \mathbf{v} \\\\
     \mathbf{w}
 \end{bmatrix}
-\\ \Rightarrow &&
+\\\\ \Rightarrow &&
 (\mathbf{B}-\mathbf{E}\mathbf{C}^{-1}\mathbf{E}^\text{T})
 \Delta \mathbf{x}\_{\mathbf{\xi}}&=
 \mathbf{v} - \mathbf{E}\mathbf{C}^{-1} \mathbf{w}
@@ -3921,76 +3928,81 @@ $$
 \frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}&=
 \underset{\Delta\mathbf{\xi} \rightarrow 0}{\lim}
 \frac{\mathbf{e}(\delta\mathbf{\xi} \oplus \mathbf{\xi})-\mathbf{e}(\mathbf{\xi})}{\Delta\mathbf{\xi}}
-\\ &=
+\\\\ &=
 \frac{\partial \mathbf{e}}{\partial \mathbf{p}}
 \frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}
 \end{align*}
 $$
+
 where
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{e}}{\partial \mathbf{p}}&= - \begin{bmatrix}
     \frac{\partial u}{\partial X} &
     \frac{\partial u}{\partial Y} &
-    \frac{\partial u}{\partial Z} \\
+    \frac{\partial u}{\partial Z} \\\\
     \frac{\partial v}{\partial X} &
     \frac{\partial v}{\partial Y} &
     \frac{\partial v}{\partial Z}
 \end{bmatrix}
-\\ &= -   \frac{\partial (f_y \frac{Y}{Z} + c_y)}{\partial X} &
+\\\\ &= -   \frac{\partial (f_y \frac{Y}{Z} + c_y)}{\partial X} &
     \frac{\partial (f_y \frac{Y}{Z} + c_y)}{\partial Y} &
     \frac{\partial (f_y \frac{Y}{Z} + c_y)}{\partial Z}
 \end{bmatrix}
-\\ &= - \begin{bmatrix}
-    \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} \\
-    0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} \\
+\\\\ &= - \begin{bmatrix}
+    \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} \\\\
+    0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} \\\\
 \end{bmatrix}
 \end{ - 
 
 
 and, this term $\frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}&=
 \frac{\partial \mathbf{\xi} \mathbf{p}}{\partial \Delta\mathbf{\xi}}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    \mathbf{I} & -\mathbf{p}^{\wedge} \\ 
+    \mathbf{I} & -\mathbf{p}^{\wedge} \\\\ 
     \mathbf{0} & \mathbf{0}
 \end{bmatrix}
 \end{align*}
 $$
+
 where 
 $$
 \begin{align*}
 \mathbf{p}^{\wedge}&=
 \begin{bmatrix}
-    0 & Z & Y \\
-    -Z & 0 & -X \\
+    0 & Z & Y \\\\
+    -Z & 0 & -X \\\\
     -Y & X & 0
 \end{bmatrix}
 \end{align*}
 $$
 
 Combined, and removed $\mathbf{0}$ from $\frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}$, there is
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}&=
 \frac{\partial \mathbf{e}}{\partial \mathbf{p}}
 \frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}
-\\ &= - \begin{bmatrix}
-    \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} \\
-    0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} \\
+\\\\ &= - \begin{bmatrix}
+    \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} \\\\
+    0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} \\\\
 \end{bmatrix}
 \begin{bmatrix}
-    1 -   0 & 1 & 0 & Z & 0 & X \\
+    1 -   0 & 1 & 0 & Z & 0 & X \\\\
     0 & 0 & 1 & Y & -X & 0
 \end{bmatrix}
-\\ &=
+\\\\ &=
 -\begin{bmatrix}
     \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} &
     -\frac{f_x X Y}{Z^2} & f_x + \frac{f_x X^2}{Z^2} & -\frac{f_x Y}{Z}
-    \\
+    \\\\
     0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} &
     -f_y - \frac{f_y Y^2}{Z^2} & \frac{f_y YX'}{Z} & \frac{f_y X}{Z}
     
@@ -4261,31 +4273,31 @@ Triangulation starts.
 $$
 \begin{align*}
 \text{Given pixel } (x_p, y_p) \text{ and world point } (x_w, y_w), 
-\\ \text{here are the projection equations} && 
+\\\\ \text{here are the projection equations} && 
 x_p &= \frac{f_x}{Z} x_w +c_x
 &\qquad
 y_p &= \frac{f_y}{Z} y_w +c_y
-\\ \text{Find the world points for the two keyframes by } Z=1 \Rightarrow &&
+\\\\ \text{Find the world points for the two keyframes by } Z=1 \Rightarrow &&
 \mathbf{x}_1 &= 
 \begin{bmatrix}
-    x_{1w} \\ y_{1w} \\ 1
+    x_{1w} \\\\ y_{1w} \\\\ 1
 \end{bmatrix} =
 \begin{bmatrix}
-\frac{x_1 - c_{1x}}{f_{1x}} \\ \frac{y_1 - c_{1y}}{f_{1y}} \\ 1
+\frac{x_1 - c_{1x}}{f_{1x}} \\\\ \frac{y_1 - c_{1y}}{f_{1y}} \\\\ 1
 \end{bmatrix}
 &\qquad
 \mathbf{x}_2 &= 
 \begin{bmatrix}
-    x_{2w} \\ y_{2w} \\ 1
+    x_{2w} \\\\ y_{2w} \\\\ 1
 \end{bmatrix} =
 \begin{bmatrix}
-\frac{x_2 - c_{2x}}{f_{2x}} \\ \frac{y_1 - c_{2y}}{f_{2y}} \\ 1
+\frac{x_2 - c_{2x}}{f_{2x}} \\\\ \frac{y_1 - c_{2y}}{f_{2y}} \\\\ 1
 \end{bmatrix}
-\\ \text{Camera to world point rays/homography} \Rightarrow &&
+\\\\ \text{Camera to world point rays/homography} \Rightarrow &&
 \mathbf{r}_1 &= R_1^{\top} \mathbf{x}_1
 &\qquad
 \mathbf{r}_2 &= R_2^{\top} \mathbf{x}_2
-\\ \text{Parallax angle} \Rightarrow &&
+\\\\ \text{Parallax angle} \Rightarrow &&
 \cos\angle{\theta_{12}} &=
 \frac{\mathbf{r}_1 \cdot \mathbf{r}_2}{\big|\mathbf{r}_2\big| \cdot \big|\mathbf{r}_2\big|}= \frac{\big|\mathbf{r}_2\big| \cdot \big|\mathbf{r}_2\big| \cos\angle{\theta_{12}}}{\big|\mathbf{r}_2\big| \cdot \big|\mathbf{r}_2\big|}
 \end{align*}
@@ -4299,66 +4311,67 @@ PnP (Perspective-n-Point) describes how a 3d world point $\mathbf{X}=[X\quad Y\q
 Denote the projection as $\mathbf{P}$.
 $$
 s \underbrace{\begin{bmatrix}
-    u \\
-    v \\
+    u \\\\
+    v \\\\
     1
 \end{bmatrix}}\_{\mathbf{x}}=
 \underbrace{
 \begin{bmatrix}
-    f_x & 0 & c_x \\
-    0 & f_y & c_y \\
+    f_x & 0 & c_x \\\\
+    0 & f_y & c_y \\\\
     0 & 0 & 1
 \end{bmatrix}
 \underbrace{
     \begin{bmatrix}
-        t_1 & t_2 & t_3 & t_4 \\
-        t_5 & t_6 & t_7 & t_8 \\
-        t_9 & t_{10} & t_{11} & t_{12} \\
+        t_1 & t_2 & t_3 & t_4 \\\\
+        t_5 & t_6 & t_7 & t_8 \\\\
+        t_9 & t_{10} & t_{11} & t_{12} \\\\
     \end{bmatrix}
 }\_{[\mathbf{R}|\mathbf{t}]}
 }\_{\mathbf{P}=\begin{bmatrix}
-        p_1 & p_2 & p_3 & p_4 \\
-        p_5 & p_6 & p_7 & p_8 \\
-        p_9 & p_{10} & p_{11} & p_{12} \\
+        p_1 & p_2 & p_3 & p_4 \\\\
+        p_5 & p_6 & p_7 & p_8 \\\\
+        p_9 & p_{10} & p_{11} & p_{12} \\\\
     \end{bmatrix}=\begin{bmatrix}
-        \mathbf{p}_1^\top \\
-        \mathbf{p}_2^\top \\
+        \mathbf{p}_1^\top \\\\
+        \mathbf{p}_2^\top \\\\
         \mathbf{p}_3^\top
     \end{bmatrix}
     }
 \underbrace{\begin{bmatrix}
-    X \\
-    Y \\
-    Z \\
+    X \\\\
+    Y \\\\
+    Z \\\\
     1
 \end{bmatrix}}\_{\mathbf{X}}
 $$
+
 where $\mathbf{p}_1^\top=[p_1\quad p_2\quad p_3\quad p_4],\qquad \mathbf{p}_2^\top=[p_5\quad p_6\quad p_7\quad p_8], \qquad \mathbf{p}_3^\top=[p_9\quad p_{10}\quad p_{11}\quad p_{12}]$.
 
 Consider image pixels $(u, v)$ and $(u', v')$ for the two keyframes, and the corresponding transform 
-$\mathbf{P} = \begin{bmatrix} \mathbf{p}_1^\top \\ \mathbf{p}_2^\top \\ \mathbf{p}_3^\top \end{bmatrix}$ 
-and $\mathbf{P}' = \begin{bmatrix} \mathbf{p'}_1^\top \\ \mathbf{p'}_2^\top \\ \mathbf{p'}_3^\top \end{bmatrix}$
+$\mathbf{P} = \begin{bmatrix} \mathbf{p}_1^\top \\\\ \mathbf{p}_2^\top \\\\ \mathbf{p}_3^\top \end{bmatrix}$ 
+and $\mathbf{P}' = \begin{bmatrix} \mathbf{p'}_1^\top \\\\ \mathbf{p'}_2^\top \\\\ \mathbf{p'}_3^\top \end{bmatrix}$
 by triangulation rule, there is $A\mathbf{X}=\mathbf{0}$:
 
 $$
 \begin{bmatrix}
-    v\mathbf{p}_3^\top \mathbf{X} - \mathbf{p}_1^\top \mathbf{X} \\
-    \mathbf{p}_1^\top \mathbf{X} - u\mathbf{p}_3^\top \mathbf{X} \\
-    v'\mathbf{p'}_3^\top \mathbf{X} - \mathbf{p'}_1^\top \mathbf{X} \\
+    v\mathbf{p}_3^\top \mathbf{X} - \mathbf{p}_1^\top \mathbf{X} \\\\
+    \mathbf{p}_1^\top \mathbf{X} - u\mathbf{p}_3^\top \mathbf{X} \\\\
+    v'\mathbf{p'}_3^\top \mathbf{X} - \mathbf{p'}_1^\top \mathbf{X} \\\\
     \mathbf{p'}_1^\top \mathbf{X} - u'\mathbf{p'}_3^\top \mathbf{X}
 \end{bmatrix}
 \overset{\text{take out }\mathbf{X}}{=}
 \underbrace{\begin{bmatrix}
-    v\mathbf{p}_3^\top - \mathbf{p}_1^\top \\
-    \mathbf{p}_1^\top - u\mathbf{p}_3^\top \\
-    v'\mathbf{p'}_3^\top - \mathbf{p'}_1^\top \\
+    v\mathbf{p}_3^\top - \mathbf{p}_1^\top \\\\
+    \mathbf{p}_1^\top - u\mathbf{p}_3^\top \\\\
+    v'\mathbf{p'}_3^\top - \mathbf{p'}_1^\top \\\\
     \mathbf{p'}_1^\top - u'\mathbf{p'}_3^\top
 \end{bmatrix}}\_{A}
 \mathbf{X}=
 \begin{bmatrix}
-    0 \\
-    0 \\
-    0 \\
+    0 \\\\
+    0 \\\\
+    0 \\\\
     0
 \end{bmatrix}
 $$
@@ -4375,16 +4388,16 @@ $$
 &&
 \hat{\mathbf{x}}\_{1c} &= 
 \begin{bmatrix}
-    x_{1c} \\ y_{1c} \\ z_{1c}
+    x_{1c} \\\\ y_{1c} \\\\ z_{1c}
 \end{bmatrix}
  = R_1 \mathbf{x} + \mathbf{t}_1
 & &&\qquad
 \hat{\mathbf{x}}\_{2c} &= 
 \begin{bmatrix}
-    x_{2c} \\ y_{2c} \\ z_{2c}
+    x_{2c} \\\\ y_{2c} \\\\ z_{2c}
 \end{bmatrix}
  = R_2 \mathbf{x} + \mathbf{t}_2
-\\ \text{Projection } \Rightarrow &&
+\\\\ \text{Projection } \Rightarrow &&
 \hat{u}\_{1} &= \frac{f_x}{z_{1c}} x_{1c} + c_x
 &\qquad
 \hat{v}\_{1} = \frac{f_y}{z_{1c}} y_{1c} + c_y
@@ -4392,11 +4405,11 @@ $$
 \hat{u}\_{2} &= \frac{f_x}{z_{2c}} x_{2c} + c_x
 &\qquad
 \hat{v}\_{2} = \frac{f_y}{z_{2c}} y_{2c} + c_y
-\\ \text{Error } \Rightarrow &&
-\mathbf{e}_1 &= \begin{bmatrix} \hat{u}\_{1} \\ \hat{v}\_{1} \end{bmatrix} - \begin{bmatrix} {u}\_{1} \\ {v}\_{1} \end{bmatrix}
+\\\\ \text{Error } \Rightarrow &&
+\mathbf{e}_1 &= \begin{bmatrix} \hat{u}\_{1} \\\\ \hat{v}\_{1} \end{bmatrix} - \begin{bmatrix} {u}\_{1} \\\\ {v}\_{1} \end{bmatrix}
 & &&\qquad
-\mathbf{e}_2 &= \begin{bmatrix} \hat{u}\_{2} \\ \hat{v}\_{2} \end{bmatrix} - \begin{bmatrix} {u}\_{2} \\ {v}\_{2} \end{bmatrix}
-\\ \mathcal{X}^2 \text{ test by } 95\% \text{ confidence } \Rightarrow &&
+\mathbf{e}_2 &= \begin{bmatrix} \hat{u}\_{2} \\\\ \hat{v}\_{2} \end{bmatrix} - \begin{bmatrix} {u}\_{2} \\\\ {v}\_{2} \end{bmatrix}
+\\\\ \mathcal{X}^2 \text{ test by } 95\% \text{ confidence } \Rightarrow &&
 \mathbf{e}_1 \mathbf{e}_1^{\top} &< 5.991
 & &&\qquad - old{e}_2 \mathbf{e}_2^{\top} &< 5.991
 \end{align*}
@@ -4876,18 +4889,18 @@ $$
 \mathbf{l}_r =
 \mathbf{x}_l^{\top} F_{rl} =
 \begin{bmatrix}
-    x_l \\
-    y_l \\
-    1 \\
+    x_l \\\\
+    y_l \\\\
+    1 \\\\
 \end{bmatrix}^{\top}
 F_{rl}
 \qquad
 \mathbf{l}_r \mathbf{x}_r = 
 \mathbf{l}_r
 \begin{bmatrix}
-    x_r \\
-    y_r \\
-    1 \\
+    x_r \\\\
+    y_r \\\\
+    1 \\\\
 \end{bmatrix}
 $$
 
@@ -5744,7 +5757,7 @@ There are three types of edges:
 The edge/error goes like this: before the optimization, loop closure keyframes `if(pKF==pLoopKF)  VSim3->setFixed(true);` are set to fixed, and the transform between keyframes `e->setMeasurement(<transform>);` are believed truths,
 so that the non-loop-closure keyframes should have their poses aligned to the transforms.
 
-Finally, perform $SE(3)$ recovery: $\begin{bmatrix} sR & \mathbf{t} \\ 0 & 1 \end{bmatrix} \rightarrow \begin{bmatrix} R & \frac{1}{s}\mathbf{t} \\ 0 & 1 \end{bmatrix}$ and by the recovery to restore map points.
+Finally, perform $SE(3)$ recovery: $\begin{bmatrix} sR & \mathbf{t} \\\\ 0 & 1 \end{bmatrix} \rightarrow \begin{bmatrix} R & \frac{1}{s}\mathbf{t} \\\\ 0 & 1 \end{bmatrix}$ and by the recovery to restore map points.
 
 ```cpp
 void Optimizer::OptimizeEssentialGraph(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,

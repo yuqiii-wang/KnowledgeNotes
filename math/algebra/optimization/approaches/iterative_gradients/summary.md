@@ -16,7 +16,7 @@ $$
 \mathbf{x}\_{n+1}&=
 \mathbf{x}\_{n} -
 \lambda \Delta \big(\frac{1}{2} \mathbf{r}(\mathbf{x}_n)^\text{T} \mathbf{r}(\mathbf{x}_n)\big)
-\\ &=
+\\\\ &=
 \mathbf{x}\_{n} -
 \lambda \mathbf{J}^\text{T}_r \mathbf{r} (\mathbf{x}_n)
 \end{align*}

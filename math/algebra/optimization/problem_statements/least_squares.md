@@ -25,19 +25,19 @@ J(\mathbf{x})=
 _{
     \begin{array}{c}
     \footnotesize{j=1,2,3,...,m}
-    \\
+    \\\\
     \footnotesize{i=1,2,3,...,n}
     \end{array}
 }=
 \begin{bmatrix}
     \nabla r_1(\mathbf{x})^\text{T}
-    \\
+    \\\\
     \nabla r_2(\mathbf{x})^\text{T}
-    \\
+    \\\\
     \nabla r_3(\mathbf{x})^\text{T}
-    \\
+    \\\\
     ...
-    \\
+    \\\\
     \nabla r_m(\mathbf{x})^\text{T}
 \end{bmatrix}
 $$
@@ -47,22 +47,23 @@ $$
 \begin{align*}
 \nabla f(\mathbf{x})&=
 \sum^m_{j=1} r_j(\mathbf{x}) \nabla r_j(\mathbf{x})
-\\ &=
+\\\\ &=
 J(\mathbf{x}^\text{T}) \mathbf{r}(\mathbf{x})
 \end{align*}
 $$
 
 Its second degree derivative (Hessian) is
+
 $$
 \begin{align*}
 \nabla^2f(\mathbf{x})&=
 \sum^m_{j=1} \big( r_j(\mathbf{x}) \nabla r_j(\mathbf{x})\big)'
-\\ &=
+\\\\ &=
 \sum^m_{j=1} r_j'(\mathbf{x}) \nabla r_j(\mathbf{x}) + r_j(\mathbf{x}) \nabla r_j'(\mathbf{x})
-\\ &=
+\\\\ &=
 \sum^m_{j=1} \nabla r_j(\mathbf{x}) \nabla r_j(\mathbf{x})^\text{T} +
 \sum^m_{j=1} r_j(\mathbf{x}) \nabla^2 r_j(\mathbf{x})
-\\ &=
+\\\\ &=
 J(\mathbf{x})^\text{T} J(\mathbf{x}) + \sum^m_{j=1} r_j(\mathbf{x}) \nabla^2 r_j(\mathbf{x})
 \end{align*}
 $$
@@ -102,14 +103,15 @@ $$
 \begin{align*}
 \mathbf{r}^2(\mathbf{x}) &= 
 (A\mathbf{x}-\mathbf{b})^\text{T}(A\mathbf{x}-\mathbf{b})
-\\ &=
+\\\\ &=
 \big((A\mathbf{x})^\text{T}-\mathbf{b}^\text{T}\big)(A\mathbf{x}-\mathbf{b})
-\\ &=
+\\\\ &=
 (A\mathbf{x})^\text{T}(A\mathbf{x})-(A\mathbf{x})^\text{T}\mathbf{b}-(A\mathbf{x})\mathbf{b}^\text{T}+\mathbf{b}^\text{T}\mathbf{b}
 \end{align*}
 $$
 
 Both $A\mathbf{x}$ and $\mathbf{b}$ are vectors, by the rule $a^\text{T}b=b^\text{T}a$, where $a$ and $b$ are vectors, so that
+
 $$
 \begin{align*}
 \mathbf{r}^2(\mathbf{x}) &=
@@ -118,14 +120,12 @@ $$
 $$
 
 Minimized $\mathbf{e}$ should see $\frac{\partial \mathbf{r}^2(\mathbf{x})}{\partial \mathbf{x}}=0$, Set the optimal as $\mathbf{x}^*$, so that
+
 $$
 \begin{align*}
-\frac{\partial \mathbf{r}^2(\mathbf{x})}{\partial \mathbf{x}}&= 0 
-\\
-2A^\text{T}A{\mathbf{x}^*} - 2A^\text{T}\mathbf{b} &= 0
-\\
-A^\text{T}A{\mathbf{x}^*} &= A^\text{T}\mathbf{b}
-\\
+\frac{\partial \mathbf{r}^2(\mathbf{x})}{\partial \mathbf{x}}&= 0  \\\\
+2A^\text{T}A{\mathbf{x}^*} - 2A^\text{T}\mathbf{b} &= 0 \\\\
+A^\text{T}A{\mathbf{x}^*} &= A^\text{T}\mathbf{b} \\\\
 \mathbf{x}^*=\frac{A^\text{T}\mathbf{b}}{A^\text{T}A}
 \end{align*}
 $$

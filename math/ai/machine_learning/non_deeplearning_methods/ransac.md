@@ -33,8 +33,8 @@ Define a threshold $t^2$, there is
 $$
 \left\{
     \begin{matrix}
-        \text{inlier} & d^2 < t^2 \\
-        \text{outlier} & d^2 \ge t^2 \\
+        \text{inlier} & d^2 < t^2 \\\\
+        \text{outlier} & d^2 \ge t^2 \\\\
     \end{matrix}
 \right.
 $$
@@ -64,11 +64,12 @@ Define the number of iterative samplings as $N$, and each sampling contains $n$ 
 
 Set the probability of at least one sampling containing all inliers as $p$, typically there is $p=0.99$, and $\omega$ as the probability of a sample being an inlier (so that $\epsilon=1-\omega$ is the outlier probability).
 To reach the goal of $N$ tests where each test has $n$ samples, there is
+
 $$
 \begin{align*}
 &&&
 (1-\omega^n)^N=1-p
-\\ \rightarrow &&&
+\\\\ \rightarrow &&&
 N=
 \frac{\log(1-p)}{\log\big( 1-(1-\epsilon)^n \big)}
 \end{align*}

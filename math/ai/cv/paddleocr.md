@@ -139,7 +139,7 @@ Given a pixel $p_{i,j}$ on an image $\mathbb{R}^{H \times W}$, standard binariza
 
 $$
 p_{i,j} = \begin{cases}
-  1 & \text{if } p_{i,j} < t, \\
+  1 & \text{if } p_{i,j} < t, \\\\
   0 & \text{if } \text{otherwise}
 \end{cases}
 $$
@@ -185,14 +185,14 @@ L\_{C_1} = -\sum_{i=1}^N \sum_{m=1}^M t_i(y_i,m) \log\big(p_1^m(\mathbf{x}\_i)\b
 L\_{C_2} = -\sum_{i=1}^N \sum_{m=1}^M t_i(y_i,m) \log\big(p_2^m(\mathbf{x}\_i)\big)
 $$
 
-where $t_i(y_i,m)=\begin{cases} 1 & y_i=m \\ 0 & y_i\ne m \end{cases}$ is an indicator function.
+where $t_i(y_i,m)=\begin{cases} 1 & y_i=m \\\\ 0 & y_i\ne m \end{cases}$ is an indicator function.
 
 To align two models, Kullback Leibler (KL) Divergence ($D_{KL}(P || Q)$ says how prediction probability distribution $Q$ is different from actual probability distribution $P$) is used
 
 $$
 \begin{align*}
     \text{From } \mathbf{p}_1 \text{ to } \mathbf{p}_2 \qquad
-    D_{KL}(\mathbf{p}_2||\mathbf{p}_1)=\sum_{i=1}^N \sum_{m=1}^M p_2^m(\mathbf{x}\_i) \log\frac{p_2^m(\mathbf{x}\_i)}{p_1^m(\mathbf{x}\_i)} \\
+    D_{KL}(\mathbf{p}_2||\mathbf{p}_1)=\sum_{i=1}^N \sum_{m=1}^M p_2^m(\mathbf{x}\_i) \log\frac{p_2^m(\mathbf{x}\_i)}{p_1^m(\mathbf{x}\_i)} \\\\
     \text{From } \mathbf{p}_2 \text{ to } \mathbf{p}_1 \qquad
     D_{KL}(\mathbf{p}_1||\mathbf{p}_2)=\sum_{i=1}^N \sum_{m=1}^M p_1^m(\mathbf{x}\_i) \log\frac{p_1^m(\mathbf{x}\_i)}{p_2^m(\mathbf{x}\_i)}
 \end{align*}
@@ -206,7 +206,7 @@ The key novelty lies on
 
 $$
 \begin{align*}
-    L\_{\Theta_1} &= L\_{C_1} + D_{KL}(\mathbf{p}_2||\mathbf{p}_1) \\
+    L\_{\Theta_1} &= L\_{C_1} + D_{KL}(\mathbf{p}_2||\mathbf{p}_1) \\\\
     L\_{\Theta_2} &= L\_{C_2} + D_{KL}(\mathbf{p}_1||\mathbf{p}_2)
 \end{align*}
 $$
@@ -469,7 +469,7 @@ Given $\mathbf{x}\_i$ as the $i$-th feature vector, the alignment attention scor
 
 $$
 \begin{align*}
-    \tilde{\mathbf{h}}\_{k,i} &= \tanh(W_c [\mathbf{s}\_{k-1}; \mathbf{x}\_i]) \\
+    \tilde{\mathbf{h}}\_{k,i} &= \tanh(W_c [\mathbf{s}\_{k-1}; \mathbf{x}\_i]) \\\\
     \tilde{h}\_{k,i} &= W_h \tilde{\mathbf{h}}\_{k,i}
 \end{align*}
 $$
@@ -507,7 +507,7 @@ expressed as update gate ($\mathbf{z_t}$) and reset gate ($\mathbf{r_t}$):
 
 $$
 \begin{align*}
-    \mathbf{z_t}&=\sigma(W_z\cdot[\mathbf{y}\_{prev}; \mathbf{c}_k; \mathbf{s}\_{k-1}]) \\
+    \mathbf{z_t}&=\sigma(W_z\cdot[\mathbf{y}\_{prev}; \mathbf{c}_k; \mathbf{s}\_{k-1}]) \\\\
     \mathbf{r_t}&=\sigma(W_r\cdot[\mathbf{y}\_{prev}; \mathbf{c}_k; \mathbf{s}\_{k-1}])
 \end{align*}
 $$

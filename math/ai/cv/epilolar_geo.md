@@ -39,6 +39,7 @@ Extrinsic calibration provides a 3d rigid coordinate transformation $\mathbf{x}\
 $$
 M_{ex}=[R_L \space -R_L \overrightarrow{O}\_{\tiny{W,L}}]_{3 \times 4}
 $$
+
 where $\overrightarrow{O}\_{\tiny{W,L}}$ denotes left camera optical center in the real world coordinates; $R_L$ is a $3 \times 3$ rotation matrix. Intuitively, $M_{ex}$ can be interpreted as transformation by rotation $R_L$ then translation by $R_L\overrightarrow{O}\_{\tiny{W,L}}$.
 
 ### Epipolar constraint 
@@ -57,45 +58,49 @@ $$
 (O_{\tiny{W,L}}-O_{\tiny{W,R}})\times=
 [O_{b}]_{\times}=
 \begin{bmatrix}
-    0 & -o_3 & o_2 \\
-    o_3 & 0 & -o_1 \\
+    0 & -o_3 & o_2 \\\\
+    o_3 & 0 & -o_1 \\\\
     -o_2 & o_1 & 0
 \end{bmatrix}
 $$
+
 This transforms a vector multiplication into a matrix multiplication. Some articles denote this vector to matrix transformation as $O_{b}^{\vee}=[O_{b}]_{\times}$. 
 
 The vector representation of a real world point in the left camera frame $\mathbf{x}\_{\tiny{W,L}}-O_{\tiny{W,L}}$ can be computed with its pixel vector $\mathbf{x}\_{\tiny{C,L}}$ multiplied by the orientation $R^\text{T}\_{L}$ of the left camera
 $$
 \mathbf{x}\_{\tiny{W,L}}-O_{\tiny{W,L}} = R^\text{T}\_{L}\mathbf{x}\_{\tiny{C,L}}
 $$
+
 Similarly for the right camera view:
 $$
 \mathbf{x}\_{\tiny{W,R}}-O_{\tiny{W,R}} = R^\text{T}\_{R}\mathbf{x}\_{\tiny{C,R}}
 $$
 
 So that the epipolar constraint can be written as
+
 $$
 \begin{align*}
 & \space \space \space \space \space 
 R^\text{T}\_{L}\mathbf{x}\_{\tiny{C,L}}
 \big((O_{\tiny{W,L}}-O_{\tiny{W,R}})
 \times R^\text{T}\_{R}\mathbf{x}\_{\tiny{C,R}}\big)
-\\ &=
+\\\\ &=
 \mathbf{x}\_{\tiny{C,L}}^\text{T}R_{L}
 \big((O_{\tiny{W,L}}-O_{\tiny{W,R}})
 \times R^\text{T}\_{R}\mathbf{x}\_{\tiny{C,R}}\big)
-\\ &=
+\\\\ &=
 \mathbf{x}\_{\tiny{C,L}}^\text{T}R_{L}
 [O_{b}]_{\times}
 R^\text{T}\_{R}\mathbf{x}\_{\tiny{C,R}}
-\\ &=
+\\\\ &=
 \mathbf{x}\_{\tiny{C,L}}^\text{T}
 E
 \mathbf{x}\_{\tiny{C,R}}
-\\ &= 
+\\\\ &= 
 0
 \end{align*}
 $$
+
 where $E=R_{L}\big((O_{\tiny{W,L}}-O_{\tiny{W,R}})\times R^\text{T}\_{R}\big)$ is the essential matrix.
 
 ### Essential Matrix Degree of Freedom (DoF)
@@ -111,15 +116,15 @@ For $\mathbf{x}\_{\tiny{L}}$ and $\mathbf{x}\_{\tiny{R}}$ such as
 $$
 \mathbf{x}\_{\tiny{L}}=
 \begin{bmatrix}
-    u \\
-    v \\
+    u \\\\
+    v \\\\
     1
 \end{bmatrix}
 \text{, }
 \mathbf{x}\_{\tiny{R}}=
 \begin{bmatrix}
-    u' \\
-    v' \\
+    u' \\\\
+    v' \\\\
     1
 \end{bmatrix}
 $$
@@ -128,36 +133,37 @@ given $\mathbf{x}\_{\tiny{C,L}}^\text{T} E \mathbf{x}\_{\tiny{C,R}} = 0$, that g
 $$
 [u, v, 1]
 \begin{bmatrix}
-    e_1 & e_2 & e_3 \\
-    e_4 & e_5 & e_6 \\
-    e_7 & e_8 & e_9 \\
+    e_1 & e_2 & e_3 \\\\
+    e_4 & e_5 & e_6 \\\\
+    e_7 & e_8 & e_9 \\\\
 \end{bmatrix}
 \begin{bmatrix}
-    u' \\
-    v' \\
+    u' \\\\
+    v' \\\\
     1
 \end{bmatrix}=
 0
 $$
 
 *Eight-Point Algorithm* requires $8$ point pairs $\mathbf{x}\_{\tiny{L}}$ and $\mathbf{x}\_{\tiny{R}}$ (the scaling factor $f$ is considered equivalent to setting $f=1$), rearrange the equation above, there is
+
 $$
 \begin{bmatrix}
-    u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\
-    u_2'u_2 & u_2'v_2 & u_2' & v_2'v_2 & v_2'u_2 & v_2' & u_2 & v_2 & 1 \\
-    \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\
-    u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\
+    u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\\\
+    u_2'u_2 & u_2'v_2 & u_2' & v_2'v_2 & v_2'u_2 & v_2' & u_2 & v_2 & 1 \\\\
+    \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\\\
+    u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\\\
 \end{bmatrix}
 \begin{bmatrix}
-    e_1 \\
-    e_2 \\
-    e_3 \\
-    e_4 \\
-    e_5 \\
-    e_6 \\
-    e_7 \\
-    e_8 \\
-    e_9 \\
+    e_1 \\\\
+    e_2 \\\\
+    e_3 \\\\
+    e_4 \\\\
+    e_5 \\\\
+    e_6 \\\\
+    e_7 \\\\
+    e_8 \\\\
+    e_9 \\\\
 \end{bmatrix}=0
 $$
 
@@ -180,9 +186,9 @@ For a camera with rectangular pixels of size $1/s_x \times 1/s_y$, optical cente
 $$
 M_{in}=
 \begin{bmatrix}
-    s_x & 0 & o_x/f \\
-    0 & s_y & o_y/f \\
-    0 & 0 & 1/f \\
+    s_x & 0 & o_x/f \\\\
+    0 & s_y & o_y/f \\\\
+    0 & 0 & 1/f \\\\
 \end{bmatrix}
 $$
 
@@ -231,8 +237,8 @@ $$
 E=
 T \times R=
 \begin{bmatrix}
-    0 & 0 & 0 \\
-    0 & 0 & -t \\
+    0 & 0 & 0 \\\\
+    0 & 0 & -t \\\\
     0 & t & 0
 \end{bmatrix}
 $$
@@ -241,15 +247,15 @@ Define $\mathbf{x}\_{\tiny{R}}$ and $\mathbf{x}\_{\tiny{L}}$ as unit homogeneous
 $$
 \mathbf{x}\_{\tiny{L}}=
 \begin{bmatrix}
-    u \\
-    v \\
+    u \\\\
+    v \\\\
     1
 \end{bmatrix}
 \text{, }
 \mathbf{x}\_{\tiny{R}}=
 \begin{bmatrix}
-    u' \\
-    v' \\
+    u' \\\\
+    v' \\\\
     1
 \end{bmatrix}
 $$
@@ -261,25 +267,23 @@ $$
     u & v & 1
 \end{bmatrix}
 \begin{bmatrix}
-    0 & 0 & 0 \\
-    0 & 0 & -t \\
+    0 & 0 & 0 \\\\
+    0 & 0 & -t \\\\
     0 & t & 0
 \end{bmatrix}
 \begin{bmatrix}
-    u' \\
-    v' \\
+    u' \\\\
+    v' \\\\
     1
-\end{bmatrix}&= 0
-\\
+\end{bmatrix}&= 0 \\\\
 \begin{bmatrix}
     u & v & 1
 \end{bmatrix}
 \begin{bmatrix}
-    0 \\
-    -t \\
+    0 \\\\
+    -t \\\\
     tv'
-\end{bmatrix}&= 0
-\\
+\end{bmatrix}&= 0 \\\\
 tv &= tv'
 \end{align*}
 $$
@@ -353,23 +357,23 @@ For $\mathbf{x}\_{\tiny{L}}$ and $\mathbf{x}\_{\tiny{R}}$ such as
 $$
 \mathbf{x}\_{\tiny{L}}=
 \begin{bmatrix}
-    u \\
-    v \\
+    u \\\\
+    v \\\\
     1
 \end{bmatrix}
 , \quad
 \mathbf{x}\_{\tiny{R}}=
 \begin{bmatrix}
-    u' \\
-    v' \\
+    u' \\\\
+    v' \\\\
     1
 \end{bmatrix}
 , \quad
 F_{\tiny{LR}}=
 \begin{bmatrix}
-    f_1 & f_2 & f_3 \\
-    f_4 & f_5 & f_6 \\
-    f_7 & f_8 & f_9 \\
+    f_1 & f_2 & f_3 \\\\
+    f_4 & f_5 & f_6 \\\\
+    f_7 & f_8 & f_9 \\\\
 \end{bmatrix}
 $$
 
@@ -378,21 +382,21 @@ $$
 ### To solve for $F_{\tiny{LR}}$
 $$
 \begin{bmatrix}
-    u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\
-    u_2'u_2 & u_2'v_2 & u_2' & v_2'v_2 & v_2'u_2 & v_2' & u_2 & v_2 & 1 \\
-    \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\
-    u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\
+    u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\\\
+    u_2'u_2 & u_2'v_2 & u_2' & v_2'v_2 & v_2'u_2 & v_2' & u_2 & v_2 & 1 \\\\
+    \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\\\
+    u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\\\
 \end{bmatrix}
 \begin{bmatrix}
-    f_1 \\
-    f_2 \\
-    f_3 \\
-    f_4 \\
-    f_5 \\
-    f_6 \\
-    f_7 \\
-    f_8 \\
-    f_9 \\
+    f_1 \\\\
+    f_2 \\\\
+    f_3 \\\\
+    f_4 \\\\
+    f_5 \\\\
+    f_6 \\\\
+    f_7 \\\\
+    f_8 \\\\
+    f_9 \\\\
 \end{bmatrix}=0
 $$
 
@@ -402,11 +406,11 @@ First, project a point to the opposite side epipolar line;
 
 $$
 \mathbf{l}_L = F_{\tiny{LR}} \mathbf{x}_R= \begin{bmatrix}
-    a_L \\ b_L \\ c_L
+    a_L \\\\ b_L \\\\ c_L
 \end{bmatrix}
 , \quad
 \mathbf{l}_R = \mathbf{x}^\top_R F_{\tiny{LR}}= \begin{bmatrix}
-    a_R \\ b_R \\ c_R
+    a_R \\\\ b_R \\\\ c_R
 \end{bmatrix}
 $$
 
@@ -426,11 +430,9 @@ Finally, sum all errors with threshold cut $t$
 $$
 \begin{align*}
 \text{score}_L &= \sum^N_{i=1} \big(
-t-e_{Li} \big) \qquad \text{if } e_{Li} < t
-\\
+t-e_{Li} \big) \qquad \text{if } e_{Li} < t \\\\
 \text{score}_R &= \sum^N_{i=1} \big(
-t-e_{Ri} \big) \qquad \text{if } e_{Ri} < t  
-\\
+t-e_{Ri} \big) \qquad \text{if } e_{Ri} < t   \\\\
 \text{score} &= \text{score}_L + \text{score}_R
 \end{align*}
 $$

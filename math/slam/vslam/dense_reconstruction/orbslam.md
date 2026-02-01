@@ -24,67 +24,67 @@ Matches $\mathbf{x}_c$ and $\mathbf{x}_r$ are shown as below, and $\mathbf{E}$ d
 $$
 \mathbf{x}_c=
 \begin{bmatrix}
-    u \\
-    v \\
+    u \\\\
+    v \\\\
     1
 \end{bmatrix}
 , \quad
 \mathbf{x}_r=
 \begin{bmatrix}
-    u' \\
-    v' \\
+    u' \\\\
+    v' \\\\
     1
 \end{bmatrix}
 , \quad
 E=
 \begin{bmatrix}
-    e_1 & e_2 & e_3 \\
-    e_4 & e_5 & e_6 \\
-    e_7 & e_8 & e_9 \\
+    e_1 & e_2 & e_3 \\\\
+    e_4 & e_5 & e_6 \\\\
+    e_7 & e_8 & e_9 \\\\
 \end{bmatrix}
 , \quad
 H=
 \begin{bmatrix}
-    h_1 & h_2 & h_3 \\
-    h_4 & h_5 & h_6 \\
-    h_7 & h_8 & h_9 \\
+    h_1 & h_2 & h_3 \\\\
+    h_4 & h_5 & h_6 \\\\
+    h_7 & h_8 & h_9 \\\\
 \end{bmatrix}
 $$
 
 ### To Compute $E$
 
 *Eight-Point Algorithm* can be used to compute $E$ such by
+
 $$
 \begin{bmatrix}
-    u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\
-    u_2'u_2 & u_2'v_2 & u_2' & v_2'v_2 & v_2'u_2 & v_2' & u_2 & v_2 & 1 \\
-    \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\
-    u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\
+    u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\\\
+    u_2'u_2 & u_2'v_2 & u_2' & v_2'v_2 & v_2'u_2 & v_2' & u_2 & v_2 & 1 \\\\
+    \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\\\
+    u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\\\
 \end{bmatrix}
 \begin{bmatrix}
-    e_1 \\
-    e_2 \\
-    e_3 \\
-    e_4 \\
-    e_5 \\
-    e_6 \\
-    e_7 \\
-    e_8 \\
-    e_9 \\
+    e_1 \\\\
+    e_2 \\\\
+    e_3 \\\\
+    e_4 \\\\
+    e_5 \\\\
+    e_6 \\\\
+    e_7 \\\\
+    e_8 \\\\
+    e_9 \\\\
 \end{bmatrix}=0
 $$
 
 ### To Compute $H$
 
 Similarly, to compute $\mathbf{H}\_{cr}$, there are
+
 $$
 \begin{align*}
 \mathbf{h}&=
-(h_{1}, h_{2}, h_{3}, h_{4}, h_{5}, h_{6}, h_{7}, h_{8}, h_{9})^\text{T}
-\\
+(h_{1}, h_{2}, h_{3}, h_{4}, h_{5}, h_{6}, h_{7}, h_{8}, h_{9})^\text{T} \\\\
 \mathbf{a}_x &=
-(-u_1, -v_1, -1, 0, 0, 0, x_2'x_1, x_2'y_1, x_2')^\text{T}
-\\
+(-u_1, -v_1, -1, 0, 0, 0, x_2'x_1, x_2'y_1, x_2')^\text{T} \\\\
 \mathbf{a}_y &=
 (0, 0, 0, -x_1, -y_1, -1, y_2'y_1, y_2'x_1, y_2')^\text{T}
 \end{align*}
@@ -94,6 +94,7 @@ Given $n$ points to compute
 $$
 A \mathbf{h} = \mathbf{0}
 $$
+
 where
 $$
 A=
@@ -124,8 +125,8 @@ $$
 \rho_M \big( d^2 \big) =
 \left\{
     \begin{matrix}
-        T_H - d^2 & \text{if } d^2 < T_M \\
-        0 & \text{if } d^2 \ge T_M \\
+        T_H - d^2 & \text{if } d^2 < T_M \\\\
+        0 & \text{if } d^2 \ge T_M \\\\
     \end{matrix}
 \right.
 $$
@@ -274,14 +275,16 @@ Given a set of $n$ matches $i \Rightarrow j$ keypoints and their associated 3D m
 keyframe $K_2$ that are transformed in between by $\mathbf{S}\_{K_1 K_2}$.
 
 The reprojection error in both images is
+
 $$
 \begin{align*}
     \mathbf{e}_1 &= 
-    \mathbf{x}\_{1,i} - \pi_1(\mathbf{S}\_{K_1 K_2}, \mathbf{X}\_{K_2,j}) \\
+    \mathbf{x}\_{1,i} - \pi_1(\mathbf{S}\_{K_1 K_2}, \mathbf{X}\_{K_2,j}) \\\\
     \mathbf{e}_2 &= 
     \mathbf{x}\_{2,j} - \pi_2(\mathbf{S}^{-1}\_{K_1 K_2}, \mathbf{X}\_{K_1,j})
 \end{align*}
 $$
+
 where $\mathbf{X}\_{K,i} \in \mathbb{R}^3$  is map point 3D location and $\mathbf{x}\_{K,i}$ is a matched feature point. $\pi_K(\mathbf{S}\_{K}, \mathbf{X}\_{K,i})$ is the projection that takes a keyframe/camera's $sim(3)$ pose and transform the 3D point to by $sim(3)$ then maps this 3D point to a 2D pixel.
 
 For all $n$ matches, collectively define the below cost function

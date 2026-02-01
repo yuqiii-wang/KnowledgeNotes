@@ -25,23 +25,30 @@ The output of a linear time-invariant system can be calculated by convolving its
 Given the nature if electricity with defined input $v_{in}(t)=V_0 e^{jωt}$ (Real-valued sinusoids noting that $V_{in} = \mathcal{R}\big\{ V_0 e^{jωt} \big\} = V_0 cos (\omega t)$ as the observed voltage for $V_{in}$).
 
 Given the circuit following Kirchhoff’s voltage law (KVL):
-$$\begin{align*}
+$$
+\begin{align*}
 V_{in} + V_R + V_C = 0
-\end{align*}$$
+\end{align*}
+$$
 
 then
-$$\begin{align*}
+
+$$
+\begin{align*}
 V_{in} 
-& = I_R R + I_C Z_C \\
-& = I_R R + C \frac{V_C(t)}{dt} Z_C \\
+& = I_R R + I_C Z_C \\\\
+& = I_R R + C \frac{V_C(t)}{dt} Z_C \\\\
 & = I_R R + V_C
-\end{align*}$$
+\end{align*}
+$$
+
 where $Z_C$ is the impedance of a capacitor of capacitance $C$.
 
 hence
 $$
 Z_C = \frac{V_C}{I_C}= \frac{V_p e^{j \omega t}}{Cj \omega V_p e^{j \omega t}}= \frac{1}{j \omega C}
 $$
+
 where $V_p$ is amplitude of a sinusoidal signal $e^{j \omega t}$ over the capacitor.
 
 With $s=j\omega$, here derived:

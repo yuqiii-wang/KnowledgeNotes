@@ -40,9 +40,9 @@ Expand the recursion, there is
 
 $$
 \begin{align*}
-F_t(x\_i) &= F_{t-1}(x\_i)+\alpha_t h_{t}(x\_i) \\
- &= F_{t-2}(x\_i)+\alpha_{t-1} h_{t-1}(x\_i)+\alpha_t h_{t}(x\_i) \\
- &= F_{t-3}(x\_i)+\alpha_{t-2} h_{t-2}(x\_i)+\alpha_{t-1} h_{t-1}(x\_i)+\alpha_t h_{t}(x\_i) \\
+F_t(x\_i) &= F_{t-1}(x\_i)+\alpha_t h_{t}(x\_i) \\\\
+ &= F_{t-2}(x\_i)+\alpha_{t-1} h_{t-1}(x\_i)+\alpha_t h_{t}(x\_i) \\\\
+ &= F_{t-3}(x\_i)+\alpha_{t-2} h_{t-2}(x\_i)+\alpha_{t-1} h_{t-1}(x\_i)+\alpha_t h_{t}(x\_i) \\\\
  &= ... 
 \end{align*}
 $$
@@ -52,8 +52,8 @@ This is equal to minimizing each stage loss, so that the sum of all stages' is m
 
 $$
 \begin{align*}
-\text{Total Loss}&& \min_{y,F(x)} \mathcal{L} &=\sum_{i=1}^n \mathcal{L}\Big(y_i,\sum_{t=1}^T F_t(x\_i)\Big) \\
-\text{Each Stage Loss}&& \min_{h(x),F(x)} \mathcal{L}_t &=\sum_{i=1}^n \mathcal{L}\Big(y_i, F_{t-1}(x\_i)+\alpha_t h_t(x\_i)\Big) \\
+\text{Total Loss}&& \min_{y,F(x)} \mathcal{L} &=\sum_{i=1}^n \mathcal{L}\Big(y_i,\sum_{t=1}^T F_t(x\_i)\Big) \\\\
+\text{Each Stage Loss}&& \min_{h(x),F(x)} \mathcal{L}_t &=\sum_{i=1}^n \mathcal{L}\Big(y_i, F_{t-1}(x\_i)+\alpha_t h_t(x\_i)\Big) \\\\
 && &=\sum_{i=1}^n \mathcal{L}\Big(y_i,\sum_{\tau=1}^{t-1} \alpha_{\tau}f_{\tau}(x\_i)+\alpha_t h_t(x\_i)\Big)
 \end{align*}
 $$
@@ -84,16 +84,16 @@ To reflect each next new weak learner should learn previous training stage faile
 
 $$
 \begin{align*}
-D_t(x) &\propto D_{t-1}(x) \space\space \text{exp}\Big(y_i \alpha_t F_{t-1}(x\_i)\Big) \\
+D_t(x) &\propto D_{t-1}(x) \space\space \text{exp}\Big(y_i \alpha_t F_{t-1}(x\_i)\Big) \\\\
 &= D_{t-1}(x)\space\cdot
 \begin{cases}
-  e^{-\alpha_t} & Y=F_{t-1}(x) \\
+  e^{-\alpha_t} & Y=F_{t-1}(x) \\\\
   e^{\alpha_t} & Y\ne F_{t-1}(x)
-\end{cases} \\
+\end{cases} \\\\
 &\propto
 D_{t-1}(x)\space\cdot
 \begin{cases}
-  1 & Y=F_{t-1}(x) \\
+  1 & Y=F_{t-1}(x) \\\\
   e^{2\alpha_t} & Y\ne F_{t-1}(x)
 \end{cases}
 \end{align*}
@@ -116,13 +116,13 @@ The $t$-th stage weak learner weight $\alpha_t$ choice derives from $\alpha_t=\a
 
 $$
 \begin{align*}
-\mathcal{L}_t(F) &=\text{exp}(-Y F_t(x)) \\
-&= \text{E}\_{X\sim D_{t-1}} \exp\Big(-Y\big(F_{t-1}(x)+\alpha_{t-1} h_{t-1}(x)\big)\Big) \\
-&= \text{E}\_{X\sim D_{t-1}} \Big[\exp\Big(-YF_{t-1}(x)\Big)\cdot\text{exp}\Big(-Y\alpha_{t-1} h_{t-1}(x)\Big)\Big] \\
-&= \text{E}\_{X\sim D_t} \space\text{exp}\Big(Y\alpha_{t-1} h_{t-1}(x)\Big) &&\quad \text{for }D_{t-1} \rightarrow D_t \text{ samples are adaptively weighted} \\
-&&&\quad D_t(x) \propto D_{t-1}(x) \space\space \text{exp}\Big(y_i \alpha_t F_{t-1}(x\_i)\Big) \\
-&= \text{E}\_{X\sim D_t} \Big[e^{-\alpha_t}\mathbb{1}\big(Y=F_t(x)\big)+e^{\alpha_t}\mathbb{1}\big(Y\ne F_t(x)\big)\Big] &&\quad 0\le\epsilon_t\le 1 \text{ is the normalized mean mis-classification of } n \text{ samples}\\
-&= e^{-\alpha_t}(1-\epsilon_t) + e^{\alpha_t}\epsilon_t \\
+\mathcal{L}_t(F) &=\text{exp}(-Y F_t(x)) \\\\
+&= \text{E}\_{X\sim D_{t-1}} \exp\Big(-Y\big(F_{t-1}(x)+\alpha_{t-1} h_{t-1}(x)\big)\Big) \\\\
+&= \text{E}\_{X\sim D_{t-1}} \Big[\exp\Big(-YF_{t-1}(x)\Big)\cdot\text{exp}\Big(-Y\alpha_{t-1} h_{t-1}(x)\Big)\Big] \\\\
+&= \text{E}\_{X\sim D_t} \space\text{exp}\Big(Y\alpha_{t-1} h_{t-1}(x)\Big) &&\quad \text{for }D_{t-1} \rightarrow D_t \text{ samples are adaptively weighted} \\\\
+&&&\quad D_t(x) \propto D_{t-1}(x) \space\space \text{exp}\Big(y_i \alpha_t F_{t-1}(x\_i)\Big) \\\\
+&= \text{E}\_{X\sim D_t} \Big[e^{-\alpha_t}\mathbb{1}\big(Y=F_t(x)\big)+e^{\alpha_t}\mathbb{1}\big(Y\ne F_t(x)\big)\Big] &&\quad 0\le\epsilon_t\le 1 \text{ is the normalized mean mis-classification of } n \text{ samples}\\\\
+&= e^{-\alpha_t}(1-\epsilon_t) + e^{\alpha_t}\epsilon_t \\\\
 \end{align*}
 $$
 
@@ -130,11 +130,11 @@ Find the argument $\alpha_t$ that leads to minimal $\mathcal{L}_t(F)$ can be com
 
 $$
 \begin{align*}
-&& \frac{\partial \mathcal{L}_t(F)}{\partial \alpha_t}=0&=-e^{-\alpha_t}(1-\epsilon_t) + e^{\alpha_t}\epsilon_t \\
-\Rightarrow && e^{-\alpha_t}(1-\epsilon_t) &= e^{\alpha_t}\epsilon_t \\
-\Rightarrow && e^{-2\alpha_t}(1-\epsilon_t) &= \epsilon_t \\
-\Rightarrow && \ln\Big(e^{-2\alpha_t}(1-\epsilon_t)\Big) &= \ln\epsilon_t \\
-\Rightarrow && -2\alpha_t\ln(1-\epsilon_t) &= \ln\epsilon_t \\
+&& \frac{\partial \mathcal{L}_t(F)}{\partial \alpha_t}=0&=-e^{-\alpha_t}(1-\epsilon_t) + e^{\alpha_t}\epsilon_t \\\\
+\Rightarrow && e^{-\alpha_t}(1-\epsilon_t) &= e^{\alpha_t}\epsilon_t \\\\
+\Rightarrow && e^{-2\alpha_t}(1-\epsilon_t) &= \epsilon_t \\\\
+\Rightarrow && \ln\Big(e^{-2\alpha_t}(1-\epsilon_t)\Big) &= \ln\epsilon_t \\\\
+\Rightarrow && -2\alpha_t\ln(1-\epsilon_t) &= \ln\epsilon_t \\\\
 \Rightarrow && \alpha_t &= \frac{1}{2}\ln\Big(\frac{1-\epsilon_t}{\epsilon_t}\Big)
 \end{align*}
 $$
@@ -169,8 +169,8 @@ Accordingly, the loss by the 1st order Taylor expansion is
 $$
 \begin{align*}
 \mathcal{L}_t\Big(y,F_t(x)\Big) &\approx
-\mathcal{L}\Big(y,F_{t-1}(x)\Big)+\frac{\partial\mathcal{L}(y,F(x))}{\partial F(x)}\bigg|_{F(x)=F_{t-1}(x)}\cdot\bigg(F_{t}(x)-F_{t-1}(x)\bigg) \\
-&= \mathcal{L}\Big(y,F_{t-1}(x)\Big)+\frac{\partial\mathcal{L}(y,F(x))}{\partial F(x)}\bigg|_{F(x)=F_{t-1}(x)}\cdot f_t(x) \\
+\mathcal{L}\Big(y,F_{t-1}(x)\Big)+\frac{\partial\mathcal{L}(y,F(x))}{\partial F(x)}\bigg|_{F(x)=F_{t-1}(x)}\cdot\bigg(F_{t}(x)-F_{t-1}(x)\bigg) \\\\
+&= \mathcal{L}\Big(y,F_{t-1}(x)\Big)+\frac{\partial\mathcal{L}(y,F(x))}{\partial F(x)}\bigg|_{F(x)=F_{t-1}(x)}\cdot f_t(x) \\\\
 \end{align*}
 $$
 
@@ -192,7 +192,7 @@ Interestingly, if the loss is Mean Square Error (MSE), the pseudo residual is ex
 $$
 \begin{align*}
 \frac{\partial\mathcal{L}(y,F(x\_i))}{\partial F(x\_i)}&=
-\frac{\partial}{\partial F(x\_i)}\bigg(\frac{1}{2}\big(y_i-F(x\_i)\big)^2\bigg) \\
+\frac{\partial}{\partial F(x\_i)}\bigg(\frac{1}{2}\big(y_i-F(x\_i)\big)^2\bigg) \\\\
 &= -\big(y_i-F(x\_i)\big)
 \end{align*}
 $$
@@ -204,8 +204,8 @@ If used Huber Loss, there is
 $$
 h_t(x)=-\frac{\partial\mathcal{L}(y,F(x\_i))}{\partial F(x\_i)}\bigg|_{F(x)=F_{t-1}(x)}=
 \begin{cases}
-  y-F(x) & |y-F(x)|\ge\delta \\
-  \delta \cdot \text{sgn} \big(y-F(x)\big) & |y-F(x)|<\delta \\
+  y-F(x) & |y-F(x)|\ge\delta \\\\
+  \delta \cdot \text{sgn} \big(y-F(x)\big) & |y-F(x)|<\delta \\\\
 \end{cases}
 $$
 
@@ -298,7 +298,7 @@ $$
 \mathcal{L}_t\Big(y,F_t(x)\Big) &\approx \mathcal{L}\Big(y,F_{t-1}(x)\Big)+
 \frac{\partial\mathcal{L}(y,F(x))}{\partial F(x)}\bigg|_{F(x)=F_{t-1}(x)}\cdot f_t(x)+
 \frac{1}{2}\frac{\partial^2\mathcal{L}(y,F(x))}{\partial F^2(x)}\bigg|_{F(x)=F_{t-1}(x)}\cdot f^2_t(x) +
-\sum_{\tau=1}^{t-1} \mathcal{\Omega}\_{\tau}\big(F_t\big) + \mathcal{\Omega}\_{t}\big(F_t\big) \\
+\sum_{\tau=1}^{t-1} \mathcal{\Omega}\_{\tau}\big(F_t\big) + \mathcal{\Omega}\_{t}\big(F_t\big) \\\\
 &= \mathcal{L}\Big(y,F_{t-1}(x)\Big)+
 g_t(x)\cdot f_t(x)+\frac{1}{2}h_t(x)\cdot f^2_t(x)+
 \sum_{\tau=1}^{t-1} \mathcal{\Omega}\_{\tau}\big(F_t\big) + \mathcal{\Omega}\_{t}\big(F_t\big)
@@ -321,11 +321,11 @@ Rewrite the Objective Function in Terms of Leaves
 $$
 \begin{align*}
 \tilde{\mathcal{L}}_t\Big(y,F_t(x)\Big)&=
-g_t(x)\cdot f_t(x)+\frac{1}{2}h_t(x)\cdot f^2_t(x) + \mathcal{\Omega}\_{t}\big(F_t\big) \\
+g_t(x)\cdot f_t(x)+\frac{1}{2}h_t(x)\cdot f^2_t(x) + \mathcal{\Omega}\_{t}\big(F_t\big) \\\\
 &= \sum^{J_t}\_{j=1}\sum_{x\_i\in R_{t,j}}\bigg(g_t(x\_i)\cdot \gamma_{t,j}+\frac{1}{2}h_t(x\_i)\cdot \gamma_{t,j}^2 \bigg)+
-\lambda J_t + \frac{1}{2}\lambda\sum^{J_t}\_{j=1}\gamma_{t,j}^2 \\
-&= \sum_{j=1}^{J_t} \left[ \left(\sum_{x\_i\in R_{t,j}} g_t(x\_i)\right) \gamma_{t,j} + \frac{1}{2}\left(\sum_{x\_i\in R_{t,j}} h_t(x\_i)\right) \gamma_{t,j}^2 \right] + \lambda J_t + \frac{1}{2}\lambda \sum_{j=1}^{J_t} \gamma_{t,j}^2 \\
-&= \sum_{j=1}^{J_t} \left[ \left(\sum_{x\_i\in R_{t,j}} g_t(x\_i)\right) \gamma_{t,j} + \frac{1}{2}\left(\sum_{x\_i\in R_{t,j}} h_t(x\_i)+\lambda\right) \gamma_{t,j}^2 \right] + \lambda J_t \\
+\lambda J_t + \frac{1}{2}\lambda\sum^{J_t}\_{j=1}\gamma_{t,j}^2 \\\\
+&= \sum_{j=1}^{J_t} \left[ \left(\sum_{x\_i\in R_{t,j}} g_t(x\_i)\right) \gamma_{t,j} + \frac{1}{2}\left(\sum_{x\_i\in R_{t,j}} h_t(x\_i)\right) \gamma_{t,j}^2 \right] + \lambda J_t + \frac{1}{2}\lambda \sum_{j=1}^{J_t} \gamma_{t,j}^2 \\\\
+&= \sum_{j=1}^{J_t} \left[ \left(\sum_{x\_i\in R_{t,j}} g_t(x\_i)\right) \gamma_{t,j} + \frac{1}{2}\left(\sum_{x\_i\in R_{t,j}} h_t(x\_i)+\lambda\right) \gamma_{t,j}^2 \right] + \lambda J_t \\\\
 \end{align*}
 $$
 
@@ -337,7 +337,7 @@ Find the optimal $\gamma_j^*$
 
 $$
 \begin{align*}
-&& \frac{\partial \tilde{\mathcal{L}}_t\Big(y,F_t(x)\Big)}{\partial \gamma_{t,j}} &=G_j + (H_j + \lambda)\gamma_{t,j}^* = 0 \\
+&& \frac{\partial \tilde{\mathcal{L}}_t\Big(y,F_t(x)\Big)}{\partial \gamma_{t,j}} &=G_j + (H_j + \lambda)\gamma_{t,j}^* = 0 \\\\
 \Rightarrow && \gamma_{t,j}^* &= - \frac{G_j}{H_j + \lambda}
 \end{align*}
 $$
@@ -348,7 +348,7 @@ Substitute $\gamma_{t,j}^*=-\frac{G_j}{H_j + \lambda}$ back to the loss function
 
 $$
 \begin{align*}
-\mathcal{L}\_{t,j}\left(\gamma_{t,j}^*=-\frac{G_j}{H_j + \lambda}\right) &= G_j \gamma_{t,j} + \frac{1}{2}(H_j + \lambda) \gamma_{t,j}^2 \\
+\mathcal{L}\_{t,j}\left(\gamma_{t,j}^*=-\frac{G_j}{H_j + \lambda}\right) &= G_j \gamma_{t,j} + \frac{1}{2}(H_j + \lambda) \gamma_{t,j}^2 \\\\
 &= -\frac{G_R^2}{H_R + \lambda}
 \end{align*}
 $$

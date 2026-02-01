@@ -1,4 +1,4 @@
-site_name: Knowledge Notes
+site_name: Yuqi Knowledge Blogs
 site_description: Personal Knowledge Base and Notes
 site_author: Wiki
 
@@ -38,6 +38,8 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - tables
+  - pymdownx.arithmatex:
+      generic: true
 
 
 extra_javascript:

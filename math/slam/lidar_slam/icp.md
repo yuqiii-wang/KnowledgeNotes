@@ -13,7 +13,7 @@ There should be extrinsics (rotation and translation) that corresponds the two s
 $$
 \begin{align*}
 \forall i, \mathbf{p}\_i &= \mathbf{R}\mathbf{p}'_i+\mathbf{t}
-\\ &=
+\\\\ &=
 [\mathbf{R}|\mathbf{t}] \mathbf{p}'_i
 \end{align*}
 $$
@@ -34,13 +34,13 @@ arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
 \big|\big|
     \mathbf{e}\_i
 \big|\big|^2_2
-\\ &=
+\\\\ &=
 arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
 \frac{1}{2} \sum^n\_{i=1}
 \bigg|\bigg|
   \mathbf{p}\_i -  \big[\mathbf{R}|\mathbf{t} \big] \mathbf{p}'_i
 \bigg|\bigg|^2_2
-\\ &=
+\\\\ &=
 arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
 \frac{1}{2} \sum^n\_{i=1}
 \bigg|\bigg|
@@ -57,6 +57,7 @@ $$
 $$
 
 Compute the least square function with the centroids such as
+
 $$
 \begin{align*}
     \frac{1}{2} \sum^n\_{i=1}
@@ -68,48 +69,48 @@ $$
     \bigg|\bigg|
         \mathbf{p}\_i - (\mathbf{R} \mathbf{p}'_i + \mathbf{t})
     \bigg|\bigg|^2_2
-    \\ &=
+    \\\\ &=
     \frac{1}{2} \sum^n\_{i=1}
     \bigg|\bigg|
         \mathbf{p}\_i - \mathbf{R} \mathbf{p}'_i - \mathbf{t} 
         - \mathbf{p}_c + \mathbf{p}_c
         - \mathbf{R}\mathbf{p}'_c + \mathbf{R}\mathbf{p}'_c
     \bigg|\bigg|^2_2
-    \\ &=
+    \\\\ &=
     \frac{1}{2} \sum^n\_{i=1}
     \bigg|\bigg|
         \big(\mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big)
         +
         (\mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t})
     \bigg|\bigg|^2_2
-    \\ &=
+    \\\\ &=
     \frac{1}{2} \sum^n\_{i=1}
     \bigg(
         \big|\big| 
             \mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)
         \big|\big|^2_2
-        \\ &\quad\quad\quad +
+        \\\\ &\quad\quad\quad +
         \big|\big| 
             \mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t}
         \big|\big|_2^2
-        \\ &\quad\quad\quad +
+        \\\\ &\quad\quad\quad +
         \underbrace{        
             2\big(\mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big)^\text{T} (\mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t})
         }\_{\begin{matrix}
-            =0 \\
+            =0 \\\\
             \text{because} \sum^n\_{i=1}\mathbf{p}_c-\sum^n\_{i=1}\mathbf{p}\_i=0
-            \\ \text{ and }
+            \\\\ \text{ and }
             \sum^n\_{i=1}\mathbf{p}'_c-\sum^n\_{i=1}\mathbf{p}'_i=0
         \end{matrix}
         }
     \bigg)
-    \\ &=
+    \\\\ &=
     \frac{1}{2} \sum^n\_{i=1}
     \bigg(
         \big|\big| 
             \mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)
         \big|\big|^2_2
-        \\ &\quad\quad\quad +
+        \\\\ &\quad\quad\quad +
         \big|\big| 
             \mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t}
         \big|\big|_2^2
@@ -152,7 +153,7 @@ $$
     tr \big(
         \mathbf{Q}^\text{T} \mathbf{R} \mathbf{Q}'
     \big)
-    \\ &=
+    \\\\ &=
     tr \big(
         \mathbf{R} \mathbf{Q}' \mathbf{Q}^\text{T}
     \big)
@@ -189,32 +190,33 @@ $$
 \mathbf{m}_j^\text{T} \mathbf{m}_j =
 \sum^d_{i=1} m_{ij}^2 = 
 1
-\\ \Rightarrow \quad & \quad\quad
+\\\\ \Rightarrow \quad & \quad\quad
 0 \le m^2_{ij} \le 1
-\\ \Rightarrow \quad & \quad\quad
+\\\\ \Rightarrow \quad & \quad\quad
 0 \le |m_{ij}| \le 1
 \end{align*}
 $$
 
 Generalize each vector's result to the whole matrix, there is
+
 $$
 \begin{align*}
 tr\big(\mathbf{\Sigma M}\big)&=
 \begin{bmatrix}
-    \sigma_1 & 0 & & 0 \\
-    0 & \sigma_2 & & 0 \\
-    & & \ddots & \\
+    \sigma_1 & 0 & & 0 \\\\
+    0 & \sigma_2 & & 0 \\\\
+    & & \ddots & \\\\
     0 & 0 & & \sigma_d
 \end{bmatrix}   
 \begin{bmatrix}
-    m_{11} & m_{12} & & m_{1d} \\
-    m_{21} & m_{22} & & m_{2d} \\
-    & & \ddots & \\
-    m_{d1} & m_{d2} & & m_{dd} \\
+    m_{11} & m_{12} & & m_{1d} \\\\
+    m_{21} & m_{22} & & m_{2d} \\\\
+    & & \ddots & \\\\
+    m_{d1} & m_{d2} & & m_{dd} \\\\
 \end{bmatrix} 
-\\ &=
+\\\\ &=
 \sum^d_{i=1} \sigma_i m_{ii}
-\\ & \le
+\\\\ & \le
 \sum^d_{i=1} \sigma_i
 \end{align*}
 $$
@@ -222,15 +224,16 @@ $$
 Given this inequality, in order to maximize $\frac{1}{2} \sum^n\_{i=1} 2\mathbf{q}^\text{T}\_i \mathbf{R} \mathbf{q}'_i$ (this is same as maximizing the trace result), there should be $m_{ii}=1$. Note that $\mathbf{M}$ itself is orthogonal rendering $\sum^d_{i=1} m_{ij}^2 = 1$, so that other terms must be zero such as $m^2_{ij}=0,\forall i \ne j$, hence, $\mathbf{M}$ is exactly the identity matrix $\mathbf{M}=\mathbf{I}$.
 
 The optimal $\mathbf{R}^*$ can be derived by
+
 $$
 \begin{align*}
 &
 \mathbf{I} = 
 \mathbf{M}=\mathbf{V}^\text{T} \mathbf{R}^* \mathbf{U}
-\\ \Rightarrow \quad &
+\\\\ \Rightarrow \quad &
 \mathbf{V} = 
 \mathbf{R}^* \mathbf{U}
-\\ \Rightarrow \quad &
+\\\\ \Rightarrow \quad &
 \mathbf{R}^* = 
 \mathbf{V}\mathbf{U}^\text{T}
 \end{align*}
@@ -249,7 +252,7 @@ $$
 , \quad 
 \mathbf{\xi}^\wedge =
 \begin{bmatrix}
-    \mathbf{\phi}^\wedge & \mathbf{\rho} \\
+    \mathbf{\phi}^\wedge & \mathbf{\rho} \\\\
     \mathbf{0} & \mathbf{0}
 \end{bmatrix} 
 $$
@@ -271,11 +274,11 @@ $$
     \frac
     {e^{\Delta \mathbf{\xi}^{\wedge}}e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}'_i-e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}'_i}
     {\Delta \mathbf{\xi}}
-\\ &\approx
+\\\\ &\approx
 (e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}'_i)^\odot
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    \mathbf{I} & \mathbf{R}\mathbf{p}'_i+\mathbf{t} \\
+    \mathbf{I} & \mathbf{R}\mathbf{p}'_i+\mathbf{t} \\\\
     \mathbf{0} & \mathbf{0} 
 \end{bmatrix}
 \end{align*}

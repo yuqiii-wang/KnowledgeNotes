@@ -34,8 +34,8 @@ Cauchy distribution is special Student's t-Distribution with degree of freedom $
 
 $$
 \begin{align*}
-    & f_v(t) &&= \frac{\Gamma\big(\frac{v+1}{2}\big)}{\sqrt{\pi v}\space\Gamma\big(\frac{v}{2}\big)}\bigg(1+\frac{t^2}{v}\bigg)^{-(v+1)/2} \\
-    \text{set } v=1 \Rightarrow\quad & &&= \frac{1}{\sqrt{\pi}\cdot\sqrt{\pi}}\bigg(1+t^2\bigg)^{-1} \\
+    & f_v(t) &&= \frac{\Gamma\big(\frac{v+1}{2}\big)}{\sqrt{\pi v}\space\Gamma\big(\frac{v}{2}\big)}\bigg(1+\frac{t^2}{v}\bigg)^{-(v+1)/2} \\\\
+    \text{set } v=1 \Rightarrow\quad & &&= \frac{1}{\sqrt{\pi}\cdot\sqrt{\pi}}\bigg(1+t^2\bigg)^{-1} \\\\
     &&&= \frac{1}{\pi}\bigg(1+t^2\bigg)^{-1}
 \end{align*}
 $$
@@ -52,9 +52,9 @@ Here to prove $\Gamma(\frac{1}{2}) = \int_{-\infty}^{\infty}t^{-1/2}e^{-t}dt=\sq
 
 $$
 \begin{align*}
-    && \Gamma(\frac{1}{2}) &= \int_{-\infty}^{\infty}t^{-1/2}e^{-t}dt \\
-    \text{Substitute } t=x^2, dt=2xdx\qquad \Rightarrow && &= \int_{-\infty}^{\infty} 2(x^2)^{-1/2} e^{-x^2} xdx \\
-    && &= 2\int_{-\infty}^{\infty} x\cdot x^{-1} e^{-x^2} dx \\
+    && \Gamma(\frac{1}{2}) &= \int_{-\infty}^{\infty}t^{-1/2}e^{-t}dt \\\\
+    \text{Substitute } t=x^2, dt=2xdx\qquad \Rightarrow && &= \int_{-\infty}^{\infty} 2(x^2)^{-1/2} e^{-x^2} xdx \\\\
+    && &= 2\int_{-\infty}^{\infty} x\cdot x^{-1} e^{-x^2} dx \\\\
     && &= 2\int_{-\infty}^{\infty} e^{-x^2} dx
 \end{align*}
 $$
@@ -63,7 +63,7 @@ Let $I=\int_{0}^{\infty} e^{-x^2} dx$, and square the integral
 
 $$
 \begin{align*}
-    I^2 &= \bigg(\int_{-\infty}^{\infty} e^{-x^2} dx\bigg)\bigg(\int_{-\infty}^{\infty} e^{-y^2} dy\bigg) \\
+    I^2 &= \bigg(\int_{-\infty}^{\infty} e^{-x^2} dx\bigg)\bigg(\int_{-\infty}^{\infty} e^{-y^2} dy\bigg) \\\\
     &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-(x^2+y^2)}dxdy
 \end{align*}
 $$
@@ -85,7 +85,7 @@ So that
 
 $$
 \begin{align*}
-    I^2 &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-(x^2+y^2)} dxdy \\
+    I^2 &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-(x^2+y^2)} dxdy \\\\
     &= \int_{0}^{2\pi}\int_{0}^{\infty} e^{-r^2} rdrd\theta
 \end{align*}
 $$
@@ -98,11 +98,11 @@ The Jacobian determinant gives the growth rate
 
 $$
 J = \begin{bmatrix}
-    \frac{\partial x}{dr} & \frac{\partial x}{d\theta} \\
+    \frac{\partial x}{dr} & \frac{\partial x}{d\theta} \\\\
     \frac{\partial y}{dr} & \frac{\partial y}{d\theta}
 \end{bmatrix} = \begin{bmatrix}
-    \sin\theta & -r\cos\theta \\
-    \cos\theta & r\sin\theta \\
+    \sin\theta & -r\cos\theta \\\\
+    \cos\theta & r\sin\theta \\\\
 \end{bmatrix}
 $$
 
@@ -110,8 +110,8 @@ The determinant $\text{det}(J)$ is
 
 $$
 \begin{align*}
-    \text{det}(J) &= r\sin^2\theta+r\cos^2\theta \\
-    &= r(\sin^2+\cos^2) \\
+    \text{det}(J) &= r\sin^2\theta+r\cos^2\theta \\\\
+    &= r(\sin^2+\cos^2) \\\\
     &= r
 \end{align*}
 $$

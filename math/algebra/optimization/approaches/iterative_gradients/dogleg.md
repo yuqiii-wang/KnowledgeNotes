@@ -18,6 +18,7 @@ $$
 \mathbf{f}_k + \nabla \mathbf{f}_k^\text{T} \mathbf{p} + 
 \frac{1}{2} \mathbf{p}^\text{T} H_k \mathbf{p}
 $$
+
 where $H_k$ is a Hessian matrix of the objective function $\mathbf{f}_k$, and $\mathbf{p}$ is the variable to $\mathbf{m}_k$. Intuitively speaking, $\mathbf{p}=\Delta\mathbf{x}_k; \quad \mathbf{x}\_{k+1}=\mathbf{x}_k+\Delta\mathbf{x}_k$ describes the possible next step. 
 
 The gray area shows good approximation by $\mathbf{m}_k$ (the smaller the gray area, the better the approximation), where within the trust region, the contours of $\mathbf{f}$ and $\mathbf{m}_k$ are similar to each other having similar contour curvatures. However, outside the trust region, the contours of $\mathbf{f}$ and $\mathbf{m}_k$ are quite different, rendering bad approximation of $\mathbf{f}$ by $\mathbf{m}_k$. The line search method such as Newton's method would perform badly in this scenario.
@@ -26,6 +27,7 @@ The computation of trust region radius is shown as below
 $$
 \mathbf{\rho}_k = \frac{\mathbf{f}(\mathbf{x}_k)-\mathbf{f}(\mathbf{x}_k+\mathbf{p}_k)}{\mathbf{m}_k(0)-\mathbf{m}_k(\mathbf{p}_k)}
 $$
+
 that $\mathbf{m}_k(0)=\mathbf{f}(\mathbf{x}_k)$ is simply the objective function value at $\mathbf{x}_k$. 
 Hence, as $\mathbf{p}_k$ changes, there should be $\mathbf{\rho}_k \rightarrow 1$ that indicates $\mathbf{m}_k$ is a good approximation to $\mathbf{f}$ at the $\mathbf{x}_k$.
 
@@ -48,7 +50,7 @@ $$
 \tau_k = \left\{
       \begin{matrix}
             1 & \text{if } \nabla\mathbf{f}_k^\text{T} H_k \nabla\mathbf{f}_k \le 0
-            \\
+            \\\\
             \min \big(
                   \frac{|| \nabla \mathbf{f}_k ||^3}{
                        \Delta_k \cdot \nabla\mathbf{f}_k^\text{T} H_k \nabla\mathbf{f}_k
@@ -68,7 +70,7 @@ $$
 \mathbf{m}_k \bigg(
       -\tau_k \frac{\Delta_k}{\big|\big| \nabla \mathbf{f}_k \big|\big|} \nabla \mathbf{f}_k
 \bigg)
-\\ &=
+\\\\ &=
 \mathbf{f}_k + 
 \nabla \mathbf{f}_k^\text{T} \bigg(
       -\tau_k \frac{\Delta_k}{\big|\big| \nabla \mathbf{f}_k \big|\big|} \nabla \mathbf{f}_k
@@ -80,7 +82,7 @@ H_k
 \bigg(
       -\tau_k \frac{\Delta_k}{\big|\big| \nabla \mathbf{f}_k \big|\big|} \nabla \mathbf{f}_k
 \bigg)
-\\ &=
+\\\\ &=
 \mathbf{f}_k 
 \underbrace{- \tau_k \frac{\Delta_k}{\big|\big| \nabla \mathbf{f}_k \big|\big|} \nabla \mathbf{f}_k^\text{T} \nabla\mathbf{f}_k }\_{
       :=M_1}

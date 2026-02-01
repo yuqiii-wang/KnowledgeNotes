@@ -145,6 +145,7 @@ Evaluating the t-value requires testing a null hypothesis where the means of bot
 $$
 t=\frac{\overline{X}-\mu_0}{\frac{s}{\sqrt{n}}}
 $$
+
 where $\overline{X}$ is the sample mean and $\mu_0$ is the population mean. $s$ is the standard deviation of the sample and $n$ is the sample size.
 
 The z-score is important for calculating the probability of a data value appearing within the normal distribution for a specific standard.
@@ -154,6 +155,7 @@ In other words, z-value is the one-sample-point scenario of t statistic.
 $$
 z=\frac{X-\mu}{\sigma}
 $$
+
 where $X$ is this sample value/score and $\mu$ is the population mean. $\sigma$ is the standard deviation for the population.
 
 ### Independent T-test
@@ -383,7 +385,7 @@ $$
   F(k-1, n-k) &= 
     \frac{\text{treatment effect} + \text{sampling error}}{\text{sampling error}}
     =\frac{\text{between-group variability}}{\text{in-group variability}}
-    \\ &=
+    \\\\ &=
     \frac{\frac{1}{k-1}\sum^k_{i=1} n_i (\hat{X}\_i-\overline{X})^2}
         {\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}\_{j=1} (X_{ij}-\hat{X}\_i)^2}
 \end{align*}

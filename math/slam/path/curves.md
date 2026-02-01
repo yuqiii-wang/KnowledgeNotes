@@ -52,30 +52,29 @@ A recursive definition for the Bézier curve of degree $n$ expresses it as a poi
 $$
 \begin{align*}
 \mathbf{B}\_{\mathbf{P}_0}(t)&= 
-\mathbf{P}_0
-\\
+\mathbf{P}_0 \\\\
 \mathbf{B}(t) &=
-\mathbf{B}\_{\mathbf{P}_0 \mathbf{P}_1 \mathbf{P}_2 ... \mathbf{P}_n}(t)\\ &=
+\mathbf{B}\_{\mathbf{P}_0 \mathbf{P}_1 \mathbf{P}_2 ... \mathbf{P}_n}(t)\\\\ &=
 (1-t)\mathbf{B}\_{\mathbf{P}_0 \mathbf{P}_1 \mathbf{P}_2 ... \mathbf{P}\_{n-1}}(t)
 +
-t\mathbf{B}\_{\mathbf{P}_1 \mathbf{P}_2 ... \mathbf{P}\_{n}}(t)\\ &=
+t\mathbf{B}\_{\mathbf{P}_1 \mathbf{P}_2 ... \mathbf{P}\_{n}}(t)\\\\ &=
 (1-t)^n \mathbf{P}_0 
 +
 \bigg(\begin{array}{c}
-n \\
+n \\\\
 1
 \end{array} \bigg)
 (1-t)^{n-1} t \mathbf{P}_1+... +
 \bigg(\begin{array}{c}
-n \\
+n \\\\
 n-1
 \end{array} \bigg)
 (1-t) t^{n-1} \mathbf{P}\_{n-1}
 +
-t^n \mathbf{P}_n\\ &=
+t^n \mathbf{P}_n\\\\ &=
 \sum^n\_{k=0} 
 \bigg(\begin{array}{c}
-n \\
+n \\\\
 k
 \end{array} \bigg)
 (1-t)^k t^{n-k}

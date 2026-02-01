@@ -73,10 +73,10 @@ AP = PD =
 \end{bmatrix}}\_{P}
 \underbrace{
 \begin{bmatrix}
-  \lambda_1 & 0 & 0&  & 0\\
-  0 & \lambda_2 & 0 &  & 0 \\
-  0 & 0 & \lambda_3 &  & 0 \\
-   &  &  & \ddots &  \\
+  \lambda_1 & 0 & 0&  & 0\\\\
+  0 & \lambda_2 & 0 &  & 0 \\\\
+  0 & 0 & \lambda_3 &  & 0 \\\\
+   &  &  & \ddots &  \\\\
   0 & 0 & 0 &  & \lambda_r
 \end{bmatrix}}\_{\Lambda}
 $$
@@ -128,8 +128,8 @@ Simply set a threshold $t$ that if gradient $||\mathbf{g}||$ is too large, multi
 $$
 \mathbf{g} \leftarrow \left\{
     \begin{array}{c}
-        \epsilon \mathbf{g} & ||\mathbf{g}|| > t \\
-        \mathbf{g} & ||\mathbf{g}|| \le t \\
+        \epsilon \mathbf{g} & ||\mathbf{g}|| > t \\\\
+        \mathbf{g} & ||\mathbf{g}|| \le t \\\\
     \end{array}
 \right.
 $$
@@ -160,7 +160,7 @@ Let $\mathbf{v}^{H}$ be Hermitian transpose of $\mathbf{v}$,
 
 $$
 \begin{align*}
-&& W\mathbf{v}&=\lambda\mathbf{v} \\
+&& W\mathbf{v}&=\lambda\mathbf{v} \\\\
 \Rightarrow && \mathbf{v}^{H} W\mathbf{v}&=\lambda\mathbf{v}^{H}\mathbf{v}
 \end{align*}
 $$
@@ -172,8 +172,8 @@ If a complex number's conjugate is equal to the complex number itself, this comp
 $$
 \begin{align*}
     \mathbf{v}^{H} W\mathbf{v} &=
-    \sum_{i}\sum_{j} \overline{v}\_i w_{ij} v_j \\
-    &= \sum_{i=j} \overline{v}\_i w_{ii} v_i + \sum_{i\ne j} \overline{v}\_i w_{ij} v_j \\
+    \sum_{i}\sum_{j} \overline{v}\_i w_{ij} v_j \\\\
+    &= \sum_{i=j} \overline{v}\_i w_{ii} v_i + \sum_{i\ne j} \overline{v}\_i w_{ij} v_j \\\\
 \end{align*}
 $$
 
@@ -204,11 +204,11 @@ then multiply by $\mathbf{v}_2^{\top}$, there is
 $$
 \begin{align*}
     && \mathbf{v}_2^{\top}W\mathbf{v}_1 &=
-  \mathbf{v}_2^{\top}\lambda_1\mathbf{v}_1 \\
+  \mathbf{v}_2^{\top}\lambda_1\mathbf{v}_1 \\\\
   \Rightarrow && (W\mathbf{v}_2)^{\top}\mathbf{v}_1 &=
-  \mathbf{v}_2^{\top}\lambda_1\mathbf{v}_1 \\
+  \mathbf{v}_2^{\top}\lambda_1\mathbf{v}_1 \\\\
   \Rightarrow && \lambda_2\mathbf{v}_2^{\top}\mathbf{v}_1 &=
-  \lambda_1\mathbf{v}_2^{\top}\mathbf{v}_1 \\
+  \lambda_1\mathbf{v}_2^{\top}\mathbf{v}_1 \\\\
 \end{align*}
 $$
 

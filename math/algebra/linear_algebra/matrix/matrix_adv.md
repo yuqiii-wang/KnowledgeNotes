@@ -54,8 +54,8 @@ A Hermitian matrix (or self-adjoint matrix) is a complex square matrix that is e
 For example,
 $$
 \begin{bmatrix}
-      0 & a-ib & c-id \\
-      a+ib & 1 & 0 \\
+      0 & a-ib & c-id \\\\
+      a+ib & 1 & 0 \\\\
       c+id & 0 & 2
 \end{bmatrix}
 $$
@@ -81,14 +81,14 @@ $$
 
 where $\overline{A}$ denotes the matrix with complex conjugated entries.
 
-For example, given $A=\begin{bmatrix}1 & -2-i & 5 \\ 1+i & i & 4-2i \end{bmatrix}$,
+For example, given $A=\begin{bmatrix}1 & -2-i & 5 \\\\ 1+i & i & 4-2i \end{bmatrix}$,
 the transpose is
 
 $$
 A^{\top} = \begin{bmatrix}
-    1 & 1+i \\
-    -2-i & i \\
-    5 & 4-2i \\
+    1 & 1+i \\\\
+    -2-i & i \\\\
+    5 & 4-2i \\\\
 \end{bmatrix}
 $$
 
@@ -96,9 +96,9 @@ The conjugate transpose is
 
 $$
 A^{H} = \begin{bmatrix}
-    1 & 1-i \\
-    -2+i & -i \\
-    5 & 4+2i \\
+    1 & 1-i \\\\
+    -2+i & -i \\\\
+    5 & 4+2i \\\\
 \end{bmatrix}
 $$
 
@@ -115,10 +115,8 @@ Given a mapping: $f : R_n \rightarrow R_m$ is a function such that each of its f
 $$
 J_{n \times m} = \bigg[ \frac{\partial f}{\partial x_1} ... \frac{\partial f}{\partial x_n} \bigg] =
 \begin{bmatrix}
-\frac{\partial f_1}{\partial x_1} & ... & \frac{\partial f_1}{\partial x_n} 
-\\
-... & ... & ...
-\\
+\frac{\partial f_1}{\partial x_1} & ... & \frac{\partial f_1}{\partial x_n}  \\\\
+... & ... & ... \\\\
 \frac{\partial f_m}{\partial x_1} & ... & \frac{\partial f_m}{\partial x_n}
 \end{bmatrix}
 $$
@@ -135,16 +133,14 @@ Define $f:\mathbb{R}^n \rightarrow \mathbb{R}$ whose input is a vector $\mathbf{
 $$
 (\mathbf{H}_f)_{i,j}=\frac{\partial^2 f}{\partial x\_i \partial x_j}
 $$
+
 or
 $$
 \mathbf{H}_f = 
 \begin{bmatrix}
-\frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} & ... & \frac{\partial^2 f}{\partial x_1 \partial x_n} 
-\\
-\frac{\partial^2 f}{\partial x_2 \partial x_1} & \frac{\partial^2 f}{\partial x_2^2} & ... & \frac{\partial^2 f}{\partial x_2 \partial x_n} 
-\\
-... & ... & ... & ...
-\\
+\frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} & ... & \frac{\partial^2 f}{\partial x_1 \partial x_n}  \\\\
+\frac{\partial^2 f}{\partial x_2 \partial x_1} & \frac{\partial^2 f}{\partial x_2^2} & ... & \frac{\partial^2 f}{\partial x_2 \partial x_n}  \\\\
+... & ... & ... & ... \\\\
 \frac{\partial^2 f}{\partial x_n \partial x_1}  & \frac{\partial^2 f}{\partial x_n \partial x_2}  & ... & \frac{\partial f}{\partial x_n^2}R
 \end{bmatrix}
 $$
@@ -169,8 +165,8 @@ For example, given $A$
 $$
 A =
 \begin{bmatrix}
-a_{11} & a_{12} & a_{13} \\
-a_{21} & a_{22} & a_{23} \\
+a_{11} & a_{12} & a_{13} \\\\
+a_{21} & a_{22} & a_{23} \\\\
 a_{31} & a_{32} & a_{33}
 \end{bmatrix}
 $$
@@ -208,8 +204,8 @@ By Vieta's formulas, the sum of the roots (eigenvalues) is
 $$
 \begin{align*}
 \sum^n\_{i=1}\lambda_i&=
-   \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\
-   &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\
+   \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\\\
+   &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\\\
    &= \text{tr}(A)
 \end{align*}
 $$
@@ -220,10 +216,10 @@ Given $A \in \mathbb{R}^{m \times n}$ and $B \in \mathbb{R}^{p \times q}$, the *
 $$
 A \otimes B = 
 \begin{bmatrix}
-    a_{11} B & a_{12} B &  & a_{1n} B \\
-    a_{21} B & a_{22} B &  & a_{2n} B \\
-    & & \ddots & \\
-    a_{m1} B & a_{m2} B &  & a_{mn} B \\
+    a_{11} B & a_{12} B &  & a_{1n} B \\\\
+    a_{21} B & a_{22} B &  & a_{2n} B \\\\
+    & & \ddots & \\\\
+    a_{m1} B & a_{m2} B &  & a_{mn} B \\\\
 \end{bmatrix}
 $$
 
@@ -232,48 +228,48 @@ For example,
 $$
 \begin{align*}
 \begin{bmatrix}
-    1 & 2 \\
+    1 & 2 \\\\
     3 & 4
 \end{bmatrix}
 \otimes
 \begin{bmatrix}
-    0 & 5 \\
+    0 & 5 \\\\
     6 & 7
 \end{bmatrix}&=
 \begin{bmatrix}
     1 \begin{bmatrix}
-        0 & 5 \\
+        0 & 5 \\\\
         6 & 7
     \end{bmatrix}
     &
     2 \begin{bmatrix}
-        0 & 5 \\
+        0 & 5 \\\\
         6 & 7
     \end{bmatrix} 
-    \\
+    \\\\
     3 \begin{bmatrix}
-        0 & 5 \\
+        0 & 5 \\\\
         6 & 7
     \end{bmatrix}
     & 
     4 \begin{bmatrix}
-        0 & 5 \\
+        0 & 5 \\\\
         6 & 7
     \end{bmatrix}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    1 \times 0 & 1 \times 5 & 2 \times 0 & 2 \times 5 \\
-    1 \times 6 & 1 \times 7 & 2 \times 6 & 2 \times 7 \\
-    3 \times 0 & 3 \times 5 & 4 \times 0 & 4 \times 5 \\
-    3 \times 6 & 3 \times 7 & 4 \times 6 & 4 \times 7 \\
+    1 \times 0 & 1 \times 5 & 2 \times 0 & 2 \times 5 \\\\
+    1 \times 6 & 1 \times 7 & 2 \times 6 & 2 \times 7 \\\\
+    3 \times 0 & 3 \times 5 & 4 \times 0 & 4 \times 5 \\\\
+    3 \times 6 & 3 \times 7 & 4 \times 6 & 4 \times 7 \\\\
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    0 & 5 & 0 & 10 \\
-    6 & 7 & 12 & 14 \\
-    0 & 15 & 0 & 20 \\
-    18 & 21 & 24 & 28 \\
+    0 & 5 & 0 & 10 \\\\
+    6 & 7 & 12 & 14 \\\\
+    0 & 15 & 0 & 20 \\\\
+    18 & 21 & 24 & 28 \\\\
 \end{bmatrix}
 \end{align*}
 $$

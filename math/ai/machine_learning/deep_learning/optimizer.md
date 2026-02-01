@@ -89,8 +89,7 @@ The first and second order momentum at the $n$-th iteration:
 
 $$
 \begin{align*}
-m_{n+1} &= \beta_1 m_{n} + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n}}
-\\
+m_{n+1} &= \beta_1 m_{n} + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n}} \\\\
 v_{n+1} &= \beta_2 v_{n} + (1-\beta_2)\big( \frac{\partial\space Loss}{\partial\space W_{n}} \big)^2
 \end{align*}
 $$
@@ -99,8 +98,7 @@ Define the bias-corrected momentums $\hat{m}\_{1,n+1}$ and $\hat{m}\_{2,n+1}$
 
 $$
 \begin{align*}
-\hat{m}\_{n+1} &= \frac{m_{n+1}}{1-\beta_1^n}
-\\
+\hat{m}\_{n+1} &= \frac{m_{n+1}}{1-\beta_1^n} \\\\
 \hat{v}\_{n+1} &= \frac{v_{n+1}}{1-\beta_2^n}
 \end{align*}
 $$
@@ -120,8 +118,7 @@ This thinking (*unbiased estimators*) can be expressed as below.
 
 $$
 \begin{align*}
-E[m_n] &= E[g_n]
-\\
+E[m_n] &= E[g_n] \\\\
 E[v_n] &= E[g_n^2]
 \end{align*}
 $$ 
@@ -135,9 +132,9 @@ Expanding the momentums, for example $m_n$, for $n=3$, there is
 $$
 \begin{align*}
 m_3 &= \beta_1 m_2 + (1-\beta_1)g_3
-\\ &= 
+\\\\ &= 
 \beta_1 m_1 + \beta_1(1-\beta_1)g_2 + (1-\beta_1)g_3
-\\ &=
+\\\\ &=
 \beta_1^2 (1-\beta_1)g_1 + \beta_1 (1-\beta_1)g_2 + (1-\beta_1)g_3
 \end{align*}
 $$
@@ -147,8 +144,7 @@ To summarize, there are ($v_n$ has similar derivation as well)
 $$
 \begin{align*}
 m_n &= (1-\beta_1) \sum_{i=0}^n
-\beta_1^{n-i} g_i
-\\
+\beta_1^{n-i} g_i \\\\
 v_n &= (1-\beta_2) \sum_{i=0}^n
 \beta_2^{n-i} g_i^2
 \end{align*}
@@ -162,13 +158,13 @@ E[m_n] &=
 E\bigg[
     (1-\beta_1) \sum_{i=1}^n \beta_1^{n-i} g_i
 \bigg]
-\\ &=
+\\\\ &=
 E[g_n] (1-\beta_1)\sum_{i=1}^n \beta_1^{n-i} + \xi
 \quad\quad\quad &(1)
-\\ &=
+\\\\ &=
 E[g_n] (1-\beta_1)  \frac{1-\beta_1^n}{1-\beta_1} + \xi
 \quad\quad\quad &(2)
-\\ &=
+\\\\ &=
 E[g_n] (1-\beta_1^n) + \xi
 \end{align*}
 $$
@@ -207,15 +203,15 @@ $$
 \begin{align*}
     \lim_{n \rightarrow +\infty} \hat{m}\_{n} &=
     \frac{m_{n}}{1-\beta_1^{n-1}}
-\\ &\approx
+\\\\ &\approx
     m_{n} 
-\\ &=
+\\\\ &=
     \beta_1 \Big( \beta_1 m_{n-1} + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n-1}} \Big) + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n}}
-\\ &=
+\\\\ &=
     \beta_1 \Big( \beta_1 \Big(\beta_1 m_{n-2} + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n-2}} \Big) + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n-1}} \Big) + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n}}
-\\ &=
+\\\\ &=
     ...
-\\ &=
+\\\\ &=
     \beta_1^n m_0 +
     (1-\beta_1)\Big( \beta_1^n \frac{\partial\space Loss}{\partial\space W_{1}} + ... + \beta_1^2 \frac{\partial\space Loss}{\partial\space W_{n-2}}
     + \beta_1 \frac{\partial\space Loss}{\partial\space W_{n-1}} +

@@ -233,7 +233,7 @@ $$
 \sum_{t=1}^T m_t \log P_{\mathbf{\theta}} (x_t | \mathbf{x}\_{\overline{\mathbf{m}}} )
 $$
 
-where $m_t = \left\{ \begin{array}{c} 1 & \text{the } t \text{-th token is masked} \\ 0 & \text{the } t \text{-th token is Not masked}  \end{array} \right.$ so that the log likelihood loss is only concerned with the to-be-predicted masked tokens $\mathbf{x}\_{\mathbf{m}}$ .
+where $m_t = \left\{ \begin{array}{c} 1 & \text{the } t \text{-th token is masked} \\\\ 0 & \text{the } t \text{-th token is Not masked}  \end{array} \right.$ so that the log likelihood loss is only concerned with the to-be-predicted masked tokens $\mathbf{x}\_{\mathbf{m}}$ .
 
 
 

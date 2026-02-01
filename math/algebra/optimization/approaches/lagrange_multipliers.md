@@ -53,8 +53,8 @@ $$
 \mathbf{n} =
 [1,0,1] \times [0,1,1] =
 \begin{vmatrix}
-    \overrightarrow{i} & \overrightarrow{j} & \overrightarrow{k} \\
-    1 & 0 & 1 \\
+    \overrightarrow{i} & \overrightarrow{j} & \overrightarrow{k} \\\\
+    1 & 0 & 1 \\\\
     0 & 1 & 1
 \end{vmatrix} =
 -1 \overrightarrow{i} - 1 \overrightarrow{j} + 1 \overrightarrow{k}
@@ -75,31 +75,31 @@ $$
 &&&
     \left \{
         \begin{array}{c}
-            x_0^2+y_0^2=1 \\
+            x_0^2+y_0^2=1 \\\\
             x_0+y_0=0
         \end{array}
-    \right. \\
+    \right. \\\\
 \Rightarrow &&& 
     \left \{
         \begin{array}{c}
-            2x_0^2=1 \\
+            2x_0^2=1 \\\\
             y_0=x_0
         \end{array}
-    \right. \\
+    \right. \\\\
 \Rightarrow &&& 
     \left \{
         \begin{array}{c}
-            x_0 = \frac{\sqrt{2}}{2} \\
+            x_0 = \frac{\sqrt{2}}{2} \\\\
             y_0 = \frac{\sqrt{2}}{2}
         \end{array}
     \right.
 &&& \text{and }
     \left \{
         \begin{array}{c}
-            x_0 = -\frac{\sqrt{2}}{2} \\
+            x_0 = -\frac{\sqrt{2}}{2} \\\\
             y_0 = -\frac{\sqrt{2}}{2}
         \end{array}
-    \right. \\
+    \right. \\\\
 \end{align*}
 $$
 
@@ -113,16 +113,18 @@ $$
 Alternatively, solve it by Lagrangian multiplier, the above $f$ and its constraints can be defined as $g(x,y)=x^2+y^2-1=0$.
 
 Lagrange function can be defined
+
 $$
 \begin{align*}
 L(x,y,\lambda)&=
 f(x,y)+\lambda g(x,y)
-\\ &=
+\\\\ &=
 x+y+\lambda (x^2+y^2-1)
 \end{align*}
 $$
 
 Gradient can be computed
+
 $$
 \begin{align*}
 \triangledown L(x,y,\lambda)&=
@@ -131,7 +133,7 @@ $$
     \frac{\partial L}{\partial y},
     \frac{\partial L}{\partial \lambda}
 )
-\\ &=
+\\\\ &=
 (1+2\lambda x, 1+2\lambda y, x^2+y^2-1)
 \end{align*}
 $$
@@ -139,8 +141,8 @@ $$
 since $\triangledown L(x,y,\lambda)=0$, there is
 $$
 \left \{ \begin{array}{c}
-    1+2\lambda x = 0 \\
-    1+2\lambda y = 0 \\
+    1+2\lambda x = 0 \\\\
+    1+2\lambda y = 0 \\\\
     x^2+y^2-1 = 0
 \end{array}
 \right.

@@ -26,9 +26,9 @@ Hence,
 $$
 \begin{align*}
 S(\mathbf{\beta}+\mathbf{\sigma}) &\approx
-\sum_{i=1}^m [\mathbf{y}\_i - f(\mathbf{x}\_i,\mathbf{\beta})-\mathbf{J}\_i \sigma]^2 \\ &=
-||\mathbf{y}-\mathbf{f}(\beta)-\mathbf{J}\mathbf{\sigma}||^2 \\ &=
-[\mathbf{y}-\mathbf{f}(\beta)-\mathbf{J}\mathbf{\sigma}]^T[\mathbf{y}-\mathbf{f}(\beta)-\mathbf{J}\mathbf{\sigma}] \\ &=
+\sum_{i=1}^m [\mathbf{y}\_i - f(\mathbf{x}\_i,\mathbf{\beta})-\mathbf{J}\_i \sigma]^2 \\\\ &=
+||\mathbf{y}-\mathbf{f}(\beta)-\mathbf{J}\mathbf{\sigma}||^2 \\\\ &=
+[\mathbf{y}-\mathbf{f}(\beta)-\mathbf{J}\mathbf{\sigma}]^T[\mathbf{y}-\mathbf{f}(\beta)-\mathbf{J}\mathbf{\sigma}] \\\\ &=
 [\mathbf{y}-\mathbf{f}(\beta)]^T[\mathbf{y}-\mathbf{f}(\beta)] -
 [\mathbf{y}-\mathbf{f}(\beta)]^T \mathbf{J}\mathbf{\sigma} -
 \mathbf{J}\mathbf{\sigma}^T [\mathbf{y}-\mathbf{f}(\beta)]+
@@ -37,6 +37,7 @@ S(\mathbf{\beta}+\mathbf{\sigma}) &\approx
 $$
 
 Compute $S(\mathbf{\beta}+\mathbf{\sigma})$'s derivative and set it to zero to find stationary points
+
 $$
 \begin{align*}
 \frac{\partial \big(S(\mathbf{\beta}+\mathbf{\sigma}) \big)
@@ -49,7 +50,7 @@ $$
     {
         \partial \mathbf{\sigma}
     }
-\\ &=
+\\\\ &=
 2[\mathbf{y}-\mathbf{f}(\beta)]^T \mathbf{J}
 +
 2 \mathbf{J}^T \mathbf{J} \mathbf{\sigma}
@@ -57,16 +58,16 @@ $$
 $$
 
 By setting the derivative to zero, there is
+
 $$
 \begin{align*}
 0 &=
 -2[\mathbf{y}-\mathbf{f}(\beta)]^T \mathbf{J}
 +
 2 \mathbf{J}^T \mathbf{J} \mathbf{\sigma}
-\\ 
+\\\\ 
 \mathbf{J}^T \mathbf{J} \mathbf{\sigma}&=
-[\mathbf{y}-\mathbf{f}(\beta)]^T \mathbf{J}
-\\
+[\mathbf{y}-\mathbf{f}(\beta)]^T \mathbf{J} \\\\
 \mathbf{J}^T \mathbf{J} \mathbf{\sigma}&=
 \mathbf{J}^T [\mathbf{y}-\mathbf{f}(\beta)]
 \end{align*}
@@ -87,9 +88,9 @@ The motivation is that
 $$
 \text{diag}(\mathbf{J}^T \mathbf{J})=
 \begin{bmatrix}
-      J_1^2 & 0 & ... & 0 \\
-      0 & J_2^2 & ... & 0 \\
-      ... & ... & ... & ... \\
+      J_1^2 & 0 & ... & 0 \\\\
+      0 & J_2^2 & ... & 0 \\\\
+      ... & ... & ... & ... \\\\
       0 & 0 & ... & J_n^2
 \end{bmatrix}
 $$ 

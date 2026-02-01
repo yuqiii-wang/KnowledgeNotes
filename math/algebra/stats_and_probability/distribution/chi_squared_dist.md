@@ -57,7 +57,7 @@ Unless specified, assumed surveyed individuals are independent, Central limit th
 
 $$
 \begin{align*}
-    & Z=\frac{\overline{X}-\mu}{\frac{1}{\sqrt{n}}\sigma} \\
+    & Z=\frac{\overline{X}-\mu}{\frac{1}{\sqrt{n}}\sigma} \\\\
     \Rightarrow\quad & Z=\frac{|\text{observed}-\text{expected}|}{\sqrt{\text{expected}}}
 \end{align*}
 $$
@@ -152,20 +152,19 @@ Chi-squared $\mathcal{X}^2$ sums up all frequencies, there is
 $$
 \begin{align*}
 \mathcal{X}^2 &= \sum \frac{(\text{observed}-\text{expected})^2}{\text{\text{expected}}}
-\\ &=
+\\\\ &=
 \frac{(90-150\times\frac{349}{650})^2}{150\times\frac{349}{650}}
 +
 \frac{(30-150\times\frac{151}{650})^2}{150\times\frac{151}{650}}
 +
-\frac{(30-150\times\frac{150}{650})^2}{150\times\frac{150}{650}}
-\\
+\frac{(30-150\times\frac{150}{650})^2}{150\times\frac{150}{650}} \\\\
 & \quad +
 \frac{(60-150\times\frac{349}{650})^2}{150\times\frac{349}{650}}
 +
 \frac{(50-150\times\frac{151}{650})^2}{150\times\frac{151}{650}}+...
-\\ &\approx
+\\\\ &\approx
 1.11 + 0.672 + 0.672 + 5.23 + 6.59 + ...
-\\ &\approx 24.57
+\\\\ &\approx 24.57
 \end{align*}
 $$
 

@@ -49,9 +49,9 @@ For the new token $\mathtt{x}_1$. It appends them to the cache.
 
 $$
 \begin{align*}
-S_2 &= \frac{\mathtt{q}_2 \cdot K_{cache}^{\top}}{\sqrt{d_k}} = \frac{\mathtt{q}_2 \cdot \text{concat}(K_{prompt}, \mathtt{k}_1)^{\top}}{\sqrt{d_k}} \\
-S_3 &= \frac{\mathtt{q}_3 \cdot K_{cache}^{\top}}{\sqrt{d_k}} = \frac{\mathtt{q}_3 \cdot \text{concat}(K_{prompt}, \mathtt{k}_1, \mathtt{k}_2)^{\top}}{\sqrt{d_k}} \\
-&... \\
+S_2 &= \frac{\mathtt{q}_2 \cdot K_{cache}^{\top}}{\sqrt{d_k}} = \frac{\mathtt{q}_2 \cdot \text{concat}(K_{prompt}, \mathtt{k}_1)^{\top}}{\sqrt{d_k}} \\\\
+S_3 &= \frac{\mathtt{q}_3 \cdot K_{cache}^{\top}}{\sqrt{d_k}} = \frac{\mathtt{q}_3 \cdot \text{concat}(K_{prompt}, \mathtt{k}_1, \mathtt{k}_2)^{\top}}{\sqrt{d_k}} \\\\
+&... \\\\
 S_T &= \frac{\mathtt{q}_T \cdot K_{cache}^{\top}}{\sqrt{d_k}} = \frac{\mathtt{q}_T \cdot \text{concat}(K_{prompt}, \mathtt{k}_1, \mathtt{k}_2, ..., \mathtt{k}_T)^{\top}}{\sqrt{d_k}} 
 \end{align*}
 $$
@@ -123,12 +123,12 @@ The subsequent softmax function will then assign a probability of 0 to the posit
 $$
 \text{Causal Mask}\quad
 M_{ij}=\begin{cases}
-    0 & \text{if } j \le i \\
+    0 & \text{if } j \le i \\\\
     -\infty & \text{if } j > i
 \end{cases}, \qquad \text{Padding Mask}\quad
 M_{j} =
 \begin{cases}
-    0 & \text{if token}_j \text{ is not padding} \\
+    0 & \text{if token}_j \text{ is not padding} \\\\
     -\infty & \text{if token}_j \text{ is padding}
 \end{cases}
 $$

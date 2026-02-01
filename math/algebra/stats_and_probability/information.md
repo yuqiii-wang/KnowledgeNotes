@@ -26,10 +26,10 @@ Set $P$ as the label truth token sequence, and $Q$ as the LLM prediction token s
 
 $$
 \begin{align*}
-\text{H}(P, Q) &= E_P \big( -\log Q \big) \\
-    &= -\sum_{x \in \mathbf{x}} P(x) \log Q(x) \\
-    &= -\sum_{x \in \mathbf{x}} P(x) \big(\log P(x) +  \log Q(x) -\log P(x) \big) \\
-    &= -\sum_{x \in \mathbf{x}} P(x) \log P(x) - \sum_{x \in \mathbf{x}} P(x) \log \frac{Q(x)}{P(x)} \\
+\text{H}(P, Q) &= E_P \big( -\log Q \big) \\\\
+    &= -\sum_{x \in \mathbf{x}} P(x) \log Q(x) \\\\
+    &= -\sum_{x \in \mathbf{x}} P(x) \big(\log P(x) +  \log Q(x) -\log P(x) \big) \\\\
+    &= -\sum_{x \in \mathbf{x}} P(x) \log P(x) - \sum_{x \in \mathbf{x}} P(x) \log \frac{Q(x)}{P(x)} \\\\
     &= \text{H}(P) + D_{KL}(P || Q)
 \end{align*}
 $$
@@ -43,9 +43,9 @@ Conditional uncertainty of $X$ given random variable $Y$ is the average conditio
 $$
 \begin{align*}
 \text{H}(X|Y) &= \mathbb{E}_Y \big( \text{H}(X|y) \big) 
-\\ &=
+\\\\ &=
 \sum_{x \in Y} p(y) \sum_{x \in X} p(x|y) \log p(x|y)
-\\ &=
+\\\\ &=
 -\sum_{x \in X, y \in Y} p(x,y) \log p (x|y)
 \end{align*}
 $$
@@ -74,27 +74,29 @@ $$
 ### Mean
 
 Given observations $\mathbf{x}=[x_1, x_2, ..., x_n]$ in the sample space $X$, the expected value of score is
+
 $$
 \begin{align*}
 E(s|\theta)&=
 \int_X \frac{\partial \space log L(\theta;x)}{\partial \theta} f(x;\theta) dx
-\\ &=
+\\\\ &=
 \int_X \frac{\partial \space f(x; \theta)}{\partial \theta} \frac{1}{f(x;\theta)} f(x;\theta) dx
-\\ &=
+\\\\ &=
 \int_X \frac{\partial \space f(x; \theta)}{\partial \theta} dx
 \end{align*}
 $$
 
 By Leibniz integral rule which allows for interchange of derivative and integral, there is
+
 $$
 \begin{align*}
 E(s|\theta) &=
 \int_X \frac{\partial \space f(x; \theta)}{\partial \theta} dx
-\\ &=
+\\\\ &=
 \frac{\partial }{\partial \theta} \int_X f(x;\theta) dx
-\\ &=
+\\\\ &=
 \frac{\partial }{\partial \theta} 1 
-\\ &= 
+\\\\ &= 
 0
 \end{align*}
 $$
@@ -120,7 +122,7 @@ E\bigg[
     \bigg)^2
     \bigg| \theta
 \bigg]
-\\ &=
+\\\\ &=
 \int_X \bigg( \frac{\partial \space log L(\theta;x)}{\partial \theta} \bigg)^2 f(x;\theta) dx
 \end{align*}
 $$

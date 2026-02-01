@@ -12,7 +12,7 @@ A saddle-shaped surface with a "valley" in one direction and a "ridge" in anothe
 For example, given $f(x,y)=x^2-y^2$, there are
 
 * Gradient $\nabla f=[2x, -2y]=[0,0]$ at the point $(0,0)$
-* Hessian $H=\begin{bmatrix} \frac{\partial^2 f}{\partial x^2} & \frac{\partial^2 f}{\partial x \partial y} \\ \frac{\partial^2 f}{\partial y \partial x} & \frac{\partial^2 f}{\partial y^2} \end{bmatrix}=\begin{bmatrix} 2 & 0 \\ 0 & -2 \end{bmatrix}$
+* Hessian $H=\begin{bmatrix} \frac{\partial^2 f}{\partial x^2} & \frac{\partial^2 f}{\partial x \partial y} \\\\ \frac{\partial^2 f}{\partial y \partial x} & \frac{\partial^2 f}{\partial y^2} \end{bmatrix}=\begin{bmatrix} 2 & 0 \\\\ 0 & -2 \end{bmatrix}$
 
 The Hessian sees eigenvalues: $2$ (positive) and $−2$ (negative).
 

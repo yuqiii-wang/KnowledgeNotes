@@ -9,7 +9,7 @@ $$
 \begin{align*}
 \mathbf{x}\_{k} &= f(
     \mathbf{x}\_{k-1|k-1}, \mathbf{u}_k
-) + \mathbf{w}_k \\
+) + \mathbf{w}_k \\\\
 \mathbf{z}\_{k} &= h(\mathbf{x}_k)+\mathbf{v}_k
 \end{align*}
 $$
@@ -21,8 +21,7 @@ $$
 \begin{align*}
 \mathbf{F}_k&=
 \frac{\partial f}{\partial \mathbf{x}}
-\bigg|_{\mathbf{x}\_{k-1|k-1}, \mathbf{u}_k}
-\\
+\bigg|_{\mathbf{x}\_{k-1|k-1}, \mathbf{u}_k} \\\\
 \mathbf{H}_k&=
 \frac{\partial h}{\partial \mathbf{x}}
 \bigg|_{\mathbf{x}\_{k|k-1}}
@@ -77,16 +76,16 @@ Define a matrix $\mathbf{X}$ consisted of $2d+1$ *sigma* vectors $X_i$ with corr
 
 $$
 \begin{align*}
-X_0 &= \mathbf{\overline{x}} \\
+X_0 &= \mathbf{\overline{x}} \\\\
 X_i &= 
 \mathbf{\overline{x}} + (\sqrt{(d+\lambda)\mathbf{P_\mathbf{x}}})_i 
 \quad
-\quad i=1,2,...,d \\
+\quad i=1,2,...,d \\\\
 X_i &= 
 \mathbf{\overline{x}} - (\sqrt{(d+\lambda)\mathbf{P_\mathbf{x}}})_{i-d} 
-\quad i=d+1,d+2,...,2d \\
-W_0^{(m)} &=\frac{\lambda}{d+\lambda} \\
-W_0^{(c)} &=\frac{\lambda}{d+\lambda} + (1+\alpha^2+\beta) \\
+\quad i=d+1,d+2,...,2d \\\\
+W_0^{(m)} &=\frac{\lambda}{d+\lambda} \\\\
+W_0^{(c)} &=\frac{\lambda}{d+\lambda} + (1+\alpha^2+\beta) \\\\
 W_i^{(m)}=W_i^{(m)} &=
 \frac{1}{2(d+\lambda)}
 \quad\quad\quad\quad\quad\quad i=1,2,...,2d
@@ -109,21 +108,19 @@ $$
 \mathbf{\overline{x}}
 &\approx
 \sum^{2d}\_{i=0}
-W^{(m)} x\_i
-\\
+W^{(m)} x\_i \\\\
 \mathbf{\overline{y}} 
 &\approx
 \sum^{2d}\_{i=0}
-W^{(m)} y_i \\
+W^{(m)} y_i \\\\
 \mathbf{P_x} 
 &\approx
 \sum^{2d}\_{i=0}
-W^{(c)} (x\_i-\mathbf{\overline{x}}) (x\_i-\mathbf{\overline{x}})^\text{T}
-\\
+W^{(c)} (x\_i-\mathbf{\overline{x}}) (x\_i-\mathbf{\overline{x}})^\text{T} \\\\
 \mathbf{P_y} 
 &\approx
 \sum^{2d}\_{i=0}
-W^{(c)} (y_i-\mathbf{\overline{y}}) (y_i-\mathbf{\overline{y}})^\text{T} \\
+W^{(c)} (y_i-\mathbf{\overline{y}}) (y_i-\mathbf{\overline{y}})^\text{T} \\\\
 \mathbf{P_{xy}} 
 &\approx
 \sum^{2d}\_{i=0}
@@ -149,53 +146,55 @@ Its init estimates: init state and covariances are known as below.
 $$
 \mathbf{x} =
 \begin{bmatrix}
-p \\ v
+p \\\\ v
 \end{bmatrix} , \quad
 \mathbf{\hat{x}}_0 \sim N
 \bigg(
 \begin{bmatrix}
-0 \\ 5
+0 \\\\ 5
 \end{bmatrix} ,
 \begin{bmatrix}
-0.01 & 0\\
+0.01 & 0\\\\
 0 & 1.0
 \end{bmatrix} \bigg)
 $$
 
 and vehicle motion model
+
 $$
 \begin{align*}
 \mathbf{\hat{x}}_k &= 
 f(\mathbf{\hat{x}}\_{k-1}, \mathbf{u}_k, \mathbf{w}_k)
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-1 & \Delta t \\
+1 & \Delta t \\\\
 0 & 1
 \end{bmatrix}
 \mathbf{x}\_{k-1}
 +
 \begin{bmatrix}
-0 \\
+0 \\\\
 \Delta t
 \end{bmatrix}
 \mathbf{u}_k
 +
 \mathbf{w}_k
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-1 & 0.5 \\
+1 & 0.5 \\\\
 0 & 1
 \end{bmatrix}
 \mathbf{x}\_{k-1}
 -2
 \begin{bmatrix}
-0 \\
+0 \\\\
 0.5
 \end{bmatrix}
 +
 \mathbf{w}_k
 \end{align*}
 $$
+
 where $\mathbf{u}_k = a = -2 \space m/s^2$ is the acceleration.
 
 Vehicle measurement model is defined such that we can only observe the distance
@@ -203,9 +202,9 @@ Vehicle measurement model is defined such that we can only observe the distance
 $$
 \begin{align*}
 y_k &= h(\mathbf{x}) + \mathbf{v}_k
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 0 & 0
 \end{bmatrix}
 \mathbf{x} + \mathbf{v}_k
@@ -220,21 +219,21 @@ $$
 N
 \bigg(
 \begin{bmatrix}
-0 \\ 0
+0 \\\\ 0
 \end{bmatrix} ,
 \begin{bmatrix}
-0.01 & 0\\
+0.01 & 0\\\\
 0 & 0.01
 \end{bmatrix}
-\bigg) \\
+\bigg) \\\\
 \mathbf{v}_k &\sim
 N
 \bigg(
 \begin{bmatrix}
-0 \\ 0
+0 \\\\ 0
 \end{bmatrix} ,
 \begin{bmatrix}
-0.01 & 0\\
+0.01 & 0\\\\
 0 & 0.0
 \end{bmatrix} \bigg)
 \end{align*}
@@ -242,11 +241,11 @@ $$
 
 ### Computation
 
-Use Cholesky to solve $\mathbf{P}_0=\begin{bmatrix} 0.01 & 0 \\ 0 & 1.0 \end{bmatrix}$, there is 
+Use Cholesky to solve $\mathbf{P}_0=\begin{bmatrix} 0.01 & 0 \\\\ 0 & 1.0 \end{bmatrix}$, there is 
 $$
 {\Sigma}_0 = 
 \begin{bmatrix}
-0.1 & 0\\
+0.1 & 0\\\\
 0 & 1.0
 \end{bmatrix}
 $$
@@ -256,9 +255,9 @@ $$
 \begin{align*}
 \sqrt{d+\lambda} &=
 \sqrt{d+\alpha^2(d+\kappa)-d}
-\\ &=
+\\\\ &=
 \alpha \sqrt{d+\kappa}
-\\ & \approx
+\\\\ & \approx
 \sqrt{3}
 \end{align*}
 $$
@@ -269,50 +268,50 @@ $$
 \begin{align*}
 \check{x}_0^{(0)} &=
 \begin{bmatrix}
-0 \\ 5
-\end{bmatrix} \\
+0 \\\\ 5
+\end{bmatrix} \\\\
 \check{x}_0^{(1)} &=
 \begin{bmatrix}
-0 \\ 5
+0 \\\\ 5
 \end{bmatrix} +
 \sqrt{3}
 \begin{bmatrix}
-0.1 \\ 0
+0.1 \\\\ 0
 \end{bmatrix} =
 \begin{bmatrix}
-\frac{\sqrt{3}}{10} \\ 5
-\end{bmatrix} \\
+\frac{\sqrt{3}}{10} \\\\ 5
+\end{bmatrix} \\\\
 \check{x}_0^{(2)} &=
 \begin{bmatrix}
-0 \\ 5
+0 \\\\ 5
 \end{bmatrix} +
 \sqrt{3}
 \begin{bmatrix}
-0 \\ 1.0
+0 \\\\ 1.0
 \end{bmatrix} =
 \begin{bmatrix}
-0 \\ 5+\sqrt{3}
-\end{bmatrix} \\
+0 \\\\ 5+\sqrt{3}
+\end{bmatrix} \\\\
 \check{x}_0^{(3)} &=
 \begin{bmatrix}
-0 \\ 5
+0 \\\\ 5
 \end{bmatrix} - \sqrt{3}
 \begin{bmatrix}
-0.1 \\ 0
+0.1 \\\\ 0
 \end{bmatrix} =
 \begin{bmatrix}
--\frac{\sqrt{3}}{10} \\ 5
-\end{bmatrix} \\
+-\frac{\sqrt{3}}{10} \\\\ 5
+\end{bmatrix} \\\\
 \check{x}_0^{(4)} &=
 \begin{bmatrix}
-0 \\ 5
+0 \\\\ 5
 \end{bmatrix} -
 \sqrt{3}
 \begin{bmatrix}
-0 \\ 1.0
+0 \\\\ 1.0
 \end{bmatrix} =
 \begin{bmatrix}
-0 \\ 5-\sqrt{3}
+0 \\\\ 5-\sqrt{3}
 \end{bmatrix}
 \end{align*}
 $$
@@ -323,112 +322,112 @@ $$
 \begin{align*}
 \hat{x}_1^{(0)} &=
 \begin{bmatrix}
-1 & 0.5 \\
+1 & 0.5 \\\\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-0 \\
+0 \\\\
 5
 \end{bmatrix}
 -2
 \begin{bmatrix}
-0 \\
+0 \\\\
 0.5
 \end{bmatrix}=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4.0
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \hat{x}_1^{(1)} &=
 \begin{bmatrix}
-1 & 0.5 \\
+1 & 0.5 \\\\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-\frac{\sqrt{3}}{10} \\
+\frac{\sqrt{3}}{10} \\\\
 5
 \end{bmatrix}
 -2
 \begin{bmatrix}
-0 \\
+0 \\\\
 0.5
 \end{bmatrix}=
 \begin{bmatrix}
-\frac{\sqrt{3}}{10}+2.5 \\
+\frac{\sqrt{3}}{10}+2.5 \\\\
 4
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-2.67 \\
+2.67 \\\\
 4.0
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \hat{x}_1^{(2)} &=
 \begin{bmatrix}
-1 & 0.5 \\
+1 & 0.5 \\\\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-0 \\
+0 \\\\
 5+\sqrt{3}
 \end{bmatrix}
 -2
 \begin{bmatrix}
-0 \\
+0 \\\\
 0.5
 \end{bmatrix}=
 \begin{bmatrix}
-\frac{\sqrt{3}}{2}+2.5 \\
+\frac{\sqrt{3}}{2}+2.5 \\\\
 \sqrt{3}+4
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-3.4 \\
+3.4 \\\\
 5.67
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \hat{x}_1^{(3)} &=
 \begin{bmatrix}
-1 & 0.5 \\
+1 & 0.5 \\\\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
--\frac{\sqrt{3}}{10} \\
+-\frac{\sqrt{3}}{10} \\\\
 5
 \end{bmatrix}
 -2
 \begin{bmatrix}
-0 \\
+0 \\\\
 0.5
 \end{bmatrix}=
 \begin{bmatrix}
--\frac{\sqrt{3}}{10}+2.5 \\
+-\frac{\sqrt{3}}{10}+2.5 \\\\
 4
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-2.33 \\
+2.33 \\\\
 4.0
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \hat{x}_1^{(4)} &=
 \begin{bmatrix}
-1 & 0.5 \\
+1 & 0.5 \\\\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-0 \\
+0 \\\\
 5-\sqrt{3}
 \end{bmatrix}
 -2
 \begin{bmatrix}
-0 \\
+0 \\\\
 0.5
 \end{bmatrix}=
 \begin{bmatrix}
--\frac{\sqrt{3}}{2}+2.5 \\
+-\frac{\sqrt{3}}{2}+2.5 \\\\
 -\sqrt{3}+4
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-1.6 \\
+1.6 \\\\
 2.3
 \end{bmatrix}
 \end{align*}
@@ -443,10 +442,10 @@ $$
 {d+\alpha^2(d+\kappa)-d}
 &
 \frac{1}{2(d+\lambda)}&=
-\frac{1}{2(d+\alpha^2(d+\kappa)-d)}\\ &=
+\frac{1}{2(d+\alpha^2(d+\kappa)-d)}\\\\ &=
 1-\frac{d}{\alpha^2(d+\kappa)}
 & &=
-\frac{1}{2\alpha^2(d+\kappa)}\\ &=
+\frac{1}{2\alpha^2(d+\kappa)}\\\\ &=
 \frac{1}{3}
 & &=
 \frac{1}{6}
@@ -458,38 +457,38 @@ $$
 \begin{align*}
 \hat{x}^-_1 &=
 \sum^{2d}\_{i=0} W_i^{(m)} \hat{x}_1^{(i)}
-\\ &=
+\\\\ &=
 \frac{1}{3}
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4.0
 \end{bmatrix}
 +
 \frac{1}{6}
 \begin{bmatrix}
-2.67 \\
+2.67 \\\\
 4.0
 \end{bmatrix}
 +
 \frac{1}{6}
 \begin{bmatrix}
-3.4 \\
+3.4 \\\\
 5.67
 \end{bmatrix}
 +
 \frac{1}{6}
 \begin{bmatrix}
-2.33 \\
+2.33 \\\\
 4.0
 \end{bmatrix}
 +
 \frac{1}{6}
 \begin{bmatrix}
-1.6 \\
+1.6 \\\\
 2.3
-\end{bmatrix}\\ &=
+\end{bmatrix}\\\\ &=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4.0
 \end{bmatrix}
 \end{align*}
@@ -502,80 +501,80 @@ $$
 \mathbf{\hat{P}}\_{1,x} &=
 \sum^{2d}\_{i=0}
 W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{x}^{(i)}_1-{\hat{x}_1^-})^\text{T}+\mathbf{Q}_0
-\\ &=
+\\\\ &=
 \frac{1}{3}
 \bigg(
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
 \bigg)
 \bigg(
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
-\bigg)^\text{T}\\ & \quad +
+\bigg)^\text{T}\\\\ & \quad +
 \frac{1}{6}
 \bigg(
     \begin{bmatrix}
-      2.67 \\
+      2.67 \\\\
       4.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
 \bigg)
 \bigg(
     \begin{bmatrix}
-      2.67 \\
+      2.67 \\\\
       4.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
-\bigg)^\text{T}\\ & \quad + ... + 
+\bigg)^\text{T}\\\\ & \quad + ... + 
 \begin{bmatrix}
-      0.1 & 0\\
+      0.1 & 0\\\\
       0 & 0.1
-\end{bmatrix}\\ &=
+\end{bmatrix}\\\\ &=
 \begin{bmatrix}
-      0.36 & 0.5 \\
+      0.36 & 0.5 \\\\
       0.5 & 1.1
 \end{bmatrix}
 \end{align*}
 $$
 
 By Cholesky decomposition to find the solution to the covariance matrix
+
 $$
 \begin{align*}
 \mathbf{\hat{P}}\_{1,x}&=
-\mathbf{L}_1 \mathbf{L}_1^\text{T}
-\\
+\mathbf{L}_1 \mathbf{L}_1^\text{T} \\\\
 \begin{bmatrix}
-      0.36 & 0.5 \\
+      0.36 & 0.5 \\\\
       0.5 & 1.1
 \end{bmatrix}&=
 \begin{bmatrix}
-      0.60 & 0.0 \\
+      0.60 & 0.0 \\\\
       0.83 & 0.64
 \end{bmatrix}
 \begin{bmatrix}
-      0.60 & 0.0 \\
+      0.60 & 0.0 \\\\
       0.83 & 0.64
 \end{bmatrix}^\text{T}
 \end{align*}
@@ -586,71 +585,71 @@ $$
 \begin{align*}
 \check{x}_1^{(0)} &=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \check{x}_1^{(1)} &=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4
 \end{bmatrix}
 +
 \sqrt{3}
 \begin{bmatrix}
-      0.60 \\
+      0.60 \\\\
       0.83
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-3.54 \\
+3.54 \\\\
 5.44
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \check{x}_1^{(2)} &=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4
 \end{bmatrix}
 +
 \sqrt{3}
 \begin{bmatrix}
-      0.0 \\
+      0.0 \\\\
       0.64
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 5.10
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \check{x}_1^{(3)} &=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4
 \end{bmatrix}
 -
 \sqrt{3}
 \begin{bmatrix}
-      0.60 \\
+      0.60 \\\\
       0.83
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-1.46 \\
+1.46 \\\\
 2.56
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \check{x}_1^{(4)} &=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4
 \end{bmatrix}
 -
 \sqrt{3}
 \begin{bmatrix}
-      0.60 \\
+      0.60 \\\\
       0.83
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 2.90
 \end{bmatrix}
 \end{align*}
@@ -660,76 +659,76 @@ The observation $y_1^{(i)}$ is updated (without applied Gaussian noises).
 $$
 \begin{align*}
 \hat{y}^{(i)}_1 &= h(\hat{x}^{(i)}_1) + \mathbf{v}_k
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 0 & 0
 \end{bmatrix}
 \hat{x}^{(i)}_1
- + \mathbf{v}_k\\
+ + \mathbf{v}_k\\\\
 \hat{y}^{(0)}_1&=
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 0 & 0
 \end{bmatrix}
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4.0
 \end{bmatrix}=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 0
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \hat{y}^{(1)}_1&=
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 0 & 0
 \end{bmatrix}
 \begin{bmatrix}
-3.54 \\
+3.54 \\\\
 5.44
 \end{bmatrix}=
 \begin{bmatrix}
-3.54 \\
+3.54 \\\\
 0
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \hat{y}^{(2)}_1&=
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 0 & 0
 \end{bmatrix}
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 5.10
 \end{bmatrix}=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 0
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \hat{y}^{(3)}_1&=
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 0 & 0
 \end{bmatrix}
 \begin{bmatrix}
-1.46 \\
+1.46 \\\\
 2.56
 \end{bmatrix}=
 \begin{bmatrix}
-1.46 \\
+1.46 \\\\
 0
-\end{bmatrix}\\
+\end{bmatrix}\\\\
 \hat{y}^{(4)}_1&=
 \begin{bmatrix}
-1 & 0\\
+1 & 0\\\\
 0 & 0
 \end{bmatrix}
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 2.90
 \end{bmatrix}=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 0
 \end{bmatrix}
 \end{align*}
@@ -739,39 +738,39 @@ Computed the mean of observation. It is the same as directly measuring ${x}_1^-$
 $$
 \begin{align*}
 \hat{y}^-_1&= \sum^{2d}\_{i=0}
-W^{(m)}\_i \hat{y}^{(i)}_1\\ &=
+W^{(m)}\_i \hat{y}^{(i)}_1\\\\ &=
 \frac{1}{3} 
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 0
 \end{bmatrix}
 +
 \frac{1}{6} 
 \begin{bmatrix}
-3.54 \\
+3.54 \\\\
 0
 \end{bmatrix}
 +
 \frac{1}{6}
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 0
 \end{bmatrix}
 +
 \frac{1}{6}
 \begin{bmatrix}
-1.46 \\
+1.46 \\\\
 0
 \end{bmatrix}
 +
 \frac{1}{6}
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 0
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 0
 \end{bmatrix}
 \end{align*}
@@ -782,92 +781,92 @@ $$
 \begin{align*}
 \mathbf{\hat{P}}\_{1,y} &=
 \sum^{2d}\_{i=0}
-W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}+\mathbf{R}_0\\ &=
+W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}+\mathbf{R}_0\\\\ &=
 \frac{1}{3}
 \bigg(
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
 \bigg)
 \bigg(
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
-\bigg)^\text{T}\\ & \quad +
+\bigg)^\text{T}\\\\ & \quad +
 \frac{1}{6}
 \bigg(
     \begin{bmatrix}
-      3.54 \\
+      3.54 \\\\
       0.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
 \bigg)
 \bigg(
     \begin{bmatrix}
-      3.54 \\
+      3.54 \\\\
       0.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
 \bigg)^\text{T}
-\\ & \quad + ... +
+\\\\ & \quad + ... +
 \begin{bmatrix}
-  0.01 \\
+  0.01 \\\\
   0.0
-\end{bmatrix}\\ &=
+\end{bmatrix}\\\\ &=
 0 + 
 \frac{1}{6}
 \begin{bmatrix}
-  1.04 \\
+  1.04 \\\\
   0.0
 \end{bmatrix}^2+
 \frac{1}{6}
 \begin{bmatrix}
-  0.0 \\
+  0.0 \\\\
   0.0
 \end{bmatrix}^2+
 \frac{1}{6}
 \begin{bmatrix}
-  -1.04 \\
+  -1.04 \\\\
   0.0
 \end{bmatrix}^2+
 \frac{1}{6}
 \begin{bmatrix}
-  -0.0 \\
+  -0.0 \\\\
   0.0
 \end{bmatrix}^2
 +
 \begin{bmatrix}
-  0.01 \\
+  0.01 \\\\
   0.0
-\end{bmatrix}\\ &\approx
+\end{bmatrix}\\\\ &\approx
 \begin{bmatrix}
-  0.333 \\
+  0.333 \\\\
   0.0
 \end{bmatrix} + 
 \begin{bmatrix}
-  0.01 \\
+  0.01 \\\\
   0.0
-\end{bmatrix}\\ &=
+\end{bmatrix}\\\\ &=
 0.343
 \end{align*}
 $$
@@ -877,56 +876,56 @@ $$
 \begin{align*}
 \mathbf{\hat{P}}\_{1,xy} &=
 \sum^{2d}\_{i=0}
-W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}\\ &=
+W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}\\\\ &=
 \frac{1}{3}
 \bigg(
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
 \bigg)
 \bigg(
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
-\bigg)^\text{T}\\ & \quad +
+\bigg)^\text{T}\\\\ & \quad +
 \frac{1}{6}
 \bigg(
     \begin{bmatrix}
-      3.54 \\
+      3.54 \\\\
       4.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       4.0
     \end{bmatrix}
 \bigg)
 \bigg(
     \begin{bmatrix}
-      3.54 \\
+      3.54 \\\\
       0.0
     \end{bmatrix}
     -
     \begin{bmatrix}
-      2.5 \\
+      2.5 \\\\
       0.0
     \end{bmatrix}
 \bigg)^\text{T}
-\\ & \quad + ...\\ & \approx
+\\\\ & \quad + ...\\\\ & \approx
 \begin{bmatrix}
-  0.333 \\
+  0.333 \\\\
   0.0
 \end{bmatrix}
 \end{align*}
@@ -937,9 +936,9 @@ $$
 \begin{align*}
 \mathbf{K}_1 &= 
 \mathbf{\hat{P}}\_{1,xy} \mathbf{\hat{P}}\_{1,y}^{-1} 
-\\ &=
+\\\\ &=
 \frac{333}{1000} \times \frac{1000}{343}
-\\ &=
+\\\\ &=
 0.970
 \end{align*}
 $$
@@ -949,20 +948,20 @@ $$
 \begin{align*}
 \mathbf{x}_1&=
 \mathbf{\hat{x}}_1 + \mathbf{K}_1 (y_1 - \hat{y}^-_1)
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4
 \end{bmatrix}
 +
 0.97
 \begin{bmatrix}
-2.5 - 2.5 \\
+2.5 - 2.5 \\\\
 0
 \end{bmatrix}
-\\ &= 
+\\\\ &= 
 \begin{bmatrix}
-2.5 \\
+2.5 \\\\
 4
 \end{bmatrix}
 \end{align*}

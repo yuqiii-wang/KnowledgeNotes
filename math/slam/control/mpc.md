@@ -7,11 +7,11 @@ MPC optimizes/adjusts near future inputs $[u_{k+1}, u_{k+2}, u_{k+3}, ...]$ to m
 Given a linear system:
 $$
 \begin{align*}
-x(t+1)&=Ax(t)+Bu(t)
-\\
+x(t+1)&=Ax(t)+Bu(t) \\\\
 e(t)&=y(t)-x(t)
 \end{align*}
 $$
+
 where 
 
 * $A$ is the state update matrix on the current robot state $x(t)$

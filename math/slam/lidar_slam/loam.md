@@ -75,7 +75,7 @@ d_{i, H} = \frac
 {\bigg|
     \begin{array}{c}
     (\tilde{\mathbf{X}}^L\_{(k+1, i)} - \overline{\mathbf{X}}^L\_{(k, j)}) 
-    \\
+    \\\\
     \big(
         (\tilde{\mathbf{X}}^L\_{(k, j)} - \overline{\mathbf{X}}^L\_{(k, l)}) 
         \times
@@ -110,6 +110,7 @@ Define an objective function $\mathbf{f}$ to minimize distances
 $$
 \mathbf{f}(T^L\_{k+1})=\mathbf{d}
 $$
+
 where each row of $\mathbf{f}$ corresponds to a feature point either $i \in H_{k+1}$ or $i \in E_{k+1}$ with respect to distance $d_i$.
 
 Jacobian $\mathbf{J}$ is computed for $\mathbf{f}$, where 

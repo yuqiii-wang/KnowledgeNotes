@@ -25,12 +25,9 @@ $$
 Every curve needs four neighbour data points to determine its coefficients $a_i$
 
 $$
-f(-1)=a_3(-1)^3+a_2(-1)^2+a_1(-1)^1+a_0
-\\
-f(0)=a_3(0)^3+a_2(0)^2+a_1(0)^1+a_0
-\\
-f(1)=a_3(1)^3+a_2(1)^2+a_1(1)^1+a_0
-\\
+f(-1)=a_3(-1)^3+a_2(-1)^2+a_1(-1)^1+a_0 \\\\
+f(0)=a_3(0)^3+a_2(0)^2+a_1(0)^1+a_0 \\\\
+f(1)=a_3(1)^3+a_2(1)^2+a_1(1)^1+a_0 \\\\
 f(2)=a_3(2)^3+a_2(2)^2+a_1(2)^1+a_0
 $$
 
@@ -55,7 +52,7 @@ Given the interpolation point estimate $(\hat{x}, \hat{y})$, there should be
 
 $$
 \begin{align*}
-    & x_0 \le \hat{x} \le x_1 \\
+    & x_0 \le \hat{x} \le x_1 \\\\
     & y_0 \le \hat{y} \le y_1
 \end{align*}
 $$
@@ -100,9 +97,9 @@ $\mathbf{x}\in\mathbb{R}^d$ is assumed to be interpolated points and $f(\mathbf{
 $$
 f(\mathbf{x})=
 \underbrace{\mathbf{a}^{\top}\begin{bmatrix}
-    1 \\ \mathbf{x}
+    1 \\\\ \mathbf{x}
 \end{bmatrix}}\_{\substack{
-    \scriptsize{\text{affine}} \\ \scriptsize{\text{transform}}}} +
+    \scriptsize{\text{affine}} \\\\ \scriptsize{\text{transform}}}} +
 \underbrace{\sum_{i=1}^n w_i U\big(||\mathbf{x}-\mathbf{x}\_i||\big)}\_{\text{radial kernel}}
 $$
 

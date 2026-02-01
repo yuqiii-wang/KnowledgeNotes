@@ -18,6 +18,7 @@ $f$ is a convex function when
 $$
 \forall \quad 0 \le t \le 1, \space (x_1, x_2) \in \mathbf{X}
 $$
+
 satisfied
 $$
 f(tx_1 + (1-t)x_2) \le t f(x_1) + (1-t)f(x_2)

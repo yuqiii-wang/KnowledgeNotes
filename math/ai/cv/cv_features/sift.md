@@ -30,6 +30,7 @@ D(\mathbf{x}) = D +
 \frac{\partial D^\text{T}}{\partial \mathbf{x}} \mathbf{x} +
 \frac{1}{2} \mathbf{x}^\text{T} \frac{\partial^2 D}{\partial \mathbf{x}^2} \mathbf{x}
 $$
+
 where $\mathbf{x}=(x_{\pm}, y_{\pm}, \sigma)^\text{T}$ is the offset from a candidate keypoint.
 
 The location of the extremum, $\hat{\mathbf{x}}$ is determined by taking the derivative of this function $D$ with respect to $\mathbf{x}$ and setting it to zero. Keypoints are adjusted/merged to the computed new local extremum points.
@@ -48,7 +49,7 @@ The principal curvature across the edge $x_{+}$ would be much larger than the pr
 Finding these principal curvatures amounts to solving for the eigenvalues of the second-order Hessian matrix.
 $$
 H=\begin{bmatrix}
-    D_{xx} & D_{xy} \\
+    D_{xx} & D_{xy} \\\\
     D_{yx} & D_{yy}
 \end{bmatrix}
 $$
@@ -56,10 +57,11 @@ $$
 The eigenvalues of $H$ are proportional to the principal curvatures of $D$ for both $x$ and $y$ axes.
 
 Define a ratio $R$ such that
+
 $$
 \begin{align*}
 R &= \frac{tr(H)^2}{det(H)}
-\\ &=
+\\\\ &=
 \frac{(D_{xx} + D_{yy})^2}{D_{xx}D_{yy}-D_{xy}^2}
 \end{align*}
 $$
@@ -78,7 +80,7 @@ $$
 m(x,y) &= 
 \sqrt{\big(I(x+1,y)-I(x-1,y)\big)^2+
 \big(I(x,y+1)-I(x,y-1)\big)^2}
-\\ 
+\\\\ 
 \theta(x,y) &=
 atan2\big(I(x,y+1)-I(x,y-1), I(x+1,y)-I(x-1,y)\big)
 \end{align*}

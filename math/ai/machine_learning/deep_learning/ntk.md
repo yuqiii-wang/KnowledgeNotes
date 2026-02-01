@@ -99,10 +99,10 @@ Let $\eta$ be the learning rate, and let input $x=1$ and output $y=0$, loss be M
 
 $$
 \begin{align*}
-    \kappa_t(1,1) &= \big((\frac{\partial f}{\partial w_i})^{\top}(\frac{\partial f}{\partial w_i})+(\frac{\partial f}{\partial w_j})^{\top}(\frac{\partial f}{\partial w_j})\big) \\
-    &= \big((\frac{1}{\sqrt{d}}w_j)^{\top}(\frac{1}{\sqrt{d}}w_j)+(\frac{1}{\sqrt{d}}w_i)^{\top}(\frac{1}{\sqrt{d}}w_i)\big) \\
-    &= \frac{1}{d}\big(||w_i||^2_2+||w_j||^2_2\big) \\
-    &=\frac{1}{d}\big(||w||^2_2+||w||^2_2\big) && \text{NTK has the same elements}\\
+    \kappa_t(1,1) &= \big((\frac{\partial f}{\partial w_i})^{\top}(\frac{\partial f}{\partial w_i})+(\frac{\partial f}{\partial w_j})^{\top}(\frac{\partial f}{\partial w_j})\big) \\\\
+    &= \big((\frac{1}{\sqrt{d}}w_j)^{\top}(\frac{1}{\sqrt{d}}w_j)+(\frac{1}{\sqrt{d}}w_i)^{\top}(\frac{1}{\sqrt{d}}w_i)\big) \\\\
+    &= \frac{1}{d}\big(||w_i||^2_2+||w_j||^2_2\big) \\\\
+    &=\frac{1}{d}\big(||w||^2_2+||w||^2_2\big) && \text{NTK has the same elements}\\\\
     &=\lambda_t && \text{One-element matrix' eigenvalue is the element itself.}
 \end{align*}
 $$
@@ -117,12 +117,12 @@ Compute the updates of the function and eigenvalues:
 
 $$
 \begin{align*}
-    f_{t+1}&=\frac{1}{\sqrt{d}} (w_i+\Delta w_i)^{\top} (w_j+\Delta w_j) \\
-    &=\frac{1}{\sqrt{d}} (w_i-\eta w_j\frac{f_t}{\sqrt{d}})^{\top} (w_j-\eta w_i\frac{f_t}{\sqrt{d}}) \\
-    &= \frac{1}{\sqrt{d}} (||w||^2_2-2\eta ||w||^2_2 \frac{f_t}{\sqrt{d}}+(\eta\frac{f_t}{\sqrt{d}})^2||w||^2_2) & \text{substitute with } f_t=\frac{1}{\sqrt{d}}||w||^2_2\\
-    &= f_t-\frac{2}{d}\eta||w||^2_2f+\eta^2\frac{f_t^2}{d}f_t \\
-    &= (1-\frac{2}{d}\eta||w||^2_2+\eta^2\frac{f_t^2}{d})f_t \\
-    &= (1-\eta\lambda+\eta^2\frac{f_t^2}{d})f_t \\
+    f_{t+1}&=\frac{1}{\sqrt{d}} (w_i+\Delta w_i)^{\top} (w_j+\Delta w_j) \\\\
+    &=\frac{1}{\sqrt{d}} (w_i-\eta w_j\frac{f_t}{\sqrt{d}})^{\top} (w_j-\eta w_i\frac{f_t}{\sqrt{d}}) \\\\
+    &= \frac{1}{\sqrt{d}} (||w||^2_2-2\eta ||w||^2_2 \frac{f_t}{\sqrt{d}}+(\eta\frac{f_t}{\sqrt{d}})^2||w||^2_2) & \text{substitute with } f_t=\frac{1}{\sqrt{d}}||w||^2_2\\\\
+    &= f_t-\frac{2}{d}\eta||w||^2_2f+\eta^2\frac{f_t^2}{d}f_t \\\\
+    &= (1-\frac{2}{d}\eta||w||^2_2+\eta^2\frac{f_t^2}{d})f_t \\\\
+    &= (1-\eta\lambda+\eta^2\frac{f_t^2}{d})f_t \\\\
 \end{align*}
 $$
 
@@ -130,9 +130,9 @@ Recall that training by gradient descent if NTK is stable is
 
 $$
 \begin{align*}
-    f_{t+1} &= f_{t} - \eta\nabla_{\mathbf{w}}f_{t}\cdot f_t \\
-    &= f_{t} - \eta\kappa(1, 1) f_t \\
-    &= (1 - \eta\lambda) f_t \\
+    f_{t+1} &= f_{t} - \eta\nabla_{\mathbf{w}}f_{t}\cdot f_t \\\\
+    &= f_{t} - \eta\kappa(1, 1) f_t \\\\
+    &= (1 - \eta\lambda) f_t \\\\
 \end{align*}
 $$
 
@@ -142,8 +142,8 @@ Compute the eigenvalue update of the NTK kernel:
 
 $$
 \begin{align*}
-    \kappa_{t+1}(1,1) &= \big((\frac{\partial f_{t+1}}{\partial w_i})^{\top}(\frac{\partial f_{t+1}}{\partial w_i})+(\frac{\partial f_{t+1}}{\partial w_j})^{\top}(\frac{\partial f_{t+1}}{\partial w_j})\big) \\
-    &=\lambda_t+\eta^2\frac{f_t^2}{d}(\eta\lambda_t-4) \\
+    \kappa_{t+1}(1,1) &= \big((\frac{\partial f_{t+1}}{\partial w_i})^{\top}(\frac{\partial f_{t+1}}{\partial w_i})+(\frac{\partial f_{t+1}}{\partial w_j})^{\top}(\frac{\partial f_{t+1}}{\partial w_j})\big) \\\\
+    &=\lambda_t+\eta^2\frac{f_t^2}{d}(\eta\lambda_t-4) \\\\
     &=\lambda_{t+1}
 \end{align*}
 $$
@@ -205,11 +205,11 @@ The network Jacobian for any input $\mathbf{x}$ evolves as
 $$
 \begin{align*}
     \frac{d f_{\mathbf{\theta}}(\mathbf{x})}{dt} &=
-    \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \frac{d\mathbf{\theta}}{dt} \\
-    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\mathcal{L}(\mathbf{\theta}) \\
-    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)^2\Big) && \text{Expand and compute the gradient} \\
-    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)\Big) \\
-    &= - \frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big) \underbrace{\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)}\_{\text{NTK }\kappa(\mathbf{x}, \mathbf{x}')} && \text{Defined } \kappa(\mathbf{x}, \mathbf{x}') \\
+    \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \frac{d\mathbf{\theta}}{dt} \\\\
+    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\mathcal{L}(\mathbf{\theta}) \\\\
+    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)^2\Big) && \text{Expand and compute the gradient} \\\\
+    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)\Big) \\\\
+    &= - \frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big) \underbrace{\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)}\_{\text{NTK }\kappa(\mathbf{x}, \mathbf{x}')} && \text{Defined } \kappa(\mathbf{x}, \mathbf{x}') \\\\
 \end{align*}
 $$
 
@@ -227,8 +227,8 @@ Consider a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\m
 
 $$
 \begin{align*}
-\mathbf{a}^{(0)}(\mathbf{x}, \mathbf{\theta}) &= \mathbf{x} \\
-\mathbf{z}^{(L+1)}(\mathbf{x}, \mathbf{\theta}) &= \frac{1}{\sqrt{d_L}}W^{(L)}\mathbf{a}^{(L)}(\mathbf{x}, \mathbf{\theta}) + \mathbf{b}^{(L)} \\
+\mathbf{a}^{(0)}(\mathbf{x}, \mathbf{\theta}) &= \mathbf{x} \\\\
+\mathbf{z}^{(L+1)}(\mathbf{x}, \mathbf{\theta}) &= \frac{1}{\sqrt{d_L}}W^{(L)}\mathbf{a}^{(L)}(\mathbf{x}, \mathbf{\theta}) + \mathbf{b}^{(L)} \\\\
 \mathbf{a}^{(L+1)}(\mathbf{x}, \mathbf{\theta}) &= \sigma(\mathbf{z}^{(L+1)}(\mathbf{x}, \mathbf{\theta}))
 \end{align*}
 $$
@@ -241,7 +241,7 @@ The first layer has with $d_1$ neurons has NTK
 
 $$
 \begin{align*}
-    \kappa^{(1)}(\mathbf{x}, \mathbf{x}') &= \frac{1}{d_1}\sum^{d_1}\_{i=1}\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}, \mathbf{\theta})}{\partial{\theta}\_i}\cdot\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}', \mathbf{\theta})}{\partial{\theta}\_i} \\
+    \kappa^{(1)}(\mathbf{x}, \mathbf{x}') &= \frac{1}{d_1}\sum^{d_1}\_{i=1}\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}, \mathbf{\theta})}{\partial{\theta}\_i}\cdot\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}', \mathbf{\theta})}{\partial{\theta}\_i} \\\\
     &= E\big(\big(\nabla_{\mathbf{\theta}}f^{(1)}\_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f^{(1)}\_{\mathbf{\theta}}(\mathbf{x}')\big)\big)
 \end{align*}
 $$
@@ -269,7 +269,7 @@ Consider the $l$-th layer with non-linear activation function $\sigma(.)$,
 
 $$
 \begin{align*}
-\mathbf{z}^{(l)}(\mathbf{x}, \mathbf{\theta}) &= W^{(l-1)}\mathbf{a}^{(l-1)}(\mathbf{x}, \mathbf{\theta}) + \mathbf{b}^{(l-1)} \\
+\mathbf{z}^{(l)}(\mathbf{x}, \mathbf{\theta}) &= W^{(l-1)}\mathbf{a}^{(l-1)}(\mathbf{x}, \mathbf{\theta}) + \mathbf{b}^{(l-1)} \\\\
 \mathbf{a}^{(l)}(\mathbf{x}, \mathbf{\theta}) &= \sigma(\mathbf{z}^{(l)}(\mathbf{x}, \mathbf{\theta}))
 \end{align*}
 $$
@@ -279,7 +279,7 @@ Compute the covariance matrices $\Sigma^{(l)}(\mathbf{x}, \mathbf{x}')$ for $\ma
 $$
 \begin{align*}
     \Sigma^{(l)}\_{\mathbf{z}}(\mathbf{x}, \mathbf{x}') &=
-    \sigma_w^2 \Sigma^{(l-1)}\_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') + \sigma_{\mathbf{b}}^2 \\
+    \sigma_w^2 \Sigma^{(l-1)}\_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') + \sigma_{\mathbf{b}}^2 \\\\
     \Sigma^{(l)}\_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') &=
     E\Big(\big(\sigma(\mathbf{z}^{(l)}(\mathbf{x}, \mathbf{\theta}))\big)^{\top}\big(\sigma(\mathbf{z}^{(l)}(\mathbf{x}', \mathbf{\theta}))\big)\Big)
 \end{align*}
@@ -291,11 +291,11 @@ $$
 \Sigma^{(l)}\_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') =
 \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \sigma(\mathbf{u}) \sigma(\mathbf{v})
 \cdot \mathcal{N}\Big(
-    \begin{bmatrix} \mathbf{u} \\ \mathbf{v}
+    \begin{bmatrix} \mathbf{u} \\\\ \mathbf{v}
     \end{bmatrix};
-    \begin{bmatrix} \mathbf{0} \\ \mathbf{0}
+    \begin{bmatrix} \mathbf{0} \\\\ \mathbf{0}
     \end{bmatrix},
-    \begin{bmatrix}\Sigma_{\mathbf{x}}^{(l)}(\mathbf{x}, \mathbf{x}) & \Sigma_{\mathbf{x}}^{(l)}(\mathbf{x}, \mathbf{x}') \\
+    \begin{bmatrix}\Sigma_{\mathbf{x}}^{(l)}(\mathbf{x}, \mathbf{x}) & \Sigma_{\mathbf{x}}^{(l)}(\mathbf{x}, \mathbf{x}') \\\\
     \Sigma_{\mathbf{x}}^{(l)}(\mathbf{x}', \mathbf{x}) & \Sigma_{\mathbf{x}}^{(l)}(\mathbf{x}', \mathbf{x}')
     \end{bmatrix}
 \Big) d\mathbf{u} d\mathbf{v}
@@ -321,7 +321,7 @@ Recall the definition of Hessian matrix (the second-order partial derivatives of
 
 $$
 \begin{align*}
-    \text{Hessian}\big(f_{\mathbf{\theta}}(\mathbf{x})\big) &= \frac{d^2 f_{\mathbf{\theta}}(\mathbf{x})}{dt^2} \\
+    \text{Hessian}\big(f_{\mathbf{\theta}}(\mathbf{x})\big) &= \frac{d^2 f_{\mathbf{\theta}}(\mathbf{x})}{dt^2} \\\\
 \end{align*}
 $$
 
@@ -344,7 +344,7 @@ E\big(W^{(l)}\_{ij}W^{(l)}\_{ik}\big) = \frac{\sigma_w^2}{d_{l-1}}\delta_{jk}, \
 \sigma_w^2 = \mathcal{O}(1)
 $$
 
-where $\delta_{jk}\sim\mathcal{O}(1)$ is the Kronecker delta $\delta_{jk}=\begin{cases}1 & j=k \\ 0 & j\neq k\end{cases}$,
+where $\delta_{jk}\sim\mathcal{O}(1)$ is the Kronecker delta $\delta_{jk}=\begin{cases}1 & j=k \\\\ 0 & j\neq k\end{cases}$,
 that specifies each element of the weight matrix multiplcation has the $\mathcal{O}(\frac{1}{d_{l-1}})$ variance.
 
 Proof: the sum of $d$ random variables with individual variance $\sigma_i^2$ has a variance of $\sum_{i=1}^d\sigma_i^2$.

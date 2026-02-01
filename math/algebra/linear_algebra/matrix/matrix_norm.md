@@ -22,7 +22,7 @@ $$
 \begin{align*}
     ||A||_{\alpha, \beta} &=
     \sup \{ ||A\mathbf{x}||_{\beta} : \mathbf{x} \in K^n \text{ with } ||\mathbf{x}||_{\alpha} = 1 \}
-\\ &=
+\\\\ &=
     \sup \{ \frac{||A\mathbf{x}||_{\beta}}{||\mathbf{x}||_{\alpha}} : \mathbf{x} \in K^n \text{ with } \mathbf{x} \ne \mathbf{0} \}
 \end{align*}
 $$
@@ -105,8 +105,8 @@ By Vieta's formulas, the sum of the roots (eigenvalues) is
 $$
 \begin{align*}
 \sum^n\_{i=1}\lambda_i&=
-   \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\
-   &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\
+   \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\\\
+   &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\\\
    &= \text{tr}(A)
 \end{align*}
 $$

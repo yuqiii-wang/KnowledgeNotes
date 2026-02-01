@@ -22,7 +22,7 @@ Assume each dimension of $\mathbf{x}, \mathbf{y}$ follows Gaussian distribution
 
 $$
 \begin{align*}
-\mathbf{x}&=\frac{\mathbf{g}}{||\mathbf{g}||}, \text{ where } \mathbf{g}=[g_1, g_2, ..., g_n] \text{ with } g_i\sim\mathcal{N}(0,1) \\
+\mathbf{x}&=\frac{\mathbf{g}}{||\mathbf{g}||}, \text{ where } \mathbf{g}=[g_1, g_2, ..., g_n] \text{ with } g_i\sim\mathcal{N}(0,1) \\\\
 \mathbf{y}&=\frac{\mathbf{h}}{||\mathbf{h}||}, \text{ where } \mathbf{h}=[h_1, h_2, ..., h_n] \text{ with } h_i\sim\mathcal{N}(0,1)
 \end{align*}
 $$
@@ -54,7 +54,7 @@ Denote its volume as $V_n(R)$ and surface area as $S_n(R)$:
 
 $$
 \begin{align*}
-    V_n(R) &=\frac{\pi^{n/2}}{\Gamma(\frac{n}{2}+1)}R^n \\
+    V_n(R) &=\frac{\pi^{n/2}}{\Gamma(\frac{n}{2}+1)}R^n \\\\
     S_n(R) &=\frac{d}{dR}V_n(R)=\frac{2\pi^{n/2}}{\Gamma(\frac{n}{2})}R^{n-1}
 \end{align*}
 $$
@@ -117,10 +117,10 @@ For $p_{ij}=p_{ji}$, the $P$ is symmetric.
 
 $$
 P= \begin{bmatrix}
-    0 & p_{12} & p_{13} & \\
-    p_{21} & 0 & p_{23} & \\
-    p_{31} & p_{32} & 0 & \\
-     &  &  & \ddots \\
+    0 & p_{12} & p_{13} & \\\\
+    p_{21} & 0 & p_{23} & \\\\
+    p_{31} & p_{32} & 0 & \\\\
+     &  &  & \ddots \\\\
 \end{bmatrix}
 $$
 
@@ -150,8 +150,8 @@ The Student's t-Distribution is defined and set degree of freedom $v=1$.
 
 $$
 \begin{align*}
-    & f_v(t) &&= \frac{\Gamma\big(\frac{v+1}{2}\big)}{\sqrt{\pi v}\space\Gamma\big(\frac{v}{2}\big)}\bigg(1+\frac{t^2}{v}\bigg)^{-(v+1)/2} \\
-    \text{set } v=1 \Rightarrow\quad & &&= \frac{1}{\sqrt{\pi}\cdot\sqrt{\pi}}\bigg(1+t^2\bigg)^{-1} \\
+    & f_v(t) &&= \frac{\Gamma\big(\frac{v+1}{2}\big)}{\sqrt{\pi v}\space\Gamma\big(\frac{v}{2}\big)}\bigg(1+\frac{t^2}{v}\bigg)^{-(v+1)/2} \\\\
+    \text{set } v=1 \Rightarrow\quad & &&= \frac{1}{\sqrt{\pi}\cdot\sqrt{\pi}}\bigg(1+t^2\bigg)^{-1} \\\\
     &&&= \frac{1}{\pi}\bigg(1+t^2\bigg)^{-1}
 \end{align*}
 $$

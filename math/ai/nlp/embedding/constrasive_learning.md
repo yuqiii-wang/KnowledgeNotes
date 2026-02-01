@@ -42,10 +42,10 @@ The pooling is per-DIMENSION/normalized by sequence length $n$, i.e., $\mathbb{R
 $$
 \text{emb}\_{\max}(s)=\max\text{emb}(\mathbf{t})=
 \begin{bmatrix}
-    \max(t_{1,1}, t_{2,1}, ..., t_{n,1}) \\
-    \max(t_{1,2}, t_{2,2}, ..., t_{n,2}) \\
-    \vdots \\
-    \max(t_{1,d}, t_{2,d}, ..., t_{n,d}) \\
+    \max(t_{1,1}, t_{2,1}, ..., t_{n,1}) \\\\
+    \max(t_{1,2}, t_{2,2}, ..., t_{n,2}) \\\\
+    \vdots \\\\
+    \max(t_{1,d}, t_{2,d}, ..., t_{n,d}) \\\\
 \end{bmatrix}
 $$
 
@@ -54,10 +54,10 @@ $$
 $$
 \text{emb}\_{\mu}(s)=\frac{1}{n}\sum_{i=1}^n\text{emb}(\mathbf{t})=
 \frac{1}{n}\begin{bmatrix}
-    t_{1,1} + t_{2,1} + ... + t_{n,1} \\
-    t_{1,2} + t_{2,2} + ... + t_{n,2} \\
-    \vdots \\
-    t_{1,d} + t_{2,d} + ... + t_{n,d} \\
+    t_{1,1} + t_{2,1} + ... + t_{n,1} \\\\
+    t_{1,2} + t_{2,2} + ... + t_{n,2} \\\\
+    \vdots \\\\
+    t_{1,d} + t_{2,d} + ... + t_{n,d} \\\\
 \end{bmatrix}
 $$
 
@@ -81,7 +81,7 @@ Take self-attention as an example, a naive transformer is
 
 $$
 \begin{align*}
-    \mathbf{h}^{(l+1)}\_{i} &=\text{FFN}\big(\text{SelfAttention}(\mathbf{h}^{(l)}, \mathbf{h}^{(l)}\_i)\big) \\
+    \mathbf{h}^{(l+1)}\_{i} &=\text{FFN}\big(\text{SelfAttention}(\mathbf{h}^{(l)}, \mathbf{h}^{(l)}\_i)\big) \\\\
     &=\text{FFN}\big(\text{Softmax}\big(\frac{\mathbf{q}_iK^{\top}}{\sqrt{d}}\big)\mathbf{v}\_i\big)
 \end{align*}
 $$

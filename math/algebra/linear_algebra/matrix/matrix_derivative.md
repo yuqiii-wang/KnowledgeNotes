@@ -9,6 +9,7 @@ The differential of a scalar function $df$ can be expressed as the sum of respec
 $$
 df = \sum^n\_{i=1} \frac{\partial f}{\partial x\_i} d x\_i= \big(\frac{\partial f}{\partial \mathbf{x}}\big)^\text{T} d\mathbf{x}
 $$
+
 where, by vector representation, there is $\frac{\partial f}{\partial \mathbf{x}} \in \mathbb{R}^{n \times 1}$ and $d\mathbf{x} \in \mathbb{R}^{n \times 1}$. so that $df$ is the inner product of $\frac{\partial f}{\partial \mathbf{x}} \cdot d\mathbf{x}$.
 
 Given this inspiration, expand the vector to a matrix space, so that
@@ -33,27 +34,27 @@ $$
 df &= tr \big(
     (\frac{\partial f}{\partial Y})^\text{T} dY
 \big)
-\\ &=
+\\\\ &=
 tr \big(
     (\frac{\partial f}{\partial Y})^\text{T} d(AXB)
 \big)
-\\ &=
+\\\\ &=
 tr \bigg(
     (\frac{\partial f}{\partial Y})^\text{T} \space \big( \underbrace{(d A) X B}\_{=\mathbf{0}\text{, for }dA=\mathbf{0}} + A (d X) B +  \underbrace{A X (dB)}\_{=\mathbf{0}\text{, for }dB=\mathbf{0}} \big)
 \bigg)
-\\ &=
+\\\\ &=
 tr \big(
     (\frac{\partial f}{\partial Y})^\text{T} A \space dX B
 \big)
-\\ &=
+\\\\ &=
 tr \big(
     B (\frac{\partial f}{\partial Y})^\text{T} A \space dX
 \big)
-\\ &=
+\\\\ &=
 tr \big(
     (A^\text{T} (\frac{\partial f}{\partial Y})^\text{T} B)^\text{T} \space dX
 \big)
-\\ &=
+\\\\ &=
 tr \big(
     (\frac{\partial f}{\partial X})^\text{T} \space dX
 \big)
@@ -69,13 +70,13 @@ There is $d\sigma(X)=\sigma'(X) \odot dX$.
 For example, given a matrix $X$ and compute $d \space sin(X)$, there is
 $$
 X = \begin{bmatrix}
-    x_{11} & x_{12} \\
+    x_{11} & x_{12} \\\\
     x_{21} & x_{22}
 \end{bmatrix}
 , \quad
 d \space sin(X) = 
 \begin{bmatrix}
-    cos(x_{11}) d x_{11} & cos(x_{12}) d x_{12} \\
+    cos(x_{11}) d x_{11} & cos(x_{12}) d x_{12} \\\\
     cos(x_{21}) d x_{21} & cos(x_{22}) d x_{22}
 \end{bmatrix}=
 cos(X) \odot dX
@@ -87,19 +88,19 @@ Regarding the size, there are $\mathbf{a} \in \mathbb{R}^{m \times 1}, X \in \ma
 $$
 \begin{align*}
     df &= \mathbf{a}^\text{T} (e^{X\mathbf{b}} \odot dX\mathbf{b})
-    \\ &=
+    \\\\ &=
     tr \big(
         \mathbf{a}^\text{T} (e^{X\mathbf{b}} \odot dX\mathbf{b})
     \big)
-    \\ &=
+    \\\\ &=
     tr \big(
         (\mathbf{a} \odot e^{X\mathbf{b}})^\text{T} dX\mathbf{b}
     \big)
-    \\ &=
+    \\\\ &=
     tr \big(
         \mathbf{b} (\mathbf{a} \odot e^{X\mathbf{b}})^\text{T} dX
     \big)
-    \\ &=
+    \\\\ &=
     tr \big(
         ((\mathbf{a} \odot e^{X\mathbf{b}}) \mathbf{b}^\text{T})^\text{T} dX
     \big)
@@ -117,24 +118,24 @@ $$
 tr(AB) &=
 tr \bigg(
     \begin{bmatrix}
-    \mathbf{a_1} \\
-    \mathbf{a_2} \\
-    \vdots \\
+    \mathbf{a_1} \\\\
+    \mathbf{a_2} \\\\
+    \vdots \\\\
     \mathbf{a_n}
 \end{bmatrix}
 \begin{bmatrix}
-    \mathbf{b_1} \\
-    \mathbf{b_2} \\
-    \vdots \\
+    \mathbf{b_1} \\\\
+    \mathbf{b_2} \\\\
+    \vdots \\\\
     \mathbf{b_n}
 \end{bmatrix}^\text{T}
-\bigg)\\ &=
+\bigg)\\\\ &=
 tr \begin{bmatrix}
-    \mathbf{a_1}\mathbf{b_1}^\text{T} & \mathbf{a_1}\mathbf{b_2}^\text{T} & &  \\
-    \mathbf{a_2}\mathbf{b_1}^\text{T} & \mathbf{a_2}\mathbf{b_2}^\text{T} & & \\
-    & & \ddots & \\
+    \mathbf{a_1}\mathbf{b_1}^\text{T} & \mathbf{a_1}\mathbf{b_2}^\text{T} & &  \\\\
+    \mathbf{a_2}\mathbf{b_1}^\text{T} & \mathbf{a_2}\mathbf{b_2}^\text{T} & & \\\\
+    & & \ddots & \\\\
     & & & \mathbf{a_n}\mathbf{b_n}^\text{T}
-\end{bmatrix}\\ &=
+\end{bmatrix}\\\\ &=
 \sum^n_i \mathbf{a_i}\mathbf{b_i}^\text{T}
 \end{align*}
 $$

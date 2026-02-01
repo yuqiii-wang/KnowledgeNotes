@@ -6,7 +6,7 @@
 
 $$
 \begin{align*}
-\mathbf{z} &= \mathbf{w}^\top \mathbf{x} + \mathbf{b} \\
+\mathbf{z} &= \mathbf{w}^\top \mathbf{x} + \mathbf{b} \\\\
 \hat{\mathbf{y}} &= \sigma(\mathbf{z})
 \end{align*}
 $$
@@ -29,7 +29,7 @@ $$
 
 $$
 \begin{align*}
-\frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} &= \sigma(\mathbf{z})\big(1-\sigma(\mathbf{z})\big) \\
+\frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} &= \sigma(\mathbf{z})\big(1-\sigma(\mathbf{z})\big) \\\\
 &= \hat{\mathbf{y}}(1-\hat{\mathbf{y}})
 \end{align*}
 $$
@@ -38,7 +38,7 @@ $$
 
 $$
 \begin{align*}
-\frac{\partial L}{\partial {\mathbf{z}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \\
+\frac{\partial L}{\partial {\mathbf{z}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \\\\
 &= (\hat{\mathbf{y}}-\mathbf{y})\hat{\mathbf{y}}(1-\hat{\mathbf{y}})
 \end{align*}
 $$
@@ -47,9 +47,9 @@ $$
 
 $$
 \begin{align*}
-\frac{\partial L}{\partial {\mathbf{w}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \frac{\partial {\mathbf{z}}}{\partial {\mathbf{w}}} \\
-&= \mathbf{x}^\top (\hat{\mathbf{y}}-\mathbf{y})\hat{\mathbf{y}}(1-\hat{\mathbf{y}}) \\
-\frac{\partial L}{\partial {\mathbf{b}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \frac{\partial {\mathbf{z}}}{\partial {\mathbf{b}}} \\
+\frac{\partial L}{\partial {\mathbf{w}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \frac{\partial {\mathbf{z}}}{\partial {\mathbf{w}}} \\\\
+&= \mathbf{x}^\top (\hat{\mathbf{y}}-\mathbf{y})\hat{\mathbf{y}}(1-\hat{\mathbf{y}}) \\\\
+\frac{\partial L}{\partial {\mathbf{b}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \frac{\partial {\mathbf{z}}}{\partial {\mathbf{b}}} \\\\
 &= (\hat{\mathbf{y}}-\mathbf{y})\hat{\mathbf{y}}(1-\hat{\mathbf{y}})
 \end{align*}
 $$
@@ -136,7 +136,7 @@ For example, there are $N$ images each of the size $\mathbf{x}\_i \in \mathbb{R}
 
 $$
 \mu_i = \frac{1}{C \times H \times W}
-\sum_{j=1}^C \sum_{h=1}^H \sum_{w=1}^W x_{i,j,h,w} \\
+\sum_{j=1}^C \sum_{h=1}^H \sum_{w=1}^W x_{i,j,h,w} \\\\
 \sigma^2_i = \frac{1}{C \times H \times W}
 \sum_{j=1}^C \sum_{h=1}^H \sum_{w=1}^W (x_{i,j,h,w} - \mu_i)^2
 $$
@@ -145,7 +145,7 @@ $$
 
 $$
 \mu_j = \frac{1}{N \times H \times W}
-\sum_{i=1}^N \sum_{h=1}^H \sum_{w=1}^W x_{i,j,h,w} \\
+\sum_{i=1}^N \sum_{h=1}^H \sum_{w=1}^W x_{i,j,h,w} \\\\
 \sigma^2_j = \frac{1}{N \times H \times W}
 \sum_{i=1}^N \sum_{h=1}^H \sum_{w=1}^W (x_{i,j,h,w} - \mu_j)^2
 $$
@@ -156,7 +156,7 @@ In batch normalization, instead by $X_{\max}$ and $X_{\min}$, mean $\mu_B$ and v
 
 $$
 \begin{align*}
-\text{Normalization } && \hat{x}\_i &= \frac{x\_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}} \\
+\text{Normalization } && \hat{x}\_i &= \frac{x\_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}} \\\\
 \text{Scaling and Shifting } && {x}\_i' &= \gamma \hat{x}\_i + \beta
 \end{align*}
 $$
@@ -175,7 +175,7 @@ The most typical moving average in optimization is Exponential Moving Average (E
 
 $$
 \begin{align*}
-\hat{\theta}_t &= \alpha\theta_t + (1-\alpha)\hat{\theta}\_{t-1} \\
+\hat{\theta}_t &= \alpha\theta_t + (1-\alpha)\hat{\theta}\_{t-1} \\\\
 \hat{g}_t &= \alpha g_t + (1-\alpha) \hat{g}\_{t-1}
 \end{align*}
 $$
@@ -204,7 +204,7 @@ Normalization works on a layer of $d$ neurons that $\mu_L=\frac{1}{d}\sum_i^d x\
 
 $$
 \begin{align*}
-\text{Normalization } && \hat{x}\_i &= \frac{x\_i-\mu_L}{\sqrt{\sigma^2_L + \epsilon}} \\
+\text{Normalization } && \hat{x}\_i &= \frac{x\_i-\mu_L}{\sqrt{\sigma^2_L + \epsilon}} \\\\
 \text{Scaling and Shifting } && {x}\_i' &= \gamma \hat{x}\_i + \beta
 \end{align*}
 $$

@@ -15,13 +15,13 @@ $$
 \begin{align*}
 I(x+u, y+v) &\approx
 I(x,y) +\frac{\partial I}{\partial x} u+\frac{\partial I}{\partial y} v
-\\ &\approx
+\\\\ &\approx
 I(x,y) + 
 \begin{bmatrix}
     I_{dx} & I_{dy}
 \end{bmatrix}
 \begin{bmatrix}
-    u \\
+    u \\\\
     v
 \end{bmatrix}
 \end{align*}
@@ -35,7 +35,7 @@ E_{ssd}(u,v)&=
 \big[
     I(x+u, y+v)-I(x,y)    
 \big]^2
-\\ &\approx
+\\\\ &\approx
 \sum_{(x,y)\in {W}\_{m \times n}} 
 \bigg[
     I(x,y) + 
@@ -43,35 +43,35 @@ E_{ssd}(u,v)&=
     I_{dx} & I_{dy}
 \end{bmatrix}
 \begin{bmatrix}
-    u \\
+    u \\\\
     v
 \end{bmatrix}
 -I(x,y)    
 \bigg]^2
-\\ & \approx
+\\\\ & \approx
 \sum_{(x,y)\in {W}\_{m \times n}} 
 \bigg(
 \begin{bmatrix}
     I_{dx} & I_{dy}
 \end{bmatrix}
 \begin{bmatrix}
-    u \\
+    u \\\\
     v
 \end{bmatrix}
 \bigg)^2
-\\ & \approx
+\\\\ & \approx
 \begin{bmatrix}
     u & v
 \end{bmatrix}
 \bigg(
 \sum_{(x,y)\in {W}\_{m \times n}} 
 \begin{bmatrix}
-    I_{dx}^2 & I_{dx}I_{dy} \\
+    I_{dx}^2 & I_{dx}I_{dy} \\\\
     I_{dy}I_{dx} & I_{dy}^2
 \end{bmatrix}
 \bigg)
 \begin{bmatrix}
-    u \\
+    u \\\\
     v
 \end{bmatrix}
 \end{align*}
@@ -84,7 +84,7 @@ $$
 H=
 \sum_{(x,y)\in {W}\_{m \times n}} 
 \begin{bmatrix}
-    I_{dx}^2 & I_{dx}I_{dy} \\
+    I_{dx}^2 & I_{dx}I_{dy} \\\\
     I_{dy}I_{dx} & I_{dy}^2
 \end{bmatrix}
 $$
@@ -97,15 +97,14 @@ E_{ssd}(u,v) \approx
 \end{bmatrix}
 H
 \begin{bmatrix}
-    u \\
+    u \\\\
     v
 \end{bmatrix}
 $$
 
 Since $rank(H)=2$, there are two eigenvalues corresponding to two eigenvectors
 $$
-H \mathbf{x}\_+ = \lambda_+\mathbf{x}\_+
-\\
+H \mathbf{x}\_+ = \lambda_+\mathbf{x}\_+ \\\\
 H \mathbf{x}\_- = \lambda_-\mathbf{x}\_-
 $$
 
@@ -119,14 +118,16 @@ Intuitively,
 ### Harris operator
 
 Define the harris operator
+
 $$
 \begin{align*}
 f_{Harris}&=
 \lambda_+ \lambda_- - k(\lambda_+ + \lambda_-)^2
-\\ &=
+\\\\ &=
 det(H) + k \space tr(H)^2
 \end{align*}
 $$
+
 where $det$ denotes determinant and $tr$ denotes the sum of diagonal elements of a matrix.
 
 In comparison to eigen-decomposition, it is fast in computation.

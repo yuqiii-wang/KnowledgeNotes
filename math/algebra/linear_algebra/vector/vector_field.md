@@ -13,8 +13,8 @@ Given a subset $S$ in $R^n$, a vector field is represented by a vector-valued fu
 For example, visualization for 
 $$
 \begin{bmatrix}
-      x^2 - y^2 -4 \\
-      2xy  \\
+      x^2 - y^2 -4 \\\\
+      2xy  \\\\
 \end{bmatrix}
 $$
 
@@ -35,10 +35,10 @@ In differential geometry, the tangent bundle of a differentiable manifold $M$ is
 $$
 \begin{align*}
 TM 
-& = \sqcup_{x \in M} T_x M
-\\
+& = \sqcup_{x \in M} T_x M \\\\
 & =
 \{(x,y) | x \in M, y \in T_x M \}
 \end{align*}
 $$
+
 where $T_{x}M$ denotes the tangent space to $M$ at the point $x$, so that every vector $(x,y)$ is a vector on $T_x M$.

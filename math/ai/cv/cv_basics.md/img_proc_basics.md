@@ -36,9 +36,9 @@ Intuition: for a normalized intensity value $\sum_{j=0}^{i} \frac{n_i}{n}$, for 
 $$
 k_{\text{sharpening}} = 
 \begin{bmatrix}
-      -1 & -1 & -1 \\
-      -1 & 9 & -1 \\
-      -1 & -1 & -1 \\
+      -1 & -1 & -1 \\\\
+      -1 & 9 & -1 \\\\
+      -1 & -1 & -1 \\\\
 \end{bmatrix}
 $$
 
@@ -48,9 +48,9 @@ $$
 k_{\text{blurring}} = 
 \frac{1}{9}
 \begin{bmatrix}
-      1 & 1 & 1 \\
-      1 & 1 & 1 \\
-      1 & 1 & 1 \\
+      1 & 1 & 1 \\\\
+      1 & 1 & 1 \\\\
+      1 & 1 & 1 \\\\
 \end{bmatrix}
 $$
 
@@ -93,8 +93,8 @@ $$
 p_{x,y}=
 min\bigg(
 \begin{bmatrix}
-      p_{x-1,y-1} & p_{x,y-1} & p_{x,y+1} \\
-      p_{x-1,y} & p_{x,y} & p_{x+1,y} \\
+      p_{x-1,y-1} & p_{x,y-1} & p_{x,y+1} \\\\
+      p_{x-1,y} & p_{x,y} & p_{x+1,y} \\\\
       p_{x-1,y+1} & p_{x,y+1} & p_{x+1,y+1}
 \end{bmatrix} \bigg)
 $$
@@ -106,8 +106,8 @@ $$
 p_{x,y}=
 \max \bigg(
 \begin{bmatrix}
-      p_{x-1,y-1} & p_{x,y-1} & p_{x,y+1} \\
-      p_{x-1,y} & p_{x,y} & p_{x+1,y} \\
+      p_{x-1,y-1} & p_{x,y-1} & p_{x,y+1} \\\\
+      p_{x-1,y} & p_{x,y} & p_{x+1,y} \\\\
       p_{x-1,y+1} & p_{x,y+1} & p_{x+1,y+1}
 \end{bmatrix} \bigg)
 $$

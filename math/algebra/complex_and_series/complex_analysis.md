@@ -13,11 +13,11 @@ Given the expansion of $\sin(x)$ and $\cos(x)$, substitute $-1$ with $i^2$, ther
 $$
 \begin{align*}
 \sin(x) &= \sum_{n=0}^{\infty} (-1)^{n} \frac{x^{2n+1}}{(2n+1)!} &&&
-\cos(x) &= \sum_{n=0}^{\infty} (-1)^{n} \frac{x^{2n}}{(2n)!} \\
+\cos(x) &= \sum_{n=0}^{\infty} (-1)^{n} \frac{x^{2n}}{(2n)!} \\\\
 &= \sum_{n=0}^{\infty} \big(\sqrt{-1}\big)^{2n} \frac{x^{2n+1}}{(2n+1)!} &&&
-&= \sum_{n=0}^{\infty} \big(\sqrt{-1}\big)^{2n} \frac{x^{2n}}{(2n)!} \\
+&= \sum_{n=0}^{\infty} \big(\sqrt{-1}\big)^{2n} \frac{x^{2n}}{(2n)!} \\\\
 &= \sum_{n=0}^{\infty} i^{2n} \frac{x^{2n+1}}{(2n+1)!} &&&
-&= \sum_{n=0}^{\infty} i^{2n} \frac{x^{2n}}{(2n)!} \\
+&= \sum_{n=0}^{\infty} i^{2n} \frac{x^{2n}}{(2n)!} \\\\
 \end{align*}
 $$
 
@@ -28,7 +28,7 @@ Here derives Euler's formula:
 $$
 \begin{align*}
 e^{\theta} =
-& \sum_{n=0}^{\infty} \frac{{\theta}^n}{n!} \\
+& \sum_{n=0}^{\infty} \frac{{\theta}^n}{n!} \\\\
 & = \cos(\theta) + i \space \sin(\theta)
 \end{align*}
 $$

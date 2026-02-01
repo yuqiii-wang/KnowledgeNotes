@@ -14,7 +14,7 @@ A 3D rigid body transform $\mathbf{G} \in SE(3)$ (or $\mathbf{G} \in \mathbb{R}^
 $$
 \mathbf{G} = 
 \begin{bmatrix}
-    \mathbf{R} & \mathbf{t} \\
+    \mathbf{R} & \mathbf{t} \\\\
     \mathbf{0} & 1
 \end{bmatrix}
 , \quad
@@ -44,24 +44,24 @@ image point $\mathbf{p}$ and its inverse depth $d$ into a by $\mathbf{\xi}$ tran
 $$
 \omega(\mathbf{p}, d, \mathbf{\xi}) :=
 \begin{bmatrix}
-    \frac{x'}{z'} \\
-    \frac{y'}{z'} \\
-    \frac{1}{z'} \\
+    \frac{x'}{z'} \\\\
+    \frac{y'}{z'} \\\\
+    \frac{1}{z'} \\\\
 \end{bmatrix}
 , \quad
 \begin{bmatrix}
-    x' \\
-    y' \\
-    z' \\
+    x' \\\\
+    y' \\\\
+    z' \\\\
     1
 \end{bmatrix}
 :=
 \exp_{se(3)}(\mathbf{\xi})
 \cdot 
 \begin{bmatrix}
-    \frac{\mathbf{p}_x}{d} \\
-    \frac{\mathbf{p}_y}{d} \\
-    \frac{1}{d} \\
+    \frac{\mathbf{p}_x}{d} \\\\
+    \frac{\mathbf{p}_y}{d} \\\\
+    \frac{1}{d} \\\\
     1
 \end{bmatrix}
 $$
@@ -70,7 +70,7 @@ A 3D similarity transform $\mathbf{S} \in Sim(3)$ denotes rotation, scaling and 
 $$
 \mathbf{S} = 
 \begin{bmatrix}
-    s\mathbf{R} & \mathbf{t} \\
+    s\mathbf{R} & \mathbf{t} \\\\
     \mathbf{0}  & 1
 \end{bmatrix}
 , \quad
@@ -90,11 +90,13 @@ $$
     - I_B \big(\omega(\mathbf{p}\_i, D_A(\mathbf{p}\_i), \mathbf{\xi}) \big)
 \bigg)^2}\_{:= r_i^2(\mathbf{\xi})}
 $$
+
 whose iterative step update $\mathbf{\xi}^*=\Delta\mathbf{\xi}^*+\mathbf{\xi}_0$ by Gauss-Newton method can be computed via
 $$
 \Delta\mathbf{\xi}^* = 
 \frac{J^\top \mathbf{r}(\mathbf{\xi}_0)}{J^\top J}
 $$
+
 where $\mathbf{r}(\mathbf{\xi}_0)$ is the initial residual for $\mathbf{\xi}_0$, and $J$ is the Jacobian.
 
 To apply weights on residuals to down-weight large error (Huber loss should have the same result), there is
@@ -135,7 +137,7 @@ $$
 \left\{
     \begin{array}{c}
         \frac{1}{2}e^2 &\quad \text{for} |e|\le \delta
-        \\
+        \\\\
         \delta \cdot (|e|-\frac{1}{2}\delta) &\quad \text{otherwise}
     \end{array}
 \right.
@@ -165,6 +167,7 @@ $$
 dist(\mathbf{\xi}\_{ij}) := 
 \mathbf{\xi}\_{ij}^\top W \mathbf{\xi}\_{ij}
 $$
+
 where $W$ is a diagonal matrix containing the weights.
 
 Each keyframe is scaled and its mean inverse depth

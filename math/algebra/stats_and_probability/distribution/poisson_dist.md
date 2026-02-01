@@ -26,7 +26,7 @@ With applied $\lambda=rt$, there are probabilities $P(0; \delta t)$ for no event
 
 $$
 \begin{align*}
-P(0; \delta t) &= 1 - \lambda \delta t \\
+P(0; \delta t) &= 1 - \lambda \delta t \\\\
 P(1; \delta t) &= \lambda \delta t
 \end{align*}
 $$
@@ -35,10 +35,10 @@ Now consider the no event scenario for the next $t$ period, there is $P(0; t + \
 
 $$
 \begin{align*}
-    && P(0; t + \delta t) &=&& P(0;t)(1-\lambda \delta t) & \\
-    \Rightarrow\qquad && \frac{P(0; t + \delta t)-P(0;t)}{\delta t} &= &&\lambda P(0;t) \\
-    \text{take limit} \Rightarrow \qquad && \lim_{\delta t \rightarrow 0} \frac{P(0; t + \delta t)-P(0;t)}{\delta t} &= &&\lambda P(0;t) \\
-    \Rightarrow \qquad && \frac{d P(0; t)}{d t} &=&& \lambda P(0;t) \\
+    && P(0; t + \delta t) &=&& P(0;t)(1-\lambda \delta t) & \\\\
+    \Rightarrow\qquad && \frac{P(0; t + \delta t)-P(0;t)}{\delta t} &= &&\lambda P(0;t) \\\\
+    \text{take limit} \Rightarrow \qquad && \lim_{\delta t \rightarrow 0} \frac{P(0; t + \delta t)-P(0;t)}{\delta t} &= &&\lambda P(0;t) \\\\
+    \Rightarrow \qquad && \frac{d P(0; t)}{d t} &=&& \lambda P(0;t) \\\\
     \text{integrating to find solution} \Rightarrow \qquad && P(0; t) = C e^{-\lambda t}
 \end{align*}
 $$
@@ -70,8 +70,8 @@ where, on average the during $t + \delta t$ there should be $k$ events; the abov
 $$
 \begin{align*}
     && P(k; t + \delta t)
-    &=&& P(k;t)-P(k;t)\lambda \delta t + P(k-1;t)\lambda \delta t \\
-    \Rightarrow && \lim_{\delta t \rightarrow 0} \big(P(k; t+\delta t)-P(k; t)\big) &=&& \lim_{\delta t \rightarrow 0} \lambda \delta t \big(P(k-1;t)- P(k;t) \big) \\
+    &=&& P(k;t)-P(k;t)\lambda \delta t + P(k-1;t)\lambda \delta t \\\\
+    \Rightarrow && \lim_{\delta t \rightarrow 0} \big(P(k; t+\delta t)-P(k; t)\big) &=&& \lim_{\delta t \rightarrow 0} \lambda \delta t \big(P(k-1;t)- P(k;t) \big) \\\\
     \Rightarrow &&\frac{d P(k; t)}{dt} &=&& \lambda \big(P(k-1;t)- P(k;t) \big)
 \end{align*}
 $$

@@ -54,7 +54,7 @@ $$
 \begin{align*}
 D_{\overrightarrow{\mathbf{u}}} f(x,y) &=
 \lim_{h \rightarrow 0} \frac{f(x+h\cos\theta, y+h\sin\theta) - f(x,y)}{h}
-\\ &=
+\\\\ &=
 f_x(x,y)\cos\theta + f_y(x,y)\sin\theta
 \end{align*}
 $$

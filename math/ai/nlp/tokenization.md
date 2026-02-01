@@ -96,24 +96,24 @@ Count the letter pair combinations, merge letter pairs with occurrences more tha
 until all combinations are unique, or having covered the whole pre-token length:
 $$
 \begin{matrix}
-      \text{1st round counting} & \text{2nd round counting} & \text{3rd round counting} \\
-      (\text{t}, \text{h}): 4 & (\text{th}, \text{is}): 1 & (\text{this}): 1 \\
-      (\text{h}, \text{i}): 1 & (\text{th}, \text{at}): 2 & (\text{that}): 2 \\
-      (\text{i}, \text{s}): 4 & (\text{is}): 3 & (\text{is}): 2 \\
-      (\text{a}): 2      & (\text{a}): 2       & (\text{a}): 2 \\
-      (\text{t}, \text{o}): 2 & (\text{to}, \text{y}): 2 & (\text{toy}): 2 \\
-      (\text{o}, \text{y}): 3 & (\text{o}, \text{y}): 1 &  (\text{o}, \text{y}): 1 \\
-      (\text{a}, \text{n}): 3 & (\text{an}, \text{d}): 2 & (\text{and}): 2 \\
-      (\text{n}, \text{d}): 2 & (\text{th}, \text{e}): 1 & (\text{th}, \text{e}): 1 \\
-      (\text{h}, \text{a}): 2 & \\
-      (\text{a}, \text{t}): 2 & (\text{at}): 2 \\
-      (\text{b}, \text{o}): 1 & (\text{b}, \text{o}): 1 & (\text{b}, \text{o}): 1 \\
-      (\text{o}, \text{n}): 1 & (\text{o}, \text{n}): 1 & (\text{o}, \text{n}): 1 \\
-      (\text{n}, \text{e}): 1 & (\text{n}, \text{e}): 1 & (\text{n}, \text{e}): 1 \\
-      (\text{n}, \text{o}): 1 & (\text{n}, \text{o}): 1 & (\text{n}, \text{o}): 1 \\
-      (\text{o}, \text{t}): 1 & (\text{o}, \text{t}): 1 & (\text{o}, \text{t}): 1 \\
-      (\text{h}, \text{e}): 1 & (\text{h}, \text{e}): 1 & (\text{h}, \text{e}): 1 \\
-      (\text{e}, \text{r}): 1 & (\text{e}, \text{r}): 1 & (\text{e}, \text{r}): 1 \\
+      \text{1st round counting} & \text{2nd round counting} & \text{3rd round counting} \\\\
+      (\text{t}, \text{h}): 4 & (\text{th}, \text{is}): 1 & (\text{this}): 1 \\\\
+      (\text{h}, \text{i}): 1 & (\text{th}, \text{at}): 2 & (\text{that}): 2 \\\\
+      (\text{i}, \text{s}): 4 & (\text{is}): 3 & (\text{is}): 2 \\\\
+      (\text{a}): 2      & (\text{a}): 2       & (\text{a}): 2 \\\\
+      (\text{t}, \text{o}): 2 & (\text{to}, \text{y}): 2 & (\text{toy}): 2 \\\\
+      (\text{o}, \text{y}): 3 & (\text{o}, \text{y}): 1 &  (\text{o}, \text{y}): 1 \\\\
+      (\text{a}, \text{n}): 3 & (\text{an}, \text{d}): 2 & (\text{and}): 2 \\\\
+      (\text{n}, \text{d}): 2 & (\text{th}, \text{e}): 1 & (\text{th}, \text{e}): 1 \\\\
+      (\text{h}, \text{a}): 2 & \\\\
+      (\text{a}, \text{t}): 2 & (\text{at}): 2 \\\\
+      (\text{b}, \text{o}): 1 & (\text{b}, \text{o}): 1 & (\text{b}, \text{o}): 1 \\\\
+      (\text{o}, \text{n}): 1 & (\text{o}, \text{n}): 1 & (\text{o}, \text{n}): 1 \\\\
+      (\text{n}, \text{e}): 1 & (\text{n}, \text{e}): 1 & (\text{n}, \text{e}): 1 \\\\
+      (\text{n}, \text{o}): 1 & (\text{n}, \text{o}): 1 & (\text{n}, \text{o}): 1 \\\\
+      (\text{o}, \text{t}): 1 & (\text{o}, \text{t}): 1 & (\text{o}, \text{t}): 1 \\\\
+      (\text{h}, \text{e}): 1 & (\text{h}, \text{e}): 1 & (\text{h}, \text{e}): 1 \\\\
+      (\text{e}, \text{r}): 1 & (\text{e}, \text{r}): 1 & (\text{e}, \text{r}): 1 \\\\
 \end{matrix}
 $$
 

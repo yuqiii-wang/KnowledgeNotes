@@ -35,9 +35,9 @@ $$
 \begin{align*}
 P(Rare | Pattern) &= 
 \frac{P(Pattern | Rare) \cdot P(Rare)}{P(Pattern)}
-\\ &= 
+\\\\ &= 
 \frac{P(Pattern | Rare) \cdot P(Rare)}{P(Pattern | Rare) \cdot P(Rare) + P(Pattern | Common) \cdot P(Common)}
-\\ &= 
+\\\\ &= 
 \frac{0.98 \times 0.001}{0.98 \times 0.001 + 0.05 \times 0.999}
 \end{align*}
 $$

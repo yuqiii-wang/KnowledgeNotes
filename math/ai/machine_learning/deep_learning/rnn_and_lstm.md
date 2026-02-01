@@ -20,8 +20,7 @@ Given a sequence length of $T$ such that $t \in \{ 1, 2, ..., T \}$, the tempora
 
 $$
 \begin{align*}
-\mathbf{h}_t &= \sigma_h(W_h \mathbf{x}_t + U_h \mathbf{h}\_{t-1} + \mathbf{b}_h)
-\\
+\mathbf{h}_t &= \sigma_h(W_h \mathbf{x}_t + U_h \mathbf{h}\_{t-1} + \mathbf{b}_h) \\\\
 \mathbf{y}_t &= \sigma_y(W_y \mathbf{h}_t + \mathbf{b}_y)
 \end{align*}
 $$
@@ -30,8 +29,7 @@ $$
 
 $$
 \begin{align*}
-\mathbf{h}_t &= \sigma_h(W_h \mathbf{x}_t + U_h \mathbf{y}\_{t-1} + \mathbf{b}_h)
-\\
+\mathbf{h}_t &= \sigma_h(W_h \mathbf{x}_t + U_h \mathbf{y}\_{t-1} + \mathbf{b}_h) \\\\
 \mathbf{y}_t &= \sigma_y(W_y \mathbf{h}_t + \mathbf{b}_y)
 \end{align*}
 $$
@@ -51,11 +49,11 @@ A forward pass (Elman network) is defined as below.
 $$
 \begin{align*}
 \text{for each step } \mathbf{x}_t \text{ in } X &:
-\\  && \mathbf{h}_t &= \tanh(W_h \mathbf{x}_t + U_h \mathbf{h}\_{t-1} + \mathbf{b}_h)
-\\  && \mathbf{z}_t &= W_z \mathbf{h}_t + \mathbf{b}_z
-\\  && \hat{\mathbf{y}}_t &= \text{softmax}(\mathbf{z}_t) 
-\\  && \mathcal{L}_t &= - \mathbf{y}_t^{\top} \log \hat{\mathbf{y}}_t
-\\  && \mathcal{L} &+= \mathcal{L}_t
+\\\\  && \mathbf{h}_t &= \tanh(W_h \mathbf{x}_t + U_h \mathbf{h}\_{t-1} + \mathbf{b}_h)
+\\\\  && \mathbf{z}_t &= W_z \mathbf{h}_t + \mathbf{b}_z
+\\\\  && \hat{\mathbf{y}}_t &= \text{softmax}(\mathbf{z}_t) 
+\\\\  && \mathcal{L}_t &= - \mathbf{y}_t^{\top} \log \hat{\mathbf{y}}_t
+\\\\  && \mathcal{L} &+= \mathcal{L}_t
 \end{align*}
 $$
 
@@ -79,9 +77,9 @@ $$
 \begin{align*}
     \mathcal{L}_t &=
     -\mathbf{y}^{\top}\_{t, i=2023} \log \hat{\mathbf{y}}_t 
-\\ &= 
+\\\\ &= 
     (-1) \cdot (0 \cdot \log \hat{{y}}\_{t, i=1} + 0 \cdot \log \hat{{y}}\_{t, i=2} + ... + 1 \cdot \log \hat{{y}}\_{t, i=2023} + ... + 0 \cdot \log \hat{{y}}\_{t, i=30522})
-\\ &= 
+\\\\ &= 
     -\log \hat{{y}}\_{t, i=2023}
 \end{align*}
 $$
@@ -140,26 +138,26 @@ $$
 \begin{align*}
     \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}\_{t,i})}\_{\hat{y}\_{t,i}} \big) \Big) &=
     -\frac{\partial }{\partial z_{t,j}} \Big( \log \frac{e^{z_{t,i}}}{\sum_i^n e^{z_{t,i}}} \Big) 
-\\ &=
+\\\\ &=
     -\frac{\partial }{\partial z_{t,j}} \Big( \log{e^{z_{t,i}}} - \log{\sum_i^n e^{z_{t,i}}} \Big)
-\\ &=
+\\\\ &=
     -\frac{\partial }{\partial z_{t,j}} \Big( {z_{t,i}} - \log{\sum_i^n e^{z_{t,i}}} \Big)
-\\ &=
+\\\\ &=
     \frac{\partial }{\partial z_{t,j}} \log{\sum_i^n e^{z_{t,i}}} - \frac{\partial z_{t,i}}{\partial z_{t,j}}
-\\ &=
+\\\\ &=
     \frac{1}{\sum_i^n e^{z_{t,i}}} \frac{\partial \sum_i^n e^{z_{t,i}}}{\partial z_{t,j}} - \frac{\partial z_{t,i}}{\partial z_{t,j}}
-\\ &=
+\\\\ &=
     \frac{1}{\sum_i^n e^{z_{t,i}}} \frac{\partial (e^{z_{t,1}}+e^{z_{t,2}}+...+e^{z_{t,n}})}{\partial z_{t,j}} - \frac{\partial z_{t,i}}{\partial z_{t,j}}
 && \text{where } 
     \frac{\partial z_{t,i}}{\partial z_{t,j}} = 
     \left\{ \begin{array}{r}
-        1 \qquad i = j \\
+        1 \qquad i = j \\\\
         0 \qquad i \ne j
     \end{array}\right.
-\\ &=
+\\\\ &=
     \frac{e^{z_{t,i}}}{\sum_i^n e^{z_{t,i}}} - 1
 && \text{where } i = j
-\\ &=
+\\\\ &=
     \hat{y}\_{t,i} - 1
 \end{align*}
 $$
@@ -226,16 +224,11 @@ Update gate ($\mathbf{z_t}$) is used to control the ratio between previous hidde
 
 $$
 \begin{align*}
-f_t &= \sigma_g(W_f \mathbf{x}_t + U_f \mathbf{h}\_{t-1} + b_f)
-\\
-i_t &= \sigma_g(W_i \mathbf{x}_t + U_i \mathbf{h}\_{t-1} + b_i)
-\\
-o_t &= \sigma_g(W_o \mathbf{x}_t + U_o \mathbf{h}\_{t-1} + b_o)
-\\
-\hat{c}_t &= \sigma_c(W_c \mathbf{x}_t + U_c \mathbf{h}\_{t-1} + b_c)
-\\
-c_t &= f_t \odot c_{t-1} + i_t \odot \hat{c}_t
-\\
+f_t &= \sigma_g(W_f \mathbf{x}_t + U_f \mathbf{h}\_{t-1} + b_f) \\\\
+i_t &= \sigma_g(W_i \mathbf{x}_t + U_i \mathbf{h}\_{t-1} + b_i) \\\\
+o_t &= \sigma_g(W_o \mathbf{x}_t + U_o \mathbf{h}\_{t-1} + b_o) \\\\
+\hat{c}_t &= \sigma_c(W_c \mathbf{x}_t + U_c \mathbf{h}\_{t-1} + b_c) \\\\
+c_t &= f_t \odot c_{t-1} + i_t \odot \hat{c}_t \\\\
 \mathbf{h}_t &= o_t \odot \sigma_h(c_t)
 \end{align*}
 $$
@@ -267,7 +260,7 @@ reference: https://www.geeksforgeeks.org/lstm-derivation-of-back-propagation-thr
 Define an error (MSE) from the layer's output, and the $t$-th layer's gradient.
 $$
 \begin{align*}
-    {e} &= \big( {y} - {h}({x}) \big)^2 \\
+    {e} &= \big( {y} - {h}({x}) \big)^2 \\\\
     \delta{e}  &= \frac{\partial{e}}{\partial {h}_t}
 \end{align*}
 $$

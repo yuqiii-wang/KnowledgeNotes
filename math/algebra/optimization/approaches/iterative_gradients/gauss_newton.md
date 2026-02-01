@@ -29,11 +29,12 @@ $$
 Intuitively speaking, $(\mathbf{J}_r^T \mathbf{J}_r)^{-1} \mathbf{J}_r^T$ is a $\mathbb{R}^{n \times m}$ version of Newton method's $\frac{1}{f'(x)}$, and $\mathbf{r}(\mathbf{\beta}^{(k)})$ is a $\mathbb{R}^{m \times 1}$ version of Newton method's $f(x)$.
 
 The iteration can be rewritten as
+
 $$
 \begin{align*}
 \beta^{(k+1)} - \beta^{(k)}&=
 -(\mathbf{J}_r^T \mathbf{J}_r)^{-1} \mathbf{J}_r^T \mathbf{r}(\mathbf{\beta}^{(k)})
-\\ 
+\\\\ 
 \mathbf{J}_r^T \mathbf{J}_r (\beta^{(k+1)} - \beta^{(k)})&=
 -\mathbf{J}_r^T \mathbf{r}(\mathbf{\beta}^{(k)})
 \end{align*}
@@ -45,4 +46,5 @@ Now define $A=\mathbf{J}_r^T \mathbf{J}_r$, $\mathbf{x}=\Delta$ and $\mathbf{b}=
 $$
 A\mathbf{x}=\mathbf{b}
 $$
+
 by methods such as QR Householder decomposition.

@@ -74,7 +74,7 @@ and associated covariance matrices $\Sigma_{i,j}$, for input pair $\xi^m_i, \xi^
 In detail,
 $$
 E^2(\xi^m_i, \xi^s_j; \Sigma_{i,j}, \xi_{i,j}) 
-\\ =
+\\\\ =
 \mathbf{e}(\xi^m_i, \xi^s_j; \xi_{i,j})^T \Sigma_{i,j} \mathbf{e}(\xi^m_i, \xi^s_j; \xi_{i,j})
 $$
 in which, $\mathbf{e}(\xi^m_i, \xi^s_j; \xi_{i,j})$ describes the error of robot one step pose against its scans and generated submap, such that
@@ -83,10 +83,11 @@ $$
 \mathbf{e}(\xi^m_i, \xi^s_j; \xi_{i,j}) =
  \xi_{i,j} - 
 \begin{bmatrix}
-    R^{-1}\_{\xi^m_i} (\mathbf{t}\_{\xi^m_i} - \mathbf{t}\_{\xi^s_j}) \\
+    R^{-1}\_{\xi^m_i} (\mathbf{t}\_{\xi^m_i} - \mathbf{t}\_{\xi^s_j}) \\\\
     \xi^m_{i;\theta} - \xi^s_{j;\theta}
 \end{bmatrix}
 $$
+
 where $R^{-1}\_{\xi^m_i} (\mathbf{t}\_{\xi^m_i} - \mathbf{t}\_{\xi^s_j})$ describes the translation differences between $\xi^m_i$ and $\xi^s_j$ aligned to the submap coordinates by $R^{-1}\_{\xi^m_i}$, 
 and $\xi^m_{i;\theta} - \xi^s_{j;\theta}$ describes the gap of the two poses' orientations.
 
@@ -145,7 +146,7 @@ $$
     \mathbf{\text{end for}}
 \\&
     \mathbf{\text{end for}}
-\\ &
+\\\\ &
 \mathbf{\text{return }} match     \mathbf{\text{ and }} bestScore
 \\& 
 \rule{10cm}{0.5pt}

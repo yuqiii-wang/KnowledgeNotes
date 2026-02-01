@@ -6,25 +6,25 @@ Define a $3$-d point $\mathbf{p}$ and its transformation result $\mathbf{p}'$
 $$
 \begin{align*}
     \mathbf{p}' &= \begin{bmatrix}
-    s\mathbf{R} & \mathbf{t} \\
+    s\mathbf{R} & \mathbf{t} \\\\
     \mathbf{0} & 1
     \end{bmatrix}
     \mathbf{p}
-    \\ &=
+    \\\\ &=
     \begin{bmatrix}
-    s\mathbf{R} & \mathbf{t} \\
+    s\mathbf{R} & \mathbf{t} \\\\
     \mathbf{0} & 1
     \end{bmatrix}
     \begin{bmatrix}
-        \mathbf{p} \\
+        \mathbf{p} \\\\
         {1}
     \end{bmatrix}
-    \\ &=
+    \\\\ &=
     \begin{bmatrix}
-        s\mathbf{R}\mathbf{p} + \mathbf{t} \\
+        s\mathbf{R}\mathbf{p} + \mathbf{t} \\\\
         {1}
     \end{bmatrix}
-    \\ & :=
+    \\\\ & :=
     s\mathbf{R}\mathbf{p} + \mathbf{t}
 \end{align*}
 $$
@@ -35,23 +35,22 @@ $$
 \begin{align*}
 Sim(3) &= \bigg\{
     \mathbf{S} = \begin{bmatrix}
-        s\mathbf{R} & \mathbf{t} \\
+        s\mathbf{R} & \mathbf{t} \\\\
         \mathbf{0} & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
-\bigg\}
-\\
+\bigg\} \\\\
 sim(3) &= \bigg\{
     \mathbf{\zeta} = \begin{bmatrix}
-        \mathbf{\rho} \\
-        \mathbf{\phi} \\
+        \mathbf{\rho} \\\\
+        \mathbf{\phi} \\\\
         \sigma
     \end{bmatrix}
     \in \mathbb{R}^{7}
     , \quad
     \mathbf{\zeta}^\wedge =
     \begin{bmatrix}
-        \sigma \mathbf{I}+\mathbf{\phi}^\wedge & \mathbf{\rho} \\
+        \sigma \mathbf{I}+\mathbf{\phi}^\wedge & \mathbf{\rho} \\\\
         \mathbf{0} & \mathbf{0}
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
@@ -64,7 +63,7 @@ $$
 $$
 Sim^{-1}(3) = \bigg\{
     \mathbf{S}^{-1} = \begin{bmatrix}
-        \frac{1}{s}\mathbf{R}^{\top} & - \Big(\frac{1}{s}\mathbf{R}^{\top}\Big) \mathbf{t} \\
+        \frac{1}{s}\mathbf{R}^{\top} & - \Big(\frac{1}{s}\mathbf{R}^{\top}\Big) \mathbf{t} \\\\
         \mathbf{0} & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
@@ -72,38 +71,39 @@ Sim^{-1}(3) = \bigg\{
 $$
 
 Should be easy to see that
+
 $$
 \begin{align*}
 \mathbf{S}^{-1}
 \begin{bmatrix}
-    \mathbf{p}' \\
+    \mathbf{p}' \\\\
     {1}
 \end{bmatrix}&=
 \begin{bmatrix}
-    \frac{1}{s}\mathbf{R}^{\top} & - \Big(\frac{1}{s}\mathbf{R}^{\top}\Big) \mathbf{t} \\
+    \frac{1}{s}\mathbf{R}^{\top} & - \Big(\frac{1}{s}\mathbf{R}^{\top}\Big) \mathbf{t} \\\\
     \mathbf{0} & 1
 \end{bmatrix}
 \begin{bmatrix}
-    \mathbf{p}' \\
+    \mathbf{p}' \\\\
     {1}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    \frac{1}{s}\mathbf{R}^{\top} & - \Big(\frac{1}{s}\mathbf{R}^{\top}\Big)\mathbf{t} \\
+    \frac{1}{s}\mathbf{R}^{\top} & - \Big(\frac{1}{s}\mathbf{R}^{\top}\Big)\mathbf{t} \\\\
     \mathbf{0} & 1
 \end{bmatrix}
 \begin{bmatrix}
-    s\mathbf{R}\mathbf{p} + \mathbf{t} \\
+    s\mathbf{R}\mathbf{p} + \mathbf{t} \\\\
     {1}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    \mathbf{p} + \frac{1}{s}\mathbf{R}^{\top}\mathbf{t} - \Big(\frac{1}{s}\mathbf{R}^{\top}\Big) \mathbf{t} \\
+    \mathbf{p} + \frac{1}{s}\mathbf{R}^{\top}\mathbf{t} - \Big(\frac{1}{s}\mathbf{R}^{\top}\Big) \mathbf{t} \\\\
     {1}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    \mathbf{p} \\
+    \mathbf{p} \\\\
     {1}
 \end{bmatrix}
 \end{align*}
@@ -140,7 +140,7 @@ $$
 \begin{align*}
 \mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}\_i &= 
 \mathbf{r}\_{r,i} - \hat{\mathbf{r}}\_{r,i} 
-\\ &= 
+\\\\ &= 
 \mathbf{r}\_{r,i} - s R( \mathbf{r}\_{l,i}) - \mathbf{t}    
 \end{align*}
 $$
@@ -180,7 +180,7 @@ $$
 \begin{align*}
 \min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &= 
 \sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') - \mathbf{t}' \big|\big|^2
-\\ &=
+\\\\ &=
 \sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2- \underbrace{2 \mathbf{t}' \cdot \sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \Big)}\_{=\mathbf{0}}+n \big|\big| \mathbf{t}' \big|\big|^2
 \end{align*}
 $$
@@ -211,19 +211,19 @@ $$
 &&
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
 \sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2
-\\ && &=
+\\\\ && &=
 \sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' \big|\big|^2 
 -2s \sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)+\sum_{i=1}^n \underbrace{ \big|\big| R( \mathbf{r}\_{l,i}') \big|\big|^2}\_{
     \begin{matrix}
-        =\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2  \\
-        \text{ for they have} \\
+        =\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2  \\\\
+        \text{ for they have} \\\\
         \text{the same length}
     \end{matrix}
 }
-\\ \text{Just rewrite the notations}
+\\\\ \text{Just rewrite the notations}
 && &=
 S_r - 2sD + s^2 S_l
-\\ && &=
+\\\\ && &=
 \underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}\_{\ge 0}+\frac{S_r S_l - D^2}{S_l}
 \end{align*}
 $$
@@ -240,6 +240,7 @@ s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}\_{l,i}' \cdot R( \
 {\sum_{i=1}^n \big|\big| R( \mathbf{r}\_{r,i}') \big|\big|^2}
 \ne \frac{1}{s} \text{ likely for the most of the time}
 $$
+
 where $\big|\big| R( \mathbf{r}\_{r,i}') \big|\big|^2=\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2$ is constant.
 
 This expression $s^{*\space -1} \ne \frac{1}{s}$ means that, the error computed with respect to scale $s$ according to transform from the left's to the right's $\mathbf{e}\_{i, l \rightarrow r}=\mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}')$ does not have the inverse scale $\frac{1}{s}$ when transformed from the right's to the left's.
@@ -252,11 +253,12 @@ $$
 $$
 
 The least squared problem becomes
+
 $$
 \begin{align*}
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
-\\ &= 
+\\\\ &= 
 \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0}+2(S_l S_r -D)
 \end{align*}
 $$
@@ -268,6 +270,7 @@ s^* = \sqrt{
     { \sum_{i=1}^n \big|\big| {\mathbf{r}'_{l,i}} \big|\big|^2 }
 }
 $$
+
 which has a great form where rotation $R$ is removed, that the optimal scale computation only concerns the vectors/map points ${\mathbf{r}'_{l}}$ and ${\mathbf{r}'_{r}}$ in the left and right coordinate systems.
 
 The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)$ grows to maximum.
@@ -285,17 +288,19 @@ Express $R$ in quaternion form: $\mathbf{r}$ rotation by quaternion $\mathring{\
 $$
 \mathring{\mathbf{r}}' = \mathring{\mathbf{q}} \mathring{\mathbf{r}} \mathring{\mathbf{q}}^{\dagger}
 $$
+
 where the rotation is defined as rotating an angle of $\theta$ about the axis defined by the unit vector $\mathbf{u}$ such that $\mathring{\mathbf{q}} = \cos \frac{\theta}{2} + \sin\frac{\theta}{2} \big( \overrightarrow{i}u_x + \overrightarrow{j}u_y + \overrightarrow{k}u_z \big)$.
 Here $\mathring{\mathbf{q}}^{\dagger}$ is the normalization term.
 
 Then, 
 $$
 M= \sum_{i=1}^{n} \mathbf{r}'_{l,i} \mathbf{r'}\_{l,i}^{\top}= \begin{bmatrix}
-    S_{xx} & S_{xy} & S_{xz} \\
-    S_{yx} & S_{yy} & S_{yz} \\
-    S_{zx} & S_{zy} & S_{zz} \\
+    S_{xx} & S_{xy} & S_{xz} \\\\
+    S_{yx} & S_{yy} & S_{yz} \\\\
+    S_{zx} & S_{zy} & S_{zz} \\\\
 \end{bmatrix}
 $$
+
 where, for example, $S_{xx}=\sum_{i=1}^{n} x'_{l,i} x'_{r,i}, S_{xy}=\sum_{i=1}^{n} x'_{l,i} y'_{r,i}$.
 
 Recall that $D=\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)$  needs to grow to maximum for 
@@ -306,10 +311,10 @@ Take $\mathbf{r}\_{l,i}' \rightarrow \mathring{\mathbf{r'}}\_{l,i}$, then by qua
 $$
 \mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' = 
 \begin{bmatrix}
-    0 & -x'_{l,i} & -y'_{l,i} & -z'_{l,i} \\
-    x'_{l,i} & 0 & z'_{l,i} & -y'_{l,i} \\
-    y'_{l,i} & -z'_{l,i} & 0 & x'_{l,i} \\
-    z'_{l,i} & y'_{l,i} & -x'_{l,i} & 0 \\
+    0 & -x'_{l,i} & -y'_{l,i} & -z'_{l,i} \\\\
+    x'_{l,i} & 0 & z'_{l,i} & -y'_{l,i} \\\\
+    y'_{l,i} & -z'_{l,i} & 0 & x'_{l,i} \\\\
+    z'_{l,i} & y'_{l,i} & -x'_{l,i} & 0 \\\\
 \end{bmatrix}
 \mathring{\mathbf{q}}=\overline{\mathcal{R}}\_{l,i} \mathring{\mathbf{q}}
 $$
@@ -317,19 +322,20 @@ $$
 Similarly, there is $\mathring{\mathbf{r}}\_{r,i}' \mathring{\mathbf{q}} = \mathcal{R}\_{r,i} \mathring{\mathbf{q}}$.
 
 So that, $D$ can be expressed as
+
 $$
 \begin{align*}
 D &=
 \sum_{i=1}^{n} \Big( \mathring{\mathbf{q}}\mathbf{r}\_{r,i}' \Big) \cdot \Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' \Big)
-\\ &=
+\\\\ &=
 \sum_{i=1}^{n} \Big( \overline{\mathcal{R}}\_{l,i} \mathring{\mathbf{q}} \Big) \cdot \Big( {\mathcal{R}}\_{r,i} \mathring{\mathbf{q}}  \Big)
-\\ &=
+\\\\ &=
 \sum_{i=1}^{n} \mathring{\mathbf{q}}^{\top} 
 \underbrace{\overline{\mathcal{R}}\_{l,i}^{\top} {\mathcal{R}}\_{r,i} }\_{=N_i}
 \mathring{\mathbf{q}}
-\\ &=
+\\\\ &=
 \mathring{\mathbf{q}}^{\top} \Big( \sum_{i=1}^{n} N_i \Big) \mathring{\mathbf{q}}
-\\ &=
+\\\\ &=
 \mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}}
 \end{align*}
 $$
@@ -337,10 +343,10 @@ $$
 The $N$ can be expressed as
 $$
 N = \begin{bmatrix}
-    S_{xx}+S_{yy}+S_{zz} & S_{yz}-S{zy} & S_{zx}-S{xz} & S_{xy}-S{yx} \\
-    S_{yz}-S{zy} & S_{xx}-S_{yy}-S_{zz} & S_{xy}+S{yx} & S_{zx}+S{xz} \\
-    S_{zx}-S{xz} & S_{xy}+S{yx} & -S_{xx}+S_{yy}-S_{zz} & S_{yz}+S{zy} \\
-    S_{xy}-S{yx} & S_{zx}+S{xz} & S_{yz}+S{zy} & -S_{xx}-S_{yy}+S_{zz} \\
+    S_{xx}+S_{yy}+S_{zz} & S_{yz}-S{zy} & S_{zx}-S{xz} & S_{xy}-S{yx} \\\\
+    S_{yz}-S{zy} & S_{xx}-S_{yy}-S_{zz} & S_{xy}+S{yx} & S_{zx}+S{xz} \\\\
+    S_{zx}-S{xz} & S_{xy}+S{yx} & -S_{xx}+S_{yy}-S_{zz} & S_{yz}+S{zy} \\\\
+    S_{xy}-S{yx} & S_{zx}+S{xz} & S_{yz}+S{zy} & -S_{xx}-S_{yy}+S_{zz} \\\\
 \end{bmatrix}
 $$
 

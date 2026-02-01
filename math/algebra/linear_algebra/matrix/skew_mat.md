@@ -13,8 +13,8 @@ For example
 $$
 A=
 \begin{bmatrix}
-      0 & a_1 & a_2 \\
-      -a_1 & 0 & a_3 \\
+      0 & a_1 & a_2 \\\\
+      -a_1 & 0 & a_3 \\\\
       -a_2 & -a_3 & 0
 \end{bmatrix}
 $$
@@ -23,8 +23,8 @@ There is
 $$
 -A=
 \begin{bmatrix}
-      0 & -a_1 & -a_2 \\
-      a_1 & 0 & -a_3 \\
+      0 & -a_1 & -a_2 \\\\
+      a_1 & 0 & -a_3 \\\\
       a_2 & a_3 & 0
 \end{bmatrix}=
 A^T
@@ -45,8 +45,8 @@ Define $\mathbf{a}$'s skew matrix representation
 $$
 [\mathbf{a}]_{\times}=
 \begin{bmatrix}
-      0 & a_1 & a_2 \\
-      -a_1 & 0 & a_3 \\
+      0 & a_1 & a_2 \\\\
+      -a_1 & 0 & a_3 \\\\
       -a_2 & -a_3 & 0
 \end{bmatrix}
 $$
@@ -60,40 +60,42 @@ $$
 ## Use Case in Geometry
 
 Given a cross operation of two vector $\mathbf{a} \in \mathbb{R}^3$ and $\mathbf{b} \in \mathbb{R}^3$, there is
+
 $$
 \begin{align*}
 \mathbf{a} \times \mathbf{b}&=
 \bigg|\bigg|
 \begin{array}{ccc}
-      \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \\
-      a_1 & a_2 & a_3 \\
+      \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \\\\
+      a_1 & a_2 & a_3 \\\\
       b_1 & b_2 & b_3
 \end{array}
-\bigg|\bigg|\\ &=
+\bigg|\bigg|\\\\ &=
 \begin{bmatrix}
-      a_2 b_3 - a_3 b_2 \\
-      a_3 b_1 - a_1 b_3 \\
-      a_1 b_2 - a_2 b_1 \\
-\end{bmatrix}\\ &=
+      a_2 b_3 - a_3 b_2 \\\\
+      a_3 b_1 - a_1 b_3 \\\\
+      a_1 b_2 - a_2 b_1 \\\\
+\end{bmatrix}\\\\ &=
 \begin{bmatrix}
-      0 & -a_3 & a_2 \\
-      a_3 & 0 & -a_1 \\
-      -a_2 & a_1 & 0 \\
+      0 & -a_3 & a_2 \\\\
+      a_3 & 0 & -a_1 \\\\
+      -a_2 & a_1 & 0 \\\\
 \end{bmatrix}
 \begin{bmatrix}
-      b_1 \\
-      b_2 \\
-      b_3 \\
-\end{bmatrix}\\ &=
+      b_1 \\\\
+      b_2 \\\\
+      b_3 \\\\
+\end{bmatrix}\\\\ &=
 \begin{bmatrix}
-      0 & -a_3 & a_2 \\
-      a_3 & 0 & -a_1 \\
-      -a_2 & a_1 & 0 \\
+      0 & -a_3 & a_2 \\\\
+      a_3 & 0 & -a_1 \\\\
+      -a_2 & a_1 & 0 \\\\
 \end{bmatrix}
-\mathbf{b}\\ &=
+\mathbf{b}\\\\ &=
 \mathbf{a}^{\wedge} \mathbf{b}
 \end{align*}
 $$
+
 where $\mathbf{a}^{\wedge}$ denotes the skew-symmetric matrix representation of the vector $\mathbf{a}$.
 
 The length of the cross product result is $|\mathbf{a}||\mathbf{b}|sin\angle\mathbf{a}, \mathbf{b}$, where $\angle\mathbf{a}, \mathbf{b}$ represents the angle between the two vectors.

@@ -34,9 +34,9 @@ Model parameter composition (for typical transformer structures) is
 
 $$
 \begin{align*}
-&&& \text{Embeddings} \in \mathbb{R}^{T \times E} \\
-\rightarrow &&& \text{MultiHeadAttention} \in \mathbb{R}^{3 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\
-\rightarrow &&& \text{AttentionDense} \in \mathbb{R}^{1 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\
+&&& \text{Embeddings} \in \mathbb{R}^{T \times E} \\\\
+\rightarrow &&& \text{MultiHeadAttention} \in \mathbb{R}^{3 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\\\
+\rightarrow &&& \text{AttentionDense} \in \mathbb{R}^{1 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\\\
 \rightarrow &&& \text{FeedForwardDense} \in \mathbb{R}^{2 \times 4 \times ( N \times D)^2} \rightarrow \text{LayerNormalization} \\= &&& T \times E + R \times (3 + 1 + 2 \times 4) \times ( N \times D)^2
 \end{align*}
 $$
@@ -58,8 +58,7 @@ For parameters, there are
 
 $$
 \begin{align*}
-m_{n+1} &= \beta_1 m_{n} + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n}}
-\\
+m_{n+1} &= \beta_1 m_{n} + (1-\beta_1) \frac{\partial\space Loss}{\partial\space W_{n}} \\\\
 v_{n+1} &= \beta_2 v_{n} + (1-\beta_2)\big( \frac{\partial\space Loss}{\partial\space W_{n}} \big)^2
 \end{align*}
 $$

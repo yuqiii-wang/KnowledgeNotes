@@ -97,9 +97,9 @@ $$
 W \odot M_{mask} = W_{pruned}, \qquad
 \text{where }
 M_{mask} = \begin{bmatrix}
-    1 & 0 & 0 & 0 \\
-    1 & 1 & 0 & 1 \\
-    1 & 0 & 0 & 1 \\
+    1 & 0 & 0 & 0 \\\\
+    1 & 1 & 0 & 1 \\\\
+    1 & 0 & 0 & 1 \\\\
 \end{bmatrix}
 $$
 
@@ -173,7 +173,7 @@ The expectation is applied with weights by $Q_{\theta_s}(\mathbf{w} | \mathbf{x}
 
 $$
 \begin{align*}
-\theta_s^* &= \argmin_{\theta_s} Q_{\theta_s}(\mathbf{w} | \mathbf{x}) \log \frac{Q_{\theta_s}(\mathbf{w} | \mathbf{x})}{P_{\theta_t}(\mathbf{w} | \mathbf{x})} \\&= \argmin_{\theta_s} \mathbb{E}\_{\mathbf{w} \sim Q} \log \frac{Q_{\theta_s}(\mathbf{w} | \mathbf{x})}{P_{\theta_t}(\mathbf{w} | \mathbf{x})} \\
+\theta_s^* &= \argmin_{\theta_s} Q_{\theta_s}(\mathbf{w} | \mathbf{x}) \log \frac{Q_{\theta_s}(\mathbf{w} | \mathbf{x})}{P_{\theta_t}(\mathbf{w} | \mathbf{x})} \\&= \argmin_{\theta_s} \mathbb{E}\_{\mathbf{w} \sim Q} \log \frac{Q_{\theta_s}(\mathbf{w} | \mathbf{x})}{P_{\theta_t}(\mathbf{w} | \mathbf{x})} \\\\
 \end{align*}
 $$
 

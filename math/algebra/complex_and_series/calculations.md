@@ -2,9 +2,10 @@
 
 ## Compute $x^3=1$
 
-$$\begin{align*}
-    && x^3 &=1 \\
-    \Rightarrow && 0 &=x^3-1 \\
+$$
+\begin{align*}
+    && x^3 &=1 \\\\
+    \Rightarrow && 0 &=x^3-1 \\\\
     && 0 &= (x-1)(x^2+1^2+x)
 \end{align*}
 $$

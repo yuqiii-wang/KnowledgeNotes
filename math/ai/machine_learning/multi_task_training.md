@@ -55,8 +55,8 @@ The standard cross entropy at the $t$-th training step for binary classification
 $$
 L\_{CE}=-\log\big(p(t)\big),\qquad
 p(t)=\begin{cases}
-    p & \text{if } y=1 \\
-    1-p & \text{if } y=0 \\
+    p & \text{if } y=1 \\\\
+    1-p & \text{if } y=0 \\\\
 \end{cases}
 $$
 

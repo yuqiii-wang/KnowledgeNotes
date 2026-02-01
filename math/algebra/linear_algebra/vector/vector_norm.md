@@ -44,28 +44,29 @@ $$
 proj_{\mathbf{u}}(\mathbf{v})=
 \frac{\langle\mathbf{u},\mathbf{v}\rangle}{\langle\mathbf{u},\mathbf{u}\rangle}\mathbf{u}
 $$
+
 where $\langle\mathbf{u},\mathbf{v}\rangle$ represents inner product operation.
 
 $$
 \begin{array}{cc}
     \mathbf{u}_1 = \mathbf{v}_1 & 
     \mathbf{e}_1=\frac{\mathbf{u}_1}{||\mathbf{u}_1||}
-    \\
+    \\\\
     \mathbf{u}_2 = \mathbf{v}_2 - proj_{\mathbf{u}_1}(\mathbf{v}_2) & 
     \mathbf{e}_2=\frac{\mathbf{u}_2}{||\mathbf{u}_2||}
-    \\
+    \\\\
     \mathbf{u}_3 = \mathbf{v}_3 - proj_{\mathbf{u}_1}(\mathbf{v}_3) - proj_{\mathbf{u}_2}(\mathbf{v}_3) & 
     \mathbf{e}_3=\frac{\mathbf{u}_3}{||\mathbf{u}_3||}
-    \\
+    \\\\
     \mathbf{u}_4 = \mathbf{v}_4 - proj_{\mathbf{u}_1}(\mathbf{v}_4) - proj_{\mathbf{u}_2}(\mathbf{v}_4) - proj_{\mathbf{u}_3}(\mathbf{v}_4) & 
     \mathbf{e}_4=\frac{\mathbf{u}_4}{||\mathbf{u}_4||}
-    \\
+    \\\\
     \space
-    \\
+    \\\\
     ... & ...
-    \\
+    \\\\
     \space
-    \\\
+    \\\\\
     \mathbf{u}_k = \mathbf{v}_k - \sum^{k-1}\_{j}proj_{\mathbf{u}_j}(\mathbf{v}_k) &
     \mathbf{e}_k=\frac{\mathbf{u}_k}{||\mathbf{u}_k||}
 \end{array}

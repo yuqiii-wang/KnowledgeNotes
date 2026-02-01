@@ -198,8 +198,8 @@ By 360-day basis, compound rate is
 
 $$
 \begin{align*}
-\text{TodayCompoundRate}\_{14} &=1.0023116439864934 \\
-&= \underbrace{\big(1+(0.054+0.006)/360\big)}\_{\text{01-Jul-2024}} \times \underbrace{\big(1+(0.0535+0.006)/360\big)}\_{\text{02-Jul-2024}} \times \underbrace{\big(1+(0.0533+0.006)/360\big)^{2}}\_{\text{03-Jul-2024 to 04-Jul-2024}} \\
+\text{TodayCompoundRate}\_{14} &=1.0023116439864934 \\\\
+&= \underbrace{\big(1+(0.054+0.006)/360\big)}\_{\text{01-Jul-2024}} \times \underbrace{\big(1+(0.0535+0.006)/360\big)}\_{\text{02-Jul-2024}} \times \underbrace{\big(1+(0.0533+0.006)/360\big)^{2}}\_{\text{03-Jul-2024 to 04-Jul-2024}} \\\\
 &\qquad \times \underbrace{\big(1+(0.0532+0.006)/360\big)^4}\_{\text{05-Jul-2024 to 08-Jul-2024}} \times \underbrace{\big(1+(0.0534+0.006)/360\big)^6}\_{\text{09-Jul-2024 to 14-Jul-2024}}
 \end{align*}
 $$
@@ -208,8 +208,8 @@ Alternatively, if by linear rate, there is
 
 $$
 \begin{align*}
-\text{TodayLinearRate}\_{14} &=1.0023091666666668 \\
-&= 1+ \underbrace{\big((0.054+0.006)/360\big)}\_{\text{01-Jul-2024}} + \underbrace{\big((0.0535+0.006)/360\big)}\_{\text{02-Jul-2024}} + \underbrace{\big((0.0533+0.006)/360 \times 2\big)}\_{\text{03-Jul-2024 to 04-Jul-2024}} \\
+\text{TodayLinearRate}\_{14} &=1.0023091666666668 \\\\
+&= 1+ \underbrace{\big((0.054+0.006)/360\big)}\_{\text{01-Jul-2024}} + \underbrace{\big((0.0535+0.006)/360\big)}\_{\text{02-Jul-2024}} + \underbrace{\big((0.0533+0.006)/360 \times 2\big)}\_{\text{03-Jul-2024 to 04-Jul-2024}} \\\\
 &\qquad + \underbrace{\big((0.0532+0.006)/360 \times 4 \big)}\_{\text{05-Jul-2024 to 08-Jul-2024}} + \underbrace{\big((0.0534+0.006)/360 \times 6\big)}\_{\text{09-Jul-2024 to 14-Jul-2024}}
 \end{align*}
 $$
@@ -218,9 +218,9 @@ $$
 
 $$
 \begin{align*}
-\text{CompoundRate}\_{14+412} =& 1.0728121393687096 \\
-=& 1.0023116439864934 \times (1+(0.0534+0.006)/360)^{412} \\
-\text{LinearRate}\_{14+412} =& 1.0702891666666667 \\
+\text{CompoundRate}\_{14+412} =& 1.0728121393687096 \\\\
+=& 1.0023116439864934 \times (1+(0.0534+0.006)/360)^{412} \\\\
+\text{LinearRate}\_{14+412} =& 1.0702891666666667 \\\\
 =& 1.0023091666666668 + ((0.0534+0.006)/360 \times 412)
 \end{align*}
 $$
@@ -229,11 +229,11 @@ $$
 
 $$
 \begin{align*}
-\text{EndCash}\_{\text{CompoundRate}} =& 68222484.12916285 \\
-=& \text{StartCash} \times \text{CompoundRate}\_{14+412} \\
-=& 63592200 \times 1.0728121393687096 \\
-\text{EndCash}\_{\text{LinearRate}} =& 68062042.74450001 \\
-=& \text{StartCash} \times \text{LinearRate}\_{14+412} \\
+\text{EndCash}\_{\text{CompoundRate}} =& 68222484.12916285 \\\\
+=& \text{StartCash} \times \text{CompoundRate}\_{14+412} \\\\
+=& 63592200 \times 1.0728121393687096 \\\\
+\text{EndCash}\_{\text{LinearRate}} =& 68062042.74450001 \\\\
+=& \text{StartCash} \times \text{LinearRate}\_{14+412} \\\\
 =& 63592200 \times 1.0702891666666667
 \end{align*}
 $$
@@ -242,11 +242,11 @@ $$
 
 $$
 \begin{align*}
-\text{CompoundRate}\_{360} =& 1.0611935517009894 \\
-=& \text{CompoundRate}\_{14+346} \\
-=& 1.0023116439864934 \times (1+(0.0534+0.006)/360)^{346} \\
-\text{LinearRate}\_{360} =& 1.059399295774647906 \\
-=& 1 + (\text{LinearRate}\_{14+412}-1) \times 360 / (14+412) \\
+\text{CompoundRate}\_{360} =& 1.0611935517009894 \\\\
+=& \text{CompoundRate}\_{14+346} \\\\
+=& 1.0023116439864934 \times (1+(0.0534+0.006)/360)^{346} \\\\
+\text{LinearRate}\_{360} =& 1.059399295774647906 \\\\
+=& 1 + (\text{LinearRate}\_{14+412}-1) \times 360 / (14+412) \\\\
 \end{align*}
 $$
 

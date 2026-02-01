@@ -22,8 +22,8 @@ Given $Q,K,V \in \mathbb{R}^{n \times d}$, where $n$ denotes token length and $d
 
 $$
 \begin{align*}
-    S &= Q K^{\top} \in \mathbb{R}^{n \times n} \\
-    P &= \text{Softmax}(S) \\
+    S &= Q K^{\top} \in \mathbb{R}^{n \times n} \\\\
+    P &= \text{Softmax}(S) \\\\
     A &= PV \in \mathbb{R}^{n \times d}
 \end{align*}
 $$
@@ -37,8 +37,8 @@ For example, 4k vs 128k context length with Float16 require memory consumption t
 
 $$
 \begin{align*}
-    2 \times (4 \times 1024)^2 &= 32\text{MB} \\
-    2 \times (128 \times 1024)^2 &= 32\text{GB} \\
+    2 \times (4 \times 1024)^2 &= 32\text{MB} \\\\
+    2 \times (128 \times 1024)^2 &= 32\text{GB} \\\\
 \end{align*}
 $$
 
@@ -198,13 +198,13 @@ Construct Jacobian of angle scaling (for function gradient with respect to param
 
 $$
 \begin{align*}
-    J_{s'}&=\text{diag}(s^{2i/(D-2)}) \in \mathbb{R}^{\frac{D}{2}\times\frac{D}{2}} \\
+    J_{s'}&=\text{diag}(s^{2i/(D-2)}) \in \mathbb{R}^{\frac{D}{2}\times\frac{D}{2}} \\\\
     &= \begin{bmatrix}
-        s^{0} & 0 & 0 & & 0 \\
-        0 & s^{2/(D-2)} & 0 & & 0 \\
-        0 & 0 & s^{4/(D-2)} & & 0 \\
-        & & & \ddots & \\
-        0 & 0 & 0 & & s^{1} \\
+        s^{0} & 0 & 0 & & 0 \\\\
+        0 & s^{2/(D-2)} & 0 & & 0 \\\\
+        0 & 0 & s^{4/(D-2)} & & 0 \\\\
+        & & & \ddots & \\\\
+        0 & 0 & 0 & & s^{1} \\\\
     \end{bmatrix}
 \end{align*}
 $$
@@ -221,8 +221,8 @@ Consider NTK kernel definition
 
 $$
 \begin{align*}
-    && \kappa(\mathbf{x}, \mathbf{x}\_{\Delta}) &= \big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x}\_{\Delta})\big) \\
-\Rightarrow && \kappa(\mathbf{x}', \mathbf{x}'_{\Delta}) &= \big(J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})\big)^\top\big(J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})\big) \\
+    && \kappa(\mathbf{x}, \mathbf{x}\_{\Delta}) &= \big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x}\_{\Delta})\big) \\\\
+\Rightarrow && \kappa(\mathbf{x}', \mathbf{x}'_{\Delta}) &= \big(J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})\big)^\top\big(J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})\big) \\\\
     && &= J_{s'}^{\top}J_{s'} \kappa(\mathbf{x}, \mathbf{x}\_{\Delta})
 \end{align*}
 $$
@@ -256,9 +256,9 @@ Define a ramp function $\gamma(r_i)$ that enforces different interpolation metho
 
 $$
 \gamma(r_i)=\begin{cases}
-    0 &\quad r_i<\alpha \\
-    1 &\quad r_i>\beta \\
-    \frac{r_i-\alpha}{\beta-\alpha} &\quad \text{otherwise} \\
+    0 &\quad r_i<\alpha \\\\
+    1 &\quad r_i>\beta \\\\
+    \frac{r_i-\alpha}{\beta-\alpha} &\quad \text{otherwise} \\\\
 \end{cases}
 $$
 
@@ -314,14 +314,14 @@ $$
 \begin{align*}
     && a_{nm}=\mathbf{q}^{\top}_m\mathbf{k}_n &=
     \sum^{D_{\text{low}}}\_{i=0} {q}^{\top}\_i {k}\_i +
-    \sum^{D_{\text{high}}}\_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i \\
+    \sum^{D_{\text{high}}}\_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i \\\\
 \Rightarrow && a'_{nm}=\mathbf{q}'^{\top}_m\mathbf{k}'_n &=
     \sum^{D_{\text{low}}}\_{i=0} {q}^{\top}\_i {k}\_i +
     \underbrace{\sum^{D'_{\text{high}}}\_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i}\_{\begin{matrix}
-        \text{larger sum} \\
-        \text{for more} \\
+        \text{larger sum} \\\\
+        \text{for more} \\\\
         \text{interpolations}
-    \end{matrix}} \\
+    \end{matrix}} \\\\
 \end{align*}
 $$
 

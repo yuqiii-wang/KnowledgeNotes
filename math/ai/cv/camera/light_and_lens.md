@@ -25,11 +25,12 @@ Define Intrinsic Parameters
 $$
 K=
 \begin{bmatrix}
-      f_x & 0 & 0 \\
-      s & f_y & 0 \\
+      f_x & 0 & 0 \\\\
+      s & f_y & 0 \\\\
       c_x & c_y & 1
 \end{bmatrix}
 $$
+
 where 
 * $(c_x, c_y)$ Optical center (the principal point), in pixels.
 * $F$ focal length in world units, often in millimeters
@@ -38,10 +39,10 @@ where
 ### Pinhole Intrinsic Matrix $K$ Derivation
 
 Define image pixel $(x_p, y_p)$, camera translation of the origin $(c_x, c_y)$ from the real world point $(x_w, y_w)$, and two scaling factor $\alpha, \beta$ the mapping relationship is
+
 $$
 \begin{align*}
-x_p &= \alpha x_w +c_x
-\\
+x_p &= \alpha x_w +c_x \\\\
 y_p &= \beta y_w +c_y
 \end{align*}
 $$
@@ -51,30 +52,31 @@ Consider the symmetric mapping around the origin $O$ indicated as below.
 ![pinhole_1d_projection](imgs/pinhole_1d_projection.png "pinhole_1d_projection")
 
 The world-to-image mapping can be expressed as
+
 $$
 \begin{align*}
-x_p &= \frac{f_x}{Z} x_w +c_x
-\\
+x_p &= \frac{f_x}{Z} x_w +c_x \\\\
 y_p &= \frac{f_y}{Z} y_w +c_y
 \end{align*}
 $$
 
 So that
+
 $$
 \begin{bmatrix}
-      x_p \\
-      y_p \\
+      x_p \\\\
+      y_p \\\\
       1
 \end{bmatrix}=
 \frac{1}{Z}
 \begin{bmatrix}
-      f_x & 0 & c_x \\
-      0 & f_y & c_y \\
+      f_x & 0 & c_x \\\\
+      0 & f_y & c_y \\\\
       0 & 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-      x_w \\
-      y_w \\
+      x_w \\\\
+      y_w \\\\
       Z
 \end{bmatrix}
 \overset{\Delta}{=}
@@ -85,8 +87,8 @@ Here inserts $s$ indicating axis-skew, and derives
 $$
 K=
 \begin{bmatrix}
-      f_x & 0 & 0 \\
-      s & f_y & 0 \\
+      f_x & 0 & 0 \\\\
+      s & f_y & 0 \\\\
       c_x & c_y & 1
 \end{bmatrix}
 $$
@@ -94,60 +96,62 @@ $$
 ### Extrinsics
 
 Define Extrinsic Parameters
+
 $$
 \begin{align*}
 \begin{bmatrix}
-      \mathbf{R} \\
+      \mathbf{R} \\\\
       \mathbf{t}
 \end{bmatrix}\_{4 \times 4}
 & =
 \begin{bmatrix}
-      r_{11} & r_{12} & r_{13} & t_{1} \\
-      r_{21} & r_{22} & r_{23} & t_{2} \\
-      r_{31} & r_{32} & r_{33} & t_{3} \\
+      r_{11} & r_{12} & r_{13} & t_{1} \\\\
+      r_{21} & r_{22} & r_{23} & t_{2} \\\\
+      r_{31} & r_{32} & r_{33} & t_{3} \\\\
       0 & 0 & 0 & 1
-\end{bmatrix}
-\\
+\end{bmatrix} \\\\
 \begin{bmatrix}
-      \mathbf{R} \\
+      \mathbf{R} \\\\
       \mathbf{t}
 \end{bmatrix}\_{4 \times 3}
 & =
 \begin{bmatrix}
-      r_{11} & r_{12} & t_{1} \\
-      r_{21} & r_{22} & t_{2} \\
-      r_{31} & r_{32} & t_{3} \\
+      r_{11} & r_{12} & t_{1} \\\\
+      r_{21} & r_{22} & t_{2} \\\\
+      r_{31} & r_{32} & t_{3} \\\\
       0 & 0 & 1
 \end{bmatrix}
 \end{align*}
 $$
+
 where $R$ and $\mathbf{t}$ are rotation and translation matrices that adjust a camera physical orientation and lateral position. Here we set $z=0$ to assume that both real world and camera frame are parallel to each other (no rotation but possible translation).
 
 The mapping relationship from world points to image pixels can be expressed as
 $$
 w
 \begin{bmatrix}
-      x_p \\
-      y_p \\
+      x_p \\\\
+      y_p \\\\
       1
 \end{bmatrix}^\text{T}=
 \begin{bmatrix}
-      w x_w \\
-      w y_w \\
-      w \\
+      w x_w \\\\
+      w y_w \\\\
+      w \\\\
       1
 \end{bmatrix}^\text{T}
 \begin{bmatrix}
-      \mathbf{R} \\
+      \mathbf{R} \\\\
       \mathbf{t}
 \end{bmatrix}
 _{4 \times 3}
 \begin{bmatrix}
-      f_x & 0 & 0 \\
-      s & f_y & 0 \\
+      f_x & 0 & 0 \\\\
+      s & f_y & 0 \\\\
       c_x & c_y & 1
 \end{bmatrix}
 $$
+
 where $(x_p, y_p)$ is image pixel. $(w x_w, w y_w, w)$ is world point pixel. $w$ is the scaling factor (same as the $Z$ in intrinsics). Usually $w=1$.
 
 ## Fisheye
@@ -171,18 +175,18 @@ Distortion correction formula:
 $$
 \begin{align*}
 x_u = & \space x_d+(x_d-c_x)(k_1r^2+k_2r^4+k_3r^6+...)
-\\ &+ 
+\\\\ &+ 
 \big(p_1(r^2+2(x_d-c_x)^2)+2p_2(x_d-c_x)(y_d-c_y)\big)
 (1+p_3r^2+p_4r^4+...)
-\end{align*}
-\\
+\end{align*} \\\\
 \begin{align*}
 y_u = & \space y_d+(y_d-c_y)(k_1r^2+k_2r^4+k_3r^6+...)
-\\ &+ 
+\\\\ &+ 
 \big(p_1(r^2+2p_2(x_d-c_x)(y_d-c_y))+2p_2(y_d-c_y)^2\big)
 (1+p_3r^2+p_4r^4+...)
 \end{align*}
 $$
+
 where 
 * $(x_d, y_d)$ is the distorted image pixel as projected on image plane using specified lens
 * $(x_u, y_u)$ is the undistorted image pixel after correction
@@ -200,24 +204,24 @@ Remember we have the below camera model. Fisheye distortion adds polynomials so 
 $$
 w
 \begin{bmatrix}
-      x_p \\
-      y_p \\
+      x_p \\\\
+      y_p \\\\
       1
 \end{bmatrix}^\text{T}=
 \begin{bmatrix}
-      w x_d \\
-      w y_d \\
-      w \\
+      w x_d \\\\
+      w y_d \\\\
+      w \\\\
       1
 \end{bmatrix}^\text{T}
 \begin{bmatrix}
-      \mathbf{R} \\
+      \mathbf{R} \\\\
       \mathbf{t}
 \end{bmatrix}
 _{4 \times 3}
 \begin{bmatrix}
-      f_x & 0 & 0 \\
-      s & f_y & 0 \\
+      f_x & 0 & 0 \\\\
+      s & f_y & 0 \\\\
       c_x & c_y & 1
 \end{bmatrix}
 $$
@@ -225,15 +229,16 @@ $$
 where $(x_d, y_d)$ is the distortion mapping from the real world point $(x_w, y_w)$
 $$
 w\begin{bmatrix}
-      x_d \\
+      x_d \\\\
       y_d
 \end{bmatrix}=
 w(1+k_1r^2+k_2r^4+k_3r^6+k_4r^8)
 \begin{bmatrix}
-      x_w \\
+      x_w \\\\
       y_w
 \end{bmatrix}
 $$
+
 where
 * $(x_w, y_w)$ is a real world point
 * $(x_d, y_d)$ is an ideal image projection (retaining fisheye distorted features) of a real-world point
@@ -244,19 +249,20 @@ where
 Consider tangent distortion for tilted planes, $(x_d, y_d)$ can have the below expression:
 $$
 w\begin{bmatrix}
-      x_d \\
+      x_d \\\\
       y_d
 \end{bmatrix}=
 \begin{bmatrix}
-      x_w \\
+      x_w \\\\
       y_w
 \end{bmatrix}
 +
 \begin{bmatrix}
-      2p_1x_wy_w+p_2(r^2+2x_w^2) \\
+      2p_1x_wy_w+p_2(r^2+2x_w^2) \\\\
       2p_2x_wy_w+p_1(r^2+2y_w^2)
 \end{bmatrix}
 $$
+
 where $p_1, p_2$ are tangent distortion coefficients.
 
 ## Triangulation and Parallax

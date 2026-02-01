@@ -16,10 +16,10 @@ $$
 \begin{align*}
 \frac{n!}{(n-k)!}&=
 \frac{16!}{(16-3)!}
-\\ &=
+\\\\ &=
 \frac{16 \times 15 \times 14 \times 13 \times ...}
 {13 \times 12 \times 11 \times 10 \times ...}
-\\ &=
+\\\\ &=
 16 \times 15 \times 14
 \end{align*}
 $$
@@ -32,10 +32,10 @@ $$
 \begin{align*}
 \frac{n!}{k!(n-k)!}&=
 \frac{16!}{3!(16-3)!}
-\\ &=
+\\\\ &=
 \frac{16 \times 15 \times 14 \times 13 \times ...}
 {(3\times 2\times 1) \times(13 \times 12 \times 11 \times 10 \times ...)}
-\\ &=
+\\\\ &=
 \frac{16 \times 15 \times 14}{3\times 2\times 1}
 \end{align*}
 $$
@@ -48,8 +48,7 @@ $$
 C^k_n=
 \left(
 \begin{array}{c}
-n
-\\
+n \\\\
 k
 \end{array}
 \right)=
@@ -63,8 +62,7 @@ Random variable $X$ follows the binomial distribution with parameters $n \in \ma
 $$
 \left(
 \begin{array}{c}
-n
-\\
+n \\\\
 k
 \end{array}
 \right)
@@ -78,11 +76,10 @@ Multinomial distribution is a generalization of the binomial distribution. There
 There are $k$ outcomes: $x_1, x_2, ..., x_k$, correspodning to $k$ probabilities $p_1, p_2, ..., p_k$. The number of trials is $n$.
 $$
 f(x_1, x_2, ..., x_k; n; p_1, p_2, ..., p_k)
-\\ 
+\\\\ 
 \quad\quad\quad\quad\quad=
 \begin{cases}
-\frac{n!}{x_1!...x_k!}p_1^{x_1}p_2^{x_2}...p_k^{x_k} \quad \sum^k_{i=1}x\_i=n
-\\
+\frac{n!}{x_1!...x_k!}p_1^{x_1}p_2^{x_2}...p_k^{x_k} \quad \sum^k_{i=1}x\_i=n \\\\
 0 \quad\quad\quad\quad\quad\quad\quad\quad \text{otherwise}
 \end{cases}
 $$

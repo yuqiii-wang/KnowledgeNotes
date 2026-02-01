@@ -92,18 +92,18 @@ $$
 \begin{align*}
 \mathbf{P}\_{k|k}&=
 cov(\mathbf{x}_k - \mathbf{\hat{x}}\_{k|k})
-\\ &=
+\\\\ &=
 cov \big(
         \mathbf{x}_k - (\mathbf{\hat{x}}\_{k|k-1} + \mathbf{K}\_{k} \mathbf{\hat{y}}_k)
     \big)
-\\ &=
+\\\\ &=
 cov \big(
         \mathbf{x}_k - 
         (\mathbf{\hat{x}}\_{k|k-1} + \mathbf{K}\_{k} 
             (\mathbf{z}_k - \mathbf{H}_k \mathbf{\hat{x}}\_{k|k-1})
         )
     \big)
-\\ &=
+\\\\ &=
 cov \big(
         \mathbf{x}_k - 
         (\mathbf{\hat{x}}\_{k|k-1} + \mathbf{K}\_{k} 
@@ -111,24 +111,22 @@ cov \big(
             )
         )
     \big)
-\\ &=
+\\\\ &=
 cov \big(
         (\mathbf{I}-\mathbf{K}_k\mathbf{H}_k)
         (\mathbf{x}_k - \mathbf{\hat{x}\_{k|k-1}})
         - \mathbf{K}_k \mathbf{v}_k
-    \big)
-\\
+    \big) \\\\
 \mathbf{v}_k & \text{ is uncorrelated with the other terms} 
-\\ &=
+\\\\ &=
 cov \big(
         (\mathbf{I}-\mathbf{K}_k\mathbf{H}_k)
         (\mathbf{x}_k - \mathbf{\hat{x}\_{k|k-1}})
     \big)
 -
-cov(\mathbf{K}_k \mathbf{v}_k)
-\\
+cov(\mathbf{K}_k \mathbf{v}_k) \\\\
 \text{by} & \text{ the properties of vector covariance}
-\\ &=
+\\\\ &=
 (\mathbf{I}-\mathbf{K}_k\mathbf{H}_k)
 cov(\mathbf{x}_k - \mathbf{\hat{x}\_{k|k-1}})
 (\mathbf{I}-\mathbf{K}_k\mathbf{H}_k)^\text{T}
@@ -136,7 +134,7 @@ cov(\mathbf{x}_k - \mathbf{\hat{x}\_{k|k-1}})
 \mathbf{K}_k
 cov(\mathbf{v}_k)
 \mathbf{K}_k^\text{T}
-\\ &=
+\\\\ &=
 (\mathbf{I}-\mathbf{K}_k\mathbf{H}_k)
 \mathbf{P}\_{k|k-1}
 (\mathbf{I}-\mathbf{K}_k\mathbf{H}_k)^\text{T}
@@ -168,35 +166,35 @@ $$
 \sum^n\_{k=0}
 (\mathbf{x}_k-\mathbf{\hat{x}}\_{k|k})^\text{T}
 (\mathbf{x}_k-\mathbf{\hat{x}}\_{k|k})
-\\ &=
+\\\\ &=
 \sum^n\_{k=0}
 \bigg(
 \begin{bmatrix}
-x_{k,1} \\
-x_{k,2} \\
-\vdots \\
+x_{k,1} \\\\
+x_{k,2} \\\\
+\vdots \\\\
 x_{k,m}
 \end{bmatrix}
 -
 \begin{bmatrix}
-\hat{x}\_{k,1} \\
-\hat{x}\_{k,2} \\
-\vdots \\
+\hat{x}\_{k,1} \\\\
+\hat{x}\_{k,2} \\\\
+\vdots \\\\
 \hat{x}\_{k,m}
 \end{bmatrix}
 \bigg)^\text{T}
 \bigg(
 \begin{bmatrix}
-x_{k,1} \\
-x_{k,2} \\
-\vdots \\
+x_{k,1} \\\\
+x_{k,2} \\\\
+\vdots \\\\
 x_{k,m}
 \end{bmatrix}
 -
 \begin{bmatrix}
-\hat{x}\_{k,1} \\
-\hat{x}\_{k,2} \\
-\vdots \\
+\hat{x}\_{k,1} \\\\
+\hat{x}\_{k,2} \\\\
+\vdots \\\\
 \hat{x}\_{k,m}
 \end{bmatrix}
 \bigg)
@@ -217,10 +215,10 @@ $cov(\mathbf{x}_k - \mathbf{\hat{x}}\_{k|k})$ (the formal writing should be $cov
 $$
 cov(\mathbf{x}_k - \mathbf{\hat{x}}\_{k|k},)=
 \begin{bmatrix}
-\sigma^2_{1} & 0 &  & 0 \\
-0 & \sigma^2_{2} &  & 0 \\
- &  & \ddots & 0 \\
-0 & 0 &  &  \sigma^2_{m} \\
+\sigma^2_{1} & 0 &  & 0 \\\\
+0 & \sigma^2_{2} &  & 0 \\\\
+ &  & \ddots & 0 \\\\
+0 & 0 &  &  \sigma^2_{m} \\\\
 \end{bmatrix}
 $$
 
@@ -244,6 +242,7 @@ tr \big(
 $$
 
 Remember, we have obtained the covariance expression for this error, the *posteriori* estimate covariance matrix $\mathbf{P}\_{k|k}=cov(\mathbf{x}_k - \mathbf{\hat{x}}\_{k|k})$, with the engagement of Kalman gain $\mathbf{K}$, so that, by setting its first order derivative to zero, there is
+
 $$
 \begin{align*}
 \frac{\partial tr(\mathbf{P}\_{k|k})}{\partial \mathbf{K}}&=
@@ -252,7 +251,7 @@ tr
 \big(
     cov(\mathbf{x}_k - \mathbf{\hat{x}}\_{k|k})
 \big)
-\\ &=
+\\\\ &=
 \frac{\partial }{\partial \mathbf{K}}
 tr
 \big(
@@ -264,7 +263,7 @@ tr
     \mathbf{R}_k
     \mathbf{K}_k^\text{T}
 \big)
-\\ &=
+\\\\ &=
 \frac{\partial }{\partial \mathbf{K}}
 tr
 \big(
@@ -272,11 +271,11 @@ tr
     - \mathbf{P}\_{k|k-1}\mathbf{H}_k^\text{T}\mathbf{K}_k^\text{T}
     + \mathbf{K}_k \mathbf{S}_k \mathbf{K}_k^\text{T}
 \big)
-\\ &=
+\\\\ &=
 2(\mathbf{H}_k\mathbf{P}\_{k|k-1})^\text{T}
 +
 2 \mathbf{K}_k \mathbf{S}_k
-\\ &= 0
+\\\\ &= 0
 \end{align*}
 $$
 
@@ -314,7 +313,7 @@ Distance $x$ and velocity $\dot{x}$ of a vehicle is given below
 $$
 \mathbf{x} = 
 \begin{bmatrix}
-x \\
+x \\\\
 \dot{x}
 \end{bmatrix}
 $$
@@ -327,13 +326,13 @@ where
 $$
 \mathbf{F} = 
 \begin{bmatrix}
-1 & \Delta t \\
+1 & \Delta t \\\\
 0 & 1
 \end{bmatrix}
 , \space
 \mathbf{B} = 
 \begin{bmatrix}
-\frac{1}{2} \Delta t^2 \\
+\frac{1}{2} \Delta t^2 \\\\
 \Delta t
 \end{bmatrix}
 $$
@@ -346,7 +345,7 @@ where $\mathbf{w}_k \sim N(0, \mathbf{Q})$ (remember the noise $\mathbf{w}_k$ is
 $$
 \mathbf{Q} = \sigma_{a_k}\mathbf{B} \mathbf{B}^\text{T} \sigma_{a_k} =
 \begin{bmatrix}
-\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\
+\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\\\
 \frac{1}{2}\Delta t^3 & \Delta t^2
 \end{bmatrix}
 \sigma_{a_k}^2
@@ -368,11 +367,11 @@ $\mathbf{P}\_{0|0}$ is the initial covariance matrix when $k=0$. In this case, a
 $$
 \mathbf{P}\_{0|0} = 
 \begin{bmatrix}
-\sigma_x^2 & 0 \\
+\sigma_x^2 & 0 \\\\
 0 & \sigma_{\dot{x}}^2
 \end{bmatrix}=
 \begin{bmatrix}
-0 & 0 \\
+0 & 0 \\\\
 0 & 0
 \end{bmatrix}
 $$
@@ -381,11 +380,11 @@ Here assumes a vehicle starts from $0$ distance with a velocity $v_0$
 $$
 \mathbf{\hat{x}}\_{0|0} = 
 \begin{bmatrix}
-x \\
+x \\\\
 \dot{x}
 \end{bmatrix}=
 \begin{bmatrix}
-0 \\
+0 \\\\
 v_0
 \end{bmatrix}
 $$
@@ -402,18 +401,18 @@ $$
 
 \mathbf{\hat{x}}\_{1|0}&=
 \mathbf{F} \mathbf{x}\_{0|0} + \mathbf{B}_k \mathbf{u}_k
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-1 & \Delta t \\
+1 & \Delta t \\\\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-0 \\
+0 \\\\
 v_0
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\Delta t v_0 \\
+\Delta t v_0 \\\\
 v_0
 \end{bmatrix}
 \end{align*}
@@ -423,53 +422,52 @@ $$
 \begin{align*}
 \mathbf{\hat{P}}\_{1|0}&=
 \mathbf{F} \mathbf{P}\_{0|0} \mathbf{F}^\text{T} + \mathbf{Q}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-1 & \Delta t \\
+1 & \Delta t \\\\
 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-\sigma_x^2 & 0 \\
+\sigma_x^2 & 0 \\\\
 0 & \sigma_{\dot{x}}^2
 \end{bmatrix}
 \begin{bmatrix}
-1 & 0 \\
+1 & 0 \\\\
 \Delta t & 1
 \end{bmatrix}+\mathbf{Q}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\sigma_x^2 & \Delta t \sigma_{\dot{x}}^2 \\
+\sigma_x^2 & \Delta t \sigma_{\dot{x}}^2 \\\\
 0 & \sigma_{\dot{x}}^2 
 \end{bmatrix}
 \begin{bmatrix}
-1 & 0 \\
+1 & 0 \\\\
 \Delta t & 1
 \end{bmatrix}+\mathbf{Q}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\sigma_x^2+\Delta t^2 \sigma_{\dot{x}}^2  & \Delta t \sigma_{\dot{x}}^2 \\
+\sigma_x^2+\Delta t^2 \sigma_{\dot{x}}^2  & \Delta t \sigma_{\dot{x}}^2 \\\\
 \Delta t \sigma_{\dot{x}}^2 & \sigma_{\dot{x}}^2 
 \end{bmatrix}+\mathbf{Q}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\sigma_x^2+\Delta t^2 & \Delta t \sigma_{\dot{x}}^2 \\
+\sigma_x^2+\Delta t^2 & \Delta t \sigma_{\dot{x}}^2 \\\\
 \Delta t^2 \sigma_{\dot{x}}^2 & \sigma_{\dot{x}}^2 
 \end{bmatrix}
 +
 \begin{bmatrix}
-\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\
+\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\\\
 \frac{1}{2}\Delta t^3 & \Delta t^2
 \end{bmatrix}
-\sigma_{a_k}^2
-\\
+\sigma_{a_k}^2 \\\\
 \text{If} & \text{ both } \sigma_x=0 \text{ and } \sigma_{\dot{x}}=0
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\
+\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\\\
 \frac{1}{2}\Delta t^3 & \Delta t^2
 \end{bmatrix}
 \sigma_{a_k}^2
-\\ &=
+\\\\ &=
 \mathbf{Q}
 \end{align*}
 $$
@@ -480,30 +478,31 @@ Assume that observation is
 $$
 \mathbf{z}_1=
 \begin{bmatrix}
-\Delta t v_0 \pm \sigma_z\\
+\Delta t v_0 \pm \sigma_z\\\\
 0
 \end{bmatrix}
 $$
 
 So that
+
 $$
 \begin{align*}
 
 \mathbf{\hat{y}}_1&=
 \mathbf{z}_1-\mathbf{H} \mathbf{\hat{x}}\_{1|0}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\Delta t v_0 \pm \sigma_z\\
+\Delta t v_0 \pm \sigma_z\\\\
 0
 \end{bmatrix}
 -
 \begin{bmatrix}
-\Delta t v_0 \\
+\Delta t v_0 \\\\
 0
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\pm \sigma_z \\
+\pm \sigma_z \\\\
 0
 \end{bmatrix}
 \end{align*}
@@ -513,33 +512,33 @@ $$
 \begin{align*}
 \mathbf{{S}}\_{1}&=
 \mathbf{H} \mathbf{\hat{P}}\_{1|0} \mathbf{H}^\text{T} + \mathbf{R}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
 1 & 0 
 \end{bmatrix}
 \begin{bmatrix}
-\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\
+\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\\\
 \frac{1}{2}\Delta t^3 & \Delta t^2
 \end{bmatrix}
 \sigma_{a_k}^2
 \begin{bmatrix}
-1 \\
+1 \\\\
 0 
 \end{bmatrix}
 +
 \sigma_{z}^2
-\\ &=
+\\\\ &=
 \begin{bmatrix}
 \frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 
 \end{bmatrix}
 \sigma_{a_k}^2
 \begin{bmatrix}
-1 \\
+1 \\\\
 0 
 \end{bmatrix}
 +
 \sigma_{z}^2
-\\ &=
+\\\\ &=
 \frac{1}{4}\Delta t^4 \sigma_{a_k}^2
 +
 \sigma_{z}^2
@@ -550,22 +549,22 @@ $$
 \begin{align*}
 \mathbf{K}_1&=
 \mathbf{\hat{P}}\_{1|0} \mathbf{H}^\text{T} \mathbf{{S}}\_{1}^{-1}
-\\ &=
+\\\\ &=
 \frac{1}{
     \frac{1}{4}\Delta t^4 \sigma_{a_k}^2
     +
     \sigma_{z}^2
     }
 \begin{bmatrix}
-\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\
+\frac{1}{4}\Delta t^4 & \frac{1}{2}\Delta t^3 \\\\
 \frac{1}{2}\Delta t^3 & \Delta t^2
 \end{bmatrix}
 \sigma_{a_k}^2
 \begin{bmatrix}
-1 \\
+1 \\\\
 0 
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \frac{1}{
     \frac{1}{4}\Delta t^4 \sigma_{a_k}^2
     +
@@ -583,9 +582,9 @@ $$
 
 \mathbf{x}\_{1|1}&=
 \mathbf{\hat{x}}\_{1|0} + \mathbf{K}_1 \mathbf{\hat{y}}_1
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\Delta t v_0 \\
+\Delta t v_0 \\\\
 v_0
 \end{bmatrix}
 +
@@ -599,12 +598,12 @@ v_0
 \end{bmatrix}
 \sigma_{a_k}^2
 \begin{bmatrix}
-\pm \sigma_z \\
+\pm \sigma_z \\\\
 0
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-\Delta t v_0 \\
+\Delta t v_0 \\\\
 v_0
 \end{bmatrix}
 +
@@ -621,7 +620,7 @@ v_0
         \pm \sigma_z
         \frac{1}{4}\Delta t^4
         \sigma_{a_k}^2
-    \\
+    \\\\
         0
     \end{bmatrix}
 \end{align*}

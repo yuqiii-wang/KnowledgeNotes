@@ -8,7 +8,7 @@ $$
 \begin{align*}
 \int_a^b w(x) f(x) dx&=
 \int_{-\infty}^{+\infty} e^{-x^2} f(x) dx
-\\ &\approx
+\\\\ &\approx
 \sum_{i=1}^n w_i f(x\_i)
 \end{align*}
 $$
@@ -53,14 +53,10 @@ $$
 $$
 \begin{align*}
 
-h_0(x) &= 1
-\\
-h_1(x) &= 2x
-\\
-h_2(x) &= 4x^2-2
-\\
-h_3(x) &= 8x^3-12x
-\\
+h_0(x) &= 1 \\\\
+h_1(x) &= 2x \\\\
+h_2(x) &= 4x^2-2 \\\\
+h_3(x) &= 8x^3-12x \\\\
 h_4(x) &= 16x^4-48x^2+12
 
 \end{align*}
@@ -96,11 +92,11 @@ $$
 \begin{align*}
 \int_a^b w(x) f(x) dx&=
 \int_{-\infty}^{+\infty} e^{-x^2} f(x) dx
-\\ &\approx
+\\\\ &\approx
 \sum_{i=1}^n w_i f(x\_i^*)
-\\ &=
+\\\\ &=
 w_0 f(x_0^*) + w_1 f(x_1^*)
-\\ &=
+\\\\ &=
 w_0 f(\frac{1}{\sqrt{2}}) + w_1 f(-\frac{1}{\sqrt{2}})
 \end{align*}
 $$
@@ -116,6 +112,7 @@ w_i =
         \big)^2
 }
 $$
+
 There are 
 $$
 \begin{align*}
@@ -135,11 +132,11 @@ w_0 &=
         h_{2-1}(-\frac{1}{\sqrt{2}})
         \big)^2
 }
-\\ &=
+\\\\ &=
 \frac{4\sqrt{\pi}}{4 (\sqrt{2})^2}
 & &=
 \frac{4\sqrt{\pi}}{4 (-\sqrt{2})^2}
-\\ &=
+\\\\ &=
 \frac{\sqrt{\pi}}{2}
 & &=
 \frac{\sqrt{\pi}}{2}
@@ -152,9 +149,9 @@ $$
 \begin{align*}
 \int_a^b w(x) f(x) dx&=
 \int_{-\infty}^{+\infty} e^{-x^2} f(x) dx
-\\ &\approx
+\\\\ &\approx
 w_0 f(\frac{1}{\sqrt{2}}) + w_1 f(-\frac{1}{\sqrt{2}})
-\\ &=
+\\\\ &=
 \frac{\sqrt{\pi}}{2} f(\frac{1}{\sqrt{2}})+
 \frac{\sqrt{\pi}}{2} f(-\frac{1}{\sqrt{2}})
 \end{align*}
@@ -175,15 +172,16 @@ f(y) dy
 $$ 
 
 To make the integral compliant with the form of Hermite polynomial by
+
 $$
 \begin{align*}
 x&=
-\frac{y-\mu}{\sqrt{2}\sigma}
-\\
+\frac{y-\mu}{\sqrt{2}\sigma} \\\\
 y&=
 \sqrt{2} \sigma x + \mu
 \end{align*}
 $$
+
 and by $y=\phi(x)$, then
 $$
 \int_a^b g(y) dy = 
@@ -200,13 +198,13 @@ E\big(f(y)\big)&=
 \frac{1}{\sigma \sqrt{2\pi}}
 e^{-\frac{(y-\mu)^2}{2\sigma^2}}
 f(y) dy
-\\ &=
+\\\\ &=
 \int_{-\infty}^{+\infty}
 \frac{1}{\sqrt{\pi}}
 e^{-x^2}
 f(\sqrt{2} \sigma x + \mu)
 dx
-\\ &\approx
+\\\\ &\approx
 \frac{1}{\sqrt{\pi}}
 \sum_{i=1}^n w_i f(\sqrt{2} \sigma x\_i + \mu)
 

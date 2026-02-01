@@ -48,8 +48,7 @@ $$
 \frac{d}{dx} 
 \bigg(
     \int^{b(x)}\_{a(x)} f(x,t) dt
-\bigg)=
-\\
+\bigg)= \\\\
 f\big(x,b(x)\big)\cdot \frac{d \space b(x)}{dx}
 -
 f\big(x,a(x)\big)\cdot \frac{d \space a(x)}{dx}

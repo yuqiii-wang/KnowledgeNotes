@@ -85,10 +85,10 @@ INT4 can be derived/quantized from FLOAT to the int range $[-8, 7]\in\mathbb{Z}$
 
 $$
 \begin{align*}
-\text{scale}&=\frac{x_{\max}-x_{\min}}{2^4-1}=\frac{x_{\max}-x_{\min}}{15} \\
-\text{zeroPointFloat}&=\text{round}\Big(\frac{-x_{\min}}{\text{scale}}\Big) \\
-\text{zeroPointInt}&=\text{zeroPointFloat}+\text{INT4}\_{\min} \\
-\text{quantizedValue}&=\text{clamp}\Big(\text{round}\big(\frac{x}{\text{scale}}+\text{zeroPointInt}\big), -8, 7\Big) \\
+\text{scale}&=\frac{x_{\max}-x_{\min}}{2^4-1}=\frac{x_{\max}-x_{\min}}{15} \\\\
+\text{zeroPointFloat}&=\text{round}\Big(\frac{-x_{\min}}{\text{scale}}\Big) \\\\
+\text{zeroPointInt}&=\text{zeroPointFloat}+\text{INT4}\_{\min} \\\\
+\text{quantizedValue}&=\text{clamp}\Big(\text{round}\big(\frac{x}{\text{scale}}+\text{zeroPointInt}\big), -8, 7\Big) \\\\
 \end{align*}
 $$
 
@@ -146,8 +146,8 @@ Frobenius norm expansion:
 
 $$
 \begin{align*}
-    \mathcal{L}&=\text{trace}\big((WX-\hat{W}X)^{\top}(WX-\hat{W}X)\big) \\
-    &=\text{vec}(WX-\hat{W}X)^{\top}\text{vec}(WX-\hat{W}X) \\
+    \mathcal{L}&=\text{trace}\big((WX-\hat{W}X)^{\top}(WX-\hat{W}X)\big) \\\\
+    &=\text{vec}(WX-\hat{W}X)^{\top}\text{vec}(WX-\hat{W}X) \\\\
 \end{align*}
 $$
 
@@ -170,7 +170,7 @@ $$
 
 $$
 \begin{align*}
-    \nabla\mathcal{L}&=-2(X\otimes I_m)(X^{\top}\otimes I_m)(\mathbf{w}_0-\mathbf{w}) \\
+    \nabla\mathcal{L}&=-2(X\otimes I_m)(X^{\top}\otimes I_m)(\mathbf{w}_0-\mathbf{w}) \\\\
     &= -2(XX^{\top}\otimes I_m)(\mathbf{w}_0-\mathbf{w})
 \end{align*}
 $$
@@ -244,7 +244,7 @@ Compute the derivatives:
 $$
 \begin{align*}
     \frac{\partial \mathcal{L}}{\partial \delta \mathbf{w}}&=
-    H\delta \mathbf{w} + \lambda\mathbf{e}_p = 0\\
+    H\delta \mathbf{w} + \lambda\mathbf{e}_p = 0\\\\
     \frac{\partial \mathcal{L}}{\partial \lambda}&=
     \mathbf{e}_p^{\top}\delta\mathbf{w}+w_p = 0
 \end{align*}
@@ -275,9 +275,9 @@ and for the loss $\Delta\mathcal{L}\approx\frac{1}{2}\delta\mathbf{w}^{\top}H\de
 $$
 \begin{align*}
     \frac{1}{2}\delta\mathbf{w}^{\top}H\delta\mathbf{w}&=
-    \frac{1}{2}\big(\frac{w_p}{H^{-1}\_{pp}}H^{-1}\mathbf{e}_p\big)^{\top} H \frac{w_p}{H^{-1}\_{pp}}H^{-1}\mathbf{e}_p \\
-    &= \frac{1}{2} \frac{w_p}{H^{-1}\_{pp}} \big(\mathbf{e}^{\top}_p H^{-1} H H^{-1}\mathbf{e}_p \big)\frac{w_p}{H^{-1}\_{pp}} \\
-    &= \frac{1}{2} \frac{w_p}{H^{-1}\_{pp}} H_{pp}^{-1} \frac{w_p}{H^{-1}\_{pp}} \\
+    \frac{1}{2}\big(\frac{w_p}{H^{-1}\_{pp}}H^{-1}\mathbf{e}_p\big)^{\top} H \frac{w_p}{H^{-1}\_{pp}}H^{-1}\mathbf{e}_p \\\\
+    &= \frac{1}{2} \frac{w_p}{H^{-1}\_{pp}} \big(\mathbf{e}^{\top}_p H^{-1} H H^{-1}\mathbf{e}_p \big)\frac{w_p}{H^{-1}\_{pp}} \\\\
+    &= \frac{1}{2} \frac{w_p}{H^{-1}\_{pp}} H_{pp}^{-1} \frac{w_p}{H^{-1}\_{pp}} \\\\
     &= \frac{w_p^2}{2H^{-1}\_{pp}}
 \end{align*}
 $$
@@ -464,8 +464,8 @@ Compare the non-scaling vs scaling quantization error.
 
 $$
 \begin{align*}
-    \text{Err}\big(Q(wx)\big)&=\Delta \cdot \text{RoundErr}(\frac{w}{\Delta})x \\
-    \text{Err}\big(Q(w\cdot s)\cdot\frac{x}{s}\big)&=\Delta'\cdot\text{RoundErr}(\frac{w\cdot s}{\Delta'})\cdot\frac{x}{s} \\
+    \text{Err}\big(Q(wx)\big)&=\Delta \cdot \text{RoundErr}(\frac{w}{\Delta})x \\\\
+    \text{Err}\big(Q(w\cdot s)\cdot\frac{x}{s}\big)&=\Delta'\cdot\text{RoundErr}(\frac{w\cdot s}{\Delta'})\cdot\frac{x}{s} \\\\
 \end{align*}
 $$
 

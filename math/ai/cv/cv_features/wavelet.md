@@ -21,8 +21,7 @@ where
 Since $\varphi_n$ is a phase shift constant, here defines the derivations of $a_n$ and $b_n$
 $$
 \begin{align*}
-sin(\varphi_n) &= \frac{b_n}{A_n}
-\\
+sin(\varphi_n) &= \frac{b_n}{A_n} \\\\
 cos(\varphi_n) &= \frac{a_n}{A_n}
 \end{align*}
 $$
@@ -39,15 +38,18 @@ s_N =
 $$
 
 Expand the harmonic $A_n \cdot cos(\frac{2\pi}{P} n \omega_0 - \varphi_n)$, there is
+
 $$
 \begin{align*}
 A_n \cdot cos(\frac{2\pi}{P} n \omega_0 - \varphi_n)&=
 \frac{A_n}{2} e^{i(\frac{2\pi n \omega_0}{P}-\varphi_n)} +
 \frac{A_n}{2} e^{-i(\frac{2\pi n \omega_0}{P}-\varphi_n)}
-\\ &=
+\\\\ &=
 \big(\frac{A_n}{2} e^{-i\varphi_n}\big) \cdot e^{i \frac{2\pi n \omega_0}{P}} +
 \big(\frac{A_n}{2} e^{-i\varphi_n}\big)^* \cdot e^{i \frac{-2\pi n \omega_0}{P}}
-\end{align*}$$
+\end{align*}
+$$
+
 where $*$ denotes complex conjugate.
 
 Substitute $a_n$ and $b_n$ into $\big(\frac{A_n}{2} e^{-i\varphi_n}\big)$, there is
@@ -60,10 +62,10 @@ $$
 ### Fourier Series Orthogonality
 
 For $m \ne n$, there are
+
 $$
 \begin{align*}
-\int_\tau sin(nx) sin(mx) dx &= 0
-\\
+\int_\tau sin(nx) sin(mx) dx &= 0 \\\\
 \int_\tau cos(nx) cos(mx) dx &= 0
 \end{align*}
 $$
@@ -161,10 +163,11 @@ $$
 X_\omega(s,\tau) &= 
 \frac{1}{\sqrt{s}} \int^{+\infty}\_{-\infty}
 x(t) \overline{\psi}\big( \frac{t-\tau}{s} \big) dt
-\\ &=
+\\\\ &=
 <x(t), \psi_{s,\tau}(t)>
 \end{align*}
 $$
+
 where $\psi(t)$ is a continuous function in both the time domain and the frequency domain called the mother wavelet and the overline represents operation of complex conjugate. Daughter wavelets are various translation and frequency scaling versions of the mother wavelet.
 
 The reverse transform that recovers the source signal $x(t)$ is
@@ -182,8 +185,8 @@ $$
 \psi(t) =
 \left\{
     \begin{array}{r}
-        1 & 0 \le t \le \frac{1}{2}, \\
-        -1 & \frac{1}{2} \le t \le 1, \\
+        1 & 0 \le t \le \frac{1}{2}, \\\\
+        -1 & \frac{1}{2} \le t \le 1, \\\\
         0 & \text{otherwise.}
     \end{array}
 \right.
@@ -193,7 +196,7 @@ $$
 s(t) = 
 \left\{
     \begin{array}{r}
-        1 & 0 \le t \le 1, \\
+        1 & 0 \le t \le 1, \\\\
         0 & \text{otherwise.}
     \end{array}
 \right.
@@ -208,11 +211,12 @@ $$
 \psi_{s_1,\tau_1}(t) \psi_{s_2,\tau_2}(t) dt=
 \delta_{s_1,\tau_1} \delta_{s_2,\tau_2}
 $$
+
 where $\delta_{i,j}$ is *Kronecker delta* that
 $$
 \delta_{i,j} = \left\{ 
     \begin{array}{c}
-        0 & & i \ne j \\
+        0 & & i \ne j \\\\
         1 & & i = j
     \end{array}
 \right.
@@ -227,33 +231,33 @@ Define a 1d 4-element Haar bases $\mathbf{h}=[h_1, h_2, h_3, h_4]$, and signal $
 $$
 h_1 = 
 \begin{bmatrix}
-    1 \\
-    1 \\
-    1 \\
+    1 \\\\
+    1 \\\\
+    1 \\\\
     1
 \end{bmatrix}
 ,
 h_2 = 
 \begin{bmatrix}
-    1 \\
-    1 \\
-    -1 \\
+    1 \\\\
+    1 \\\\
+    -1 \\\\
     -1
 \end{bmatrix}
 ,
 h_3 = 
 \begin{bmatrix}
-    1 \\
-    -1 \\
-    0 \\
+    1 \\\\
+    -1 \\\\
+    0 \\\\
     0
 \end{bmatrix}
 ,
 h_4 = 
 \begin{bmatrix}
-    0 \\
-    0 \\
-    1 \\
+    0 \\\\
+    0 \\\\
+    1 \\\\
     -1
 \end{bmatrix}
 $$
@@ -262,9 +266,9 @@ So that combine all $h_i$
 $$
 \mathbf{h} = 
 \begin{bmatrix}
-    1 & 1 & 1 & 0\\
-    1 & 1 & -1 & 0\\
-    1 & -1 & 0 & 1\\
+    1 & 1 & 1 & 0\\\\
+    1 & 1 & -1 & 0\\\\
+    1 & -1 & 0 & 1\\\\
     1 & -1 & 0 & -1
 \end{bmatrix}^{\text{T}}
 $$
@@ -273,9 +277,9 @@ Then normalize $\mathbf{h}$, the result is
 $$
 \mathbf{h}\_{norm} = 
 \begin{bmatrix}
-    1 & 1 & \sqrt{2} & 0\\
-    1 & 1 & -\sqrt{2} & 0\\
-    1 & -1 & 0 & \sqrt{2}\\
+    1 & 1 & \sqrt{2} & 0\\\\
+    1 & 1 & -\sqrt{2} & 0\\\\
+    1 & -1 & 0 & \sqrt{2}\\\\
     1 & -1 & 0 & -\sqrt{2}
 \end{bmatrix}^{\text{T}}
 $$
@@ -291,6 +295,7 @@ $$
 \hat{\mathbf{x}} = 
 \mathbf{h}\_{norm}^{\text{T}} \mathbf{c}
 $$
+
 where $\mathbf{h}\_{norm}^{\text{T}}$ is orthogonal and normalized, there is $\mathbf{h}\_{norm} \mathbf{h}\_{norm}^{\text{T}} = \mathbf{h}\_{norm} \mathbf{h}\_{norm}^{-1}  = I$
 
 Inside $\mathbf{c}=[c_1, c_2, c_3, c_4]$, each element corresponds to a frequency. For example, just take $[c_1, c_2]$, the recovery signal estimate $\hat{\mathbf{x}}$ takes care of low frequency features.
@@ -311,65 +316,62 @@ $$
 \begin{align*}
 H_{11} &= 
 \begin{bmatrix}
-    1 & 1 & 1 & 1 \\
-    1 & 1 & 1 & 1 \\
-    1 & 1 & 1 & 1 \\
+    1 & 1 & 1 & 1 \\\\
+    1 & 1 & 1 & 1 \\\\
+    1 & 1 & 1 & 1 \\\\
     1 & 1 & 1 & 1
 \end{bmatrix}
 , &
 H_{12} &= 
 \begin{bmatrix}
-    1 & 1 & 1 & 1 \\
-    1 & 1 & 1 & 1 \\
-    -1 & -1 & -1 & -1 \\
+    1 & 1 & 1 & 1 \\\\
+    1 & 1 & 1 & 1 \\\\
+    -1 & -1 & -1 & -1 \\\\
     -1 & -1 & -1 & -1
-\end{bmatrix}
-\\
+\end{bmatrix} \\\\
 H_{13} &= 
 \begin{bmatrix}
-    1 & 1 & 1 & 1 \\
-    -1 & -1 & -1 & -1 \\
-    0 & 0 & 0 & 0 \\
+    1 & 1 & 1 & 1 \\\\
+    -1 & -1 & -1 & -1 \\\\
+    0 & 0 & 0 & 0 \\\\
     0 & 0 & 0 & 0
 \end{bmatrix}
 , &
 H_{14} &= 
 \begin{bmatrix}
-    0 & 0 & 0 & 0 \\
-    0 & 0 & 0 & 0 \\
-    1 & 1 & 1 & 1 \\
+    0 & 0 & 0 & 0 \\\\
+    0 & 0 & 0 & 0 \\\\
+    1 & 1 & 1 & 1 \\\\
     -1 & -1 & -1 & -1
-\end{bmatrix}
-\\
+\end{bmatrix} \\\\
 H_{21} &= 
 \begin{bmatrix}
-    1 & 1 & -1 & -1 \\
-    1 & 1 & -1 & -1 \\
-    1 & 1 & -1 & -1 \\
+    1 & 1 & -1 & -1 \\\\
+    1 & 1 & -1 & -1 \\\\
+    1 & 1 & -1 & -1 \\\\
     1 & 1 & -1 & -1
 \end{bmatrix}
 , &
 H_{22} &= 
 \begin{bmatrix}
-    1 & 1 & -1 & -1 \\
-    1 & 1 & -1 & -1 \\
-    -1 & -1 & 1 & 1 \\
+    1 & 1 & -1 & -1 \\\\
+    1 & 1 & -1 & -1 \\\\
+    -1 & -1 & 1 & 1 \\\\
     -1 & -1 & 1 & 1
-\end{bmatrix}
-\\
+\end{bmatrix} \\\\
 H_{23} &= 
 \begin{bmatrix}
-    1 & 1 & -1 & -1 \\
-    -1 & -1 & 1 & 1 \\
-    0 & 0 & 0 & 0 \\
+    1 & 1 & -1 & -1 \\\\
+    -1 & -1 & 1 & 1 \\\\
+    0 & 0 & 0 & 0 \\\\
     0 & 0 & 0 & 0
 \end{bmatrix}
 , &
 H_{24} &= 
 \begin{bmatrix}
-    0 & 0 & 0 & 0 \\
-    0 & 0 & 0 & 0 \\
-    1 & 1 & -1 & -1 \\
+    0 & 0 & 0 & 0 \\\\
+    0 & 0 & 0 & 0 \\\\
+    1 & 1 & -1 & -1 \\\\
     -1 & -1 & 1 & 1 
 \end{bmatrix}
 \end{align*}

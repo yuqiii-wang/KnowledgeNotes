@@ -24,21 +24,21 @@ $$
 \begin{align*}
 \text{cov}(W_{t1}, W_{t2}) &= 
 E\Big( \big(W_{t1}-E(W_{t1})\big) \cdot \big(W_{t2}-E(W_{t2}) \big) \Big)
-\\ &=
+\\\\ &=
 E(W_{t1} \cdot W_{t2})
 && \qquad \text{for } E(W_{t1})=0 \text{ and } E(W_{t2})=0
-\\ &=
+\\\\ &=
 E \Big(W_{t1} \cdot \big( (W_{t2} - W_{t1}) + W_{t1} \big) \Big)
 && \qquad \text{substitute with } W_{t2} = (W_{t2} - W_{t1}) + W_{t1}
-\\ &=
+\\\\ &=
 E \Big( 
 \underbrace{W_{t1} \cdot \big( W_{t2} - W_{t1} \big)}\_{
     = E(W_{t1}) \cdot  E(W_{t2}-W_{t1}) = 0 }
 \Big) + E \big( W_{t1}^2 \big)
 && \qquad \text{for } W_{t1} \text{ and } W_{t2}-W_{t1} \text{ are independent}
-\\ &= 
+\\\\ &= 
 E \big( W_{t1}^2 \big)
-\\ &=
+\\\\ &=
 t_1
 \end{align*}
 $$

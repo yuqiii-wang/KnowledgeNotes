@@ -41,11 +41,12 @@ $$
 where $r(x)$ is the remainder after $f(x)$ being approximated by $p(x) q(x)$. For example, By Legendre polynomial interpolation, there are $p(x)=L_n(x)$ and $q(x)=L_m(x)$.
 
 $r(x)$ can be interpolated via Lagrange polynomials $l_i(x)$ such as
+
 $$
 \begin{align*}
 r(x) &=
 \sum_{i=1}^n l_i(x) r(x\_i)
-\\ &=
+\\\\ &=
 \sum_{i-1}^n
   \prod_{i \ne j} \frac{x-x_j}{x\_i-x_j}
   r(x\_i)
@@ -53,10 +54,11 @@ r(x) &=
 $$  
 
 Take $x\_i^*$ as the zeros of $p(x)$, then $p(x\_i^*)q(x\_i^*)=0$ for $i=0,1,...,n$, hence
+
 $$
 \begin{align*}
 f(x\_i^*) &= q(x\_i^*)p(x\_i^*)+r(x\_i^*)
-\\ &=r(x\_i^*)
+\\\\ &=r(x\_i^*)
 \end{align*}
 $$
 
@@ -68,19 +70,19 @@ $$
     q(x)p(x)+r(x) w(x)
     \big)
     dx
-\\ &=
+\\\\ &=
 0 + \int^b_a r(x)w(x) dx
-\\ &=
+\\\\ &=
 \int^b_a r(x)w(x) dx
-\\ &=
+\\\\ &=
 \int^b_a w(x) \sum_{i-1}^n l_i(x) r(x\_i^*)
  dx
-\\ &=
+\\\\ &=
 \int^b_a r(x\_i^*)
 \sum_{i-1}^n l_i(x) w(x)
-\\ &=
+\\\\ &=
 \sum^n\_{i=0} w_i r(x\_i^*)
-\\ &=
+\\\\ &=
 \sum^n\_{i=0} w_i f(x\_i^*)
 \end{align*}
 $$
@@ -104,39 +106,41 @@ x_1^*=-\frac{1}{\sqrt{3}}
 $$
 
 By Lagrange polynomial interpolation, there are
+
 $$
 \begin{align*}
 \int^1_{-1} 1 \space dx&= w_0 + w_1
-\\ &= 2
-\\
+\\\\ &= 2 \\\\
 \int^1_{-1} x \space dx&= w_0 x_0^* + w_1 x_1^*
-\\ &= 0
+\\\\ &= 0
 \end{align*}
 $$ 
 
 Solve $w_i$ such as
+
 $$
 \begin{bmatrix}
-1 & 1 \\
+1 & 1 \\\\
 x_0^* & x_1^*
 \end{bmatrix}
 \begin{bmatrix}
-w_0 \\
+w_0 \\\\
 w_1
 \end{bmatrix}=
 \begin{bmatrix}
-2 \\
+2 \\\\
 0
 \end{bmatrix}
 $$
 
 $w_0=1$ and $w_1=1$ are the solutions. So that
+
 $$
 \begin{align*}
 \int^1_{-1} f(x)dx
 & \approx
 w_0 f(x_0^*) + w_1 f(x_1^*)
-\\ &=
+\\\\ &=
 1 \cdot f(\frac{1}{\sqrt{3}}) + 1 \cdot f(-\frac{1}{\sqrt{3}}) 
 \end{align*}
 $$
@@ -158,18 +162,19 @@ $$
 \int^1_{-1} f(x)dx
 &\approx
 e^{(\frac{1}{\sqrt{3}})}+e^{(-\frac{1}{\sqrt{3}})}
-\\ &=
+\\\\ &=
 2.3426960879097307
 \end{align*}
 $$
 
 It true value form and result
+
 $$
 \begin{align*}
 \int^1_{-1} f(x)dx
 & =
 e+e^{-1}
-\\ &=
+\\\\ &=
 2.350402387287603
 \end{align*}
 $$
@@ -183,20 +188,21 @@ $$
 \int^1_{-1} f(x)dx
 &\approx
 f(\frac{1}{\sqrt{3}}) +f(-\frac{1}{\sqrt{3}}) 
-\\ &=
+\\\\ &=
 3.154700538379252+0.8452994616207485
-\\ &=
+\\\\ &=
 4.0.
 \end{align*}
 $$
 
 It true value form and result
+
 $$
 \begin{align*}
 \int^1_{-1} f(x)dx
 & =
 x^3+x^2+x
-\\ &=
+\\\\ &=
 4
 \end{align*}
 $$
@@ -209,20 +215,21 @@ $$
 \int^1_{-1} f(x)dx
 &\approx
 f(\frac{1}{\sqrt{3}}) +f(-\frac{1}{\sqrt{3}}) 
-\\ &=
+\\\\ &=
 4.480056452854309+0.6310546582568031
-\\ &=
+\\\\ &=
 5.111111111111113
 \end{align*}
 $$
 
 It true value form and result
+
 $$
 \begin{align*}
 \int^1_{-1} f(x)dx
 & =
 x^5+x^4+x^3+x^2+x
-\\ &=
+\\\\ &=
 6
 \end{align*}
 $$

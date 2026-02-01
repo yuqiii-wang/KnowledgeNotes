@@ -15,8 +15,8 @@ The covariance $\mathbf{\Sigma}_W$ of $\delta W$ scales the percentage of noise 
 
 $$
 \begin{align*}
-    \mathbf{r}_W &= W_{ij} - \hat{W}\_{ij} \\
-      &= W_{ij} - (\overline{W}\_{ij} + \delta W) \\
+    \mathbf{r}_W &= W_{ij} - \hat{W}\_{ij} \\\\
+      &= W_{ij} - (\overline{W}\_{ij} + \delta W) \\\\
 \end{align*}
 $$
 
@@ -60,17 +60,17 @@ Start from kinematics for rotation ${\mathbf{R}}$, velocity ${\mathbf{v}}$ and p
 $$
 \begin{align*}
     {\mathbf{R}}(t_0+\Delta t) 
-    &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0)\Delta t} \\
+    &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0)\Delta t} \\\\
     &= \mathbf{R}(t_0)
     e^{ \big(\hat{\mathbf{\omega}}(t_0)- \mathbf{b}\_\mathbf{\omega} - \mathbf{\eta}\_\mathbf{\omega} \big)^\wedge \Delta t} 
-    \\
+    \\\\
     {\mathbf{v}}(t_0+\Delta t) &= \mathbf{v}(t_0) + \mathbf{g}\_\text{earth} \Delta t
-    + \mathbf{a}\Delta t \\
+    + \mathbf{a}\Delta t \\\\
     &= \mathbf{v}(t_0) + \mathbf{g}\_\text{earth} \Delta t
     + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \mathbf{b}\_\mathbf{a}(t_0) - \mathbf{\eta}\_\mathbf{a}(t_0) \big) \Delta t
-    \\
+    \\\\
     {\mathbf{p}}(t_0+\Delta t) 
-    &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t + \frac{1}{2} \mathbf{a}(t_0) \Delta t^2 \\
+    &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t + \frac{1}{2} \mathbf{a}(t_0) \Delta t^2 \\\\
     &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t +
     \frac{1}{2} \mathbf{g}\_{\text{earth}} \Delta t^2
     + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \frac{1}{2} \mathbf{b}\_\mathbf{a}(t_0) - \mathbf{\eta}\_\mathbf{a}(t_0) \big) \Delta t^2
@@ -149,8 +149,8 @@ $$
 Typically, there are five variables to consider in an IMU system: rotation $\mathbf{R}$, translation $\mathbf{p}$, angular velocity $\mathbf{\omega}$, linear velocity $\mathbf{v}$ and acceleration $\mathbf{a}$:
 $$
 \begin{align*}
-    \dot{\mathbf{R}} &= \mathbf{R} \mathbf{\omega}^\wedge \\
-    \dot{\mathbf{p}} &= \mathbf{v} \\
+    \dot{\mathbf{R}} &= \mathbf{R} \mathbf{\omega}^\wedge \\\\
+    \dot{\mathbf{p}} &= \mathbf{v} \\\\
     \dot{\mathbf{v}} &= \mathbf{a}
 \end{align*}
 $$
@@ -158,20 +158,21 @@ $$
 Take integral starting from $t_0$ to $t_0+\Delta t$:
 $$
 \begin{align*}
-    {\mathbf{R}}(t_0+\Delta t) &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0) \Delta t} \\
-    {\mathbf{v}}(t_0+\Delta t) &= \mathbf{v}(t_0) + \mathbf{a}\Delta t \\
+    {\mathbf{R}}(t_0+\Delta t) &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0) \Delta t} \\\\
+    {\mathbf{v}}(t_0+\Delta t) &= \mathbf{v}(t_0) + \mathbf{a}\Delta t \\\\
     {\mathbf{p}}(t_0+\Delta t) &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t + \frac{1}{2} \mathbf{a}(t_0) \Delta t^2
 \end{align*}
 $$
 
 The estimate of angular velocity $\hat{\mathbf{\omega}}$ and acceleration $\hat{\mathbf{a}}$ can be affected by earth's gravity $\mathbf{g}\_{\text{earth}}$ 
 and Gaussian noises $\mathbf{\eta}\_\mathbf{a}, \mathbf{\eta}\_\mathbf{\omega}$. Consider IMU calibration zero offset $\mathbf{b}\_\mathbf{\omega}, \mathbf{b}\_\mathbf{a}$, there are
+
 $$
 \begin{align*}
 \hat{\mathbf{\omega}}(t) &= 
-\mathbf{\omega}(t) + \mathbf{b}\_\mathbf{\omega}(t) + \mathbf{\eta}\_\mathbf{\omega}(t) \\
+\mathbf{\omega}(t) + \mathbf{b}\_\mathbf{\omega}(t) + \mathbf{\eta}\_\mathbf{\omega}(t) \\\\
 \hat{\mathbf{a}}(t) &= 
-\mathbf{R}(t) \cdot \big( \mathbf{a}(t) - \mathbf{g}\_{\text{earth}} \big) + \mathbf{b}\_\mathbf{a}(t) + \mathbf{\eta}\_\mathbf{a}(t) \\
+\mathbf{R}(t) \cdot \big( \mathbf{a}(t) - \mathbf{g}\_{\text{earth}} \big) + \mathbf{b}\_\mathbf{a}(t) + \mathbf{\eta}\_\mathbf{a}(t) \\\\
 \end{align*}
 $$
 
@@ -180,17 +181,17 @@ $$
 $$
 \begin{align*}
     {\mathbf{R}}(t_0+\Delta t) 
-    &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0)\Delta t} \\
+    &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0)\Delta t} \\\\
     &= \mathbf{R}(t_0)
     e^{ \big(\hat{\mathbf{\omega}}(t_0)- \mathbf{b}\_\mathbf{\omega} - \mathbf{\eta}\_\mathbf{\omega} \big)^\wedge \Delta t} 
-    \\
+    \\\\
     {\mathbf{v}}(t_0+\Delta t) &= \mathbf{v}(t_0) + \mathbf{g}\_\text{earth} \Delta t
-    + \mathbf{a}\Delta t \\
+    + \mathbf{a}\Delta t \\\\
     &= \mathbf{v}(t_0) + \mathbf{g}\_\text{earth} \Delta t
     + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \mathbf{b}\_\mathbf{a}(t_0) - \mathbf{\eta}\_\mathbf{a}(t_0) \big) \Delta t
-    \\
+    \\\\
     {\mathbf{p}}(t_0+\Delta t) 
-    &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t + \frac{1}{2} \mathbf{a}(t_0) \Delta t^2 \\
+    &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t + \frac{1}{2} \mathbf{a}(t_0) \Delta t^2 \\\\
     &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t +
     \frac{1}{2} \mathbf{g}\_{\text{earth}} \Delta t^2
     + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \frac{1}{2} \mathbf{b}\_\mathbf{a}(t_0) - \mathbf{\eta}\_\mathbf{a}(t_0) \big) \Delta t^2
@@ -205,11 +206,9 @@ $$
 \begin{align*}
 \mathbf{R}_j &= 
 \mathbf{R}\_i \prod^{j-1}\_{k=i}
-e^{ \big(\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k} - \mathbf{\eta}\_{\mathbf{\omega},k} \big)^\wedge \Delta t}
-\\
+e^{ \big(\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k} - \mathbf{\eta}\_{\mathbf{\omega},k} \big)^\wedge \Delta t} \\\\
 \mathbf{v}_j &= \mathbf{v}\_i + \mathbf{g}\_\text{earth} \Delta t_{ij} + 
-\sum_{k=i}^{j-1} \mathbf{R}\_{k} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t
-\\
+\sum_{k=i}^{j-1} \mathbf{R}\_{k} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t \\\\
 \mathbf{p}_j &= \mathbf{p}\_i + \sum_{k=i}^{j-1} \mathbf{v}_k \Delta t + 
 \frac{1}{2} \mathbf{g}\_\text{earth} \Delta t_{ij}^2 + 
 \frac{1}{2} \sum_{k=i}^{j-1} \mathbf{R}\_{k} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t^2
@@ -222,12 +221,10 @@ $$
 \begin{align*}
 \Delta\mathbf{R}\_{ij} & \overset{\Delta}{=} \mathbf{R}\_i^\top \mathbf{R}_j =
 \prod^{j-1}\_{k=i}
-e^{ \big(\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k} - \mathbf{\eta}\_{\mathbf{\omega},k} \big)^\wedge \Delta t}
-\\
+e^{ \big(\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k} - \mathbf{\eta}\_{\mathbf{\omega},k} \big)^\wedge \Delta t} \\\\
 \Delta \mathbf{v}\_{ij} &\overset{\Delta}{=}
 \mathbf{R}\_i^\top( \mathbf{v}\_{j} - \mathbf{v}\_{i} + \mathbf{g}\_\text{earth} \Delta t_{ij}) &=
-\sum_{k=i}^{j-1} \Delta\mathbf{R}\_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t
-\\
+\sum_{k=i}^{j-1} \Delta\mathbf{R}\_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t \\\\
 \Delta\mathbf{p}\_{ij} & \overset{\Delta}{=}
 \mathbf{R}\_i^\top \big( \mathbf{p}_j - \mathbf{p}\_i - \mathbf{v}\_{i} \Delta t_{ij} - 
 \frac{1}{2} \mathbf{g}\_\text{earth} \Delta t_{ij}^2 \big)&=
@@ -256,17 +253,17 @@ $$
     \Delta\mathbf{R}\_{ij} &= 
     \prod^{j-1}\_{k=i}
     e^{ \big(\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k} - \mathbf{\eta}\_{\mathbf{\omega},k} \big)^\wedge \Delta t}
-\\ && &=
+\\\\ && &=
     \prod^{j-1}\_{k=i}
     e^{ \big( (\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k})\Delta t - \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t
     \big)^\wedge }
-\\  \text{By BCH approximation}
+\\\\  \text{By BCH approximation}
     && &\approx
     \prod^{j-1}\_{k=i}
     e^{ \big( (\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k})\Delta t 
     \big)^\wedge }
     \underbrace{e^{ \big(-\mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t \big)^\wedge}}\_{\text{noise term}}
-\\ \text{Simply expand the multiplications}
+\\\\ \text{Simply expand the multiplications}
 && &=
     \underbrace{e^{ \big( (\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k})\Delta t 
     \big)^\wedge }}\_{\Delta\hat{\mathbf{R}}\_{k,k+1}}
@@ -278,7 +275,7 @@ $$
     \big)^\wedge }}\_{\Delta\hat{\mathbf{R}}\_{k+2,k+3}}
     e^{ \big(-\mathbf{J}\_{r,k+2} \mathbf{\eta}\_{\mathbf{\omega},k+2} \Delta t \big)^\wedge}
     \dots
-\\ \text{Insert identity matrices } 
+\\\\ \text{Insert identity matrices } 
 && &=
     {e^{ \big( (\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k})\Delta t 
     \big)^\wedge }}
@@ -291,8 +288,8 @@ $$
     {e^{ \big( (\hat{\mathbf{\omega}}\_{k+1}- \mathbf{b}\_{\mathbf{\omega},k+1})\Delta t 
     \big)^\wedge }}
     \dots
-\\  \text{By adjoint relationship in Lie group} 
-\\   \text{such that } \mathbf{R}^\top \text{Exp}(\mathbf{\phi})\mathbf{R}=\text{Exp}(\mathbf{R}^\top\mathbf{\phi})
+\\\\  \text{By adjoint relationship in Lie group} 
+\\\\   \text{such that } \mathbf{R}^\top \text{Exp}(\mathbf{\phi})\mathbf{R}=\text{Exp}(\mathbf{R}^\top\mathbf{\phi})
 && &=
     {e^{ \big( (\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k})\Delta t 
     \big)^\wedge }}
@@ -309,14 +306,14 @@ $$
     \big)^\wedge }}\_{
     \text{Exp}(-{\Delta\hat{\mathbf{R}}\_{k+1,k+2}}  \mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t )}
     \dots
-\\ && &=
+\\\\ && &=
     \prod^{j-1}\_{k=i}
     \bigg(
     e^{ \big( (\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k})\Delta t 
     \big)^\wedge }
     \text{Exp}(-{\Delta\hat{\mathbf{R}}\_{k+1,k+2}}  \mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t )
     \bigg)
-\\ \text{Define }
+\\\\ \text{Define }
 \Delta\hat{\mathbf{R}}\_{ij} =
 \prod^{j-1}\_{k=i}
 e^{ \big( (\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k})\Delta t 
@@ -327,7 +324,7 @@ e^{ \big( (\hat{\mathbf{\omega}}_k- \mathbf{b}\_{\mathbf{\omega},k})\Delta t
     \prod^{j-1}\_{k=i} 
     \text{Exp} \big(
     -{\Delta\hat{\mathbf{R}}\_{k+1,k+2}}  \mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t \big)
-\\ \text{Collectively define the noise term}
+\\\\ \text{Collectively define the noise term}
 && &=
     {\Delta\hat{\mathbf{R}}\_{ij}}
     \text{Exp} \big( -\delta\mathbf{\phi}\_{ij} \big)
@@ -343,23 +340,22 @@ $$
     \sum_{k=i}^{j-1} 
     \underbrace{\Delta\mathbf{R}\_{ik}}\_{{\Delta\hat{\mathbf{R}}\_{ij}}
     \text{Exp} \big( -\delta\mathbf{\phi}\_{ij} \big)}
-    \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t
-\\
+    \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t \\\\
 && &=
     \sum_{k=i}^{j-1} 
     {\Delta\hat{\mathbf{R}}\_{ik}}
     \underbrace{\text{Exp} \big( -\delta\mathbf{\phi}\_{ik} \big)}\_{ \begin{matrix}
-        \footnotesize{\text{First order exponential approximation}} \\
+        \footnotesize{\text{First order exponential approximation}} \\\\
         \approx I-\delta\mathbf{\phi}^{\wedge}\_{ik}
     \end{matrix}
     }
     \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t
-\\ && &\approx
+\\\\ && &\approx
     \sum_{k=i}^{j-1} 
     {\Delta\hat{\mathbf{R}}\_{ik}}
     {\big( I-\delta\mathbf{\phi}^{\wedge}\_{ik} \big)}
     \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t
-\\ && &=
+\\\\ && &=
     \underbrace{\sum_{k=i}^{j-1} 
     {\Delta\hat{\mathbf{R}}\_{ik}}
     \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k}  \big) \Delta t}\_{
@@ -367,13 +363,13 @@ $$
     + \sum_{k=i}^{j-1} {\Delta\hat{\mathbf{R}}\_{ik}} \cdot \mathbf{\eta}\_{\mathbf{a},k} \cdot \Delta t
     - \underbrace{\sum_{k=i}^{j-1} {\Delta\hat{\mathbf{R}}\_{ik}} \cdot \delta\mathbf{\phi}^{\wedge}\_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} - \mathbf{\eta}\_{\mathbf{a},k} \big) \Delta t}\_{ \footnotesize{\text{Second order noise be zero }}
     \delta\mathbf{\phi}^{\wedge}\_{ik} \cdot \mathbf{\eta}\_{\mathbf{a},k} \approx 0}
-\\ && &=
+\\\\ && &=
     \Delta\hat{\mathbf{v}}\_{ij} 
     + \underbrace{
         \sum_{k=i}^{j-1} {\Delta\hat{\mathbf{R}}\_{ik}} \cdot \mathbf{\eta}\_{\mathbf{a},k} \cdot \Delta t
         - \sum_{k=i}^{j-1} {\Delta\hat{\mathbf{R}}\_{ik}} \cdot \delta\mathbf{\phi}^{\wedge}\_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} \big) \Delta t}\_{
     \overset{\Delta}{=} -\delta \mathbf{v}\_{ij}}
-\\ && &=
+\\\\ && &=
     \Delta\hat{\mathbf{v}}\_{ij} - \delta \mathbf{v}\_{ij}
 \end{align*}
 $$
@@ -386,7 +382,7 @@ $$
 \underbrace{\sum^{j-1}\_{k=i} \Big(
 \mathbf{v}\_{ik} \Delta t + \frac{1}{2} {\Delta\hat{\mathbf{R}}\_{ik}} \big( \hat{\mathbf{a}} - \mathbf{b}\_{\mathbf{a},k}) \Delta t^2 \Big)  }\_{
 \Delta \hat{\mathbf{p}}\_{ij}}
-\\ & \quad +
+\\\\ & \quad +
 \underbrace{\sum^{j-1}\_{k=i} \Big( 
 \delta \mathbf{v}\_{ij} \Delta t +\frac{1}{2} \Delta \hat{\mathbf{R}}\_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} \big) \cdot \delta\mathbf{\phi}\_{ij} \Delta t^2 -\frac{1}{2} \Delta\hat{\mathbf{R}}\_{ik} \cdot \mathbf{\eta}\_{\mathbf{a},k} \cdot \Delta t^2 \Big)}\_{
 \delta {\mathbf{p}}\_{ij} }&=
@@ -398,11 +394,9 @@ Rearrange the expressions of the original definitions with the obtained noises:
 $$
 \begin{align*}
     \Delta\hat{\mathbf{R}}\_{ij} &= 
-    \mathbf{R}\_i^\top \mathbf{R}_j \text{Exp} \big( -\delta\mathbf{\phi}\_{ij} \big)
-\\
+    \mathbf{R}\_i^\top \mathbf{R}_j \text{Exp} \big( -\delta\mathbf{\phi}\_{ij} \big) \\\\
     \Delta\hat{\mathbf{v}}\_{ij} &= 
-    \mathbf{R}\_i^\top( \mathbf{v}\_{j} - \mathbf{v}\_{i} + \mathbf{g}\_\text{earth} \Delta t_{ij}) + \delta \mathbf{v}\_{ij}
-\\
+    \mathbf{R}\_i^\top( \mathbf{v}\_{j} - \mathbf{v}\_{i} + \mathbf{g}\_\text{earth} \Delta t_{ij}) + \delta \mathbf{v}\_{ij} \\\\
     \Delta\hat{\mathbf{p}}\_{ij} &= 
     \mathbf{R}\_i^\top \big( \mathbf{p}_j - \mathbf{p}\_i - \mathbf{v}\_{i} \Delta t_{ij} - 
     \frac{1}{2} \mathbf{g}\_\text{earth} \Delta t_{ij}^2 \big) + \delta {\mathbf{p}}\_{ij}
@@ -441,32 +435,32 @@ $$
     \footnotesize{\text{approximation by }}
     \exp(\delta\mathbf{\phi}^\wedge) \approx \mathbf{I}+\delta\mathbf{\phi}^\wedge
     } \Big)
-\\ && &\approx
+\\\\ && &\approx
     -\text{Log} \Big(-\text{Exp} \big(\sum_{k=i}^{j-1}
     {\Delta\hat{\mathbf{R}}\_{k+1}^\top}  \mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t
     \big) \Big)
-\\ && &=
+\\\\ && &=
     \sum_{k=i}^{j-1}
     {\Delta\hat{\mathbf{R}}\_{k+1}^\top}  \mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t
-\\ \text{Introduce the subscript } j \text{ to } {\Delta\hat{\mathbf{R}}\_{k+1,j}^\top}
-\\ \text{to control the computation between } i \text{ and } j
+\\\\ \text{Introduce the subscript } j \text{ to } {\Delta\hat{\mathbf{R}}\_{k+1,j}^\top}
+\\\\ \text{to control the computation between } i \text{ and } j
 && &=
     \sum_{k=i}^{j-1}
     {\Delta\hat{\mathbf{R}}\_{k+1,j}^\top}  \mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t
-\\ && &=
+\\\\ && &=
     \sum_{k=i}^{j-2} \Big(
     \underbrace{\Delta\hat{\mathbf{R}}\_{k+1,j-1}^\top}\_{
     \big( \Delta\hat{\mathbf{R}}\_{k+1,j-1} \Delta\hat{\mathbf{R}}\_{j-1,j} \big)^\top
     }  \mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t \Big)
     + \underbrace{\Delta\hat{\mathbf{R}}\_{j,j}^\top}\_{=\mathbf{I}}  \mathbf{J}\_{r,j-1} \mathbf{\eta}\_{\mathbf{\omega},j-1} \Delta t
-\\ \text{Define a noise term}
+\\\\ \text{Define a noise term}
 && &=
     \Delta\hat{\mathbf{R}}\_{j-1,j}
     \underbrace{\sum_{k=i}^{j-2} \Big(
     {\Delta\hat{\mathbf{R}}\_{k+1,j-1}^\top}  \mathbf{J}\_{rk} \mathbf{\eta}\_{\mathbf{\omega},k} \Delta t \Big)}\_{
     \delta \mathbf{\phi}\_{i,j-1}}
     + \mathbf{J}\_{r,j-1} \mathbf{\eta}\_{\mathbf{\omega},j-1} \Delta t   
-\\ && &=
+\\\\ && &=
     \Delta\hat{\mathbf{R}}\_{j-1,j}
     { \delta \mathbf{\phi}\_{i,j-1} }
     + \mathbf{J}\_{r,j-1} \mathbf{\eta}\_{\mathbf{\omega},j-1} \Delta t       
@@ -485,6 +479,7 @@ $$
 that $\mathbf{\Sigma}_j$ continuously grows as it adds $\mathbf{J}\_{r,j-1}^\top \mathbf{\Sigma}\_{\mathbf{\eta}\_{\mathbf{\omega},j-1}} \mathbf{J}\_{r,j-1}$ at every $k$-th step.
 
 Similarly, velocity noise $\delta \mathbf{v}\_{i,j}$ and translation noise $\delta \mathbf{p}\_{i,j}$ can be computed by
+
 $$
 \begin{align*}
     \delta \mathbf{v}\_{i,j} &=
@@ -495,14 +490,14 @@ $$
     {\Delta\hat{\mathbf{R}}\_{ik}} \cdot \mathbf{\eta}\_{\mathbf{a},k} \cdot \Delta t
     - {\Delta\hat{\mathbf{R}}\_{ik}} \cdot \delta\mathbf{\phi}^{\wedge}\_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} \big) \Delta t
     \Big)}\_{\delta \mathbf{v}\_{i,j-1}}
-\\ & \quad +
+\\\\ & \quad +
     {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \mathbf{\eta}\_{\mathbf{a},j-1} \cdot \Delta t
     - {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \big( \hat{\mathbf{a}}\_{j-1} - \mathbf{b}\_{\mathbf{a},i} \big) \Delta t&=
     \delta \mathbf{v}\_{i,j-1} +
     \Big(
     {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \mathbf{\eta}\_{\mathbf{a},j-1} \cdot \Delta t
     - {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \big( \hat{\mathbf{a}}\_{j-1} - \mathbf{b}\_{\mathbf{a},i} \big) \Delta t
-    \Big)\\ \space\\ \delta \mathbf{p}\_{i,j} &=
+    \Big)\\\\ \space\\\\ \delta \mathbf{p}\_{i,j} &=
     \sum^{j-1}\_{k=i} \Big( 
     \delta \mathbf{v}\_{ik} \Delta t 
     + \frac{1}{2} \Delta \hat{\mathbf{R}}\_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} \big) \cdot \delta\mathbf{\phi}\_{ij} \Delta t^2 -\frac{1}{2} \Delta\hat{\mathbf{R}}\_{ik} \cdot \mathbf{\eta}\_{\mathbf{a},k} \Delta t^2 \Big)&=
@@ -511,7 +506,7 @@ $$
     \delta \mathbf{v}\_{ik} \Delta t 
     + \frac{1}{2} \Delta \hat{\mathbf{R}}\_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}\_{\mathbf{a},k} \big) \cdot \delta\mathbf{\phi}\_{ij} \Delta t^2 -\frac{1}{2} \Delta\hat{\mathbf{R}}\_{ik} \cdot \mathbf{\eta}\_{\mathbf{a},k}\Delta t^2
     \Big) }\_{\delta \mathbf{p}\_{i,j-1}}
-\\ & \quad+
+\\\\ & \quad+
     \delta \mathbf{v}\_{i,j-1} \Delta t 
     + \frac{1}{2} \Delta \hat{\mathbf{R}}\_{i,j-1} \cdot \big( \hat{\mathbf{a}}\_{j-1} - \mathbf{b}\_{\mathbf{a},i} \big) \cdot \delta\mathbf{\phi}\_{i,j-1} \Delta t^2 -\frac{1}{2} \Delta\hat{\mathbf{R}}\_{i,j-1} \cdot \mathbf{\eta}\_{\mathbf{a},j-1}  \Delta t^2&= 
     \delta \mathbf{p}\_{i,j-1} + \Big(
@@ -523,14 +518,14 @@ To summarize, define an accumulated noise vector $\mathbf{\eta}\_{ik}$ and the $
 $$
 \mathbf{\eta}\_{ik} = 
 \begin{bmatrix}
-    \delta\mathbf{\phi}\_{ij} \\
-    \delta \mathbf{v}\_{i,j} \\
+    \delta\mathbf{\phi}\_{ij} \\\\
+    \delta \mathbf{v}\_{i,j} \\\\
     \delta \mathbf{p}\_{i,j}
 \end{bmatrix}
 , \quad
 \mathbf{\eta}\_{j} = 
 \begin{bmatrix}
-    \mathbf{\eta}\_{\mathbf{\omega},j} \\
+    \mathbf{\eta}\_{\mathbf{\omega},j} \\\\
     \mathbf{\eta}\_{\mathbf{a},j}
 \end{bmatrix}
 $$
@@ -540,22 +535,24 @@ $$
 \mathbf{\eta}\_{ij} = 
 A_j\space \mathbf{\eta}\_{ik} + B_j\space \mathbf{\eta}\_{j}
 $$
+
 where
+
 $$
 \begin{align*}
     A_j &= \begin{bmatrix}
         \Delta\hat{\mathbf{R}}\_{j-1,j}^\top 
-        & \mathbf{0} & \mathbf{0} \\
+        & \mathbf{0} & \mathbf{0} \\\\
         {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \big( \hat{\mathbf{a}}\_{j-1} - \mathbf{b}\_{\mathbf{a},i} \big) \Delta t 
-        & \mathbf{I} & \mathbf{0} \\
+        & \mathbf{I} & \mathbf{0} \\\\
         \frac{1}{2} {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \big( \hat{\mathbf{a}}\_{j-1} - \mathbf{b}\_{\mathbf{a},i} \big) \Delta t^2 
         & \Delta t & \mathbf{I}
     \end{bmatrix}
-    \\
+    \\\\
     B_j &= \begin{bmatrix}
-        \mathbf{J}\_{r,j-1}\Delta t & \mathbf{0} \\
-        \mathbf{0} & {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \Delta t \\
-        \mathbf{0} & \frac{1}{2} {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \Delta t^2 \\
+        \mathbf{J}\_{r,j-1}\Delta t & \mathbf{0} \\\\
+        \mathbf{0} & {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \Delta t \\\\
+        \mathbf{0} & \frac{1}{2} {\Delta\hat{\mathbf{R}}\_{i,j-1}} \cdot \Delta t^2 \\\\
     \end{bmatrix}
 \end{align*}
 $$
@@ -570,13 +567,11 @@ Then formulate $\Delta\hat{\mathbf{R}}\_{ij}$, $\Delta\hat{\mathbf{v}}\_{ij}$ an
 $$
 \begin{align*}
     \Delta\hat{\mathbf{R}}\_{ij} (\mathbf{b}\_{\mathbf{\omega},i} + \delta\mathbf{b}\_{\mathbf{\omega},i}) &= 
-    \Delta\hat{\mathbf{R}}\_{ij} \text{Exp} \big( \frac{\partial\space \Delta\hat{\mathbf{R}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{\omega},i}} \delta\mathbf{b}\_{\mathbf{\omega},i} \big)
-\\
+    \Delta\hat{\mathbf{R}}\_{ij} \text{Exp} \big( \frac{\partial\space \Delta\hat{\mathbf{R}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{\omega},i}} \delta\mathbf{b}\_{\mathbf{\omega},i} \big) \\\\
     \Delta\hat{\mathbf{v}}\_{ij} (\mathbf{b}\_{\mathbf{\omega},i} + \delta\mathbf{b}\_{\mathbf{\omega},i}, \mathbf{b}\_{\mathbf{a},k} + \delta\mathbf{b}\_{\mathbf{a},k}) &= 
     \Delta\hat{\mathbf{v}}\_{ij} (\mathbf{b}\_{\mathbf{\omega},i}, \mathbf{b}\_{\mathbf{a},k})
     + \frac{\partial\space \Delta\hat{\mathbf{v}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{\omega},i}} \delta\mathbf{b}\_{\mathbf{\omega},i}
-    + \frac{\partial\space \Delta\hat{\mathbf{v}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{a},i}} \delta\mathbf{b}\_{\mathbf{a},i}
-\\
+    + \frac{\partial\space \Delta\hat{\mathbf{v}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{a},i}} \delta\mathbf{b}\_{\mathbf{a},i} \\\\
     \Delta\hat{\mathbf{p}}\_{ij} (\mathbf{b}\_{\mathbf{\omega},i} + \delta\mathbf{b}\_{\mathbf{\omega},i}, \mathbf{b}\_{\mathbf{a},k} + \delta\mathbf{b}\_{\mathbf{a},k}) &= 
     \Delta\hat{\mathbf{p}}\_{ij} (\mathbf{b}\_{\mathbf{\omega},i}, \mathbf{b}\_{\mathbf{a},k})
     + \frac{\partial\space \Delta\hat{\mathbf{p}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{\omega},i}} \delta\mathbf{b}\_{\mathbf{\omega},i}
@@ -634,7 +629,7 @@ $$
     \text{Exp} \Big(-\Delta \hat{\mathbf{R}}\_{k,k+1}^\top \mathbf{J}\_{r,k} \delta\mathbf{b}\_{\mathbf{\omega},k} \Delta t \Big)}\_{
     \footnotesize{\text{approximation by }}
     \exp(\delta\mathbf{\phi}^\wedge) \approx \mathbf{I}+\delta\mathbf{\phi}^\wedge
-    }  \\ &\approx
+    }  \\\\ &\approx
     \Delta \hat{\mathbf{R}}\_{ij} \cdot
     \text{Exp} \Big(
         -\sum^{j-1}\_{k=i}
@@ -666,8 +661,7 @@ $$
     \frac{\partial\space \Delta\hat{\mathbf{v}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{\omega},i}}
     &=
     -\sum^{j-1}\_{k=i} \Delta \hat{\mathbf{R}}\_{k,k+1} (\hat{\mathbf{a}}\_{k}-{\mathbf{b}}\_{\mathbf{a},k}) 
-    \frac{\partial\space \Delta\hat{\mathbf{R}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{\omega},i}} \Delta t
-\\
+    \frac{\partial\space \Delta\hat{\mathbf{R}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{\omega},i}} \Delta t \\\\
     &&
     \frac{\partial\space \Delta\hat{\mathbf{p}}\_{ij}}{\partial\space \mathbf{b}\_{\mathbf{a},i}}
     &= 
@@ -695,21 +689,23 @@ Such information can help compute, or by direct IMU reading $\Delta\hat{\mathbf{
 In other words, IMU reading $\Delta\hat{\mathbf{R}}\_{ij},  \Delta\hat{\mathbf{v}}\_{ij}, \Delta\hat{\mathbf{p}}\_{ij}$ have true reading plus noises.
 
 Here formulate the residuals for graph optimization
+
 $$
 \begin{align*}
 \mathbf{r}\_{\Delta \mathbf{R}\_{ij}} &=
     \text{Log}\Big(
     \Delta\hat{\mathbf{R}}^\top_{ij}
     (\mathbf{R}\_i^\top \mathbf{R}_j)\Big)
-\\ \mathbf{r}\_{\Delta \mathbf{v}\_{ij}} &=
+\\\\ \mathbf{r}\_{\Delta \mathbf{v}\_{ij}} &=
     \mathbf{R}\_i^\top( \mathbf{v}\_{j} - \mathbf{v}\_{i} + \mathbf{g}\_\text{earth} \Delta t_{ij}) - 
     \Delta \hat{\mathbf{v}}\_{ij}
-\\ \mathbf{r}\_{\Delta \mathbf{p}\_{ij}} &=
+\\\\ \mathbf{r}\_{\Delta \mathbf{p}\_{ij}} &=
     \mathbf{R}\_i^\top \big( \mathbf{p}_j - \mathbf{p}\_i - \mathbf{v}\_{i} \Delta t_{ij} - 
     \frac{1}{2} \mathbf{g}\_\text{earth} \Delta t_{ij}^2 \big) -
     \Delta \hat{\mathbf{p}}\_{ij}
 \end{align*}
 $$
+
 where $\mathbf{R}\_i, \mathbf{v}\_i, \mathbf{p}\_i$ are observations (inclusive of measurement errors $\mathbf{\eta}\_{ij}$) that should be adjusted to reduce residuals.
 
 In conclusion, the residual $[\mathbf{r}\_{\Delta \mathbf{R}\_{ij}}  \quad \mathbf{r}\_{\Delta \mathbf{v}\_{ij}} \quad \mathbf{r}\_{\Delta \mathbf{p}\_{ij}}]^\top$ contain measurement errors $\mathbf{\eta}\_{ij}$ and zero offset noises $\delta\mathbf{b}\_{\mathbf{a},k}$ and $\delta\mathbf{b}\_{\mathbf{\omega},k}$,

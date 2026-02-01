@@ -9,13 +9,13 @@ For example, below $A$'s rank is $\text{rank}(A)=2$ for
 $$
 A =
 \begin{bmatrix}
-      1 & 2 & 3 \\
-      4 & 5 & 6 \\
+      1 & 2 & 3 \\\\
+      4 & 5 & 6 \\\\
       2 & 4 & 6
 \end{bmatrix} \underrightarrow{-2 R_1 + R_3}
 \begin{bmatrix}
-      1 & 2 & 3 \\
-      4 & 5 & 6 \\
+      1 & 2 & 3 \\\\
+      4 & 5 & 6 \\\\
       0 & 0 & 0
 \end{bmatrix}
 $$
@@ -24,45 +24,47 @@ $$
 
 Gaussian elimination, also known as row reduction, does not change column linearity. The above matrix $A$ can be reduced to
 
-$$\begin{align*}
+$$
+\begin{align*}
 A = 
 \begin{bmatrix}
-      1 & 4 & 5 \\
-      2 & 5 & 7 \\
+      1 & 4 & 5 \\\\
+      2 & 5 & 7 \\\\
       3 & 6 & 9
 \end{bmatrix}
 \underrightarrow{-3 R_1 + R_3}
 \begin{bmatrix}
-      1 & 4 & 5 \\
-      2 & 5 & 7 \\
+      1 & 4 & 5 \\\\
+      2 & 5 & 7 \\\\
       0 & -6 & -6
 \end{bmatrix}
-& \underrightarrow{-2 R_1 + R_2} \\
+& \underrightarrow{-2 R_1 + R_2} \\\\
 \begin{bmatrix}
-      1 & 4 & 5 \\
-      0 & -3 & -3 \\
+      1 & 4 & 5 \\\\
+      0 & -3 & -3 \\\\
       0 & -6 & -6
 \end{bmatrix}
 \underrightarrow{-2 R_2 + R_3} 
 \begin{bmatrix}
-      1 & 4 & 5 \\
-      0 & -3 & -3 \\
+      1 & 4 & 5 \\\\
+      0 & -3 & -3 \\\\
       0 & 0 & 0
 \end{bmatrix}
-& \underrightarrow{-3 R_2} \\
+& \underrightarrow{-3 R_2} \\\\
 \begin{bmatrix}
-      1 & 4 & 5 \\
-      0 & 1 & 1 \\
+      1 & 4 & 5 \\\\
+      0 & 1 & 1 \\\\
       0 & 0 & 0
 \end{bmatrix}
 \underrightarrow{-4 R_2 + R_1}
 \begin{bmatrix}
-      1 & 0 & 1 \\
-      0 & 1 & 1 \\
+      1 & 0 & 1 \\\\
+      0 & 1 & 1 \\\\
       0 & 0 & 0
 \end{bmatrix}
 \end{align*}
 $$
+
 hence proving rank $2$ for matrix $A$.
 
 ## Transpose
@@ -121,11 +123,11 @@ then multiply by $\mathbf{v}_j^{\top}$, there is
 $$
 \begin{align*}
     && \mathbf{v}_j^{\top}A^{\top}A\mathbf{v}\_i &=
-  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \\
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \\\\
   \Rightarrow && (A^{\top}A\mathbf{v}_j)^{\top}\mathbf{v}\_i &=
-  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\\\
   \Rightarrow && \sigma_j^2\mathbf{v}_j^{\top}\mathbf{v}\_i &=
-  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}\_i \\
+  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}\_i \\\\
 \end{align*}
 $$
 
@@ -147,8 +149,8 @@ Either upper or lower area relative the diagonal of a matrix is all zeros:
 
 $$
 A_{\text{upper}} = \begin{bmatrix}
-    1 & 2 & 3 \\
-    0 & 5 & 6 \\
+    1 & 2 & 3 \\\\
+    0 & 5 & 6 \\\\
     0 & 0 & 9
 \end{bmatrix}
 $$
@@ -157,8 +159,8 @@ $$
 
 $$
 A_{\text{lower}} = \begin{bmatrix}
-    1 & 0 & 0 \\
-    4 & 5 & 0 \\
+    1 & 0 & 0 \\\\
+    4 & 5 & 0 \\\\
     7 & 8 & 9
 \end{bmatrix}
 $$
@@ -226,7 +228,7 @@ $$
 \begin{array}{c}
     \bigg (
     \begin{array}{c}
-      -b \\
+      -b \\\\
       a
     \end{array}
     \bigg )
@@ -234,7 +236,7 @@ $$
 \begin{array}{c}
     \bigg (
     \begin{array}{c}
-      c \\
+      c \\\\
       d
     \end{array}
     \bigg )
@@ -250,8 +252,8 @@ $$
 \bigg |
 \begin{array}{ccc}
     \begin{array}{ccc}
-      a & b & c \\
-      d & e & f \\
+      a & b & c \\\\
+      d & e & f \\\\
       g & h & i
     \end{array}
 \end{array}
@@ -260,7 +262,7 @@ a
 \big |
 \begin{array}{cc}
     \begin{array}{cc}
-      e & f \\
+      e & f \\\\
       h & i 
     \end{array}
 \end{array}
@@ -269,7 +271,7 @@ d
 \big |
 \begin{array}{cc}
     \begin{array}{cc}
-      b & c \\
+      b & c \\\\
       h & i 
     \end{array}
 \end{array}
@@ -278,7 +280,7 @@ g
 \big |
 \begin{array}{cc}
     \begin{array}{cc}
-      b & c \\
+      b & c \\\\
       e & f 
     \end{array}
 \end{array}
@@ -291,8 +293,8 @@ $$
 \bigg |
 \begin{array}{ccc}
     \begin{array}{ccc}
-      a & b & c \\
-      d & e & f \\
+      a & b & c \\\\
+      d & e & f \\\\
       g & h & i
     \end{array}
 \end{array}
@@ -310,12 +312,12 @@ Given an input vector $\mathbf{x}$ and linear transform $A$, the result vector $
 
 $$
 A\mathbf{x}=\begin{bmatrix}
-    1 & 2 \\
+    1 & 2 \\\\
     3 & 4
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 1
+    1 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    3 \\ 7
+    3 \\\\ 7
 \end{bmatrix}
 $$
 
@@ -323,12 +325,12 @@ $$
 
 $$
 A\mathbf{x}=\begin{bmatrix}
-    0.1 & 0.2 \\
+    0.1 & 0.2 \\\\
     0.3 & 0.4
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 1
+    1 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    0.3 \\ 0.7
+    0.3 \\\\ 0.7
 \end{bmatrix}
 $$
 
@@ -336,12 +338,12 @@ $$
 
 $$
 A\mathbf{x}=\begin{bmatrix}
-    0 & -1 \\
+    0 & -1 \\\\
     1 & 0
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 1
+    1 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    -1 \\ 1
+    -1 \\\\ 1
 \end{bmatrix}
 $$
 
@@ -353,28 +355,28 @@ $\text{det}(A)=0$ happens when $\text{rank}(A)$ is not full.
 
 $$
 A\mathbf{x}_1=\begin{bmatrix}
-    1 & 1 \\
+    1 & 1 \\\\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 1
+    1 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    2 \\ 2
-\end{bmatrix} \\
+    2 \\\\ 2
+\end{bmatrix} \\\\
 A\mathbf{x}_2=\begin{bmatrix}
-    1 & 1 \\
+    1 & 1 \\\\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
-    1 \\ 2
+    1 \\\\ 2
 \end{bmatrix} = \begin{bmatrix}
-    3 \\ 3
-\end{bmatrix} \\
+    3 \\\\ 3
+\end{bmatrix} \\\\
 A\mathbf{x}_3=\begin{bmatrix}
-    1 & 1 \\
+    1 & 1 \\\\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
-    2 \\ 1
+    2 \\\\ 1
 \end{bmatrix} = \begin{bmatrix}
-    3 \\ 3
+    3 \\\\ 3
 \end{bmatrix}
 $$
 
@@ -403,8 +405,8 @@ For example, given
 $$
 A =
 \begin{bmatrix}
-      a & b & c \\
-      d & e & f \\
+      a & b & c \\\\
+      d & e & f \\\\
       g & h & i
 \end{bmatrix}
 $$
@@ -416,7 +418,7 @@ M_{1,2} = -
 \bigg |
 \begin{array}{cc}
     \begin{array}{cc}
-      d & f \\
+      d & f \\\\
       g & i
     \end{array}
 \end{array}
@@ -428,8 +430,8 @@ Cofactor matirx $C$:
 $$
 C =
 \begin{bmatrix}
-      M_{1,1} & M_{1,2} & M_{1,3} \\
-      M_{1,2} & M_{2,2} & M_{2,3} \\
+      M_{1,1} & M_{1,2} & M_{1,3} \\\\
+      M_{1,2} & M_{2,2} & M_{2,3} \\\\
       M_{1,3} & M_{3,2} & M_{3,3}
 \end{bmatrix}
 $$
@@ -461,10 +463,11 @@ $$
 
 Note that $\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_1$ is a subspace of $a_1 ∧ ⋯ ∧ \mathbf{a}_n$, we can further write
 
-$$\begin{align*}
+$$
+\begin{align*}
 \text{det}(A)
-& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_1)⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n) \\
-& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\big(\mathbf{e}_1⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n)\big) \\
+& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_1)⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n) \\\\
+& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\big(\mathbf{e}_1⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n)\big) \\\\
 & =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \mathbf{a}_n)−\sum_{i=2}^n (-1)^i \mathbf{a}\_{1,i}(a_1 ∧ ⋯ ∧ \hat{\mathbf{a}}\_i ∧ ⋯ ∧ \mathbf{a}_n) \bigg)
 \end{align*}
 $$
@@ -517,16 +520,14 @@ Pseudo inverse (aka Moore-Penrose inverse) denoted as $A^{\dagger}$, satisfying 
 * $AA^{\dagger}$ does not neccessarily give to identity matrix $I$, but mapping to itself
 
 $$
-AA^{\dagger}A=A
-\\
+AA^{\dagger}A=A \\\\
 A^{\dagger}AA^{\dagger}=A^{\dagger}
 $$
 
 * $AA^{\dagger}$ is Hermitian, and vice versa
 
 $$
-(AA^{\dagger})^*=AA^{\dagger}
-\\
+(AA^{\dagger})^*=AA^{\dagger} \\\\
 (A^{\dagger}A)^*=A^{\dagger}A
 $$
 

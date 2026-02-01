@@ -56,7 +56,7 @@ High volatility market means that people are rush to raise funds to short/long d
 $$
 \begin{align*}
     & \text{exponential form }
-    && PV = \frac{C_n}{(1+r)^n} \\
+    && PV = \frac{C_n}{(1+r)^n} \\\\
     & \text{linear form }
     && PV = \frac{C_n}{1+rn}
 \end{align*}
@@ -73,9 +73,9 @@ where
 $$
 \begin{align*}
     & \text{exponential form }
-    && \text{NPV} \sum_{n=1}^{N} \frac{PC_n}{(1+r)^n} - \sum_{n=1}^{N} \frac{CC_n}{(1+r)^n} \\
+    && \text{NPV} \sum_{n=1}^{N} \frac{PC_n}{(1+r)^n} - \sum_{n=1}^{N} \frac{CC_n}{(1+r)^n} \\\\
     & \text{linear form }
-    && \text{NPV} \sum_{n=1}^{N} \frac{PC_n}{1+rn} - \sum_{n=1}^{N} \frac{CC_n}{1+rn} \\
+    && \text{NPV} \sum_{n=1}^{N} \frac{PC_n}{1+rn} - \sum_{n=1}^{N} \frac{CC_n}{1+rn} \\\\
 \end{align*}
 $$
 
@@ -128,7 +128,7 @@ $$
 \begin{align*}
 \gamma_{\text{lower}} &=
 \frac{t_{\text{lower}}(t_{\text{upper}}-t)}{t(t_{\text{upper}}-t_{\text{lower}})} =
-\frac{7 \times (14 - 10)}{10 \times (14 - 7)} = 0.4 \\
+\frac{7 \times (14 - 10)}{10 \times (14 - 7)} = 0.4 \\\\
 \gamma_{\text{upper}} &= 1 - \gamma_{\text{lower}} = 0.6
 \end{align*}
 $$

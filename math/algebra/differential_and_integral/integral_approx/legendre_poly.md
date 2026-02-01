@@ -17,12 +17,11 @@ $$
 $$
 
 For example, for $n=1$, there is
+
 $$
 \begin{align*}
-(1+1) L_2(x) &= (2+1)x L_1(x) - L_0(x)
-\\
-2 L_2(x) &= (3)x^2 - 1
-\\
+(1+1) L_2(x) &= (2+1)x L_1(x) - L_0(x) \\\\
+2 L_2(x) &= (3)x^2 - 1 \\\\
 L_2(x) &= \frac{3}{2}x^2 - \frac{1}{2}
 \end{align*}
 $$ 
@@ -61,11 +60,12 @@ For example, given a space $\mathbf{L}=\{1,x,\frac{3}{2}x^2 - \frac{1}{2}\}$,
 Given $L_i$ 's definitions $L_0(x) = 1, L_1(x) = x$
 
 and the integral
+
 $$
 \begin{align*}
 \int^1_{-1} L_0(x) \times L_1(x) dx &=
 \int^1_{-1} x dx 
-\\ &= 0
+\\\\ &= 0
 \end{align*}
 $$
 
@@ -78,13 +78,15 @@ $
 Given $L_i$ 's definitions $L_0(x) = 1, L_2(x) = \frac{3}{2}x^2 - \frac{1}{2}$
 
 and the integral
+
 $$
 \begin{align*}
 \int^1_{-1} L_0(x) \times L_2(x) dx &=
 \int^1_{-1} 1 \cdot (\frac{3}{2}x^2 - \frac{1}{2}) dx 
-\\ &= 0
+\\\\ &= 0
 \end{align*}
 $$
+
 hence perpendicular to each other $L_0(x) \perp L_2(x)$
  
 3. For $L_1$ and $L_2$
@@ -92,13 +94,15 @@ hence perpendicular to each other $L_0(x) \perp L_2(x)$
 Given $L_i$ 's definitions $L_1(x) = x, L_2(x) = \frac{3}{2}x^2 - \frac{1}{2}$
 
 and the integral
+
 $$
 \begin{align*}
 \int^1_{-1} L_1(x) \times L_2(x) dx &=
 \int^1_{-1} x (\frac{3}{2}x^2 - \frac{1}{2}) dx 
-\\ &= 0
+\\\\ &= 0
 \end{align*}
 $$
+
 hence perpendicular to each other $L_1(x) \perp L_2(x)$
 
 ## Change of interval
@@ -116,14 +120,10 @@ where $\frac{dx}{d \xi}=\frac{b-a}{2}$
 
 $$
 \begin{align*}
-l_0(x) &= 1
-\\
-l_1(x) &= x
-\\
-l_2(x) &= \frac{1}{2} (3x^2-1)
-\\
-l_3(x) &= \frac{1}{2} (5x^3-3x)
-\\
+l_0(x) &= 1 \\\\
+l_1(x) &= x \\\\
+l_2(x) &= \frac{1}{2} (3x^2-1) \\\\
+l_3(x) &= \frac{1}{2} (5x^3-3x) \\\\
 l_4(x) &= \frac{1}{8} (35x^4-30x^2+3)
 \end{align*}
 $$

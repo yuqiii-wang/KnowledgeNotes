@@ -20,7 +20,7 @@ The adjacency matrix $A$ is defined as
 
 $$
 A[i][j]\begin{cases}
-    1 & \text{if edge } (\mathbf{v}\_i, \mathbf{v}_j) \text{ exists} \\
+    1 & \text{if edge } (\mathbf{v}\_i, \mathbf{v}_j) \text{ exists} \\\\
     0 & \text{otherwise}
 \end{cases}
 $$
@@ -33,16 +33,16 @@ Given a sequence of input $\mathbf{x}=[\mathbf{x}_1,\mathbf{x}_2,\mathbf{x}_3, .
 
 $$
 A = \begin{bmatrix}
-    0 & 1 & 0 & 1 \\
-    1 & 0 & 1 & 1 \\
-    0 & 1 & 0 & 0 \\
+    0 & 1 & 0 & 1 \\\\
+    1 & 0 & 1 & 1 \\\\
+    0 & 1 & 0 & 0 \\\\
     1 & 1 & 0 & 0
 \end{bmatrix} \qquad
 \mathbf{x} = \begin{bmatrix}
-    1 & 0 \\
-    0.5 & 0.5 \\
-    0 & 1 \\
-    0 & 1 \\
+    1 & 0 \\\\
+    0.5 & 0.5 \\\\
+    0 & 1 \\\\
+    0 & 1 \\\\
 \end{bmatrix}
 $$
 
@@ -50,10 +50,10 @@ there is $A\mathbf{x}$ that can be thought as aggregating all nodes' features.
 
 $$
 A\mathbf{x}=\begin{bmatrix}
-    0.5 & 1.5 \\
-    1 & 2 \\
-    0.5 & 0.5 \\
-    1.5 & 0.5 \\
+    0.5 & 1.5 \\\\
+    1 & 2 \\\\
+    0.5 & 0.5 \\\\
+    1.5 & 0.5 \\\\
 \end{bmatrix}
 $$
 
@@ -72,7 +72,7 @@ In other words, incidence means a vertex $\mathbf{v}\_i$ is in edge $e_j$. As a 
 
 $$
 M[i][j]\begin{cases}
-    1 & \text{if vertex } \mathbf{v}\_i \text{ is incident to edge } e_j\\
+    1 & \text{if vertex } \mathbf{v}\_i \text{ is incident to edge } e_j\\\\
     0 & \text{otherwise}
 \end{cases}
 $$
@@ -88,9 +88,9 @@ For example, given an adjacency matrix $A$:
 
 $$
 A = \begin{bmatrix}
-    0 & 1 & 0 & 1 \\
-    1 & 0 & 1 & 1 \\
-    0 & 1 & 0 & 0 \\
+    0 & 1 & 0 & 1 \\\\
+    1 & 0 & 1 & 1 \\\\
+    0 & 1 & 0 & 0 \\\\
     1 & 1 & 0 & 0
 \end{bmatrix}
 $$
@@ -99,9 +99,9 @@ The corresponding degree matrix $D$ is
 
 $$
 D = \begin{bmatrix}
-    2 & 0 & 0 & 0 \\
-    0 & 3 & 0 & 0 \\
-    0 & 0 & 1 & 0 \\
+    2 & 0 & 0 & 0 \\\\
+    0 & 3 & 0 & 0 \\\\
+    0 & 0 & 1 & 0 \\\\
     0 & 0 & 0 & 2
 \end{bmatrix}
 $$
@@ -173,15 +173,15 @@ For example, given
 
 $$
 A = \begin{bmatrix}
-    0 & 1 & 0 & 1 \\
-    1 & 0 & 1 & 1 \\
-    0 & 1 & 0 & 0 \\
+    0 & 1 & 0 & 1 \\\\
+    1 & 0 & 1 & 1 \\\\
+    0 & 1 & 0 & 0 \\\\
     1 & 1 & 0 & 0
 \end{bmatrix} \qquad
 D = \begin{bmatrix}
-    2 & 0 & 0 & 0 \\
-    0 & 3 & 0 & 0 \\
-    0 & 0 & 1 & 0 \\
+    2 & 0 & 0 & 0 \\\\
+    0 & 3 & 0 & 0 \\\\
+    0 & 0 & 1 & 0 \\\\
     0 & 0 & 0 & 2
 \end{bmatrix}
 $$
@@ -190,9 +190,9 @@ then $D-A$ is for a vertex $\mathbf{v}\_i$, how many nodes flow/aggregate to thi
 
 $$
 D-A=\begin{bmatrix}
-    2 & -1 & 0 & 0 \\
-    -1 & 3 & -1 & -1 \\
-    0 & -1 & 1 & 0 \\
+    2 & -1 & 0 & 0 \\\\
+    -1 & 3 & -1 & -1 \\\\
+    0 & -1 & 1 & 0 \\\\
     -1 & -1 & 0 & 2
 \end{bmatrix}
 $$
@@ -218,20 +218,20 @@ For example, given the aforementioned $A$ and $D$, there are
 
 $$
 D^{-1}A = \begin{bmatrix}
-    \frac{1}{2} & 0 & 0 & 0 \\
-    0 & \frac{1}{3} & 0 & 0 \\
-    0 & 0 & \frac{1}{1} & 0 \\
+    \frac{1}{2} & 0 & 0 & 0 \\\\
+    0 & \frac{1}{3} & 0 & 0 \\\\
+    0 & 0 & \frac{1}{1} & 0 \\\\
     0 & 0 & 0 & \frac{1}{2}
 \end{bmatrix} \begin{bmatrix}
-    0 & 1 & 0 & 1 \\
-    1 & 0 & 1 & 1 \\
-    0 & 1 & 0 & 0 \\
+    0 & 1 & 0 & 1 \\\\
+    1 & 0 & 1 & 1 \\\\
+    0 & 1 & 0 & 0 \\\\
     1 & 1 & 0 & 0
 \end{bmatrix} =
 \begin{bmatrix}
-    0 & \frac{1}{2} & 0 & \frac{1}{2} \\
-    \frac{1}{3} & 0 & \frac{1}{3} & \frac{1}{3} \\
-    0 & 1 & 0 & 0 \\
+    0 & \frac{1}{2} & 0 & \frac{1}{2} \\\\
+    \frac{1}{3} & 0 & \frac{1}{3} & \frac{1}{3} \\\\
+    0 & 1 & 0 & 0 \\\\
     \frac{1}{2} & \frac{1}{2} & 0 & 0
 \end{bmatrix}
 $$
@@ -241,25 +241,25 @@ and
 $$
 D^{-{\frac{1}{2}}}AD^{-{\frac{1}{2}}} =
 \begin{bmatrix}
-    \frac{1}{\sqrt{2}} & 0 & 0 & 0 \\
-    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\
-    0 & 0 & \frac{1}{1} & 0 \\
+    \frac{1}{\sqrt{2}} & 0 & 0 & 0 \\\\
+    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\\\
+    0 & 0 & \frac{1}{1} & 0 \\\\
     0 & 0 & 0 & \frac{1}{\sqrt{2}}
 \end{bmatrix} \begin{bmatrix}
-    0 & 1 & 0 & 1 \\
-    1 & 0 & 1 & 1 \\
-    0 & 1 & 0 & 0 \\
+    0 & 1 & 0 & 1 \\\\
+    1 & 0 & 1 & 1 \\\\
+    0 & 1 & 0 & 0 \\\\
     1 & 1 & 0 & 0
 \end{bmatrix} \begin{bmatrix}
-    \frac{1}{\sqrt{2}} & 0 & 0 & 0 \\
-    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\
-    0 & 0 & \frac{1}{1} & 0 \\
+    \frac{1}{\sqrt{2}} & 0 & 0 & 0 \\\\
+    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\\\
+    0 & 0 & \frac{1}{1} & 0 \\\\
     0 & 0 & 0 & \frac{1}{\sqrt{2}}
 \end{bmatrix} =
 \begin{bmatrix}
-    0 & \frac{1}{\sqrt{6}} & 0 & \frac{1}{\sqrt{2}} \\
-    \frac{1}{\sqrt{6}} & 0 & \frac{1}{\sqrt{3}} & \frac{1}{\sqrt{6}} \\
-    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\
+    0 & \frac{1}{\sqrt{6}} & 0 & \frac{1}{\sqrt{2}} \\\\
+    \frac{1}{\sqrt{6}} & 0 & \frac{1}{\sqrt{3}} & \frac{1}{\sqrt{6}} \\\\
+    0 & \frac{1}{\sqrt{3}} & 0 & 0 \\\\
     \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{6}} & 0 & 0
 \end{bmatrix}
 $$
@@ -329,8 +329,8 @@ where $\ominus$ is defined for $SE(2)$ motion:
 $$
 \mathbf{x}_t^s \ominus \Delta\mathbf{ x}\_{t-1,t}^s=
 \bigg(\begin{array}{cc}
-    x - \Delta x cos\theta + \Delta y sin\theta\\\
-    y - \Delta x sin\theta - \Delta y cos\theta \\
+    x - \Delta x cos\theta + \Delta y sin\theta\\\\\
+    y - \Delta x sin\theta - \Delta y cos\theta \\\\
     normAngle(\theta - \Delta\theta)
 \end{array}
 \bigg)
@@ -359,8 +359,7 @@ landmark position relative to the current state of a robot, computed by last ste
 $$
 \begin{align*}
 \mathbf{x}\_{i,t}^l &= 
-\mathbf{x}\_{i,t-1}^l + (\mathbf{x}\_{t}^s \ominus \mathbf{x}\_{t-1}^s)
-\\
+\mathbf{x}\_{i,t-1}^l + (\mathbf{x}\_{t}^s \ominus \mathbf{x}\_{t-1}^s) \\\\
 \mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)&=
 \mathbf{x}\_{i,t}^l - \mathbf{x}\_{t}^s
 \end{align*}

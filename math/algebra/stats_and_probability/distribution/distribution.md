@@ -72,12 +72,12 @@ $$
 \begin{align*}
     D_{KL}(P || Q) &=
     \sum_{x \in X} P(x) \log \frac{P(x)}{Q(x)}
-\\ &=
+\\\\ &=
     \frac{9}{25}\ln \Big( \frac{9/25}{1/3} 
     \Big) +
     \frac{12}{25}\ln \Big( \frac{12/25}{1/3} \Big) +
     \frac{4}{25}\ln \Big( \frac{4/25}{1/3} \Big)
-\\ &\approx
+\\\\ &\approx
     0.085
 \end{align*}
 $$
@@ -88,11 +88,11 @@ $$
 
 $$
 \begin{align*}
-&& \ln x &\le x - 1 \\
-\Rightarrow && e^{\ln x} &\le e^{x-1} \\
-\Rightarrow && x &\le e^x e^{-1} \\
-\Rightarrow && x &\le e^x e^{-1} \\
-\Rightarrow && ex &\le e^x \\
+&& \ln x &\le x - 1 \\\\
+\Rightarrow && e^{\ln x} &\le e^{x-1} \\\\
+\Rightarrow && x &\le e^x e^{-1} \\\\
+\Rightarrow && x &\le e^x e^{-1} \\\\
+\Rightarrow && ex &\le e^x \\\\
 \end{align*}
 $$
 
@@ -118,13 +118,13 @@ Simply rearrange the above Gibbs' inequality, there is
 
 $$
 \begin{align*}
-&& -\sum_{x \in X} P(x) \ln Q(x) &\ge -\sum_{x \in X} P(x) \ln P(x) \\
+&& -\sum_{x \in X} P(x) \ln Q(x) &\ge -\sum_{x \in X} P(x) \ln P(x) \\\\
 \Rightarrow &&
-\sum_{x \in X} P(x) \ln P(x) -\sum_{x \in X} P(x) \ln Q(x) &\ge 0 \\
+\sum_{x \in X} P(x) \ln P(x) -\sum_{x \in X} P(x) \ln Q(x) &\ge 0 \\\\
 \Rightarrow &&
-\sum_{x \in X} P(x) \Big( \ln P(x) - \ln Q(X) \Big) &\ge 0 \\
+\sum_{x \in X} P(x) \Big( \ln P(x) - \ln Q(X) \Big) &\ge 0 \\\\
 \Rightarrow &&
-\sum_{x \in X} P(x) \ln \frac{P(x)}{Q(x)} &\ge 0 \\
+\sum_{x \in X} P(x) \ln \frac{P(x)}{Q(x)} &\ge 0 \\\\
 \end{align*}
 $$
 

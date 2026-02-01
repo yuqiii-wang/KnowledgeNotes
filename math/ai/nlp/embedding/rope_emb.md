@@ -71,7 +71,7 @@ Let $\mathbf{freqDimTrans}(\Delta)\in\mathbb{R}^{1\times 1000}$ be the transform
 It takes positional gap $\Delta$ as argument.
 
 The dimensionality of the embedding indicates the distance info.
-Let $\Pi(t)=\begin{cases} 1 & \quad t=1 \\ 0 & \quad \text{otherwise}\end{cases}$ be a pulse function that $\Pi(t)=1$ if and only if the input is a unit signal at $t=1$.
+Let $\Pi(t)=\begin{cases} 1 & \quad t=1 \\\\ 0 & \quad \text{otherwise}\end{cases}$ be a pulse function that $\Pi(t)=1$ if and only if the input is a unit signal at $t=1$.
 Let $\mathbf{w}=[w_1, w_2, ..., w_{1000}]$ be the weight coefficients, usually it sees a monotonic decaying progress as $w_i\rightarrow w_{1000}$, e.g., $w_i=1/{\Delta_{i}}$ is set up as reciprocal function.
 
 $$
@@ -102,8 +102,8 @@ Let $R(\theta)$ be a rotation matrix
 
 $$
 R (\theta_i) = \begin{bmatrix}
-      \cos \theta_i & -\sin \theta_i \\
-      \sin \theta_i & \cos \theta_i \\
+      \cos \theta_i & -\sin \theta_i \\\\
+      \sin \theta_i & \cos \theta_i \\\\
 \end{bmatrix}, \qquad
 i=0,1,...,D/2-1
 $$
@@ -112,8 +112,8 @@ Group dimensions by pairs for each rotation by $R (\theta_i)$ works on a 2-dimen
 
 $$
 \begin{align*}
-    \mathbf{q}&=\big[(q_1, q_2), (q_3, q_4), ..., (q_{D-1}, q_{D})\big] \\
-    \mathbf{k}&=\big[(k_1, k_2), (k_3, k_4), ..., (k_{D-1}, k_{D})\big] \\
+    \mathbf{q}&=\big[(q_1, q_2), (q_3, q_4), ..., (q_{D-1}, q_{D})\big] \\\\
+    \mathbf{k}&=\big[(k_1, k_2), (k_3, k_4), ..., (k_{D-1}, k_{D})\big] \\\\
 \end{align*}
 $$
 
@@ -163,8 +163,8 @@ Let $R(\theta)$ be a rotation matrix for a vector $\mathbf{v}$, there is
 
 $$
 R (\theta_i) = \begin{bmatrix}
-      \cos \theta_i & -\sin \theta_i \\
-      \sin \theta_i & \cos \theta_i \\
+      \cos \theta_i & -\sin \theta_i \\\\
+      \sin \theta_i & \cos \theta_i \\\\
 \end{bmatrix}, \qquad
 i=0,1,...,D/2-1
 $$
@@ -173,14 +173,14 @@ Rotation relative info can be computed by $R_{\theta_{i}-\theta_{j}}=R_{\theta_{
 
 $$
 R(\theta) = \begin{bmatrix}
-    \cos \theta_0 & -\sin \theta_0 & 0 & 0 & & & 0 & 0 \\
-    \sin \theta_0 & \cos \theta_0 & 0 & 0 & & & 0 & 0 \\
-    0 & 0 & \cos \theta_1 & -\sin \theta_1 & & & 0 & 0 \\
-    0 & 0 & \sin \theta_1 & \cos \theta_1 & & & 0 & 0 \\
-    & & & & \ddots & \ddots & & & \\
-    & & & & \ddots & \ddots & & & \\
-    0 & 0 & 0 & 0 & & & \cos \theta_{D/2-1} & -\sin \theta_{D/2-1} \\
-    0 & 0 & 0 & 0 & & & \sin \theta_{D/2-1} & \cos \theta_{D/2-1} \\
+    \cos \theta_0 & -\sin \theta_0 & 0 & 0 & & & 0 & 0 \\\\
+    \sin \theta_0 & \cos \theta_0 & 0 & 0 & & & 0 & 0 \\\\
+    0 & 0 & \cos \theta_1 & -\sin \theta_1 & & & 0 & 0 \\\\
+    0 & 0 & \sin \theta_1 & \cos \theta_1 & & & 0 & 0 \\\\
+    & & & & \ddots & \ddots & & & \\\\
+    & & & & \ddots & \ddots & & & \\\\
+    0 & 0 & 0 & 0 & & & \cos \theta_{D/2-1} & -\sin \theta_{D/2-1} \\\\
+    0 & 0 & 0 & 0 & & & \sin \theta_{D/2-1} & \cos \theta_{D/2-1} \\\\
 \end{bmatrix}
 $$
 
@@ -189,16 +189,16 @@ Let $\mathbf{v} \in \mathbb{R}^{1 \times D}$, group dimensions by pairs: $(v_1, 
 $$
 R(\theta) \mathbf{v} =
 \begin{bmatrix}
-      v_1 \\ v_1 \\ v_3 \\ v_3 \\ \vdots \\ v_{D-1} \\ v_{D-1}
+      v_1 \\\\ v_1 \\\\ v_3 \\\\ v_3 \\\\ \vdots \\\\ v_{D-1} \\\\ v_{D-1}
 \end{bmatrix} \odot
 \begin{bmatrix}
-      \cos \theta_0 \\ \cos \theta_0  \\ \cos \theta_1 \\ \cos \theta_1 \\ \vdots \\ \cos \theta_{D/2-1} \\ \cos \theta_{D/2-1}
+      \cos \theta_0 \\\\ \cos \theta_0  \\\\ \cos \theta_1 \\\\ \cos \theta_1 \\\\ \vdots \\\\ \cos \theta_{D/2-1} \\\\ \cos \theta_{D/2-1}
 \end{bmatrix} +
 \begin{bmatrix}
-      v_2 \\ v_2 \\ v_4 \\ v_4 \\ \vdots \\ v_{D} \\ v_{D}
+      v_2 \\\\ v_2 \\\\ v_4 \\\\ v_4 \\\\ \vdots \\\\ v_{D} \\\\ v_{D}
 \end{bmatrix} \odot
 \begin{bmatrix}
-      -\sin \theta_0 \\ \sin \theta_0  \\ -\sin \theta_1 \\ \sin \theta_1 \\ \vdots \\ -\sin \theta_{D/2-1} \\ \sin \theta_{D/2-1}
+      -\sin \theta_0 \\\\ \sin \theta_0  \\\\ -\sin \theta_1 \\\\ \sin \theta_1 \\\\ \vdots \\\\ -\sin \theta_{D/2-1} \\\\ \sin \theta_{D/2-1}
 \end{bmatrix}
 $$
 
@@ -236,16 +236,16 @@ Compute the angles and their cosine and sine values:
 $$
 \begin{align*}
     \theta_0 &= 10000^{-\frac{2 \times 0}{256}} = 1 \qquad&&
-    \cos(\theta_0) \approx 0.5403 && \sin(\theta_0) \approx 0.8418 \\
+    \cos(\theta_0) \approx 0.5403 && \sin(\theta_0) \approx 0.8418 \\\\
     \theta_1 &= 10000^{-\frac{2 \times 1}{256}}\approx 0.9306 \qquad&&
-    \cos(\theta_1) \approx 0.5973 && \sin(\theta_1) \approx 0.8020 \\
+    \cos(\theta_1) \approx 0.5973 && \sin(\theta_1) \approx 0.8020 \\\\
     \theta_2 &= 10000^{-\frac{2 \times 2}{256}} \approx 0.8660 \qquad&&
-    \cos(\theta_2) \approx 0.6479 && \sin(\theta_2) \approx 0.7617 \\
+    \cos(\theta_2) \approx 0.6479 && \sin(\theta_2) \approx 0.7617 \\\\
     \theta_3 &= 10000^{-\frac{2 \times 3}{256}} \approx 0.8058 \qquad&&
-    \cos(\theta_3) \approx 0.6925 && \sin(\theta_3) \approx 0.7214 \\
-    ... \\
+    \cos(\theta_3) \approx 0.6925 && \sin(\theta_3) \approx 0.7214 \\\\
+    ... \\\\
     \theta_{126} &= 10000^{-\frac{2 \times 126}{256}} \approx 1.15 \times 10^{-4} \qquad&&
-    \cos(\theta_{126}) \approx 1 && \sin(\theta_{126}) \approx 0 \\
+    \cos(\theta_{126}) \approx 1 && \sin(\theta_{126}) \approx 0 \\\\
     \theta_{127} &= 10000^{-\frac{2 \times 127}{256}} \approx 1.07 \times 10^{-4} \qquad&&
     \cos(\theta_{127}) \approx 1 && \sin(\theta_{127}) \approx 0 \\\end{align*}
 $$
@@ -260,7 +260,7 @@ Compute the distance at the position $m$ for each group by rotation
 
 $$
 \begin{bmatrix}
-    v_{2i} \cos(|n-m| \theta_i) - v_{2i+1} \sin(|n-m| \theta_i) \\
+    v_{2i} \cos(|n-m| \theta_i) - v_{2i+1} \sin(|n-m| \theta_i) \\\\
     v_{2i} \sin(|n-m| \theta_i) + v_{2i+1} \cos(|n-m| \theta_i)
 \end{bmatrix}
 $$
@@ -271,7 +271,7 @@ at $n=m+\Delta$ (relative position distance is $\Delta$), compute the score by r
 $$
 \begin{align*}
 \langle \mathbf{q}_m, \mathbf{k}_n \rangle = \sum_{i=0}^{127} \Big(
-    & \underbrace{\big(q_{2i}^m k_{2i}^{m+\Delta} + q_{2i+1}^m k_{2i+1}^{m+\Delta}\big)}\_{\alpha_{\cos}} \cos(\Delta\theta_i) + \\
+    & \underbrace{\big(q_{2i}^m k_{2i}^{m+\Delta} + q_{2i+1}^m k_{2i+1}^{m+\Delta}\big)}\_{\alpha_{\cos}} \cos(\Delta\theta_i) + \\\\
     & \underbrace{\big(q_{2i+1}^m k_{2i}^{m+\Delta} - q_{2i}^m k_{2i+1}^{m+\Delta}\big)}\_{\alpha_{\sin}} \sin(\Delta\theta_i) \Big)
 \end{align*}
 $$
@@ -336,22 +336,22 @@ The rotated vector is $\mathbf{v}\ne\mathbf{0}\in\mathbb{R}^{2}$.
 $$
 \begin{align*}
 &&  \begin{bmatrix}
-          \cos \theta_a & -\sin \theta_a \\
-          \sin \theta_a & \cos \theta_a \\
+          \cos \theta_a & -\sin \theta_a \\\\
+          \sin \theta_a & \cos \theta_a \\\\
     \end{bmatrix} \begin{bmatrix}
-        v_x \\ v_y
+        v_x \\\\ v_y
     \end{bmatrix} &= \begin{bmatrix}
-          \cos \theta_b & -\sin \theta_b \\
-          \sin \theta_b & \cos \theta_b \\
+          \cos \theta_b & -\sin \theta_b \\\\
+          \sin \theta_b & \cos \theta_b \\\\
     \end{bmatrix} \begin{bmatrix}
-        v_x \\ v_y
-    \end{bmatrix} \\
+        v_x \\\\ v_y
+    \end{bmatrix} \\\\
 \Rightarrow && \begin{bmatrix}
-    v_x \cos \theta_a - v_y \sin \theta_a \\
-    v_x \sin \theta_a + v_y \cos \theta_a \\
+    v_x \cos \theta_a - v_y \sin \theta_a \\\\
+    v_x \sin \theta_a + v_y \cos \theta_a \\\\
 \end{bmatrix} &= \begin{bmatrix}
-    v_x \cos \theta_b - v_y \sin \theta_b \\
-    v_x \sin \theta_b + v_y \cos \theta_b \\
+    v_x \cos \theta_b - v_y \sin \theta_b \\\\
+    v_x \sin \theta_b + v_y \cos \theta_b \\\\
 \end{bmatrix}
 \end{align*}
 $$

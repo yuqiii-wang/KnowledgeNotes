@@ -249,12 +249,14 @@ Heat flows from high temperature to low temperature.
 </br>
 
 Set $T_{t+1}(m,n)$ as the update temperature at the point $(m,n)$, there is
+
 $$
 \begin{align*}
-T_{t+1}(m,n) &= T_{t}(m,n) + \\
+T_{t+1}(m,n) &= T_{t}(m,n) + \\\\
 &\quad k \big(T_{t}(m-1,n)+T_{t}(m+1,n)+T_{t}(m,n-1)+T_{t}(m,n+1)-4T_{t}(m,n) \big)
 \end{align*}
 $$
+
 where $k$ is the update rate for simulation.
 
 It should be noted that the above update formula does not correctly reflect how actually heat flows, for two reasons:

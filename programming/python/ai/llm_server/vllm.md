@@ -117,10 +117,10 @@ Then, the concurrency is $\frac{\text{TotalVllmMem}\space-\space\text{ModelStati
 
 $$
 \begin{align*}
-W_Q &: 5120 \times 5120 = 26.2 \text{mil} \\
-W_K &: 5120 \times (8 \times 128) = 5.2 \text{mil} \\
-W_V &: 5120 \times 1024 = 5.2 \text{mil} \\
-W_O &: 5120 \times 5120 = 26.2 \text{mil} \\
+W_Q &: 5120 \times 5120 = 26.2 \text{mil} \\\\
+W_K &: 5120 \times (8 \times 128) = 5.2 \text{mil} \\\\
+W_V &: 5120 \times 1024 = 5.2 \text{mil} \\\\
+W_O &: 5120 \times 5120 = 26.2 \text{mil} \\\\
 \end{align*}
 $$
 
@@ -197,7 +197,7 @@ There $524,288$ entries that need indexing, so that the pointer address size is 
 #### Token KV Cache Memory
 
 $$
-2 \times \text{Layer} \times \text{KVHeads} \times \text{HeadsDim} \times \text{Precision} = \\
+2 \times \text{Layer} \times \text{KVHeads} \times \text{HeadsDim} \times \text{Precision} = \\\\
 \text{OneTokenMem} = 0.078125 \text{MB} = 2 \times 40 \times 8 \times 128 \times 1 \text{byte}
 $$
 

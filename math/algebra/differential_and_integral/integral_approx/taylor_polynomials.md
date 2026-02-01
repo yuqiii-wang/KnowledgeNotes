@@ -13,7 +13,7 @@ $$
 \begin{align*}
 R_n(f)(x) &=
 f(x) - T_n(f)(x)
-\\ & \approx
+\\\\ & \approx
 \int^x_c \frac{f^{(n+1)}(y)}{n!} (x-y)^n dy
 \end{align*}
 $$

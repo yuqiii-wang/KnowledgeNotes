@@ -7,9 +7,9 @@ $$
 (\mathbf{P}) = \left\{
     \begin{matrix}
         \underset{\mathbf{x} \in \mathbb{R}^n}{\text{minimize}} 
-        & \mathbf{c}^\top \mathbf{x} \\
+        & \mathbf{c}^\top \mathbf{x} \\\\
         \text{subject to} 
-        & A\mathbf{x} = \mathbf{b} \\
+        & A\mathbf{x} = \mathbf{b} \\\\
         & \mathbf{x} \ge 0
     \end{matrix}
 \right.
@@ -17,9 +17,9 @@ $$
 (\mathbf{D}) = \left\{
     \begin{matrix}
         \underset{\mathbf{u} \in \mathbb{R}^m}{\text{maximize}} 
-        & \mathbf{u}^\top \mathbf{b} \\
+        & \mathbf{u}^\top \mathbf{b} \\\\
         \text{subject to} 
-        & \mathbf{u}^\top A \le \mathbf{c}^\top \\
+        & \mathbf{u}^\top A \le \mathbf{c}^\top \\\\
         & \mathbf{u} \text{ unconstrained}
     \end{matrix}
 \right.

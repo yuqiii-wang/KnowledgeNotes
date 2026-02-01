@@ -15,7 +15,7 @@ I_{sum}(x,y) =
 \sum_{
     \scriptsize{
     \begin{matrix}
-        \forall\space x' \le x \\
+        \forall\space x' \le x \\\\
         \forall\space y' \le y
     \end{matrix}
     }
@@ -29,7 +29,7 @@ $$
 \sum_{
     \scriptsize{
     \begin{matrix}
-        x_0 \le x \le x_1 \\
+        x_0 \le x \le x_1 \\\\
         y_0 \le y \le y_1
     \end{matrix}
     }
@@ -59,16 +59,17 @@ $$
 $$
 
 Given a pixel $i(x,y)$, the Hessian of this pixel $i(x,y)$ is defined
+
 $$
 \begin{align*}
 H\big(i(x,y)\big) &= 
 \begin{bmatrix}
-    \frac{\partial^2 i}{\partial x^2} & \frac{\partial^2 i}{\partial x \partial y} \\
+    \frac{\partial^2 i}{\partial x^2} & \frac{\partial^2 i}{\partial x \partial y} \\\\
     \frac{\partial^2 i}{\partial y \partial x} & \frac{\partial^2 i}{\partial y^2}
 \end{bmatrix}
-\\ &=
+\\\\ &=
 \begin{bmatrix}
-    L\_{xx} & L\_{xy} \\
+    L\_{xx} & L\_{xy} \\\\
     L\_{yx} & L\_{yy}
 \end{bmatrix}
 \end{align*}
@@ -102,11 +103,11 @@ $$
 det(H) &= 
 \sigma_k^2 \big(
     L\_{xx} L\_{yy} - L\_{xy}^2
-\big)
-\\
+\big) \\\\
 tr(H) &=
 \sigma_k (L\_{xx}+L\_{yy})
-\end{align*}$$
+\end{align*}
+$$
 
 By choosing points that maximize the determinant of the Hessian, this measure penalizes longer structures that have small second derivatives (signal changes) in a single direction.
 
@@ -116,6 +117,7 @@ By choosing points that maximize the determinant of the Hessian, this measure pe
 DoG is an approximation to LoG by a simple subtraction.
 
 Consider Gaussian kernels with different adjacent scaling factor $\sigma_k$ and $\sigma_{k+1}$ (conditional on $\sigma_k < \sigma_{k+1}$), there is
+
 $$
 \begin{align*}
 DoG_{\sigma_k, \sigma_{k+1}} (x,y)&=
@@ -126,7 +128,7 @@ e^{-\frac{x^2+y^2}{2\sigma_k^2}}
 I *
 \frac{1}{2\pi \sigma_{k+1}^2}
 e^{-\frac{x^2+y^2}{2\sigma_{k+1}^2}}
-\\ &=
+\\\\ &=
 I * \bigg(
     \frac{1}{2\pi \sigma_k^2}
 e^{-\frac{x^2+y^2}{2\sigma_k^2}}

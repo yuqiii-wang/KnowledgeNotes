@@ -26,7 +26,7 @@ For each $t$ moment the forward is only related to the previous $t-1$ moment, th
 
 $$
 \begin{align*}
-    q(\mathbf{x}_t|\mathbf{x}\_{t-1}) &= \mathcal{N}(\mathbf{x}_t; \sqrt{1-\beta_t}\mathbf{x}\_{t-1}, \beta_t\mathbf{I}) \\
+    q(\mathbf{x}_t|\mathbf{x}\_{t-1}) &= \mathcal{N}(\mathbf{x}_t; \sqrt{1-\beta_t}\mathbf{x}\_{t-1}, \beta_t\mathbf{I}) \\\\
     q(\mathbf{x}\_{1:T}|\mathbf{x}\_{0}) &= \prod^T_{i=1} q(\mathbf{x}_t|\mathbf{x}\_{t-1})
  \end{align*}
 $$
@@ -60,11 +60,11 @@ In any arbitrary step $t$, the progress can be expressed as
 
 $$
 \begin{align*}
-\mathbf{x}_t &= \sqrt{\alpha_t}\mathbf{x}\_{t-1}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \\
-&= \sqrt{\alpha_t}\left(\sqrt{\alpha_{t-1}}\mathbf{x}\_{t-2}+\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}\right)+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \\
-&= \sqrt{\alpha_t \alpha_{t-1}}\mathbf{x}\_{t-2}+\left(\sqrt{\alpha_t}\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \right) \\
-&= \sqrt{\alpha_t \alpha_{t-1} \alpha_{t-2}}\mathbf{x}\_{t-3}+\left(\sqrt{\alpha_{t-1}}\sqrt{1-\alpha_{t-2}}\mathbf{z}\_{3}+\sqrt{\alpha_t}\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \right) \\
-&= ... \\
+\mathbf{x}_t &= \sqrt{\alpha_t}\mathbf{x}\_{t-1}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \\\\
+&= \sqrt{\alpha_t}\left(\sqrt{\alpha_{t-1}}\mathbf{x}\_{t-2}+\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}\right)+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \\\\
+&= \sqrt{\alpha_t \alpha_{t-1}}\mathbf{x}\_{t-2}+\left(\sqrt{\alpha_t}\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \right) \\\\
+&= \sqrt{\alpha_t \alpha_{t-1} \alpha_{t-2}}\mathbf{x}\_{t-3}+\left(\sqrt{\alpha_{t-1}}\sqrt{1-\alpha_{t-2}}\mathbf{z}\_{3}+\sqrt{\alpha_t}\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \right) \\\\
+&= ... \\\\
 \end{align*}
 $$
 
@@ -75,8 +75,8 @@ Given the sum property of Gaussian distribution independence, there is $\mathcal
 $$
 \begin{align*}
 \sqrt{\alpha_{t}}\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} &\sim
-\mathcal{N}\left(0, ({\alpha_{t}}({1-\alpha_{t-1}})+{1-\alpha_t})I\right) \\
-&= \mathcal{N}\left(0, (1-\alpha_t\alpha_{t-1})I\right) \\
+\mathcal{N}\left(0, ({\alpha_{t}}({1-\alpha_{t-1}})+{1-\alpha_t})I\right) \\\\
+&= \mathcal{N}\left(0, (1-\alpha_t\alpha_{t-1})I\right) \\\\
 \end{align*}
 $$
 
@@ -84,9 +84,9 @@ Let $\overline{\alpha}_t=\prod^t_{\tau=1}\alpha_{\tau}$ be the chained product, 
 
 $$
 \begin{align*}
-\mathbf{x}_t &= \sqrt{\alpha_t \alpha_{t-1} \alpha_{t-2}}\mathbf{x}\_{t-3}+\left(\sqrt{\alpha_{t-1}}\sqrt{1-\alpha_{t-2}}\mathbf{z}\_{3}+\sqrt{\alpha_t}\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \right) \\
-&= \sqrt{\alpha_t \alpha_{t-1} \alpha_{t-2}}\mathbf{x}\_{t-3}+ \left(\sqrt{1-{\alpha}\_{t}{\alpha}\_{t-1}{\alpha}\_{t-2}}\space\overline{\mathbf{z}}\_{1:3}\right)\\
-&= ... \\
+\mathbf{x}_t &= \sqrt{\alpha_t \alpha_{t-1} \alpha_{t-2}}\mathbf{x}\_{t-3}+\left(\sqrt{\alpha_{t-1}}\sqrt{1-\alpha_{t-2}}\mathbf{z}\_{3}+\sqrt{\alpha_t}\sqrt{1-\alpha_{t-1}}\mathbf{z}\_{2}+\sqrt{1-\alpha_t}\space\mathbf{z}\_{1} \right) \\\\
+&= \sqrt{\alpha_t \alpha_{t-1} \alpha_{t-2}}\mathbf{x}\_{t-3}+ \left(\sqrt{1-{\alpha}\_{t}{\alpha}\_{t-1}{\alpha}\_{t-2}}\space\overline{\mathbf{z}}\_{1:3}\right)\\\\
+&= ... \\\\
 &= \sqrt{\overline{\alpha}_t}\space\mathbf{x}\_{0}+\sqrt{1-\overline{\alpha}_t}\space\overline{\mathbf{z}\_{t}}
 \end{align*}
 $$
@@ -151,7 +151,7 @@ Recall that noise $\mathbf{z}_t$ is derived from a Gaussian distribution and the
 
 $$
 \begin{align*}
-&& \mathbf{x}_t &=\sqrt{\alpha_t}\mathbf{x}\_{t-1}+\sqrt{1-\alpha_t}\space\mathbf{z}_t \\
+&& \mathbf{x}_t &=\sqrt{\alpha_t}\mathbf{x}\_{t-1}+\sqrt{1-\alpha_t}\space\mathbf{z}_t \\\\
 && &= \sqrt{\alpha_t}\mathbf{x}\_{t-1}+\sqrt{\beta_t}\space\mathbf{z}_t & \text{where } \mathbf{z}_t\sim \mathcal{N}(0,I)
 \end{align*}
 $$
@@ -169,10 +169,10 @@ As a result, the reverse process can be rewritten as
 $$
 \begin{align*}
 q(\mathbf{x}\_{t-1}|\mathbf{x}\_{t},\mathbf{x}\_{0})&=
-q(\mathbf{x}\_{t}|\mathbf{x}\_{t-1},\mathbf{x}\_{0})\frac{q(\mathbf{x}\_{t-1}|\mathbf{x}\_{0})}{q(\mathbf{x}\_{t}|\mathbf{x}\_{0})} \\
+q(\mathbf{x}\_{t}|\mathbf{x}\_{t-1},\mathbf{x}\_{0})\frac{q(\mathbf{x}\_{t-1}|\mathbf{x}\_{0})}{q(\mathbf{x}\_{t}|\mathbf{x}\_{0})} \\\\
 &\propto \exp\left(-\frac{1}{2}\left(\frac{(\mathbf{x}_t-\sqrt{\alpha_t}\mathbf{x}\_{t-1})^2}{\beta_t}+
 \frac{(\mathbf{x}_t-\sqrt{\overline{\alpha}\_{t-1}}\mathbf{x}\_{0})^2}{1-\overline{\alpha}\_{t-1}}-
-\frac{(\mathbf{x}_t-\sqrt{\overline{\alpha}\_{t}}\mathbf{x}\_{0})^2}{1-\overline{\alpha}\_{t}}\right)\right) \\
+\frac{(\mathbf{x}_t-\sqrt{\overline{\alpha}\_{t}}\mathbf{x}\_{0})^2}{1-\overline{\alpha}\_{t}}\right)\right) \\\\
 &= \exp\left(-\frac{1}{2} \left( \left(\frac{\alpha_t}{\beta_t} + \frac{1}{1-\bar{\alpha}\_{t-1}}\right)\mathbf{x}\_{t-1}^2 -
 \left(\frac{2\sqrt{\alpha_t}}{\beta_t}\mathbf{x}_t + \frac{2\sqrt{\bar{\alpha}\_{t-1}}}{1-\bar{\alpha}\_{t-1}}\mathbf{x}_0\right)\mathbf{x}\_{t-1} +
 C(\mathbf{x}_t, \mathbf{x}_0) \right) \right)
@@ -185,7 +185,7 @@ The variance is
 
 $$
 \begin{align*}
-&& \frac{1}{\sigma^2} &= \left(\frac{\alpha_t}{\beta_t} + \frac{1}{1-\bar{\alpha}\_{t-1}}\right) \\
+&& \frac{1}{\sigma^2} &= \left(\frac{\alpha_t}{\beta_t} + \frac{1}{1-\bar{\alpha}\_{t-1}}\right) \\\\
 \Rightarrow && \tilde{\beta}_t &= 1 / \left(\frac{\alpha_t}{\beta_t} + \frac{1}{1-\bar{\alpha}\_{t-1}}\right) = 1/ \left(\frac{1-\beta_t}{\beta_t} + \frac{1}{1-\bar{\alpha}\_{t-1}}\right) = \frac{1-\bar{\alpha}\_{t-1}}{1-\bar{\alpha}_t} \beta_t
 \end{align*}
 $$
@@ -194,7 +194,7 @@ The mean is
 
 $$
 \begin{align*}
-&& \frac{2\mu}{\sigma^2} &= \left(\frac{2\sqrt{\alpha_t}}{\beta_t}\mathbf{x}_t + \frac{2\sqrt{\bar{\alpha}\_{t-1}}}{1-\bar{\alpha}\_{t-1}}\mathbf{x}_0\right) \\
+&& \frac{2\mu}{\sigma^2} &= \left(\frac{2\sqrt{\alpha_t}}{\beta_t}\mathbf{x}_t + \frac{2\sqrt{\bar{\alpha}\_{t-1}}}{1-\bar{\alpha}\_{t-1}}\mathbf{x}_0\right) \\\\
 \Rightarrow && \tilde{\mathbf{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0) &= \left(\frac{\sqrt{\alpha_t}}{\beta_t}\mathbf{x}_t + \frac{\sqrt{\bar{\alpha}\_{t-1}}}{1-\bar{\alpha}\_{t-1}}\mathbf{x}_0\right) \tilde{\beta}_t = \frac{\sqrt{\alpha_t}(1-\bar{\alpha}\_{t-1})}{1-\bar{\alpha}_t} \mathbf{x}_t + \frac{\sqrt{\bar{\alpha}\_{t-1}}\beta_t}{1-\bar{\alpha}_t} \mathbf{x}_0
 \end{align*}
 $$
@@ -225,8 +225,8 @@ Let $p_{\theta}(\mathbf{x}\_{0:T})$ be the reverse diffusion process probability
 
 $$
 \begin{align*}
-p_{\theta}(\mathbf{x}\_{0:T})&=p(\mathbf{x}\_{T})\prod^T_{t=1}p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}\_{t}) \\
-p_{\theta}(\mathbf{x}\_{t-1}|\mathbf{x}\_{t})&=\mathcal{N}\big(\mathbf{x}\_{t-1};\mu_\theta(\mathbf{x}\_{t},t),\Sigma_\theta(\mathbf{x}\_{t},t)\big) \\
+p_{\theta}(\mathbf{x}\_{0:T})&=p(\mathbf{x}\_{T})\prod^T_{t=1}p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}\_{t}) \\\\
+p_{\theta}(\mathbf{x}\_{t-1}|\mathbf{x}\_{t})&=\mathcal{N}\big(\mathbf{x}\_{t-1};\mu_\theta(\mathbf{x}\_{t},t),\Sigma_\theta(\mathbf{x}\_{t},t)\big) \\\\
 \end{align*}
 $$
 
@@ -236,7 +236,7 @@ In other words, to maximize $p_{\theta}(\mathbf{x}\_{0:T})$, it is equivalent to
 
 $$
 \begin{align*}
-&& \max\int \dots \int \int p_\theta(\mathbf{x}_0, \mathbf{x}_1, \dots, \mathbf{x}_T) \; d\mathbf{x}_1 d\mathbf{x}_2 \dots d\mathbf{x}_T &=\int p_\theta(\mathbf{x}\_{0:T}) d\mathbf{x}\_{1:T} \\
+&& \max\int \dots \int \int p_\theta(\mathbf{x}_0, \mathbf{x}_1, \dots, \mathbf{x}_T) \; d\mathbf{x}_1 d\mathbf{x}_2 \dots d\mathbf{x}_T &=\int p_\theta(\mathbf{x}\_{0:T}) d\mathbf{x}\_{1:T} \\\\
 \Rightarrow && \min\mathcal{L}\_{\text{CE}} &=\mathbb{E}\_{q(\mathbf{x}\_{0})}\big(-\log p_{\theta}(\mathbf{x}\_{0})\big)
 \end{align*}
 $$
@@ -247,12 +247,12 @@ $p_\theta(\mathbf{x}_0)$ is the marginal probability of the data $\mathbf{x}_0$,
 
 $$
 \begin{align*}
-\mathcal{L}\_{\text{CE}} &= - \mathbb{E}\_{q(\mathbf{x}_0)} \log p_\theta(\mathbf{x}_0) \\
-&= - \mathbb{E}\_{q(\mathbf{x}_0)} \log \left( \int p_\theta(\mathbf{x}\_{0:T}) d\mathbf{x}\_{1:T} \right) \\
-&= - \mathbb{E}\_{q(\mathbf{x}_0)} \log \left( \int q(\mathbf{x}\_{1:T} | \mathbf{x}_0) \frac{p_\theta(\mathbf{x}\_{0:T})}{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)} d\mathbf{x}\_{1:T} \right) \\
-&= - \mathbb{E}\_{q(\mathbf{x}_0)} \log \left( \mathbb{E}\_{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)} \frac{p_\theta(\mathbf{x}\_{0:T})}{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)} \right) \\
-&\leq - \mathbb{E}\_{q(\mathbf{x}\_{0:T})} \log \frac{p_\theta(\mathbf{x}\_{0:T})}{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)} &\text{Jensen's Inequality} \\
-&= \mathbb{E}\_{q(\mathbf{x}\_{0:T})} \left[ \log \frac{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)}{p_\theta(\mathbf{x}\_{0:T})} \right] \\
+\mathcal{L}\_{\text{CE}} &= - \mathbb{E}\_{q(\mathbf{x}_0)} \log p_\theta(\mathbf{x}_0) \\\\
+&= - \mathbb{E}\_{q(\mathbf{x}_0)} \log \left( \int p_\theta(\mathbf{x}\_{0:T}) d\mathbf{x}\_{1:T} \right) \\\\
+&= - \mathbb{E}\_{q(\mathbf{x}_0)} \log \left( \int q(\mathbf{x}\_{1:T} | \mathbf{x}_0) \frac{p_\theta(\mathbf{x}\_{0:T})}{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)} d\mathbf{x}\_{1:T} \right) \\\\
+&= - \mathbb{E}\_{q(\mathbf{x}_0)} \log \left( \mathbb{E}\_{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)} \frac{p_\theta(\mathbf{x}\_{0:T})}{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)} \right) \\\\
+&\leq - \mathbb{E}\_{q(\mathbf{x}\_{0:T})} \log \frac{p_\theta(\mathbf{x}\_{0:T})}{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)} &\text{Jensen's Inequality} \\\\
+&= \mathbb{E}\_{q(\mathbf{x}\_{0:T})} \left[ \log \frac{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)}{p_\theta(\mathbf{x}\_{0:T})} \right] \\\\
 &= \mathcal{L}\_{\text{VLB}}
 \end{align*}
 $$
@@ -261,14 +261,14 @@ To convert each term in the equation to be analytically computable, the objectiv
 
 $$
 \begin{align*}
-\mathcal{L}\_{\text{VLB}} &= \mathbb{E}\_{q(\mathbf{x}\_{0:T})} \left[ \log \frac{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)}{p_\theta(\mathbf{x}\_{0:T})} \right] \\
-&= \mathbb{E}_q \left[ \log \frac{\prod_{t=1}^T q(\mathbf{x}_t|\mathbf{x}\_{t-1})}{p_\theta(\mathbf{x}_T) \prod_{t=1}^T p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t)} \right] \\
-&= \mathbb{E}_q \left[ -\log p_\theta(\mathbf{x}_T) + \sum_{t=1}^T \log \frac{q(\mathbf{x}_t|\mathbf{x}\_{t-1})}{p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t)} \right] \\
-&= \mathbb{E}_q \left[ -\log p_\theta(\mathbf{x}_T) + \sum_{t=2}^T \log \frac{q(\mathbf{x}\_{t-1}|\mathbf{x}_t, \mathbf{x}_0)}{p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t)} \cdot \frac{q(\mathbf{x}_t|\mathbf{x}_0)}{q(\mathbf{x}\_{t-1}|\mathbf{x}_0)} + \log \frac{q(\mathbf{x}_1|\mathbf{x}_0)}{p_\theta(\mathbf{x}_0|\mathbf{x}_1)} \right] \\
+\mathcal{L}\_{\text{VLB}} &= \mathbb{E}\_{q(\mathbf{x}\_{0:T})} \left[ \log \frac{q(\mathbf{x}\_{1:T} | \mathbf{x}_0)}{p_\theta(\mathbf{x}\_{0:T})} \right] \\\\
+&= \mathbb{E}_q \left[ \log \frac{\prod_{t=1}^T q(\mathbf{x}_t|\mathbf{x}\_{t-1})}{p_\theta(\mathbf{x}_T) \prod_{t=1}^T p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t)} \right] \\\\
+&= \mathbb{E}_q \left[ -\log p_\theta(\mathbf{x}_T) + \sum_{t=1}^T \log \frac{q(\mathbf{x}_t|\mathbf{x}\_{t-1})}{p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t)} \right] \\\\
+&= \mathbb{E}_q \left[ -\log p_\theta(\mathbf{x}_T) + \sum_{t=2}^T \log \frac{q(\mathbf{x}\_{t-1}|\mathbf{x}_t, \mathbf{x}_0)}{p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t)} \cdot \frac{q(\mathbf{x}_t|\mathbf{x}_0)}{q(\mathbf{x}\_{t-1}|\mathbf{x}_0)} + \log \frac{q(\mathbf{x}_1|\mathbf{x}_0)}{p_\theta(\mathbf{x}_0|\mathbf{x}_1)} \right] \\\\
 &= \mathbb{E}_q \left[
       \underbrace{D_{\text{KL}}(q(\mathbf{x}_T|\mathbf{x}_0) || p_\theta(\mathbf{x}_T))}\_{\mathcal{L}\_{\text{T}}} +
       \sum_{t=2}^T \underbrace{D_{\text{KL}}(q(\mathbf{x}\_{t-1}|\mathbf{x}_t, \mathbf{x}_0) || p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t))}\_{\mathcal{L}\_{\text{t-1}}} -
-      \underbrace{\log p_\theta(\mathbf{x}_0|\mathbf{x}_1)}\_{\mathcal{L}\_{\text{0}}} \right] \\
+      \underbrace{\log p_\theta(\mathbf{x}_0|\mathbf{x}_1)}\_{\mathcal{L}\_{\text{0}}} \right] \\\\
 &= \mathcal{L}\_{\text{T}} + \mathcal{L}\_{\text{T-1}} + \mathcal{L}\_{\text{T-2}} + ... + \mathcal{L}\_{\text{0}}
 \end{align*}
 $$
@@ -279,7 +279,7 @@ For each $\mathcal{L}\_{\text{t}}$, $p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t)$ s
 
 $$
 \begin{align*}
-q(\mathbf{x}\_{t-1}|\mathbf{x}_t, \mathbf{x}_0) &=\mathcal{N}\left(\mathbf{x}\_{t-1};\tilde{\mathbf{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0), \tilde{\beta}_t I\right) \\
+q(\mathbf{x}\_{t-1}|\mathbf{x}_t, \mathbf{x}_0) &=\mathcal{N}\left(\mathbf{x}\_{t-1};\tilde{\mathbf{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0), \tilde{\beta}_t I\right) \\\\
 p_\theta(\mathbf{x}\_{t-1}|\mathbf{x}_t) &=\mathcal{N}\left(\mathbf{x}\_{t-1};{\mathbf{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0), \Sigma_\theta\right)
 \end{align*}
 $$
@@ -306,8 +306,8 @@ Here convert the expression back to using $\mathbf{z}\_{\theta}$.
 
 $$
 \begin{align*}
-\mathcal{L}\_{\text{t}} &= E_q \left[ \frac{1}{2||\Sigma_\theta(\mathbf{x}_t,t)||_2^2} \Big|\Big| \tilde{\mu}_t(\mathbf{x}_t, x_0) - \mu_\theta(\mathbf{x}_t, t) \Big|\Big|^2 \right] \\
-&= \mathbb{E}\_{\mathbf{x}_0, \mathbf{z}} \left[ \frac{1}{2 \| \Sigma_\theta \|_2^2} \left\| \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \mathbf{z}_t \right) - \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \mathbf{z}\_\theta(\mathbf{x}_t, t) \right) \right\|^2 \right] \\
+\mathcal{L}\_{\text{t}} &= E_q \left[ \frac{1}{2||\Sigma_\theta(\mathbf{x}_t,t)||_2^2} \Big|\Big| \tilde{\mu}_t(\mathbf{x}_t, x_0) - \mu_\theta(\mathbf{x}_t, t) \Big|\Big|^2 \right] \\\\
+&= \mathbb{E}\_{\mathbf{x}_0, \mathbf{z}} \left[ \frac{1}{2 \| \Sigma_\theta \|_2^2} \left\| \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \mathbf{z}_t \right) - \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \mathbf{z}\_\theta(\mathbf{x}_t, t) \right) \right\|^2 \right] \\\\
 &= \mathbb{E}\_{\mathbf{x}_0, \mathbf{z}} \left[ \frac{(1 - \alpha_t)^2}{2 \alpha_t (1 - \bar{\alpha}_t) \| \Sigma_\theta \|_2^2} \| \mathbf{z}_t - \mathbf{z}\_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\mathbf{z}_t, t) \|^2 \right]
 \end{align*}
 $$

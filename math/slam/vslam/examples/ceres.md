@@ -212,8 +212,7 @@ Variable elimination ordering can boost computation speed.
 For example, consider the below two equations:
 $$
 \begin{align*}
-x+y&=3 &\quad (1)
-\\
+x+y&=3 &\quad (1) \\\\
 3x+2y&=5 &\quad (2)
 \end{align*}
 $$

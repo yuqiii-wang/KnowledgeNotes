@@ -45,7 +45,7 @@ $$
 
 $$
 \begin{align*}
-dX_t&=\mu dt + \sigma dW_t \\
+dX_t&=\mu dt + \sigma dW_t \\\\
 (dX_t)^2&=\mu^2 dt^2 + \sigma^2 (dW_t)^2 + 2\mu\sigma dt dW_t
 \end{align*}
 $$
@@ -94,11 +94,11 @@ To find the analytic solution, define $f(X_t, t)=X_t e^{\theta t}$ at the initia
 $$
 \begin{align*}
 df&=\Big(\frac{\partial f}{\partial t}+\mu\frac{\partial f}{\partial X}+\frac{1}{2}\frac{\partial^2 f}{\partial X^2}\sigma^2\Big)dt+
-\sigma \frac{\partial f}{\partial t} dW_t \\
+\sigma \frac{\partial f}{\partial t} dW_t \\\\
 &=\Big(\frac{\partial f}{\partial t}+\theta(\mu-X_t)\frac{\partial f}{\partial X}+\frac{1}{2}\frac{\partial^2 f}{\partial X^2}\sigma^2\Big)dt+
-\sigma \frac{\partial f}{\partial t} dW_t \\
+\sigma \frac{\partial f}{\partial t} dW_t \\\\
 &=\Big(\theta X_t e^{\theta t}+\theta(\mu-X_t)e^{\theta t}+\frac{1}{2}\cdot 0 \cdot\sigma^2\Big)dt+
-\sigma e^{\theta t} dW_t \\
+\sigma e^{\theta t} dW_t \\\\
 &=\theta\mu e^{\theta t} + \sigma e^{\theta t} dW_t
 \end{align*}
 $$
@@ -108,11 +108,11 @@ Integrate $df$ over the time range $[t, t+\tau]$, there is
 $$
 \begin{align*}
 && X_{t+\tau}e^{\theta (t+\tau)}-X_{t}e^{\theta t}&=
-\int^{t+\tau}\_{t}\theta\mu e^{\theta s} ds+\int^{t+\tau}\_{t} \sigma e^{\theta s} dW_s \\
-&& &= \mu e^{\theta s}\Big|^{s=t+\tau}\_{s=t}+\sigma\int^{t+\tau}\_{t}e^{\theta s} dW_s \\
-\Rightarrow && X_{t+\tau}e^{\theta (t+\tau)} &= \mu e^{\theta s}\Big|^{s=t+\tau}\_{s=t}+\sigma\int^{t+\tau}\_{t}e^{\theta s} dW_s + X_{t}e^{\theta t} \\
-&& &= \mu e^{\theta t} \big(e^{\theta \tau}-1\big) + X_{t}e^{\theta t}+\sigma\int^{t+\tau}\_{t}e^{\theta s}dW_s \\
-\Rightarrow && X_{t+\tau} &= \mu \big(1-e^{-\theta \tau}\big) + X_{t}e^{-\theta t}+\sigma\int^{t+\tau}\_{t}\big(e^{\theta s - \theta (t+\tau)}\big)dW_s \\
+\int^{t+\tau}\_{t}\theta\mu e^{\theta s} ds+\int^{t+\tau}\_{t} \sigma e^{\theta s} dW_s \\\\
+&& &= \mu e^{\theta s}\Big|^{s=t+\tau}\_{s=t}+\sigma\int^{t+\tau}\_{t}e^{\theta s} dW_s \\\\
+\Rightarrow && X_{t+\tau}e^{\theta (t+\tau)} &= \mu e^{\theta s}\Big|^{s=t+\tau}\_{s=t}+\sigma\int^{t+\tau}\_{t}e^{\theta s} dW_s + X_{t}e^{\theta t} \\\\
+&& &= \mu e^{\theta t} \big(e^{\theta \tau}-1\big) + X_{t}e^{\theta t}+\sigma\int^{t+\tau}\_{t}e^{\theta s}dW_s \\\\
+\Rightarrow && X_{t+\tau} &= \mu \big(1-e^{-\theta \tau}\big) + X_{t}e^{-\theta t}+\sigma\int^{t+\tau}\_{t}\big(e^{\theta s - \theta (t+\tau)}\big)dW_s \\\\
 && &=\mu \big(1-e^{-\theta \tau}\big) + X_{t}e^{-\theta t}+
 \underbrace{\sigma\int^{t+\tau}\_{t}\big(e^{-\theta (t+\tau-s)}\big)dW_s}\_{\sim N(0, \sigma^2\int^{t+\tau}\_{t}e^{-2\theta (t+\tau)-s}ds)}
 \end{align*}

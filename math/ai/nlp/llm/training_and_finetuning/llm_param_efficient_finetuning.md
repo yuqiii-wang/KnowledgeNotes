@@ -123,7 +123,7 @@ AdaLoRA takes SVD on the added weight matrix such that $W_{\Delta}=P \Lambda Q$.
 
 $$
 \begin{align*}
-    \mathbf{h} &= W^{\top}_0\mathbf{x} + \underbrace{B^{\top} A^{\top}}\_{W_{\Delta}} \mathbf{x} \\
+    \mathbf{h} &= W^{\top}_0\mathbf{x} + \underbrace{B^{\top} A^{\top}}\_{W_{\Delta}} \mathbf{x} \\\\
     &= W^{\top}_0\mathbf{x} + P \Lambda Q \mathbf{x}
 \end{align*}
 $$
@@ -169,7 +169,7 @@ $$
 \Lambda_{t+1} = \text{prune}(\hat{\Lambda}_t, S_t) =
 \left\{
     \begin{matrix}
-        \hat{\Lambda}_t & S_t \text{ is among top in all } \mathbf{S}_t \\
+        \hat{\Lambda}_t & S_t \text{ is among top in all } \mathbf{S}_t \\\\
         0 & \text{otherwise}
     \end{matrix}
 \right.
@@ -202,7 +202,7 @@ where, with the help of coefficients $0 < \beta_1, \beta_2 < 1$, there are
 
 $$
 \begin{align*}
-    \overline{s}\_{t}(w_{ij}) &= \beta_1 \overline{s}\_{t-1}(w_{ij}) + (1-\beta_1)\hat{s}\_{t}(w_{ij}) \\
+    \overline{s}\_{t}(w_{ij}) &= \beta_1 \overline{s}\_{t-1}(w_{ij}) + (1-\beta_1)\hat{s}\_{t}(w_{ij}) \\\\
     \overline{u}\_{t}(w_{ij}) &= \beta_2 \overline{u}\_{t-1}(w_{ij}) + (1-\beta_2)\Big| \hat{s}\_{t}(w_{ij}) - \overline{s}\_{t}(w_{ij}) \Big|
 \end{align*}
 $$

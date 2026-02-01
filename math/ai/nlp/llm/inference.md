@@ -53,7 +53,7 @@ For example, assumed model has already processed $128$ tokens, base on which to 
 For ONE layer of BERT-base, there is
 
 $$
-K\in\mathbb{R}^{\text{numHeads}\times\text{seqLen}\times\text{headDim}}=\mathbb{R}^{12\times 128\times 64} \\
+K\in\mathbb{R}^{\text{numHeads}\times\text{seqLen}\times\text{headDim}}=\mathbb{R}^{12\times 128\times 64} \\\\
 V\in\mathbb{R}^{\text{numHeads}\times\text{seqLen}\times\text{headDim}}=\mathbb{R}^{12\times 128\times 64}
 $$
 
@@ -95,7 +95,7 @@ $$
 * Compute the new $K$ and $V$ for the $129$-th token for all $12$ heads, and add them to KV Caches
 
 $$
-K_{i=129} \in\mathbb{R}^{12\times 64} \\
+K_{i=129} \in\mathbb{R}^{12\times 64} \\\\
 V_{i=129} \in\mathbb{R}^{12\times 64}
 $$
 
@@ -184,7 +184,7 @@ Top-k sampling restricts the selection of the next token to the top $k$ tokens w
 
 $$
 P_{\text{top-k}}(t_{i+1}|t_1,t_2,...,t_i)=\begin{cases}
-    \frac{\exp(\frac{\text{logit}\_i}{T})}{\sum_{j=1}^n\exp(\frac{\text{logit}_j}{T})} & \text{if } t_{i+1} \in \text{top-k} \\
+    \frac{\exp(\frac{\text{logit}\_i}{T})}{\sum_{j=1}^n\exp(\frac{\text{logit}_j}{T})} & \text{if } t_{i+1} \in \text{top-k} \\\\
     0 & \text{otherwise}
 \end{cases}
 $$

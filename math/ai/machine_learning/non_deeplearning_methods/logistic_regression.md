@@ -22,12 +22,12 @@ Illustrated as below, need to define $\pi$ so that $\frac{f(y=1; \pi)}{f(y=0; \p
 
 $$
 \begin{align*}
-\frac{f(y=1; \pi)}{f(y=0; \pi)} &= \frac{\pi}{1-\pi} \\
-&= \frac{\frac{e^x}{1+e^x}}{1-\frac{e^x}{1+e^x}} \\
-&= \frac{e^x}{(e^x+1)\Big(\frac{1+e^x}{1+e^x}-\frac{e^x}{1+e^x}\Big)} \\
-&= \frac{e^x}{(e^x+1)\Big(\frac{1+e^x-e^x}{1+e^x}\Big)} \\
-&= \frac{e^x}{(e^x+1)\Big(\frac{1}{1+e^x}\Big)} \\
-&= e^x \\
+\frac{f(y=1; \pi)}{f(y=0; \pi)} &= \frac{\pi}{1-\pi} \\\\
+&= \frac{\frac{e^x}{1+e^x}}{1-\frac{e^x}{1+e^x}} \\\\
+&= \frac{e^x}{(e^x+1)\Big(\frac{1+e^x}{1+e^x}-\frac{e^x}{1+e^x}\Big)} \\\\
+&= \frac{e^x}{(e^x+1)\Big(\frac{1+e^x-e^x}{1+e^x}\Big)} \\\\
+&= \frac{e^x}{(e^x+1)\Big(\frac{1}{1+e^x}\Big)} \\\\
+&= e^x \\\\
 \Rightarrow \qquad \ln \frac{\pi}{1-\pi} &= x
 \end{align*}
 $$

@@ -36,7 +36,7 @@ In detail, for different layer neuron outputs $\mathbf{a}^{[l]}$, should normali
 
 $$
 \begin{align*}
-    E(\mathbf{a}^{[l]}) &= E(\mathbf{a}^{[l-1]}) \\
+    E(\mathbf{a}^{[l]}) &= E(\mathbf{a}^{[l-1]}) \\\\
     Var(\mathbf{a}^{[l]}) &= Var(\mathbf{a}^{[l-1]})
 \end{align*}
 $$
@@ -67,8 +67,8 @@ Set $f(x)=\frac{1}{2a}, \forall x \in [-a, a]$ as probability density function (
 
 $$
 \begin{align*}
-E(X) &= \int_{-a}^{a} x f(x) dx \\
-&= \int_{-a}^{a} x \frac{1}{2a} dx \\
+E(X) &= \int_{-a}^{a} x f(x) dx \\\\
+&= \int_{-a}^{a} x \frac{1}{2a} dx \\\\
 &= 0
 \end{align*}
 $$
@@ -77,11 +77,11 @@ $$
 
 $$
 \begin{align*}
-Var(X) &= E(X^2) - \big(E(X)\big)^2 \\
-&= \int_{-a}^{a} x^2 \frac{1}{2a} dx - 0 \\
-&= \frac{1}{2a} \frac{x^3}{3}\bigg|^{a}\_{-a} - 0 \\
-&= \frac{1}{2a} \frac{2a^3}{3} - 0 \\
-&= \frac{a^2}{3} \\
+Var(X) &= E(X^2) - \big(E(X)\big)^2 \\\\
+&= \int_{-a}^{a} x^2 \frac{1}{2a} dx - 0 \\\\
+&= \frac{1}{2a} \frac{x^3}{3}\bigg|^{a}\_{-a} - 0 \\\\
+&= \frac{1}{2a} \frac{2a^3}{3} - 0 \\\\
+&= \frac{a^2}{3} \\\\
 \end{align*}
 $$
 
@@ -148,7 +148,7 @@ Have larger absolute weights the gradients will back-propagate better in a deep 
 
 $$
 \begin{align*}
-W^{[l]} &\sim \mathcal{U} \Big(-\frac{1}{\sqrt{n^{[l]}}}, \frac{1}{\sqrt{n^{[l]}}} \Big) \\
+W^{[l]} &\sim \mathcal{U} \Big(-\frac{1}{\sqrt{n^{[l]}}}, \frac{1}{\sqrt{n^{[l]}}} \Big) \\\\
 \mathbf{b}^{[l]} &= \mathbf{0}
 \end{align*}
 $$
@@ -159,7 +159,7 @@ Effective in batch normalization to center distribution at $N(\mu=0, \sigma^2=1/
 
 $$
 \begin{align*}
-W^{[l]} &\sim \mathcal{N}(\mu=0, \sigma^2=1/n^{[l-1]}) \\
+W^{[l]} &\sim \mathcal{N}(\mu=0, \sigma^2=1/n^{[l-1]}) \\\\
 \mathbf{b}^{[l]} &= \mathbf{0}
 \end{align*}
 $$

@@ -6,7 +6,7 @@
 
 $$
 \begin{align*}
-H(\mathbf{x}) &= \mathbf{w}_2 {\sigma(\underbrace{\mathbf{w}_1 \mathbf{x} + \mathbf{b}_1}\_{\mathbf{z}_1})} + \mathbf{b}_2 \\
+H(\mathbf{x}) &= \mathbf{w}_2 {\sigma(\underbrace{\mathbf{w}_1 \mathbf{x} + \mathbf{b}_1}\_{\mathbf{z}_1})} + \mathbf{b}_2 \\\\
 \hat{\mathbf{y}} &= H(\mathbf{x}) + \mathbf{x}
 \end{align*}
 $$
@@ -17,10 +17,10 @@ $$
 \begin{align*}
 \frac{\partial L}{\partial \mathbf{w}_1} &=
 \frac{\partial \frac{1}{2}||\hat{\mathbf{y}}-\mathbf{y}||^2}{\partial \mathbf{w}_1}
-= (\hat{\mathbf{y}}-\mathbf{y}) \frac{\partial \hat{\mathbf{y}}}{\partial \mathbf{w}_1} && \text{Suppose loss by MSE} \\
-&= (\hat{\mathbf{y}}-\mathbf{y}) \frac{\partial H}{\partial \mathbf{w}_1} + \mathbf{0} && \\
-&= (\hat{\mathbf{y}}-\mathbf{y}) \mathbf{w}_2 \frac{\partial \mathbf{a}_1}{\partial \mathbf{w}_1} + \mathbf{0} && \text{For denotation } \mathbf{a}_1=\sigma(\mathbf{z}_1) \\
-&= (\hat{\mathbf{y}}-\mathbf{y}) \mathbf{w}_2 \mathbf{a}_1(1-\mathbf{a}_1)\frac{\partial \mathbf{z}_1}{\partial \mathbf{w}_1} + \mathbf{0} && \text{Suppose activation is by sigmoid} \\
+= (\hat{\mathbf{y}}-\mathbf{y}) \frac{\partial \hat{\mathbf{y}}}{\partial \mathbf{w}_1} && \text{Suppose loss by MSE} \\\\
+&= (\hat{\mathbf{y}}-\mathbf{y}) \frac{\partial H}{\partial \mathbf{w}_1} + \mathbf{0} && \\\\
+&= (\hat{\mathbf{y}}-\mathbf{y}) \mathbf{w}_2 \frac{\partial \mathbf{a}_1}{\partial \mathbf{w}_1} + \mathbf{0} && \text{For denotation } \mathbf{a}_1=\sigma(\mathbf{z}_1) \\\\
+&= (\hat{\mathbf{y}}-\mathbf{y}) \mathbf{w}_2 \mathbf{a}_1(1-\mathbf{a}_1)\frac{\partial \mathbf{z}_1}{\partial \mathbf{w}_1} + \mathbf{0} && \text{Suppose activation is by sigmoid} \\\\
 &= (\hat{\mathbf{y}}-\mathbf{y}) \mathbf{w}_2 \mathbf{a}_1(1-\mathbf{a}_1)\mathbf{x} + \mathbf{0} &&
 \end{align*}
 $$
@@ -36,8 +36,8 @@ $$
 \begin{align*}
 \frac{\partial L}{\partial \mathbf{x}} &=
 \frac{\partial \frac{1}{2}||\hat{\mathbf{y}}-\mathbf{y}||^2}{\partial \mathbf{x}}
-= (\hat{\mathbf{y}}-\mathbf{y}) \frac{\partial \hat{\mathbf{y}}}{\partial \mathbf{x}} && \text{Suppose loss by MSE} \\
-&= (\hat{\mathbf{y}}-\mathbf{y}) (\frac{\partial H}{\partial \mathbf{x}} + \mathbf{1}) && \text{The } +\mathbf{1} \text{ is the derivative of the additional } +\mathbf{x} \text{ in feed forward} \\
+= (\hat{\mathbf{y}}-\mathbf{y}) \frac{\partial \hat{\mathbf{y}}}{\partial \mathbf{x}} && \text{Suppose loss by MSE} \\\\
+&= (\hat{\mathbf{y}}-\mathbf{y}) (\frac{\partial H}{\partial \mathbf{x}} + \mathbf{1}) && \text{The } +\mathbf{1} \text{ is the derivative of the additional } +\mathbf{x} \text{ in feed forward} \\\\
 &= (\hat{\mathbf{y}}-\mathbf{y}) \mathbf{w}_2 \mathbf{a}_1(1-\mathbf{a}_1)\mathbf{w}_1 +
 \underbrace{(\hat{\mathbf{y}}-\mathbf{y})}\_{\text{Original error}} &&
 \end{align*}

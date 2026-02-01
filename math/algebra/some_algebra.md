@@ -66,7 +66,7 @@ Recall the typical definition of factorial and it can be folded as recursive.
 
 $$
 \begin{align*}
-    n! &= n \cdot (n-1) \cdot (n-2) \cdot ... \cdot 1 \\
+    n! &= n \cdot (n-1) \cdot (n-2) \cdot ... \cdot 1 \\\\
     n! &= n \cdot (n-1)!
 \end{align*}
 $$
@@ -95,7 +95,7 @@ Proof: expand the expression, there are
 
 $$
 \begin{align*}
-    \text{LHS}&=a^2c^2+a^2d^2+b^2c^2+b^2d^2 \\
+    \text{LHS}&=a^2c^2+a^2d^2+b^2c^2+b^2d^2 \\\\
     \text{RHS}&=a^2c^2+b^2d^2+2abcd
 \end{align*}
 $$
@@ -126,10 +126,10 @@ The most typical example is Euclidean vector space that a function $\langle .\sp
 $$
 \langle \mathbf{u}, \mathbf{v} \rangle =
 \Bigg\langle \begin{bmatrix}
-    u_1 \\ u_2 \\ \vdots \\ u_n
+    u_1 \\\\ u_2 \\\\ \vdots \\\\ u_n
 \end{bmatrix},
 \begin{bmatrix}
-    v_1 \\ v_2 \\ \vdots \\ v_n
+    v_1 \\\\ v_2 \\\\ \vdots \\\\ v_n
 \end{bmatrix} \Bigg\rangle =
 \mathbf{u}^{\top} \mathbf{v} =
 \sum^n\_{i=1} u_1 v_1 + u_2 v_2 + ... u_n v_n
@@ -143,9 +143,9 @@ $$
 \begin{bmatrix}
     u_1, u_2
 \end{bmatrix} \begin{bmatrix}
-    m_a, m_b \\ m_b, m_d
+    m_a, m_b \\\\ m_b, m_d
 \end{bmatrix} \begin{bmatrix}
-    v_1 \\ v_2
+    v_1 \\\\ v_2
 \end{bmatrix}
 $$
 
@@ -180,9 +180,9 @@ The projection over $\cos\theta_{\mathbf{u}\mathbf{v}} \le 1$ shows the inequali
 $$
 \begin{align*}
 && \cos\theta_{\mathbf{u}\mathbf{v}} &=
-\frac{\langle \mathbf{u}, \mathbf{v} \rangle}{||\mathbf{u}||\space||\mathbf{v}||} \\
+\frac{\langle \mathbf{u}, \mathbf{v} \rangle}{||\mathbf{u}||\space||\mathbf{v}||} \\\\
 \Rightarrow && \langle \mathbf{u}, \mathbf{v} \rangle &=
-||\mathbf{u}||\space||\mathbf{v}|| \cos\theta_{\mathbf{u}\mathbf{v}} \\
+||\mathbf{u}||\space||\mathbf{v}|| \cos\theta_{\mathbf{u}\mathbf{v}} \\\\
 \Rightarrow && \langle \mathbf{u}, \mathbf{v} \rangle &\le ||\mathbf{u}||\space||\mathbf{v}||
 \end{align*}
 $$
@@ -224,8 +224,8 @@ The equality holds only when $x^2y^2=(1-x^2)(1-y^2)$, then
 
 $$
 \begin{align*}
-    x^2y^2&=(1-x^2)(1-y^2) \\
-    x^2y^2&=1-x^2-y^2+x^2y^2 \\
+    x^2y^2&=(1-x^2)(1-y^2) \\\\
+    x^2y^2&=1-x^2-y^2+x^2y^2 \\\\
     x^2+y^2&=1
 \end{align*}
 $$
@@ -245,7 +245,7 @@ Reference $(a^2+b^2)(c^2+d^2)\ge (ac+bd)^2$, let $a=3, b=2, c=\sin\theta, d=\cos
 
 $$
 \begin{align*}
-    (2^2+3^2)(\sin^2\theta+\cos^2\theta) &\ge(3\sin\theta+2\cos\theta)^2 \\
+    (2^2+3^2)(\sin^2\theta+\cos^2\theta) &\ge(3\sin\theta+2\cos\theta)^2 \\\\
     3\sin\theta+2\cos\theta &\le\sqrt{13}
 \end{align*}
 $$
@@ -284,7 +284,7 @@ $$
 Plus/Subtraction and multiplication/division:
 
 $$
-\log_b\left(\frac{m}{n}\right) = \log_b(m) - \log_b(n) \\
+\log_b\left(\frac{m}{n}\right) = \log_b(m) - \log_b(n) \\\\
 \log_b\left(mn\right) = \log_b(m) + \log_b(n)
 $$
 
@@ -353,6 +353,6 @@ $$
     e_1 & e_2 & e_3 & ... & e_n
 \end{bmatrix}
 \begin{bmatrix}
-    v_1 \\ v_2 \\ v_3 \\ \vdots \\ v_n
+    v_1 \\\\ v_2 \\\\ v_3 \\\\ \vdots \\\\ v_n
 \end{bmatrix}
 $$

@@ -24,11 +24,11 @@ Between two keyframes $K_i$ and $K_j$, define IMU measurement noises (Gaussian n
 
 $$
 \begin{align*}
-\mathbf{\eta}\_{ij} &= \frac{1}{\Delta t_{ij}} \int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(\tau) dt
-\\
+\mathbf{\eta}\_{ij} &= \frac{1}{\Delta t_{ij}} \int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(\tau) dt \\\\
 \mathbf{b}\_{ij} &= \mathbf{b}\_{i} + \int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(t) dt
 \end{align*}
 $$
+
 where $\mathbf{n}(\tau)$ is Gaussian noise.
 In the time interval $\Delta t_{ij}$, the Gaussian noise $\mathbf{n}(\tau)$ does not grow proportional to the length of time interval $\Delta t_{ij}$.
 The argument $\tau$ means the noise does not relate to $\Delta t$, so that $\int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(\tau) dt = 0$ as $\Delta t_{ij} \rightarrow +\infty$.
@@ -40,8 +40,7 @@ $E(\mathbf{b}^2_{ij})$ is the Wiener process covariance scaled by $\sigma_{\math
 
 $$
 \begin{align*}
-E(\mathbf{\eta}^2_{ij}) &= \frac{\sigma_{\mathbf{\eta}}^2}{\Delta t_{ij}}
-\\
+E(\mathbf{\eta}^2_{ij}) &= \frac{\sigma_{\mathbf{\eta}}^2}{\Delta t_{ij}} \\\\
 E(\mathbf{b}^2_{ij}) &= {\sigma_{\mathbf{b}}^2}{\Delta t_{ij}}
 \end{align*}
 $$
@@ -50,32 +49,34 @@ $$
 ## IMU Calibration
 
 IMU calibrated output (for gyroscope as an example) $[W_x \quad W_y \quad W_z]^\top$ can be formulated as
+
 $$
 \begin{bmatrix}
-    W_x \\
-    W_y \\
+    W_x \\\\
+    W_y \\\\
     W_z
 \end{bmatrix}=
 \begin{bmatrix}
-    W_{x0} \\
-    W_{y0} \\
+    W_{x0} \\\\
+    W_{y0} \\\\
     W_{z0}
 \end{bmatrix}
 +
 \begin{bmatrix}
-    K_{xx} & K_{xy} & K_{xz} \\
-    K_{yx} & K_{yy} & K_{yz} \\
-    K_{zx} & K_{zy} & K_{zz} \\
+    K_{xx} & K_{xy} & K_{xz} \\\\
+    K_{yx} & K_{yy} & K_{yz} \\\\
+    K_{zx} & K_{zy} & K_{zz} \\\\
 \end{bmatrix}
 \begin{bmatrix}
-    w_x \\
-    w_y \\
+    w_x \\\\
+    w_y \\\\
     w_z
 \end{bmatrix}
 $$
-where $\begin{bmatrix} W_{x0} \\ W_{y0} \\ W_{z0} \end{bmatrix}$ is zero offset, 
-$\begin{bmatrix} K_{xx} & K_{xy} & K_{xz} \\ K_{yx} & K_{yy} & K_{yz} \\ K_{zx} & K_{zy} & K_{zz} \\ \end{bmatrix}$ is IMU coefficient matrix,
-and $\begin{bmatrix} w_x \\ w_y \\ w_z \end{bmatrix}$ is the initial IMU sensor's reading.
+
+where $\begin{bmatrix} W_{x0} \\\\ W_{y0} \\\\ W_{z0} \end{bmatrix}$ is zero offset, 
+$\begin{bmatrix} K_{xx} & K_{xy} & K_{xz} \\\\ K_{yx} & K_{yy} & K_{yz} \\\\ K_{zx} & K_{zy} & K_{zz} \\\\ \end{bmatrix}$ is IMU coefficient matrix,
+and $\begin{bmatrix} w_x \\\\ w_y \\\\ w_z \end{bmatrix}$ is the initial IMU sensor's reading.
 
 Usually, before starting using an IMU, should calibrate this IMU by recording a number of sensor's readings and formulate a least squares problem, 
 by which the zero offset and coefficient matrix can be computed.
@@ -90,17 +91,18 @@ For orthogonality, when IMU rotates along one axis, only this axis should have o
 Model the orthogonality rotation error, there are $S_g$ and $S_a$ representing the accelerator and gyroscope errors
 $$
 S_g = \begin{bmatrix}
-    0 & S_{gxy} & S_{gxz} \\
-    S_{gyx} & 0 & S_{gyz} \\
+    0 & S_{gxy} & S_{gxz} \\\\
+    S_{gyx} & 0 & S_{gyz} \\\\
     S_{gzx} & S_{gzy} & 0
 \end{bmatrix}
 \qquad
 S_a = \begin{bmatrix}
-    0 & S_{axy} & S_{axz} \\
-    S_{ayx} & 0 & S_{ayz} \\
+    0 & S_{axy} & S_{axz} \\\\
+    S_{ayx} & 0 & S_{ayz} \\\\
     S_{azx} & S_{azy} & 0
 \end{bmatrix}
 $$
+
 where, for example, $S_{gxy}$ means for gyroscope, given input on $y$-th axis, the error output on the $x$-axis (if ideal, $y$-th output should see no output on the $x$-axis).
 
 The errors on the axis itself such as $S_{gxx}$ are not accounted in orthogonal calibration.
@@ -116,46 +118,45 @@ To summarize, the acceleration $\begin{bmatrix} A_x & A_y & A_z \end{bmatrix}^{\
 $$
 \begin{align*}
 \begin{bmatrix}
-    W_x \\
-    W_y \\
+    W_x \\\\
+    W_y \\\\
     W_z
 \end{bmatrix}&=
 \begin{bmatrix}
-    W_{x0} \\
-    W_{y0} \\
+    W_{x0} \\\\
+    W_{y0} \\\\
     W_{z0}
 \end{bmatrix}
 +
 \begin{bmatrix}
-    K_{gxx} & S_{gxy} & S_{gxz} \\
-    S_{gyx} & K_{gyy} & S_{gyz} \\
+    K_{gxx} & S_{gxy} & S_{gxz} \\\\
+    S_{gyx} & K_{gyy} & S_{gyz} \\\\
     S_{gzx} & S_{gzy} & K_{gzz}
 \end{bmatrix}
 \begin{bmatrix}
-    w_x \\
-    w_y \\
+    w_x \\\\
+    w_y \\\\
     w_z
-\end{bmatrix}
-\\
+\end{bmatrix} \\\\
 \begin{bmatrix}
-    A_x \\
-    A_y \\
+    A_x \\\\
+    A_y \\\\
     A_z
 \end{bmatrix}&=
 \begin{bmatrix}
-    A_{x0} \\
-    A_{y0} \\
+    A_{x0} \\\\
+    A_{y0} \\\\
     A_{z0}
 \end{bmatrix}
 +
 \begin{bmatrix}
-    K_{axx} & S_{axy} & S_{axz} \\
-    S_{ayx} & K_{ayy} & S_{ayz} \\
+    K_{axx} & S_{axy} & S_{axz} \\\\
+    S_{ayx} & K_{ayy} & S_{ayz} \\\\
     S_{azx} & S_{azy} & K_{azz}
 \end{bmatrix}
 \begin{bmatrix}
-    a_x \\
-    a_y \\
+    a_x \\\\
+    a_y \\\\
     a_z
 \end{bmatrix}
 \end{align*}
@@ -163,23 +164,23 @@ $$
 
 ### Least Squares Solution for the Orthogonal Calibration Problem
 
-Take the gyroscope for example, need to compute $\begin{bmatrix} W_{x0} \\ W_{y0} \\ W_{z0} \end{bmatrix}$
-and $\begin{bmatrix} K_{gxx} & S_{gxy} & S_{gxz} \\ S_{gyx} & K_{gyy} & S_{gyz} \\ S_{gzx} & S_{gzy} & K_{gzz} \end{bmatrix}$, a total of $12$ configurable parameters.
+Take the gyroscope for example, need to compute $\begin{bmatrix} W_{x0} \\\\ W_{y0} \\\\ W_{z0} \end{bmatrix}$
+and $\begin{bmatrix} K_{gxx} & S_{gxy} & S_{gxz} \\\\ S_{gyx} & K_{gyy} & S_{gyz} \\\\ S_{gzx} & S_{gzy} & K_{gzz} \end{bmatrix}$, a total of $12$ configurable parameters.
 
 First, flat the equations to a vector format:
 $$
 \underbrace{\begin{bmatrix}
-    W_x \\
-    W_y \\
+    W_x \\\\
+    W_y \\\\
     W_z
 \end{bmatrix}}\_{{W}}=
 \mathbf{x}\_{\omega}
 \underbrace{\begin{bmatrix}
-    K_{gxx} \\ S_{gxy} \\ S_{gxz} \\
-    S_{gyx} \\ K_{gyy} \\ S_{gyz} \\
-    S_{gzx} \\ S_{gzy} \\ K_{gzz} \\
-    W_{x0} \\
-    W_{y0} \\
+    K_{gxx} \\\\ S_{gxy} \\\\ S_{gxz} \\\\
+    S_{gyx} \\\\ K_{gyy} \\\\ S_{gyz} \\\\
+    S_{gzx} \\\\ S_{gzy} \\\\ K_{gzz} \\\\
+    W_{x0} \\\\
+    W_{y0} \\\\
     W_{z0}
 \end{bmatrix}}\_{\mathbf{K}_g}
 $$
@@ -187,9 +188,9 @@ $$
 $\mathbf{x}\_{\omega}$ is 
 $$
 \mathbf{x}\_{\omega} = \begin{bmatrix}
-    {\omega}_x & {\omega}_x & {\omega}_x & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
-    0 & 0 & 0 & {\omega}_y & {\omega}_y & {\omega}_y & 0 & 0 & 0 & 0 & 1 & 0 \\
-    0 & 0 & 0 & 0 & 0 & 0 & {\omega}_z & {\omega}_z & {\omega}_z & 0 & 0 & 1 \\
+    {\omega}_x & {\omega}_x & {\omega}_x & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\\\
+    0 & 0 & 0 & {\omega}_y & {\omega}_y & {\omega}_y & 0 & 0 & 0 & 0 & 1 & 0 \\\\
+    0 & 0 & 0 & 0 & 0 & 0 & {\omega}_z & {\omega}_z & {\omega}_z & 0 & 0 & 1 \\\\
 \end{bmatrix}
 $$
 
@@ -207,8 +208,7 @@ $$
 \begin{align*}
     \mathbf{W} &= \begin{bmatrix}
         W_1^{\top} & W_2^{\top} & ... & W_n^{\top}
-    \end{bmatrix}^{\top}
-\\
+    \end{bmatrix}^{\top} \\\\
     \mathbf{X}\_{\omega} &= \begin{bmatrix}
         \mathbf{x}\_{\omega,1}^{\top} & \mathbf{x}\_{\omega,2}^{\top} & ... & \mathbf{x}\_{\omega,n}^{\top}
     \end{bmatrix}^{\top}

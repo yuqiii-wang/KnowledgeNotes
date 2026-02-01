@@ -31,11 +31,12 @@ m_{pq} = \sum_{x,y \in B} x^p y^q i(x,y), \quad p,q = \{0,1\}
 $$
 
 For example, for a radius of $15$ patch, there is
+
 $$
 \begin{align*}
 m_{10} &= 
 \sum^{15}\_{x=-15} \sum^{15}\_{y=-15} x^1 y^0 i(x,y)
-\\ &=
+\\\\ &=
 \sum^{15}\_{x=-15} \sum^{15}\_{y=-15} x \space i(x,y)
 
 \end{align*}
@@ -65,8 +66,8 @@ $$
 t(p,q) = 
 \left\{ 
     \begin{matrix}
-        1 & \quad p > q \\
-        0 & \quad p \le q \\
+        1 & \quad p > q \\\\
+        0 & \quad p \le q \\\\
     \end{matrix}
 \right.
 $$
@@ -88,12 +89,12 @@ The $256$-dimensional test vector is represented in a $2 \times n$ matrix $S$ su
 $$
 S = 
 \begin{bmatrix}
-    x_1, ..., x_n \\
-    y_1, ..., y_n \\
+    x_1, ..., x_n \\\\
+    y_1, ..., y_n \\\\
 \end{bmatrix}=
 \begin{bmatrix}
-    \mathbf{x} \\
-    \mathbf{y} \\
+    \mathbf{x} \\\\
+    \mathbf{y} \\\\
 \end{bmatrix}
 $$
 
@@ -105,7 +106,7 @@ For example, the Hamming distance is $D_h(v_1, v2)=5$ for there are $5$ position
 $$
 \begin{align*}
     v_1 = 00100101011101
-    \\
+    \\\\
     v_2 = 01110000010101
 \end{align*}
 $$
@@ -124,7 +125,7 @@ where
 $$
 R_{\theta} = 
 \begin{bmatrix}
-    cos\theta & -sin\theta \\
+    cos\theta & -sin\theta \\\\
     sin\theta & cos\theta
 \end{bmatrix}
 $$
@@ -145,7 +146,7 @@ For feature matching purposes, rBRIEF attempts to find best match between $v_i$ 
 
 In order to approach $\mu_v \approx 0.5$ and maximize $\sigma_v^2$, rBRIEF collects about $300,000$ features from the standard image dataset *PASCAL 2006*, and learns from the $300,000$ features' binary tests' result distribution.
 
-Each feature is a $31 \times 31$ image patch (denote the patch width $w_p=31$). Define a sub-window of a size $5 \times 5$ (denote the width of the sub-window as $w_s = 5$). So that for each image patch, there is $N=(w_p - w_s)^2$ possible sub-windows. Consider permutation and combination that $(p,q)$ and $(q,p)$ are considered as one test, so that there are $\bigg(\begin{matrix} N \\ 2\end{matrix}\bigg)$ binary tests. Minus some overlapping tests, there are $M=20559$ tests.
+Each feature is a $31 \times 31$ image patch (denote the patch width $w_p=31$). Define a sub-window of a size $5 \times 5$ (denote the width of the sub-window as $w_s = 5$). So that for each image patch, there is $N=(w_p - w_s)^2$ possible sub-windows. Consider permutation and combination that $(p,q)$ and $(q,p)$ are considered as one test, so that there are $\bigg(\begin{matrix} N \\\\ 2\end{matrix}\bigg)$ binary tests. Minus some overlapping tests, there are $M=20559$ tests.
 
 The training process goes as below:
 1. Run all binary tests in all $300,000$ image patches, where each patch runs $M=20559$ tests
