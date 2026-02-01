@@ -38,4 +38,6 @@ lib
 broadcast
 
 *.log
-logs
+logs/
+docs_collection/
+site/
