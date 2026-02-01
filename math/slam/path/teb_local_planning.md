@@ -1,15 +1,15 @@
 # Timed Elastic Band
 
-Define a sequence of $n$ intermediate robot poses $\bold{x}_i=(x_i, y_i, \theta_i) \in \mathbb{R}^2 \times S^1$ ($S^1$ denotes 1-d *Special Orthogonal Group*), where $(x_i, y_i)$ represents 2-d Euclidean position and $\theta_i$ represents the robot's orientation.
+Define a sequence of $n$ intermediate robot poses $\mathbf{x}\_i=(x\_i, y_i, \theta_i) \in \mathbb{R}^2 \times S^1$ ($S^1$ denotes 1-d *Special Orthogonal Group*), where $(x\_i, y_i)$ represents 2-d Euclidean position and $\theta_i$ represents the robot's orientation.
 
-Define $Q$ as a set of $n$ intermediate robot poses $\bold{x}_i$:
+Define $Q$ as a set of $n$ intermediate robot poses $\mathbf{x}\_i$:
 $$
-Q=\{\bold{x}_i\}_{i=0,1,2,...,n}
+Q=\{\mathbf{x}\_i\}\_{i=0,1,2,...,n}
 $$
 
-Define $\tau$ as a set of $n-1$ time intervals $\Delta T_i$ between two consecutive poses $[\bold{x}_i, \bold{x}_{i+1}]$
+Define $\tau$ as a set of $n-1$ time intervals $\Delta T_i$ between two consecutive poses $[\mathbf{x}\_i, \mathbf{x}\_{i+1}]$
 $$
-\tau = \{ \Delta T_i \}_{i=0,1,2,...,n}
+\tau = \{ \Delta T_i \}\_{i=0,1,2,...,n}
 $$
 
 TEB is defined as a tuple of both sequences
@@ -57,7 +57,7 @@ $$
 where 
 
 * $d_{min,j}$ is the current distance to to an obstacle $z_j$
-* $r_{p_{max}}$ is the max robot rotation radius at a robot's future state $\bold{x}_i$ 
+* $r_{p_{max}}$ is the max robot rotation radius at a robot's future state $\mathbf{x}\_i$ 
 * $r_{o_{max}}$ is the max robot rotation radius when a robot wants to pass around an obstacle
 
 ### Velocity Constraints
@@ -71,7 +71,7 @@ v_i &\simeq \frac{1}{\Delta T_i}
 ||
 \left(
 \begin{array}{c}
-    x_{i+1} - x_i \\
+    x_{i+1} - x\_i \\
     y_{i+1} - y_i
 \end{array}
 \right) 
@@ -99,7 +99,7 @@ $$
 
 ### Trajectory Arc Considerations
 
-It is assumed that a robot's transition from $\bold{x}_i$ to $\bold{x}_{i+1}$ is continuous on an arc of the same circle. Given the property of circle that any two points on a circle share the same curvature, we can say $\vartheta_i = \vartheta_{i+1}$, so that
+It is assumed that a robot's transition from $\mathbf{x}\_i$ to $\mathbf{x}\_{i+1}$ is continuous on an arc of the same circle. Given the property of circle that any two points on a circle share the same curvature, we can say $\vartheta_i = \vartheta_{i+1}$, so that
 
 $$
 \begin{align*}
@@ -113,8 +113,8 @@ $$
 \end{array}
 \right) 
 \times
-\bold{d}_{i,i+1}&=
-\bold{d}_{i,i+1}
+\mathbf{d}\_{i,i+1}&=
+\mathbf{d}\_{i,i+1}
 \times
 \left(
 \begin{array}{c}
@@ -126,12 +126,12 @@ $$
 \end{align*}
 $$
 
-Transformation $\bold{d}_{i,i+1}$ is
+Transformation $\mathbf{d}\_{i,i+1}$ is
 $$
-\bold{d}_{i,i+1}=
+\mathbf{d}\_{i,i+1}=
 \left(
 \begin{array}{c}
-    x_{i+1} - x_i \\
+    x_{i+1} - x\_i \\
     y_{i+1} - y_i \\
     0
 \end{array}
@@ -143,7 +143,7 @@ $$
 Hence, the objective function with respect to arc is
 
 $$
-f_{arc}(\bold{x}_i, \bold{x}_{i+1})=
+f_{arc}(\mathbf{x}\_i, \mathbf{x}\_{i+1})=
 \bigg|\bigg|
     \bigg[
         \left(
@@ -163,7 +163,7 @@ f_{arc}(\bold{x}_i, \bold{x}_{i+1})=
         \right)
     \bigg]
     \times
-    \bold{d}_{i, i+1}
+    \mathbf{d}\_{i, i+1}
 \bigg|\bigg|
 ^2
 $$
@@ -180,7 +180,7 @@ $$
 
 The above objective functions are constructed to a hyper-graph (as opposed to normal graph, hyper-graph has its edges connecting more than two nodes).
 
-States $\bold{x}_i$ and $\Delta T_i$ are nodes; objective functions $f_k$ are edges.
+States $\mathbf{x}\_i$ and $\Delta T_i$ are nodes; objective functions $f_k$ are edges.
 
 ### Code Practices
 

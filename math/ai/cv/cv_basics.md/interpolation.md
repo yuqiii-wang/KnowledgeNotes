@@ -48,7 +48,7 @@ Given a 2-d matrix with known four corners: $f(0,0), f(0,1), f(1,0), f(1,1)$, in
 
 ### Bilinear Interpolation with Weights
 
-The weights control that if four neighbor points $(x_i, y_j)$ for $i,j \in \{0,1\}$ (for example, the upper-left neighbor point is $(x_0, y_1)$) have different distances to the interpolation estimate $(\hat{x}, \hat{y})$, such that $\hat{x} \ne \frac{1}{2} (x_0+x_1)$ or $\hat{y} \ne \frac{1}{2} (y_0+y_1)$, the neighbor points should be linearly assigned different weights to reflect the distance closeness to the estimate point.
+The weights control that if four neighbor points $(x\_i, y_j)$ for $i,j \in \{0,1\}$ (for example, the upper-left neighbor point is $(x_0, y_1)$) have different distances to the interpolation estimate $(\hat{x}, \hat{y})$, such that $\hat{x} \ne \frac{1}{2} (x_0+x_1)$ or $\hat{y} \ne \frac{1}{2} (y_0+y_1)$, the neighbor points should be linearly assigned different weights to reflect the distance closeness to the estimate point.
 This gives larger weights for more adjacent points.
 
 Given the interpolation point estimate $(\hat{x}, \hat{y})$, there should be
@@ -63,19 +63,19 @@ $$
 The weights for the interpolation point four neighbors are:
 
 $$
-w_{i,j} = \Big(1-\frac{\hat{x}-x_i}{x_0-x_1}\Big) \cdot \Big(1-\frac{\hat{y}-y_j}{y_0-y_1}\Big)
+w_{i,j} = \Big(1-\frac{\hat{x}-x\_i}{x_0-x_1}\Big) \cdot \Big(1-\frac{\hat{y}-y_j}{y_0-y_1}\Big)
 $$
 
-If the gaps $\hat{x}-x_i$ and $\hat{y}-y_j$ are considered normalized already, the formula can be simplified as
+If the gaps $\hat{x}-x\_i$ and $\hat{y}-y_j$ are considered normalized already, the formula can be simplified as
 
 $$
-w_{i,j} = \big(1-|\hat{x}-x_i|\big) \cdot \big(1-|\hat{y}-y_j|\big)
+w_{i,j} = \big(1-|\hat{x}-x\_i|\big) \cdot \big(1-|\hat{y}-y_j|\big)
 $$
 
 Finally, the interpolated value at the point $(\hat{x}, \hat{y})$ by the function $f$ given the four neighbor points is
 
 $$
-f(\hat{x}, \hat{y}) = \sum_{i,j \in \{0, 1\}} w_{i,j} f(x_i, y_j)
+f(\hat{x}, \hat{y}) = \sum_{i,j \in \{0, 1\}} w_{i,j} f(x\_i, y_j)
 $$
 
 ## Bicubic
@@ -94,37 +94,37 @@ Example: 4 control points' TPS curve.
 </div>
 </br>
 
-Transformation by $f(\bold{x})$ in TPS given $n$ control points $(\bold{x}_i, y_i)$ where observed value is $y_i$ at the location $\bold{x}_i$.
-$\bold{x}\in\mathbb{R}^d$ is assumed to be interpolated points and $f(\bold{x}) \in \mathbb{R}^1$ is the interpolated value.
+Transformation by $f(\mathbf{x})$ in TPS given $n$ control points $(\mathbf{x}\_i, y_i)$ where observed value is $y_i$ at the location $\mathbf{x}\_i$.
+$\mathbf{x}\in\mathbb{R}^d$ is assumed to be interpolated points and $f(\mathbf{x}) \in \mathbb{R}^1$ is the interpolated value.
 
 $$
-f(\bold{x})=
-\underbrace{\bold{a}^{\top}\begin{bmatrix}
-    1 \\ \bold{x}
-\end{bmatrix}}_{\substack{
+f(\mathbf{x})=
+\underbrace{\mathbf{a}^{\top}\begin{bmatrix}
+    1 \\ \mathbf{x}
+\end{bmatrix}}\_{\substack{
     \scriptsize{\text{affine}} \\ \scriptsize{\text{transform}}}} +
-\underbrace{\sum_{i=1}^n w_i U\big(||\bold{x}-\bold{x}_i||\big)}_{\text{radial kernel}}
+\underbrace{\sum_{i=1}^n w_i U\big(||\mathbf{x}-\mathbf{x}\_i||\big)}\_{\text{radial kernel}}
 $$
 
 where
 
-* $\bold{a}=[a_0,a_1,...,a_d]$ are the coefficients of the affine transformation.
-* $w_i$ is the weights to be optimized by $J(f_{\bold{w}})$ to smooth the curve applied on individual control points
+* $\mathbf{a}=[a_0,a_1,...,a_d]$ are the coefficients of the affine transformation.
+* $w_i$ is the weights to be optimized by $J(f_{\mathbf{w}})$ to smooth the curve applied on individual control points
 * $U(r)=r^2\log(r)$ is TPS radial function kernel
-* $r=||\bold{x}-\bold{x}_i||$ is Euclidean distance between a point and a control point.
+* $r=||\mathbf{x}-\mathbf{x}\_i||$ is Euclidean distance between a point and a control point.
 
-Minimization by updating the weights $\bold{w} \in \mathbb{R}^n$:
+Minimization by updating the weights $\mathbf{w} \in \mathbb{R}^n$:
 
 $$
-\argmin_{f_\bold{w}} J=\sum_{i=1}^{n}
-\underbrace{\Big|\Big|y_i-f(\bold{x}_i) \Big|\Big|^2}_{\text{Data Fidelity Term}}+
-\lambda\underbrace{\int_{\mathbb{R}^d} \Big|\Big|\nabla^2f(\bold{x})\Big|\Big|^2 d\bold{x}}_{\text{Smoothness Term}}
+\argmin_{f_\mathbf{w}} J=\sum_{i=1}^{n}
+\underbrace{\Big|\Big|y_i-f(\mathbf{x}\_i) \Big|\Big|^2}\_{\text{Data Fidelity Term}}+
+\lambda\underbrace{\int_{\mathbb{R}^d} \Big|\Big|\nabla^2f(\mathbf{x})\Big|\Big|^2 d\mathbf{x}}\_{\text{Smoothness Term}}
 $$
 
 where
 
-* Data Fidelity Term: $y_i$ are the target control points (desired output positions) corresponding to the control points $\bold{x}_i$
-* The TPS-transformed points are $f(\bold{x}_i)$
+* Data Fidelity Term: $y_i$ are the target control points (desired output positions) corresponding to the control points $\mathbf{x}\_i$
+* The TPS-transformed points are $f(\mathbf{x}\_i)$
 * $\lambda>0$ is a regularization parameter controlling the trade-off between fidelity and smoothness
 * $\lambda\approx 0$ Perfect interpolation of the control points, possibly leading to sharp or irregular transformations.
 * Large $\lambda$ Prioritizes smoothness, potentially at the expense of exact alignment with control points.

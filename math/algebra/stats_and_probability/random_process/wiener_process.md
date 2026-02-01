@@ -32,7 +32,7 @@ E \Big(W_{t1} \cdot \big( (W_{t2} - W_{t1}) + W_{t1} \big) \Big)
 && \qquad \text{substitute with } W_{t2} = (W_{t2} - W_{t1}) + W_{t1}
 \\ &=
 E \Big( 
-\underbrace{W_{t1} \cdot \big( W_{t2} - W_{t1} \big)}_{
+\underbrace{W_{t1} \cdot \big( W_{t2} - W_{t1} \big)}\_{
     = E(W_{t1}) \cdot  E(W_{t2}-W_{t1}) = 0 }
 \Big) + E \big( W_{t1}^2 \big)
 && \qquad \text{for } W_{t1} \text{ and } W_{t2}-W_{t1} \text{ are independent}
@@ -54,7 +54,7 @@ $$
 Quadratic variation quantifies Brownian motion path local fluctuations.
 
 For time range $[0, T]$ separated by $\pi=\{0=t_0<t_1<t_2<...<t_n=T\}$,
-quadratic variation is defined as $[W]_T=\lim_{||\Delta \pi||\rightarrow 0}\sum^n_{k=1}(W_{t_k}-W_{t_{k-1}})^2$,
+quadratic variation is defined as $[W]_T=\lim_{||\Delta \pi||\rightarrow 0}\sum^n\_{k=1}(W_{t_k}-W_{t_{k-1}})^2$,
 where $||\Delta \pi||$ is sub-interval.
 
 Because $W_{t+\Delta t} - W_t \sim N(0, \Delta t)$,

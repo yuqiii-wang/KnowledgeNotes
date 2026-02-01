@@ -1,10 +1,10 @@
 # AMCL Implementation
 
 * Init histogram (basically a kd-tree) setting all bins to empty (bin has no particle), that each bin represents a small cell/tile in a map
-* For $M<M_{m}$ and $M<M_{max}$, where $M$ means the particle index, generate/select particle $i$ by $\text{probability}\propto \bold{w}_{t-1}^{[i]}$, indicating the previous step $t-1$ particles with the highest weights are most likely selected (weight represents the confidence of a correct particle's pose)
-  * motion model update by this time motion $\bold{u}_t$ to the last time state $\bold{x}_{t-1}^{[i]}$ to produce this time motion result $\bold{x}_{t}^{[M]}$
-  * measurement model update (such as by scan matching) by this time motion result $\bold{x}_{t}^{[M]}$ with this time observation $\bold{z}_t$ to produce this time measurement $\bold{w}_{t}^{[M]}$, also served as the weights.
-  * If $\bold{x}_{t}^{[M]}$ falls into an empty bin $b$, mark the bin non-empty and increase the total number of particle $M_{m}$ by the KLD formula
+* For $M<M_{m}$ and $M<M_{max}$, where $M$ means the particle index, generate/select particle $i$ by $\text{probability}\propto \mathbf{w}\_{t-1}^{[i]}$, indicating the previous step $t-1$ particles with the highest weights are most likely selected (weight represents the confidence of a correct particle's pose)
+  * motion model update by this time motion $\mathbf{u}_t$ to the last time state $\mathbf{x}\_{t-1}^{[i]}$ to produce this time motion result $\mathbf{x}\_{t}^{[M]}$
+  * measurement model update (such as by scan matching) by this time motion result $\mathbf{x}\_{t}^{[M]}$ with this time observation $\mathbf{z}_t$ to produce this time measurement $\mathbf{w}\_{t}^{[M]}$, also served as the weights.
+  * If $\mathbf{x}\_{t}^{[M]}$ falls into an empty bin $b$, mark the bin non-empty and increase the total number of particle $M_{m}$ by the KLD formula
   * Keep running the loop until that $M<M_{m}$ and $M<M_{max}$ do not satisfy
 
 <div style="display: flex; justify-content: center;">
@@ -179,16 +179,16 @@ The beam-based model drawbacks:
 
 The likelihood field model goes as below to address the beam-based model's problem (2d map for a particle $m$ with the $k$-th laser beam for instance):
 
-For robot pose $(x, y)$ given its orientation $\theta$, the predicted robot pose $(x_{z^{k}_{t}}, y_{z^{k}_{t}})$ corresponding to laser length $z^{k}_{t}$ and the laser's direction $\theta_k$ can be computed as below
+For robot pose $(x, y)$ given its orientation $\theta$, the predicted robot pose $(x_{z^{k}\_{t}}, y_{z^{k}\_{t}})$ corresponding to laser length $z^{k}\_{t}$ and the laser's direction $\theta_k$ can be computed as below
 
 $$
 \begin{bmatrix}
-  x_{z^{k}_{t}} \\ y_{z^{k}_{t}}
+  x_{z^{k}\_{t}} \\ y_{z^{k}\_{t}}
 \end{bmatrix} =
 \underbrace{\begin{bmatrix}
   x \\ y
 \end{bmatrix}
-}_{\text{translation by robot pose}}
+}\_{\text{translation by robot pose}}
 +
 \underbrace{\begin{bmatrix}
   \cos \theta & -\sin \theta \\
@@ -197,22 +197,22 @@ $$
 \begin{bmatrix}
   x_{k} \\ y_{k}
 \end{bmatrix}
-}_{ 
+}\_{ 
   \text{aligned with } \\ 
   \text{robot pose orientation}
 } +
-\underbrace{z^{k}_{t}
+\underbrace{z^{k}\_{t}
 \begin{bmatrix}
   \cos (\theta+\theta_{k}) \\ \sin (\theta+\theta_{k})
 \end{bmatrix}
-}_{ \text{laser length decomposed into the } x \text{- and } y \text{-axis}}
+}\_{ \text{laser length decomposed into the } x \text{- and } y \text{-axis}}
 $$
 
-Each laser $z^{k}_{t}$ predicted robot pose should stay as close as possible to the overall estimated robot pose $(\hat{x}, \hat{y})$
+Each laser $z^{k}\_{t}$ predicted robot pose should stay as close as possible to the overall estimated robot pose $(\hat{x}, \hat{y})$
 
 $$
 \text{dist} = \min_{\hat{x}, \hat{y}}
-\Big( \sqrt{(x_{z^{k}_{t}}-\hat{x})^2+(y_{z^{k}_{t}}-\hat{y})^2} \quad\big|\quad
+\Big( \sqrt{(x_{z^{k}\_{t}}-\hat{x})^2+(y_{z^{k}\_{t}}-\hat{y})^2} \quad\big|\quad
 \langle \hat{x}, \hat{y} \rangle \text{ occupied in } m \Big)
 $$
 
@@ -367,9 +367,9 @@ double AMCLLaser::LikelihoodFieldModel(AMCLLaserData *data, pf_sample_set_t* set
 Finally, having computed the sample weights `total = (*sensor_fn) (sensor_data, set);` by the above `LikelihoodFieldModel(...)`,
 normalize the sample weights `sample->weight /= total;`.
 
-Given the observation from start to the last time step $\bold{z}_{1:t-1}$ and kinematic motion of all history steps $\bold{u}_{1:t}$, the $m$-th particle's sensor observation probability is $p(\bold{z}_t | \bold{z}_{1:t-1}, \bold{u}_{1:t}, m)$. 
+Given the observation from start to the last time step $\mathbf{z}\_{1:t-1}$ and kinematic motion of all history steps $\mathbf{u}\_{1:t}$, the $m$-th particle's sensor observation probability is $p(\mathbf{z}_t | \mathbf{z}\_{1:t-1}, \mathbf{u}\_{1:t}, m)$. 
 
-Take the particles' mean position as final estimate, there is $\frac{1}{M} \sum^{M}_{m=1} w^{[m]}_t \approx p(\bold{z}_t | \bold{z}_{1:t-1}, \bold{u}_{1:t}, m)$, indicating that for every particle $m$, its position should stay close to each other.
+Take the particles' mean position as final estimate, there is $\frac{1}{M} \sum^{M}\_{m=1} w^{[m]}_t \approx p(\mathbf{z}_t | \mathbf{z}\_{1:t-1}, \mathbf{u}\_{1:t}, m)$, indicating that for every particle $m$, its position should stay close to each other.
 
 However, this long-term average strategy considering over the $1:t-1$ time periods can be bad (particles can be sparse when performing global relocalization, and history errors accumulate over the time).
 A short-term average strategy on the other hand have only recent limited steps.

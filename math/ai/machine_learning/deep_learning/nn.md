@@ -6,22 +6,22 @@
 
 $$
 \begin{align*}
-\bold{z} &= \bold{w}^\top \bold{x} + \bold{b} \\
-\hat{\bold{y}} &= \sigma(\bold{z})
+\mathbf{z} &= \mathbf{w}^\top \mathbf{x} + \mathbf{b} \\
+\hat{\mathbf{y}} &= \sigma(\mathbf{z})
 \end{align*}
 $$
 
-where $\sigma(\bold{z})$ is an activation function, that for example, by sigmoid there is $\sigma(\bold{z})\frac{1}{1+e^{-\bold{z}}}$.
+where $\sigma(\mathbf{z})$ is an activation function, that for example, by sigmoid there is $\sigma(\mathbf{z})\frac{1}{1+e^{-\mathbf{z}}}$.
 
 ### Back Propagation
 
-Define Mean Squared Error (MSE) as the loss function (as an example) $L=\frac{1}{2}||\hat{\bold{y}}-\bold{y}||^2=\frac{1}{n} \frac{1}{2}\sum^n_i ({y}_i-\hat{y}_i)^2$
+Define Mean Squared Error (MSE) as the loss function (as an example) $L=\frac{1}{2}||\hat{\mathbf{y}}-\mathbf{y}||^2=\frac{1}{n} \frac{1}{2}\sum^n_i ({y}\_i-\hat{y}\_i)^2$
 
 * Gradient of Loss w.r.t Activation:
 
 $$
 \begin{align*}
-\frac{\partial L}{\partial \hat{\bold{y}}} = \hat{\bold{y}}-\bold{y}
+\frac{\partial L}{\partial \hat{\mathbf{y}}} = \hat{\mathbf{y}}-\mathbf{y}
 \end{align*}
 $$
 
@@ -29,8 +29,8 @@ $$
 
 $$
 \begin{align*}
-\frac{\partial \hat{\bold{y}}}{\partial {\bold{z}}} &= \sigma(\bold{z})\big(1-\sigma(\bold{z})\big) \\
-&= \hat{\bold{y}}(1-\hat{\bold{y}})
+\frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} &= \sigma(\mathbf{z})\big(1-\sigma(\mathbf{z})\big) \\
+&= \hat{\mathbf{y}}(1-\hat{\mathbf{y}})
 \end{align*}
 $$
 
@@ -38,8 +38,8 @@ $$
 
 $$
 \begin{align*}
-\frac{\partial L}{\partial {\bold{z}}} &= \frac{\partial L}{\partial \hat{\bold{y}}} \frac{\partial \hat{\bold{y}}}{\partial {\bold{z}}} \\
-&= (\hat{\bold{y}}-\bold{y})\hat{\bold{y}}(1-\hat{\bold{y}})
+\frac{\partial L}{\partial {\mathbf{z}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \\
+&= (\hat{\mathbf{y}}-\mathbf{y})\hat{\mathbf{y}}(1-\hat{\mathbf{y}})
 \end{align*}
 $$
 
@@ -47,10 +47,10 @@ $$
 
 $$
 \begin{align*}
-\frac{\partial L}{\partial {\bold{w}}} &= \frac{\partial L}{\partial \hat{\bold{y}}} \frac{\partial \hat{\bold{y}}}{\partial {\bold{z}}} \frac{\partial {\bold{z}}}{\partial {\bold{w}}} \\
-&= \bold{x}^\top (\hat{\bold{y}}-\bold{y})\hat{\bold{y}}(1-\hat{\bold{y}}) \\
-\frac{\partial L}{\partial {\bold{b}}} &= \frac{\partial L}{\partial \hat{\bold{y}}} \frac{\partial \hat{\bold{y}}}{\partial {\bold{z}}} \frac{\partial {\bold{z}}}{\partial {\bold{b}}} \\
-&= (\hat{\bold{y}}-\bold{y})\hat{\bold{y}}(1-\hat{\bold{y}})
+\frac{\partial L}{\partial {\mathbf{w}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \frac{\partial {\mathbf{z}}}{\partial {\mathbf{w}}} \\
+&= \mathbf{x}^\top (\hat{\mathbf{y}}-\mathbf{y})\hat{\mathbf{y}}(1-\hat{\mathbf{y}}) \\
+\frac{\partial L}{\partial {\mathbf{b}}} &= \frac{\partial L}{\partial \hat{\mathbf{y}}} \frac{\partial \hat{\mathbf{y}}}{\partial {\mathbf{z}}} \frac{\partial {\mathbf{z}}}{\partial {\mathbf{b}}} \\
+&= (\hat{\mathbf{y}}-\mathbf{y})\hat{\mathbf{y}}(1-\hat{\mathbf{y}})
 \end{align*}
 $$
 
@@ -130,7 +130,7 @@ $$
 
 ### Example Batch Normalization (BN) vs Layer Normalization (LN)
 
-For example, there are $N$ images each of the size $\bold{x}_i \in \mathbb{R}^{C \times H \times W}$, for $C$ channels/features of a window size $H \times W$.
+For example, there are $N$ images each of the size $\mathbf{x}\_i \in \mathbb{R}^{C \times H \times W}$, for $C$ channels/features of a window size $H \times W$.
 
 * Batch Normalization (BN)
 
@@ -156,8 +156,8 @@ In batch normalization, instead by $X_{\max}$ and $X_{\min}$, mean $\mu_B$ and v
 
 $$
 \begin{align*}
-\text{Normalization } && \hat{x}_i &= \frac{x_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}} \\
-\text{Scaling and Shifting } && {x}_i' &= \gamma \hat{x}_i + \beta
+\text{Normalization } && \hat{x}\_i &= \frac{x\_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}} \\
+\text{Scaling and Shifting } && {x}\_i' &= \gamma \hat{x}\_i + \beta
 \end{align*}
 $$
 
@@ -175,8 +175,8 @@ The most typical moving average in optimization is Exponential Moving Average (E
 
 $$
 \begin{align*}
-\hat{\theta}_t &= \alpha\theta_t + (1-\alpha)\hat{\theta}_{t-1} \\
-\hat{g}_t &= \alpha g_t + (1-\alpha) \hat{g}_{t-1}
+\hat{\theta}_t &= \alpha\theta_t + (1-\alpha)\hat{\theta}\_{t-1} \\
+\hat{g}_t &= \alpha g_t + (1-\alpha) \hat{g}\_{t-1}
 \end{align*}
 $$
 
@@ -188,7 +188,7 @@ During inference, batch normalization uses the moving averages of the mean and v
 
 * Scaling and Shifting
 
-The normalized values (by $\hat{x}_i = \frac{x_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}}$) have zero mean (for assumed batch size of $m$, there is $\frac{1}{m}\sum^m_i \hat{x}_i-\mu_B=0$) and unit variance (for $\frac{1}{\sigma_B^2}\sum^m_i \frac{1}{m}(\hat{x}_i-\mu_B)^2=1$).
+The normalized values (by $\hat{x}\_i = \frac{x\_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}}$) have zero mean (for assumed batch size of $m$, there is $\frac{1}{m}\sum^m_i \hat{x}\_i-\mu_B=0$) and unit variance (for $\frac{1}{\sigma_B^2}\sum^m_i \frac{1}{m}(\hat{x}\_i-\mu_B)^2=1$).
 This is not good as zero mean and unit variance have removed scaling and shifting information.
 
 The introduced learnable parameters $\gamma$ and $\beta$ restore the power of raw data feature representation.
@@ -200,12 +200,12 @@ By constraining inputs/outputs to about the range $[-1, 1]$ (even having scaled 
 
 ### Layer Normalization (LN)
 
-Normalization works on a layer of $d$ neurons that $\mu_L=\frac{1}{d}\sum_i^d x_i$ and $\sigma_L^2=\frac{1}{d}\sum_i^d (x_i-\mu_L)^2$.
+Normalization works on a layer of $d$ neurons that $\mu_L=\frac{1}{d}\sum_i^d x\_i$ and $\sigma_L^2=\frac{1}{d}\sum_i^d (x\_i-\mu_L)^2$.
 
 $$
 \begin{align*}
-\text{Normalization } && \hat{x}_i &= \frac{x_i-\mu_L}{\sqrt{\sigma^2_L + \epsilon}} \\
-\text{Scaling and Shifting } && {x}_i' &= \gamma \hat{x}_i + \beta
+\text{Normalization } && \hat{x}\_i &= \frac{x\_i-\mu_L}{\sqrt{\sigma^2_L + \epsilon}} \\
+\text{Scaling and Shifting } && {x}\_i' &= \gamma \hat{x}\_i + \beta
 \end{align*}
 $$
 
@@ -222,7 +222,7 @@ https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html
 |H|channel (C)/Image Feature|embedding/hidden dimension|
 
 Batch normalization computes on the L level.
-For example, given a batch of two sentences $\bold{x}_1=$"I am a cat person" and $\bold{x}_2=$"You are a lovely dog person", a total of 11 tokens, and with assumed embedding dimension $d=768$, batch normalization would compute $\mu_{B,j}=\frac{1}{m}\sum_i^{m=11} x_{j,i}$, where $j=1,2,...,768$.
+For example, given a batch of two sentences $\mathbf{x}_1=$"I am a cat person" and $\mathbf{x}_2=$"You are a lovely dog person", a total of 11 tokens, and with assumed embedding dimension $d=768$, batch normalization would compute $\mu_{B,j}=\frac{1}{m}\sum_i^{m=11} x_{j,i}$, where $j=1,2,...,768$.
 
 Layer normalization takes place on the L level.
 For the same above example, the statistics are computed such that $\mu_{L,i}=\frac{1}{d}\sum_j^{d=768} x_{j,i}$, where $i=1,2,...,11$.

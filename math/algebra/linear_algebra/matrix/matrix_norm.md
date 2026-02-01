@@ -4,10 +4,10 @@
 ## p-norm
 
 Let $p \ge 1$ be a real number.
-The p-norm (a.k.a. $\mathcal{L}^p$ norm) of a vector $\bold{x} \in \mathbb{R}^n$ is
+The p-norm (a.k.a. $\mathcal{L}^p$ norm) of a vector $\mathbf{x} \in \mathbb{R}^n$ is
 
 $$
-||\bold{x}||_p := \Bigg( \sum^n_{i=1} |x_i|^p \Bigg)^{{\frac{1}{p}}}
+||\mathbf{x}||_p := \Bigg( \sum^n\_{i=1} |x\_i|^p \Bigg)^{{\frac{1}{p}}}
 $$
 
 ## Matrix p-norm
@@ -16,14 +16,14 @@ Given a field $K$ of either real or complex numbers, and let $K^{m \times n}$ be
 a matrix norm is a norm on $K^{m \times n}$ denoted as $||A||$ that leads to $|| \space \cdot \space || : K^{m \times n} \rightarrow \mathbb{R}^1$.
 
 Suppose $A,B \in K^{m \times n}$, and vector norm $|| \space \cdot \space ||_{\alpha}$ on $K^n$ and $|| \space \cdot \space ||_{\beta}$ on $K^m$ are known.
-Any $m \times n$ matrix $A$ induces a linear operator transforming $\bold{x} \in K^n$ from $K^n$ to $K^m$.
+Any $m \times n$ matrix $A$ induces a linear operator transforming $\mathbf{x} \in K^n$ from $K^n$ to $K^m$.
 
 $$
 \begin{align*}
     ||A||_{\alpha, \beta} &=
-    \sup \{ ||A\bold{x}||_{\beta} : \bold{x} \in K^n \text{ with } ||\bold{x}||_{\alpha} = 1 \}
+    \sup \{ ||A\mathbf{x}||_{\beta} : \mathbf{x} \in K^n \text{ with } ||\mathbf{x}||_{\alpha} = 1 \}
 \\ &=
-    \sup \{ \frac{||A\bold{x}||_{\beta}}{||\bold{x}||_{\alpha}} : \bold{x} \in K^n \text{ with } \bold{x} \ne \bold{0} \}
+    \sup \{ \frac{||A\mathbf{x}||_{\beta}}{||\mathbf{x}||_{\alpha}} : \mathbf{x} \in K^n \text{ with } \mathbf{x} \ne \mathbf{0} \}
 \end{align*}
 $$
 
@@ -32,21 +32,21 @@ where $\sup$ means supremum of the set.
 For matrix norms induced by vector *p-norms* ($1 \le p +\infty$) that sees $\alpha=\beta=p$, there is
 
 $$
-||A||_p = \sup_{\bold{x} \ne \bold{0}}  \frac{||A\bold{x}||_{p}}{||\bold{x}||_{p}}
+||A||_p = \sup_{\mathbf{x} \ne \mathbf{0}}  \frac{||A\mathbf{x}||_{p}}{||\mathbf{x}||_{p}}
 $$
 
-$||A||_p$ is interesting for it can be considered the "degree" of how much $\bold{x}$ is stretched by $A$.
+$||A||_p$ is interesting for it can be considered the "degree" of how much $\mathbf{x}$ is stretched by $A$.
 
-* $||A||_p > 1$, the input vector $\bold{x}$ is increased in length
-* $||A||_p < 1$, the input vector $\bold{x}$ is shrunken in length
-* $||A||_p = 1$, the input vector $\bold{x}$ does not change in length
+* $||A||_p > 1$, the input vector $\mathbf{x}$ is increased in length
+* $||A||_p < 1$, the input vector $\mathbf{x}$ is shrunken in length
+* $||A||_p = 1$, the input vector $\mathbf{x}$ does not change in length
 
 ### p=0 Matrix Norm
 
-The $\mathcal{L}_0$  measures how many zero-elements are in a tensor $\bold{x}$, or the element is either zero or one $x_i \in \{ 0, 1 \}$:
+The $\mathcal{L}_0$  measures how many zero-elements are in a tensor $\mathbf{x}$, or the element is either zero or one $x\_i \in \{ 0, 1 \}$:
 
 $$
-||\bold{x}||_0 = |x_1|^0 + |x_2|^0 + ... + |x_n|^0
+||\mathbf{x}||_0 = |x_1|^0 + |x_2|^0 + ... + |x_n|^0
 $$
 
 It is useful in sparsity vs density for neural network:
@@ -61,7 +61,7 @@ $$
 p=1 matrix norm is simply the maximum absolute column sum of the matrix.
 
 $$
-||A||_1 = \max_{1 \le j \le n} \sum^{m}_{i=1} |a_{ij}|
+||A||_1 = \max_{1 \le j \le n} \sum^{m}\_{i=1} |a_{ij}|
 $$
 
 ## p=2 Matrix (Frobenius) Norm (Spectral Radius)
@@ -96,7 +96,7 @@ This inequality can be derived from the fact that the trace of a matrix is equal
 Let $\lambda_1, \lambda_2, ..., \lambda_n$ be the roots of the characteristic polynomial for $A\in\mathbb{C}^{n \times n}$, here expands it:
 
 $$
-\text{det}(A-\bold{\lambda}I)=
+\text{det}(A-\mathbf{\lambda}I)=
 (-1)^n\lambda_n+(-1)^{n-1}\text{tr}(A)\lambda_{n-1}+...+\text{det}(A)
 $$
 
@@ -104,7 +104,7 @@ By Vieta's formulas, the sum of the roots (eigenvalues) is
 
 $$
 \begin{align*}
-\sum^n_{i=1}\lambda_i&=
+\sum^n\_{i=1}\lambda_i&=
    \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\
    &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\
    &= \text{tr}(A)
@@ -119,10 +119,10 @@ $$
 
 The *spectral radius* of a square matrix $A$ of $\text{rank}(A)=r$ is the maximum of the absolute values of its eigenvalues $||A||_2 = \sigma_{max}(A)=\max \{ |\lambda_1|, |\lambda_2|, ..., |\lambda_r| \}$.
 
-Spectral radius describes to what max length $\bold{x}$ can be stretched by a square matrix $A$, that the max length happens to be the max eigenvalue of $A$.
+Spectral radius describes to what max length $\mathbf{x}$ can be stretched by a square matrix $A$, that the max length happens to be the max eigenvalue of $A$.
 
 $$
-||A\bold{x}|| \le \lambda_{max}||\bold{x}||
+||A\mathbf{x}|| \le \lambda_{max}||\mathbf{x}||
 $$
 
 Nuclear Norm $||A||_*$:

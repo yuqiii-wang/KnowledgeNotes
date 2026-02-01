@@ -2,9 +2,9 @@
 
 On a 2-d motion space, $[x, y, \theta]$ describes the kenimatic configuration of a robot. Define $v(t)$ as translational velocity and $\omega(t)$ as angular velocity, there is
 $$
-x(t) = \int ^{t_n}_{t_0} v(t) \cdot cos\theta(t) \space dt
+x(t) = \int ^{t_n}\_{t_0} v(t) \cdot cos\theta(t) \space dt
 \\
-y(t) = \int ^{t_n}_{t_0} v(t) \cdot sin\theta(t) \space dt
+y(t) = \int ^{t_n}\_{t_0} v(t) \cdot sin\theta(t) \space dt
 $$
 
 Approximation discretize the continuous model with robot's velocities $[v(t), \omega(t)]$ being constant during an interval $[t_i, t_{i+1}]$. We use $[v_i, \omega_i]$ to represent velocities in discrete space.

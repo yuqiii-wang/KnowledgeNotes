@@ -26,6 +26,6 @@ Examples:
 ## Partial Derivative: With Respect to Weight vs Input
 
 * Weight
-$\frac{\partial L}{\partial \bold{w}}$: Directly affects the learning process by adjusting the weights.
+$\frac{\partial L}{\partial \mathbf{w}}$: Directly affects the learning process by adjusting the weights.
 * Input
-$\frac{\partial L}{\partial \bold{x}}$: Determines how error signals are distributed across the network.
+$\frac{\partial L}{\partial \mathbf{x}}$: Determines how error signals are distributed across the network.

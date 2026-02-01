@@ -4,7 +4,7 @@
 
 The $j$-th point in the map can be defined as
 $$
-\bold{p}_{\mathcal{W}j} = 
+\mathbf{p}\_{\mathcal{W}j} = 
 \begin{bmatrix}
     x_{\mathcal{W}j}  \\
     y_{\mathcal{W}j}  \\
@@ -16,15 +16,15 @@ where $\mathcal{W}$ means in "world frame".
 
 The point in a camera-centred coordinate (denoted as $\mathcal{C}$) frame can be defined by
 $$
-\bold{p}_{\mathcal{C}j} = 
-T_{\mathcal{CW}} \bold{p}_{\mathcal{W}j} 
+\mathbf{p}\_{\mathcal{C}j} = 
+T_{\mathcal{CW}} \mathbf{p}\_{\mathcal{W}j} 
 $$
 where $T_{\mathcal{CW}}$ is the transform from $\mathcal{W}$ to $\mathcal{C}$. Also, $T_{\mathcal{CW}}$ is the a camera pose in $\mathcal{W}$.
 
-Define a camera projection function $CamProj$ that takes 3D points in a camera frame $\bold{p}_{\mathcal{C}j}$ map to image pixels $[u_j, v_j]$. The camera parameters for focal length $(f_u , f_v)$, principal point $(u_0 , v_0)$ and
+Define a camera projection function $CamProj$ that takes 3D points in a camera frame $\mathbf{p}\_{\mathcal{C}j}$ map to image pixels $[u_j, v_j]$. The camera parameters for focal length $(f_u , f_v)$, principal point $(u_0 , v_0)$ and
 distortion $\omega$ are assumed to be known.
 $$
-CamProj(\bold{p}_{\mathcal{C}j})=
+CamProj(\mathbf{p}\_{\mathcal{C}j})=
 \begin{bmatrix}
     u_j \\
     v_j
@@ -69,9 +69,9 @@ $$
 
 The determinant of matrix $A$ can be used to decide at which pyramid level of the current frame the patch should be searched (larger the $det(A)$, greater the pixel displacement).
 
-*Sum of Squared Differences* (SSD) is used as the objective function to be minimized for all pixels in a search window $(x,y)\in\bold{W}_{m \times n}$ centered around a candidate feature point $(u_c, v_c)$.
+*Sum of Squared Differences* (SSD) is used as the objective function to be minimized for all pixels in a search window $(x,y)\in\mathbf{W}\_{m \times n}$ centered around a candidate feature point $(u_c, v_c)$.
 $$
-E_{ssd}(u_c,v_c)=\sum_{(x,y)\in\bold{W}_{m \times n}} 
+E_{ssd}(u_c,v_c)=\sum_{(x,y)\in\mathbf{W}\_{m \times n}} 
 \big[
     I(x+u_c, y+v_c)-I(x,y)    
 \big]^2
@@ -80,12 +80,12 @@ $$
 
 ### M-estimator
 
-M-estimators are a generalization of maximum likelihood estimators (MLEs) to maximize $\prod^n_{i=1} f(x_i)$, or equivalently, minimize $\sum^n_{i=1}- \log f(x_i)$ .
-This can be generalized to minimize $\sum^n_{i=1} \rho(x_i)$, where $\rho$ is some function.
+M-estimators are a generalization of maximum likelihood estimators (MLEs) to maximize $\prod^n\_{i=1} f(x\_i)$, or equivalently, minimize $\sum^n\_{i=1}- \log f(x\_i)$ .
+This can be generalized to minimize $\sum^n\_{i=1} \rho(x\_i)$, where $\rho$ is some function.
 
-The optimization problem $\min_{\bold{x}} \sum^n_{i=1} \rho(x_i)$ can often be done by differentiating $\rho$ such that $\sum_{i=1}^n \frac{d \rho(x_i)}{d x_i} = 0$. 
+The optimization problem $\min_{\mathbf{x}} \sum^n\_{i=1} \rho(x\_i)$ can often be done by differentiating $\rho$ such that $\sum_{i=1}^n \frac{d \rho(x\_i)}{d x\_i} = 0$. 
 
-Common $\rho$ are squared error $\mathcal{L}_2$, Huber loss $\mathcal{L}_{1.5}$ and absolute error $\mathcal{L}_1$.
+Common $\rho$ are squared error $\mathcal{L}_2$, Huber loss $\mathcal{L}\_{1.5}$ and absolute error $\mathcal{L}_1$.
 
 PTAM uses Tukey's Biweight as the loss function for reprojection error.
 $$
@@ -119,7 +119,7 @@ the two means are said to be significantly different at level: $\alpha: 0 \le \a
 
 ## Mapping
 
-Each point has a unit patch normal $\bold{n}_j$ and a reference to the patch source pixels.
+Each point has a unit patch normal $\mathbf{n}_j$ and a reference to the patch source pixels.
 
 The map also contains $N$ keyframes. Each keyframe has an associated camera-centred coordinate frame, denoted $K_i$ for the $i$-th keyframe.
 
@@ -150,24 +150,24 @@ level pyramid of greyscale $8$bpp images; level zero stores the full $640 \times
 Given a set $S$ of successful patch observations, a camera pose update can be computed.
 Each observation yields a found patch position $(\hat{u}, \hat{v})^\top$ and is assumed to have measurement noise of $\sigma^2$.
 
-The optimal pose $\bold{\xi}^*$ can be computed by
+The optimal pose $\mathbf{\xi}^*$ can be computed by
 $$
-\bold{\xi}^* =
-\argmin_{\bold{\xi} \in se(3)}
+\mathbf{\xi}^* =
+\argmin_{\mathbf{\xi} \in se(3)}
 \sum_{j \in S} \rho \bigg(
-   \frac{|\bold{e}_j|}{\sigma_j}, \bold{\sigma}_T
+   \frac{|\mathbf{e}_j|}{\sigma_j}, \mathbf{\sigma}_T
 \bigg) 
 $$
-where $\bold{e}_j$ is the reprojection error vector:
+where $\mathbf{e}_j$ is the reprojection error vector:
 $$
-\bold{e}_j = 
+\mathbf{e}_j = 
 \begin{bmatrix}
     \hat{u}_j \\
     \hat{v}_j \\
 \end{bmatrix} - 
-CamProj(\bold{p}_{\mathcal{C}j})
+CamProj(\mathbf{p}\_{\mathcal{C}j})
 $$
-and $\rho(\space.\space,\bold{\sigma}_T)$ is the Tukey biweight objective function, 
-inside which $\bold{\sigma}_T$ is a robust (median-based) estimate of the distribution’s standard deviation derived from all the residuals.
+and $\rho(\space.\space,\mathbf{\sigma}_T)$ is the Tukey biweight objective function, 
+inside which $\mathbf{\sigma}_T$ is a robust (median-based) estimate of the distribution’s standard deviation derived from all the residuals.
 
-This Tukey biweight objective function amplifies errors in this interval $(-\frac{\bold{\sigma}_T}{\sqrt{5}}, \frac{\bold{\sigma}_T}{\sqrt{5}})$, and down-weight errors if they are outside this interval. For $|\bold{e}_j| \ge \bold{\sigma}_T$, the errors are set to zeros.
+This Tukey biweight objective function amplifies errors in this interval $(-\frac{\mathbf{\sigma}_T}{\sqrt{5}}, \frac{\mathbf{\sigma}_T}{\sqrt{5}})$, and down-weight errors if they are outside this interval. For $|\mathbf{e}_j| \ge \mathbf{\sigma}_T$, the errors are set to zeros.

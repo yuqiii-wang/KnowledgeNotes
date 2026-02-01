@@ -53,7 +53,7 @@ Set $G_t$ as the discounted return at a time $t$, and $R_{t+1}$ is the reward fo
 Having included $0 \le \gamma < 1$ served as a discount rate that future rewards $R_{t+k}$, where $k > 0$, are discounted then summed to the total discounted return.
 
 $$
-G_t = \sum^{\infty}_{k=0} \gamma^k R_{t+k+1} =
+G_t = \sum^{\infty}\_{k=0} \gamma^k R_{t+k+1} =
 R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ...
 $$
 
@@ -67,14 +67,14 @@ This renders rewards get weighted more on recent time rather than the faraway fu
 The action-value ("Q-value", Quality) of a state-action pair is
 
 $$
-Q_{\pi}(s,a) = \mathbb{E}_{\pi}(G_t | \underbrace{S_{t} = s, A_{t} = a}_{\pi} )
+Q_{\pi}(s,a) = \mathbb{E}\_{\pi}(G_t | \underbrace{S_{t} = s, A_{t} = a}\_{\pi} )
 $$
 
 The state-value of a state $s$ is the expected return ("Value Function"), that is the "average result given different actions".
 
 $$
 \begin{align*}
-V_{\pi}(s) &= \mathbb{E}_{\pi}(G_t | S_{t} = s) \\
+V_{\pi}(s) &= \mathbb{E}\_{\pi}(G_t | S_{t} = s) \\
       &= \sum_{a \in A} Q_{\pi}(s,a) \pi(a|s)
 \end{align*}
 $$
@@ -89,7 +89,7 @@ $$
 where $d_{\pi_{\theta}}(s) = \lim_{t \rightarrow \infty} \big(P(S_t=s | S_0, \pi_{\theta}) \big)^t$ is state stationary probability distribution.
 $P$ is Markov chain transition probability matrix.
 
-The difficulty of finding the optimal policy $\pi^{*}_{\theta} = \argmax_{\theta} \mathcal{J}(\theta)$ is the infinite combinations of state-action pairs $\pi(a,s) = P(A_t = a | S_t = s)$ often observed in the real world, hence the optimal policy search approach is often by iteratively selecting $\pi(a,s)$ rather than brute force (exhaustively find all $\pi(a,s)$ pairs).
+The difficulty of finding the optimal policy $\pi^{*}\_{\theta} = \argmax_{\theta} \mathcal{J}(\theta)$ is the infinite combinations of state-action pairs $\pi(a,s) = P(A_t = a | S_t = s)$ often observed in the real world, hence the optimal policy search approach is often by iteratively selecting $\pi(a,s)$ rather than brute force (exhaustively find all $\pi(a,s)$ pairs).
 
 To solve $\max_{\theta} \mathcal{J}(\theta)$, here introduces *Markov decision process* that formulates the problem into an iterative $\theta$ update issue as time progresses.
 
@@ -111,20 +111,20 @@ On-policy approach just takes action $a_{t+1}$, while off-policy approach goes b
 
 ## Markov Decision Process
 
-Almost all the reinforcement learning problems can be framed as Markov Decision Processes: stationed on $S_t$ and take action $A_t$ generate a reward $R_t$ such that $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
+Almost all the reinforcement learning problems can be framed as Markov Decision Processes: stationed on $S_t$ and take action $A_t$ generate a reward $R_t$ such that $\underbrace{S_1, A_1}\_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}\_{\Rightarrow R_2} \rightarrow ...$.
 
 Below shows how Markov decision process as time progresses against how $V_{\pi}(s)$ and $Q_{\pi}(s,a)$ iteratively get updated from $t$ to $t+1$.
 
 $$
 \begin{align*}
-V_{\pi}(s) &= \mathbb{E}_{\pi}(G_t | S_{t} = s) \\
-      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... | S_{t} = s) \\
-      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma G_{t+1} | S_{t} = s) \\
-      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | S_{t} = s) \\
+V_{\pi}(s) &= \mathbb{E}\_{\pi}(G_t | S_{t} = s) \\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... | S_{t} = s) \\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma G_{t+1} | S_{t} = s) \\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | S_{t} = s) \\
 \space \\
-Q_{\pi}(s,a) &= \mathbb{E}_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | {S_{t} = s, A_{t} = a} ) \\
-      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma \sum_{a \in A} Q_{\pi}(S_t,A_t) \pi(A_t| S_t) \space \big| \space {S_{t} = s, A_{t} = a} ) \\
-      &= \mathbb{E}_{\pi}(R_{t+1} + \gamma \mathbb{E}_{a \sim \pi} Q_{\pi}(S_t,a)  \space \big| \space {S_{t} = s, A_{t} = a} ) \\
+Q_{\pi}(s,a) &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma V(S_{t+1}) | {S_{t} = s, A_{t} = a} ) \\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma \sum_{a \in A} Q_{\pi}(S_t,A_t) \pi(A_t| S_t) \space \big| \space {S_{t} = s, A_{t} = a} ) \\
+      &= \mathbb{E}\_{\pi}(R_{t+1} + \gamma \mathbb{E}\_{a \sim \pi} Q_{\pi}(S_t,a)  \space \big| \space {S_{t} = s, A_{t} = a} ) \\
 \end{align*}
 $$
 
@@ -141,7 +141,7 @@ $$
 \begin{align*}
 \nabla_{\theta}\mathcal{J}(\theta) &=
 \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) V_{\pi_{\theta}}(s) \\&= \nabla_{\theta} \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \pi(a|s) \\
-&\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \nabla_{\theta} \pi(a|s) \\&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
+&\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_{\theta}}(s,a) \nabla_{\theta} \pi(a|s) \\&= \mathbb{E}\_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
 \end{align*}
 $$
 
@@ -172,7 +172,7 @@ $$
 &\propto \sum_{s \in S} \frac{\eta(s)}{\sum_{s \in S} \eta(s)} \phi(s_x) \\&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} \nabla_{\theta} \Big(\pi_{\theta}(a|s) Q_{\pi_\theta}(s,a) \Big)
 && d_{\pi_{\theta}}(s)=\frac{\eta(s)}{\sum_{s \in S} \eta(s)} \text{ is a stationary distribution} \\
 &\propto \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \nabla_{\theta} \Big(\pi_{\theta}(a|s) \Big) \\&= \sum_{s \in S} d_{\pi_{\theta}}(s) \sum_{a \in A} Q_{\pi_\theta}(s,a) \pi_{\theta}(a|s) \frac{\nabla_{\theta} \pi_{\theta}(a|s)}{ \pi_{\theta}(a|s)}
-&& \text{ by } \frac{dx}{x}=\frac{d(\ln x)}{dx}dx= d(\ln x)  \\&= \underbrace{\sum_{s \in S} d_{\pi_{\theta}}(s)}_{s \sim d_{\pi_{\theta}}} \quad \underbrace{\sum_{a \in A} \pi_{\theta}(a|s)}_{a \sim \pi_{\theta}} Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \\&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
+&& \text{ by } \frac{dx}{x}=\frac{d(\ln x)}{dx}dx= d(\ln x)  \\&= \underbrace{\sum_{s \in S} d_{\pi_{\theta}}(s)}\_{s \sim d_{\pi_{\theta}}} \quad \underbrace{\sum_{a \in A} \pi_{\theta}(a|s)}\_{a \sim \pi_{\theta}} Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \\&= \mathbb{E}\_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big)
 \end{align*}
 $$
 
@@ -180,15 +180,15 @@ Recall that $Q_{\pi_\theta}(s,a)$ is the expectation of the discounted return $G
 
 $$
 \begin{align*}
-\nabla_{\theta} \mathcal{J}(\theta)&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big) \\&= \mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t|S_t) \big) \Big) 
+\nabla_{\theta} \mathcal{J}(\theta)&= \mathbb{E}\_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( Q_{\pi_\theta}(s,a) \nabla_{\theta} \ln \big( \pi_{\theta}(a|s) \big) \Big) \\&= \mathbb{E}\_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}} \Big( G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t|S_t) \big) \Big) 
 \end{align*}
 $$
 
 The above method is called *Monte-Carlo policy gradient* that uses selective $A_t$ and $S_t$ pair per timestamp $t$, and compute the expectation on all timestamp $t=1,2,...$.
-This method relies on full trajectory of $\underbrace{S_1, A_1}_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}_{\Rightarrow R_2} \rightarrow ...$.
+This method relies on full trajectory of $\underbrace{S_1, A_1}\_{\Rightarrow R_1} \rightarrow \underbrace{S_2, A_2}\_{\Rightarrow R_2} \rightarrow ...$.
 
 For each timestamp $t$, update parameter $\theta$  such that $\theta \leftarrow \theta + \alpha \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$.
-This is plausible for $A_t=a$ and $S_t=s$ that see $s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}$. As time progresses $t \rightarrow \infty$, this term $\gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$ will render an average result $\frac{1}{T} \sum_{t=1}^T \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$ that converges to the expectation $\mathbb{E}_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}}(...)$.
+This is plausible for $A_t=a$ and $S_t=s$ that see $s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}$. As time progresses $t \rightarrow \infty$, this term $\gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$ will render an average result $\frac{1}{T} \sum_{t=1}^T \gamma^t G_t \nabla_{\theta} \ln \big( \pi_{\theta}(A_t | S_t) \big)$ that converges to the expectation $\mathbb{E}\_{s \sim d_{\pi_{\theta}}, a \sim \pi_{\theta}}(...)$.
 
 ## Proximal Policy Optimization (PPO)
 
@@ -208,12 +208,12 @@ Define $\gamma_t(\theta)=\frac{\pi_{\theta}(a_t|s_t)}{\pi_{\theta_{\text{old}}}(
 Finally, the PPO objective is defined as
 
 $$
-\mathcal{J}_{\text{clip}}(\theta) =
+\mathcal{J}\_{\text{clip}}(\theta) =
 \mathbb{E}\Big( \min\big( \gamma_t(\theta)  A_t,
-\underbrace{\text{clip}(\gamma_t(\theta), 1-\epsilon, 1+\epsilon)}_{\in [1-\epsilon, 1+\epsilon]}
+\underbrace{\text{clip}(\gamma_t(\theta), 1-\epsilon, 1+\epsilon)}\_{\in [1-\epsilon, 1+\epsilon]}
 A_t \big) \Big)
 $$
 
-By (typically) $\epsilon=0.1$ or $\epsilon=0.2$, the ratio is contained to $\gamma_t(\theta) \in [1-\epsilon, 1+\epsilon]$, so that both old and current policies have influences on the objective $\mathcal{J}_{\text{clip}}(\theta)$.
+By (typically) $\epsilon=0.1$ or $\epsilon=0.2$, the ratio is contained to $\gamma_t(\theta) \in [1-\epsilon, 1+\epsilon]$, so that both old and current policies have influences on the objective $\mathcal{J}\_{\text{clip}}(\theta)$.
 
 Minimization with Clipping: The use of the $\min$ function ensures that if the probability ratio goes outside the allowed range, the clipped value is used instead. This prevents the update from being too large, maintaining a "proximal" update.

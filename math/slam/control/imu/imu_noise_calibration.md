@@ -2,7 +2,7 @@
 
 An inertial measurement unit (IMU) is an electronic device that measures and reports a body's specific force, angular rate, and sometimes the orientation of the body, using a combination of **accelerometers**, **gyroscopes**, and sometimes magnetometers. 
 
-Typically, it measures rotation $\bold{R}$, translation $\bold{p}$, angular velocity $\bold{\omega}$, linear velocity $\bold{v}$ and acceleration $\bold{a}$ in a 3D space.
+Typically, it measures rotation $\mathbf{R}$, translation $\mathbf{p}$, angular velocity $\mathbf{\omega}$, linear velocity $\mathbf{v}$ and acceleration $\mathbf{a}$ in a 3D space.
 
 ## IMU Noise Formulation
 
@@ -20,29 +20,29 @@ This can be measured by Gaussian noise.
 
 ### Formulations
 
-Between two keyframes $K_i$ and $K_j$, define IMU measurement noises (Gaussian noise) $\bold{\eta}_{ij}$ and zero offset/drift biases (Wiener process) to angular and linear movements $\bold{b}_{ij} = \{ \bold{b}_{a, ij}, \bold{b}_{\omega, ij} \}$.
+Between two keyframes $K_i$ and $K_j$, define IMU measurement noises (Gaussian noise) $\mathbf{\eta}\_{ij}$ and zero offset/drift biases (Wiener process) to angular and linear movements $\mathbf{b}\_{ij} = \{ \mathbf{b}\_{a, ij}, \mathbf{b}\_{\omega, ij} \}$.
 
 $$
 \begin{align*}
-\bold{\eta}_{ij} &= \frac{1}{\Delta t_{ij}} \int^{t_i+\Delta t_{ij}}_{t_i} \bold{n}(\tau) dt
+\mathbf{\eta}\_{ij} &= \frac{1}{\Delta t_{ij}} \int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(\tau) dt
 \\
-\bold{b}_{ij} &= \bold{b}_{i} + \int^{t_i+\Delta t_{ij}}_{t_i} \bold{n}(t) dt
+\mathbf{b}\_{ij} &= \mathbf{b}\_{i} + \int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(t) dt
 \end{align*}
 $$
-where $\bold{n}(\tau)$ is Gaussian noise.
-In the time interval $\Delta t_{ij}$, the Gaussian noise $\bold{n}(\tau)$ does not grow proportional to the length of time interval $\Delta t_{ij}$.
-The argument $\tau$ means the noise does not relate to $\Delta t$, so that $\int^{t_i+\Delta t_{ij}}_{t_i} \bold{n}(\tau) dt = 0$ as $\Delta t_{ij} \rightarrow +\infty$.
-This is different from Wiener process where noises accumulate as time extends $\int^{t_i+\Delta t_{ij}}_{t_i} \bold{n}(t) dt \propto \Delta t_{ij}$.
+where $\mathbf{n}(\tau)$ is Gaussian noise.
+In the time interval $\Delta t_{ij}$, the Gaussian noise $\mathbf{n}(\tau)$ does not grow proportional to the length of time interval $\Delta t_{ij}$.
+The argument $\tau$ means the noise does not relate to $\Delta t$, so that $\int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(\tau) dt = 0$ as $\Delta t_{ij} \rightarrow +\infty$.
+This is different from Wiener process where noises accumulate as time extends $\int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(t) dt \propto \Delta t_{ij}$.
 
 The covariances of the two types of errors are: 
-$E(\bold{\eta}^2_{ij})$ is just the mean of the $\sigma_{\bold{\eta}}^2$ over the time interval $\Delta t_{ij}$;
-$E(\bold{b}^2_{ij})$ is the Wiener process covariance scaled by $\sigma_{\bold{b}}^2$.
+$E(\mathbf{\eta}^2_{ij})$ is just the mean of the $\sigma_{\mathbf{\eta}}^2$ over the time interval $\Delta t_{ij}$;
+$E(\mathbf{b}^2_{ij})$ is the Wiener process covariance scaled by $\sigma_{\mathbf{b}}^2$.
 
 $$
 \begin{align*}
-E(\bold{\eta}^2_{ij}) &= \frac{\sigma_{\bold{\eta}}^2}{\Delta t_{ij}}
+E(\mathbf{\eta}^2_{ij}) &= \frac{\sigma_{\mathbf{\eta}}^2}{\Delta t_{ij}}
 \\
-E(\bold{b}^2_{ij}) &= {\sigma_{\bold{b}}^2}{\Delta t_{ij}}
+E(\mathbf{b}^2_{ij}) &= {\sigma_{\mathbf{b}}^2}{\Delta t_{ij}}
 \end{align*}
 $$
 
@@ -172,8 +172,8 @@ $$
     W_x \\
     W_y \\
     W_z
-\end{bmatrix}}_{{W}}=
-\bold{x}_{\omega}
+\end{bmatrix}}\_{{W}}=
+\mathbf{x}\_{\omega}
 \underbrace{\begin{bmatrix}
     K_{gxx} \\ S_{gxy} \\ S_{gxz} \\
     S_{gyx} \\ K_{gyy} \\ S_{gyz} \\
@@ -181,12 +181,12 @@ $$
     W_{x0} \\
     W_{y0} \\
     W_{z0}
-\end{bmatrix}}_{\bold{K}_g}
+\end{bmatrix}}\_{\mathbf{K}_g}
 $$
 
-$\bold{x}_{\omega}$ is 
+$\mathbf{x}\_{\omega}$ is 
 $$
-\bold{x}_{\omega} = \begin{bmatrix}
+\mathbf{x}\_{\omega} = \begin{bmatrix}
     {\omega}_x & {\omega}_x & {\omega}_x & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
     0 & 0 & 0 & {\omega}_y & {\omega}_y & {\omega}_y & 0 & 0 & 0 & 0 & 1 & 0 \\
     0 & 0 & 0 & 0 & 0 & 0 & {\omega}_z & {\omega}_z & {\omega}_z & 0 & 0 & 1 \\
@@ -201,28 +201,28 @@ A typical high-precision calibration machine would give $\pm 0.3\%$ precision to
 </div>
 </br>
 
-Record many IMU positions $\bold{x}_{\omega, i}$.
+Record many IMU positions $\mathbf{x}\_{\omega, i}$.
 Form the least squares problem:
 $$
 \begin{align*}
-    \bold{W} &= \begin{bmatrix}
+    \mathbf{W} &= \begin{bmatrix}
         W_1^{\top} & W_2^{\top} & ... & W_n^{\top}
     \end{bmatrix}^{\top}
 \\
-    \bold{X}_{\omega} &= \begin{bmatrix}
-        \bold{x}_{\omega,1}^{\top} & \bold{x}_{\omega,2}^{\top} & ... & \bold{x}_{\omega,n}^{\top}
+    \mathbf{X}\_{\omega} &= \begin{bmatrix}
+        \mathbf{x}\_{\omega,1}^{\top} & \mathbf{x}\_{\omega,2}^{\top} & ... & \mathbf{x}\_{\omega,n}^{\top}
     \end{bmatrix}^{\top}
 \end{align*}
 $$
 
-The $\bold{K}_g$ can be solved by
+The $\mathbf{K}_g$ can be solved by
 $$
-\bold{K}_g = (\bold{X}_{\omega}^{\top} \bold{X}_{\omega})^{-1} \bold{X}_{\omega}^{\top} \bold{W}^{\top}
+\mathbf{K}_g = (\mathbf{X}\_{\omega}^{\top} \mathbf{X}\_{\omega})^{-1} \mathbf{X}\_{\omega}^{\top} \mathbf{W}^{\top}
 $$
 
-Similarly, the configuration for acceleration $\bold{K}_a$ can be computed by 
+Similarly, the configuration for acceleration $\mathbf{K}_a$ can be computed by 
 $$
-\bold{K}_a = (\bold{X}_{a}^{\top} \bold{X}_{a})^{-1} \bold{X}_{a}^{\top} \bold{A}^{\top}
+\mathbf{K}_a = (\mathbf{X}\_{a}^{\top} \mathbf{X}\_{a})^{-1} \mathbf{X}\_{a}^{\top} \mathbf{A}^{\top}
 $$
 
 ### Other Considerations

@@ -21,11 +21,11 @@ where
 Define an objective function $J$ to be minimized
 $$
 \underset{u}{\min} \space J=
-\sum_{i=1}^N w_{x_i}e_i^2
+\sum_{i=1}^N w_{x\_i}e_i^2
 +
 \sum_{i=1}^N w_{u_i}\Delta u_i^2
 $$
-where $w_{x_i}$ and $w_{u_i}$ are wight coefficients. $N$ is the number of future inputs to take into consideration.
+where $w_{x\_i}$ and $w_{u_i}$ are wight coefficients. $N$ is the number of future inputs to take into consideration.
 
 This objective function talks about two items:
 

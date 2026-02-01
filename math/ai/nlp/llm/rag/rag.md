@@ -105,9 +105,9 @@ collection = client.create_collection(
 
 |Distance|parameter|Equation|
 |-|-|-|
-|Squared L2|'l2'|$d = \sum\left(\bold{v}_i-\bold{v}_j\right)^2$|
-|Inner product|'ip'|$d = 1.0 - \sum\left(\bold{v}_i \times \bold{v}_j\right)$|
-|Cosine similarity|'cosine'|$d = 1.0 - \frac{\sum\left(\bold{v}_i \times \bold{v}_j\right)}{\sqrt{\sum\left(\bold{v}_i^2\right)} \cdot \sqrt{\sum\left(\bold{v}_j^2\right)}}$|
+|Squared L2|'l2'|$d = \sum\left(\mathbf{v}\_i-\mathbf{v}_j\right)^2$|
+|Inner product|'ip'|$d = 1.0 - \sum\left(\mathbf{v}\_i \times \mathbf{v}_j\right)$|
+|Cosine similarity|'cosine'|$d = 1.0 - \frac{\sum\left(\mathbf{v}\_i \times \mathbf{v}_j\right)}{\sqrt{\sum\left(\mathbf{v}\_i^2\right)} \cdot \sqrt{\sum\left(\mathbf{v}_j^2\right)}}$|
 
 ## RAG Enterprise Project Difficulties
 

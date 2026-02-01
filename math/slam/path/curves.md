@@ -51,39 +51,39 @@ A recursive definition for the Bézier curve of degree $n$ expresses it as a poi
 
 $$
 \begin{align*}
-\bold{B}_{\bold{P}_0}(t)&= 
-\bold{P}_0
+\mathbf{B}\_{\mathbf{P}_0}(t)&= 
+\mathbf{P}_0
 \\
-\bold{B}(t) &=
-\bold{B}_{\bold{P}_0 \bold{P}_1 \bold{P}_2 ... \bold{P}_n}(t)\\ &=
-(1-t)\bold{B}_{\bold{P}_0 \bold{P}_1 \bold{P}_2 ... \bold{P}_{n-1}}(t)
+\mathbf{B}(t) &=
+\mathbf{B}\_{\mathbf{P}_0 \mathbf{P}_1 \mathbf{P}_2 ... \mathbf{P}_n}(t)\\ &=
+(1-t)\mathbf{B}\_{\mathbf{P}_0 \mathbf{P}_1 \mathbf{P}_2 ... \mathbf{P}\_{n-1}}(t)
 +
-t\bold{B}_{\bold{P}_1 \bold{P}_2 ... \bold{P}_{n}}(t)\\ &=
-(1-t)^n \bold{P}_0 
+t\mathbf{B}\_{\mathbf{P}_1 \mathbf{P}_2 ... \mathbf{P}\_{n}}(t)\\ &=
+(1-t)^n \mathbf{P}_0 
 +
 \bigg(\begin{array}{c}
 n \\
 1
 \end{array} \bigg)
-(1-t)^{n-1} t \bold{P}_1+... +
+(1-t)^{n-1} t \mathbf{P}_1+... +
 \bigg(\begin{array}{c}
 n \\
 n-1
 \end{array} \bigg)
-(1-t) t^{n-1} \bold{P}_{n-1}
+(1-t) t^{n-1} \mathbf{P}\_{n-1}
 +
-t^n \bold{P}_n\\ &=
-\sum^n_{k=0} 
+t^n \mathbf{P}_n\\ &=
+\sum^n\_{k=0} 
 \bigg(\begin{array}{c}
 n \\
 k
 \end{array} \bigg)
 (1-t)^k t^{n-k}
-\bold{P}_k
+\mathbf{P}_k
 \end{align*}
 $$
 
-For fourth-order curves one can construct intermediate points $\bold{Q}=[Q_0, Q_1, Q_2, Q_3]$ that describe linear/first-order Bézier curves, points $\bold{R}=[R_0, R_1, R_2]$ (computed from the moving $\bold{Q}$) that describe quadratic Bézier curves, and points $\bold{S}=[S_0, S_1]$ (computed from the moving $\bold{R}$) that describe cubic Bézier curves.
+For fourth-order curves one can construct intermediate points $\mathbf{Q}=[Q_0, Q_1, Q_2, Q_3]$ that describe linear/first-order Bézier curves, points $\mathbf{R}=[R_0, R_1, R_2]$ (computed from the moving $\mathbf{Q}$) that describe quadratic Bézier curves, and points $\mathbf{S}=[S_0, S_1]$ (computed from the moving $\mathbf{R}$) that describe cubic Bézier curves.
 
 The linear combinations of the above points forms a fourth-order curve.
 

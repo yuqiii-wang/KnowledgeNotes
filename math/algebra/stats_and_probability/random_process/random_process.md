@@ -28,12 +28,12 @@ A naive approach to variance is
 $$
 \sigma^2 = \overline{(x^2)} - (\overline{x})^2 =
 \frac{
-    \sum_{i=1}^n x_i^2 - \frac{1}{n}\Big(\sum_{i=1}^n x_i \Big)^2}{ n }
+    \sum_{i=1}^n x\_i^2 - \frac{1}{n}\Big(\sum_{i=1}^n x\_i \Big)^2}{ n }
 $$
 
 By Bessel's correction, there is
 $$
-s^2 = \frac{n}{n-1} \Bigg( \frac{1}{n}\sum_{i=1}^n x_i^2 - \Big( \frac{1}{n}\sum_{i=1}^n x_i \Big)^2 \Bigg)
+s^2 = \frac{n}{n-1} \Bigg( \frac{1}{n}\sum_{i=1}^n x\_i^2 - \Big( \frac{1}{n}\sum_{i=1}^n x\_i \Big)^2 \Bigg)
 $$
 
 One can understand Bessel's correction as the degrees of freedom in the residuals vector (residuals, not errors, because the population mean is unknown):
@@ -45,7 +45,7 @@ For $n$ independent observations in the sample, there are only $n − 1$ indepen
 
 ### Source of Inspiration and Bias
 
-The reason why there are only $n − 1$ independent residuals is that, for example, there is only one sample point $\bold{x} = \{ x_1 \}$.
+The reason why there are only $n − 1$ independent residuals is that, for example, there is only one sample point $\mathbf{x} = \{ x_1 \}$.
 The mean is $\overline{x} = x_1$ and residual is always $x_1 - \overline{x} = 0$, that the residual is not independent when $n=1$.
 
 As a result, residual is always has degree of freedom of $n-1$.
@@ -75,7 +75,7 @@ $$
 Or
 
 $$
-{\sqrt{n}}({\overline{X}}_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)
+{\sqrt{n}}({\overline{X}}\_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)
 $$
 
 ### Example: Sampling From A Uniform Distribution

@@ -171,7 +171,7 @@ $$
 \text{By Pythagoras theorem: } &&& c^2 &&= BD^2 + DA^2 \\
 &&& &&= (a \sin C)^2 + (b - \cos C)^2 \\
 &&& &&= a^2 \sin^2 C + b^2 + \cos^2 C - 2b\cos C \\
-&&& &&= a^2 (\underbrace{\sin^2 C + \cos^2 C}_{=1}) + b^2 - 2b\cos C \\
+&&& &&= a^2 (\underbrace{\sin^2 C + \cos^2 C}\_{=1}) + b^2 - 2b\cos C \\
 &&& &&= a^2 + b^2 - 2ab\cos C
 \end{align*}
 $$

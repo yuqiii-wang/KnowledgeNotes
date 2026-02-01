@@ -78,7 +78,7 @@ $$
       Z
 \end{bmatrix}
 \overset{\Delta}{=}
-\frac{1}{Z} K^\text{T} \bold{p}
+\frac{1}{Z} K^\text{T} \mathbf{p}
 $$
 
 Here inserts $s$ indicating axis-skew, and derives
@@ -97,9 +97,9 @@ Define Extrinsic Parameters
 $$
 \begin{align*}
 \begin{bmatrix}
-      \bold{R} \\
-      \bold{t}
-\end{bmatrix}_{4 \times 4}
+      \mathbf{R} \\
+      \mathbf{t}
+\end{bmatrix}\_{4 \times 4}
 & =
 \begin{bmatrix}
       r_{11} & r_{12} & r_{13} & t_{1} \\
@@ -109,9 +109,9 @@ $$
 \end{bmatrix}
 \\
 \begin{bmatrix}
-      \bold{R} \\
-      \bold{t}
-\end{bmatrix}_{4 \times 3}
+      \mathbf{R} \\
+      \mathbf{t}
+\end{bmatrix}\_{4 \times 3}
 & =
 \begin{bmatrix}
       r_{11} & r_{12} & t_{1} \\
@@ -121,7 +121,7 @@ $$
 \end{bmatrix}
 \end{align*}
 $$
-where $R$ and $\bold{t}$ are rotation and translation matrices that adjust a camera physical orientation and lateral position. Here we set $z=0$ to assume that both real world and camera frame are parallel to each other (no rotation but possible translation).
+where $R$ and $\mathbf{t}$ are rotation and translation matrices that adjust a camera physical orientation and lateral position. Here we set $z=0$ to assume that both real world and camera frame are parallel to each other (no rotation but possible translation).
 
 The mapping relationship from world points to image pixels can be expressed as
 $$
@@ -138,8 +138,8 @@ w
       1
 \end{bmatrix}^\text{T}
 \begin{bmatrix}
-      \bold{R} \\
-      \bold{t}
+      \mathbf{R} \\
+      \mathbf{t}
 \end{bmatrix}
 _{4 \times 3}
 \begin{bmatrix}
@@ -211,8 +211,8 @@ w
       1
 \end{bmatrix}^\text{T}
 \begin{bmatrix}
-      \bold{R} \\
-      \bold{t}
+      \mathbf{R} \\
+      \mathbf{t}
 \end{bmatrix}
 _{4 \times 3}
 \begin{bmatrix}

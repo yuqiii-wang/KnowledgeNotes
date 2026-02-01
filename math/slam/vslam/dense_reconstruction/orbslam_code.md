@@ -658,16 +658,16 @@ For a radius of $15$ patch, there is
 $$
 \begin{align*}
 m_{10} &= 
-\sum^{15}_{u=-15} \sum^{15}_{v=-15} u^1 v^0 i(u,v)
+\sum^{15}\_{u=-15} \sum^{15}\_{v=-15} u^1 v^0 i(u,v)
 \\ &=
-\sum^{15}_{u=-15} \sum^{15}_{v=-15} u \space i(u,v)
+\sum^{15}\_{u=-15} \sum^{15}\_{v=-15} u \space i(u,v)
 \end{align*}
 \qquad
 \begin{align*}
 m_{01} &= 
-\sum^{15}_{u=-15} \sum^{15}_{v=-15} u^0 v^1 i(u,v)
+\sum^{15}\_{u=-15} \sum^{15}\_{v=-15} u^0 v^1 i(u,v)
 \\ &=
-\sum^{15}_{u=-15} \sum^{15}_{v=-15} v \space i(u,v)
+\sum^{15}\_{u=-15} \sum^{15}\_{v=-15} v \space i(u,v)
 \end{align*}
 $$
 
@@ -1343,20 +1343,20 @@ vector<size_t> Frame::GetFeaturesInArea(const float &x, const float  &y, const f
 
 `SearchByProjection(...)` finds match points by selecting feature points from the last frame comparing against this frame's nearby pixels.
 
-`twc` $\bold{t}_{wc}$ and `tlc` $\bold{t}_{lc}$ are computed as below representing the current frame camera pose and the last frame camera pose, both measured in the world coordinate system.
+`twc` $\mathbf{t}\_{wc}$ and `tlc` $\mathbf{t}\_{lc}$ are computed as below representing the current frame camera pose and the last frame camera pose, both measured in the world coordinate system.
 
 $$
 \begin{align*}
 &&
 T_{wc} = T_{cw}^{-1} &= 
 \begin{bmatrix}
-    R_{cw}^{\top} & -R_{cw}^{\top}\bold{t}_{cw} \\
-    \bold{0}^{\top} & 1
+    R_{cw}^{\top} & -R_{cw}^{\top}\mathbf{t}\_{cw} \\
+    \mathbf{0}^{\top} & 1
 \end{bmatrix}
 \\ \Rightarrow &&
-\bold{t}_{wc} &= -R_{cw}^{\top}\bold{t}_{cw}
+\mathbf{t}\_{wc} &= -R_{cw}^{\top}\mathbf{t}\_{cw}
 \\ \Rightarrow &&
-\bold{t}_{lc} &= R_{lw} \bold{t}_{wc}  + \bold{t}_{lw}
+\mathbf{t}\_{lc} &= R_{lw} \mathbf{t}\_{wc}  + \mathbf{t}\_{lw}
 \end{align*}
 $$
 
@@ -1940,7 +1940,7 @@ int Optimizer::PoseOptimization(Frame *pFrame)
 ```
 where
 * `setToOriginImpl()` inits `_estimate` as the init guess
-* `oplusImpl(const double* update_)` performs optimization step $\bold{x}_{t+1}=\bold{x}_t \oplus \Delta\bold{x}_t$
+* `oplusImpl(const double* update_)` performs optimization step $\mathbf{x}\_{t+1}=\mathbf{x}_t \oplus \Delta\mathbf{x}_t$
 * `computeError()` computes the residuals stored to `_error`
 * `linearizeOplus()` computes the Jacobians
 ```cpp
@@ -2017,16 +2017,16 @@ $$
 &&
 T = T^{-1} &= 
 \begin{bmatrix}
-    R^{\top} & -R^{\top}\bold{t} \\
-    \bold{0}^{\top} & 1
+    R^{\top} & -R^{\top}\mathbf{t} \\
+    \mathbf{0}^{\top} & 1
 \end{bmatrix}
 \\ \Rightarrow &&
-{R}_{12} &= R_{1}R_{2}^{\top}
+{R}\_{12} &= R_{1}R_{2}^{\top}
 \\ \Rightarrow &&
-\bold{t}_{12}^\wedge &= \big( -R_{1}R_{2}^{\top}\bold{t}_{2} + \bold{t}_{1} \big)^\wedge
+\mathbf{t}\_{12}^\wedge &= \big( -R_{1}R_{2}^{\top}\mathbf{t}\_{2} + \mathbf{t}\_{1} \big)^\wedge
 \\ \space
 \\ \Rightarrow &&
-F &= (K_1^{\top})^{-1} \bold{t}_{12}^\wedge \bold{R}_{12} K_2^{-1}
+F &= (K_1^{\top})^{-1} \mathbf{t}\_{12}^\wedge \mathbf{R}\_{12} K_2^{-1}
 \end{align*}
 $$
 
@@ -2140,16 +2140,16 @@ void Tracking::MonocularInitialization()
 }
 ```
 
-`Initializer::Initialize(...)` computes in parallel threads a homography ${H}_{cr}$ and a
-fundamental matrix ${F}_{cr}$:
+`Initializer::Initialize(...)` computes in parallel threads a homography ${H}\_{cr}$ and a
+fundamental matrix ${F}\_{cr}$:
 $$
-\bold{x}_c = {H}_{cr} \bold{x}_r
+\mathbf{x}_c = {H}\_{cr} \mathbf{x}_r
 \quad\quad
-\bold{x}_c {F}_{cr} \bold{x}_r = 0
+\mathbf{x}_c {F}\_{cr} \mathbf{x}_r = 0
 $$
-where $\bold{x}_c$ and $\bold{x}_r$ are keypoints in two keyframes. 
+where $\mathbf{x}_c$ and $\mathbf{x}_r$ are keypoints in two keyframes. 
 
-Both ${H}_{cr}$ and ${F}_{cr}$ are computed via RANSAC *Eight-Point Algorithm* inside `ComputeH21(...)` and `ComputeF21(...)` that use the selected best $8$ points to perform SVD to find ${H}_{cr}$ and ${F}_{cr}$ .
+Both ${H}\_{cr}$ and ${F}\_{cr}$ are computed via RANSAC *Eight-Point Algorithm* inside `ComputeH21(...)` and `ComputeF21(...)` that use the selected best $8$ points to perform SVD to find ${H}\_{cr}$ and ${F}\_{cr}$ .
 
 ```cpp
 void Initializer::FindHomography(vector<bool> &vbMatchesInliers, float &score, cv::Mat &H21)
@@ -2206,9 +2206,9 @@ $$
 S_M = 
 \sum_i \bigg(
 \rho_M \big(
-    d^2_{cr}(\bold{x}_{ri}, \bold{x}_{ci}) \big) +
+    d^2_{cr}(\mathbf{x}\_{ri}, \mathbf{x}\_{ci}) \big) +
 \rho_M \big(
-    d^2_{rc}(\bold{x}_{ri}, \bold{x}_{ci}) \big)
+    d^2_{rc}(\mathbf{x}\_{ri}, \mathbf{x}\_{ci}) \big)
 \bigg)
 $$
 where 
@@ -2270,52 +2270,52 @@ bool Initializer::Initialize(const Frame &CurrentFrame, const vector<int> &vMatc
 
 $Sim(3)$ adds scale information for monocular vision.
 
-Define a $3$-d point $\bold{p}=[X\quad Y\quad Z]^\top$ and its transformation result $\bold{p}'$
+Define a $3$-d point $\mathbf{p}=[X\quad Y\quad Z]^\top$ and its transformation result $\mathbf{p}'$
 $$
 \begin{align*}
-    \bold{p}' &= \begin{bmatrix}
-    s\bold{R} & \bold{t} \\
-    \bold{0} & 1
+    \mathbf{p}' &= \begin{bmatrix}
+    s\mathbf{R} & \mathbf{t} \\
+    \mathbf{0} & 1
     \end{bmatrix}
-    \bold{p}
+    \mathbf{p}
     \\ &=
     \begin{bmatrix}
-    s\bold{R} & \bold{t} \\
-    \bold{0} & 1
+    s\mathbf{R} & \mathbf{t} \\
+    \mathbf{0} & 1
     \end{bmatrix}
     \begin{bmatrix}
-        \bold{p} \\
-        \bold{0}
+        \mathbf{p} \\
+        \mathbf{0}
     \end{bmatrix}
     \\ &=
-    s\bold{R}\bold{p} + \bold{t}
+    s\mathbf{R}\mathbf{p} + \mathbf{t}
 \end{align*}
 $$
 
-Here gives the definition to $Sim(3)$ and $sim(3)$. $\bold{\zeta}$ is a 7-dimensional
+Here gives the definition to $Sim(3)$ and $sim(3)$. $\mathbf{\zeta}$ is a 7-dimensional
 vector that has the same elements as $se(3)$ plus one scaling factor $\sigma$.
 $$
 \begin{align*}
 Sim(3) &= \bigg\{
-    \bold{S} = \begin{bmatrix}
-        s\bold{R} & \bold{t} \\
-        \bold{0} & 1
+    \mathbf{S} = \begin{bmatrix}
+        s\mathbf{R} & \mathbf{t} \\
+        \mathbf{0} & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
 \bigg\}
 \\
 sim(3) &= \bigg\{
-    \bold{\zeta} = \begin{bmatrix}
-        \bold{\rho} \\
-        \bold{\phi} \\
+    \mathbf{\zeta} = \begin{bmatrix}
+        \mathbf{\rho} \\
+        \mathbf{\phi} \\
         \sigma
     \end{bmatrix}
     \in \mathbb{R}^{7}
     , \quad
-    \bold{\zeta}^\wedge =
+    \mathbf{\zeta}^\wedge =
     \begin{bmatrix}
-        \sigma \bold{I}+\bold{\phi}^\wedge & \bold{\rho} \\
-        \bold{0} & \bold{0}
+        \sigma \mathbf{I}+\mathbf{\phi}^\wedge & \mathbf{\rho} \\
+        \mathbf{0} & \mathbf{0}
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
 \bigg\}
@@ -2325,94 +2325,94 @@ $$
 
 ### Solve $Sim(3)$ by Closed-form Solution of Absolute Orientation Using Unit Quaternions
 
-Take three map points from the left hand side camera $\{\bold{r}_{l,1}, \bold{r}_{l,2}, \bold{r}_{l,3}\}$; 
-three map points from the right hand side camera $\{\bold{r}_{r,1}, \bold{r}_{r,2}, \bold{r}_{r,3}\}$; 
+Take three map points from the left hand side camera $\{\mathbf{r}\_{l,1}, \mathbf{r}\_{l,2}, \mathbf{r}\_{l,3}\}$; 
+three map points from the right hand side camera $\{\mathbf{r}\_{r,1}, \mathbf{r}\_{r,2}, \mathbf{r}\_{r,3}\}$; 
 
-Take $\bold{r}_{l,1}$ as the origin for the left hand side coordinate, then define the estimates for three dimensions:
-* $\hat{\bold{x}}_l = {\bold{x}_l}/{||\bold{x}_l||},\qquad \bold{x}_l = \bold{r}_{l,2}-\bold{r}_{l,1}$
-* $\hat{\bold{y}}_l = {\bold{y}_l}/{||\bold{y}_l||},\qquad \bold{y}_l = (\bold{r}_{l,3}-\bold{r}_{l,1}) - \big( (\bold{r}_{l,3}-\bold{r}_{l,1}) \cdot \hat{\bold{x}}_l \big)\hat{\bold{x}}_l$
-* $\hat{\bold{z}}_l = {\bold{z}_l}/{||\bold{z}_l||},\qquad \bold{z}_l = \hat{\bold{x}}_l \times \hat{\bold{y}}_l$
-where $\big( (\bold{r}_{l,3}-\bold{r}_{l,1}) \cdot \hat{\bold{x}}_l \big)\hat{\bold{x}}_l$ is the projection on the $\hat{\bold{x}}_l$ axis.
+Take $\mathbf{r}\_{l,1}$ as the origin for the left hand side coordinate, then define the estimates for three dimensions:
+* $\hat{\mathbf{x}}_l = {\mathbf{x}_l}/{||\mathbf{x}_l||},\qquad \mathbf{x}_l = \mathbf{r}\_{l,2}-\mathbf{r}\_{l,1}$
+* $\hat{\mathbf{y}}_l = {\mathbf{y}_l}/{||\mathbf{y}_l||},\qquad \mathbf{y}_l = (\mathbf{r}\_{l,3}-\mathbf{r}\_{l,1}) - \big( (\mathbf{r}\_{l,3}-\mathbf{r}\_{l,1}) \cdot \hat{\mathbf{x}}_l \big)\hat{\mathbf{x}}_l$
+* $\hat{\mathbf{z}}_l = {\mathbf{z}_l}/{||\mathbf{z}_l||},\qquad \mathbf{z}_l = \hat{\mathbf{x}}_l \times \hat{\mathbf{y}}_l$
+where $\big( (\mathbf{r}\_{l,3}-\mathbf{r}\_{l,1}) \cdot \hat{\mathbf{x}}_l \big)\hat{\mathbf{x}}_l$ is the projection on the $\hat{\mathbf{x}}_l$ axis.
 
-Set $M_l = [\hat{\bold{x}}_l, \hat{\bold{y}}_l, \hat{\bold{z}}_l]$ and $M_r = [\hat{\bold{x}}_r, \hat{\bold{y}}_r, \hat{\bold{z}}_r]$
+Set $M_l = [\hat{\mathbf{x}}_l, \hat{\mathbf{y}}_l, \hat{\mathbf{z}}_l]$ and $M_r = [\hat{\mathbf{x}}_r, \hat{\mathbf{y}}_r, \hat{\mathbf{z}}_r]$
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/sim3_computation.png" width="20%" height="20%" alt="sim3_computation" />
 </div>
 </br>
 
-For any vector on the left hand side coordinate $\bold{r}_l$, assume a transform such that $\bold{r}_r = sR(\bold{r}_l) + \bold{t}$.
-The algorithm below attempts to find the optimal $s^*$, $R^*$ and $\bold{t}^*$ given the corresponding points $\bold{r}_l$ and $\bold{r}_r$
+For any vector on the left hand side coordinate $\mathbf{r}_l$, assume a transform such that $\mathbf{r}_r = sR(\mathbf{r}_l) + \mathbf{t}$.
+The algorithm below attempts to find the optimal $s^*$, $R^*$ and $\mathbf{t}^*$ given the corresponding points $\mathbf{r}_l$ and $\mathbf{r}_r$
 
-* **Find the optimal translation $\bold{t}^*$**
+* **Find the optimal translation $\mathbf{t}^*$**
 
-For any vector $\bold{r}_{l,i}$, attempt to find $\hat{\bold{r}}_{r,i} = s R( \bold{r}_{l,i}) + \bold{t}$, where $\bold{t}$ is the translation offset from the left to right coordinate system.
-Here $s$ is a scale factor to rotation matrix $R( \bold{r}_{l,i})$ that has $\big|\big| R(\bold{r}_{l,i}) \big|\big|^2 = \big|\big| \bold{r}_{l,i} \big|\big|^2$ preserving the length during rotation operation ($\big|\big| \bold{r}_{l,i} \big|\big|^2=\bold{r}_{l,i} \cdot \bold{r}_{l,i}$).
+For any vector $\mathbf{r}\_{l,i}$, attempt to find $\hat{\mathbf{r}}\_{r,i} = s R( \mathbf{r}\_{l,i}) + \mathbf{t}$, where $\mathbf{t}$ is the translation offset from the left to right coordinate system.
+Here $s$ is a scale factor to rotation matrix $R( \mathbf{r}\_{l,i})$ that has $\big|\big| R(\mathbf{r}\_{l,i}) \big|\big|^2 = \big|\big| \mathbf{r}\_{l,i} \big|\big|^2$ preserving the length during rotation operation ($\big|\big| \mathbf{r}\_{l,i} \big|\big|^2=\mathbf{r}\_{l,i} \cdot \mathbf{r}\_{l,i}$).
 
-The residual of the least squared problem to find the optimal $\bold{t}^*$ is defined as below.
+The residual of the least squared problem to find the optimal $\mathbf{t}^*$ is defined as below.
 $$
 \begin{align*}
-\bold{t}^* = \argmin_{\bold{t}} \bold{e}_i &= 
-\bold{r}_{r,i} - \hat{\bold{r}}_{r,i} 
+\mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}\_i &= 
+\mathbf{r}\_{r,i} - \hat{\mathbf{r}}\_{r,i} 
 \\ &= 
-\bold{r}_{r,i} - s R( \bold{r}_{l,i}) - \bold{t}    
+\mathbf{r}\_{r,i} - s R( \mathbf{r}\_{l,i}) - \mathbf{t}    
 \end{align*}
 $$
 
 Now, compute centroids served as offsets.
 $$
-\overline{\bold{r}}_l = \frac{1}{n} \sum_{i=1}^n \bold{r}_{l,i}
+\overline{\mathbf{r}}_l = \frac{1}{n} \sum_{i=1}^n \mathbf{r}\_{l,i}
 \qquad
-\overline{\bold{r}}_r = \frac{1}{n} \sum_{i=1}^n \bold{r}_{r,i}
+\overline{\mathbf{r}}_r = \frac{1}{n} \sum_{i=1}^n \mathbf{r}\_{r,i}
 $$
 
-For any vector $\bold{r}_{l,i}$ or $\bold{r}_{r,i}$, move/offset their coordinates from the origin reference $\bold{r}_{l,1}$ and $\bold{r}_{r,1}$ to the above computed centroid, denote the new origin's vectors as $\bold{r}'_{l,i}$ and $\bold{r}'_{r,i}$.
+For any vector $\mathbf{r}\_{l,i}$ or $\mathbf{r}\_{r,i}$, move/offset their coordinates from the origin reference $\mathbf{r}\_{l,1}$ and $\mathbf{r}\_{r,1}$ to the above computed centroid, denote the new origin's vectors as $\mathbf{r}'_{l,i}$ and $\mathbf{r}'_{r,i}$.
 $$
-\bold{r}'_{l,i} = \bold{r}_{l,i} - \overline{\bold{r}}_l
+\mathbf{r}'_{l,i} = \mathbf{r}\_{l,i} - \overline{\mathbf{r}}_l
 \qquad
-\bold{r}'_{r,i} = \bold{r}_{r,i} - \overline{\bold{r}}_r
+\mathbf{r}'_{r,i} = \mathbf{r}\_{r,i} - \overline{\mathbf{r}}_r
 $$
 
 Apparently, the new centroid reference's vectors' sums should be zeros.
 $$
-\bold{r}'_{l,o} = \sum_{i=1}^n \bold{r}'_{l,i} = [0 \quad 0 \quad 0]^{\top}
+\mathbf{r}'_{l,o} = \sum_{i=1}^n \mathbf{r}'_{l,i} = [0 \quad 0 \quad 0]^{\top}
 \qquad
-\bold{r}'_{r,o} = \sum_{i=1}^n \bold{r}'_{r,i} = [0 \quad 0 \quad 0]^{\top}
+\mathbf{r}'_{r,o} = \sum_{i=1}^n \mathbf{r}'_{r,i} = [0 \quad 0 \quad 0]^{\top}
 $$
 
 Rewrite the residual,
 $$
-\bold{e}_i = \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') - \bold{t}'
+\mathbf{e}\_i = \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') - \mathbf{t}'
 $$
 where
 $$
-\bold{t}' =  \bold{t} - \overline{\bold{r}}_r + sR(\overline{\bold{r}}_l)
+\mathbf{t}' =  \mathbf{t} - \overline{\mathbf{r}}_r + sR(\overline{\mathbf{r}}_l)
 $$
 
-So that the least squared problem becomes finding the optimal $\bold{t}'$
+So that the least squared problem becomes finding the optimal $\mathbf{t}'$
 $$
 \begin{align*}
-\min_{\bold{t}'} \sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &= 
-\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') - \bold{t}' \big|\big|^2
+\min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &= 
+\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') - \mathbf{t}' \big|\big|^2
 \\ &=
-\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2 - nd{align*}
+\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2 - nd{align*}
 $$
 
 The sum in the middle of this expression is zero since the measurements are referred to the centroid. 
 
-The first term does not depend on $\bold{t}'$, and the last term cannot be negative. 
-So that $\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2$ reaches its minimum when $\bold{t}'=\bold{0}$.
+The first term does not depend on $\mathbf{t}'$, and the last term cannot be negative. 
+So that $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2$ reaches its minimum when $\mathbf{t}'=\mathbf{0}$.
 
-Rewrite $\bold{t}' = \bold{0} = \bold{t} - \overline{\bold{r}}_r + sR(\overline{\bold{r}}_l)$, so that the optimal translation $\bold{t}^*$ in $Sim(3)$ is just the difference between $\overline{\bold{r}}_r$ and scaled rotation $sR(\overline{\bold{r}}_l)$.
-In other words, if $sR(\overline{\bold{r}}_l)$ is known, the $\bold{t}^*$ can easily computed.
+Rewrite $\mathbf{t}' = \mathbf{0} = \mathbf{t} - \overline{\mathbf{r}}_r + sR(\overline{\mathbf{r}}_l)$, so that the optimal translation $\mathbf{t}^*$ in $Sim(3)$ is just the difference between $\overline{\mathbf{r}}_r$ and scaled rotation $sR(\overline{\mathbf{r}}_l)$.
+In other words, if $sR(\overline{\mathbf{r}}_l)$ is known, the $\mathbf{t}^*$ can easily computed.
 $$
-\bold{t}^* =  \overline{\bold{r}}_r - sR(\overline{\bold{r}}_l)
+\mathbf{t}^* =  \overline{\mathbf{r}}_r - sR(\overline{\mathbf{r}}_l)
 $$
 
-Having said $\bold{t}' = \bold{0}$, the error can be expressed as
+Having said $\mathbf{t}' = \mathbf{0}$, the error can be expressed as
 $$
-\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 =
-\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
+\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 =
+\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2
 $$
 
 * **Find the optimal scale $s^*$**
@@ -2422,13 +2422,13 @@ Expand the error term
 $$
 \begin{align*}
 &&
-\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &=
-\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' - s R( \bold{r}_{l,i}') \big|\big|^2
+\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
+\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2
 \\ && &=
-\sum_{i=1}^n \big|\big| \bold{r}_{r,i}' \big|\big|^2 
--2s \sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)+\sum_{i=1}^n \underbrace{ \big|\big| R( \bold{r}_{l,i}') \big|\big|^2}_{
+\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' \big|\big|^2 
+-2s \sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)+\sum_{i=1}^n \underbrace{ \big|\big| R( \mathbf{r}\_{l,i}') \big|\big|^2}\_{
     \begin{matrix}
-        =\big|\big| \bold{r}_{l,i}' \big|\big|^2  \\
+        =\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2  \\
         \text{ for they have} \\
         \text{the same length}
     \end{matrix}
@@ -2437,73 +2437,73 @@ $$
 && &=
 S_r - 2sD + s^2 S_l
 \\ && &=
-\underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}_{\ge 0}+\frac{S_r S_l - D^2}{S_l}
+\underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}\_{\ge 0}+\frac{S_r S_l - D^2}{S_l}
 \end{align*}
 $$
 
 The above quadratic term can have the optimal $s^*=\frac{D}{S_l}$ (derived by $\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2=0$ ):
 $$
-s^*=\frac{D}{S_l}=\frac{\sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)}
-{\sum_{i=1}^n \big|\big| R( \bold{r}_{l,i}') \big|\big|^2}
+s^*=\frac{D}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)}
+{\sum_{i=1}^n \big|\big| R( \mathbf{r}\_{l,i}') \big|\big|^2}
 $$ 
 
 Now, consider the inverse transform from the right coordinate system to the left one:
 $$
-s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \bold{r}_{l,i}' \cdot R( \bold{r}_{r,i}')  \Big)}
-{\sum_{i=1}^n \big|\big| R( \bold{r}_{r,i}') \big|\big|^2}
+s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}\_{l,i}' \cdot R( \mathbf{r}\_{r,i}')  \Big)}
+{\sum_{i=1}^n \big|\big| R( \mathbf{r}\_{r,i}') \big|\big|^2}
 \ne \frac{1}{s} \text{ likely for the most of the time}
 $$
-where $\big|\big| R( \bold{r}_{r,i}') \big|\big|^2=\big|\big| \bold{r}_{l,i}' \big|\big|^2$ is constant.
+where $\big|\big| R( \mathbf{r}\_{r,i}') \big|\big|^2=\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2$ is constant.
 
-This expression $s^{*\space -1} \ne \frac{1}{s}$ means that, the error computed with respect to scale $s$ according to transform from the left's to the right's $\bold{e}_{i, l \rightarrow r}=\bold{r}_{r,i}' - s R( \bold{r}_{l,i}')$ does not have the inverse scale $\frac{1}{s}$ when transformed from the right's to the left's.
-In other words, the inverse transform error $\bold{e}_{i, r \rightarrow l}$ would see asymmetrical $s^{-1}$.
+This expression $s^{*\space -1} \ne \frac{1}{s}$ means that, the error computed with respect to scale $s$ according to transform from the left's to the right's $\mathbf{e}\_{i, l \rightarrow r}=\mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}')$ does not have the inverse scale $\frac{1}{s}$ when transformed from the right's to the left's.
+In other words, the inverse transform error $\mathbf{e}\_{i, r \rightarrow l}$ would see asymmetrical $s^{-1}$.
 
-Unless the left-to-right transform has much more precision than the right-to-left's that $\bold{e}_{i, l \rightarrow r}=\bold{r}_{r,i}' - s R( \bold{r}_{l,i}')$ becomes accurate, otherwise, to formulate the error with respect to the scale $s$, it is better use the below symmetrical error that balances between the left-to-right and right-to-left transforms:
+Unless the left-to-right transform has much more precision than the right-to-left's that $\mathbf{e}\_{i, l \rightarrow r}=\mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}')$ becomes accurate, otherwise, to formulate the error with respect to the scale $s$, it is better use the below symmetrical error that balances between the left-to-right and right-to-left transforms:
 $$
-\bold{e}_i = 
-\frac{1}{\sqrt{s}}\bold{r}'_{r,i} - \sqrt{s} R (\bold{r}_{l,i})
+\mathbf{e}\_i = 
+\frac{1}{\sqrt{s}}\mathbf{r}'_{r,i} - \sqrt{s} R (\mathbf{r}\_{l,i})
 $$
 
 The least squared problem becomes
 $$
 \begin{align*}
-\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 &=
+\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
 \\ &= 
-\underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}+2(S_l S_r -D)
+\underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0}+2(S_l S_r -D)
 \end{align*}
 $$
 
 The optimal $s^*=\frac{S_r}{S_l}$ can be found when $\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2=0$:
 $$
 s^* = \sqrt{
-    \frac{ \sum_{i=1}^n \big|\big| {\bold{r}'_{r,i}} \big|\big|^2 }
-    { \sum_{i=1}^n \big|\big| {\bold{r}'_{l,i}} \big|\big|^2 }
+    \frac{ \sum_{i=1}^n \big|\big| {\mathbf{r}'_{r,i}} \big|\big|^2 }
+    { \sum_{i=1}^n \big|\big| {\mathbf{r}'_{l,i}} \big|\big|^2 }
 }
 $$
-which has a great form where rotation $R$ is removed, that the optimal scale computation only concerns the vectors/map points ${\bold{r}'_{l}}$ and ${\bold{r}'_{r}}$ in the left and right coordinate systems.
+which has a great form where rotation $R$ is removed, that the optimal scale computation only concerns the vectors/map points ${\mathbf{r}'_{l}}$ and ${\mathbf{r}'_{r}}$ in the left and right coordinate systems.
 
-The error $\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)$ grows to maximum.
+The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)$ grows to maximum.
 
 
 * **Find the optimal rotation $R^*$**
 
-Denote $\mathring{\bold{r}}$ as the quaternion form of $\bold{r}$:
+Denote $\mathring{\mathbf{r}}$ as the quaternion form of $\mathbf{r}$:
 $$
-\mathring{\bold{r}} = 
+\mathring{\mathbf{r}} = 
 r_0 + \overrightarrow{i}r_x + \overrightarrow{j}r_y + \overrightarrow{k}r_z
 $$
 
-Express $R$ in quaternion form: $\bold{r}$ rotation by quaternion $\mathring{\bold{q}}$ can be expressed as
+Express $R$ in quaternion form: $\mathbf{r}$ rotation by quaternion $\mathring{\mathbf{q}}$ can be expressed as
 $$
-\mathring{\bold{r}}' = \mathring{\bold{q}} \mathring{\bold{r}} \mathring{\bold{q}}^{\dagger}
+\mathring{\mathbf{r}}' = \mathring{\mathbf{q}} \mathring{\mathbf{r}} \mathring{\mathbf{q}}^{\dagger}
 $$
-where the rotation is defined as rotating an angle of $\theta$ about the axis defined by the unit vector $\bold{u}$ such that $\mathring{\bold{q}} = \cos \frac{\theta}{2} + \sin\frac{\theta}{2} \big( \overrightarrow{i}u_x + \overrightarrow{j}u_y + \overrightarrow{k}u_z \big)$.
-Here $\mathring{\bold{q}}^{\dagger}$ is the normalization term.
+where the rotation is defined as rotating an angle of $\theta$ about the axis defined by the unit vector $\mathbf{u}$ such that $\mathring{\mathbf{q}} = \cos \frac{\theta}{2} + \sin\frac{\theta}{2} \big( \overrightarrow{i}u_x + \overrightarrow{j}u_y + \overrightarrow{k}u_z \big)$.
+Here $\mathring{\mathbf{q}}^{\dagger}$ is the normalization term.
 
 Then, 
 $$
-M= \sum_{i=1}^{n} \bold{r}'_{l,i} \bold{r'}_{l,i}^{\top}= \begin{bmatrix}
+M= \sum_{i=1}^{n} \mathbf{r}'_{l,i} \mathbf{r'}\_{l,i}^{\top}= \begin{bmatrix}
     S_{xx} & S_{xy} & S_{xz} \\
     S_{yx} & S_{yy} & S_{yz} \\
     S_{zx} & S_{zy} & S_{zz} \\
@@ -2511,39 +2511,39 @@ M= \sum_{i=1}^{n} \bold{r}'_{l,i} \bold{r'}_{l,i}^{\top}= \begin{bmatrix}
 $$
 where, for example, $S_{xx}=\sum_{i=1}^{n} x'_{l,i} x'_{r,i}, S_{xy}=\sum_{i=1}^{n} x'_{l,i} y'_{r,i}$.
 
-Recall that $D=\sum_{i=1}^n \Big( \bold{r}_{r,i}' \cdot R( \bold{r}_{l,i}')  \Big)$  needs to grow to maximum for 
-$\sum_{i=1}^n \big|\big| \bold{e}_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaching its minimum.
-Rewrite $D$'s elements to that $\Big( \mathring{\bold{q}} \mathring{\bold{r}}_{l,i}' \mathring{\bold{q}}^{\dagger} \Big) \cdot \mathring{\bold{r}}_{r,i}' =\Big( \mathring{\bold{q}}\bold{r}_{l,i}' \Big) \cdot \Big(  \mathring{\bold{r}}_{r,i}' \mathring{\bold{q}} \Big)$.
+Recall that $D=\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)$  needs to grow to maximum for 
+$\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0} + 2(S_l S_r -D)$ reaching its minimum.
+Rewrite $D$'s elements to that $\Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' \mathring{\mathbf{q}}^{\dagger} \Big) \cdot \mathring{\mathbf{r}}\_{r,i}' =\Big( \mathring{\mathbf{q}}\mathbf{r}\_{l,i}' \Big) \cdot \Big(  \mathring{\mathbf{r}}\_{r,i}' \mathring{\mathbf{q}} \Big)$.
 
-Take $\bold{r}_{l,i}' \rightarrow \mathring{\bold{r'}}_{l,i}$, then by quaternion multiplication, there is
+Take $\mathbf{r}\_{l,i}' \rightarrow \mathring{\mathbf{r'}}\_{l,i}$, then by quaternion multiplication, there is
 $$
-\mathring{\bold{q}} \mathring{\bold{r}}_{l,i}' = 
+\mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' = 
 \begin{bmatrix}
     0 & -x'_{l,i} & -y'_{l,i} & -z'_{l,i} \\
     x'_{l,i} & 0 & z'_{l,i} & -y'_{l,i} \\
     y'_{l,i} & -z'_{l,i} & 0 & x'_{l,i} \\
     z'_{l,i} & y'_{l,i} & -x'_{l,i} & 0 \\
 \end{bmatrix}
-\mathring{\bold{q}}=\overline{\mathcal{R}}_{l,i} \mathring{\bold{q}}
+\mathring{\mathbf{q}}=\overline{\mathcal{R}}\_{l,i} \mathring{\mathbf{q}}
 $$
 
-Similarly, there is $\mathring{\bold{r}}_{r,i}' \mathring{\bold{q}} = \mathcal{R}_{r,i} \mathring{\bold{q}}$.
+Similarly, there is $\mathring{\mathbf{r}}\_{r,i}' \mathring{\mathbf{q}} = \mathcal{R}\_{r,i} \mathring{\mathbf{q}}$.
 
 So that, $D$ can be expressed as
 $$
 \begin{align*}
 D &=
-\sum_{i=1}^{n} \Big( \mathring{\bold{q}}\bold{r}_{r,i}' \Big) \cdot \Big( \mathring{\bold{q}} \mathring{\bold{r}}_{l,i}' \Big)
+\sum_{i=1}^{n} \Big( \mathring{\mathbf{q}}\mathbf{r}\_{r,i}' \Big) \cdot \Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' \Big)
 \\ &=
-\sum_{i=1}^{n} \Big( \overline{\mathcal{R}}_{l,i} \mathring{\bold{q}} \Big) \cdot \Big( {\mathcal{R}}_{r,i} \mathring{\bold{q}}  \Big)
+\sum_{i=1}^{n} \Big( \overline{\mathcal{R}}\_{l,i} \mathring{\mathbf{q}} \Big) \cdot \Big( {\mathcal{R}}\_{r,i} \mathring{\mathbf{q}}  \Big)
 \\ &=
-\sum_{i=1}^{n} \mathring{\bold{q}}^{\top} 
-\underbrace{\overline{\mathcal{R}}_{l,i}^{\top} {\mathcal{R}}_{r,i} }_{=N_i}
-\mathring{\bold{q}}
+\sum_{i=1}^{n} \mathring{\mathbf{q}}^{\top} 
+\underbrace{\overline{\mathcal{R}}\_{l,i}^{\top} {\mathcal{R}}\_{r,i} }\_{=N_i}
+\mathring{\mathbf{q}}
 \\ &=
-\mathring{\bold{q}}^{\top} \Big( \sum_{i=1}^{n} N_i \Big) \mathring{\bold{q}}
+\mathring{\mathbf{q}}^{\top} \Big( \sum_{i=1}^{n} N_i \Big) \mathring{\mathbf{q}}
 \\ &=
-\mathring{\bold{q}}^{\top} N \mathring{\bold{q}}
+\mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}}
 \end{align*}
 $$
 
@@ -2561,7 +2561,7 @@ Here $N$ is a real symmetric having $10$ independent elements serving the sums o
 The sum of the diagonal of $N$ is zero.
 In other words, the trace $tr(N)=0$ takes care of the $10$-th degree of freedom.
 
-To maximize $\mathring{\bold{q}}^{\top} N \mathring{\bold{q}}$ by adjusting rotation $\mathring{\bold{q}}$, here computes $\text{det}(N-\lambda I)=0$, where the largest eigenvalue $\lambda_{max}$ corresponding eigenvector $\bold{v}$ is the optimal quaternion $\mathring{\bold{q}}^*$.
+To maximize $\mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}}$ by adjusting rotation $\mathring{\mathbf{q}}$, here computes $\text{det}(N-\lambda I)=0$, where the largest eigenvalue $\lambda_{max}$ corresponding eigenvector $\mathbf{v}$ is the optimal quaternion $\mathring{\mathbf{q}}^*$.
 
 Below code illustrates the algorithm.
 RANSAC is selected to randomly find $3$ points for the left and right coordinate systems.
@@ -3658,8 +3658,8 @@ void Optimizer::GlobalBundleAdjustemnt(Map* pMap, int nIterations, bool* pbStopF
 }
 ```
 
-From keyframes `vpKFs` extract poses $\bold{\xi}_j$ and add them to G2O optimizer `optimizer.addVertex(vSE3);`;
-from world map 3d points `vpMP` extract points $\bold{p}_i$ and add them to G2O optimizer `optimizer.addVertex(vPoint);`.
+From keyframes `vpKFs` extract poses $\mathbf{\xi}_j$ and add them to G2O optimizer `optimizer.addVertex(vSE3);`;
+from world map 3d points `vpMP` extract points $\mathbf{p}\_i$ and add them to G2O optimizer `optimizer.addVertex(vPoint);`.
 The edge/error is defined in `g2o::EdgeSE3ProjectXYZ* e` which is a binary edge linking a keyframe camera pose `vSE3->setId(pKF->mnId);` and a map point `const int id = pMP->mnId+maxKFid+1; vPoint->setId(id);`.
 Only keyframes' observed map points are added (map points are extracted from `const map<KeyFrame*,size_t> observations = pMP->GetObservations();` that maps between keyframes and observed map points).
 
@@ -3669,31 +3669,31 @@ Noted here map points are set `vPoint->setMarginalized(true);`.
 In short, bundle adjustment only adjusts camera poses and the map points are computed/transformed as the result of the finished poses, hence map points are called "marginalized out".
 
 $$
-\bold{x}=\big[
-    \underbrace{[\bold{R}|\bold{t}]_1, [\bold{R}|\bold{t}]_2, ..., [\bold{R}|\bold{t}]_n, }_{\text{camera transform }\bold{\xi}_{j}}
-    \underbrace{\bold{p}_{1}, \bold{p}_{2}, ..., \bold{p}_{m} }_{\text{map point }\bold{p}_i}
+\mathbf{x}=\big[
+    \underbrace{[\mathbf{R}|\mathbf{t}]_1, [\mathbf{R}|\mathbf{t}]_2, ..., [\mathbf{R}|\mathbf{t}]_n, }\_{\text{camera transform }\mathbf{\xi}\_{j}}
+    \underbrace{\mathbf{p}\_{1}, \mathbf{p}\_{2}, ..., \mathbf{p}\_{m} }\_{\text{map point }\mathbf{p}\_i}
 \big]
 $$
 
-An error/edge can be defined as below, where $\bold{z}_{ij}$ is the observation (image pixel/feature point) and $\pi$ is the projection mapping that transform the world points to the corresponding camera image pixel coordinates.
+An error/edge can be defined as below, where $\mathbf{z}\_{ij}$ is the observation (image pixel/feature point) and $\pi$ is the projection mapping that transform the world points to the corresponding camera image pixel coordinates.
 $$
-\bold{e}_{ij} = \bold{z}_{ij} - \pi(\bold{\xi}_j \bold{p}_i)
+\mathbf{e}\_{ij} = \mathbf{z}\_{ij} - \pi(\mathbf{\xi}_j \mathbf{p}\_i)
 $$
 
-The total error $\bold{e}$ to be minimized can be approximated by first-order derivative.
+The total error $\mathbf{e}$ to be minimized can be approximated by first-order derivative.
 $$
 \begin{align*}
 \frac{1}{2} \big|\big|
-    \bold{e}(\bold{x}+\Delta\bold{x})
+    \mathbf{e}(\mathbf{x}+\Delta\mathbf{x})
 \big|\big|^2
 &\approx
-\frac{1}{2} \sum^n_{i=1} \sum^m_{j=1} 
+\frac{1}{2} \sum^n\_{i=1} \sum^m_{j=1} 
 \big|\big|
-    \bold{e}_{ij} + \bold{F}_{ij}\Delta\bold{\xi}_i + \bold{E}_{ij} \Delta \bold{p}_j
+    \mathbf{e}\_{ij} + \mathbf{F}\_{ij}\Delta\mathbf{\xi}\_i + \mathbf{E}\_{ij} \Delta \mathbf{p}_j
 \big|\big|
 \\ &\approx
 \frac{1}{2} \big|\big|
-    \bold{e} + \bold{F}\Delta\bold{x}_{\bold{\xi}} + \bold{E}\Delta\bold{x}_{\bold{p}}
+    \mathbf{e} + \mathbf{F}\Delta\mathbf{x}\_{\mathbf{\xi}} + \mathbf{E}\Delta\mathbf{x}\_{\mathbf{p}}
 \big|\big|^2
 \end{align*}
 $$
@@ -3701,56 +3701,56 @@ $$
 The Jacobian can be computed as below
 $$
 \begin{align*}
-\bold{J}^\text{T} \bold{J} &= 
+\mathbf{J}^\text{T} \mathbf{J} &= 
 \begin{bmatrix}
-    \bold{F}^\text{T} \bold{F} & \bold{F}^\text{T} \bold{E} \\
-    \bold{E}^\text{T} \bold{F} & \bold{E}^\text{T} \bold{E} \\
+    \mathbf{F}^\text{T} \mathbf{F} & \mathbf{F}^\text{T} \mathbf{E} \\
+    \mathbf{E}^\text{T} \mathbf{F} & \mathbf{E}^\text{T} \mathbf{E} \\
 \end{bmatrix}
 \overset{\Delta}{=}
 \begin{bmatrix}
-    \bold{B} & \bold{E} \\
-    \bold{E}^\text{T} & \bold{C}
+    \mathbf{B} & \mathbf{E} \\
+    \mathbf{E}^\text{T} & \mathbf{C}
 \end{bmatrix}
-\qquad \text{rewrite variable notation }\bold{E}:=\bold{F}^\text{T} \bold{E}
+\qquad \text{rewrite variable notation }\mathbf{E}:=\mathbf{F}^\text{T} \mathbf{E}
 \\ &=
-\sum^n_{i=1} \sum^m_{j=1} 
-\bold{J}^\text{T}_{ij} \bold{J}_{ij}
+\sum^n\_{i=1} \sum^m_{j=1} 
+\mathbf{J}^\text{T}\_{ij} \mathbf{J}\_{ij}
 \end{align*}
 $$
 
-By optimization, the optimal $\bold{x}^*$ can be approached by $\bold{x}^* = \bold{x}_0 + \Delta\bold{x}$, 
-and $\bold{g}=[\bold{v} \quad \bold{w}]^\top$ is the noises.
+By optimization, the optimal $\mathbf{x}^*$ can be approached by $\mathbf{x}^* = \mathbf{x}_0 + \Delta\mathbf{x}$, 
+and $\mathbf{g}=[\mathbf{v} \quad \mathbf{w}]^\top$ is the noises.
 
-The camera pose convergence step $\Delta \bold{x}_{\bold{\xi}}$ can be computed by *Schur trick*.
+The camera pose convergence step $\Delta \mathbf{x}\_{\mathbf{\xi}}$ can be computed by *Schur trick*.
 
 $$
 \begin{align*}
 &&
-\bold{J}^\text{T} \bold{J} \bold{x} &= \bold{g}
+\mathbf{J}^\text{T} \mathbf{J} \mathbf{x} &= \mathbf{g}
 \\ &&
 \begin{bmatrix}
-    \bold{B} & \bold{E} \\
-    \bold{E}^\text{T} & \bold{C}
+    \mathbf{B} & \mathbf{E} \\
+    \mathbf{E}^\text{T} & \mathbf{C}
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \bold{x}_{\bold{\xi}} \\
-    \Delta \bold{x}_{\bold{p}}
+    \Delta \mathbf{x}\_{\mathbf{\xi}} \\
+    \Delta \mathbf{x}\_{\mathbf{p}}
 \end{bmatrix}&=
 \begin{bmatrix}
-    \bold{v} \\
-    \bold{w}
+    \mathbf{v} \\
+    \mathbf{w}
 \end{bmatrix}
 \\ \Rightarrow &&
-(\bold{B}-\bold{E}\bold{C}^{-1}\bold{E}^\text{T})
-\Delta \bold{x}_{\bold{\xi}}&=
-\bold{v} - \bold{E}\bold{C}^{-1} \bold{w}
+(\mathbf{B}-\mathbf{E}\mathbf{C}^{-1}\mathbf{E}^\text{T})
+\Delta \mathbf{x}\_{\mathbf{\xi}}&=
+\mathbf{v} - \mathbf{E}\mathbf{C}^{-1} \mathbf{w}
 \end{align*}
 $$
 
 Then, the map point convergence step can be computed by
-$\Delta \bold{x}_{\bold{p}}=\bold{C}^{-1}(\bold{w}-\bold{E}^\text{T} \Delta\bold{x}_{\bold{\xi}})$
+$\Delta \mathbf{x}\_{\mathbf{p}}=\mathbf{C}^{-1}(\mathbf{w}-\mathbf{E}^\text{T} \Delta\mathbf{x}\_{\mathbf{\xi}})$
 
-It can tell that $\Delta \bold{x}_{\bold{p}}$ is a computation result out of the finished $\Delta\bold{x}_{\bold{\xi}}$.
+It can tell that $\Delta \mathbf{x}\_{\mathbf{p}}$ is a computation result out of the finished $\Delta\mathbf{x}\_{\mathbf{\xi}}$.
 
 ```cpp
 void Optimizer::BundleAdjustment(const vector<KeyFrame *> &vpKFs, const vector<MapPoint *> &vpMP,
@@ -3912,24 +3912,24 @@ void Optimizer::BundleAdjustment(const vector<KeyFrame *> &vpKFs, const vector<M
 ```
 where the edge/error is defined as the projection error `_error = obs-cam_project(v1->estimate().map(v2->estimate()));` projecting the camera pose transformed 3d map point to image pixel.
 
-As a result, the Jacobian for the PnP problem is defined as $\frac{\partial \bold{e}}{\partial \bold{p}} \frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}$, where $\Delta\bold{\xi}$ is the convergence step to be optimized, while $\bold{p}$ are not optimized but recomputed every time $\Delta\bold{\xi}$ is adjusted.
+As a result, the Jacobian for the PnP problem is defined as $\frac{\partial \mathbf{e}}{\partial \mathbf{p}} \frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}$, where $\Delta\mathbf{\xi}$ is the convergence step to be optimized, while $\mathbf{p}$ are not optimized but recomputed every time $\Delta\mathbf{\xi}$ is adjusted.
 
-Define a trivial perturbation as $\delta\bold{\xi}$, set $\bold{p}=[X \quad Y \quad Z]^\top$ as the 3d map point estimate, by the rule of left perturbation multiplication in Lie algebra (operator denoted as $\oplus$), and by the definition of chained derivative taking the limit $\underset{\Delta\bold{\xi} \rightarrow 0}{\lim}$, there is
+Define a trivial perturbation as $\delta\mathbf{\xi}$, set $\mathbf{p}=[X \quad Y \quad Z]^\top$ as the 3d map point estimate, by the rule of left perturbation multiplication in Lie algebra (operator denoted as $\oplus$), and by the definition of chained derivative taking the limit $\underset{\Delta\mathbf{\xi} \rightarrow 0}{\lim}$, there is
 
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
-\underset{\Delta\bold{\xi} \rightarrow 0}{\lim}
-\frac{\bold{e}(\delta\bold{\xi} \oplus \bold{\xi})-\bold{e}(\bold{\xi})}{\Delta\bold{\xi}}
+\frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}&=
+\underset{\Delta\mathbf{\xi} \rightarrow 0}{\lim}
+\frac{\mathbf{e}(\delta\mathbf{\xi} \oplus \mathbf{\xi})-\mathbf{e}(\mathbf{\xi})}{\Delta\mathbf{\xi}}
 \\ &=
-\frac{\partial \bold{e}}{\partial \bold{p}}
-\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}
+\frac{\partial \mathbf{e}}{\partial \mathbf{p}}
+\frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}
 \end{align*}
 $$
 where
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{p}}&= - \begin{bmatrix}
+\frac{\partial \mathbf{e}}{\partial \mathbf{p}}&= - \begin{bmatrix}
     \frac{\partial u}{\partial X} &
     \frac{\partial u}{\partial Y} &
     \frac{\partial u}{\partial Z} \\
@@ -3948,22 +3948,22 @@ $$
 \end{ - 
 
 
-and, this term $\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
+and, this term $\frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
 $$
 \begin{align*}
-\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}&=
-\frac{\partial \bold{\xi} \bold{p}}{\partial \Delta\bold{\xi}}
+\frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}&=
+\frac{\partial \mathbf{\xi} \mathbf{p}}{\partial \Delta\mathbf{\xi}}
 \\ &=
 \begin{bmatrix}
-    \bold{I} & -\bold{p}^{\wedge} \\ 
-    \bold{0} & \bold{0}
+    \mathbf{I} & -\mathbf{p}^{\wedge} \\ 
+    \mathbf{0} & \mathbf{0}
 \end{bmatrix}
 \end{align*}
 $$
 where 
 $$
 \begin{align*}
-\bold{p}^{\wedge}&=
+\mathbf{p}^{\wedge}&=
 \begin{bmatrix}
     0 & Z & Y \\
     -Z & 0 & -X \\
@@ -3972,12 +3972,12 @@ $$
 \end{align*}
 $$
 
-Combined, and removed $\bold{0}$ from $\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}$, there is
+Combined, and removed $\mathbf{0}$ from $\frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}$, there is
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
-\frac{\partial \bold{e}}{\partial \bold{p}}
-\frac{\partial \bold{p}}{\partial \Delta\bold{\xi}}
+\frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}&=
+\frac{\partial \mathbf{e}}{\partial \mathbf{p}}
+\frac{\partial \mathbf{p}}{\partial \Delta\mathbf{\xi}}
 \\ &= - \begin{bmatrix}
     \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} \\
     0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} \\
@@ -4073,7 +4073,7 @@ void EdgeSE3ProjectXYZ::linearizeOplus() {
 
 After setting a map point pose `pMP->SetWorldPos(...)`, should then update the normal and depth of the map point.
 
-The normal vector is the mean vector of one map point's all observations by different keyframes aligned to individual keyframe's camera pose, that is $\bold{n}=\frac{1}{n} \sum^n_i \frac{\bold{n}_i}{\big|\bold{n}_i\big|}$, where $\bold{n}_i$ is computed by `cv::Mat normali = mWorldPos - Owi;`.
+The normal vector is the mean vector of one map point's all observations by different keyframes aligned to individual keyframe's camera pose, that is $\mathbf{n}=\frac{1}{n} \sum^n_i \frac{\mathbf{n}\_i}{\big|\mathbf{n}\_i\big|}$, where $\mathbf{n}\_i$ is computed by `cv::Mat normali = mWorldPos - Owi;`.
 
 For map point depth, compute by `cv::Mat PC = Pos - pRefKF->GetCameraCenter();` then taking the length by `const float dist = cv::norm(PC);`.
 The depth's max and min estimate is scaled by keyframe's scale factor.
@@ -4266,7 +4266,7 @@ x_p &= \frac{f_x}{Z} x_w +c_x
 &\qquad
 y_p &= \frac{f_y}{Z} y_w +c_y
 \\ \text{Find the world points for the two keyframes by } Z=1 \Rightarrow &&
-\bold{x}_1 &= 
+\mathbf{x}_1 &= 
 \begin{bmatrix}
     x_{1w} \\ y_{1w} \\ 1
 \end{bmatrix} =
@@ -4274,7 +4274,7 @@ y_p &= \frac{f_y}{Z} y_w +c_y
 \frac{x_1 - c_{1x}}{f_{1x}} \\ \frac{y_1 - c_{1y}}{f_{1y}} \\ 1
 \end{bmatrix}
 &\qquad
-\bold{x}_2 &= 
+\mathbf{x}_2 &= 
 \begin{bmatrix}
     x_{2w} \\ y_{2w} \\ 1
 \end{bmatrix} =
@@ -4282,12 +4282,12 @@ y_p &= \frac{f_y}{Z} y_w +c_y
 \frac{x_2 - c_{2x}}{f_{2x}} \\ \frac{y_1 - c_{2y}}{f_{2y}} \\ 1
 \end{bmatrix}
 \\ \text{Camera to world point rays/homography} \Rightarrow &&
-\bold{r}_1 &= R_1^{\top} \bold{x}_1
+\mathbf{r}_1 &= R_1^{\top} \mathbf{x}_1
 &\qquad
-\bold{r}_2 &= R_2^{\top} \bold{x}_2
+\mathbf{r}_2 &= R_2^{\top} \mathbf{x}_2
 \\ \text{Parallax angle} \Rightarrow &&
 \cos\angle{\theta_{12}} &=
-\frac{\bold{r}_1 \cdot \bold{r}_2}{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big|}= \frac{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big| \cos\angle{\theta_{12}}}{\big|\bold{r}_2\big| \cdot \big|\bold{r}_2\big|}
+\frac{\mathbf{r}_1 \cdot \mathbf{r}_2}{\big|\mathbf{r}_2\big| \cdot \big|\mathbf{r}_2\big|}= \frac{\big|\mathbf{r}_2\big| \cdot \big|\mathbf{r}_2\big| \cos\angle{\theta_{12}}}{\big|\mathbf{r}_2\big| \cdot \big|\mathbf{r}_2\big|}
 \end{align*}
 $$
 
@@ -4295,14 +4295,14 @@ $0 \le \cos\angle{\theta_{12}}<0.9998$ should hold true before performing triang
 
 For triangulation, here is the full formula.
 
-PnP (Perspective-n-Point) describes how a 3d world point $\bold{X}=[X\quad Y\quad Z\quad 1]^\top$ is projected to an image pixel $\bold{x}=[u\quad v\quad 1]^\top$ scaled by $s$.
-Denote the projection as $\bold{P}$.
+PnP (Perspective-n-Point) describes how a 3d world point $\mathbf{X}=[X\quad Y\quad Z\quad 1]^\top$ is projected to an image pixel $\mathbf{x}=[u\quad v\quad 1]^\top$ scaled by $s$.
+Denote the projection as $\mathbf{P}$.
 $$
 s \underbrace{\begin{bmatrix}
     u \\
     v \\
     1
-\end{bmatrix}}_{\bold{x}}=
+\end{bmatrix}}\_{\mathbf{x}}=
 \underbrace{
 \begin{bmatrix}
     f_x & 0 & c_x \\
@@ -4315,15 +4315,15 @@ s \underbrace{\begin{bmatrix}
         t_5 & t_6 & t_7 & t_8 \\
         t_9 & t_{10} & t_{11} & t_{12} \\
     \end{bmatrix}
-}_{[\bold{R}|\bold{t}]}
-}_{\bold{P}=\begin{bmatrix}
+}\_{[\mathbf{R}|\mathbf{t}]}
+}\_{\mathbf{P}=\begin{bmatrix}
         p_1 & p_2 & p_3 & p_4 \\
         p_5 & p_6 & p_7 & p_8 \\
         p_9 & p_{10} & p_{11} & p_{12} \\
     \end{bmatrix}=\begin{bmatrix}
-        \bold{p}_1^\top \\
-        \bold{p}_2^\top \\
-        \bold{p}_3^\top
+        \mathbf{p}_1^\top \\
+        \mathbf{p}_2^\top \\
+        \mathbf{p}_3^\top
     \end{bmatrix}
     }
 \underbrace{\begin{bmatrix}
@@ -4331,30 +4331,30 @@ s \underbrace{\begin{bmatrix}
     Y \\
     Z \\
     1
-\end{bmatrix}}_{\bold{X}}
+\end{bmatrix}}\_{\mathbf{X}}
 $$
-where $\bold{p}_1^\top=[p_1\quad p_2\quad p_3\quad p_4],\qquad \bold{p}_2^\top=[p_5\quad p_6\quad p_7\quad p_8], \qquad \bold{p}_3^\top=[p_9\quad p_{10}\quad p_{11}\quad p_{12}]$.
+where $\mathbf{p}_1^\top=[p_1\quad p_2\quad p_3\quad p_4],\qquad \mathbf{p}_2^\top=[p_5\quad p_6\quad p_7\quad p_8], \qquad \mathbf{p}_3^\top=[p_9\quad p_{10}\quad p_{11}\quad p_{12}]$.
 
 Consider image pixels $(u, v)$ and $(u', v')$ for the two keyframes, and the corresponding transform 
-$\bold{P} = \begin{bmatrix} \bold{p}_1^\top \\ \bold{p}_2^\top \\ \bold{p}_3^\top \end{bmatrix}$ 
-and $\bold{P}' = \begin{bmatrix} \bold{p'}_1^\top \\ \bold{p'}_2^\top \\ \bold{p'}_3^\top \end{bmatrix}$
-by triangulation rule, there is $A\bold{X}=\bold{0}$:
+$\mathbf{P} = \begin{bmatrix} \mathbf{p}_1^\top \\ \mathbf{p}_2^\top \\ \mathbf{p}_3^\top \end{bmatrix}$ 
+and $\mathbf{P}' = \begin{bmatrix} \mathbf{p'}_1^\top \\ \mathbf{p'}_2^\top \\ \mathbf{p'}_3^\top \end{bmatrix}$
+by triangulation rule, there is $A\mathbf{X}=\mathbf{0}$:
 
 $$
 \begin{bmatrix}
-    v\bold{p}_3^\top \bold{X} - \bold{p}_1^\top \bold{X} \\
-    \bold{p}_1^\top \bold{X} - u\bold{p}_3^\top \bold{X} \\
-    v'\bold{p'}_3^\top \bold{X} - \bold{p'}_1^\top \bold{X} \\
-    \bold{p'}_1^\top \bold{X} - u'\bold{p'}_3^\top \bold{X}
+    v\mathbf{p}_3^\top \mathbf{X} - \mathbf{p}_1^\top \mathbf{X} \\
+    \mathbf{p}_1^\top \mathbf{X} - u\mathbf{p}_3^\top \mathbf{X} \\
+    v'\mathbf{p'}_3^\top \mathbf{X} - \mathbf{p'}_1^\top \mathbf{X} \\
+    \mathbf{p'}_1^\top \mathbf{X} - u'\mathbf{p'}_3^\top \mathbf{X}
 \end{bmatrix}
-\overset{\text{take out }\bold{X}}{=}
+\overset{\text{take out }\mathbf{X}}{=}
 \underbrace{\begin{bmatrix}
-    v\bold{p}_3^\top - \bold{p}_1^\top \\
-    \bold{p}_1^\top - u\bold{p}_3^\top \\
-    v'\bold{p'}_3^\top - \bold{p'}_1^\top \\
-    \bold{p'}_1^\top - u'\bold{p'}_3^\top
-\end{bmatrix}}_{A}
-\bold{X}=
+    v\mathbf{p}_3^\top - \mathbf{p}_1^\top \\
+    \mathbf{p}_1^\top - u\mathbf{p}_3^\top \\
+    v'\mathbf{p'}_3^\top - \mathbf{p'}_1^\top \\
+    \mathbf{p'}_1^\top - u'\mathbf{p'}_3^\top
+\end{bmatrix}}\_{A}
+\mathbf{X}=
 \begin{bmatrix}
     0 \\
     0 \\
@@ -4364,41 +4364,41 @@ $$
 $$
 
 The above equations are decomposed by SVD `cv::SVD::compute(A,w,u,vt,cv::SVD::MODIFY_A| cv::SVD::FULL_UV);`, where `vt` is the sorted eigenvectors, and `x3D = vt.row(3).t();` is the eigenvector corresponding to the smallest eigenvalue.
-By  Rayleigh quotient, this eigenvector `x3D` is the solution $\bold{X}=[X\quad Y\quad Z\quad 1]^{\top}$.
+By  Rayleigh quotient, this eigenvector `x3D` is the solution $\mathbf{X}=[X\quad Y\quad Z\quad 1]^{\top}$.
 `x3D = x3D.rowRange(0,3)/x3D.at<float>(3);` is the normalization term for the fourth element $1$.
-Denote `x3D` as $\bold{x}$.
+Denote `x3D` as $\mathbf{x}$.
 
 Denote the projection from the triangulated estimate map point as $(\hat{u},\hat{v})$, and keypoint observations $(u,v)$ from camera as the truth, compute the error.
-If the error passes the $\mathcal{X}^2$ test of $95\%$ confidence, the triangulated result $\bold{x}$ is good.
+If the error passes the $\mathcal{X}^2$ test of $95\%$ confidence, the triangulated result $\mathbf{x}$ is good.
 $$
 \begin{align*}
 &&
-\hat{\bold{x}}_{1c} &= 
+\hat{\mathbf{x}}\_{1c} &= 
 \begin{bmatrix}
     x_{1c} \\ y_{1c} \\ z_{1c}
 \end{bmatrix}
- = R_1 \bold{x} + \bold{t}_1
+ = R_1 \mathbf{x} + \mathbf{t}_1
 & &&\qquad
-\hat{\bold{x}}_{2c} &= 
+\hat{\mathbf{x}}\_{2c} &= 
 \begin{bmatrix}
     x_{2c} \\ y_{2c} \\ z_{2c}
 \end{bmatrix}
- = R_2 \bold{x} + \bold{t}_2
+ = R_2 \mathbf{x} + \mathbf{t}_2
 \\ \text{Projection } \Rightarrow &&
-\hat{u}_{1} &= \frac{f_x}{z_{1c}} x_{1c} + c_x
+\hat{u}\_{1} &= \frac{f_x}{z_{1c}} x_{1c} + c_x
 &\qquad
-\hat{v}_{1} = \frac{f_y}{z_{1c}} y_{1c} + c_y
+\hat{v}\_{1} = \frac{f_y}{z_{1c}} y_{1c} + c_y
 &&\qquad
-\hat{u}_{2} &= \frac{f_x}{z_{2c}} x_{2c} + c_x
+\hat{u}\_{2} &= \frac{f_x}{z_{2c}} x_{2c} + c_x
 &\qquad
-\hat{v}_{2} = \frac{f_y}{z_{2c}} y_{2c} + c_y
+\hat{v}\_{2} = \frac{f_y}{z_{2c}} y_{2c} + c_y
 \\ \text{Error } \Rightarrow &&
-\bold{e}_1 &= \begin{bmatrix} \hat{u}_{1} \\ \hat{v}_{1} \end{bmatrix} - \begin{bmatrix} {u}_{1} \\ {v}_{1} \end{bmatrix}
+\mathbf{e}_1 &= \begin{bmatrix} \hat{u}\_{1} \\ \hat{v}\_{1} \end{bmatrix} - \begin{bmatrix} {u}\_{1} \\ {v}\_{1} \end{bmatrix}
 & &&\qquad
-\bold{e}_2 &= \begin{bmatrix} \hat{u}_{2} \\ \hat{v}_{2} \end{bmatrix} - \begin{bmatrix} {u}_{2} \\ {v}_{2} \end{bmatrix}
+\mathbf{e}_2 &= \begin{bmatrix} \hat{u}\_{2} \\ \hat{v}\_{2} \end{bmatrix} - \begin{bmatrix} {u}\_{2} \\ {v}\_{2} \end{bmatrix}
 \\ \mathcal{X}^2 \text{ test by } 95\% \text{ confidence } \Rightarrow &&
-\bold{e}_1 \bold{e}_1^{\top} &< 5.991
-& &&\qquad - old{e}_2 \bold{e}_2^{\top} &< 5.991
+\mathbf{e}_1 \mathbf{e}_1^{\top} &< 5.991
+& &&\qquad - old{e}_2 \mathbf{e}_2^{\top} &< 5.991
 \end{align*}
 $$
  - `cpp
@@ -4654,7 +4654,7 @@ void LocalMapping::CreateNewMapPoints()
 If two feature points have very small Hamming distance, they are regarded as referring to the same map point.
 
 Denote $C_1=[X_1\quad Y_1\quad Z_1]^{\top}$ as the keyframe `pKF1`'s  camera center, 
-the keyframe `pKF2`'s  camera center can be computed by $C_2=[X_2\quad Y_2\quad Z_2]^{\top}=R_2 C_1 + \bold{t}_2$.
+the keyframe `pKF2`'s  camera center can be computed by $C_2=[X_2\quad Y_2\quad Z_2]^{\top}=R_2 C_1 + \mathbf{t}_2$.
 
 $$
 \begin{align*}
@@ -4664,7 +4664,7 @@ $$
 \end{align*}
 $$
 
-In the figure below, having assumed keyframe `pKF1` on the left hand side, keyframe `pKF2` on the right hand side, there is $\bold{e}_R=[e_x\quad e_y]$
+In the figure below, having assumed keyframe `pKF1` on the left hand side, keyframe `pKF2` on the right hand side, there is $\mathbf{e}_R=[e_x\quad e_y]$
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/epipolar_geo.png" width="40%" height="40%" alt="epipolar_geo" />
@@ -4677,7 +4677,7 @@ If `if(f1it->first == f2it->first)` is false, it means the features are located 
 For example, `if(f1it->first < f2it->first)` is true, it means `f1it`'s node id is smaller than `f2it`'s, indicating `f2it` resides at a higer layer (closer to leaf nodes) than `f1it`'s, 
 hence having `f1it = vFeatVec1.lower_bound(f2it->first);` to move `f1it` to `f2it`'s layer.
 
-The feature point `kp2.pt` must keep some distance away from $\bold{e}_R$, then run `CheckDistEpipolarLine(kp1,kp2,F12,pKF2)` which find the distance/error of matching points by epipolar geometry.
+The feature point `kp2.pt` must keep some distance away from $\mathbf{e}_R$, then run `CheckDistEpipolarLine(kp1,kp2,F12,pKF2)` which find the distance/error of matching points by epipolar geometry.
 If `CheckDistEpipolarLine(kp1,kp2,F12,pKF2)` retruns true, it means there is a good triangulation result, and should record the keypoint index `idx2` for `kp2`.
 
 ```cpp
@@ -4871,10 +4871,10 @@ int ORBmatcher::SearchForTriangulation(KeyFrame *pKF1, KeyFrame *pKF2, cv::Mat F
 </div>
 </br>
 
-Compute epipolar line $\bold{l}_r=[l_{ra}\quad l_{rb}\quad l_{rc}]$ in right image:
+Compute epipolar line $\mathbf{l}_r=[l_{ra}\quad l_{rb}\quad l_{rc}]$ in right image:
 $$
-\bold{l}_r =
-\bold{x}_l^{\top} F_{rl} =
+\mathbf{l}_r =
+\mathbf{x}_l^{\top} F_{rl} =
 \begin{bmatrix}
     x_l \\
     y_l \\
@@ -4882,8 +4882,8 @@ $$
 \end{bmatrix}^{\top}
 F_{rl}
 \qquad
-\bold{l}_r \bold{x}_r = 
-\bold{l}_r
+\mathbf{l}_r \mathbf{x}_r = 
+\mathbf{l}_r
 \begin{bmatrix}
     x_r \\
     y_r \\
@@ -4891,10 +4891,10 @@ F_{rl}
 \end{bmatrix}
 $$
 
-Idealy, there is $\bold{x}_l^{\top} F_{rl} \bold{x}_r = 0$ by epipolar gemomerty constraints.
-But often, there is error such that $e = \bold{x}_l^{\top} F_{rl} \bold{x}_r \ne 0$.
+Idealy, there is $\mathbf{x}_l^{\top} F_{rl} \mathbf{x}_r = 0$ by epipolar gemomerty constraints.
+But often, there is error such that $e = \mathbf{x}_l^{\top} F_{rl} \mathbf{x}_r \ne 0$.
 
-Look at epipolar line $\bold{l}_r=[l_{ra}\quad l_{rb}\quad l_{rc}]$, having assumed Guassian noises for $\bold{x}_r$, $\bold{x}_r$ should have the mean $\mu_{\bold{x}_r}=[l_{ra}\quad l_{rb}\quad 0]$.
+Look at epipolar line $\mathbf{l}_r=[l_{ra}\quad l_{rb}\quad l_{rc}]$, having assumed Guassian noises for $\mathbf{x}_r$, $\mathbf{x}_r$ should have the mean $\mu_{\mathbf{x}_r}=[l_{ra}\quad l_{rb}\quad 0]$.
 By Chi-squared test $\frac{(observed-expected)^2}{expected}$, can compute if the epipolar error is small.
 
 $3.84$ refers to $1$-d Chi-squared distribution at the $95\%$ confidence level.
@@ -4992,9 +4992,9 @@ void KeyFrame::UpdateBestCovisibles()
 In DBoW2, image similarity is measured by comparing BoW vector representations of the two keyframes, and a score is produced such that `float score = mpORBVocabulary->score(CurrentBowVec, BowVec);`.
 Higher the score, more similar the two images.
 $$
-\text{s}(\bold{v}_1, \bold{v}_2) =
+\text{s}(\mathbf{v}_1, \mathbf{v}_2) =
 1 - \frac{1}{2}
-\Bigg| \frac{\bold{v}_1}{|\bold{v}_1|} - \frac{\bold{v}_2}{|\bold{v}_2|} \Bigg|
+\Bigg| \frac{\mathbf{v}_1}{|\mathbf{v}_1|} - \frac{\mathbf{v}_2}{|\mathbf{v}_2|} \Bigg|
 $$
 
 `mpKeyFrameDB->DetectLoopCandidates(mpCurrentKF, minScore);` finds history keyframes that share visual features.
@@ -5360,7 +5360,7 @@ Having detected a loop, perform loop closure.
 First gather some keyframes that are co-visible to the current keyframe as a vector `mvpCurrentConnectedKFs`. 
 These keyframes are first corrected by `mg2oScw = gScm*gSmw;` from the previous `ComputeSim3()`.
 For all connected keyframes to this current keyframe, create the transform to this current keyframe `cv::Mat Tic = Tiw*Twc;`, 
-that is $T_{ic}=T^{-1}_{wi}T_{wc}$, where $\space_{wc}$ refers to transform from the camera frame to world frame (a.k.a. camera pose) for this current keyframe, and $\space_{wi}$ refers to one connected keyframe, and there exists $T^{-1}_{wi}=T_{iw}$.
+that is $T_{ic}=T^{-1}\_{wi}T_{wc}$, where $\space_{wc}$ refers to transform from the camera frame to world frame (a.k.a. camera pose) for this current keyframe, and $\space_{wi}$ refers to one connected keyframe, and there exists $T^{-1}\_{wi}=T_{iw}$.
 The connected keyframes are computed by `g2o::Sim3 g2oCorrectedSiw = g2oSic*mg2oScw;` and store them `CorrectedSim3[pKFi]=g2oCorrectedSiw;`.
 
 The other keyframes are directly put into `NonCorrectedSim3[pKFi]=g2oSiw;` from their original keyframes' poses.
@@ -5368,12 +5368,12 @@ The other keyframes are directly put into `NonCorrectedSim3[pKFi]=g2oSiw;` from 
 The `g2oCorrectedSiw` are regarded as initial estimates for those loop closure keyframes, leaving all remaining keyframes not yet transformed/corrected.
 All `mvpCurrentConnectedKFs` and the remaining ones will be optimized together in `Optimizer::OptimizeEssentialGraph(...)`.
 
-`g2o::Sim3::map(const Vector3d & xyz) const { return _r*xyz + _t; }` is defined to compute mapping the point `xyz` by the transform $[R|\bold{t}]$.
+`g2o::Sim3::map(const Vector3d & xyz) const { return _r*xyz + _t; }` is defined to compute mapping the point `xyz` by the transform $[R|\mathbf{t}]$.
 Hence, a corrected map point is computed by `eigCorrectedP3Dw = g2oCorrectedSwi.map(g2oSiw.map(eigP3Dw));`, 
 that an existing map point is first transformed by old/not-yet-corrected keyframe camera pose's inverse `g2oSiw`, then by the after-corrected keyframe camera pose `g2oCorrectedSwi`.
 
 Scale $s$ is taken into consideration for translation: retrieve the scale by `double s = g2oCorrectedSiw.scale();`,
-then `eigt *=(1./s);` for $\frac{1}{s}\bold{t}$.
+then `eigt *=(1./s);` for $\frac{1}{s}\mathbf{t}$.
 
 `SearchAndFuse(CorrectedSim3);` basically fuse duplicate map points.
 
@@ -5744,7 +5744,7 @@ There are three types of edges:
 The edge/error goes like this: before the optimization, loop closure keyframes `if(pKF==pLoopKF)  VSim3->setFixed(true);` are set to fixed, and the transform between keyframes `e->setMeasurement(<transform>);` are believed truths,
 so that the non-loop-closure keyframes should have their poses aligned to the transforms.
 
-Finally, perform $SE(3)$ recovery: $\begin{bmatrix} sR & \bold{t} \\ 0 & 1 \end{bmatrix} \rightarrow \begin{bmatrix} R & \frac{1}{s}\bold{t} \\ 0 & 1 \end{bmatrix}$ and by the recovery to restore map points.
+Finally, perform $SE(3)$ recovery: $\begin{bmatrix} sR & \mathbf{t} \\ 0 & 1 \end{bmatrix} \rightarrow \begin{bmatrix} R & \frac{1}{s}\mathbf{t} \\ 0 & 1 \end{bmatrix}$ and by the recovery to restore map points.
 
 ```cpp
 void Optimizer::OptimizeEssentialGraph(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,

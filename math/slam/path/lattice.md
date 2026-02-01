@@ -9,37 +9,37 @@ Basically, it is curve's tangent and normal, and their cross product formed 3-d 
 
 ![frenet_mov_along_helix](imgs/frenet_mov_along_helix.png "frenet_mov_along_helix")
 
-Let $\bold{r}(t)$ be a curve in Euclidean space, representing the position vector of a particle/point as a function of time. The Frenet–Serret formulas require $\bold{r}(t)$ can only have non-zero curvature. Besides, $\bold{r}'(t) \ne 0$
+Let $\mathbf{r}(t)$ be a curve in Euclidean space, representing the position vector of a particle/point as a function of time. The Frenet–Serret formulas require $\mathbf{r}(t)$ can only have non-zero curvature. Besides, $\mathbf{r}'(t) \ne 0$
 
 Let $s(t)$ represent the arc length which the particle has moved along the curve in time $t$:
 $$
 s(t) = 
-\int^t_0 ||\bold{r}'(\sigma)|| d \sigma 
+\int^t_0 ||\mathbf{r}'(\sigma)|| d \sigma 
 $$ 
 
-Here defines the tangent unit vector $\bold{T}$:
+Here defines the tangent unit vector $\mathbf{T}$:
 $$
-\bold{T}= \frac{d \bold{r}}{d s}
-$$
-
-Here defines the normal unit vector $\bold{N}$:
-$$
-\bold{N}= \frac
-{\frac{d \bold{T}}{d s}}
-{||\frac{d \bold{T}}{d s}||}
+\mathbf{T}= \frac{d \mathbf{r}}{d s}
 $$
 
-Here defines the binormal unit vector $\bold{B}:$
+Here defines the normal unit vector $\mathbf{N}$:
 $$
-\bold{B}= \bold{T} \times \bold{N}
+\mathbf{N}= \frac
+{\frac{d \mathbf{T}}{d s}}
+{||\frac{d \mathbf{T}}{d s}||}
+$$
+
+Here defines the binormal unit vector $\mathbf{B}:$
+$$
+\mathbf{B}= \mathbf{T} \times \mathbf{N}
 $$
 
 Finally, the Frenet–Serret formulas is a skew-symmetric matrix given as below
 $$
 \begin{bmatrix}
-    \bold{T}' \\
-    \bold{N}' \\
-    \bold{B}'
+    \mathbf{T}' \\
+    \mathbf{N}' \\
+    \mathbf{B}'
 \end{bmatrix}=
 \begin{bmatrix}
     0 & \kappa & 0 \\
@@ -47,14 +47,14 @@ $$
     0 & -\tau & 0
 \end{bmatrix}
 \begin{bmatrix}
-    \bold{T} \\
-    \bold{N} \\
-    \bold{B}
+    \mathbf{T} \\
+    \mathbf{N} \\
+    \mathbf{B}
 \end{bmatrix}
 $$
-where $\kappa=||\frac{d \bold{T}}{d s}||$ is the curvature, that when $\kappa \rightarrow 0$, the trajectory is nearly a straight line. 
+where $\kappa=||\frac{d \mathbf{T}}{d s}||$ is the curvature, that when $\kappa \rightarrow 0$, the trajectory is nearly a straight line. 
 
-and $\tau=-\bold{N} \cdot \bold{B}$ is the torsion, $\tau$ measures the speed of rotation of the binormal vector at the given point such that $\bold{B}'=\tau \bold{N}$. When $\tau \rightarrow 0$, the trajectory tends to move on the same plane.
+and $\tau=-\mathbf{N} \cdot \mathbf{B}$ is the torsion, $\tau$ measures the speed of rotation of the binormal vector at the given point such that $\mathbf{B}'=\tau \mathbf{N}$. When $\tau \rightarrow 0$, the trajectory tends to move on the same plane.
 
 ## Frenet To Cartesian Coordinates
 
@@ -75,7 +75,7 @@ and Cartesian Coordinates $[\overrightarrow{x}, v_{\overrightarrow{x}}, a_{\over
 
 Besides, define $\overrightarrow{r}=[x_{r}, y_{r}]$ on $s$ of the Frenet coordinates as the reference point of $\overrightarrow{x}$ on the Cartesian's. 
 
-The figure below describes the lateral translation relationship between the two coordinates. For Frenet coordinates, there is no $\bold{B}$ since the movement is only on the same plane throughout the time.
+The figure below describes the lateral translation relationship between the two coordinates. For Frenet coordinates, there is no $\mathbf{B}$ since the movement is only on the same plane throughout the time.
 
 ![frenet_coord](imgs/frenet_coord.png "frenet_coord")
 
@@ -83,9 +83,9 @@ The figure below describes the lateral translation relationship between the two 
 
 Derived from definition, $s$ is the nearest point to $\overrightarrow{x}$, denoted as $\overrightarrow{r}=[x_r, y_r]$ .
 
-Given the relationship $l=\big(\overrightarrow{x}-\overrightarrow{r}\big)\bold{\overrightarrow{N}}_{\overrightarrow{r}}$ that describes the current Cartesian position $\overrightarrow{x}$ is a translation from $\overrightarrow{r}$ following the direction of $\bold{\overrightarrow{N}}_{\overrightarrow{r}}$. The angle of $\bold{\overrightarrow{N}}_{\overrightarrow{r}}$ is $\theta_{\overrightarrow{r}}+\frac{\pi}{2}$ 
+Given the relationship $l=\big(\overrightarrow{x}-\overrightarrow{r}\big)\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}$ that describes the current Cartesian position $\overrightarrow{x}$ is a translation from $\overrightarrow{r}$ following the direction of $\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}$. The angle of $\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}$ is $\theta_{\overrightarrow{r}}+\frac{\pi}{2}$ 
 
-$l$ can be expressed as the dot product between $\overrightarrow{x}-\overrightarrow{r}$ and $\bold{\overrightarrow{N}}_{\overrightarrow{r}}$.
+$l$ can be expressed as the dot product between $\overrightarrow{x}-\overrightarrow{r}$ and $\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}$.
 $$
 \begin{align*}
 l &=
@@ -93,7 +93,7 @@ l &=
     \overrightarrow{x}-\overrightarrow{r}
 \big)
 \cdot
-\bold{\overrightarrow{N}}_{\overrightarrow{r}}
+\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}
 \\ &=
 ||\overrightarrow{x}-\overrightarrow{r}||_2
 \space

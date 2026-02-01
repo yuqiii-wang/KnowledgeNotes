@@ -6,27 +6,27 @@ For example, Lie bracket of two points $X,Y$ on a Lie Group $SO(3)$ describes th
 
 ## Intuition: Vector Fields as Derivative and Lie Bracket
 
-### Vector Function $\bold{f}(x)$
+### Vector Function $\mathbf{f}(x)$
 
-Vector function $\bold{f}(x):R^n \rightarrow R^n$ defines a mapping relationship from $\bold{x} \in R^n$ to $\bold{f}(x) \in R^n$ which is called *Vector Field*.
+Vector function $\mathbf{f}(x):R^n \rightarrow R^n$ defines a mapping relationship from $\mathbf{x} \in R^n$ to $\mathbf{f}(x) \in R^n$ which is called *Vector Field*.
 
-Furthermore, if $\bold{f}$ is of having an indefinite degree of derivative $C^{\infty}$ and is continuous, $\bold{f}$ is a *Smooth Vector Field*.
+Furthermore, if $\mathbf{f}$ is of having an indefinite degree of derivative $C^{\infty}$ and is continuous, $\mathbf{f}$ is a *Smooth Vector Field*.
 
 ### Smooth Scalar Function $h(x)$
 
-Smooth scalar function $h(\bold{x}):\mathbb{R}^n \rightarrow \mathbb{R}$ defines a mapping relationship from $\bold{x} \in \mathbb{R}^n$ to $h(\bold{x}) \in \mathbb{R}$, whose *gradient* is a $1 \times n$ vector $\nabla h = \frac{\partial h}{\partial \bold{x}}$.
+Smooth scalar function $h(\mathbf{x}):\mathbb{R}^n \rightarrow \mathbb{R}$ defines a mapping relationship from $\mathbf{x} \in \mathbb{R}^n$ to $h(\mathbf{x}) \in \mathbb{R}$, whose *gradient* is a $1 \times n$ vector $\nabla h = \frac{\partial h}{\partial \mathbf{x}}$.
 
-### Smooth Vector Field $\bold{f}(x)$
+### Smooth Vector Field $\mathbf{f}(x)$
 
-A smooth vector field $\bold{f}$'s *Jacobian* is an $n \times n$ matrix $\nabla  \bold{f} =  \frac{\partial \bold{\bold{f}}}{\partial \bold{x}}$
+A smooth vector field $\mathbf{f}$'s *Jacobian* is an $n \times n$ matrix $\nabla  \mathbf{f} =  \frac{\partial \mathbf{\mathbf{f}}}{\partial \mathbf{x}}$
 
 ### Lie Derivative in A Vector Field
 
-A smooth scalar function $h(\bold{x})$ to a smooth vector field $\bold{f}(\bold{x})$'s *Lie Derivative* is a $1 \times n$ vector $L_\bold{f} h = \nabla h \bold{f} = \frac{\partial h}{\partial \bold{x}} \bold{f}$
+A smooth scalar function $h(\mathbf{x})$ to a smooth vector field $\mathbf{f}(\mathbf{x})$'s *Lie Derivative* is a $1 \times n$ vector $L_\mathbf{f} h = \nabla h \mathbf{f} = \frac{\partial h}{\partial \mathbf{x}} \mathbf{f}$
 
-For example as in the below, $\bold{f}$ is represented by blue arrows as a vector field that excerts pressure on the moving object the green dot.
+For example as in the below, $\mathbf{f}$ is represented by blue arrows as a vector field that excerts pressure on the moving object the green dot.
 
-$\nabla h$ is the velocity $r'$, hence, $L_\bold{f} h = \nabla h \bold{f}$ is the power by $\bold{f}$ on the object, and the work is to take line integral along its trajectory (the yellow curve).
+$\nabla h$ is the velocity $r'$, hence, $L_\mathbf{f} h = \nabla h \mathbf{f}$ is the power by $\mathbf{f}$ on the object, and the work is to take line integral along its trajectory (the yellow curve).
 
 Remember, $r'$ is a scalar having no direction.
 
@@ -38,19 +38,19 @@ Remember, $r'$ is a scalar having no direction.
 ### Lie Bracket in Vector Fields
 
 Define two vector field functions: 
-$\bold{f}(x):R^n \rightarrow R^n$ and $\bold{g}(x):R^n \rightarrow R^n$. The Lie bracket $[\bold{f}, \bold{g}]$ is an operator that assigns to any two vector fields $\bold{f}$ and $\bold{g}$ on a smooth manifold $M$ a third vector field denoted $[X, Y]$.
+$\mathbf{f}(x):R^n \rightarrow R^n$ and $\mathbf{g}(x):R^n \rightarrow R^n$. The Lie bracket $[\mathbf{f}, \mathbf{g}]$ is an operator that assigns to any two vector fields $\mathbf{f}$ and $\mathbf{g}$ on a smooth manifold $M$ a third vector field denoted $[X, Y]$.
 
 Formally, Lie Bracket in vector fields can be generalized with the below form
 $$
-[\bold{f},\bold{g}] = \nabla \bold{g} \bold{f} - \nabla \bold{f} \bold{g}=
-\frac{\partial \bold{g}}{\partial \bold{x}}\bold{f} - \frac{\partial \bold{f}}{\partial \bold{x}}\bold{g}
+[\mathbf{f},\mathbf{g}] = \nabla \mathbf{g} \mathbf{f} - \nabla \mathbf{f} \mathbf{g}=
+\frac{\partial \mathbf{g}}{\partial \mathbf{x}}\mathbf{f} - \frac{\partial \mathbf{f}}{\partial \mathbf{x}}\mathbf{g}
 $$
 
 ### Example - Lie Bracket in Vector Fields
 
-Set $\bold{e}_x=[1 \quad 0]^\text{T}$ and $\bold{e}_y=[0 \quad 1]^\text{T}$ as the bases. Define $\bold{u}$ and $\bold{v}$ as the vector fields on the two bases $\bold{e}_x$ and $\bold{e}_y$, respectively.
+Set $\mathbf{e}_x=[1 \quad 0]^\text{T}$ and $\mathbf{e}_y=[0 \quad 1]^\text{T}$ as the bases. Define $\mathbf{u}$ and $\mathbf{v}$ as the vector fields on the two bases $\mathbf{e}_x$ and $\mathbf{e}_y$, respectively.
 
-Vector field $\bold{u}$ (marked by green arrows below) has constant flow along the $\bold{u}=\begin{bmatrix}      1 & 0 \end{bmatrix}\begin{bmatrix}      \bold{e}_x & \bold{e}_y \end{bmatrix}$, and $\bold{v}$ (marked by purple arrows below) is growing defined as $\bold{v}=\begin{bmatrix}      0 & x \end{bmatrix}\begin{bmatrix}      \bold{e}_x & \bold{e}_y \end{bmatrix}$. The size of arrows represents the length of a vector.
+Vector field $\mathbf{u}$ (marked by green arrows below) has constant flow along the $\mathbf{u}=\begin{bmatrix}      1 & 0 \end{bmatrix}\begin{bmatrix}      \mathbf{e}_x & \mathbf{e}_y \end{bmatrix}$, and $\mathbf{v}$ (marked by purple arrows below) is growing defined as $\mathbf{v}=\begin{bmatrix}      0 & x \end{bmatrix}\begin{bmatrix}      \mathbf{e}_x & \mathbf{e}_y \end{bmatrix}$. The size of arrows represents the length of a vector.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/two_overlapping_vec_fields.png" width="20%" height="20%" alt="two_overlapping_vec_fields" />
@@ -71,14 +71,14 @@ The expression of $\frac{d \overrightarrow{R}}{d \lambda}$ is
 $$
 \begin{align*}
 \frac{d \overrightarrow{R}}{d \lambda} &=
-\underbrace{\frac{\partial \overrightarrow{R}}{\partial x}}_{\bold{e_x}} \frac{dx}{d \lambda} + 
-\underbrace{\frac{\partial \overrightarrow{R}}{\partial y}}_{\bold{e_y}} \frac{dy}{d \lambda}
+\underbrace{\frac{\partial \overrightarrow{R}}{\partial x}}\_{\mathbf{e_x}} \frac{dx}{d \lambda} + 
+\underbrace{\frac{\partial \overrightarrow{R}}{\partial y}}\_{\mathbf{e_y}} \frac{dy}{d \lambda}
 \\ &=
-\frac{dx}{d \lambda} \bold{e}_x +
-\frac{dy}{d \lambda} \bold{e}_y
+\frac{dx}{d \lambda} \mathbf{e}_x +
+\frac{dy}{d \lambda} \mathbf{e}_y
 \\ &=
-1 \cdot \bold{e}_x +
-x \cdot \bold{e}_y
+1 \cdot \mathbf{e}_x +
+x \cdot \mathbf{e}_y
 \end{align*}
 $$
 
@@ -95,97 +95,97 @@ $$
 
 Obviously, the integral orange curve is a parabola on the $x$-$y$ plane.
 
-Compute $\nabla \bold{v} \bold{u}$ and $\nabla \bold{u} \bold{v}$:
+Compute $\nabla \mathbf{v} \mathbf{u}$ and $\nabla \mathbf{u} \mathbf{v}$:
 
-Find the change of $\bold{v}$ along $\bold{u}$
+Find the change of $\mathbf{v}$ along $\mathbf{u}$
 $$
 \begin{align*}
-      \frac{d (\bold{v})}{d \lambda}  \bold{u} &= 
+      \frac{d (\mathbf{v})}{d \lambda}  \mathbf{u} &= 
       \frac{d \bigg( \begin{bmatrix}
             0 & x 
       \end{bmatrix}
       \begin{bmatrix}
-            \bold{e}_x & \bold{e}_y
+            \mathbf{e}_x & \mathbf{e}_y
       \end{bmatrix}
       \bigg) } {
             d \lambda
-      } \bold{u}
+      } \mathbf{u}
       \\ &=
       \bigg( \frac{d  \begin{bmatrix}
             0 & x 
       \end{bmatrix} } {
             d \lambda
       }\begin{bmatrix}
-            \bold{e}_x & \bold{e}_y
+            \mathbf{e}_x & \mathbf{e}_y
       \end{bmatrix}
       +
       \begin{bmatrix}
             0 & x
       \end{bmatrix}
       \underbrace{\frac{d  \begin{bmatrix}
-            \bold{e}_x & \bold{e}_y
+            \mathbf{e}_x & \mathbf{e}_y
       \end{bmatrix} } {
             d \lambda
-      }}_{=\bold{0}}
-      \bigg) \bold{u}
+      }}\_{=\mathbf{0}}
+      \bigg) \mathbf{u}
       \\ &=
       \bigg( \begin{bmatrix}
             0 & 1
       \end{bmatrix}
       \begin{bmatrix}
-            \bold{e}_x & \bold{e}_y
-      \end{bmatrix} \bigg) \bold{u}
+            \mathbf{e}_x & \mathbf{e}_y
+      \end{bmatrix} \bigg) \mathbf{u}
       \\ &=
-      \bold{e}_y
+      \mathbf{e}_y
 \end{align*}
 $$
 
-Find the change of $\bold{u}$ along $\bold{v}$
+Find the change of $\mathbf{u}$ along $\mathbf{v}$
 
 $$
 \begin{align*}
-      \frac{d (\bold{u})}{d \lambda}  \bold{v} &= 
+      \frac{d (\mathbf{u})}{d \lambda}  \mathbf{v} &= 
       \frac{d \bigg( \begin{bmatrix}
             1 & 0
       \end{bmatrix}
       \begin{bmatrix}
-            \bold{e}_x & \bold{e}_y
+            \mathbf{e}_x & \mathbf{e}_y
       \end{bmatrix}
       \bigg) } {
             d \lambda
-      } \bold{v}
+      } \mathbf{v}
       \\ &=
       \bigg( \frac{d  \begin{bmatrix}
             1 & 0
       \end{bmatrix} } {
             d \lambda
       }\begin{bmatrix}
-            \bold{e}_x & \bold{e}_y
+            \mathbf{e}_x & \mathbf{e}_y
       \end{bmatrix}
       +
       \begin{bmatrix}
             1 & 0
       \end{bmatrix}
       \frac{d  \begin{bmatrix}
-            \bold{e}_x & \bold{e}_y
+            \mathbf{e}_x & \mathbf{e}_y
       \end{bmatrix} } {
             d \lambda
-      } \bigg) \bold{v}
+      } \bigg) \mathbf{v}
       \\ &=
-      \bold{0}
+      \mathbf{0}
 \end{align*}
 $$
 
-Since $\nabla \bold{v} \bold{u}=\bold{e}_y$, $\nabla \bold{u} \bold{v}=\bold{0}$, there is Lie bracket
+Since $\nabla \mathbf{v} \mathbf{u}=\mathbf{e}_y$, $\nabla \mathbf{u} \mathbf{v}=\mathbf{0}$, there is Lie bracket
 $$
 \begin{align*}
-[\bold{u}, \bold{v}] &= \nabla \bold{v} \bold{u} - \nabla \bold{u} \bold{v}
+[\mathbf{u}, \mathbf{v}] &= \nabla \mathbf{v} \mathbf{u} - \nabla \mathbf{u} \mathbf{v}
 \\ &=
-\bold{e}_y
+\mathbf{e}_y
 \end{align*}
 $$
 
-The result $[\bold{u}, \bold{v}]=\bold{e}_y$ refers to the non-closed vector field traversal's gap between first on $\bold{u}$ then on $\bold{v}$ (marked by red lines) v.s. first on $\bold{v}$ then on $\bold{u}$ (marked by blue lines). Since flow through purple arrows at larger $x\bold{e}_y$, red lines go further than blue lines.
+The result $[\mathbf{u}, \mathbf{v}]=\mathbf{e}_y$ refers to the non-closed vector field traversal's gap between first on $\mathbf{u}$ then on $\mathbf{v}$ (marked by red lines) v.s. first on $\mathbf{v}$ then on $\mathbf{u}$ (marked by blue lines). Since flow through purple arrows at larger $x\mathbf{e}_y$, red lines go further than blue lines.
 
 
 <div style="display: flex; justify-content: center;">
@@ -370,9 +370,9 @@ $$
 
 ### BCH Formula in $so(3)$
 
-For a 3-d matrix $\bold{\Phi}$, here uses $\wedge$ to represent a vecto of an antisymmetric matrix., there is
+For a 3-d matrix $\mathbf{\Phi}$, here uses $\wedge$ to represent a vecto of an antisymmetric matrix., there is
 $$
-\bold{\Phi} = \phi^{\wedge}=
+\mathbf{\Phi} = \phi^{\wedge}=
 \begin{bmatrix}
       0 & -\phi_3 & \phi_2 \\
       \phi_3 & 0 & -\phi_1 \\
@@ -382,7 +382,7 @@ $$
 
 Recall Lie Bracket, now here derives
 $$
-[\phi_1, \phi_2] = (\bold{\Phi}_1 \bold{\Phi}_2 - \bold{\Phi}_2 \bold{\Phi}_1)^{\vee}
+[\phi_1, \phi_2] = (\mathbf{\Phi}_1 \mathbf{\Phi}_2 - \mathbf{\Phi}_2 \mathbf{\Phi}_1)^{\vee}
 $$
 where $\vee$ denotes vector representation of a skew-symmetric matrix.
 
@@ -413,11 +413,11 @@ $$
 where $J_l$ and $J_r$ are 
 
 $$
-J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})\bold{v}\bold{v}^\text{T} + \frac{1-cos\theta}{\theta}\bold{v}^{\wedge}
+J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})\mathbf{v}\mathbf{v}^\text{T} + \frac{1-cos\theta}{\theta}\mathbf{v}^{\wedge}
 $$
 whose derivative is 
 $$
-J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})\bold{v}\bold{v}^\text{T} - \frac{\theta}{2}\bold{v}^{\wedge}
+J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})\mathbf{v}\mathbf{v}^\text{T} - \frac{\theta}{2}\mathbf{v}^{\wedge}
 $$
 
 and for the right multiple

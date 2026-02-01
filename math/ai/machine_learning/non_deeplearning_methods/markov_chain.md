@@ -11,7 +11,7 @@ $$
 p(X_n=x_n | X_{n-1} = x_{n-1})=
 p(X_n=x_n | X_{0} = x_{0}, X_{1} = x_{1}, ..., X_{n-1} = x_{n-1})
 $$
-where $X_i$ is a static state in Markov chain, and $x_i$ is the $i$-th input.
+where $X_i$ is a static state in Markov chain, and $x\_i$ is the $i$-th input.
 
 ## Transition Probability Maxtrix
 
@@ -74,9 +74,9 @@ $$
 that has the solutions
 
 $$
-\lambda_1 = 1 \quad \bold{v}_1 = [\frac{5}{3}, 1],
+\lambda_1 = 1 \quad \mathbf{v}_1 = [\frac{5}{3}, 1],
 \qquad
-\lambda_2 = \frac{23}{25} \quad \bold{v}_2 = [-1, 1]
+\lambda_2 = \frac{23}{25} \quad \mathbf{v}_2 = [-1, 1]
 $$
 
 where for $\lambda_1=1$ that says about probability always summed up to $1$ before and after transition, its corresponding eigenvectors are $0.625=\frac{5/3}{5/3+1}$ and $0.375=\frac{1}{5/3+1}$.

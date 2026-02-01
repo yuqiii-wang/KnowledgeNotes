@@ -8,28 +8,28 @@ ORB-SLAM proposes to compute in parallel two geometrical models:
 * a homography assuming a planar scene 
 * a fundamental matrix assuming a non-planar scene.
 
-Extract ORB features (only at the finest scale) in the current keyframe $\bold{K}_c$ and search for matches $\bold{x}_c \leftrightarrow \bold{x}_r$ in the reference keyframe $K_r$. 
+Extract ORB features (only at the finest scale) in the current keyframe $\mathbf{K}_c$ and search for matches $\mathbf{x}_c \leftrightarrow \mathbf{x}_r$ in the reference keyframe $K_r$. 
 If not enough matches are found,
 reset the reference frame.
 
-Compute in parallel threads a homography ${H}_{cr}$ and a
-fundamental matrix ${F}_{cr}$:
+Compute in parallel threads a homography ${H}\_{cr}$ and a
+fundamental matrix ${F}\_{cr}$:
 $$
-\bold{x}_c = {H}_{cr} \bold{x}_r
+\mathbf{x}_c = {H}\_{cr} \mathbf{x}_r
 \quad\quad
-\bold{x}_c {F}_{cr} \bold{x}_r = 0
+\mathbf{x}_c {F}\_{cr} \mathbf{x}_r = 0
 $$
 
-Matches $\bold{x}_c$ and $\bold{x}_r$ are shown as below, and $\bold{E}$ denotes the essential matrix (fundamental matrix $\bold{F}$ is computed from $\bold{E}$ with camera pin-hole model parameters)
+Matches $\mathbf{x}_c$ and $\mathbf{x}_r$ are shown as below, and $\mathbf{E}$ denotes the essential matrix (fundamental matrix $\mathbf{F}$ is computed from $\mathbf{E}$ with camera pin-hole model parameters)
 $$
-\bold{x}_c=
+\mathbf{x}_c=
 \begin{bmatrix}
     u \\
     v \\
     1
 \end{bmatrix}
 , \quad
-\bold{x}_r=
+\mathbf{x}_r=
 \begin{bmatrix}
     u' \\
     v' \\
@@ -76,33 +76,33 @@ $$
 
 ### To Compute $H$
 
-Similarly, to compute $\bold{H}_{cr}$, there are
+Similarly, to compute $\mathbf{H}\_{cr}$, there are
 $$
 \begin{align*}
-\bold{h}&=
+\mathbf{h}&=
 (h_{1}, h_{2}, h_{3}, h_{4}, h_{5}, h_{6}, h_{7}, h_{8}, h_{9})^\text{T}
 \\
-\bold{a}_x &=
+\mathbf{a}_x &=
 (-u_1, -v_1, -1, 0, 0, 0, x_2'x_1, x_2'y_1, x_2')^\text{T}
 \\
-\bold{a}_y &=
+\mathbf{a}_y &=
 (0, 0, 0, -x_1, -y_1, -1, y_2'y_1, y_2'x_1, y_2')^\text{T}
 \end{align*}
 $$
 
 Given $n$ points to compute 
 $$
-A \bold{h} = \bold{0}
+A \mathbf{h} = \mathbf{0}
 $$
 where
 $$
 A=
 \begin{bmatrix}
-    \bold{a}_{x_1}^\text{T} &
-    \bold{a}_{y_1}^\text{T} &
+    \mathbf{a}\_{x_1}^\text{T} &
+    \mathbf{a}\_{y_1}^\text{T} &
     ... &
-    \bold{a}_{x_n}^\text{T} &
-    \bold{a}_{x_n}^\text{T}
+    \mathbf{a}\_{x_n}^\text{T} &
+    \mathbf{a}\_{x_n}^\text{T}
 \end{bmatrix}^\top
 $$
 
@@ -114,9 +114,9 @@ $$
 S_M = 
 \sum_i \bigg(
 \rho_M \big(
-    d^2_{cr}(\bold{x}_{ri}, \bold{x}_{ci}) \big) +
+    d^2_{cr}(\mathbf{x}\_{ri}, \mathbf{x}\_{ci}) \big) +
 \rho_M \big(
-    d^2_{rc}(\bold{x}_{ri}, \bold{x}_{ci}) \big)
+    d^2_{rc}(\mathbf{x}\_{ri}, \mathbf{x}\_{ci}) \big)
 \bigg)
 $$
 where 
@@ -179,7 +179,7 @@ found in the frame.
 ### Co-Visibility and Essential Graph
 
 In co-visibility graph, each node/vertex represents a pose/keyframe, and each edge if built between nodes indicates that the two poses observe some same visual features. 
-If an edge exists, when performing pose optimization, the pose transform $T_{ij}$ between the two poses $\bold{\xi}_i$ and $\bold{\xi}_j$ should be computed, otherwise, ignored.
+If an edge exists, when performing pose optimization, the pose transform $T_{ij}$ between the two poses $\mathbf{\xi}\_i$ and $\mathbf{\xi}_j$ should be computed, otherwise, ignored.
 
 Given the example of 11 poses below, the co-visibility graph can be represented by a matrix where each entry is an edge (numbers in the grey cells are the counts of shared observed features). 
 The $10$-th and $11$-th poses see some same features as observed by the $1$-st and $2$-nd poses, indicating a loop closure.
@@ -220,20 +220,20 @@ Map points must go through recent three keyframe tests upon creation.
 ### New Map Point Creation
 
 New map points are created by triangulating ORB from
-connected keyframes $\bold{K}_c$ in the co-visibility graph.
+connected keyframes $\mathbf{K}_c$ in the co-visibility graph.
 
 ### Local Bundle Adjustment
 
 The local BA optimizes the currently processed keyframe
 $K_i$ , 
-all the keyframes connected to it in the co-visibility graph $\bold{K}_c$ , 
+all the keyframes connected to it in the co-visibility graph $\mathbf{K}_c$ , 
 and all the map points seen by those keyframes.
 
 ### Local Keyframe Culling
 
 Local mapping tries to detect redundant keyframes and delete them.
 
-Discard all the keyframes in $\bold{K}_c$ whose $90\%$ of the
+Discard all the keyframes in $\mathbf{K}_c$ whose $90\%$ of the
 map points have been seen in at least other three keyframes in the same or finer scale.
 
 ## Loop Closure
@@ -251,7 +251,7 @@ and retain the lowest similarity score $s_{\min}$.
 
 To close a loop need to compute a similarity transformation $sim(3)$ from the current keyframe $K_i$ to the loop keyframe $K_l$.
 
-Propose some candidate loop keyframes and find the optimal loop keyframes $K^*_l \in \bold{K}_l$.
+Propose some candidate loop keyframes and find the optimal loop keyframes $K^*_l \in \mathbf{K}_l$.
 
 1. Perform BoW ORB correspondence match. If matched points is lower than 20, discard this candidate loop keyframe
 2. Given the remaining candidate loop keyframe, perform $sim(3)$ on these candidate keyframes
@@ -271,25 +271,25 @@ Finally, perform a pose graph
 optimization over the global essential graph. It is a $sim(3)$ optimization:
 
 Given a set of $n$ matches $i \Rightarrow j$ keypoints and their associated 3D map points between keyframe $K_1$ and
-keyframe $K_2$ that are transformed in between by $\bold{S}_{K_1 K_2}$.
+keyframe $K_2$ that are transformed in between by $\mathbf{S}\_{K_1 K_2}$.
 
 The reprojection error in both images is
 $$
 \begin{align*}
-    \bold{e}_1 &= 
-    \bold{x}_{1,i} - \pi_1(\bold{S}_{K_1 K_2}, \bold{X}_{K_2,j}) \\
-    \bold{e}_2 &= 
-    \bold{x}_{2,j} - \pi_2(\bold{S}^{-1}_{K_1 K_2}, \bold{X}_{K_1,j})
+    \mathbf{e}_1 &= 
+    \mathbf{x}\_{1,i} - \pi_1(\mathbf{S}\_{K_1 K_2}, \mathbf{X}\_{K_2,j}) \\
+    \mathbf{e}_2 &= 
+    \mathbf{x}\_{2,j} - \pi_2(\mathbf{S}^{-1}\_{K_1 K_2}, \mathbf{X}\_{K_1,j})
 \end{align*}
 $$
-where $\bold{X}_{K,i} \in \mathbb{R}^3$  is map point 3D location and $\bold{x}_{K,i}$ is a matched feature point. $\pi_K(\bold{S}_{K}, \bold{X}_{K,i})$ is the projection that takes a keyframe/camera's $sim(3)$ pose and transform the 3D point to by $sim(3)$ then maps this 3D point to a 2D pixel.
+where $\mathbf{X}\_{K,i} \in \mathbb{R}^3$  is map point 3D location and $\mathbf{x}\_{K,i}$ is a matched feature point. $\pi_K(\mathbf{S}\_{K}, \mathbf{X}\_{K,i})$ is the projection that takes a keyframe/camera's $sim(3)$ pose and transform the 3D point to by $sim(3)$ then maps this 3D point to a 2D pixel.
 
 For all $n$ matches, collectively define the below cost function
 $$
-\argmin_{\bold{S}_{K_1 K_2}}
+\argmin_{\mathbf{S}\_{K_1 K_2}}
 \sum_{i=1}^n \Big(
-    \rho_h (\bold{e}_1^\top \bold{\Omega}^{-1}_{i,K_1} \bold{e}_1)
-    + \rho_h (\bold{e}_2^\top \bold{\Omega}^{-1}_{j,K_2} \bold{e}_2)
+    \rho_h (\mathbf{e}_1^\top \mathbf{\Omega}^{-1}\_{i,K_1} \mathbf{e}_1)
+    + \rho_h (\mathbf{e}_2^\top \mathbf{\Omega}^{-1}\_{j,K_2} \mathbf{e}_2)
 \Big)
 $$
-where $\bold{\Omega}$ is covariance and $\rho_h$ is Huber loss function.
+where $\mathbf{\Omega}$ is covariance and $\rho_h$ is Huber loss function.

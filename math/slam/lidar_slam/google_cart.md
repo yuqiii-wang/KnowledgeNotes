@@ -6,7 +6,7 @@
 
 Laser scans are recorded and are transformed by a static homogeneous transformation matrix to a robot's origin.
 
-Scan point set: $H=\{h_k\}_{k=1,2,3,...,K}, h_k \in R^2$
+Scan point set: $H=\{h_k\}\_{k=1,2,3,...,K}, h_k \in R^2$
 
 The pose $\xi$ of the scan frame in the
 submap frame transformation: $T_{\xi}$
@@ -75,19 +75,19 @@ In detail,
 $$
 E^2(\xi^m_i, \xi^s_j; \Sigma_{i,j}, \xi_{i,j}) 
 \\ =
-\bold{e}(\xi^m_i, \xi^s_j; \xi_{i,j})^T \Sigma_{i,j} \bold{e}(\xi^m_i, \xi^s_j; \xi_{i,j})
+\mathbf{e}(\xi^m_i, \xi^s_j; \xi_{i,j})^T \Sigma_{i,j} \mathbf{e}(\xi^m_i, \xi^s_j; \xi_{i,j})
 $$
-in which, $\bold{e}(\xi^m_i, \xi^s_j; \xi_{i,j})$ describes the error of robot one step pose against its scans and generated submap, such that
+in which, $\mathbf{e}(\xi^m_i, \xi^s_j; \xi_{i,j})$ describes the error of robot one step pose against its scans and generated submap, such that
 
 $$
-\bold{e}(\xi^m_i, \xi^s_j; \xi_{i,j}) =
+\mathbf{e}(\xi^m_i, \xi^s_j; \xi_{i,j}) =
  \xi_{i,j} - 
 \begin{bmatrix}
-    R^{-1}_{\xi^m_i} (\bold{t}_{\xi^m_i} - \bold{t}_{\xi^s_j}) \\
+    R^{-1}\_{\xi^m_i} (\mathbf{t}\_{\xi^m_i} - \mathbf{t}\_{\xi^s_j}) \\
     \xi^m_{i;\theta} - \xi^s_{j;\theta}
 \end{bmatrix}
 $$
-where $R^{-1}_{\xi^m_i} (\bold{t}_{\xi^m_i} - \bold{t}_{\xi^s_j})$ describes the translation differences between $\xi^m_i$ and $\xi^s_j$ aligned to the submap coordinates by $R^{-1}_{\xi^m_i}$, 
+where $R^{-1}\_{\xi^m_i} (\mathbf{t}\_{\xi^m_i} - \mathbf{t}\_{\xi^s_j})$ describes the translation differences between $\xi^m_i$ and $\xi^s_j$ aligned to the submap coordinates by $R^{-1}\_{\xi^m_i}$, 
 and $\xi^m_{i;\theta} - \xi^s_{j;\theta}$ describes the gap of the two poses' orientations.
 
 Recall that relative poses $\xi_{i,j}$ (describes where in the submap coordinate frame the scan was matched)
@@ -124,29 +124,29 @@ $$
 \\& 
     bestScore \leftarrow -\infty
 \\& 
-    \bold{\text{for }} i_x = -w_x \bold{\text{ to }} w_x \bold{\text{ do }}
+    \mathbf{\text{for }} i_x = -w_x \mathbf{\text{ to }} w_x \mathbf{\text{ do }}
 \\& \quad
-    \bold{\text{for }} i_y = -w_y \bold{\text{ to }} w_y \bold{\text{ do }}
+    \mathbf{\text{for }} i_y = -w_y \mathbf{\text{ to }} w_y \mathbf{\text{ do }}
 \\& \quad\quad
-    \bold{\text{for }} i_\theta = -w_\theta \bold{\text{ to }} w_\theta \bold{\text{ do }}
+    \mathbf{\text{for }} i_\theta = -w_\theta \mathbf{\text{ to }} w_\theta \mathbf{\text{ do }}
 \\& \quad\quad\quad
     score \leftarrow \sum_{k=1}^K M_{nearest}(T_{\xi_0+[ri_x,ri_y,\delta_\theta]}h_k)
 \\& \quad\quad\quad
-    \bold{\text{if }} score > bestScore \bold{\text{ then }}
+    \mathbf{\text{if }} score > bestScore \mathbf{\text{ then }}
 \\& \quad\quad\quad\quad
     match \leftarrow \xi_0+[ri_x,ri_y,\delta_\theta]
 \\& \quad\quad\quad\quad
     bestScore \leftarrow score
 \\& \quad\quad\quad
-    \bold{\text{end if }}
+    \mathbf{\text{end if }}
 \\& \quad\quad
-    \bold{\text{end for}}
+    \mathbf{\text{end for}}
 \\& \quad
-    \bold{\text{end for}}
+    \mathbf{\text{end for}}
 \\&
-    \bold{\text{end for}}
+    \mathbf{\text{end for}}
 \\ &
-\bold{\text{return }} match     \bold{\text{ and }} bestScore
+\mathbf{\text{return }} match     \mathbf{\text{ and }} bestScore
 \\& 
 \rule{10cm}{0.5pt}
 \end{align*}

@@ -7,54 +7,54 @@ For non-linear dynamic and observation transformation:
 
 $$
 \begin{align*}
-\bold{x}_{k} &= f(
-    \bold{x}_{k-1|k-1}, \bold{u}_k
-) + \bold{w}_k \\
-\bold{z}_{k} &= h(\bold{x}_k)+\bold{v}_k
+\mathbf{x}\_{k} &= f(
+    \mathbf{x}\_{k-1|k-1}, \mathbf{u}_k
+) + \mathbf{w}_k \\
+\mathbf{z}\_{k} &= h(\mathbf{x}_k)+\mathbf{v}_k
 \end{align*}
 $$
 
 where $f$ and $h$ denote the non-linear transformation.
 
-Redefine $\bold{F}_k$ and $\bold{H}_k$ to be the Jacobian matrices of $f$ and $h$, respectively. 
+Redefine $\mathbf{F}_k$ and $\mathbf{H}_k$ to be the Jacobian matrices of $f$ and $h$, respectively. 
 $$
 \begin{align*}
-\bold{F}_k&=
-\frac{\partial f}{\partial \bold{x}}
-\bigg|_{\bold{x}_{k-1|k-1}, \bold{u}_k}
+\mathbf{F}_k&=
+\frac{\partial f}{\partial \mathbf{x}}
+\bigg|_{\mathbf{x}\_{k-1|k-1}, \mathbf{u}_k}
 \\
-\bold{H}_k&=
-\frac{\partial h}{\partial \bold{x}}
-\bigg|_{\bold{x}_{k|k-1}}
+\mathbf{H}_k&=
+\frac{\partial h}{\partial \mathbf{x}}
+\bigg|_{\mathbf{x}\_{k|k-1}}
 \end{align*}
 $$
 
-The computation for $\bold{K}_k$ is identical to its linear Kalman counterpart.
+The computation for $\mathbf{K}_k$ is identical to its linear Kalman counterpart.
 
 Predicted (a priori) estimate covariance
 $$
-\bold{\hat{P}}_{k|k-1}=
-\bold{F}_k\bold{P}_{k-1|k-1} \bold{F}^\text{T}_k + \bold{Q}_k
+\mathbf{\hat{P}}\_{k|k-1}=
+\mathbf{F}_k\mathbf{P}\_{k-1|k-1} \mathbf{F}^\text{T}_k + \mathbf{Q}_k
 $$
 
 Innovation (or pre-fit residual) covariance
 
 $$
-\bold{{S}}_{k} =
-\bold{H}_k \bold{\hat{P}}_{k|k-1} \bold{H}^\text{T}_k + \bold{R}_k
+\mathbf{{S}}\_{k} =
+\mathbf{H}_k \mathbf{\hat{P}}\_{k|k-1} \mathbf{H}^\text{T}_k + \mathbf{R}_k
 $$
 
 Optimal Kalman gain
 
 $$
-\bold{K}_k =
-\bold{\hat{P}}_{k|k-1} \bold{H}^\text{T}_k \bold{{S}}_{k}^{-1}
+\mathbf{K}_k =
+\mathbf{\hat{P}}\_{k|k-1} \mathbf{H}^\text{T}_k \mathbf{{S}}\_{k}^{-1}
 $$
 
 
 ### Convergence discussions
 
-For non-linear transformation, EKF uses first- or second-order derivatives as approximations. The Gaussian noises $\bold{Q}$ and $\bold{R}$ are applied to the whole non-linear transformations $f$ and $h$, whereas EKF Kalman gain $\bold{K}_k$ only covers the first- or second-order derivative. 
+For non-linear transformation, EKF uses first- or second-order derivatives as approximations. The Gaussian noises $\mathbf{Q}$ and $\mathbf{R}$ are applied to the whole non-linear transformations $f$ and $h$, whereas EKF Kalman gain $\mathbf{K}_k$ only covers the first- or second-order derivative. 
 
 This leads to precision loss when $k \rightarrow \infty$, since higher order derivatives are not considered, and the lost precision errors accumulate over the time.
 
@@ -66,24 +66,24 @@ To resolve the time-consuming Jacobian computation as well as first-order deriva
 
 ### Sampling
 
-Define a random variable $\bold{x} \in \mathbb{R}^d$ assumed exhibited normal distribution (of a mean $\bold{\overline{x}}$ and covariance $\bold{P_\bold{x}}$ ) sampling behavior.
+Define a random variable $\mathbf{x} \in \mathbb{R}^d$ assumed exhibited normal distribution (of a mean $\mathbf{\overline{x}}$ and covariance $\mathbf{P_\mathbf{x}}$ ) sampling behavior.
 
-Define $g$ as a linear/non-linear transformation on normal distribution random variables $\bold{x}$ such as $\bold{y}=g(\bold{x})$. The transformed result is $\bold{y}$.
+Define $g$ as a linear/non-linear transformation on normal distribution random variables $\mathbf{x}$ such as $\mathbf{y}=g(\mathbf{x})$. The transformed result is $\mathbf{y}$.
 
 ![unscented_transform](imgs/unscented_transform.png "unscented_transform")
 
 
-Define a matrix $\bold{X}$ consisted of $2d+1$ *sigma* vectors $X_i$ with corresponding weight $W_i$.
+Define a matrix $\mathbf{X}$ consisted of $2d+1$ *sigma* vectors $X_i$ with corresponding weight $W_i$.
 
 $$
 \begin{align*}
-X_0 &= \bold{\overline{x}} \\
+X_0 &= \mathbf{\overline{x}} \\
 X_i &= 
-\bold{\overline{x}} + (\sqrt{(d+\lambda)\bold{P_\bold{x}}})_i 
+\mathbf{\overline{x}} + (\sqrt{(d+\lambda)\mathbf{P_\mathbf{x}}})_i 
 \quad
 \quad i=1,2,...,d \\
 X_i &= 
-\bold{\overline{x}} - (\sqrt{(d+\lambda)\bold{P_\bold{x}}})_{i-d} 
+\mathbf{\overline{x}} - (\sqrt{(d+\lambda)\mathbf{P_\mathbf{x}}})_{i-d} 
 \quad i=d+1,d+2,...,2d \\
 W_0^{(m)} &=\frac{\lambda}{d+\lambda} \\
 W_0^{(c)} &=\frac{\lambda}{d+\lambda} + (1+\alpha^2+\beta) \\
@@ -99,42 +99,42 @@ where
 * $\alpha \in (0,1]$ determines the spread of the sigma points, typically $\alpha=e^{-0.001}$
 * $\kappa \ge 0$ is a secondary scaling parameter, typically $\kappa = 1$ 
 * $\beta$ is used to incorporate prior knowledge of Gaussian distribution ($\beta=2$ is optimal by experience).
-* $(\sqrt{(d+\lambda)\bold{P_\bold{x}}})_i$ is the $i$-th row of the matrix square root
+* $(\sqrt{(d+\lambda)\mathbf{P_\mathbf{x}}})_i$ is the $i$-th row of the matrix square root
 
 ### Transform Sigma Points
 
-The expectation of $\bold{y}$ can be approximated via Gauss-Hermite quadrature:
+The expectation of $\mathbf{y}$ can be approximated via Gauss-Hermite quadrature:
 $$
 \begin{align*}
-\bold{\overline{x}}
+\mathbf{\overline{x}}
 &\approx
-\sum^{2d}_{i=0}
-W^{(m)} x_i
+\sum^{2d}\_{i=0}
+W^{(m)} x\_i
 \\
-\bold{\overline{y}} 
+\mathbf{\overline{y}} 
 &\approx
-\sum^{2d}_{i=0}
+\sum^{2d}\_{i=0}
 W^{(m)} y_i \\
-\bold{P_x} 
+\mathbf{P_x} 
 &\approx
-\sum^{2d}_{i=0}
-W^{(c)} (x_i-\bold{\overline{x}}) (x_i-\bold{\overline{x}})^\text{T}
+\sum^{2d}\_{i=0}
+W^{(c)} (x\_i-\mathbf{\overline{x}}) (x\_i-\mathbf{\overline{x}})^\text{T}
 \\
-\bold{P_y} 
+\mathbf{P_y} 
 &\approx
-\sum^{2d}_{i=0}
-W^{(c)} (y_i-\bold{\overline{y}}) (y_i-\bold{\overline{y}})^\text{T} \\
-\bold{P_{xy}} 
+\sum^{2d}\_{i=0}
+W^{(c)} (y_i-\mathbf{\overline{y}}) (y_i-\mathbf{\overline{y}})^\text{T} \\
+\mathbf{P_{xy}} 
 &\approx
-\sum^{2d}_{i=0}
-W^{(c)} (x_i-\bold{\overline{x}}) (y_i-\bold{\overline{y}})^\text{T}
+\sum^{2d}\_{i=0}
+W^{(c)} (x\_i-\mathbf{\overline{x}}) (y_i-\mathbf{\overline{y}})^\text{T}
 \end{align*}
 $$ 
 
-### Kalman Gain $\bold{K}$
+### Kalman Gain $\mathbf{K}$
 
 $$
-\bold{K} = \bold{P_{xy}} \bold{P_{yy}}^{-1}
+\mathbf{K} = \mathbf{P_{xy}} \mathbf{P_{yy}}^{-1}
 $$
 
 ### Gauss-Hermite quadrature discussions
@@ -147,11 +147,11 @@ Given a vehicle state composed of a distance $p$ and velocity $v$.
 Its init estimates: init state and covariances are known as below.
 
 $$
-\bold{x} =
+\mathbf{x} =
 \begin{bmatrix}
 p \\ v
 \end{bmatrix} , \quad
-\bold{\hat{x}}_0 \sim N
+\mathbf{\hat{x}}_0 \sim N
 \bigg(
 \begin{bmatrix}
 0 \\ 5
@@ -165,58 +165,58 @@ $$
 and vehicle motion model
 $$
 \begin{align*}
-\bold{\hat{x}}_k &= 
-f(\bold{\hat{x}}_{k-1}, \bold{u}_k, \bold{w}_k)
+\mathbf{\hat{x}}_k &= 
+f(\mathbf{\hat{x}}\_{k-1}, \mathbf{u}_k, \mathbf{w}_k)
 \\ &=
 \begin{bmatrix}
 1 & \Delta t \\
 0 & 1
 \end{bmatrix}
-\bold{x}_{k-1}
+\mathbf{x}\_{k-1}
 +
 \begin{bmatrix}
 0 \\
 \Delta t
 \end{bmatrix}
-\bold{u}_k
+\mathbf{u}_k
 +
-\bold{w}_k
+\mathbf{w}_k
 \\ &=
 \begin{bmatrix}
 1 & 0.5 \\
 0 & 1
 \end{bmatrix}
-\bold{x}_{k-1}
+\mathbf{x}\_{k-1}
 -2
 \begin{bmatrix}
 0 \\
 0.5
 \end{bmatrix}
 +
-\bold{w}_k
+\mathbf{w}_k
 \end{align*}
 $$
-where $\bold{u}_k = a = -2 \space m/s^2$ is the acceleration.
+where $\mathbf{u}_k = a = -2 \space m/s^2$ is the acceleration.
 
 Vehicle measurement model is defined such that we can only observe the distance
 
 $$
 \begin{align*}
-y_k &= h(\bold{x}) + \bold{v}_k
+y_k &= h(\mathbf{x}) + \mathbf{v}_k
 \\ &=
 \begin{bmatrix}
 1 & 0\\
 0 & 0
 \end{bmatrix}
-\bold{x} + \bold{v}_k
+\mathbf{x} + \mathbf{v}_k
 \end{align*}
 $$
 
-Both $\bold{w}_k$ and $\bold{v}_k$ follow Gaussian distribution
+Both $\mathbf{w}_k$ and $\mathbf{v}_k$ follow Gaussian distribution
 
 $$
 \begin{align*}
-\bold{w}_k &\sim
+\mathbf{w}_k &\sim
 N
 \bigg(
 \begin{bmatrix}
@@ -227,7 +227,7 @@ N
 0 & 0.01
 \end{bmatrix}
 \bigg) \\
-\bold{v}_k &\sim
+\mathbf{v}_k &\sim
 N
 \bigg(
 \begin{bmatrix}
@@ -242,7 +242,7 @@ $$
 
 ### Computation
 
-Use Cholesky to solve $\bold{P}_0=\begin{bmatrix} 0.01 & 0 \\ 0 & 1.0 \end{bmatrix}$, there is 
+Use Cholesky to solve $\mathbf{P}_0=\begin{bmatrix} 0.01 & 0 \\ 0 & 1.0 \end{bmatrix}$, there is 
 $$
 {\Sigma}_0 = 
 \begin{bmatrix}
@@ -263,7 +263,7 @@ $$
 \end{align*}
 $$
 
-At the time $k=0$, compute sigma points by $\bold{P}_0$: on each dimension compute $3$ points.
+At the time $k=0$, compute sigma points by $\mathbf{P}_0$: on each dimension compute $3$ points.
 
 $$
 \begin{align*}
@@ -457,7 +457,7 @@ Compute the mean of motion update $x_1^-$
 $$
 \begin{align*}
 \hat{x}^-_1 &=
-\sum^{2d}_{i=0} W_i^{(m)} \hat{x}_1^{(i)}
+\sum^{2d}\_{i=0} W_i^{(m)} \hat{x}_1^{(i)}
 \\ &=
 \frac{1}{3}
 \begin{bmatrix}
@@ -495,13 +495,13 @@ $$
 \end{align*}
 $$
 
-Compute the covariance of motion update $\bold{\hat{P}}_{1,x}$ 
+Compute the covariance of motion update $\mathbf{\hat{P}}\_{1,x}$ 
 
 $$
 \begin{align*}
-\bold{\hat{P}}_{1,x} &=
-\sum^{2d}_{i=0}
-W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{x}^{(i)}_1-{\hat{x}_1^-})^\text{T}+\bold{Q}_0
+\mathbf{\hat{P}}\_{1,x} &=
+\sum^{2d}\_{i=0}
+W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{x}^{(i)}_1-{\hat{x}_1^-})^\text{T}+\mathbf{Q}_0
 \\ &=
 \frac{1}{3}
 \bigg(
@@ -563,8 +563,8 @@ $$
 By Cholesky decomposition to find the solution to the covariance matrix
 $$
 \begin{align*}
-\bold{\hat{P}}_{1,x}&=
-\bold{L}_1 \bold{L}_1^\text{T}
+\mathbf{\hat{P}}\_{1,x}&=
+\mathbf{L}_1 \mathbf{L}_1^\text{T}
 \\
 \begin{bmatrix}
       0.36 & 0.5 \\
@@ -659,14 +659,14 @@ $$
 The observation $y_1^{(i)}$ is updated (without applied Gaussian noises).
 $$
 \begin{align*}
-\hat{y}^{(i)}_1 &= h(\hat{x}^{(i)}_1) + \bold{v}_k
+\hat{y}^{(i)}_1 &= h(\hat{x}^{(i)}_1) + \mathbf{v}_k
 \\ &=
 \begin{bmatrix}
 1 & 0\\
 0 & 0
 \end{bmatrix}
 \hat{x}^{(i)}_1
- + \bold{v}_k\\
+ + \mathbf{v}_k\\
 \hat{y}^{(0)}_1&=
 \begin{bmatrix}
 1 & 0\\
@@ -738,8 +738,8 @@ $$
 Computed the mean of observation. It is the same as directly measuring ${x}_1^-$.
 $$
 \begin{align*}
-\hat{y}^-_1&= \sum^{2d}_{i=0}
-W^{(m)}_i \hat{y}^{(i)}_1\\ &=
+\hat{y}^-_1&= \sum^{2d}\_{i=0}
+W^{(m)}\_i \hat{y}^{(i)}_1\\ &=
 \frac{1}{3} 
 \begin{bmatrix}
 2.5 \\
@@ -780,9 +780,9 @@ $$
 The covariance for the observation model $\hat{y}_1$ is computed.
 $$
 \begin{align*}
-\bold{\hat{P}}_{1,y} &=
-\sum^{2d}_{i=0}
-W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}+\bold{R}_0\\ &=
+\mathbf{\hat{P}}\_{1,y} &=
+\sum^{2d}\_{i=0}
+W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}+\mathbf{R}_0\\ &=
 \frac{1}{3}
 \bigg(
     \begin{bmatrix}
@@ -875,8 +875,8 @@ $$
 Now compute the covariance between $\hat{x}_1$ and $\hat{y}_1$
 $$
 \begin{align*}
-\bold{\hat{P}}_{1,xy} &=
-\sum^{2d}_{i=0}
+\mathbf{\hat{P}}\_{1,xy} &=
+\sum^{2d}\_{i=0}
 W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}\\ &=
 \frac{1}{3}
 \bigg(
@@ -932,11 +932,11 @@ W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
 \end{align*}
 $$
 
-Then we can know the Kalman Gain $\bold{K}_1$
+Then we can know the Kalman Gain $\mathbf{K}_1$
 $$
 \begin{align*}
-\bold{K}_1 &= 
-\bold{\hat{P}}_{1,xy} \bold{\hat{P}}_{1,y}^{-1} 
+\mathbf{K}_1 &= 
+\mathbf{\hat{P}}\_{1,xy} \mathbf{\hat{P}}\_{1,y}^{-1} 
 \\ &=
 \frac{333}{1000} \times \frac{1000}{343}
 \\ &=
@@ -944,11 +944,11 @@ $$
 \end{align*}
 $$
 
-The final result for $\bold{x}_1$ is known via the applied Kalman gain.
+The final result for $\mathbf{x}_1$ is known via the applied Kalman gain.
 $$
 \begin{align*}
-\bold{x}_1&=
-\bold{\hat{x}}_1 + \bold{K}_1 (y_1 - \hat{y}^-_1)
+\mathbf{x}_1&=
+\mathbf{\hat{x}}_1 + \mathbf{K}_1 (y_1 - \hat{y}^-_1)
 \\ &=
 \begin{bmatrix}
 2.5 \\
@@ -970,4 +970,4 @@ $$
 
 ### Discussion
 
-Here we notice that Kalman Gain $\bold{K}$ is large. This is attributed to the beginning where $\bold{P}_0$ is large as well as the time interval $\Delta t = 0.5 s$. This gives a result of big spreads. The observation function $h$ is a simple directs measurement of the distance in $\bold{x}_k$, which accounts for value change sensitivity. If $h$ is not sensitive to $\bold{P}_{1,y}$, $\bold{K}$ approaches to $0.5$. 
+Here we notice that Kalman Gain $\mathbf{K}$ is large. This is attributed to the beginning where $\mathbf{P}_0$ is large as well as the time interval $\Delta t = 0.5 s$. This gives a result of big spreads. The observation function $h$ is a simple directs measurement of the distance in $\mathbf{x}_k$, which accounts for value change sensitivity. If $h$ is not sensitive to $\mathbf{P}\_{1,y}$, $\mathbf{K}$ approaches to $0.5$. 

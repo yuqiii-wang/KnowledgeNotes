@@ -207,7 +207,7 @@ The outputs/labels for training are the token positions in the context texts.
 
 The source input of NLP is tokens from text vocabulary, and some vocabs are frequently used and some are rarely used.
 
-By input embedding layer such as BERT base's wordpiece embedding $\bold{x}: \mathbb{R}^{1 \times 768} \rightarrow \mathbb{R}^{30522 \times 768}$ then by normalization to ${\bold{x}}_{emb-norm} \in \mathbb{R}^{1 \times 768}$ then being fed to transformer, it is 
+By input embedding layer such as BERT base's wordpiece embedding $\mathbf{x}: \mathbb{R}^{1 \times 768} \rightarrow \mathbb{R}^{30522 \times 768}$ then by normalization to ${\mathbf{x}}\_{emb-norm} \in \mathbb{R}^{1 \times 768}$ then being fed to transformer, it is 
 
 
 ### Auto-Regressive (AR) vs Auto-Encoding (AE)
@@ -217,23 +217,23 @@ By input embedding layer such as BERT base's wordpiece embedding $\bold{x}: \mat
 AR simply means prediction $x_t$ by previous step input $\{x_1, x_2, ..., x_{t-1}\}$:
 
 $$
-\max_{\bold{\theta}} \log P_{\bold{\theta}} (x_1, x_2, ..., x_T) \approx
-\sum_{t=1}^T \log P_{\bold{\theta}} (x_t | x_1, x_2, ..., x_{t-1})
+\max_{\mathbf{\theta}} \log P_{\mathbf{\theta}} (x_1, x_2, ..., x_T) \approx
+\sum_{t=1}^T \log P_{\mathbf{\theta}} (x_t | x_1, x_2, ..., x_{t-1})
 $$
 
-where $\bold{\theta}$ is model parameters
+where $\mathbf{\theta}$ is model parameters
 
 * Auto-Encoding (AE), often used in encoder
 
-AE attempts to predict randomly masked tokens $\bold{x}_{\bold{m}}$ by minimizing the below objective.
-The input $\bold{x}_{\overline{\bold{m}}}$ (the remaining non-masked tokens) is whole texts in which tokens are partially and randomly masked.
+AE attempts to predict randomly masked tokens $\mathbf{x}\_{\mathbf{m}}$ by minimizing the below objective.
+The input $\mathbf{x}\_{\overline{\mathbf{m}}}$ (the remaining non-masked tokens) is whole texts in which tokens are partially and randomly masked.
 
 $$
-\max_{\bold{\theta}} \log P_{\bold{\theta}} (\bold{x}_{\bold{m}} | \bold{x}_{\overline{\bold{m}}}) \approx
-\sum_{t=1}^T m_t \log P_{\bold{\theta}} (x_t | \bold{x}_{\overline{\bold{m}}} )
+\max_{\mathbf{\theta}} \log P_{\mathbf{\theta}} (\mathbf{x}\_{\mathbf{m}} | \mathbf{x}\_{\overline{\mathbf{m}}}) \approx
+\sum_{t=1}^T m_t \log P_{\mathbf{\theta}} (x_t | \mathbf{x}\_{\overline{\mathbf{m}}} )
 $$
 
-where $m_t = \left\{ \begin{array}{c} 1 & \text{the } t \text{-th token is masked} \\ 0 & \text{the } t \text{-th token is Not masked}  \end{array} \right.$ so that the log likelihood loss is only concerned with the to-be-predicted masked tokens $\bold{x}_{\bold{m}}$ .
+where $m_t = \left\{ \begin{array}{c} 1 & \text{the } t \text{-th token is masked} \\ 0 & \text{the } t \text{-th token is Not masked}  \end{array} \right.$ so that the log likelihood loss is only concerned with the to-be-predicted masked tokens $\mathbf{x}\_{\mathbf{m}}$ .
 
 
 

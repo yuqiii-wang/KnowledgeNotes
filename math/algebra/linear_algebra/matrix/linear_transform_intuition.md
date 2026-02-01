@@ -42,7 +42,7 @@ $\lambda_1 = 1$ and $\lambda_2 = 3$.
 for eigenvectors:
 
 $$
-(A - \lambda_1 I) \bold{v}_1 = \begin{bmatrix}
+(A - \lambda_1 I) \mathbf{v}_1 = \begin{bmatrix}
 1 & 1\\
 1 & 1
 \end{bmatrix} \begin{bmatrix}
@@ -55,7 +55,7 @@ $$
 thus derived
 
 $$
-\bold{v}_{\lambda_1} = \begin{bmatrix}
+\mathbf{v}\_{\lambda_1} = \begin{bmatrix}
 -1 \\ 1
 \end{bmatrix}
 $$
@@ -63,22 +63,22 @@ $$
 same calculation applied when $\lambda = 3$
 
 $$
-\bold{v}_{\lambda_2} = \begin{bmatrix}
+\mathbf{v}\_{\lambda_2} = \begin{bmatrix}
 1 \\ 1
 \end{bmatrix}
 $$
 
-Geometrically speaking, the transformation matrix $A$ can be explained as scaling with a multiple of $1$ on $\bold{v}_{\lambda_1}$ and $3$ on $\bold{v}_{\lambda_2}$ basis.
+Geometrically speaking, the transformation matrix $A$ can be explained as scaling with a multiple of $1$ on $\mathbf{v}\_{\lambda_1}$ and $3$ on $\mathbf{v}\_{\lambda_2}$ basis.
 
-For example, there exist points by transform $A\bold{x}_i$:
+For example, there exist points by transform $A\mathbf{x}\_i$:
 
-* $\bold{x}_1=(1,3)$, there is $A\bold{x}_1=(7,5)$
-* $\bold{x}_2=(1,2)$, there is $A\bold{x}_2=(5,4)$
-* $\bold{x}_3=(1,1)$, there is $A\bold{x}_3=(3,3)$, exactly scaled by $\lambda_2=3$
-* $\bold{x}_4=(1,0)$, there is $A\bold{x}_4=(2,1)$
-* $\bold{x}_5=(1,-1)$, there is $A\bold{x}_5=(1,-1)$, exactly scaled by $\lambda_1=1$
-* $\bold{x}_6=(1,-2)$, there is $A\bold{x}_6=(0,-3)$
-* $\bold{x}_7=(1,-3)$, there is $A\bold{x}_7=(-1,-5)$
+* $\mathbf{x}_1=(1,3)$, there is $A\mathbf{x}_1=(7,5)$
+* $\mathbf{x}_2=(1,2)$, there is $A\mathbf{x}_2=(5,4)$
+* $\mathbf{x}_3=(1,1)$, there is $A\mathbf{x}_3=(3,3)$, exactly scaled by $\lambda_2=3$
+* $\mathbf{x}_4=(1,0)$, there is $A\mathbf{x}_4=(2,1)$
+* $\mathbf{x}_5=(1,-1)$, there is $A\mathbf{x}_5=(1,-1)$, exactly scaled by $\lambda_1=1$
+* $\mathbf{x}_6=(1,-2)$, there is $A\mathbf{x}_6=(0,-3)$
+* $\mathbf{x}_7=(1,-3)$, there is $A\mathbf{x}_7=(-1,-5)$
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/linear_transform_example.gif" width="50%" height="50%" alt="linear_transform_example" />
@@ -386,7 +386,7 @@ The determinant of a square matrix $A$ representing a linear transformation is a
 #### $\text{det}(A)>1$ Expansion
 
 $$
-A\bold{x}=\begin{bmatrix}
+A\mathbf{x}=\begin{bmatrix}
     1 & 2 \\
     3 & 4
 \end{bmatrix} \begin{bmatrix}
@@ -399,7 +399,7 @@ $$
 #### $\text{det}(A)<1$ Contraction
 
 $$
-A\bold{x}=\begin{bmatrix}
+A\mathbf{x}=\begin{bmatrix}
     0.1 & 0.2 \\
     0.3 & 0.4
 \end{bmatrix} \begin{bmatrix}
@@ -412,7 +412,7 @@ $$
 #### $\text{det}(A)=1$ Volume Preservation/Pure Rotation
 
 $$
-A\bold{x}=\begin{bmatrix}
+A\mathbf{x}=\begin{bmatrix}
     0 & -1 \\
     1 & 0
 \end{bmatrix} \begin{bmatrix}
@@ -422,14 +422,14 @@ A\bold{x}=\begin{bmatrix}
 \end{bmatrix}
 $$
 
-The vector $\bold{x}$ is rotated by $90$ degrees counterclockwise.
+The vector $\mathbf{x}$ is rotated by $90$ degrees counterclockwise.
 
 #### $\text{det}(A)=0$ Collapse
 
 $\text{det}(A)=0$ happens when $\text{rank}(A)$ is not full.
 
 $$
-A\bold{x}_1=\begin{bmatrix}
+A\mathbf{x}_1=\begin{bmatrix}
     1 & 1 \\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
@@ -437,7 +437,7 @@ A\bold{x}_1=\begin{bmatrix}
 \end{bmatrix} = \begin{bmatrix}
     2 \\ 2
 \end{bmatrix} \\
-A\bold{x}_2=\begin{bmatrix}
+A\mathbf{x}_2=\begin{bmatrix}
     1 & 1 \\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
@@ -445,7 +445,7 @@ A\bold{x}_2=\begin{bmatrix}
 \end{bmatrix} = \begin{bmatrix}
     3 \\ 3
 \end{bmatrix} \\
-A\bold{x}_3=\begin{bmatrix}
+A\mathbf{x}_3=\begin{bmatrix}
     1 & 1 \\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
@@ -455,20 +455,20 @@ A\bold{x}_3=\begin{bmatrix}
 \end{bmatrix}
 $$
 
-All $\bold{x}_i$ are collapsed into the line $0=x_2-x_1$.
+All $\mathbf{x}\_i$ are collapsed into the line $0=x_2-x_1$.
 
 ### Trace
 
 Trace of a matrix is defined as
 
 $$
-\text{tr}(A) = \sum^n_{i=1} a_{ii}
+\text{tr}(A) = \sum^n\_{i=1} a_{ii}
 $$
 
 A matrix trace equals the dum of its diagonal entries and the sum of Its eigenvalues.
 
 $$
-\sum^n_{i=1}\lambda_i=\text{tr}(A)
+\sum^n\_{i=1}\lambda_i=\text{tr}(A)
 $$
 
 Since matrix trace is the sum of eigenvalues, it shows a vague overview of eigenvalue "energy".
@@ -485,13 +485,13 @@ Thus, $\text{tr}(A)$ approximates the volume change rate for small $\epsilon$.
 
 ##### Example: Rate of Continuous Dynamical Linear Systems
 
-Consider a linear continuous dynamical system defined by $\frac{d\bold{x}}{dt}=A\bold{x}$,
-its integration solution is $\bold{x}(t)=e^{At}\bold{x}(0)$.
+Consider a linear continuous dynamical system defined by $\frac{d\mathbf{x}}{dt}=A\mathbf{x}$,
+its integration solution is $\mathbf{x}(t)=e^{At}\mathbf{x}(0)$.
 
 The volume scaling factor over time $t$ is $\text{det}(e^{At})=e^{\text{tr}(A)t}$.
 Differentiating at $t=0$, the instantaneous rate of volume change is $\frac{d}{dt}\text{det}(e^{At})\big|_{t=0}=\text{tr}(A)$.
 
-Take iterative steps to update the dynamic linear system by $t_{+1}=t_{0}+\delta t$, and remember $\frac{d\bold{x}}{dt}=A\bold{x}$ is real time computation given at the time input $\bold{x}$ (the observed change $A\bold{x}$ is different per each timestamp observation at $t_0$).
+Take iterative steps to update the dynamic linear system by $t_{+1}=t_{0}+\delta t$, and remember $\frac{d\mathbf{x}}{dt}=A\mathbf{x}$ is real time computation given at the time input $\mathbf{x}$ (the observed change $A\mathbf{x}$ is different per each timestamp observation at $t_0$).
 When $\delta t\rightarrow 0$ is small enough, the dynamic system can be viewed continuous at every $t_{0}\rightarrow t_{+1}$ with the change rate $\text{tr}(A)$.
 
 In conclusion, $\text{tr}(A)$ is the first-order/linear approximation over time at every system update step $t_{+1}=t_{0}+\delta t$.

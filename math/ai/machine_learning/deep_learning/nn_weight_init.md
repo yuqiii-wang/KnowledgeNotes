@@ -22,7 +22,7 @@ Given $l\in\{1,2,...,L\}$ layers of a network, init weights to large values such
 After chained weight matrix multiplications $W^{[1]} W^{[2]} ... W^{[L]}$, the final result could be very large.
 Choosing a right/dynamic learning rate $\eta$ is critical.
 
-On the other side, init weights to very small values such that $|W^{[l]}| \approx 0$, there will be $W^{[1]} W^{[2]} ... W^{[L]} \approx \bold{0}$, besides having a learning rate that is often $\eta \ll 1$ contributing to gradients and weight updates.
+On the other side, init weights to very small values such that $|W^{[l]}| \approx 0$, there will be $W^{[1]} W^{[2]} ... W^{[L]} \approx \mathbf{0}$, besides having a learning rate that is often $\eta \ll 1$ contributing to gradients and weight updates.
 
 ## Reasons of Different Initialization Method Designs
 
@@ -31,17 +31,17 @@ To prevent the gradients of the network's activations from vanishing or explodin
 * The mean of the activations should be zero.
 * The variance of the activations should stay the same across every layer.
 
-Set $\bold{a}^{[l]}=\sigma(\bold{z}^{[l]})$ as the $l$-th layer neuron output, to keep gradient from vanishing/exploding, the pass-down neuron energy should be contained.
-In detail, for different layer neuron outputs $\bold{a}^{[l]}$, should normalize them to the same normal distribution.
+Set $\mathbf{a}^{[l]}=\sigma(\mathbf{z}^{[l]})$ as the $l$-th layer neuron output, to keep gradient from vanishing/exploding, the pass-down neuron energy should be contained.
+In detail, for different layer neuron outputs $\mathbf{a}^{[l]}$, should normalize them to the same normal distribution.
 
 $$
 \begin{align*}
-    E(\bold{a}^{[l]}) &= E(\bold{a}^{[l-1]}) \\
-    Var(\bold{a}^{[l]}) &= Var(\bold{a}^{[l-1]})
+    E(\mathbf{a}^{[l]}) &= E(\mathbf{a}^{[l-1]}) \\
+    Var(\mathbf{a}^{[l]}) &= Var(\mathbf{a}^{[l-1]})
 \end{align*}
 $$
 
-The scale of neuron output should stay constant such that $Var(\bold{a}^{[l]}) = Var(\bold{a}^{[l-1]})$.
+The scale of neuron output should stay constant such that $Var(\mathbf{a}^{[l]}) = Var(\mathbf{a}^{[l-1]})$.
 Quotes from *Deep Learning* from Goodfellow et al:
 
 ```txt
@@ -79,7 +79,7 @@ $$
 \begin{align*}
 Var(X) &= E(X^2) - \big(E(X)\big)^2 \\
 &= \int_{-a}^{a} x^2 \frac{1}{2a} dx - 0 \\
-&= \frac{1}{2a} \frac{x^3}{3}\bigg|^{a}_{-a} - 0 \\
+&= \frac{1}{2a} \frac{x^3}{3}\bigg|^{a}\_{-a} - 0 \\
 &= \frac{1}{2a} \frac{2a^3}{3} - 0 \\
 &= \frac{a^2}{3} \\
 \end{align*}
@@ -109,7 +109,7 @@ Generally speaking, good model parameter initialization should
 
 * diversify error back-propagating to different weight parameters to learn different features
 * be scale-invariant to prevent gradient exploding/vanishing
-* encourage large gradients for training, prevent the scenarios where $\bold{z}^{[l]} \ll 0$ nor $\bold{z}^{[l]} \gg 0$, that activation function e.g., the gradients of sigmoid/tanh and relu, are $\approx 0$.
+* encourage large gradients for training, prevent the scenarios where $\mathbf{z}^{[l]} \ll 0$ nor $\mathbf{z}^{[l]} \gg 0$, that activation function e.g., the gradients of sigmoid/tanh and relu, are $\approx 0$.
 
 ### LeCun Initialization
 
@@ -126,18 +126,18 @@ Specifically, it works well with sigmoid and tanh activation functions since the
 
 #### Proof of Gradient Stability by LeCun Initialization
 
-Suppose $\bold{x}\sim\mathcal{N}(0, 1)$, if the weights are initialized with variance $\frac{1}{n}$, then the output of the $W\bold{x}$ is
+Suppose $\mathbf{x}\sim\mathcal{N}(0, 1)$, if the weights are initialized with variance $\frac{1}{n}$, then the output of the $W\mathbf{x}$ is
 
 $$
-Var\big(W\bold{x}\big) = E\big(W^2\bold{x}^2\big) = \frac{1}{n}E\big(\bold{x}^2\big) = \frac{1}{n}
+Var\big(W\mathbf{x}\big) = E\big(W^2\mathbf{x}^2\big) = \frac{1}{n}E\big(\mathbf{x}^2\big) = \frac{1}{n}
 $$
 
-This ensures that the variance of $W\bold{x}$ (which is the input to the activation function) is neither too large nor too small, keeping the activations in a reasonable range.
+This ensures that the variance of $W\mathbf{x}$ (which is the input to the activation function) is neither too large nor too small, keeping the activations in a reasonable range.
 
-Denote activation pass as $\bold{a}^{[l]}=\sigma(\bold{z}^{[l-1]})=\sigma(W^{[l-1]}\bold{a}^{[l-1]}+\bold{b}^{[l-1]})$ at the $l$-th layer.
-Often, such as the sigmoid or tanh function, activation function has infinitesimal/very flat derivatives when $\bold{z}^{[l-1]}\rightarrow \pm\infty$, and the largest derivative is at $\bold{z}^{[l-1]}=0$.
+Denote activation pass as $\mathbf{a}^{[l]}=\sigma(\mathbf{z}^{[l-1]})=\sigma(W^{[l-1]}\mathbf{a}^{[l-1]}+\mathbf{b}^{[l-1]})$ at the $l$-th layer.
+Often, such as the sigmoid or tanh function, activation function has infinitesimal/very flat derivatives when $\mathbf{z}^{[l-1]}\rightarrow \pm\infty$, and the largest derivative is at $\mathbf{z}^{[l-1]}=0$.
 
-By maintaining the scale of $Var\big(\bold{z}^{[l-1]}\big)=\frac{1}{n}$ with a mean of $0$, the derivative of activation function $\sigma$ is kept around the largest.
+By maintaining the scale of $Var\big(\mathbf{z}^{[l-1]}\big)=\frac{1}{n}$ with a mean of $0$, the derivative of activation function $\sigma$ is kept around the largest.
 
 ### Uniform vs Normal Distribution Initialization
 
@@ -149,7 +149,7 @@ Have larger absolute weights the gradients will back-propagate better in a deep 
 $$
 \begin{align*}
 W^{[l]} &\sim \mathcal{U} \Big(-\frac{1}{\sqrt{n^{[l]}}}, \frac{1}{\sqrt{n^{[l]}}} \Big) \\
-\bold{b}^{[l]} &= \bold{0}
+\mathbf{b}^{[l]} &= \mathbf{0}
 \end{align*}
 $$
 
@@ -160,7 +160,7 @@ Effective in batch normalization to center distribution at $N(\mu=0, \sigma^2=1/
 $$
 \begin{align*}
 W^{[l]} &\sim \mathcal{N}(\mu=0, \sigma^2=1/n^{[l-1]}) \\
-\bold{b}^{[l]} &= \bold{0}
+\mathbf{b}^{[l]} &= \mathbf{0}
 \end{align*}
 $$
 

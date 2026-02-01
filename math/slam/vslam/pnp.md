@@ -8,7 +8,7 @@ or RGB-D visual odometry, PnP can be directly implemented to estimate camera mot
 
 ## Direct Linear Transformation
 
-Consider a 3D spatial point $\bold{p}$ , its homogeneous coordinates are $\bold{P} = (X, Y, Z, 1)^\text{T}$ . In image $I_1$ , it is projected to the feature point $\bold{x}_1=(u_1,v_1,1)^\text{T}$. Define a rotation plus translation matrix $[\bold{R}|\bold{t}]$. Given a scaling factor $s$ and camera intrinsic matrix $\bold{K}$ considered focal length $(f_x, f_y)$ and optical center $(c_x, c_y)$, there is
+Consider a 3D spatial point $\mathbf{p}$ , its homogeneous coordinates are $\mathbf{P} = (X, Y, Z, 1)^\text{T}$ . In image $I_1$ , it is projected to the feature point $\mathbf{x}_1=(u_1,v_1,1)^\text{T}$. Define a rotation plus translation matrix $[\mathbf{R}|\mathbf{t}]$. Given a scaling factor $s$ and camera intrinsic matrix $\mathbf{K}$ considered focal length $(f_x, f_y)$ and optical center $(c_x, c_y)$, there is
 $$
 s \begin{bmatrix}
     u_1 \\
@@ -26,7 +26,7 @@ s \begin{bmatrix}
         t_5 & t_6 & t_7 & t_8 \\
         t_9 & t_{10} & t_{11} & t_{12} \\
     \end{bmatrix}
-}_{[\bold{R}|\bold{t}]}
+}\_{[\mathbf{R}|\mathbf{t}]}
 \begin{bmatrix}
     X \\
     Y \\
@@ -37,7 +37,7 @@ $$
 
 Set the optical center at the origin $(0,0)$ and focal point to $(1,1)$, such as
 $$
-\bold{K} = 
+\mathbf{K} = 
 \begin{bmatrix}
     f_x & 0 & c_x \\
     0 & f_y & c_y \\
@@ -47,7 +47,7 @@ $$
     1 & 0 & 0 \\
     0 & 1 & 0 \\
     0 & 0 & 1
-\end{bmatrix}=\bold{I}
+\end{bmatrix}=\mathbf{I}
 $$
 
 So that,
@@ -77,7 +77,7 @@ v_1 &=
 \end{align*}
 $$
 
-The above equations can be solved by an overdetermined set of spatial points $\bold{P}$ with SVD to find the least-square solution of $u_1$ and  $v_1$.
+The above equations can be solved by an overdetermined set of spatial points $\mathbf{P}$ with SVD to find the least-square solution of $u_1$ and  $v_1$.
 
 ## P3P
 
@@ -212,15 +212,15 @@ In SLAM, the usual approach is to first estimate the camera pose using P3P/EPnP 
 
 ## Solve PnP by Minimizing the Reprojection Error (a.k.a Bundle Adjustment)
 
-Suppose there are $n$ known 3D space points $\bold{P}$ (denote the element as $\bold{P}_i=(X_i, Y_i, Z_i)^\text{T}$) on the world frame, 
-and their projection (projected pixel coordinates denoted as $\bold{x}_i=[u_i, v_i]^\text{T}$) on an image, we want to calculate the transform from the world coordinates to camera coordinates $\bold{P}'=\big[\bold{R}|\bold{t} \big]\bold{P}$.
+Suppose there are $n$ known 3D space points $\mathbf{P}$ (denote the element as $\mathbf{P}\_i=(X_i, Y_i, Z_i)^\text{T}$) on the world frame, 
+and their projection (projected pixel coordinates denoted as $\mathbf{x}\_i=[u_i, v_i]^\text{T}$) on an image, we want to calculate the transform from the world coordinates to camera coordinates $\mathbf{P}'=\big[\mathbf{R}|\mathbf{t} \big]\mathbf{P}$.
 $$
 s_i \begin{bmatrix}
     u_i \\
     v_i \\
     1
 \end{bmatrix}=
-\bold{K} \big[\bold{R}|\bold{t} \big]
+\mathbf{K} \big[\mathbf{R}|\mathbf{t} \big]
 \begin{bmatrix}
     X_i \\
     Y_i \\
@@ -231,41 +231,41 @@ $$
 
 ### Reprojection Error
 
-Here defines a least-squared optimization problem, where $\bold{e}_i=\bold{x}_i - \frac{1}{s_i} \bold{K} \big[\bold{R}|\bold{t} \big] \bold{P}_i$ refers to the discrepancy between the observed pixel location and the projected object point on the camera image via the transformation $\frac{1}{s_i} \bold{K} \big[\bold{R}|\bold{t} \big]$.
+Here defines a least-squared optimization problem, where $\mathbf{e}\_i=\mathbf{x}\_i - \frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big] \mathbf{P}\_i$ refers to the discrepancy between the observed pixel location and the projected object point on the camera image via the transformation $\frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big]$.
 
 $$
-\big[\bold{R}|\bold{t} \big]^* = 
-arg \space \underset{\big[\bold{R}|\bold{t} \big]}{min}
-\frac{1}{2} \sum^n_{i=1}
+\big[\mathbf{R}|\mathbf{t} \big]^* = 
+arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
+\frac{1}{2} \sum^n\_{i=1}
 \bigg|\bigg|
-  \bold{x}_i - \frac{1}{s_i} \bold{K} \big[\bold{R}|\bold{t} \big] \bold{P}_i
+  \mathbf{x}\_i - \frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big] \mathbf{P}\_i
 \bigg|\bigg|^2_2
 $$
 
-The optimization error $\bold{e}$ to an optimal $\big[\bold{R}|\bold{t} \big]^*$ can be approximated by the Jacobian shown as below, where $\Delta \big[\bold{R}|\bold{t} \big]$ is the increment to $\big[\bold{R}|\bold{t} \big]$ until converged to the global minimum of the above quadratic function. $\bold{J}$ is the step of the increment at each iteration. 
+The optimization error $\mathbf{e}$ to an optimal $\big[\mathbf{R}|\mathbf{t} \big]^*$ can be approximated by the Jacobian shown as below, where $\Delta \big[\mathbf{R}|\mathbf{t} \big]$ is the increment to $\big[\mathbf{R}|\mathbf{t} \big]$ until converged to the global minimum of the above quadratic function. $\mathbf{J}$ is the step of the increment at each iteration. 
 
 $$
-\bold{e}(\big[\bold{R}|\bold{t} \big]+\Delta \big[\bold{R}|\bold{t} \big]) \approx
-\bold{e}(\big[\bold{R}|\bold{t} \big])+\bold{J}^{\text{T}} \Delta \big[\bold{R}|\bold{t} \big]
+\mathbf{e}(\big[\mathbf{R}|\mathbf{t} \big]+\Delta \big[\mathbf{R}|\mathbf{t} \big]) \approx
+\mathbf{e}(\big[\mathbf{R}|\mathbf{t} \big])+\mathbf{J}^{\text{T}} \Delta \big[\mathbf{R}|\mathbf{t} \big]
 $$
-where $\bold{e}$ can be the pixel coordinate error ($2$-d) and $\bold{x}$ is the camera pose ($6$-d), $\bold{J}^{\text{T}}$ is of a matrix size $2 \times 6$. 
+where $\mathbf{e}$ can be the pixel coordinate error ($2$-d) and $\mathbf{x}$ is the camera pose ($6$-d), $\mathbf{J}^{\text{T}}$ is of a matrix size $2 \times 6$. 
 
 ![pnp_world2camera](imgs/pnp_world2camera.png "pnp_world2camera")
 
 
-### Perturbation Model and $\bold{J}^{\text{T}}$ Derivation
+### Perturbation Model and $\mathbf{J}^{\text{T}}$ Derivation
 
 Define the coordinates of the space point in the camera
-frame as $\bold{P}'$ transformed by $\big[\bold{R}|\bold{t} \big]$ from a world frame point $\bold{P}$, and take out the first 3 dimensions:
+frame as $\mathbf{P}'$ transformed by $\big[\mathbf{R}|\mathbf{t} \big]$ from a world frame point $\mathbf{P}$, and take out the first 3 dimensions:
 $$
-\bold{P}' = \big(\big[\bold{R}|\bold{t} \big] \bold{P} \big)_{1:3}=
+\mathbf{P}' = \big(\big[\mathbf{R}|\mathbf{t} \big] \mathbf{P} \big)_{1:3}=
 [X', Y', Z']^\text{T}
 $$
 
-For $\bold{x}=[u, v, 1]^\text{T}$, there is the mapping from the camera frame point to the pixel position, such as
+For $\mathbf{x}=[u, v, 1]^\text{T}$, there is the mapping from the camera frame point to the pixel position, such as
 $$
 \begin{align*}
-s\bold{x} &= \bold{K} \bold{P}'
+s\mathbf{x} &= \mathbf{K} \mathbf{P}'
 \\    
 s \begin{bmatrix}
     u \\
@@ -296,21 +296,21 @@ $$
 
 When the error is found, then to compare the $u$, $v$ here with the measured value to find the difference.
 
-Define the perturbation as $\Delta\bold{\xi}$, by the rule of left perturbation multiplication in Lie algebra, there is
+Define the perturbation as $\Delta\mathbf{\xi}$, by the rule of left perturbation multiplication in Lie algebra, there is
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
-\underset{\Delta\bold{\xi} \rightarrow 0}{lim}
-\frac{\bold{e}(\Delta\bold{\xi} \oplus \bold{\xi})-\bold{e}(\bold{\xi})}{\Delta\bold{\xi}}
+\frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}&=
+\underset{\Delta\mathbf{\xi} \rightarrow 0}{lim}
+\frac{\mathbf{e}(\Delta\mathbf{\xi} \oplus \mathbf{\xi})-\mathbf{e}(\mathbf{\xi})}{\Delta\mathbf{\xi}}
 \\ &=
-\frac{\partial \bold{e}}{\partial \bold{P}'}
-\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}
+\frac{\partial \mathbf{e}}{\partial \mathbf{P}'}
+\frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}
 \end{align*}
 $$
 where
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{P}'}&= - \begin{bmatrix}
+\frac{\partial \mathbf{e}}{\partial \mathbf{P}'}&= - \begin{bmatrix}
     \frac{\partial u}{\partial X'} &
     \frac{\partial u}{\partial Y'} &
     \frac{\partial u}{\partial Z'} \\
@@ -333,22 +333,22 @@ $$
 \end{align*}
 $$
 
-and, this term $\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
+and, this term $\frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}$ is the derivative of the transformed point with respect to the Lie algebra such that
 $$
 \begin{align*}
-\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}&=
-\frac{\partial \big[\bold{R}|\bold{t}\big] \bold{P}}{\partial \Delta\bold{\xi}}
+\frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}&=
+\frac{\partial \big[\mathbf{R}|\mathbf{t}\big] \mathbf{P}}{\partial \Delta\mathbf{\xi}}
 \\ &=
 \begin{bmatrix}
-    \bold{I} & -\bold{P}'^{\wedge} \\ 
-    \bold{0} & \bold{0}
+    \mathbf{I} & -\mathbf{P}'^{\wedge} \\ 
+    \mathbf{0} & \mathbf{0}
 \end{bmatrix}
 \end{align*}
 $$
 where 
 $$
 \begin{align*}
-\bold{P}'^{\wedge}&=
+\mathbf{P}'^{\wedge}&=
 \begin{bmatrix}
     0 & Z' & Y' \\
     -Z' & 0 & -X' \\
@@ -357,12 +357,12 @@ $$
 \end{align*}
 $$
 
-Combined, and removed $\bold{0}$ from $\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}$, there is
+Combined, and removed $\mathbf{0}$ from $\frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}$, there is
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}&=
-\frac{\partial \bold{e}}{\partial \bold{P}'}
-\frac{\partial \bold{P}'}{\partial \Delta\bold{\xi}}
+\frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}&=
+\frac{\partial \mathbf{e}}{\partial \mathbf{P}'}
+\frac{\partial \mathbf{P}'}{\partial \Delta\mathbf{\xi}}
 \\ &= - \begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
@@ -384,7 +384,7 @@ $$
 \end{align*}
 $$
 
-This Jacobian matrix $\bold{J}=\frac{\partial \bold{e}}{\partial \Delta\bold{\xi}}$ describes the first-order derivative of the reprojection error
+This Jacobian matrix $\mathbf{J}=\frac{\partial \mathbf{e}}{\partial \Delta\mathbf{\xi}}$ describes the first-order derivative of the reprojection error
 with respect to the left perturbation model.
 
 The negative sign in the front is kept
@@ -392,30 +392,30 @@ because the error is defined by the observed value minus the predicted value.
 
 ### Spatial Point Optimization
 
-The derivative of error $\bold{e}$ with respect to a spatial point $\bold{P}$ can be computed by introducing the image projection $\bold{P}'$.
+The derivative of error $\mathbf{e}$ with respect to a spatial point $\mathbf{P}$ can be computed by introducing the image projection $\mathbf{P}'$.
 
 $$
-\frac{\partial \bold{e}}{\partial \bold{P}}=
-\frac{\partial \bold{e}}{\partial \bold{P}'}
-\frac{\partial \bold{P}'}{\partial \bold{P}}
+\frac{\partial \mathbf{e}}{\partial \mathbf{P}}=
+\frac{\partial \mathbf{e}}{\partial \mathbf{P}'}
+\frac{\partial \mathbf{P}'}{\partial \mathbf{P}}
 $$
 where
 $$
-\bold{P}'=\big(\big[\bold{R}|\bold{t}\big] \bold{P}\big)_{1:3}= \bold{R}\bold{P}+\bold{t}
+\mathbf{P}'=\big(\big[\mathbf{R}|\mathbf{t}\big] \mathbf{P}\big)_{1:3}= \mathbf{R}\mathbf{P}+\mathbf{t}
 $$
 
 So that
 $$
 \begin{align*}
-\frac{\partial \bold{e}}{\partial \bold{P}}&= - \begin{bmatrix}
+\frac{\partial \mathbf{e}}{\partial \mathbf{P}}&= - \begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
 \end{bmatrix}
-\frac{\partial \big(\bold{R} \bold{P} + \bold{t}\big)}{\partial \bold{P}}
+\frac{\partial \big(\mathbf{R} \mathbf{P} + \mathbf{t}\big)}{\partial \mathbf{P}}
 \\ &= - \begin{bmatrix}
     \frac{f_x}{Z'} & 0 & -\frac{f_x X'}{Z'^2} \\
     0 & \frac{f_y}{Z'} & -\frac{f_y Y'}{Z'^2} \\
 \end{bmatrix}
-\bold{R}
+\mathbf{R}
 \end{align*}
 $$

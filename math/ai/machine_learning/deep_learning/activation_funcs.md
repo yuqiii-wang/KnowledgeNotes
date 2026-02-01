@@ -40,38 +40,38 @@ $$
 Defien a standard (unit) softmax function $\sigma: \mathbb{R}^n \rightarrow (0,1)^n$
 
 $$
-\sigma(\bold{z})_i=
-\frac{e^{z_i}}{\sum^n_{j=1}e^{z_j}}
+\sigma(\mathbf{z})_i=
+\frac{e^{z_i}}{\sum^n\_{j=1}e^{z_j}}
 $$
 
-for $i=1,2,...,n$ and $\bold{z}=(z_1, z_2, ..., z_n)\in \mathbb{R}^n$
+for $i=1,2,...,n$ and $\mathbf{z}=(z_1, z_2, ..., z_n)\in \mathbb{R}^n$
 
 $softmax$ is often used in the final layer of a classifier network that outputs each class energy and in attention mechanism to normalize input energy.
 
-Given one-hot encoded true labels $\bold{y}$, one forward pass of softmax is as below.
+Given one-hot encoded true labels $\mathbf{y}$, one forward pass of softmax is as below.
 
 $$
 \begin{align*}
-    \hat{\bold{y}} &= \text{softmax}(\bold{z}) 
-\\  \mathcal{L} &= - \bold{y}^{\top} \log \hat{\bold{y}}
+    \hat{\mathbf{y}} &= \text{softmax}(\mathbf{z}) 
+\\  \mathcal{L} &= - \mathbf{y}^{\top} \log \hat{\mathbf{y}}
 \end{align*}
 $$
 
 ### Softmax Derivative
 
-Recall there is $\frac{\partial {\mathcal{L}}}{\partial \hat{y}_{i}} \frac{\partial \hat{y}_{i}}{\partial z_{i}} = \frac{1}{\hat{y}_{i}} \frac{\partial \hat{y}_{i}}{\partial z_{i}} = \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}_{i})}_{\hat{y}_{i}} \big) \Big)$,
-so that by simply moving $\hat{y}_{i}$ to the opposite side of the equal operator, there derives the derivative for $\text{softmax}$ such that
+Recall there is $\frac{\partial {\mathcal{L}}}{\partial \hat{y}\_{i}} \frac{\partial \hat{y}\_{i}}{\partial z_{i}} = \frac{1}{\hat{y}\_{i}} \frac{\partial \hat{y}\_{i}}{\partial z_{i}} = \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}\_{i})}\_{\hat{y}\_{i}} \big) \Big)$,
+so that by simply moving $\hat{y}\_{i}$ to the opposite side of the equal operator, there derives the derivative for $\text{softmax}$ such that
 
 $$
 \begin{align*}
-  \frac{\partial \hat{y}_{i}}{\partial z_{i}} &=
-  \hat{y}_{i} \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}_{i})}_{\hat{y}_{i}} \big) \Big) 
+  \frac{\partial \hat{y}\_{i}}{\partial z_{i}} &=
+  \hat{y}\_{i} \frac{\partial }{\partial z_{t,j}} \Big( -\log \big( \underbrace{\text{softmax}({z}\_{i})}\_{\hat{y}\_{i}} \big) \Big) 
 \\ &=
-  \hat{y}_{i} \Big( \underbrace{\frac{e^{z_{t,j}}}{\sum_i^n e^{z_{i}}}}_{\hat{y}_{j}} - \frac{\partial z_{i}}{\partial z_{t,j}} \Big)
+  \hat{y}\_{i} \Big( \underbrace{\frac{e^{z_{t,j}}}{\sum_i^n e^{z_{i}}}}\_{\hat{y}\_{j}} - \frac{\partial z_{i}}{\partial z_{t,j}} \Big)
 \\ &=
     \left\{ \begin{array}{r}
-        \hat{y}_{i} (\hat{y}_{j} - 1) \qquad i = j \\
-        \hat{y}_{i}\hat{y}_{j} \qquad i \ne j
+        \hat{y}\_{i} (\hat{y}\_{j} - 1) \qquad i = j \\
+        \hat{y}\_{i}\hat{y}\_{j} \qquad i \ne j
     \end{array}\right.
 \end{align*}
 $$
@@ -91,7 +91,7 @@ $$
 For each row $i$:
 
 $$
-\text{softmax}(z_i)=\frac{e^{z_i}}{\sum^n_{j=1}e^{z_{ij}}}
+\text{softmax}(z_i)=\frac{e^{z_i}}{\sum^n\_{j=1}e^{z_{ij}}}
 $$
 
 that gives
@@ -109,7 +109,7 @@ The uniform output example (all results are identical as $[0.0900, 0.2447, 0.665
 Consider
 
 $$
-z_i=z_i, \quad\text{and}\quad \tilde{z}_i=z_i+c
+z_i=z_i, \quad\text{and}\quad \tilde{z}\_i=z_i+c
 $$
 
 then
@@ -122,12 +122,12 @@ $$
 
 ### Softmax Output Range vs Input Distribution and Vector Similarity
 
-Consider the softmax expression for $\bold{x}_i, \bold{y}_i \in \mathbb{R}^{1 \times d}$ for a total of $n$ samples, and study the $\bold{x}_i, \bold{y}_i$ distribution for the resulted $s_i$.
-Here proves that, let $z_i=\bold{x}_i^{\top}\bold{y}_j$, the optimal result of $\min\text{softmax}(z_i)$ is the uniform input $z_1=z_2=...=z_n=c$.
+Consider the softmax expression for $\mathbf{x}\_i, \mathbf{y}\_i \in \mathbb{R}^{1 \times d}$ for a total of $n$ samples, and study the $\mathbf{x}\_i, \mathbf{y}\_i$ distribution for the resulted $s_i$.
+Here proves that, let $z_i=\mathbf{x}\_i^{\top}\mathbf{y}_j$, the optimal result of $\min\text{softmax}(z_i)$ is the uniform input $z_1=z_2=...=z_n=c$.
 
 $$
-s_i=\text{softmax}(\bold{x}_i^{\top}\bold{y}_j)=
-\frac{\exp(\bold{x}_i^{\top}\bold{y}_j)}{\sum_k \exp(\bold{x}_i^{\top}\bold{y}_k)}
+s_i=\text{softmax}(\mathbf{x}\_i^{\top}\mathbf{y}_j)=
+\frac{\exp(\mathbf{x}\_i^{\top}\mathbf{y}_j)}{\sum_k \exp(\mathbf{x}\_i^{\top}\mathbf{y}_k)}
 $$
 
 #### Result of Uniform Scores
@@ -168,12 +168,12 @@ $$
 $$
 
 In conclusion, the uneven score has higher softmax values,
-and the optimal result of $\min\text{softmax}(\bold{x}_i^{\top}\bold{y}_j)$ is the uniform input $z_1=z_2=...=z_n=c$.
+and the optimal result of $\min\text{softmax}(\mathbf{x}\_i^{\top}\mathbf{y}_j)$ is the uniform input $z_1=z_2=...=z_n=c$.
 
 #### About Vector Similarity
 
-Recall the property of softmax translation invariance, $\bold{x}_i$ and $\bold{y}_i$ can be different (have a small $z_i$) or similar (have a large $z_i$), the softmax value remains unchanged.
-This means, regardless of $\bold{x}_i$ and $\bold{y}_i$ being similar or different, the important focus is that the distance $\bold{x}_i^{\top}\bold{y}_j$ should keep the same to reach $z_1=z_2=...=z_n$.
+Recall the property of softmax translation invariance, $\mathbf{x}\_i$ and $\mathbf{y}\_i$ can be different (have a small $z_i$) or similar (have a large $z_i$), the softmax value remains unchanged.
+This means, regardless of $\mathbf{x}\_i$ and $\mathbf{y}\_i$ being similar or different, the important focus is that the distance $\mathbf{x}\_i^{\top}\mathbf{y}_j$ should keep the same to reach $z_1=z_2=...=z_n$.
 
 ## ReLU
 

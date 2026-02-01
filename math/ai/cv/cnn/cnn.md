@@ -181,7 +181,7 @@ Intuitively,
 
 ### Why two dense layers before the output dense layer
 
-A dense layer is a fully connected layer $\bold{y}=\sigma(W\bold{x}+\bold{b})$.
+A dense layer is a fully connected layer $\mathbf{y}=\sigma(W\mathbf{x}+\mathbf{b})$.
 
 Intuitively,
 
@@ -215,9 +215,9 @@ More dense layers can see $\text{ReLU}$ saturation that many activation values t
 * If weight matrices $W$ have **large eigenvalues**, the transformations may be overly redundant or lead to gradient instability.
 * A large fraction of neurons consistently output zero (dead neurons in ReLU layers), indicating wasted capacity.
 
-Recall linear algebra that $W\bold{x}=\lambda\bold{x}$ means transforming input $\bold{x}$ by $W$ is same as getting scaled by $\lambda$.
+Recall linear algebra that $W\mathbf{x}=\lambda\mathbf{x}$ means transforming input $\mathbf{x}$ by $W$ is same as getting scaled by $\lambda$.
 
-If $\lambda \gg 0$, it leads to excessive amplification of inputs $\bold{x}$ along certain directions.
+If $\lambda \gg 0$, it leads to excessive amplification of inputs $\mathbf{x}$ along certain directions.
 
 * Gradient Instability: Large eigenvalues propagate large gradients during back-propagation, which can destabilize training.
 * Redundancy: Over-amplifying features may result in over-fitting or redundant transformations.

@@ -12,8 +12,8 @@ L_n (x) =
 $$
 or recursively starting with $L_0(x)=1, L_1(x)=x$, there is
 $$
-(n+1)L_{n+1}(x) = 
-(2n+1)x L_n (x) - n L_{n-1}(x)
+(n+1)L\_{n+1}(x) = 
+(2n+1)x L_n (x) - n L\_{n-1}(x)
 $$
 
 For example, for $n=1$, there is
@@ -27,17 +27,17 @@ L_2(x) &= \frac{3}{2}x^2 - \frac{1}{2}
 \end{align*}
 $$ 
 
-Solve the above equations by $L_n(x)=0$ with different degree $n$ and obtain roots $x_i$ 
+Solve the above equations by $L_n(x)=0$ with different degree $n$ and obtain roots $x\_i$ 
 
 For weights $w_i$, there is
 $$
 w_i=
-\frac{2}{(1-x_i^2)\big(L_n'(x_i)\big)^2}
+\frac{2}{(1-x\_i^2)\big(L_n'(x\_i)\big)^2}
 $$ 
 
 Here is a table of result summary.
 
-|$n$|$x_i$|$w_i$|
+|$n$|$x\_i$|$w_i$|
 |-|-|-|
 |$1$|$0$|$2$|
 |$2$|$\frac{1}{\sqrt{3}}, -\frac{1}{\sqrt{3}}$|$1,1$|
@@ -54,7 +54,7 @@ $$
 $$
 
 Legendre polynomials are orthogonal. 
-For example, given a space $\bold{L}=\{1,x,\frac{3}{2}x^2 - \frac{1}{2}\}$, 
+For example, given a space $\mathbf{L}=\{1,x,\frac{3}{2}x^2 - \frac{1}{2}\}$, 
 
 1. For $L_0$ and $L_1$
 
@@ -107,7 +107,7 @@ Change of interval rule allows mapping between $[a,b]$ and $[-1,1]$
 
 $$
 \int^b_a f(x) dx=
-\int^{1}_{-1} 
+\int^{1}\_{-1} 
 f(\frac{b-a}{2} \xi \frac{a+b}{2}) \frac{dx}{d \xi} d \xi
 $$
 where $\frac{dx}{d \xi}=\frac{b-a}{2}$

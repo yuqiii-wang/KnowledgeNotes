@@ -6,7 +6,7 @@
 It is useful when an image has narrow range of pixel intensities, that by mapping to wider intensity range, the image quality with respect to contrast can be improved. 
 Good quality image intensity (a.k.a brightness) typically ranges from $0$ to $255$.
 
-Consider a discrete grayscale image $\{\bold{x}\}$ and let $n_i$ be the number of occurrences of gray level $i$. 
+Consider a discrete grayscale image $\{\mathbf{x}\}$ and let $n_i$ be the number of occurrences of gray level $i$. 
 The probability of an occurrence of a pixel of level $i$ in the image is
 $$
 p_x(i) = p(x=i) = \frac{n_i}{n}

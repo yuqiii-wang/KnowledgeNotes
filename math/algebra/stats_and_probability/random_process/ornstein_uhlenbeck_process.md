@@ -73,18 +73,18 @@ E\left[\Big(\int^T_{0} g(t)dW_t\Big)^2 \right]=
 E\left[\int^T_{0} g(t)^2 dt \right]
 $$
 
-Assume $g(t)$ be a step function such that $g(t)=\sum^n_{i=1} g_i \cdot I_{(t_{i-1},t_i]}(t)$, where $I$ is a identity matrix.
+Assume $g(t)$ be a step function such that $g(t)=\sum^n\_{i=1} g_i \cdot I_{(t_{i-1},t_i]}(t)$, where $I$ is a identity matrix.
 
 $$
-\int^T_0 g(t) dW_t = \sum^n_{i=1} g_i (W_{t_i}-W_{t_{i-1}})
+\int^T_0 g(t) dW_t = \sum^n\_{i=1} g_i (W_{t_i}-W_{t_{i-1}})
 $$
 
 The expectation is
 
 $$
-E\left[\Big(\sum^n_{i=1} g_i \cdot \Delta W_i \Big)^2\right]=
-\sum^n_{i=1} g_i^2 \cdot E\left[\Big(\Delta W_i \Big)^2\right]=
-\sum^n_{i=1} g_i^2 \cdot \Delta t_i
+E\left[\Big(\sum^n\_{i=1} g_i \cdot \Delta W_i \Big)^2\right]=
+\sum^n\_{i=1} g_i^2 \cdot E\left[\Big(\Delta W_i \Big)^2\right]=
+\sum^n\_{i=1} g_i^2 \cdot \Delta t_i
 $$
 
 ## Ornstein-Uhlenbeck Process Derivation
@@ -108,21 +108,21 @@ Integrate $df$ over the time range $[t, t+\tau]$, there is
 $$
 \begin{align*}
 && X_{t+\tau}e^{\theta (t+\tau)}-X_{t}e^{\theta t}&=
-\int^{t+\tau}_{t}\theta\mu e^{\theta s} ds+\int^{t+\tau}_{t} \sigma e^{\theta s} dW_s \\
-&& &= \mu e^{\theta s}\Big|^{s=t+\tau}_{s=t}+\sigma\int^{t+\tau}_{t}e^{\theta s} dW_s \\
-\Rightarrow && X_{t+\tau}e^{\theta (t+\tau)} &= \mu e^{\theta s}\Big|^{s=t+\tau}_{s=t}+\sigma\int^{t+\tau}_{t}e^{\theta s} dW_s + X_{t}e^{\theta t} \\
-&& &= \mu e^{\theta t} \big(e^{\theta \tau}-1\big) + X_{t}e^{\theta t}+\sigma\int^{t+\tau}_{t}e^{\theta s}dW_s \\
-\Rightarrow && X_{t+\tau} &= \mu \big(1-e^{-\theta \tau}\big) + X_{t}e^{-\theta t}+\sigma\int^{t+\tau}_{t}\big(e^{\theta s - \theta (t+\tau)}\big)dW_s \\
+\int^{t+\tau}\_{t}\theta\mu e^{\theta s} ds+\int^{t+\tau}\_{t} \sigma e^{\theta s} dW_s \\
+&& &= \mu e^{\theta s}\Big|^{s=t+\tau}\_{s=t}+\sigma\int^{t+\tau}\_{t}e^{\theta s} dW_s \\
+\Rightarrow && X_{t+\tau}e^{\theta (t+\tau)} &= \mu e^{\theta s}\Big|^{s=t+\tau}\_{s=t}+\sigma\int^{t+\tau}\_{t}e^{\theta s} dW_s + X_{t}e^{\theta t} \\
+&& &= \mu e^{\theta t} \big(e^{\theta \tau}-1\big) + X_{t}e^{\theta t}+\sigma\int^{t+\tau}\_{t}e^{\theta s}dW_s \\
+\Rightarrow && X_{t+\tau} &= \mu \big(1-e^{-\theta \tau}\big) + X_{t}e^{-\theta t}+\sigma\int^{t+\tau}\_{t}\big(e^{\theta s - \theta (t+\tau)}\big)dW_s \\
 && &=\mu \big(1-e^{-\theta \tau}\big) + X_{t}e^{-\theta t}+
-\underbrace{\sigma\int^{t+\tau}_{t}\big(e^{-\theta (t+\tau-s)}\big)dW_s}_{\sim N(0, \sigma^2\int^{t+\tau}_{t}e^{-2\theta (t+\tau)-s}ds)}
+\underbrace{\sigma\int^{t+\tau}\_{t}\big(e^{-\theta (t+\tau-s)}\big)dW_s}\_{\sim N(0, \sigma^2\int^{t+\tau}\_{t}e^{-2\theta (t+\tau)-s}ds)}
 \end{align*}
 $$
 
 By Ito's isometry,
 
 $$
-E\left[\Big(\sigma\int^{t+\tau}_{t}\big(e^{-\theta (t+\tau-s)}\big)dW_s\Big)^2\right]=
-\sigma^2\int^{t+\tau}_{t}e^{-2\theta (t+\tau)-s}ds=
+E\left[\Big(\sigma\int^{t+\tau}\_{t}\big(e^{-\theta (t+\tau-s)}\big)dW_s\Big)^2\right]=
+\sigma^2\int^{t+\tau}\_{t}e^{-2\theta (t+\tau)-s}ds=
 \frac{\sigma^2}{2\theta}\big(1-e^{-2\theta\tau}\big)
 $$
 
@@ -130,5 +130,5 @@ Rewrite the formula that integrates over $[0,t]$, and let $X_0$ be the initial s
 
 $$
 X_t=\mu \big(1-e^{-\theta t}\big)+X_{0}e^{-\theta t}+
-\sigma\int^{t}_{0}\big(e^{-\theta (t-s)}\big)dW_s
+\sigma\int^{t}\_{0}\big(e^{-\theta (t-s)}\big)dW_s
 $$

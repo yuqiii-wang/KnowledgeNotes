@@ -229,8 +229,6 @@ User authentication
 Directory server authenticates every incoming
 connection using objects in the DIT, which means that **DN is used as user identifier**, and this action is termed `bind`
 
-![ldap_based_authentication](imgs/ldap_based_authentication.png "ldap_based_authentication")
-
 ### cmds
 
 * `ladpadd`:  adds entries to a directory

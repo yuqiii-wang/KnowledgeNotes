@@ -75,7 +75,7 @@ Therefore, the bases of Fourier series are orthogonal to each other.
 For absolutely integrable time signals $x(t)$, the Fourier transform can be used to get the frequency domain description.
 $$
 X(\omega) = 
-\int^{+\infty}_{-\infty}
+\int^{+\infty}\_{-\infty}
 x(t) e^{-i n\omega_0 t} dt
 $$
 
@@ -84,7 +84,7 @@ $$
 $$
 STFT\{x(t)\}(\tau,\omega)
 \equiv X(\tau, \omega)=
-\int^{+\infty}_{-\infty}
+\int^{+\infty}\_{-\infty}
 x(t) w(t-\tau) e^{-i n\omega_0 t} dt
 $$
 where $w(t-\tau)$ is the window function,  commonly a Hann window or Gaussian window centered around zero. $\tau$ is the time localization term so that the Fourier transform only targets a fraction of a signal.
@@ -146,7 +146,7 @@ Other common wavelet examples are
 The discrete version describes sampled points $x(t_m)$ from signal convolved with $\psi[s,\tau]$ where 
 $$
 \psi[s,\tau] = 
-\frac{1}{\sqrt{s}} \sum^{p-1}_{m=0} x(t_m) \psi \big( \frac{t_m - \tau}{s} \big)
+\frac{1}{\sqrt{s}} \sum^{p-1}\_{m=0} x(t_m) \psi \big( \frac{t_m - \tau}{s} \big)
 $$
 where $\forall \space k,j \in \mathbb{Z}$, there are
 $$
@@ -159,7 +159,7 @@ The continuous wavelet transform (CWT) is a formal (i.e., non-numerical) tool th
 $$
 \begin{align*}
 X_\omega(s,\tau) &= 
-\frac{1}{\sqrt{s}} \int^{+\infty}_{-\infty}
+\frac{1}{\sqrt{s}} \int^{+\infty}\_{-\infty}
 x(t) \overline{\psi}\big( \frac{t-\tau}{s} \big) dt
 \\ &=
 <x(t), \psi_{s,\tau}(t)>
@@ -169,9 +169,9 @@ where $\psi(t)$ is a continuous function in both the time domain and the frequen
 
 The reverse transform that recovers the source signal $x(t)$ is
 $$
-x(t) = C^{-1}_\psi 
-\int^{\infty}_{0} \int^{\infty}_{-\infty}
-\bold{C}(s,\tau) \frac{1}{\sqrt{s}}
+x(t) = C^{-1}\_\psi 
+\int^{\infty}\_{0} \int^{\infty}\_{-\infty}
+\mathbf{C}(s,\tau) \frac{1}{\sqrt{s}}
 \~{\psi}(\frac{t - \tau}{s}) \frac{dsd\tau}{s^2}
 $$
 
@@ -222,7 +222,7 @@ $$
 
 ### 1D Haar Wavelet
 
-Define a 1d 4-element Haar bases $\bold{h}=[h_1, h_2, h_3, h_4]$, and signal $\bold{x}=[x_1, x_2, ,x_3 , x_4]$.
+Define a 1d 4-element Haar bases $\mathbf{h}=[h_1, h_2, h_3, h_4]$, and signal $\mathbf{x}=[x_1, x_2, ,x_3 , x_4]$.
 
 $$
 h_1 = 
@@ -260,7 +260,7 @@ $$
 
 So that combine all $h_i$
 $$
-\bold{h} = 
+\mathbf{h} = 
 \begin{bmatrix}
     1 & 1 & 1 & 0\\
     1 & 1 & -1 & 0\\
@@ -269,9 +269,9 @@ $$
 \end{bmatrix}^{\text{T}}
 $$
 
-Then normalize $\bold{h}$, the result is
+Then normalize $\mathbf{h}$, the result is
 $$
-\bold{h}_{norm} = 
+\mathbf{h}\_{norm} = 
 \begin{bmatrix}
     1 & 1 & \sqrt{2} & 0\\
     1 & 1 & -\sqrt{2} & 0\\
@@ -280,28 +280,28 @@ $$
 \end{bmatrix}^{\text{T}}
 $$
 
-Compute the product of the signal $\bold{x}$ with $\bold{h}_{norm}$, and derives the frequency-deduced vector $\bold{c}$
+Compute the product of the signal $\mathbf{x}$ with $\mathbf{h}\_{norm}$, and derives the frequency-deduced vector $\mathbf{c}$
 $$
-\bold{c} = 
-\bold{h}_{norm} \bold{x}^{\text{T}}
+\mathbf{c} = 
+\mathbf{h}\_{norm} \mathbf{x}^{\text{T}}
 $$
 
-To recover the signal, the recovered estimate is denoted as $\hat{\bold{x}}$, there is
+To recover the signal, the recovered estimate is denoted as $\hat{\mathbf{x}}$, there is
 $$
-\hat{\bold{x}} = 
-\bold{h}_{norm}^{\text{T}} \bold{c}
+\hat{\mathbf{x}} = 
+\mathbf{h}\_{norm}^{\text{T}} \mathbf{c}
 $$
-where $\bold{h}_{norm}^{\text{T}}$ is orthogonal and normalized, there is $\bold{h}_{norm} \bold{h}_{norm}^{\text{T}} = \bold{h}_{norm} \bold{h}_{norm}^{-1}  = I$
+where $\mathbf{h}\_{norm}^{\text{T}}$ is orthogonal and normalized, there is $\mathbf{h}\_{norm} \mathbf{h}\_{norm}^{\text{T}} = \mathbf{h}\_{norm} \mathbf{h}\_{norm}^{-1}  = I$
 
-Inside $\bold{c}=[c_1, c_2, c_3, c_4]$, each element corresponds to a frequency. For example, just take $[c_1, c_2]$, the recovery signal estimate $\hat{\bold{x}}$ takes care of low frequency features.
+Inside $\mathbf{c}=[c_1, c_2, c_3, c_4]$, each element corresponds to a frequency. For example, just take $[c_1, c_2]$, the recovery signal estimate $\hat{\mathbf{x}}$ takes care of low frequency features.
 
-If the 1d source signal $\bold{x}$ has the exact frequencies as in Haar's (such as $\bold{x}$ is a low frequency square wave), or has only four elements, $\hat{\bold{x}}$ is a perfect recovery $\hat{\bold{x}} = \bold{x}$.
+If the 1d source signal $\mathbf{x}$ has the exact frequencies as in Haar's (such as $\mathbf{x}$ is a low frequency square wave), or has only four elements, $\hat{\mathbf{x}}$ is a perfect recovery $\hat{\mathbf{x}} = \mathbf{x}$.
 
 ### 2D Haar Wavelet
 
 Define a 2d signal $X \in \mathbb{R}^{4 \times 4}$.
 
-Define 2d orthogonal Haar bases $\bold{H}$, and each element $H_{ij} \in \bold{H}$ is the result of outer product (operator denoted as $\otimes$) from respective Haar bases $h_i$ and $h_j$, such as
+Define 2d orthogonal Haar bases $\mathbf{H}$, and each element $H_{ij} \in \mathbf{H}$ is the result of outer product (operator denoted as $\otimes$) from respective Haar bases $h_i$ and $h_j$, such as
 $$
 H_{ij} = h_i \otimes h_j
 $$

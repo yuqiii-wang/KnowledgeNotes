@@ -15,12 +15,12 @@ SE(3) &=
 \bigg\{
    T =
     \begin{bmatrix}
-        R & \bold{t} \\
+        R & \mathbf{t} \\
         0 & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
     |
-    R \in SO(3), \bold{t} \in \mathbb{R}^3
+    R \in SO(3), \mathbf{t} \in \mathbb{R}^3
 \bigg\}
 \end{align*}
 $$
@@ -71,10 +71,10 @@ $$
 where $\dot{R(t)}R(t)^T$ is a skew-symmetric matrix.
 
 Remember one property of skew-symmetric matrix:
-the space of a skew-symmetric matrices $A_{n \times n}$ has dimensionality $\frac{1}{2} n (n - 1)$, its vector representation is $a^{\wedge}_{\frac{1}{2} n (n - 1)}$, for example, for a $3 \times 3$ matrix, there is
+the space of a skew-symmetric matrices $A_{n \times n}$ has dimensionality $\frac{1}{2} n (n - 1)$, its vector representation is $a^{\wedge}\_{\frac{1}{2} n (n - 1)}$, for example, for a $3 \times 3$ matrix, there is
 
 $$
-\bold{a}^{\wedge}=
+\mathbf{a}^{\wedge}=
 A =
 \begin{bmatrix}
       0 & -a_3 & a_2 \\
@@ -87,7 +87,7 @@ Here uses $\wedge$ to represent a vector space of a skew-symmetric matrix.
 
 Reversely, here defines a vector representation of a skew-symmetric matrix with $\vee$
 $$
-A = \bold{a}^\vee
+A = \mathbf{a}^\vee
 $$
 
 Since $\dot{R(t)}R(t)^T$ is a skew-symmetric matrix, here uses $\phi^{\wedge}$ to represent the multiplication result of $\dot{R(t)}R(t)^T$
@@ -165,21 +165,21 @@ Lie bracket describes two Lie algebras' operations that elaborate local informat
 
 Rotation matrix $R = e^{\phi^{\wedge}}$ is a complex operation. We want to just focus on $\phi^{\wedge}$.
 
-For example, for a 2-dimensional rotation $\bold{z} = \bold{x}e^{i\theta}$, whose Lie algebra is $i\theta$ that sees rotation at a particular point. We can just do derivative on $i\theta$ rather than the difficult $\bold{z}$, that gives approximately the same result, since the changes on tangent and direct derivative on its corresponding group are almost the same.
+For example, for a 2-dimensional rotation $\mathbf{z} = \mathbf{x}e^{i\theta}$, whose Lie algebra is $i\theta$ that sees rotation at a particular point. We can just do derivative on $i\theta$ rather than the difficult $\mathbf{z}$, that gives approximately the same result, since the changes on tangent and direct derivative on its corresponding group are almost the same.
 
 ![2d_lie_mapping](imgs/2d_lie_mapping.png "2d_lie_mapping")
 
 ### Exponential Mapping $so(3) \mapsto SO(3)$
 
-Define a unit vector $\bold{v}$; remember *Rodrigues’s Rotation Formula* that describes the matrix representation over a 3-dimensional angle $\theta$. Here derives the exponential mapping $so(3) \mapsto SO(3)$.
+Define a unit vector $\mathbf{v}$; remember *Rodrigues’s Rotation Formula* that describes the matrix representation over a 3-dimensional angle $\theta$. Here derives the exponential mapping $so(3) \mapsto SO(3)$.
 $$
 \begin{align*}
 R &= e^{\phi^{\wedge}} =
-e^{\theta \bold{v}^{\wedge}} 
+e^{\theta \mathbf{v}^{\wedge}} 
 \\ &= 
-\sum_{n=0}^{\infty} \frac{{(\theta \bold{v}^{\wedge}})^n}{n!}
+\sum_{n=0}^{\infty} \frac{{(\theta \mathbf{v}^{\wedge}})^n}{n!}
 \\ &=
-cos \theta I + (1 - cos \theta)\bold{v} \bold{v}^\text{T} + sin\theta \bold{v}^{\wedge}
+cos \theta I + (1 - cos \theta)\mathbf{v} \mathbf{v}^\text{T} + sin\theta \mathbf{v}^{\wedge}
 \end{align*}
 $$
 
@@ -187,7 +187,7 @@ $$
 
 Conversely, there is $so(3) \mapsto SO(3)$, and here derives the logarithmic mapping via Taylor series expansion.
 
-Remember $\phi^{\wedge} = \theta \bold{v}^{\wedge}$, and $\bold{v}^{\wedge} \bold{v}^{\wedge} = \bold{v}\bold{v}^\text{T}-I$, $\bold{v}^{\wedge}  \bold{v}^{\wedge} \bold{v}^{\wedge} = -\bold{v}^{\wedge}$
+Remember $\phi^{\wedge} = \theta \mathbf{v}^{\wedge}$, and $\mathbf{v}^{\wedge} \mathbf{v}^{\wedge} = \mathbf{v}\mathbf{v}^\text{T}-I$, $\mathbf{v}^{\wedge}  \mathbf{v}^{\wedge} \mathbf{v}^{\wedge} = -\mathbf{v}^{\wedge}$
 $$
 \begin{align*}
     \phi &= ln(R)^\vee 
@@ -205,7 +205,7 @@ ln\bigg(
   \bigg)^\vee
 \\ &=
 \bigg(
-    \sum^{\infty}_{n=0} \frac{(-1)^{n-1}}{n}
+    \sum^{\infty}\_{n=0} \frac{(-1)^{n-1}}{n}
     (R-I)^{n}
 \bigg)^\vee
 \end{align*}
@@ -219,7 +219,7 @@ e^{\xi^\wedge} &=
 \begin{bmatrix}
     \sum_{n=0}^{\infty} \frac{{(\phi^\wedge)^n}}{n!} 
     &
-    \sum_{n=0}^{\infty} \frac{{(\phi^\wedge)^n}}{(n+1)!} \bold{\rho}
+    \sum_{n=0}^{\infty} \frac{{(\phi^\wedge)^n}}{(n+1)!} \mathbf{\rho}
     \\
     0 & 1
 \end{bmatrix}
@@ -227,14 +227,14 @@ e^{\xi^\wedge} &=
 \begin{bmatrix}
     R
     &
-    J \bold{\rho}
+    J \mathbf{\rho}
     \\
     0 & 1
 \end{bmatrix}=
 \begin{bmatrix}
     R
     &
-    \bold{t}
+    \mathbf{t}
     \\
     0 & 1
 \end{bmatrix}
@@ -245,17 +245,17 @@ where
 $$
 \begin{align*}
 \sum_{n=0}^{\infty} \frac{{(\phi^\wedge)^n}}{(n+1)!}&=
-I + \frac{1}{2!}\theta \bold{v}^\wedge + \frac{1}{3!}\theta (\bold{v}^\wedge)^2 + ...
+I + \frac{1}{2!}\theta \mathbf{v}^\wedge + \frac{1}{3!}\theta (\mathbf{v}^\wedge)^2 + ...
 \\ &=
-\frac{1}{\theta}(\frac{\theta^2}{2!}+\frac{\theta^4}{4!}+...)\bold{v}^\wedge +
-\frac{1}{\theta}(\frac{\theta^3}{3!}+\frac{\theta^5}{5!}+...)(\bold{v}^\wedge)^2 +I
+\frac{1}{\theta}(\frac{\theta^2}{2!}+\frac{\theta^4}{4!}+...)\mathbf{v}^\wedge +
+\frac{1}{\theta}(\frac{\theta^3}{3!}+\frac{\theta^5}{5!}+...)(\mathbf{v}^\wedge)^2 +I
 \\ &=
-\frac{\bold{v}^\wedge}{\theta}(1-cos\theta)+
-\frac{\theta-sin\theta}{\theta}(\bold{v}\bold{v}^\text{T}-I)+I
+\frac{\mathbf{v}^\wedge}{\theta}(1-cos\theta)+
+\frac{\theta-sin\theta}{\theta}(\mathbf{v}\mathbf{v}^\text{T}-I)+I
 \\&=
 \frac{sin\theta}{\theta} I + 
-(1-\frac{sin \theta}{\theta})\bold{v}\bold{v}^\text{T} +
-\frac{1-cos\theta}{\theta} \bold{v}^\wedge
+(1-\frac{sin \theta}{\theta})\mathbf{v}\mathbf{v}^\text{T} +
+\frac{1-cos\theta}{\theta} \mathbf{v}^\wedge
 \\ & \overset{\Delta}{=}
 J
 \end{align*}
@@ -271,7 +271,7 @@ $$
 \xi^\wedge &= ln(T)
 \\ &=
 ln \begin{bmatrix}
-    R & \bold{t} \\
+    R & \mathbf{t} \\
     0 & 1
 \end{bmatrix}
 \\ &=
@@ -286,17 +286,17 @@ $$
 
 |Lie Group||Conversion||Lie Algebra|
 |-|-|-|-|-|
-|$SO(3) \\ R=e^{\phi^\wedge} \in \mathbb{R}^{3 \times 3}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\bold{v}=\bold{v}$|$\rightarrow$|$so(3) \\ \phi \in \mathbb{R}^3$|
-||$\leftarrow$|Exponential mapping: $e^{\theta \bold{v}^\wedge}$|$\leftarrow$||
-|$SE(3) \\ T \in \mathbb{R}^{4 \times 4}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\bold{v}=\bold{v} \\ \bold{t}=J\rho$|$\rightarrow$|$se(3) \\ \xi=[\phi^\wedge \quad \rho] \in \mathbb{R}^6$|
+|$SO(3) \\ R=e^{\phi^\wedge} \in \mathbb{R}^{3 \times 3}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\mathbf{v}=\mathbf{v}$|$\rightarrow$|$so(3) \\ \phi \in \mathbb{R}^3$|
+||$\leftarrow$|Exponential mapping: $e^{\theta \mathbf{v}^\wedge}$|$\leftarrow$||
+|$SE(3) \\ T \in \mathbb{R}^{4 \times 4}$|$\rightarrow$|Logarithmic mapping:$\\ \theta = arccos \bigg(\frac{tr(R)-1}{2}\bigg) \\ R\mathbf{v}=\mathbf{v} \\ \mathbf{t}=J\rho$|$\rightarrow$|$se(3) \\ \xi=[\phi^\wedge \quad \rho] \in \mathbb{R}^6$|
 ||$\leftarrow$|Exponential mapping: $e^{\xi^\wedge}$|$\leftarrow$||
 
 
 ## Derivative
 
-An important question is about rotation matrix derivative, such as given a 3-d point $\bold{p}$, here to compute
+An important question is about rotation matrix derivative, such as given a 3-d point $\mathbf{p}$, here to compute
 $$
-\frac{\partial R\bold{p}}{\partial R}
+\frac{\partial R\mathbf{p}}{\partial R}
 $$
 
 Given the definition of derivative such that
@@ -312,24 +312,24 @@ There are two solutions to this problem.
 
 * Derivative Model: $R$-corresponding Lie algebra $\phi$ adds a $\Delta \phi$, then compute the change rate on the $\Delta \phi$, so that 
 $$
-\frac{\partial R\bold{p}}{\partial R}=
-lim_{\Delta \phi \rightarrow 0} \frac{e^{(\Delta \phi + \phi)^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{\Delta \phi}
+\frac{\partial R\mathbf{p}}{\partial R}=
+lim_{\Delta \phi \rightarrow 0} \frac{e^{(\Delta \phi + \phi)^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{\Delta \phi}
 $$
 
 * Perturbation Model: directly multiplying $\Delta R$ to either the left or the right of $R$ (added a trivial perturbation), then compute the derivative on the Lie algebra of the trivial perturbation $\Delta R$ denoted as $\psi$, so that
 $$
 \begin{align*}
-\frac{\partial R\bold{p}}{\partial R}
+\frac{\partial R\mathbf{p}}{\partial R}
 & \approx
-lim_{ \psi \rightarrow 0} \frac{e^{\psi^{\wedge}}e^{\phi^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{\psi}
+lim_{ \psi \rightarrow 0} \frac{e^{\psi^{\wedge}}e^{\phi^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{\psi}
 \quad \text{Left Perturbation}
 \\ & \approx
-lim_{ \psi \rightarrow 0} \frac{e^{\phi^{\wedge}}e^{\psi^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{\psi}
+lim_{ \psi \rightarrow 0} \frac{e^{\phi^{\wedge}}e^{\psi^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{\psi}
 \quad \text{Right Perturbation}
 \end{align*}
 $$
 
-In practice, we set $\Delta R = [10^{-6}\quad 10^{-6}\quad 10^{-6}]^{\wedge}$. When applied perturbation to $R$, $\frac{\partial R\bold{p}}{\partial R}$ is nearly unaffected and remained the most of the derivative.
+In practice, we set $\Delta R = [10^{-6}\quad 10^{-6}\quad 10^{-6}]^{\wedge}$. When applied perturbation to $R$, $\frac{\partial R\mathbf{p}}{\partial R}$ is nearly unaffected and remained the most of the derivative.
 
 ### BCH Formula and its Approximation
 
@@ -349,11 +349,11 @@ $$
 where $J_l$ and $J_r$ are 
 
 $$
-J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})\bold{v}\bold{v}^\text{T} + \frac{1-cos\theta}{\theta}\bold{v}^{\wedge}
+J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})\mathbf{v}\mathbf{v}^\text{T} + \frac{1-cos\theta}{\theta}\mathbf{v}^{\wedge}
 $$
 whose derivative is 
 $$
-J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})\bold{v}\bold{v}^\text{T} - \frac{\theta}{2}\bold{v}^{\wedge}
+J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})\mathbf{v}\mathbf{v}^\text{T} - \frac{\theta}{2}\mathbf{v}^{\wedge}
 $$
 
 and for the right multiple
@@ -365,104 +365,104 @@ $$
 
 Now a point $p$ is rotated by $R$, hence the new position is $Rp$. To calculate $\frac{\partial Rp}{\partial R}$:
 $$\begin{align*}
-\frac{\partial R\bold{p}}{\partial R}
+\frac{\partial R\mathbf{p}}{\partial R}
  & =
-\frac{\partial e^{\phi^{\wedge}}\bold{p}}{\partial e^{\phi}}
+\frac{\partial e^{\phi^{\wedge}}\mathbf{p}}{\partial e^{\phi}}
 \\ & =
-lim_{\Delta \phi \rightarrow 0} \frac{e^{(\Delta \phi + \phi)^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{\Delta \phi}
+lim_{\Delta \phi \rightarrow 0} \frac{e^{(\Delta \phi + \phi)^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{\Delta \phi}
 \\ & =
-lim_{\Delta \phi \rightarrow 0} \frac{e^{(J_l \Delta \phi)^{\wedge}}e^{\phi^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{\Delta \phi}
+lim_{\Delta \phi \rightarrow 0} \frac{e^{(J_l \Delta \phi)^{\wedge}}e^{\phi^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{\Delta \phi}
 \\ & \approx
-lim_{\Delta \phi \rightarrow 0} \frac{((I+J_l \Delta \phi)^{\wedge})e^{\phi^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{\Delta \phi}
+lim_{\Delta \phi \rightarrow 0} \frac{((I+J_l \Delta \phi)^{\wedge})e^{\phi^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{\Delta \phi}
 \\ &=
-lim_{\Delta \phi \rightarrow 0} \frac{(J_l \Delta \phi)^{\wedge} e^{\phi^{\wedge}}\bold{p}}{\Delta \phi}
+lim_{\Delta \phi \rightarrow 0} \frac{(J_l \Delta \phi)^{\wedge} e^{\phi^{\wedge}}\mathbf{p}}{\Delta \phi}
 \\ &=
-lim_{\Delta \phi \rightarrow 0} \frac{-(e^{\phi^{\wedge}}\bold{p})^\wedge J_l \Delta \phi}{\Delta \phi}
+lim_{\Delta \phi \rightarrow 0} \frac{-(e^{\phi^{\wedge}}\mathbf{p})^\wedge J_l \Delta \phi}{\Delta \phi}
 \\ &=
--(e^{\phi^{\wedge}}\bold{p})^\wedge J_l
+-(e^{\phi^{\wedge}}\mathbf{p})^\wedge J_l
 \\ & =
--(R\bold{p})^{\wedge}J_l
+-(R\mathbf{p})^{\wedge}J_l
 \end{align*}$$
 
 ### Perturbation Model
 
 Apply a trivial perturbation $\Delta R$ and take partial derivative over this perturbation to avoid computing the Jacobian $J_l$:
 $$\begin{align*}
-\frac{\partial R \bold{p}}{\partial \Delta R}
+\frac{\partial R \mathbf{p}}{\partial \Delta R}
  & =
-\frac{\partial e^{\phi^{\wedge}}\bold{p}}{\partial \psi}
+\frac{\partial e^{\phi^{\wedge}}\mathbf{p}}{\partial \psi}
 \\ & =
-lim_{ \psi \rightarrow 0} \frac{e^{\psi^{\wedge}}e^{\phi^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{\psi}\\ & \approx
-lim_{ \psi \rightarrow 0} \frac{(I+\psi^{\wedge})e^{\phi^{\wedge}}\bold{p} - e^{\phi^{\wedge}}\bold{p}}{ \psi}
+lim_{ \psi \rightarrow 0} \frac{e^{\psi^{\wedge}}e^{\phi^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{\psi}\\ & \approx
+lim_{ \psi \rightarrow 0} \frac{(I+\psi^{\wedge})e^{\phi^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{ \psi}
 \\ &=
 lim_{ \psi \rightarrow 0} 
-\frac{\psi^{\wedge}e^{\phi^{\wedge}}\bold{p} }{\psi}
+\frac{\psi^{\wedge}e^{\phi^{\wedge}}\mathbf{p} }{\psi}
 \\ &=
 lim_{ \psi \rightarrow 0} 
-\frac{(e^{\phi^{\wedge}}\bold{p})^\wedge \psi }{\psi}
+\frac{(e^{\phi^{\wedge}}\mathbf{p})^\wedge \psi }{\psi}
 \\ & =
--(R\bold{p})^{\wedge}
+-(R\mathbf{p})^{\wedge}
 \end{align*}$$
 
 ### Perturbation Model Considered Both Translation and Rotation
 
-Define $[R|T]$ as the transformation matrix to a point $\bold{p}$ and the perturbation as $\Delta \bold{\xi}$ (this time, both translation $T$'s perturbation $\Delta \bold{\rho}$ and rotation $R$'s perturbation $\Delta \bold{\phi}$ are included, so that $\Delta \bold{\xi} = [\Delta \bold{\rho}, \Delta \bold{\phi}]^\text{T}$), the derivative can be computed as the below
+Define $[R|T]$ as the transformation matrix to a point $\mathbf{p}$ and the perturbation as $\Delta \mathbf{\xi}$ (this time, both translation $T$'s perturbation $\Delta \mathbf{\rho}$ and rotation $R$'s perturbation $\Delta \mathbf{\phi}$ are included, so that $\Delta \mathbf{\xi} = [\Delta \mathbf{\rho}, \Delta \mathbf{\phi}]^\text{T}$), the derivative can be computed as the below
 
 $$
 \begin{align*}
-    \frac{\partial ([R|T]\bold{p})}{\partial \Delta \bold{\xi}} &= 
-    \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
+    \frac{\partial ([R|T]\mathbf{p})}{\partial \Delta \mathbf{\xi}} &= 
+    \underset{\Delta \mathbf{\xi} \rightarrow 0}{lim}
     \frac
-    {e^{\Delta \bold{\xi}^{\wedge}}e^{ \bold{\xi}^{\wedge}}\bold{p}-e^{ \bold{\xi}^{\wedge}}\bold{p}}
-    {\Delta \bold{\xi}}
+    {e^{\Delta \mathbf{\xi}^{\wedge}}e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}-e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}}
+    {\Delta \mathbf{\xi}}
     \\ &=
-    \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
+    \underset{\Delta \mathbf{\xi} \rightarrow 0}{lim}
     \frac
-    {(I+{\Delta \bold{\xi}^{\wedge}})e^{ \bold{\xi}^{\wedge}}\bold{p}-e^{ \bold{\xi}^{\wedge}}\bold{p}}
-    {\Delta \bold{\xi}}
+    {(I+{\Delta \mathbf{\xi}^{\wedge}})e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}-e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}}
+    {\Delta \mathbf{\xi}}
     \\ &=
-    \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
+    \underset{\Delta \mathbf{\xi} \rightarrow 0}{lim}
     \frac
-    {{\Delta \bold{\xi}^{\wedge}}e^{ \bold{\xi}^{\wedge}}\bold{p}}
-    {\Delta \bold{\xi}}
+    {{\Delta \mathbf{\xi}^{\wedge}}e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}}
+    {\Delta \mathbf{\xi}}
     \\ &=
-    \underset{\Delta \bold{\xi} \rightarrow 0}{lim}
+    \underset{\Delta \mathbf{\xi} \rightarrow 0}{lim}
     \frac
     {
         \begin{bmatrix}
-            \Delta \bold{\phi} & \Delta \bold{\rho} \\
-            \bold{0} & \bold{0}
+            \Delta \mathbf{\phi} & \Delta \mathbf{\rho} \\
+            \mathbf{0} & \mathbf{0}
         \end{bmatrix}
         \begin{bmatrix}
-            R\bold{p}+T \\
-            \bold{1}
+            R\mathbf{p}+T \\
+            \mathbf{1}
         \end{bmatrix}
     }
-    {\Delta \bold{\xi}}
+    {\Delta \mathbf{\xi}}
     \\ &=
-    \underset{[\Delta \bold{\rho}, \Delta \bold{\phi}]^\text{T} \rightarrow 0}{lim}
+    \underset{[\Delta \mathbf{\rho}, \Delta \mathbf{\phi}]^\text{T} \rightarrow 0}{lim}
     \frac
     {
         \begin{bmatrix}
-            \Delta \bold{\phi} (R\bold{p}+T) + \Delta \bold{\rho} \\
-            \bold{0}
+            \Delta \mathbf{\phi} (R\mathbf{p}+T) + \Delta \mathbf{\rho} \\
+            \mathbf{0}
         \end{bmatrix}
     }
     {\begin{bmatrix}
-        \Delta \bold{\rho} \\ 
-        \Delta \bold{\phi}
+        \Delta \mathbf{\rho} \\ 
+        \Delta \mathbf{\phi}
     \end{bmatrix}}
     \\ &=
     \begin{bmatrix}
-        \frac{\partial (\Delta \bold{\phi} (R\bold{p}+T) + \Delta \bold{\rho})}{\partial \Delta \bold{\rho}} & 
-        \frac{\partial (\Delta \bold{\phi} (R\bold{p}+T) + \Delta \bold{\rho})}{\partial \Delta \bold{\phi}} \\
-        \frac{\partial \bold{0}}{\partial \Delta \bold{\rho}} & 
-        \frac{\partial \bold{0}}{\partial \Delta \bold{\phi}} 
+        \frac{\partial (\Delta \mathbf{\phi} (R\mathbf{p}+T) + \Delta \mathbf{\rho})}{\partial \Delta \mathbf{\rho}} & 
+        \frac{\partial (\Delta \mathbf{\phi} (R\mathbf{p}+T) + \Delta \mathbf{\rho})}{\partial \Delta \mathbf{\phi}} \\
+        \frac{\partial \mathbf{0}}{\partial \Delta \mathbf{\rho}} & 
+        \frac{\partial \mathbf{0}}{\partial \Delta \mathbf{\phi}} 
     \end{bmatrix}
     \\ &=
     \begin{bmatrix}
-        \bold{I} & R\bold{p}+T \\
-        \bold{0} & \bold{0} 
+        \mathbf{I} & R\mathbf{p}+T \\
+        \mathbf{0} & \mathbf{0} 
     \end{bmatrix}
 \end{align*}
 $$

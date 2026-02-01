@@ -398,7 +398,7 @@ They mean
 ### Transaction vs Block
 
 In detail, $\text{Transaction}\in\text{Block}$.
-Previous $\text{Block}_{\tau-1}$ is hashed as input to this time $\text{Block}_{\tau}$, thereby any changes to previous blocks have cascading effect on all latter blocks resulting in changes of all latter block hashes.
+Previous $\text{Block}\_{\tau-1}$ is hashed as input to this time $\text{Block}\_{\tau}$, thereby any changes to previous blocks have cascading effect on all latter blocks resulting in changes of all latter block hashes.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/block_transition.png" width="50%" height="50%" alt="block_transition" />

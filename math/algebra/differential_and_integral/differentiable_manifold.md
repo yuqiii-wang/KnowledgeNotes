@@ -10,11 +10,11 @@ Given a tangent vector field on a differentiable manifold $M$ then its flow is t
 
 Let $M$ be a differentiable manifold, $T_p M$ denotes the tangent space of $p \in M$, $TM$ is the corresponding tangent bundle $TM = \sqcup_{p \in M} T_p M$, now define a smooth mapping
 $$
-f: \bold{R} \times M \rightarrow TM
+f: \mathbf{R} \times M \rightarrow TM
 $$
-representing a time-dependent ($t \in \bold{R}$, $R$ is a time range) vector field on $M$, aka $f(t, p) \in T_p M$,
+representing a time-dependent ($t \in \mathbf{R}$, $R$ is a time range) vector field on $M$, aka $f(t, p) \in T_p M$,
 
-For a suitable time interval $I \subseteq \bold{R}$ containing $0$, the flow of $f$ is a function $\phi : I \times M \rightarrow M$ that satisfies
+For a suitable time interval $I \subseteq \mathbf{R}$ containing $0$, the flow of $f$ is a function $\phi : I \times M \rightarrow M$ that satisfies
 $$
 \begin{align*}
 \phi(0, x_0) = x_0

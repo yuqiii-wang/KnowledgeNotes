@@ -14,11 +14,11 @@ The resulted size $n \times n$ captures the context tokens.
 The division by $\sqrt{d_k}$ is to scale down/flat the results of $Q K^{\top}$, so that by $\text{softmax}$ non-linearity, large values of $Q K^{\top}$ will be reduced, and the diffs between small values of $Q K^{\top}$ are amplified.
 The flattened values help back-propagation leading to more stable training compared to non-$\sqrt{d_k}$ division.
 
-Define softmax: for $i=1,2,...,n$ and $\bold{z}=(z_1, z_2, ..., z_n)\in \mathbb{R}^n$,
+Define softmax: for $i=1,2,...,n$ and $\mathbf{z}=(z_1, z_2, ..., z_n)\in \mathbb{R}^n$,
 
 $$
-\sigma(\bold{z})_i=
-\frac{e^{z_i}}{\sum^n_{j=1}e^{z_j}}
+\sigma(\mathbf{z})_i=
+\frac{e^{z_i}}{\sum^n\_{j=1}e^{z_j}}
 $$
 
 For $e^{z_i}$ grows exponentially, large inputs $z_i$ has significant influence over the activation energy.
@@ -95,13 +95,13 @@ In other words, only when two tokens see same dimension resonated with each othe
 
 One sentence explained: for normal distribution random vectors, the dot product tends to have a mean of $d$ and a variance that also scales with $d$.
 
-Let $\bold{q}$ and $\bold{k}$ be a row of $Q$ and $K$.
-Assume features present as standard normal distribution, so that each entry of $\bold{q}$ and $\bold{k}$ is of $q_i, k_i \sim N(0,1)$.
+Let $\mathbf{q}$ and $\mathbf{k}$ be a row of $Q$ and $K$.
+Assume features present as standard normal distribution, so that each entry of $\mathbf{q}$ and $\mathbf{k}$ is of $q_i, k_i \sim N(0,1)$.
 
-Each entry/score of $Q K^{\top}$ is $s=\bold{q} \bold{k} = \sum_{i=1}^d q_i k_i$.
+Each entry/score of $Q K^{\top}$ is $s=\mathbf{q} \mathbf{k} = \sum_{i=1}^d q_i k_i$.
 
 Remember, here to prove $s \in Q K^{\top}$ that there is $s \sim N(0, d)$, not individual for $q_i k_i$.
-$s=\bold{q} \bold{k}$ is an entry result of matrix multiplication, not to get confused with normalization by $\frac{1}{d}$, as $s \sim N(0, d)$ is not concerned of $q_i k_i$.
+$s=\mathbf{q} \mathbf{k}$ is an entry result of matrix multiplication, not to get confused with normalization by $\frac{1}{d}$, as $s \sim N(0, d)$ is not concerned of $q_i k_i$.
 
 #### Expected Value (Mean)
 
@@ -124,7 +124,7 @@ By definition, there is
 
 $$
 \begin{align*}
-\text{Var}(s) = \sum_{i=1}^d \big( q_i k_i - \underbrace{E[q_i k_i]}_{=0} \big)^2
+\text{Var}(s) = \sum_{i=1}^d \big( q_i k_i - \underbrace{E[q_i k_i]}\_{=0} \big)^2
 = E[s^2]
 \end{align*}
 $$
@@ -161,7 +161,7 @@ The standard deviation $\sqrt{d}$ describes the mean variance that $\frac{1}{\sq
 
 ### Multi-Head Attention
 
-Define an attention head $\text{head}_i=\text{Attention}(Q_i,K_i,V_i)$, for multi-head, there is
+Define an attention head $\text{head}\_i=\text{Attention}(Q_i,K_i,V_i)$, for multi-head, there is
 
 $$
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \text{head}_2, ..., \text{head}_n) W^O
@@ -186,7 +186,7 @@ Basically, the multi-head transform is a linear transform by $W^O$.
 
 The linear projection by $W^O$ should yield a result matrix same size of input, i.e., `[batch_size, seq_length, d_model]`.
 
-For example for BERT-base with $d_{\text{model}}=768$ and $n_{\text{head}}=12$ heads, there is $d_k=d_v=768/12=64$.
+For example for BERT-base with $d_{\text{model}}=768$ and $n\_{\text{head}}=12$ heads, there is $d_k=d_v=768/12=64$.
 Each attention head gives `[batch_size, seq_length, 64]`.
 
 To retain the shape to `[batch_size, seq_length, d_model]`, there is $W^O \in \mathbb{R}^{768 \times 768}$ derived from `[n_head * d_v, d_model]`
@@ -270,7 +270,7 @@ comes next.
 
 #### Start with: General Residual Stream Definition
 
-Let $\bold{t}_n^{(l-1)}\in\bold{t}^{(l-1)}$ be the last token vector from from the $(l-1)$-th layer, its corresponding next layer input is 
+Let $\mathbf{t}_n^{(l-1)}\in\mathbf{t}^{(l-1)}$ be the last token vector from from the $(l-1)$-th layer, its corresponding next layer input is 
 
 $$
 \mathbf{t}_n^{(l)} = \mathbf{t}_n^{(l-1)} + \text{Attention}(\mathbf{t}_n^{(l-1)}) + \text{MLP}(\mathbf{t}_n^{(l-1)})
@@ -284,7 +284,7 @@ Assume the circuit operates across two different layers: a **Previous-Token Head
 
 *Goal:* Write the information from position $n-1$ into the vector at position $n$, a.k.a., *Query-Key Circuit (QK)*:
 
-$$ \mathbf{t}_n^{(u)} \leftarrow \mathbf{t}_n^{(u-1)} + \underbrace{W_O^{(u)} W_V^{(u)} \mathbf{t}_{n-1}^{(u-1)}}_{\text{Copying previous token}} $$
+$$ \mathbf{t}_n^{(u)} \leftarrow \mathbf{t}_n^{(u-1)} + \underbrace{W_O^{(u)} W_V^{(u)} \mathbf{t}\_{n-1}^{(u-1)}}\_{\text{Copying previous token}} $$
 
 2. **Induction Head (Layer $l$)**
 
@@ -296,17 +296,17 @@ $$ \mathbf{q}_n = W_Q^{(l)} \mathbf{t}_n^{(l-1)} $$
 
 2. The Key (Historical Context at position $i$):
 
-Because of previous-token head, the vector at historical position $i$, $\mathbf{t}_i^{(l-1)}$, contains a copy of its predecessor $\mathbf{t}_{i-1}$.
-$$ \mathbf{k}_i = W_K^{(l)} \mathbf{t}_i^{(l-1)} \qquad \text{Contains info about } \mathbf{t}_{i-1} \text{} $$
+Because of previous-token head, the vector at historical position $i$, $\mathbf{t}\_i^{(l-1)}$, contains a copy of its predecessor $\mathbf{t}\_{i-1}$.
+$$ \mathbf{k}\_i = W_K^{(l)} \mathbf{t}\_i^{(l-1)} \qquad \text{Contains info about } \mathbf{t}\_{i-1} \text{} $$
 
 3. The Attention Score (Pattern Matching):
-The score peaks when the current token matches the historical predecessor ($\mathbf{t}_n \approx \mathbf{t}_{i-1}$).
-$$ \alpha_{n,i} = \text{softmax}\left( \frac{(\mathbf{t}_n^{(l-1)})^\top (W_Q^{(l)})^\top W_K^{(l)} \mathbf{t}_i^{(l-1)}}{\sqrt{d}} \right) $$
+The score peaks when the current token matches the historical predecessor ($\mathbf{t}_n \approx \mathbf{t}\_{i-1}$).
+$$ \alpha_{n,i} = \text{softmax}\left( \frac{(\mathbf{t}_n^{(l-1)})^\top (W_Q^{(l)})^\top W_K^{(l)} \mathbf{t}\_i^{(l-1)}}{\sqrt{d}} \right) $$
 
 4. The Update (Copying Next Token):
-The head copies the content of $\mathbf{t}_i$ (which is $B$) into the residual stream of $\mathbf{t}_n$.
+The head copies the content of $\mathbf{t}\_i$ (which is $B$) into the residual stream of $\mathbf{t}_n$.
 
-$$ \mathbf{t}_n^{(l)} = \mathbf{t}_n^{(l-1)} + \sum_{i < n} \alpha_{n,i} \cdot \left( W_O^{(l)} W_V^{(l)} \mathbf{t}_i^{(l-1)} \right) $$
+$$ \mathbf{t}_n^{(l)} = \mathbf{t}_n^{(l-1)} + \sum_{i < n} \alpha_{n,i} \cdot \left( W_O^{(l)} W_V^{(l)} \mathbf{t}\_i^{(l-1)} \right) $$
 
 ## Encoder and Decoder
 
@@ -335,7 +335,7 @@ Feed-Forward Network (FFN)
 
 $$
 Y = \text{FFN}(X_{\text{atten}})
-= \sigma(X_\text{atten}W_1 + \bold{b}_1)W_2+\bold{b}_2
+= \sigma(X_\text{atten}W_1 + \mathbf{b}_1)W_2+\mathbf{b}_2
 $$
 
 where $W_1$ is four times the input of $X_\text{atten}$, and $W_2$ transforms back to the original size.
@@ -360,7 +360,7 @@ Generally speaking, ADD is a ResNet design adding previous layer input; normaliz
 
 ##### Add: ResNet
 
-A resnet design is that, for the currently layer $l$, its activation $\bold{a}^{l}$ takes the sum of previous layer activations and inputs.
+A resnet design is that, for the currently layer $l$, its activation $\mathbf{a}^{l}$ takes the sum of previous layer activations and inputs.
 
 * Effects and Benefits:
 
@@ -371,7 +371,7 @@ Prevent activation explosion/vanishing
 * Definition: typically in neural network, there is
 
 $$
-\bold{a}^{(l)} = \sigma(W^{(l-1)}\bold{x}+\bold{b}^{(l-1)}) + \bold{x}
+\mathbf{a}^{(l)} = \sigma(W^{(l-1)}\mathbf{x}+\mathbf{b}^{(l-1)}) + \mathbf{x}
 $$
 
 where $\sigma(\space . \space)$ is an activation function.
@@ -379,10 +379,10 @@ where $\sigma(\space . \space)$ is an activation function.
 In transformer, there is
 
 $$
-\bold{a}^{(l)} = \text{MultiHeadAttention}(\bold{x}) + \bold{x}
+\mathbf{a}^{(l)} = \text{MultiHeadAttention}(\mathbf{x}) + \mathbf{x}
 $$
 
-where $\bold{x}=\{Q, Y, V\}$.
+where $\mathbf{x}=\{Q, Y, V\}$.
 
 ##### Norm: normalization by layer
 
@@ -392,10 +392,10 @@ Layer normalization normalizes each sample by its dimension.
 
 -> Reduces internal covariate shift (keep $X \sim N(0,1)$)
 
-Given this transform, as training progresses, $\bold{x}^{(l)}$ does not necessarily be $\bold{x}^{(l)} \sim N(0,1)$.
+Given this transform, as training progresses, $\mathbf{x}^{(l)}$ does not necessarily be $\mathbf{x}^{(l)} \sim N(0,1)$.
 
 $$
-\bold{x}^{(l)} = W^{(l-1)}\bold{x}^{(l-1)} + \bold{b}^{(l-1)}
+\mathbf{x}^{(l)} = W^{(l-1)}\mathbf{x}^{(l-1)} + \mathbf{b}^{(l-1)}
 $$
 
 -> Prevent activation explosion/vanishing
@@ -427,7 +427,7 @@ $$
 -> Normalization Transform
 
 $$
-\hat{x}_{ij} = \frac{x_{ij-\mu_i}}{\sigma_i+\epsilon}
+\hat{x}\_{ij} = \frac{x_{ij-\mu_i}}{\sigma_i+\epsilon}
 $$
 
 where $\epsilon=10^{-6}$ is a trivial value to prevent division by zero error.
@@ -438,7 +438,7 @@ $\gamma$: To allow the model to reintroduce scales
 $\beta$: To shift the normalized activations.
 
 $$
-\text{LayerNorm}(x_{ij}) = \gamma_j \hat{x}_{ij} + \beta_j
+\text{LayerNorm}(x_{ij}) = \gamma_j \hat{x}\_{ij} + \beta_j
 $$
 
 ### Masking in Decoder

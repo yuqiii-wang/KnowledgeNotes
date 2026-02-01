@@ -28,13 +28,13 @@ By setting $w=1$, we have homogeneous coordinate $(x,y,1)$ and its Cartesian rep
 
 ## Homography
 
-A homography is an isomorphism of projective spaces, or the transformation between two camera image planes: $\bold{x}_2 \sim H \bold{x}_1$
+A homography is an isomorphism of projective spaces, or the transformation between two camera image planes: $\mathbf{x}_2 \sim H \mathbf{x}_1$
 
-Define $\bold{x}_1=(x_1,y_1,w_1)$ as an image point on the first camera view and $\bold{x}_2=(x_2,y_2,w_2)$ on the second camera view. $\bold{x}_1$ corresponds to $\bold{x}_2$, describing the same real world object point.
+Define $\mathbf{x}_1=(x_1,y_1,w_1)$ as an image point on the first camera view and $\mathbf{x}_2=(x_2,y_2,w_2)$ on the second camera view. $\mathbf{x}_1$ corresponds to $\mathbf{x}_2$, describing the same real world object point.
 
 Define a transform matrix $H$ that maps this projective relationship, there is (in homogeneous coordinates)
 $$
-\bold{x}_2=H \bold{x}_1
+\mathbf{x}_2=H \mathbf{x}_1
 $$
 where
 $$
@@ -81,37 +81,37 @@ $$
 
 Given the above $x_2'$ and $y_2'$ expressions, we have
 $$
-\bold{a}_x^\text{T} \bold{h} = \bold{0}
+\mathbf{a}_x^\text{T} \mathbf{h} = \mathbf{0}
 \\
-\bold{a}_y^\text{T} \bold{h} = \bold{0}
+\mathbf{a}_y^\text{T} \mathbf{h} = \mathbf{0}
 $$
 where
 $$
 \begin{align*}
-\bold{h}&=
+\mathbf{h}&=
 (h_{11}, h_{12}, h_{13}, h_{21}, h_{22}, h_{23}, h_{31}, h_{32}, h_{33})^\text{T}
 \\
-\bold{a}_x &=
+\mathbf{a}_x &=
 (-x_1, -y_1, -1, 0, 0, 0, x_2'x_1, x_2'y_1, x_2')^\text{T}
 \\
-\bold{a}_y &=
+\mathbf{a}_y &=
 (0, 0, 0, -x_1, -y_1, -1, y_2'y_1, y_2'x_1, y_2')^\text{T}
 \end{align*}
 $$
 
 Given $n$ points to compute 
 $$
-A \bold{h} = \bold{0}
+A \mathbf{h} = \mathbf{0}
 $$
 where
 $$
 A=
 \begin{bmatrix}
-    \bold{a}_{x_1}^\text{T} \\
-    \bold{a}_{y_1}^\text{T} \\
+    \mathbf{a}\_{x_1}^\text{T} \\
+    \mathbf{a}\_{y_1}^\text{T} \\
     \vdots \\
-    \bold{a}_{x_n}^\text{T} \\
-    \bold{a}_{x_n}^\text{T}
+    \mathbf{a}\_{x_n}^\text{T} \\
+    \mathbf{a}\_{x_n}^\text{T}
 \end{bmatrix}
 $$
 
@@ -119,29 +119,29 @@ $$
 
 * Solution 1: SVD
 $$
-A=U \Sigma V^\text{T}=\sum^9_{i=1}\sigma_i \bold{u}_i\bold{v}_i^\text{T}
+A=U \Sigma V^\text{T}=\sum^9_{i=1}\sigma_i \mathbf{u}\_i\mathbf{v}\_i^\text{T}
 $$
-Since solution $\bold{h}$ is over-determined and Dof for $H$ is $8$, the smallest $\sigma_i$ represents the residual. The other 8 homography entries $h_{ij}$ are equal to their corresponding $\sigma_i$.
+Since solution $\mathbf{h}$ is over-determined and Dof for $H$ is $8$, the smallest $\sigma_i$ represents the residual. The other 8 homography entries $h_{ij}$ are equal to their corresponding $\sigma_i$.
 
 * Solution 2: Derivative
 
 The objective function for minimization problem is
 $$
 \begin{align*}
-f(\bold{h}) &= \frac{1}{2} (A \bold{h} - \bold{0})^\text{T} (A \bold{h} - \bold{0})
+f(\mathbf{h}) &= \frac{1}{2} (A \mathbf{h} - \mathbf{0})^\text{T} (A \mathbf{h} - \mathbf{0})
 \\ &=
-\frac{1}{2} (A \bold{h})^\text{T} (A \bold{h})
+\frac{1}{2} (A \mathbf{h})^\text{T} (A \mathbf{h})
 \\ &=
-\frac{1}{2} \bold{h}^\text{T} A^\text{T} A \bold{h}
+\frac{1}{2} \mathbf{h}^\text{T} A^\text{T} A \mathbf{h}
 \end{align*}
 $$
 whose derivative is
 $$
 \begin{align*}
-\frac{df}{d\bold{h}} &= 
-\frac{1}{2} (A^\text{T} A + (A^\text{T} A)^\text{T}) \bold{h}
+\frac{df}{d\mathbf{h}} &= 
+\frac{1}{2} (A^\text{T} A + (A^\text{T} A)^\text{T}) \mathbf{h}
 \\ &= 
-A^\text{T} A \bold{h}
+A^\text{T} A \mathbf{h}
 \\ &=
 0
 \end{align*}
@@ -153,7 +153,7 @@ Eigen-decomposition of $A^\text{T} A$ should have 8 non-zero eigenvalues, same a
 
 In practice, we assume real world points on the $z=0$ plane, that is, camera plane and real world plane are parallel to each other.
 
-$\begin{bmatrix}\bold{R} & \bold{t} \\ \bold{0}^\top & 1 \end{bmatrix}$ is the rotation and translation operation from one camera view to the second.
+$\begin{bmatrix}\mathbf{R} & \mathbf{t} \\ \mathbf{0}^\top & 1 \end{bmatrix}$ is the rotation and translation operation from one camera view to the second.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/planar_homography_formulation.png" width="40%" height="40%" alt="planar_homography_formulation" />
@@ -163,7 +163,7 @@ $\begin{bmatrix}\bold{R} & \bold{t} \\ \bold{0}^\top & 1 \end{bmatrix}$ is the r
 
 ### Image panorama application example
 
-Panorama application example shows that $\bold{x}, \bold{x}' \in \bold{X}$ are on the same projective line, captured by two camera images $Image 1$ and $Image 2$. $\bold{x}$ and $\bold{x}'$ are mapped by a homography matrix $H$.
+Panorama application example shows that $\mathbf{x}, \mathbf{x}' \in \mathbf{X}$ are on the same projective line, captured by two camera images $Image 1$ and $Image 2$. $\mathbf{x}$ and $\mathbf{x}'$ are mapped by a homography matrix $H$.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/image_concate_homography.png" width="40%" height="40%" alt="image_concate_homography" />
@@ -191,7 +191,7 @@ $$
     u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\
     \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\
     u_n'u_n & u_n'v_n & u_n' & v_n'v_n & v_n'u_n & v_n' & u_n & v_n & 1 \\
-\end{bmatrix}}_{:= A}
+\end{bmatrix}}\_{:= A}
 \begin{bmatrix}
     f_1 \\
     f_2 \\
@@ -290,23 +290,23 @@ Given $n$ points to compute
 
 $$
 \begin{bmatrix}
-    \bold{a}_{x_1}^\text{T} \\
-    \bold{a}_{y_1}^\text{T} \\
+    \mathbf{a}\_{x_1}^\text{T} \\
+    \mathbf{a}\_{y_1}^\text{T} \\
     \vdots \\
-    \bold{a}_{x_n}^\text{T} \\
-    \bold{a}_{x_n}^\text{T}
+    \mathbf{a}\_{x_n}^\text{T} \\
+    \mathbf{a}\_{x_n}^\text{T}
 \end{bmatrix}
 \begin{bmatrix}
     h_{11} \\ h_{12} \\ h_{13} \\ h_{21} \\ h_{22} \\ h_{23} \\ h_{31} \\ h_{32} \\ h_{33}
-\end{bmatrix}= \bold{0}
+\end{bmatrix}= \mathbf{0}
 $$
 where 
 $$
 \begin{align*}
-\bold{a}_x &=
+\mathbf{a}_x &=
 [-x_1, -y_1, -1, 0, 0, 0, x_2'x_1, x_2'y_1, x_2']^\text{T}
 \\
-\bold{a}_y &=
+\mathbf{a}_y &=
 [0, 0, 0, -x_1, -y_1, -1, y_2'y_1, y_2'x_1, y_2']^\text{T}    
 \end{align*}
 $$
@@ -384,22 +384,22 @@ Symmetric Transfer Error measures how accurate is two matches transferring from 
 $$
 H^* = 
 \min_{H} \sum_{i}
-d(\bold{x}_i, H^{-1}\bold{x}')^2
+d(\mathbf{x}\_i, H^{-1}\mathbf{x}')^2
 +
-d(\bold{x}'_i, H\bold{x})^2
+d(\mathbf{x}'_i, H\mathbf{x})^2
 $$
 
 
 * Reprojection Error
 
-The *reprojection error* measures how close is between an observation $\bold{x}$ and an estimate $\hat{\bold{x}}$. 
+The *reprojection error* measures how close is between an observation $\mathbf{x}$ and an estimate $\hat{\mathbf{x}}$. 
 First the error between the observation and the estimate is computed, 
-then after applying homography $H$, the error of the correspondence point $\bold{x}'$'s observation and estimate is computed.
+then after applying homography $H$, the error of the correspondence point $\mathbf{x}'$'s observation and estimate is computed.
 
 $$
 H^* = 
 \min_{H} \sum_{i}
-d(\bold{x}_i, \hat{\bold{x}}_i)^2
+d(\mathbf{x}\_i, \hat{\mathbf{x}}\_i)^2
 +
-d(\bold{x}'_i, \hat{\bold{x}}'_i)^2
+d(\mathbf{x}'_i, \hat{\mathbf{x}}'_i)^2
 $$

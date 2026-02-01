@@ -29,7 +29,7 @@ In computer vision, words translate to features, and documents/sentences transla
 To describe the similarity between two images, usually compare the similarities of feature points.
 Regard each feature point of an image as a "word", this image can be described in a way of vector containing many words.
 
-For example, for BRIEF features, an image can be described by the vector $\bold{v}=\{v_1, v_2, ..., v_m \}$, where each word is $v_k = \sum^{n=256}_{i=1} 2^{i-1} t_{i}(p,q)$ for a total of $256$ test pairs $(p,q)$.
+For example, for BRIEF features, an image can be described by the vector $\mathbf{v}=\{v_1, v_2, ..., v_m \}$, where each word is $v_k = \sum^{n=256}\_{i=1} 2^{i-1} t_{i}(p,q)$ for a total of $256$ test pairs $(p,q)$.
 
 ### BoW Vocabulary
 
@@ -520,7 +520,7 @@ void TemplatedDatabase<TDescriptor, F>::save(cv::FileStorage &fs,
 
 ### Image to BoW Vector And Weight Assignment
 
-In DBoW2, weights $W$ are added to every features (or to compressed version of the features, the leaf nodes) of an image vector representation $W\bold{v}$.
+In DBoW2, weights $W$ are added to every features (or to compressed version of the features, the leaf nodes) of an image vector representation $W\mathbf{v}$.
 So that only leaf nodes should get weighted.
 
 Building BoW vector from images' features is done by `transform(...)`, where leaf nodes are accumulated of weights and associated with features.
@@ -719,17 +719,17 @@ lower_bound(const key_type& __x) const
 
 ### Image Recognition and Correspondence
 
-An image can be represented by a BoW vector $\bold{v}=\{w_1 v_1, w_2 v_2, ..., w_m v_m \}$.
-Define two BoW vectors $\bold{v}_1$ and $\bold{v}_2$ to represent two images.
+An image can be represented by a BoW vector $\mathbf{v}=\{w_1 v_1, w_2 v_2, ..., w_m v_m \}$.
+Define two BoW vectors $\mathbf{v}_1$ and $\mathbf{v}_2$ to represent two images.
 
 The two image similarity can be computed via 
 $$
-\text{s}(\bold{v}_1, \bold{v}_2) =
+\text{s}(\mathbf{v}_1, \mathbf{v}_2) =
 1 - \frac{1}{2}
-\Bigg| \frac{\bold{v}_1}{|\bold{v}_1|} - \frac{\bold{v}_2}{|\bold{v}_2|} \Bigg|
+\Bigg| \frac{\mathbf{v}_1}{|\mathbf{v}_1|} - \frac{\mathbf{v}_2}{|\mathbf{v}_2|} \Bigg|
 $$
 
-Image similarity *score* $\text{s}(\bold{v}_1, \bold{v}_2)$ can be used to compare the similarity between two images.
+Image similarity *score* $\text{s}(\mathbf{v}_1, \mathbf{v}_2)$ can be used to compare the similarity between two images.
 It can be used in loop closure if a vehicle has re-entered the same scene.
 
 This formula has weights `vi` and `wi` ranged between $0$ and $1$, that gives a result in $[-2, 0]$, where $-2$ means good match.

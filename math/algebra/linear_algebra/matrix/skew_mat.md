@@ -39,11 +39,11 @@ The space of $n \times n$ skew-symmetric matrices has dimensionality $\frac{1}{2
 
 ## Cross Product
 
-Given $\bold{a}=(a_1, a_2, a_3)^\text{T}$ and $\bold{b}=(b_1, b_2, b_3)^\text{T}$
+Given $\mathbf{a}=(a_1, a_2, a_3)^\text{T}$ and $\mathbf{b}=(b_1, b_2, b_3)^\text{T}$
 
-Define $\bold{a}$'s skew matrix representation
+Define $\mathbf{a}$'s skew matrix representation
 $$
-[\bold{a}]_{\times}=
+[\mathbf{a}]_{\times}=
 \begin{bmatrix}
       0 & a_1 & a_2 \\
       -a_1 & 0 & a_3 \\
@@ -53,19 +53,19 @@ $$
 
 Cross product can be computed by its matrix multiplication 
 $$
-\bold{a} \times \bold{b}=
-[\bold{a}]_{\times} \bold{b}
+\mathbf{a} \times \mathbf{b}=
+[\mathbf{a}]_{\times} \mathbf{b}
 $$
 
 ## Use Case in Geometry
 
-Given a cross operation of two vector $\bold{a} \in \mathbb{R}^3$ and $\bold{b} \in \mathbb{R}^3$, there is
+Given a cross operation of two vector $\mathbf{a} \in \mathbb{R}^3$ and $\mathbf{b} \in \mathbb{R}^3$, there is
 $$
 \begin{align*}
-\bold{a} \times \bold{b}&=
+\mathbf{a} \times \mathbf{b}&=
 \bigg|\bigg|
 \begin{array}{ccc}
-      \bold{e}_1 & \bold{e}_2 & \bold{e}_3 \\
+      \mathbf{e}_1 & \mathbf{e}_2 & \mathbf{e}_3 \\
       a_1 & a_2 & a_3 \\
       b_1 & b_2 & b_3
 \end{array}
@@ -90,10 +90,10 @@ $$
       a_3 & 0 & -a_1 \\
       -a_2 & a_1 & 0 \\
 \end{bmatrix}
-\bold{b}\\ &=
-\bold{a}^{\wedge} \bold{b}
+\mathbf{b}\\ &=
+\mathbf{a}^{\wedge} \mathbf{b}
 \end{align*}
 $$
-where $\bold{a}^{\wedge}$ denotes the skew-symmetric matrix representation of the vector $\bold{a}$.
+where $\mathbf{a}^{\wedge}$ denotes the skew-symmetric matrix representation of the vector $\mathbf{a}$.
 
-The length of the cross product result is $|\bold{a}||\bold{b}|sin\angle\bold{a}, \bold{b}$, where $\angle\bold{a}, \bold{b}$ represents the angle between the two vectors.
+The length of the cross product result is $|\mathbf{a}||\mathbf{b}|sin\angle\mathbf{a}, \mathbf{b}$, where $\angle\mathbf{a}, \mathbf{b}$ represents the angle between the two vectors.

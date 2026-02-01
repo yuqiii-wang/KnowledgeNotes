@@ -46,19 +46,19 @@ $$
 
 RoPE (Rotary Position Embedding) uses a rotational transformation based on sine and cosine functions to encode the position information.
 
-$\bold{q}_m$ and $\bold{k}_n$ are a query vector and key vector in the attention formula $\text{softmax} \big(\frac{\bold{q}_m^{\top} \bold{k}_n}{\sqrt{d_k}} \big) \bold{v}_n$.
-The dimensions of $\bold{q}_m$ and $\bold{k}_n$ represent the sinusoidal-scaled position.
+$\mathbf{q}_m$ and $\mathbf{k}_n$ are a query vector and key vector in the attention formula $\text{softmax} \big(\frac{\mathbf{q}_m^{\top} \mathbf{k}_n}{\sqrt{d_k}} \big) \mathbf{v}_n$.
+The dimensions of $\mathbf{q}_m$ and $\mathbf{k}_n$ represent the sinusoidal-scaled position.
 
-Let $\bold{q}_m=R_{m}\bold{q}_1$ and $\bold{k}_n=R_{n}\bold{k}_1$ so that their position info is represented via rotation matrices $R_{m}$ and $R_{n}$, there is
+Let $\mathbf{q}_m=R_{m}\mathbf{q}_1$ and $\mathbf{k}_n=R_{n}\mathbf{k}_1$ so that their position info is represented via rotation matrices $R_{m}$ and $R_{n}$, there is
 
 $$
-\max \text{score}(\bold{q}_m, \bold{k}_n) =
-(R_{m} \bold{q}_1)^{\top} (R_{n} \bold{k}_1) =
-\bold{q}_1^{\top} R_{m}^{\top}  R_{n} \bold{k}_1 =
-\bold{q}_1^{\top} R_{n-m} \bold{k}_1
+\max \text{score}(\mathbf{q}_m, \mathbf{k}_n) =
+(R_{m} \mathbf{q}_1)^{\top} (R_{n} \mathbf{k}_1) =
+\mathbf{q}_1^{\top} R_{m}^{\top}  R_{n} \mathbf{k}_1 =
+\mathbf{q}_1^{\top} R_{n-m} \mathbf{k}_1
 $$
 
-The rotation angle can be represented by $\bold{w}_i = 10000^{-\frac{2i}{D}}$.
+The rotation angle can be represented by $\mathbf{w}\_i = 10000^{-\frac{2i}{D}}$.
 
 ### Why RoPE Sees Limitation in Long Context
 
@@ -67,7 +67,7 @@ The rotation angle can be represented by $\bold{w}_i = 10000^{-\frac{2i}{D}}$.
 
 ### Long Distance
 
-When two tokens ($\bold{q}_m$ positioned at $m$ and $\bold{k}_n$ positioned at $n$) are very distant $|n-m|=\Delta\rightarrow \infty$, the score $\langle \bold{q}_m, \bold{k}_n \rangle$ has multiple mappings hence the attention score cannot determine which query token be associated to which key token.
+When two tokens ($\mathbf{q}_m$ positioned at $m$ and $\mathbf{k}_n$ positioned at $n$) are very distant $|n-m|=\Delta\rightarrow \infty$, the score $\langle \mathbf{q}_m, \mathbf{k}_n \rangle$ has multiple mappings hence the attention score cannot determine which query token be associated to which key token.
 Consequently, in long distance, the attention mechanism fails.
 
 Since the highest dimension sees the most granular angular rotation steps, the highest dimension covered token distance is considered the longest context length.
@@ -103,33 +103,33 @@ $\lambda'_7=81241.6$.
 Neural Tangent Kernel (NTK) is a study of the **dynamics** of neural networks during training by **gradient descent** on the assumption that the network is **infinitely wide**.
 It reveals what the core invariant behavior of the network is as parameters change/update in training process.
 
-Given a deep (with $l$ layers) and very wide (dimension is $D\rightarrow\infty$) neural network where each layer is parameterized by $\bold{w}_l\in\mathbb{R}^{D}$, and denote activation functions as $\sigma_l$.
+Given a deep (with $l$ layers) and very wide (dimension is $D\rightarrow\infty$) neural network where each layer is parameterized by $\mathbf{w}_l\in\mathbb{R}^{D}$, and denote activation functions as $\sigma_l$.
 
 $$
-f_{\bold{w}}(\bold{x})=
+f_{\mathbf{w}}(\mathbf{x})=
 \underbrace{\sigma_{l}\big(...
 \underbrace{\sigma_{2}(W_{2}
-\underbrace{\sigma_{1}(W_{1}\bold{x}+\bold{b}_{1})}_{\text{layer }1}
-+\bold{b}_{2})}_{\text{layer }2}
-\big)}_{\text{layer }l}
+\underbrace{\sigma_{1}(W_{1}\mathbf{x}+\mathbf{b}\_{1})}\_{\text{layer }1}
++\mathbf{b}\_{2})}\_{\text{layer }2}
+\big)}\_{\text{layer }l}
 $$
 
 The NTK kernel is defined as
 
 $$
-\kappa(\bold{x}, \bold{x}_{\Delta}) = \big(\nabla_{\bold{w}}f_{\bold{w}}(\bold{x})\big)^\top\big(\nabla_{\bold{w}}f_{\bold{w}}(\bold{x}_{\Delta})\big)
+\kappa(\mathbf{x}, \mathbf{x}\_{\Delta}) = \big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x}\_{\Delta})\big)
 $$
 
-where $\bold{x}, \bold{x}_{\Delta}\in\mathbb{R}^D$ are the input vectors, and $\bold{w}\in\mathbb{R}^D$ is the parameter vector for the neural network $f_{\bold{w}}(.)$.
-$\bold{x}_{\Delta}$ is the sample point that sees a positional gap of $\Delta=|n-m|$ from $\bold{x}$ (assumed $\bold{x}$ positioned at $m$ and $\bold{x}_{\Delta}$ at n).
+where $\mathbf{x}, \mathbf{x}\_{\Delta}\in\mathbb{R}^D$ are the input vectors, and $\mathbf{w}\in\mathbb{R}^D$ is the parameter vector for the neural network $f_{\mathbf{w}}(.)$.
+$\mathbf{x}\_{\Delta}$ is the sample point that sees a positional gap of $\Delta=|n-m|$ from $\mathbf{x}$ (assumed $\mathbf{x}$ positioned at $m$ and $\mathbf{x}\_{\Delta}$ at n).
 
 NTK kernel progresses by covariance matrix multiplication.
 
 $$
 \begin{align*}
-    \kappa^{(l)}(\bold{x}, \bold{x}_{\Delta}) &= \dot{\Sigma}^{(l)}(\bold{x}, \bold{x}_{\Delta}) \cdot
-    \underbrace{E\Big(\big(\nabla_{\bold{w}}f^{(l-1)}_{\bold{w}}(\bold{x})\big)^\top\big(\nabla_{\bold{w}}f^{(l-1)}_{\bold{w}}(\bold{x}_{\Delta})\big)\Big)}_{\text{NTK }\kappa^{(l-1)}(\bold{x}, \bold{x}_{\Delta})} +
-    \Sigma^{(l)}(\bold{x}, \bold{x}_{\Delta})
+    \kappa^{(l)}(\mathbf{x}, \mathbf{x}\_{\Delta}) &= \dot{\Sigma}^{(l)}(\mathbf{x}, \mathbf{x}\_{\Delta}) \cdot
+    \underbrace{E\Big(\big(\nabla_{\mathbf{w}}f^{(l-1)}\_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f^{(l-1)}\_{\mathbf{w}}(\mathbf{x}\_{\Delta})\big)\Big)}\_{\text{NTK }\kappa^{(l-1)}(\mathbf{x}, \mathbf{x}\_{\Delta})} +
+    \Sigma^{(l)}(\mathbf{x}, \mathbf{x}\_{\Delta})
 \end{align*}
 $$
 
@@ -137,17 +137,17 @@ $$
 
 Rather than uniformly applying the scaling factor to all frequencies such that $\frac{1}{s}\Delta\theta_i$, the NTK-aware method **extrapolates high-frequency components** and conducts **interpolations in low-frequency components**.
 
-Here proves that NTK kernel scaling: for two sample points $\bold{x},\bold{x}_{\Delta}$ where $\Delta$ is the position gap of how faraway these two sample points are,
+Here proves that NTK kernel scaling: for two sample points $\mathbf{x},\mathbf{x}\_{\Delta}$ where $\Delta$ is the position gap of how faraway these two sample points are,
 NTK-Aware methods make sure the NTK kernel is scaled accordingly by $s'_i$ per dimension.
 
-Denote $\bold{x}'$ as the input vector scaled by $s'_i=s^{-2i/(D-2)}$ from $\bold{x}$ per dimension.
+Denote $\mathbf{x}'$ as the input vector scaled by $s'_i=s^{-2i/(D-2)}$ from $\mathbf{x}$ per dimension.
 
-This means as sample point distance got scaled by $s'_i$ per dimension, the NTK kernel can reflect the scaling info, thereby guaranteed that if to fine-tune a neural network $f_{\bold{w}}$, the pre-trained knowledge can still be useful as new sample data is just scaled.
+This means as sample point distance got scaled by $s'_i$ per dimension, the NTK kernel can reflect the scaling info, thereby guaranteed that if to fine-tune a neural network $f_{\mathbf{w}}$, the pre-trained knowledge can still be useful as new sample data is just scaled.
 
 ### NTK-Aware Scaled RoPE Intuition
 
 Consider $\sum_{i=0}^{D/2-1}\big(\alpha_{\cos}\cos(\Delta\theta_i)+\alpha_{\sin}\sin(\Delta\theta_i)\big)$,
-where $\bold{w}_i = 10000^{-\frac{2i}{D}}$.
+where $\mathbf{w}\_i = 10000^{-\frac{2i}{D}}$.
 Let $b=10000^{2/D}$ be the base, list the rotation angles
 
 $$
@@ -189,10 +189,10 @@ This is basically **extrapolation** with a step of $1$, i.e., two sample point d
 
 #### Gradient Change With Respect To Angle Scaling
 
-Given $\nabla_{\bold{w}}f_{\bold{w}}$ based on an original setup RoPE angle $\bold{\theta}$, and the scaled angle is $\bold{\theta}'=[\theta'_0, \theta'_1, ..., \theta'_{D/2-1}]$,
+Given $\nabla_{\mathbf{w}}f_{\mathbf{w}}$ based on an original setup RoPE angle $\mathbf{\theta}$, and the scaled angle is $\mathbf{\theta}'=[\theta'_0, \theta'_1, ..., \theta'_{D/2-1}]$,
 where $\theta'_i=\frac{1}{s^{2i/(D-2)}}\theta_i$.
 
-Then, the proof problem becomes how much change it is for $\nabla_{\bold{w}}f_{\bold{w}}'$ vs $\nabla_{\bold{w}}f_{\bold{w}}$ in NTK kernel.
+Then, the proof problem becomes how much change it is for $\nabla_{\mathbf{w}}f_{\mathbf{w}}'$ vs $\nabla_{\mathbf{w}}f_{\mathbf{w}}$ in NTK kernel.
 
 Construct Jacobian of angle scaling (for function gradient with respect to parameters does not concern RoPE angle, hence angle scaling can be treated as coefficients).
 
@@ -212,7 +212,7 @@ $$
 Then rewrite the gradient to
 
 $$
-\nabla_{\bold{w}}f'_{\bold{w}}=J_{s'}(\nabla_{\bold{w}}f_{\bold{w}})
+\nabla_{\mathbf{w}}f'_{\mathbf{w}}=J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})
 $$
 
 #### NTK Properties With Respect To Angle Scaling
@@ -221,21 +221,21 @@ Consider NTK kernel definition
 
 $$
 \begin{align*}
-    && \kappa(\bold{x}, \bold{x}_{\Delta}) &= \big(\nabla_{\bold{w}}f_{\bold{w}}(\bold{x})\big)^\top\big(\nabla_{\bold{w}}f_{\bold{w}}(\bold{x}_{\Delta})\big) \\
-\Rightarrow && \kappa(\bold{x}', \bold{x}'_{\Delta}) &= \big(J_{s'}(\nabla_{\bold{w}}f_{\bold{w}})\big)^\top\big(J_{s'}(\nabla_{\bold{w}}f_{\bold{w}})\big) \\
-    && &= J_{s'}^{\top}J_{s'} \kappa(\bold{x}, \bold{x}_{\Delta})
+    && \kappa(\mathbf{x}, \mathbf{x}\_{\Delta}) &= \big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x}\_{\Delta})\big) \\
+\Rightarrow && \kappa(\mathbf{x}', \mathbf{x}'_{\Delta}) &= \big(J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})\big)^\top\big(J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})\big) \\
+    && &= J_{s'}^{\top}J_{s'} \kappa(\mathbf{x}, \mathbf{x}\_{\Delta})
 \end{align*}
 $$
 
 where $J_{s'}^{\top}J_{s'}=\text{diag}(s^{4i/(D-2)})$.
 
 For the scaling $s$ is not a large value, e.g., $s=32$ overall the kernel is stable.
-The scaling $J_{s'}^{\top}J_{s'}$ on the other hand, shows that it cannot be very large, i.e., $s\rightarrow\infty$, the $J_{s'}^{\top}J_{s'}$ will be very large so that the NTK kernel $\kappa(\bold{x}', \bold{x}'_{\Delta})$ will not converge.
+The scaling $J_{s'}^{\top}J_{s'}$ on the other hand, shows that it cannot be very large, i.e., $s\rightarrow\infty$, the $J_{s'}^{\top}J_{s'}$ will be very large so that the NTK kernel $\kappa(\mathbf{x}', \mathbf{x}'_{\Delta})$ will not converge.
 
 In more detail, $J_{s'}^{\top}J_{s'}=\text{diag}(s^{4i/(D-2)})$ illustrates that when for lower frequency, dimension approaches to $i\rightarrow \frac{D-2}{2}$ that leads to large $s^{4i/(D-2)}\rightarrow s^2$.
 This indicates that learning is more prominent on high dimensions/lower frequency components than on low dimensions/higher frequency components where $i\rightarrow 0$ that leads to $s^{4i/(D-2)}\rightarrow 1$.
 
-In particular, when there is no scaling such that $s^{4i/(D-2)}\big|_{i=0}=1$, the NTK kernel is kept unchanged $\kappa(\bold{x}', \bold{x}'_{\Delta})=\kappa(\bold{x}, \bold{x}_{\Delta})$, indicating no scaling reflected on NTK learning dynamics.
+In particular, when there is no scaling such that $s^{4i/(D-2)}\big|_{i=0}=1$, the NTK kernel is kept unchanged $\kappa(\mathbf{x}', \mathbf{x}'_{\Delta})=\kappa(\mathbf{x}, \mathbf{x}\_{\Delta})$, indicating no scaling reflected on NTK learning dynamics.
 
 In conclusion, NTK kernel scaling by $J_{s'}^{\top}J_{s'}=\text{diag}(s^{4i/(D-2)})$ reveals the learning dynamics are scaled in correlation per frequency component,
 and it fits the original context length extension philosophy: higher frequency components should keep unchanged while more adaptations/learnings are motivated on lower frequency components.
@@ -287,16 +287,16 @@ DeepSeek-V2 sets below parameters.
 Besides having considered implementation of NTK-by-parts, YaRN introduces a novel temperature $t$ such that
 
 $$
-\text{softmax}\bigg(\frac{\bold{q}^{\top}_m\bold{k}_n}{t\sqrt{D}}\bigg),
+\text{softmax}\bigg(\frac{\mathbf{q}^{\top}_m\mathbf{k}_n}{t\sqrt{D}}\bigg),
 $$
 
-Essentially, $\sqrt{t}$ is a constant scaling factor to modulate the inner product $\bold{q}^{\top}_m\bold{k}_n$.
+Essentially, $\sqrt{t}$ is a constant scaling factor to modulate the inner product $\mathbf{q}^{\top}_m\mathbf{k}_n$.
 
 A typical setup is $\sqrt{t}=0.1\ln s+1$.
 
 #### Why Temperature: To Reduce "Sharpness" of Attention Score Particularly For The Higher Dimensions
 
-The attention score produced by the inner product $\bold{q}^{\top}_m\bold{k}_n$ is modulated with exponential operation (introduced from softmax) that large component will be scaled to even larger value, hence considered "sharper".
+The attention score produced by the inner product $\mathbf{q}^{\top}_m\mathbf{k}_n$ is modulated with exponential operation (introduced from softmax) that large component will be scaled to even larger value, hence considered "sharper".
 
 For example, $10>5$ only sees 2 times scaling, but its exponential mapping result sees a much larger gap $\exp(10)\gg\exp(5)$ such that $\exp(10)/\exp(5)\approx 148.4$.
 
@@ -306,18 +306,18 @@ As a result, by introducing $\sqrt{t}>1$, the attention score is "flattened".
 Notice that $\sqrt{t}=0.1\ln s+1$ grows by logarithmic scale with respect to $s$, hence the modulation has stronger effects on longer context length.
 Also remember that (as in NTK-By-Parts) the lower frequency range sees more linear interpolations while higher frequency range has none, the "flattening" has stronger effects on the lower frequency range.
 
-Let $a_{nm}$ be the original attention score and $a'_{nm}$ be the score computed from the scaled $\bold{q}'^{\top}_m\bold{k}'_n$.
+Let $a_{nm}$ be the original attention score and $a'_{nm}$ be the score computed from the scaled $\mathbf{q}'^{\top}_m\mathbf{k}'_n$.
 By NTK-aware philosophy the higher dimensions $D'_{\text{high}}\gg D_{\text{high}}$ have much more interpolations,
 therefore they have larger sum that will be "flattened" severely by temperature.
 
 $$
 \begin{align*}
-    && a_{nm}=\bold{q}^{\top}_m\bold{k}_n &=
-    \sum^{D_{\text{low}}}_{i=0} {q}^{\top}_i {k}_i +
-    \sum^{D_{\text{high}}}_{i=D_{\text{low}}} {q}^{\top}_i {k}_i \\
-\Rightarrow && a'_{nm}=\bold{q}'^{\top}_m\bold{k}'_n &=
-    \sum^{D_{\text{low}}}_{i=0} {q}^{\top}_i {k}_i +
-    \underbrace{\sum^{D'_{\text{high}}}_{i=D_{\text{low}}} {q}^{\top}_i {k}_i}_{\begin{matrix}
+    && a_{nm}=\mathbf{q}^{\top}_m\mathbf{k}_n &=
+    \sum^{D_{\text{low}}}\_{i=0} {q}^{\top}\_i {k}\_i +
+    \sum^{D_{\text{high}}}\_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i \\
+\Rightarrow && a'_{nm}=\mathbf{q}'^{\top}_m\mathbf{k}'_n &=
+    \sum^{D_{\text{low}}}\_{i=0} {q}^{\top}\_i {k}\_i +
+    \underbrace{\sum^{D'_{\text{high}}}\_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i}\_{\begin{matrix}
         \text{larger sum} \\
         \text{for more} \\
         \text{interpolations}
@@ -325,7 +325,7 @@ $$
 \end{align*}
 $$
 
-where ${q}^{\top}_i$ means that $i$ indexing takes transpose row vs col to match that of ${k}_i$.
+where ${q}^{\top}\_i$ means that $i$ indexing takes transpose row vs col to match that of ${k}\_i$.
 
 #### Evaluation by Perplexity
 
@@ -344,13 +344,13 @@ For example, below results show that as the prediction uncertainty increases, pe
 |Scenario 1|$p_{x_1}=1.0$|$1.0=2^{-1.0\log_2 1.0}$|$1.0\approx 1/1.0$|
 |Scenario 2|$p_{x_1}=0.1$, $p_{x_2}=0.9$|$1.38\approx 2^{-0.1\log_2 0.1 - 0.9\log_2 0.9}$|$0.72\approx 1/1.38$|
 |Scenario 3|$p_{x_1}=p_{x_2}=0.5$|$1.617\approx 2^{-2\times 0.5\log_2 0.5}$|$0.618\approx 1/1.617$|
-|Scenario 4|$p_{x_1}=p_{x_2}=p_{x_3}=0.333, \sum_{x_i\notin\{x_1, x_2, x_3\}}p_{x_i}=0.001$|$3.137\approx 2^{-3\times 0.333\log_2 0.333-0.001\times\log_2 0.001}$|$0.319\approx 1/3.137$|
+|Scenario 4|$p_{x_1}=p_{x_2}=p_{x_3}=0.333, \sum_{x\_i\notin\{x_1, x_2, x_3\}}p_{x\_i}=0.001$|$3.137\approx 2^{-3\times 0.333\log_2 0.333-0.001\times\log_2 0.001}$|$0.319\approx 1/3.137$|
 
 In model performance evaluation, sliding window perplexity can be written as
 
 $$
 \text{Perplexity}(P)=
-\exp\bigg(-\frac{1}{T-S}\sum_{t=S+1}^T P(\text{token}_t|\text{token}_{t-S}, \text{token}_{t-S+1}, ..., \text{token}_{t-1} )\bigg)
+\exp\bigg(-\frac{1}{T-S}\sum_{t=S+1}^T P(\text{token}_t|\text{token}\_{t-S}, \text{token}\_{t-S+1}, ..., \text{token}\_{t-1} )\bigg)
 $$
 
 where $T$ is the total sequence length and $S$ is the sliding window length.
@@ -373,7 +373,7 @@ $$
 0.1 \times \sqrt{\frac{1}{2}} \approx 0.0707
 $$
 
-Recall that in DeepSeek-V2, the RoPE for query and key $\bold{q}_{t,i}^{\text{Ro}},\bold{k}_{t,i}^{\text{Ro}}$ is only applied in half of the total attention head embedding, hence used $\sqrt{\frac{1}{2}}$ for YaRN.
+Recall that in DeepSeek-V2, the RoPE for query and key $\mathbf{q}\_{t,i}^{\text{Ro}},\mathbf{k}\_{t,i}^{\text{Ro}}$ is only applied in half of the total attention head embedding, hence used $\sqrt{\frac{1}{2}}$ for YaRN.
 
 * per-head dimension $D_h=128$
-* decoupled query and key per-head dimension $\bold{q}_{t,i}^{\text{Ro}},\bold{k}_{t,i}^{\text{Ro}}\in\mathbb{R}^{64}$, or $D^{\text{Ro}}_h=\frac{1}{2}D_h$
+* decoupled query and key per-head dimension $\mathbf{q}\_{t,i}^{\text{Ro}},\mathbf{k}\_{t,i}^{\text{Ro}}\in\mathbb{R}^{64}$, or $D^{\text{Ro}}_h=\frac{1}{2}D_h$

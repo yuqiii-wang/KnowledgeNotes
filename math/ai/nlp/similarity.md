@@ -6,10 +6,10 @@
 
 Vocab semantics can be represented by embeddings derived by training language model.
 
-*Cosine similarity* between two vector $\bold{v}_i, \bold{v}_j$ is define as
+*Cosine similarity* between two vector $\mathbf{v}\_i, \mathbf{v}_j$ is define as
 
 $$
-\text{similarity}_{\cos}(\bold{v}_i, \bold{v}_j) = \cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
+\text{similarity}\_{\cos}(\mathbf{v}\_i, \mathbf{v}_j) = \cos(\theta) = \frac{\mathbf{v}\_i \cdot \mathbf{v}_j}{||\mathbf{v}\_i || \space || \mathbf{v}_j ||}
 $$
 
 There is $\cos(\theta) \in [-1, 1]$, where $-1$ means being exactly opposite, $-1$ means being exactly the same, $0$ means orthogonality (being totally different).
@@ -61,35 +61,35 @@ sim = cosine_similarity(vec_1, vec_2)
 
 ## Lexical Similarity
 
-*Lexical similarity* is measured by describing identical token/word presence in two texts $\bold{v}_A$ and $\bold{v}_B$.
+*Lexical similarity* is measured by describing identical token/word presence in two texts $\mathbf{v}_A$ and $\mathbf{v}_B$.
 
 *Jaccard similarity* is the simplest way of computing such description by counting token/word presence.
-The result is the percentage of the intersection set $\bold{v}_A \bigcap \bold{v}_B$ (same tokens/words present in both texts) over the union set $\bold{v}_A \bigcup \bold{v}_B$ (all unique tokens/words).
+The result is the percentage of the intersection set $\mathbf{v}_A \bigcap \mathbf{v}_B$ (same tokens/words present in both texts) over the union set $\mathbf{v}_A \bigcup \mathbf{v}_B$ (all unique tokens/words).
 
 $$
-\text{JaccardSimilarity}(\bold{v}_A, \bold{v}_B) =
-\frac{\bold{v}_A \bigcap \bold{v}_B}{\bold{v}_A \bigcup \bold{v}_B} = 
-\frac{\bold{v}_A \bigcap \bold{v}_B}{|\bold{v}_A| + |\bold{v}_B| - \bold{v}_A \bigcap \bold{v}_B}
+\text{JaccardSimilarity}(\mathbf{v}_A, \mathbf{v}_B) =
+\frac{\mathbf{v}_A \bigcap \mathbf{v}_B}{\mathbf{v}_A \bigcup \mathbf{v}_B} = 
+\frac{\mathbf{v}_A \bigcap \mathbf{v}_B}{|\mathbf{v}_A| + |\mathbf{v}_B| - \mathbf{v}_A \bigcap \mathbf{v}_B}
 $$
 
 ## BM25
 
 BM25 (BM represents *Best Matching*) is a bag-of-words (bag-of-words embedding does not contain positional information) retrieval function that ranks and retrieves most similar documents against a query.
 
-Given a query $Q$ composed of a sequence of tokens $\{q_1, q_2, ..., q_n\}$, the BM25 score of a document $D \in \bold{D}$ select from a set of documents $\bold{D}$ matching this query $Q$ is
+Given a query $Q$ composed of a sequence of tokens $\{q_1, q_2, ..., q_n\}$, the BM25 score of a document $D \in \mathbf{D}$ select from a set of documents $\mathbf{D}$ matching this query $Q$ is
 
 $$
 \text{score}(D,Q) =
-\sum^n_{i=1} \text{IDF}(q_i)
-\frac{(k+1) \cdot f(q_i, D)}{f(q_i, D)+k\big(1-b+\frac{|D|}{\mu(\bold{D})}b\big)}
+\sum^n\_{i=1} \text{IDF}(q_i)
+\frac{(k+1) \cdot f(q_i, D)}{f(q_i, D)+k\big(1-b+\frac{|D|}{\mu(\mathbf{D})}b\big)}
 $$
 
 where
 
 * $f(q_i, D)$ is the number of times that the keyword $q_i$ occurs in the document $D$
 * $|D|$ is the length (total token count) of document $D$
-* $\mu(\bold{D})$ is the average length of a document in the set $\bold{D}$
-* $k \in [1.2, 2.0]$ and $b=0.75$ are config parameters, that large $k$ increases importance of $f(q_i, D)$ and large $b$ promotes importance of $\frac{|D|}{\mu(\bold{D})}$ (reduce the importance of $f(q_i, D)$).
+* $\mu(\mathbf{D})$ is the average length of a document in the set $\mathbf{D}$
+* $k \in [1.2, 2.0]$ and $b=0.75$ are config parameters, that large $k$ increases importance of $f(q_i, D)$ and large $b$ promotes importance of $\frac{|D|}{\mu(\mathbf{D})}$ (reduce the importance of $f(q_i, D)$).
 * $\text{IDF}(q_i)$ is the IDF (inverse document frequency) weight of the query term $q_i$.
 Given $N$ as the total number of documents, $n(q_i)$ is the number of documents containing $q_i$, there is
 

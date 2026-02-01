@@ -10,7 +10,7 @@ $$
 \text{Attention}(Q,K,V) = \text{softmax} \Big( \frac{Q K^{\top}}{\sqrt{d_k}} \Big) V
 $$
 
-where $\text{softmax} (\bold{x}) = \frac{e^{\bold{x}}}{\sum^K_{k=1}e^{\bold{x}}}$ in which $\bold{x}=\frac{Q K^{\top}}{\sqrt{d_k}}$.
+where $\text{softmax} (\mathbf{x}) = \frac{e^{\mathbf{x}}}{\sum^K_{k=1}e^{\mathbf{x}}}$ in which $\mathbf{x}=\frac{Q K^{\top}}{\sqrt{d_k}}$.
 
 $d_k$ is the dimension of query $Q$ and key $K$.
 Define the dimension of value $V$ as $d_v$ (value is often regarded as outputs).
@@ -22,10 +22,10 @@ To make computation convenient, set $d_v=d_k$.
 For multi-head attention, there is
 
 $$
-\text{MultiHeadAttention}(Q,K,V) = \text{concat}_{i=1}^h (\text{head}_1, \text{head}_2, ..., \text{head}_h) W
+\text{MultiHeadAttention}(Q,K,V) = \text{concat}\_{i=1}^h (\text{head}_1, \text{head}_2, ..., \text{head}_h) W
 $$
 
-where $\text{head}_i = \text{Attention} \big(Q_i (W_i^Q)^{\top},K_i (W_i^K)^{\top},V_i (W_i^V)^{\top} \big)$.
+where $\text{head}\_i = \text{Attention} \big(Q_i (W_i^Q)^{\top},K_i (W_i^K)^{\top},V_i (W_i^V)^{\top} \big)$.
 
 The weights are $W \in \mathbb{R}^{h \cdot d_v \times d_{model}}, W_i^Q \in \mathbb{R}^{d_{model} \times d_k}, W_i^K \in \mathbb{R}^{d_{model} \times d_k}, W_i^V \in \mathbb{R}^{d_{model} \times d_v}$, where $d_{model}=h \cdot d_v$ is the dimension of one single-attention head.
 To make computation convenient, set $d_v=d_k$.
@@ -39,16 +39,16 @@ Define a Feed-Forward Network (FFN), which is a $4$-times dimension increased fu
 The activation function is a simple ReLU $\sigma(x) = max(0, x)$.
 
 $$
-FFN(\bold{x}) = \max(0, \bold{x}W_1 + \bold{b}_1)W_2 + \bold{b}_2
+FFN(\mathbf{x}) = \max(0, \mathbf{x}W_1 + \mathbf{b}_1)W_2 + \mathbf{b}_2
 $$
 
-where one token $\bold{x} \in \mathbb{R}^{1 \times d_{model}}$ is passed to $FFN(\bold{x})$, in which $W_1 \in \mathbb{R}^{4 d_{model} \times d_{model}}$ and $W_2 \in \mathbb{R}^{ d_{model} \times 4d_{model}}$.
+where one token $\mathbf{x} \in \mathbb{R}^{1 \times d_{model}}$ is passed to $FFN(\mathbf{x})$, in which $W_1 \in \mathbb{R}^{4 d_{model} \times d_{model}}$ and $W_2 \in \mathbb{R}^{ d_{model} \times 4d_{model}}$.
 
 * Cross-Layer Token Passing: Residual Stream
 
 In the context of Transformers (like Llama-3 or Mistral), the *Residual Stream* is the primary vector space where tokens exist as they move through the layers of the model.
 
-Let $\bold{t}_n^{(l-1)}\in\bold{t}^{(l-1)}$ be the last token vector from from the $(l-1)$-th layer, its corresponding next layer input is
+Let $\mathbf{t}_n^{(l-1)}\in\mathbf{t}^{(l-1)}$ be the last token vector from from the $(l-1)$-th layer, its corresponding next layer input is
 
 $$
 \mathbf{t}_n^{(l)} = \mathbf{t}_n^{(l-1)} + \text{Attention}(\mathbf{t}_n^{(l-1)}) + \text{MLP}(\mathbf{t}_n^{(l-1)})
@@ -83,13 +83,13 @@ Given $Q$ for query, $K$ for key, $V$ for value, a simple self-attention can be 
 $$
 \text{attention}(Q,K,V) = \text{softmax} \Big( \frac{Q K^{\top}}{\sqrt{d_k}} \Big) V
 $$
-where $\text{softmax} (\bold{x}) = \frac{e^{\bold{x}}}{\sum^K_{k=1}e^{\bold{x}}}$ in which $\bold{x}=\frac{Q K^{\top}}{\sqrt{d_k}}$.
+where $\text{softmax} (\mathbf{x}) = \frac{e^{\mathbf{x}}}{\sum^K_{k=1}e^{\mathbf{x}}}$ in which $\mathbf{x}=\frac{Q K^{\top}}{\sqrt{d_k}}$.
 
 * 1st MatMul: $Q K^{\top} \in \mathbb{R}^{d_{model} \times d_{model}}$
 * Scale: $\sqrt{d_k}$ is a scaling factor for each element of $Q K^{\top}$ 
 * Mask: set partial input embeddings to zeros; this is useful in decoder where the predict words by decoder should not be affected by preceding input words.
-* SoftMax: $\text{softmax} (\bold{x})$
-* 2nd MatMul: $\text{softmax}(\bold{x}) \space V \in \mathbb{R}^{d_{model} \times d_k}$
+* SoftMax: $\text{softmax} (\mathbf{x})$
+* 2nd MatMul: $\text{softmax}(\mathbf{x}) \space V \in \mathbb{R}^{d_{model} \times d_k}$
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/scaled_dot_product_attention.png" width="15%" height="30%" alt="scaled_dot_product_attention" />
@@ -102,7 +102,7 @@ $$
 \text{MultiHeadAttention}(Q,K,V) = \text{concat}(\text{attention}_1, \text{attention}_2, ..., \text{attention}_n) W
 $$
 
-Explained as below, denote $Z_i = \text{attention}_i$.
+Explained as below, denote $Z_i = \text{attention}\_i$.
 The linear weight matrix $W$ is used for linear transformation.
 
 <div style="display: flex; justify-content: center;">

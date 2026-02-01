@@ -4,10 +4,10 @@
 
 * Linear Momentum
 
-An object's (linear) momentum is defined as "push" $\bold{p}$ derived from how much this object with mass $m$ is to maintain its movement at velocity $\bold{v}$.
+An object's (linear) momentum is defined as "push" $\mathbf{p}$ derived from how much this object with mass $m$ is to maintain its movement at velocity $\mathbf{v}$.
 
 $$
-\bold{p} = m \bold{v}
+\mathbf{p} = m \mathbf{v}
 $$
 
 The total momentum of a closed system remains constant.
@@ -32,7 +32,7 @@ where $r$ is the distance between rotation point and point of mass.
 *Torque* is the rotational analogue of (linear) force.
 
 $$
-\bold{\tau} = \bold{r} \times \bold{F}
+\mathbf{\tau} = \mathbf{r} \times \mathbf{F}
 $$
 
 <div style="display: flex; justify-content: center;">
@@ -40,28 +40,28 @@ $$
 </div>
 </br>
 
-The magnitude of $\bold{\tau}$ describes a scalar value of how strong force $\bold{F}$ is applied to rotation
+The magnitude of $\mathbf{\tau}$ describes a scalar value of how strong force $\mathbf{F}$ is applied to rotation
 
 $$
-|\bold{\tau}| = |\bold{r}||\bold{F}_{\perp}| = |\bold{r}||\bold{F}| \sin\theta
+|\mathbf{\tau}| = |\mathbf{r}||\mathbf{F}\_{\perp}| = |\mathbf{r}||\mathbf{F}| \sin\theta
 $$
 
 * Angular Momentum 角动量
 
 *Angular momentum* $L$ is the rotational analog of linear momentum.
-$L$ is defined in a similar way with replacements to  $m \rightarrow I$ and $\bold{v} \rightarrow \bold{\omega}$
+$L$ is defined in a similar way with replacements to  $m \rightarrow I$ and $\mathbf{v} \rightarrow \mathbf{\omega}$
 
 $$
 \begin{align*}
-\bold{p} &= m \bold{v} && \text{Linear} \\
-{L} &= I \bold{\omega} && \text{Angular}
+\mathbf{p} &= m \mathbf{v} && \text{Linear} \\
+{L} &= I \mathbf{\omega} && \text{Angular}
 \end{align*}
 $$
 
-where $I=r^2 m$ and $\bold{\omega}=\frac{\bold{r} \times \bold{v}}{r^2}$.
+where $I=r^2 m$ and $\mathbf{\omega}=\frac{\mathbf{r} \times \mathbf{v}}{r^2}$.
 
 $L$ has a direction not on the same plane as where rotation occurs.
-Instead, its direction is derived by cross product $\bold{r} \times \bold{v}$.
+Instead, its direction is derived by cross product $\mathbf{r} \times \mathbf{v}$.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/rotation_trigonometry.png" width="40%" height="40%" alt="rotation_trigonometry" />

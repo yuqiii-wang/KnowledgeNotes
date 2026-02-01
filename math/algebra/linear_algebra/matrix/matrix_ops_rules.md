@@ -13,17 +13,17 @@
 
 ## Derivative
 
-* Compute $\frac{\partial }{\partial \bold{w}}\big(\bold{x}^\top\bold{w}\big)^2$
+* Compute $\frac{\partial }{\partial \mathbf{w}}\big(\mathbf{x}^\top\mathbf{w}\big)^2$
 
 $$
 \begin{align*}
-    \frac{\partial }{\partial \bold{w}}\big(\bold{x}^\top\bold{w}\big)^2
+    \frac{\partial }{\partial \mathbf{w}}\big(\mathbf{x}^\top\mathbf{w}\big)^2
     &=
-    2 (\bold{x}^\top\bold{w})
-    \frac{\partial }{\partial \bold{w}}(\bold{x}^\top\bold{w})
+    2 (\mathbf{x}^\top\mathbf{w})
+    \frac{\partial }{\partial \mathbf{w}}(\mathbf{x}^\top\mathbf{w})
     \\ &=
-    2 (\bold{x}^\top\bold{w}) \bold{x}^\top
+    2 (\mathbf{x}^\top\mathbf{w}) \mathbf{x}^\top
     \\ &=
-    2 \bold{w}^\top ( \bold{x} \bold{x}^\top )
+    2 \mathbf{w}^\top ( \mathbf{x} \mathbf{x}^\top )
 \end{align*}
 $$

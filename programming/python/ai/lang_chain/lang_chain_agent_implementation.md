@@ -380,10 +380,10 @@ sentence_embeddings.shape
 # [14504, 768]
 ```
 
-* $\mathcal{L}_2$ by `IndexFlatL2`: for every $\bold{v}_i \in \mathbb{R}$
+* $\mathcal{L}_2$ by `IndexFlatL2`: for every $\mathbf{v}\_i \in \mathbb{R}$
 
 $$
-d = \sum\left(\bold{v}_i-\bold{v}_j\right)^2
+d = \sum\left(\mathbf{v}\_i-\mathbf{v}_j\right)^2
 $$
 
 ```python

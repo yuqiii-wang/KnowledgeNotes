@@ -8,17 +8,17 @@ LLM is fine-tuned periodically (e.g., everyday) by the best answers.
 
 ## Formulation
 
-Given input token sequence $\bold{x}$ (e.g., long text to summarize) and LLM produced answers $\bold{y}_1, \bold{y}_2, ..., \bold{y}_n$ (e.g., short summary), assume a human user selected a choice $\bold{y}_{i=c}$ as his/her considered best answer.
+Given input token sequence $\mathbf{x}$ (e.g., long text to summarize) and LLM produced answers $\mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_n$ (e.g., short summary), assume a human user selected a choice $\mathbf{y}\_{i=c}$ as his/her considered best answer.
 
-Define a reward model $r$ that takes input prompt $\bold{x}$ and LLM output $\bold{y}_i \in Y$.
+Define a reward model $r$ that takes input prompt $\mathbf{x}$ and LLM output $\mathbf{y}\_i \in Y$.
 The objective is to minimize the loss $\mathcal{L}(r)$ by fine-tuning the LLM.
 
 $$
 \min \mathcal{L}(r)=
-\min \mathbb{E} \Big( -\log \frac{e^{r(\bold{x}, \bold{y}_{i=c})}}{\sum_i e^{r(\bold{x}, \bold{y}_i)}} \Big)
+\min \mathbb{E} \Big( -\log \frac{e^{r(\mathbf{x}, \mathbf{y}\_{i=c})}}{\sum_i e^{r(\mathbf{x}, \mathbf{y}\_i)}} \Big)
 $$
 
-where the reward $r$ can be simply defined as exact match of human best rating answer $\bold{y}_{i=c}$ vs other LLM outputs $\bold{y}_i$.
+where the reward $r$ can be simply defined as exact match of human best rating answer $\mathbf{y}\_{i=c}$ vs other LLM outputs $\mathbf{y}\_i$.
 In addition, the reward $r$ can consider other aspects such as encouraging producing "positive" tokens that make a response concise and straightforward.
 
 ## LLM Alignment

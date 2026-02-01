@@ -81,7 +81,7 @@ f(x_1, x_2, ..., x_k; n; p_1, p_2, ..., p_k)
 \\ 
 \quad\quad\quad\quad\quad=
 \begin{cases}
-\frac{n!}{x_1!...x_k!}p_1^{x_1}p_2^{x_2}...p_k^{x_k} \quad \sum^k_{i=1}x_i=n
+\frac{n!}{x_1!...x_k!}p_1^{x_1}p_2^{x_2}...p_k^{x_k} \quad \sum^k_{i=1}x\_i=n
 \\
 0 \quad\quad\quad\quad\quad\quad\quad\quad \text{otherwise}
 \end{cases}

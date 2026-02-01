@@ -114,18 +114,18 @@ $$
 
 ## Lie Algebra and Perturbation
 
-Lie algebra derivative computation at a point $\bold{x}$ produces the the tangent's changes that have the information about the iteration step $\Delta \bold{x}$ (length and direction). 
+Lie algebra derivative computation at a point $\mathbf{x}$ produces the the tangent's changes that have the information about the iteration step $\Delta \mathbf{x}$ (length and direction). 
 
-A trivial perturbation (such as consisted of rotation and translation in rigid motion) $\Delta \bold{\xi}$ can be added to this point $\bold{x}$. If the trivial perturbation $\Delta \bold{\xi}$ is small enough, the partial derivative of $\bold{x}$ can be approximated by taking the partial derivative on $\Delta \bold{\xi}$.
+A trivial perturbation (such as consisted of rotation and translation in rigid motion) $\Delta \mathbf{\xi}$ can be added to this point $\mathbf{x}$. If the trivial perturbation $\Delta \mathbf{\xi}$ is small enough, the partial derivative of $\mathbf{x}$ can be approximated by taking the partial derivative on $\Delta \mathbf{\xi}$.
 
-Intuitively speaking, when $\Delta \bold{\xi}$ is small enough, the first-order gradient is almost the same as the perturbation's gradient at the point $\bold{x}$
+Intuitively speaking, when $\Delta \mathbf{\xi}$ is small enough, the first-order gradient is almost the same as the perturbation's gradient at the point $\mathbf{x}$
 $$
 \begin{align*}
-\frac{\partial f(\bold{x})}{\partial \bold{x}}
+\frac{\partial f(\mathbf{x})}{\partial \mathbf{x}}
 &\approx
-\frac{\partial f(\bold{x})}{\partial \Delta \bold{\xi}}
+\frac{\partial f(\mathbf{x})}{\partial \Delta \mathbf{\xi}}
 \\ &=
-\underset{\Delta \bold{\xi} \rightarrow 0}{lim}
-\frac{f(\bold{x}+\Delta \bold{\xi})-f(\bold{x})}{\Delta \bold{\xi}}
+\underset{\Delta \mathbf{\xi} \rightarrow 0}{lim}
+\frac{f(\mathbf{x}+\Delta \mathbf{\xi})-f(\mathbf{x})}{\Delta \mathbf{\xi}}
 \end{align*}
 $$

@@ -3,35 +3,35 @@
 ## Vector Representation of Rotations
 
 Different from Euler's formula that describes rotation according to the three axis $x$-th, $y$-th and $z$-th as $\theta_{roll}$, $\theta_{pitch}$ and $\theta_{yaw}$, 
-the vector representation first defines a unit rotation vector $\bold{u}$ and an angle $\theta$. 
-A spatial point $\bold{p}$ rotates about $\bold{u}$ by $\theta$, and the result $\bold{p}^*$ can be found as below.
+the vector representation first defines a unit rotation vector $\mathbf{u}$ and an angle $\theta$. 
+A spatial point $\mathbf{p}$ rotates about $\mathbf{u}$ by $\theta$, and the result $\mathbf{p}^*$ can be found as below.
 
-For rotation about non-unit vector $\bold{r}$, should first normalize it: $\bold{u}=\frac{\bold{r}}{||\bold{r}||}$.
+For rotation about non-unit vector $\mathbf{r}$, should first normalize it: $\mathbf{u}=\frac{\mathbf{r}}{||\mathbf{r}||}$.
 
-Then, decompose $\bold{p}$ to two orthogonal vectors $\bold{a}$ (along the direction of $\bold{u}$) and $\bold{b}$ (perpendicular to $\bold{u}$):
+Then, decompose $\mathbf{p}$ to two orthogonal vectors $\mathbf{a}$ (along the direction of $\mathbf{u}$) and $\mathbf{b}$ (perpendicular to $\mathbf{u}$):
 $$
 \begin{align*}
-\bold{a} &= \bold{u}\bold{u}^{\top}\bold{p}
+\mathbf{a} &= \mathbf{u}\mathbf{u}^{\top}\mathbf{p}
 \\
-\bold{b} &= \bold{p} - \bold{a} = (1-\bold{u}\bold{u}^{\top})\bold{p}    
+\mathbf{b} &= \mathbf{p} - \mathbf{a} = (1-\mathbf{u}\mathbf{u}^{\top})\mathbf{p}    
 \end{align*}
 $$
 
-For rotation has no effect on $\bold{a}$, but rotates $\bold{b}$ by $\theta$ to $\bold{b}'$, here define the $\bold{c}$ perpendicular to $\bold{b}$ on the same rotation plane.
+For rotation has no effect on $\mathbf{a}$, but rotates $\mathbf{b}$ by $\theta$ to $\mathbf{b}'$, here define the $\mathbf{c}$ perpendicular to $\mathbf{b}$ on the same rotation plane.
 $$
-\bold{c} = \bold{u} \times \bold{p}
+\mathbf{c} = \mathbf{u} \times \mathbf{p}
 $$
 
-So that the after rotation spatial point $\bold{p}'$ can be computed by *Rodrigues' formula*
+So that the after rotation spatial point $\mathbf{p}'$ can be computed by *Rodrigues' formula*
 $$
 \begin{align*}
-\bold{p}' &= \bold{a} + \bold{b}'
+\mathbf{p}' &= \mathbf{a} + \mathbf{b}'
 \\ &=
-\bold{a} + \bold{b}\cos\theta + \bold{c}\sin\theta
+\mathbf{a} + \mathbf{b}\cos\theta + \mathbf{c}\sin\theta
 \\ &=
-\bold{u}\bold{u}^{\top}\bold{p} + (1-\bold{u}\bold{u}^{\top})\bold{p}\cos\theta + \bold{u} \times \bold{p}\sin\theta
+\mathbf{u}\mathbf{u}^{\top}\mathbf{p} + (1-\mathbf{u}\mathbf{u}^{\top})\mathbf{p}\cos\theta + \mathbf{u} \times \mathbf{p}\sin\theta
 \\ &=
-\big( I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top} + \bold{u}^{\wedge}\sin\theta \big) \bold{p}
+\big( I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top} + \mathbf{u}^{\wedge}\sin\theta \big) \mathbf{p}
 \end{align*}
 $$
 where $\space^{\wedge}$ is denoted as the skew-symmetric representation of a vector.
@@ -41,15 +41,15 @@ where $\space^{\wedge}$ is denoted as the skew-symmetric representation of a vec
 </div>
 </br>
 
-The rotation $I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top} + \bold{u}^{\wedge}\sin\theta$ has two terms:
-$I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top}$ is symmetric, and $\bold{u}^{\wedge}\sin\theta$ is anti-symmetric.
+The rotation $I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top} + \mathbf{u}^{\wedge}\sin\theta$ has two terms:
+$I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top}$ is symmetric, and $\mathbf{u}^{\wedge}\sin\theta$ is anti-symmetric.
 
-So that in $R-R^{\top}$, the symmetric term  is canceled out for $\Big(I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top}\Big) - \Big(I\cos\theta + (1-\cos\theta)\bold{u}\bold{u}^{\top}\Big)^{\top} = 0$, leaving only $\bold{u}^{\wedge}\sin\theta$ untouched.
+So that in $R-R^{\top}$, the symmetric term  is canceled out for $\Big(I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top}\Big) - \Big(I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top}\Big)^{\top} = 0$, leaving only $\mathbf{u}^{\wedge}\sin\theta$ untouched.
 $$
 \begin{align*}
 R - R^{-1} &= R - R^{\top}
 \\ &= 
-2\bold{u}^{\wedge}\sin\theta
+2\mathbf{u}^{\wedge}\sin\theta
 \\ &= 2 \begin{bmatrix}
     0 & -u3 & u_2 \\
     u_3 & 0 & -u_1 \\
@@ -64,7 +64,7 @@ R - R^{-1} &= R - R^{\top}
 \end{align*}
 $$
 
-The vector $[p_1\quad p_2\quad p_3]$ has the norm of $\sin\theta$ aligned to the $\bold{u}$'s direction.
+The vector $[p_1\quad p_2\quad p_3]$ has the norm of $\sin\theta$ aligned to the $\mathbf{u}$'s direction.
 
 Given a typical rotation matrix $R=\begin{bmatrix} r_{11} & r_{12} & r_{13} \\ r_{21} & r_{22} & r_{23} \\ r_{31} & r_{32} & r_{33} \end{bmatrix}$, there is $\text{tr}(R) = r_{11} + r_{22} + r_{33} = 2 \cos\theta + 1$, where $\theta$ represents the angle of the rotation in axis/angle form (for derivation see below *Angle Computation* for Rodrigues' formula).
 
@@ -75,13 +75,13 @@ This formula provides a shortcut to compute exponential map from $so(3)$ (*Speci
 
 In other words, it helps transform a vector to its matrix representation.
 
-Representing a spacial point as $\bold{v}$, and $\bold{k} \times \bold{v}$ as column matrices ($\bold{k}$ is a unit vector), the cross product can be expressed as a matrix product
+Representing a spacial point as $\mathbf{v}$, and $\mathbf{k} \times \mathbf{v}$ as column matrices ($\mathbf{k}$ is a unit vector), the cross product can be expressed as a matrix product
 
 $$
 \begin{bmatrix}
-      (\bold{k} \times \bold{v})_x \\
-      (\bold{k} \times \bold{v})_y \\
-      (\bold{k} \times \bold{v})_z
+      (\mathbf{k} \times \mathbf{v})_x \\
+      (\mathbf{k} \times \mathbf{v})_y \\
+      (\mathbf{k} \times \mathbf{v})_z
 \end{bmatrix}=
 \begin{bmatrix}
       k_y v_z - k_z v_y \\
@@ -101,7 +101,7 @@ $$
 $$
 where, 
 $$
-\bold{K}=
+\mathbf{K}=
 \begin{bmatrix}
       0 & -k_z & k_y \\
       k_z & 0 & -k_x \\
@@ -109,31 +109,31 @@ $$
 \end{bmatrix}
 $$
 
-Now, the rotation matrix can be written in terms of $\bold{K}$ as
+Now, the rotation matrix can be written in terms of $\mathbf{K}$ as
 $$
-\bold{Q}=e^{\bold{K}\theta}=
-\bold{I}+\bold{K}sin(\theta)+\bold{K}^2\big(1-cos(\theta)\big)
+\mathbf{Q}=e^{\mathbf{K}\theta}=
+\mathbf{I}+\mathbf{K}sin(\theta)+\mathbf{K}^2\big(1-cos(\theta)\big)
 $$
-where $\bold{K}$ is rotation direction unit matrix while $\theta$ is the angle magnitude.
+where $\mathbf{K}$ is rotation direction unit matrix while $\theta$ is the angle magnitude.
 
 * Vector Form
 
-Define $\bold{v}$ is a vector $\bold{v} \in \mathbb{R}^3$, $\bold{k}$ is a unit vector describing an axis of rotation about which $\bold{v}$ rotates by an angle $\theta$
+Define $\mathbf{v}$ is a vector $\mathbf{v} \in \mathbb{R}^3$, $\mathbf{k}$ is a unit vector describing an axis of rotation about which $\mathbf{v}$ rotates by an angle $\theta$
 
 $$
-\bold{v}_{rot}=
-\bold{v} cos\theta + (\bold{k} \times \bold{v})sin\theta + \bold{k}(\bold{k} \cdot \bold{v})(1-cos\theta)
+\mathbf{v}\_{rot}=
+\mathbf{v} cos\theta + (\mathbf{k} \times \mathbf{v})sin\theta + \mathbf{k}(\mathbf{k} \cdot \mathbf{v})(1-cos\theta)
 $$
 
-The rotation of $\bold{v}$ about $\bold{k}$ by an angle $\theta$ follows the right hand rule
+The rotation of $\mathbf{v}$ about $\mathbf{k}$ by an angle $\theta$ follows the right hand rule
 
 * Matrix Form
 
-Define $\wedge$ as the skew-symmetric matrix representation of a vector (same as $\bold{K}=\bold{k}^{\wedge}$)
+Define $\wedge$ as the skew-symmetric matrix representation of a vector (same as $\mathbf{K}=\mathbf{k}^{\wedge}$)
 
 $$
-\bold{Q} =
-cos \theta \bold{I} + (1-cos \theta) \bold{k}\bold{k}^\text{T} + sin\theta \bold{k}^{\wedge}
+\mathbf{Q} =
+cos \theta \mathbf{I} + (1-cos \theta) \mathbf{k}\mathbf{k}^\text{T} + sin\theta \mathbf{k}^{\wedge}
 $$
 
 * Angle Computation
@@ -141,10 +141,10 @@ $$
 Define $tr$ as the trace operation; take the trace of the equation (Rodrigues' rotation in matrix form), so that the angle can be computed as
 $$
 \begin{align*}
-tr(\bold{Q}) &= tr \big(
-      cos \theta \bold{I} + (1-cos \theta) \bold{k}\bold{k}^\text{T} + sin\theta \bold{k}^{\wedge}
+tr(\mathbf{Q}) &= tr \big(
+      cos \theta \mathbf{I} + (1-cos \theta) \mathbf{k}\mathbf{k}^\text{T} + sin\theta \mathbf{k}^{\wedge}
 \big)\\ &=
-cos\theta \space tr(\bold{I})+(1-cos \theta) tr(\bold{k}\bold{k}^\text{T})+sin \theta \space tr(\bold{k}^{\wedge})\\ &=
+cos\theta \space tr(\mathbf{I})+(1-cos \theta) tr(\mathbf{k}\mathbf{k}^\text{T})+sin \theta \space tr(\mathbf{k}^{\wedge})\\ &=
 3 cos\theta + (1-cos \theta)\\ &=
 1+2cos\theta
 \end{align*}
@@ -153,46 +153,46 @@ $$
 Therefore,
 $$
 \theta = arccos \bigg(
-      \frac{tr(\bold{Q})-1}{2}
+      \frac{tr(\mathbf{Q})-1}{2}
 \bigg)
 $$
 
 ### Taylor Expansion Explanation
 
 $$
-e^{\bold{K}\theta}=
-\bold{I}+\bold{K}\theta
-+\frac{(\bold{K}\theta)^2}{2!}
-+\frac{(\bold{K}\theta)^3}{3!}
-+\frac{(\bold{K}\theta)^4}{4!}+...
+e^{\mathbf{K}\theta}=
+\mathbf{I}+\mathbf{K}\theta
++\frac{(\mathbf{K}\theta)^2}{2!}
++\frac{(\mathbf{K}\theta)^3}{3!}
++\frac{(\mathbf{K}\theta)^4}{4!}+...
 $$
 
-Given the properties of $\bold{K}$ being an antisymmentric matrix, there is $\bold{K}^3=-\bold{K}$, so that
+Given the properties of $\mathbf{K}$ being an antisymmentric matrix, there is $\mathbf{K}^3=-\mathbf{K}$, so that
 $$
 \begin{align*}
-e^{\bold{K}\theta}
+e^{\mathbf{K}\theta}
  &=
-\bold{I}
+\mathbf{I}
 +\big(
-    \bold{K}\theta
-    -\frac{\bold{K}\theta^3}{3!}
-    +\frac{\bold{K}\theta^5}{5!}
-    -\frac{\bold{K}\theta^7}{7!}
-    +\frac{\bold{K}\theta^9}{9!}
+    \mathbf{K}\theta
+    -\frac{\mathbf{K}\theta^3}{3!}
+    +\frac{\mathbf{K}\theta^5}{5!}
+    -\frac{\mathbf{K}\theta^7}{7!}
+    +\frac{\mathbf{K}\theta^9}{9!}
     +...
 \big)
 \\ &
 \space \space \space \space 
 +\big(
-    \frac{\bold{K}^2\theta^2}{2!}
-    -\frac{\bold{K}^4\theta^4}{4!}
-    +\frac{\bold{K}^6\theta^6}{6!}
-    -\frac{\bold{K}^8\theta^8}{8!}
+    \frac{\mathbf{K}^2\theta^2}{2!}
+    -\frac{\mathbf{K}^4\theta^4}{4!}
+    +\frac{\mathbf{K}^6\theta^6}{6!}
+    -\frac{\mathbf{K}^8\theta^8}{8!}
     +...
 \big)
 \\ &=
-\bold{I} +
-\bold{K}\big(
+\mathbf{I} +
+\mathbf{K}\big(
     \theta
     -\frac{\theta^3}{3!}
     +\frac{\theta^5}{5!}
@@ -201,7 +201,7 @@ e^{\bold{K}\theta}
     +...
 \big) 
 \\ &
-\space \space \space \space +\bold{K}^2\big(
+\space \space \space \space +\mathbf{K}^2\big(
     -\frac{\theta^2}{2!}
     +\frac{\theta^4}{4!}
     -\frac{\theta^6}{6!}
@@ -209,13 +209,13 @@ e^{\bold{K}\theta}
     +...
 \big)
 \\ &=
-\bold{I}+\bold{K}sin(\theta)+\bold{K}^2\big(1-cos(\theta)\big)
+\mathbf{I}+\mathbf{K}sin(\theta)+\mathbf{K}^2\big(1-cos(\theta)\big)
 \end{align*}
 $$
 
-## Derivative of Rotation Over Time: Angular Velocity $\overrightarrow{\bold{\omega}}$ and Linear Velocity $\overrightarrow{\bold{v}}$
+## Derivative of Rotation Over Time: Angular Velocity $\overrightarrow{\mathbf{\omega}}$ and Linear Velocity $\overrightarrow{\mathbf{v}}$
 
-Vector rotation rotating $\overrightarrow{\bold{r}}$ about the $Z$-th axis over some degree $\theta$ can be described as below.
+Vector rotation rotating $\overrightarrow{\mathbf{r}}$ about the $Z$-th axis over some degree $\theta$ can be described as below.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/rotation_trigonometry.png" width="30%" height="30%" alt="rotation_trigonometry" />
@@ -225,63 +225,63 @@ Vector rotation rotating $\overrightarrow{\bold{r}}$ about the $Z$-th axis over 
 Compute the trigonometry of rotation for $\Delta \theta$ to approximate the angular velocity as $\Delta t \rightarrow 0$
 $$
 \begin{align*}
-    {\bold{\omega}} =
+    {\mathbf{\omega}} =
     \lim_{\Delta t \rightarrow 0}\Delta \theta
     &= 
-    \Big|\Big|\overrightarrow{\bold{r}} \Big|\Big| \tan(\frac{d \theta}{dt} \Delta t)
+    \Big|\Big|\overrightarrow{\mathbf{r}} \Big|\Big| \tan(\frac{d \theta}{dt} \Delta t)
     \\ &=
-    \Big|\Big| \overrightarrow{\bold{r}} \Big|\Big| \frac{\sin(\frac{d \theta}{dt} \Delta t)}{\cos(\frac{d \theta}{dt} \Delta t)}
+    \Big|\Big| \overrightarrow{\mathbf{r}} \Big|\Big| \frac{\sin(\frac{d \theta}{dt} \Delta t)}{\cos(\frac{d \theta}{dt} \Delta t)}
     \\ &\approx
-    \Big|\Big| \overrightarrow{\bold{r}} \Big|\Big| \frac{\frac{d \theta}{dt}}{1}
+    \Big|\Big| \overrightarrow{\mathbf{r}} \Big|\Big| \frac{\frac{d \theta}{dt}}{1}
     && \qquad \text{for } \lim_{t \rightarrow 0} \sin(\theta t) = \theta \text{ and } \lim_{t \rightarrow 0} \cos(\theta t) = 1
     \\ &=
-    \Big|\Big| \overrightarrow{\bold{r}} \Big|\Big| \frac{d \theta}{dt}
+    \Big|\Big| \overrightarrow{\mathbf{r}} \Big|\Big| \frac{d \theta}{dt}
 \end{align*}
 $$
 
 
-The linear velocity is defined $\overrightarrow{\bold{v}}={\bold{\omega}} \overrightarrow{\bold{d}}$, 
-where $\overrightarrow{\bold{d}}$ is the rotation direction computed by the normalized cross product $\overrightarrow{\bold{d}}= \frac{1}{||\overrightarrow{\bold{r}}||} \big( Z \times \overrightarrow{\bold{r}} \big)$.
+The linear velocity is defined $\overrightarrow{\mathbf{v}}={\mathbf{\omega}} \overrightarrow{\mathbf{d}}$, 
+where $\overrightarrow{\mathbf{d}}$ is the rotation direction computed by the normalized cross product $\overrightarrow{\mathbf{d}}= \frac{1}{||\overrightarrow{\mathbf{r}}||} \big( Z \times \overrightarrow{\mathbf{r}} \big)$.
 
 $$
 \begin{align*}
-    \overrightarrow{\bold{v}} &= {\bold{\omega}} \overrightarrow{\bold{d}}
+    \overrightarrow{\mathbf{v}} &= {\mathbf{\omega}} \overrightarrow{\mathbf{d}}
     \\ &=
-    \Big|\Big| \overrightarrow{\bold{r}} \Big|\Big| \frac{d \theta}{dt} 
-    \cdot \frac{1}{||\overrightarrow{\bold{r}}||} \big( Z \times \overrightarrow{\bold{r}} \big)
+    \Big|\Big| \overrightarrow{\mathbf{r}} \Big|\Big| \frac{d \theta}{dt} 
+    \cdot \frac{1}{||\overrightarrow{\mathbf{r}}||} \big( Z \times \overrightarrow{\mathbf{r}} \big)
     \\ &= 
-    \underbrace{\frac{d \theta}{dt} Z}_{=\overrightarrow{\bold{\omega}}=\frac{d \theta}{dt} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}} 
-    \times \overrightarrow{\bold{r}}  
+    \underbrace{\frac{d \theta}{dt} Z}\_{=\overrightarrow{\mathbf{\omega}}=\frac{d \theta}{dt} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}} 
+    \times \overrightarrow{\mathbf{r}}  
 \end{align*}
 $$
 
-This indicates that the angular velocity has a direction pointing upward as $Z$ such that $\overrightarrow{\bold{\omega}}=\frac{d \theta}{dt} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}$.
-Linear velocity $\overrightarrow{\bold{v}}$ is perpendicular to $\overrightarrow{\bold{r}}$.
+This indicates that the angular velocity has a direction pointing upward as $Z$ such that $\overrightarrow{\mathbf{\omega}}=\frac{d \theta}{dt} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}$.
+Linear velocity $\overrightarrow{\mathbf{v}}$ is perpendicular to $\overrightarrow{\mathbf{r}}$.
 
 ### Matrix Representation
 
-Rotating $\overrightarrow{\bold{r}}$ from its origin position $\overrightarrow{\bold{r}}_0$ at the angular speed $\overrightarrow{\bold{\omega}}$ is basically to compute $\overrightarrow{\bold{r}}(t)=R(t) \overrightarrow{\bold{r}}_0$,
-where $R(t) = \exp(\overrightarrow{\bold{\omega}}^{\wedge}t)$.
+Rotating $\overrightarrow{\mathbf{r}}$ from its origin position $\overrightarrow{\mathbf{r}}_0$ at the angular speed $\overrightarrow{\mathbf{\omega}}$ is basically to compute $\overrightarrow{\mathbf{r}}(t)=R(t) \overrightarrow{\mathbf{r}}_0$,
+where $R(t) = \exp(\overrightarrow{\mathbf{\omega}}^{\wedge}t)$.
 
-Recall Rodrigues' rotation formula, here decomposes $\overrightarrow{\bold{\omega}}t = \frac{\overrightarrow{\bold{\omega}}}{||\overrightarrow{\bold{\omega}}||} \cdot ||\overrightarrow{\bold{\omega}}||t$, where $Z=\frac{\overrightarrow{\bold{\omega}}}{||\overrightarrow{\bold{\omega}}||}$ is the $Z$-th rotation axis, and $\theta=||\overrightarrow{\bold{\omega}}||t$ is the scalar rotation angle.
+Recall Rodrigues' rotation formula, here decomposes $\overrightarrow{\mathbf{\omega}}t = \frac{\overrightarrow{\mathbf{\omega}}}{||\overrightarrow{\mathbf{\omega}}||} \cdot ||\overrightarrow{\mathbf{\omega}}||t$, where $Z=\frac{\overrightarrow{\mathbf{\omega}}}{||\overrightarrow{\mathbf{\omega}}||}$ is the $Z$-th rotation axis, and $\theta=||\overrightarrow{\mathbf{\omega}}||t$ is the scalar rotation angle.
 
 $$
 \begin{align*}
 &&
-\bold{Q} =
-e^{\bold{K}\theta}&=
-\bold{I}+\bold{K}sin(\theta)+\bold{K}^2\big(1-cos(\theta)\big)
+\mathbf{Q} =
+e^{\mathbf{K}\theta}&=
+\mathbf{I}+\mathbf{K}sin(\theta)+\mathbf{K}^2\big(1-cos(\theta)\big)
 \\ \text{Substitutions } \Rightarrow &&
 R(t) =
-\exp(\overrightarrow{\bold{\omega}}^{\wedge}t)&=
-\bold{I} + Z^{\wedge} \sin(||\overrightarrow{\bold{\omega}}||t) + \big(1-\cos(||\overrightarrow{\bold{\omega}}||t)\big) Z^{\wedge} Z^{\wedge} 
+\exp(\overrightarrow{\mathbf{\omega}}^{\wedge}t)&=
+\mathbf{I} + Z^{\wedge} \sin(||\overrightarrow{\mathbf{\omega}}||t) + \big(1-\cos(||\overrightarrow{\mathbf{\omega}}||t)\big) Z^{\wedge} Z^{\wedge} 
 \end{align*}
 $$
 where $Z^{\wedge}=\begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & -1 & 0 \end{bmatrix}$ is the skew matrix representation of $Z = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}$.
 
-To get the first order derivative of $\dot{R}(t)$, when $t \rightarrow 0$, there are $\sin(||\overrightarrow{\bold{\omega}}||t) \rightarrow ||\overrightarrow{\bold{\omega}}||$ and $\cos(||\overrightarrow{\bold{\omega}}||t) \rightarrow 1$, so that
+To get the first order derivative of $\dot{R}(t)$, when $t \rightarrow 0$, there are $\sin(||\overrightarrow{\mathbf{\omega}}||t) \rightarrow ||\overrightarrow{\mathbf{\omega}}||$ and $\cos(||\overrightarrow{\mathbf{\omega}}||t) \rightarrow 1$, so that
 $$
-\dot{R}(t) = \frac{d \space R(t)}{dt} = \bold{I} + Z^{\wedge} ||\overrightarrow{\bold{\omega}}||
+\dot{R}(t) = \frac{d \space R(t)}{dt} = \mathbf{I} + Z^{\wedge} ||\overrightarrow{\mathbf{\omega}}||
 $$
 
 ## Derivative of Rotation Over $\theta$
@@ -311,21 +311,21 @@ $$
 \begin{align*}
 &&
     \Big(\frac{d}{d\theta} R_x(\theta) \Big) R_x^\top(\theta)
-    + R_x(\theta) \Big(\frac{d}{d\theta} R^\top_x(\theta) \Big) &= \bold{0}
+    + R_x(\theta) \Big(\frac{d}{d\theta} R^\top_x(\theta) \Big) &= \mathbf{0}
 \\ \Rightarrow &&
-    \underbrace{\Big(\frac{d}{d\theta} R_x(\theta) \Big) R_x^\top(\theta)}_{S_x}
+    \underbrace{\Big(\frac{d}{d\theta} R_x(\theta) \Big) R_x^\top(\theta)}\_{S_x}
     + 
-    \underbrace{\Bigg(\Big(\frac{d}{d\theta} R_x(\theta) \Big) R^\top_x(\theta)\Bigg)^\top}_{S_x^\top} 
-    &= \bold{0}
+    \underbrace{\Bigg(\Big(\frac{d}{d\theta} R_x(\theta) \Big) R^\top_x(\theta)\Bigg)^\top}\_{S_x^\top} 
+    &= \mathbf{0}
 \\ \Rightarrow &&
-    S_x + S_x^\top &= \bold{0}
+    S_x + S_x^\top &= \mathbf{0}
 \end{align*}
 $$
 
 For $S$ is anti-symmetric, generalize $S_x \rightarrow S([1\quad 0\quad 0])$ such as below
 $$
 \begin{align*}
-&& S(\bold{v}) &=
+&& S(\mathbf{v}) &=
 \begin{bmatrix}
     0 & -v_z & v_y \\
     v_z & 0 & -v_x \\

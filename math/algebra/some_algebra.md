@@ -119,27 +119,27 @@ $$
 
 #### Inner Product Space
 
-The inner product space of two vectors $\bold{u}$ and $\bold{v}$ is defined as an operator that turns a space into a scalar, often denoted with angle brackets such as in $\langle \bold{u}, \bold{v} \rangle$.
+The inner product space of two vectors $\mathbf{u}$ and $\mathbf{v}$ is defined as an operator that turns a space into a scalar, often denoted with angle brackets such as in $\langle \mathbf{u}, \mathbf{v} \rangle$.
 
 The most typical example is Euclidean vector space that a function $\langle .\space, .\space \rangle : \mathbb{R}^n \times \mathbb{R}^n \rightarrow \mathbb{R}$ is an inner product on $\mathbb{R}^n$.
 
 $$
-\langle \bold{u}, \bold{v} \rangle =
+\langle \mathbf{u}, \mathbf{v} \rangle =
 \Bigg\langle \begin{bmatrix}
     u_1 \\ u_2 \\ \vdots \\ u_n
 \end{bmatrix},
 \begin{bmatrix}
     v_1 \\ v_2 \\ \vdots \\ v_n
 \end{bmatrix} \Bigg\rangle =
-\bold{u}^{\top} \bold{v} =
-\sum^n_{i=1} u_1 v_1 + u_2 v_2 + ... u_n v_n
+\mathbf{u}^{\top} \mathbf{v} =
+\sum^n\_{i=1} u_1 v_1 + u_2 v_2 + ... u_n v_n
 $$
 
 The definition (Euclidean vector space) holds if and only if there exists a symmetric positive-definite matrix $M$ such that (set $n=2$ as an example for illustration).
 
 $$
-\langle \bold{u}, \bold{v} \rangle :=
-\bold{u}^{\top} M \bold{v} =
+\langle \mathbf{u}, \mathbf{v} \rangle :=
+\mathbf{u}^{\top} M \mathbf{v} =
 \begin{bmatrix}
     u_1, u_2
 \end{bmatrix} \begin{bmatrix}
@@ -150,40 +150,40 @@ $$
 $$
 
 where $m_a>0$ and $m_d>0$ that satisfy $m_a m_d > m_b^2$ (symmetric positive-definite).
-This condition says $\text{det}(M)=m_a m_d - m_b^2 > 0$ that keeps the transform $\bold{u}^{\top} M \bold{v}$ always positive.
+This condition says $\text{det}(M)=m_a m_d - m_b^2 > 0$ that keeps the transform $\mathbf{u}^{\top} M \mathbf{v}$ always positive.
 
-For example, if $M$ is an identity matrix, $\langle \bold{u}, \bold{v} \rangle$ is simply a dot product.
+For example, if $M$ is an identity matrix, $\langle \mathbf{u}, \mathbf{v} \rangle$ is simply a dot product.
 
 #### Cauchy-Schwarz Inequality Definition
 
-For all vectors $\bold{u}$ and $\bold{v}$ of an inner product space, there is
+For all vectors $\mathbf{u}$ and $\mathbf{v}$ of an inner product space, there is
 
 $$
-|\langle \bold{u}, \bold{v} \rangle|^2 \le
-\langle \bold{u}, \bold{u} \rangle \cdot \langle \bold{v}, \bold{v} \rangle
+|\langle \mathbf{u}, \mathbf{v} \rangle|^2 \le
+\langle \mathbf{u}, \mathbf{u} \rangle \cdot \langle \mathbf{v}, \mathbf{v} \rangle
 $$
 
-Given the definition $||\bold{u}||:=\sqrt{\langle \bold{u}, \bold{u} \rangle}$ and $||\bold{v}||:=\sqrt{\langle \bold{v}, \bold{v} \rangle}$, here derives
+Given the definition $||\mathbf{u}||:=\sqrt{\langle \mathbf{u}, \mathbf{u} \rangle}$ and $||\mathbf{v}||:=\sqrt{\langle \mathbf{v}, \mathbf{v} \rangle}$, here derives
 
 $$
-|\langle \bold{u}, \bold{v} \rangle| \le
-||\bold{u}||\space||\bold{v}||
+|\langle \mathbf{u}, \mathbf{v} \rangle| \le
+||\mathbf{u}||\space||\mathbf{v}||
 $$
 
-where the equality is established when $\bold{u}$ and $\bold{v}$ are linearly independent.
+where the equality is established when $\mathbf{u}$ and $\mathbf{v}$ are linearly independent.
 
 #### Cauchy-Schwarz Inequality Geometry Explanation
 
-The inner product $\langle \bold{u}, \bold{v} \rangle$ can be thought of as the multiplication of the length of a vector $\bold{u}$'s projection on another vector $\bold{v}$'s length.
-The projection over $\cos\theta_{\bold{u}\bold{v}} \le 1$ shows the inequality.
+The inner product $\langle \mathbf{u}, \mathbf{v} \rangle$ can be thought of as the multiplication of the length of a vector $\mathbf{u}$'s projection on another vector $\mathbf{v}$'s length.
+The projection over $\cos\theta_{\mathbf{u}\mathbf{v}} \le 1$ shows the inequality.
 
 $$
 \begin{align*}
-&& \cos\theta_{\bold{u}\bold{v}} &=
-\frac{\langle \bold{u}, \bold{v} \rangle}{||\bold{u}||\space||\bold{v}||} \\
-\Rightarrow && \langle \bold{u}, \bold{v} \rangle &=
-||\bold{u}||\space||\bold{v}|| \cos\theta_{\bold{u}\bold{v}} \\
-\Rightarrow && \langle \bold{u}, \bold{v} \rangle &\le ||\bold{u}||\space||\bold{v}||
+&& \cos\theta_{\mathbf{u}\mathbf{v}} &=
+\frac{\langle \mathbf{u}, \mathbf{v} \rangle}{||\mathbf{u}||\space||\mathbf{v}||} \\
+\Rightarrow && \langle \mathbf{u}, \mathbf{v} \rangle &=
+||\mathbf{u}||\space||\mathbf{v}|| \cos\theta_{\mathbf{u}\mathbf{v}} \\
+\Rightarrow && \langle \mathbf{u}, \mathbf{v} \rangle &\le ||\mathbf{u}||\space||\mathbf{v}||
 \end{align*}
 $$
 
@@ -216,7 +216,7 @@ Reference $(a^2+b^2)(c^2+d^2)\ge (ac+bd)^2$, in which equality holds when $ad=bc
 Let $x=a, y=d$ there is
 
 $$
-x\underbrace{\sqrt{1-y^2}}_{=c}+y\underbrace{\sqrt{1-x^2}}_{=b}\ge
+x\underbrace{\sqrt{1-y^2}}\_{=c}+y\underbrace{\sqrt{1-x^2}}\_{=b}\ge
 (x^2+1-x^2)(y^2+1-y^2)=1
 $$
 
@@ -348,7 +348,7 @@ Einstein notation (a.k.a Einstein summation convention or Einstein summation not
 For example,
 
 $$
-\bold{v} = v^i e_i =
+\mathbf{v} = v^i e_i =
 \begin{bmatrix}
     e_1 & e_2 & e_3 & ... & e_n
 \end{bmatrix}

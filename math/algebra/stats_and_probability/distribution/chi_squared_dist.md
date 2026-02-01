@@ -9,7 +9,7 @@ Chi-squared distribution (also chi-square or $\mathcal{X}^2$-distribution) with 
 Assume samples drawn from a normal population $x_1,x_2, ..., x_n \sim \mathcal{N}(\mu, \sigma^2)$,
 
 * Sample Mean: $\overline{x}\sim \mathcal{N}(\mu, \frac{\sigma^2}{n})$
-* Sample Variance: $s^2=\frac{1}{n-1}\sum^n_{i=1}(x_i-\overline{x})^2$
+* Sample Variance: $s^2=\frac{1}{n-1}\sum^n\_{i=1}(x\_i-\overline{x})^2$
 
 Notice here that $s^2$ refers to sample variance , while $\sigma^2$ refers to the whole population variance.
 
@@ -20,17 +20,17 @@ $$
 k=n-1\quad \text{degree of freedom}
 $$
 
-where $\frac{s^2(n-1)}{\sigma^2}=\frac{1}{\sigma^2}\sum^n_{i=1}(x_i-\overline{x})^2$.
-Compared to variance $\frac{1}{n}\sum^n_{i=1}(x_i-\overline{x})^2$ that gives the average sample deviation from the $\overline{X}$, the normalization term $\frac{1}{\sigma^2}$ for $\mathcal{X}^2$ can be intuitively taken as the average effective sample size.
+where $\frac{s^2(n-1)}{\sigma^2}=\frac{1}{\sigma^2}\sum^n\_{i=1}(x\_i-\overline{x})^2$.
+Compared to variance $\frac{1}{n}\sum^n\_{i=1}(x\_i-\overline{x})^2$ that gives the average sample deviation from the $\overline{X}$, the normalization term $\frac{1}{\sigma^2}$ for $\mathcal{X}^2$ can be intuitively taken as the average effective sample size.
 
 #### Central Limit Theorem (CLT) in Chi-Squared Distribution
 
 If $\overline{x}_n$ is the sample mean, then $Z=\lim_{n \rightarrow \infty} \Big( \frac{\overline{x}_n - \mu}{\frac{1}{\sqrt{n}} \sigma} \Big)$ is a standard normal distribution (having $\mu_{Z}=0$).
 
-In other words, it states that as $n$ gets larger, the distribution of the normalized mean ${\sqrt{n}}({\overline {\bold{x}}}_{n}-\mu )$, i.e. the difference between the sample average $\overline{\bold{x}}_n$ and its limit $\mu$ scaled by the factor ${\sqrt {n}}$, approaches the normal distribution with mean $0$ and variance $\sigma^{2}$.
+In other words, it states that as $n$ gets larger, the distribution of the normalized mean ${\sqrt{n}}({\overline {\mathbf{x}}}\_{n}-\mu )$, i.e. the difference between the sample average $\overline{\mathbf{x}}_n$ and its limit $\mu$ scaled by the factor ${\sqrt {n}}$, approaches the normal distribution with mean $0$ and variance $\sigma^{2}$.
 
 $$
-{\sqrt{n}}({\overline {\bold{x}}}_{n}-\mu ) \sim \mathcal{N}(0, \sigma^2)
+{\sqrt{n}}({\overline {\mathbf{x}}}\_{n}-\mu ) \sim \mathcal{N}(0, \sigma^2)
 $$
 
 ### Chi-Squared Distribution Definition
@@ -38,7 +38,7 @@ $$
 Define standard normal variable
 
 $$
-Z_i=\frac{\overline{X}_i-\mu}{\frac{1}{\sqrt{n}}\sigma}\sim N(0,1)
+Z_i=\frac{\overline{X}\_i-\mu}{\frac{1}{\sqrt{n}}\sigma}\sim N(0,1)
 $$
 
 In other words, if $Z_1, ..., Z_k$ are independent, standard normal random variables, then the sum of their squares,
@@ -71,7 +71,7 @@ For example, a survey was conducted in a city with 1 million population, in whic
 
 It can be said that
 
-* $\mu$ is the mean of the whole 1 million population, however, impractical to survey the whole 1 million population, for each district there is $\overline{X}_i=\text{SampleSize}_i \times 349/650$ is the best estimate of the population $\mu$
+* $\mu$ is the mean of the whole 1 million population, however, impractical to survey the whole 1 million population, for each district there is $\overline{X}\_i=\text{SampleSize}\_i \times 349/650$ is the best estimate of the population $\mu$
 
 ||$A$|$B$|$C$|$D$|
 |-|-|-|-|-|

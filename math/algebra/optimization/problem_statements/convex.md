@@ -12,11 +12,11 @@ Geometrically speaking, it is a convex polygon. The opposite is a concave polygo
 
 Given any two points in the subset, a convex subset contains the whole line segment that joins them.
 
-Let $\bold{X}$ be a convex subset of a real vector space and let $f:\bold{X} \rightarrow \mathbb{R}$ be a function.
+Let $\mathbf{X}$ be a convex subset of a real vector space and let $f:\mathbf{X} \rightarrow \mathbb{R}$ be a function.
 
 $f$ is a convex function when
 $$
-\forall \quad 0 \le t \le 1, \space (x_1, x_2) \in \bold{X}
+\forall \quad 0 \le t \le 1, \space (x_1, x_2) \in \mathbf{X}
 $$
 satisfied
 $$

@@ -13,14 +13,14 @@ The elements of the matrix indicate whether pairs of vertices are adjacent or no
 
 Let $G=(V,E)$ be a graph, there are
 
-* $V=\{\bold{v}_1,\bold{v}_2,...\}$ is a set of vertices
-* $E=\{(\bold{v}_1, \bold{v}_2), ...\}$ is a set of edges
+* $V=\{\mathbf{v}_1,\mathbf{v}_2,...\}$ is a set of vertices
+* $E=\{(\mathbf{v}_1, \mathbf{v}_2), ...\}$ is a set of edges
 
 The adjacency matrix $A$ is defined as
 
 $$
 A[i][j]\begin{cases}
-    1 & \text{if edge } (\bold{v}_i, \bold{v}_j) \text{ exists} \\
+    1 & \text{if edge } (\mathbf{v}\_i, \mathbf{v}_j) \text{ exists} \\
     0 & \text{otherwise}
 \end{cases}
 $$
@@ -29,7 +29,7 @@ where the row index $i$ and col index $j$ are vertices.
 
 #### Use Example
 
-Given a sequence of input $\bold{x}=[\bold{x}_1,\bold{x}_2,\bold{x}_3, ...]\in\mathbb{R}^{n \times d}$, e.g., feature vectors $\bold{x}\in\mathbb{R}^{4 \times 2}$, assumed each vertex of graph has $d=2$ dimensions, to apply the input to a graph $A$:
+Given a sequence of input $\mathbf{x}=[\mathbf{x}_1,\mathbf{x}_2,\mathbf{x}_3, ...]\in\mathbb{R}^{n \times d}$, e.g., feature vectors $\mathbf{x}\in\mathbb{R}^{4 \times 2}$, assumed each vertex of graph has $d=2$ dimensions, to apply the input to a graph $A$:
 
 $$
 A = \begin{bmatrix}
@@ -38,7 +38,7 @@ A = \begin{bmatrix}
     0 & 1 & 0 & 0 \\
     1 & 1 & 0 & 0
 \end{bmatrix} \qquad
-\bold{x} = \begin{bmatrix}
+\mathbf{x} = \begin{bmatrix}
     1 & 0 \\
     0.5 & 0.5 \\
     0 & 1 \\
@@ -46,10 +46,10 @@ A = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-there is $A\bold{x}$ that can be thought as aggregating all nodes' features.
+there is $A\mathbf{x}$ that can be thought as aggregating all nodes' features.
 
 $$
-A\bold{x}=\begin{bmatrix}
+A\mathbf{x}=\begin{bmatrix}
     0.5 & 1.5 \\
     1 & 2 \\
     0.5 & 0.5 \\
@@ -62,17 +62,17 @@ For $A_{ij}\in\{0,1\}$ only has two values either $0$ or $1$ indicating if an ed
 Finally, the output is
 
 $$
-\bold{y}=A\bold{x}W
+\mathbf{y}=A\mathbf{x}W
 $$
 
 ### Incidence matrix
 
 An incidence matrix $M$ is a logical ($M_{ij}\in\{0,1\}$) matrix that shows the relationship between two classes of objects, usually called an *incidence relation*.
-In other words, incidence means a vertex $\bold{v}_i$ is in edge $e_j$. As a result, each edge $e_j$ col only has two "$1$" elements (for non-hyper graph).
+In other words, incidence means a vertex $\mathbf{v}\_i$ is in edge $e_j$. As a result, each edge $e_j$ col only has two "$1$" elements (for non-hyper graph).
 
 $$
 M[i][j]\begin{cases}
-    1 & \text{if vertex } \bold{v}_i \text{ is incident to edge } e_j\\
+    1 & \text{if vertex } \mathbf{v}\_i \text{ is incident to edge } e_j\\
     0 & \text{otherwise}
 \end{cases}
 $$
@@ -120,7 +120,7 @@ This method is coined *Compressed Sparse Row* (CSR).
 
 Graph in representation by matrix often results in sparse matrices, since often is that not many graph topoloies see every node in connection to the rest of all nodes. 
 
-This holds truth for many SLAM problems that given a robot's state $\bold{x}_k$ and its constraints $\bold{z}_k$ at the $k$-th timestamp, previous state $\bold{x}_{k-1}$ and earliers' does not necessarily account for future state $\bold{x}_{k+1}$.
+This holds truth for many SLAM problems that given a robot's state $\mathbf{x}_k$ and its constraints $\mathbf{z}_k$ at the $k$-th timestamp, previous state $\mathbf{x}\_{k-1}$ and earliers' does not necessarily account for future state $\mathbf{x}\_{k+1}$.
 
 ## Hyper-Graph Optimization
 
@@ -129,18 +129,18 @@ A hyper-graph is an extension of a graph where an edge can connect multiple node
 Graph optimization in nature is a least squares minimization problem:
 
 $$
-\bold{F}_k(\bold{x})=
-arg \space \underset{\bold{x}}{min}
-\sum_{k \in C} \bold{e}_k(\bold{x}_k, \bold{z}_k)^\text{T} \Omega_k \bold{e}_k(\bold{x}_k, \bold{z}_k)
+\mathbf{F}_k(\mathbf{x})=
+arg \space \underset{\mathbf{x}}{min}
+\sum_{k \in C} \mathbf{e}_k(\mathbf{x}_k, \mathbf{z}_k)^\text{T} \Omega_k \mathbf{e}_k(\mathbf{x}_k, \mathbf{z}_k)
 $$
 
 where
 
-* $\bold{x}$ is a vector of parameters, in which $\bold{x}_i$ represents a generic parameter block
-* $\bold{x}_k$ represents the set of parameters given the $k$-th constraints, such as the state of a robot at the $k$-th time
-* $\bold{z}_k$ is the measurements/observations.
-* $\Omega_k$ is the information matrix relating to $\bold{x}_k$, usually defined as inversed covariance matrix about $\bold{x}$ (do not confuse with Fisher information, just some config/constraint parameters to $\bold{x}_k$)
-* $\bold{e}_k(\bold{x}_k, \bold{z}_k)$ is a vector error function that measures how well the parameter block $\bold{x}_k$ satisfies the observation $\bold{z}_k$
+* $\mathbf{x}$ is a vector of parameters, in which $\mathbf{x}\_i$ represents a generic parameter block
+* $\mathbf{x}_k$ represents the set of parameters given the $k$-th constraints, such as the state of a robot at the $k$-th time
+* $\mathbf{z}_k$ is the measurements/observations.
+* $\Omega_k$ is the information matrix relating to $\mathbf{x}_k$, usually defined as inversed covariance matrix about $\mathbf{x}$ (do not confuse with Fisher information, just some config/constraint parameters to $\mathbf{x}_k$)
+* $\mathbf{e}_k(\mathbf{x}_k, \mathbf{z}_k)$ is a vector error function that measures how well the parameter block $\mathbf{x}_k$ satisfies the observation $\mathbf{z}_k$
 
 Minimization can be done by Gauss-Newton, Levenber-Marquardt, or dogleg methods.
 
@@ -161,11 +161,11 @@ In graph terms, the Laplacian measures how much a node's feature differs from it
 
 ### Intuition Behind the Graph Laplacian
 
-Graph Laplacian describes the rate of how nodes change at a vertex $\bold{v}_i$
+Graph Laplacian describes the rate of how nodes change at a vertex $\mathbf{v}\_i$
 
-For example, a type of graph Laplacian is termed *combinatorial Laplacian*, defined as $L_{comb}=D-A$.
+For example, a type of graph Laplacian is termed *combinatorial Laplacian*, defined as $L\_{comb}=D-A$.
 
-The adjacency matrix $A$ can be thought as first-order derivative for $A$ shows if $\bold{v}_i$ to $\bold{v}_j$ edge exists (rate of node change).
+The adjacency matrix $A$ can be thought as first-order derivative for $A$ shows if $\mathbf{v}\_i$ to $\mathbf{v}_j$ edge exists (rate of node change).
 
 The degree matrix $D$ is the summarized info about node neighbors, hence $D-A$ can be thought as second-order derivative (change of edge).
 
@@ -186,7 +186,7 @@ D = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-then $D-A$ is for a vertex $\bold{v}_i$, how many nodes flow/aggregate to this vertex, and what combination of neighbor nodes sees opposite flow (deduction from the $\bold{v}_i$).
+then $D-A$ is for a vertex $\mathbf{v}\_i$, how many nodes flow/aggregate to this vertex, and what combination of neighbor nodes sees opposite flow (deduction from the $\mathbf{v}\_i$).
 
 $$
 D-A=\begin{bmatrix}
@@ -199,11 +199,11 @@ $$
 
 ### Types of Graph Laplacians
 
-* Combinatorial Laplacian: $L_{comb}=D-A$
+* Combinatorial Laplacian: $L\_{comb}=D-A$
 
 Not scale-invariant, meaning it depends on the degree of nodes.
 
-* Normalized Laplacian: $L_{norm}=I-D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$
+* Normalized Laplacian: $L\_{norm}=I-D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$
 
 This version is scale-invariant, meaning it adjusts for differences in node degrees.
 
@@ -295,39 +295,39 @@ For matrix multiplication is NOT commutative, it is easy to say $D^{-1}A\ne AD^{
 Recall the definition of Frobenius norm that $||A||_F=\sqrt{\sum_i \sum_j |A_{ij}|^2}$.
 It is a way to measure the size (or magnitude) of the matrix.
 
-However, in adjacency matrix normalization, the norm term is the degree matrix $D$ that measure the total num of edges associated with a vertex $\bold{v}_i$.
+However, in adjacency matrix normalization, the norm term is the degree matrix $D$ that measure the total num of edges associated with a vertex $\mathbf{v}\_i$.
 In other words, it is scaled relative to the node degrees.
 
 ## G2O implementation example
 
-We want to find the optimal robot state $\bold{x}^s_t$ at the time $t$ given measurements of itself $\bold{z}^s_{t, t+1}$ (transformation measurement such as by odometry) and observation from a number of landmarks $\bold{z}^l_i, i=1,2,...,n$.
+We want to find the optimal robot state $\mathbf{x}^s_t$ at the time $t$ given measurements of itself $\mathbf{z}^s_{t, t+1}$ (transformation measurement such as by odometry) and observation from a number of landmarks $\mathbf{z}^l_i, i=1,2,...,n$.
 
 ### Concepts
 
 * Robot state at the $t$ time: 
 
-$\bold{x}_t^s=(x_t^s, y_t^s, \theta_t^s) \in SE(2)$
+$\mathbf{x}_t^s=(x_t^s, y_t^s, \theta_t^s) \in SE(2)$
 
 * The $i$-th landmark position: 
 
-$\bold{x}^l_i=(x_i^l, y_i^l) \in \mathbb{R}^2$
+$\mathbf{x}^l_i=(x\_i^l, y_i^l) \in \mathbb{R}^2$
 
-* Motion measurement between $\bold{x}_{t}^s$ and $\bold{x}_{t+1}^s$: 
+* Motion measurement between $\mathbf{x}\_{t}^s$ and $\mathbf{x}\_{t+1}^s$: 
 
-$\bold{z}_{t,t+1}^s$ is sensor measured robot state, such as by IMU.
+$\mathbf{z}\_{t,t+1}^s$ is sensor measured robot state, such as by IMU.
 
 * Inverse covariance of motion measurements: $\Omega^s_{t,t+1} \in \mathbb{R}^{3 \times 3}$
 
-* Motion prediction between $\bold{x}_{t}^s$ and $\bold{x}_{t+1}^s$: 
+* Motion prediction between $\mathbf{x}\_{t}^s$ and $\mathbf{x}\_{t+1}^s$: 
 
 $$
-\bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)=
-\bold{x}_{t+1}^s \ominus \bold{x}_{t}^s
+\mathbf{h}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)=
+\mathbf{x}\_{t+1}^s \ominus \mathbf{x}\_{t}^s
 $$
 
 where $\ominus$ is defined for $SE(2)$ motion:
 $$
-\bold{x}_t^s \ominus \Delta\bold{ x}_{t-1,t}^s=
+\mathbf{x}_t^s \ominus \Delta\mathbf{ x}\_{t-1,t}^s=
 \bigg(\begin{array}{cc}
     x - \Delta x cos\theta + \Delta y sin\theta\\\
     y - \Delta x sin\theta - \Delta y cos\theta \\
@@ -336,19 +336,19 @@ $$
 \bigg)
 $$
 
-$\bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)$ shows an edge between the two robot states'/vertices.
+$\mathbf{h}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)$ shows an edge between the two robot states'/vertices.
 
-* Error Function for $\bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)$ is
+* Error Function for $\mathbf{h}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)$ is
 $$
-\bold{e}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)=
-\bold{z}_{t,t+1} \ominus \bold{h}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)
+\mathbf{e}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)=
+\mathbf{z}\_{t,t+1} \ominus \mathbf{h}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)
 $$
 
-Intuition: we want to minimize the gap between self-sensored state and computed motion $\Delta \bold{x}$.
+Intuition: we want to minimize the gap between self-sensored state and computed motion $\Delta \mathbf{x}$.
 
-* Landmark position observed/expressed at $\bold{x}^s_t$ 
+* Landmark position observed/expressed at $\mathbf{x}^s_t$ 
 
-the sensor measured landmark position relative to the current robot state: $\bold{z}^l_{t,i} \in \mathbb{R}^2$
+the sensor measured landmark position relative to the current robot state: $\mathbf{z}^l_{t,i} \in \mathbb{R}^2$
 
 * Inverse covariance of landmark measurements: $\Omega^l_{t,i} \in \mathbb{R}^{2 \times 2}$
 
@@ -358,29 +358,29 @@ landmark position relative to the current state of a robot, computed by last ste
 
 $$
 \begin{align*}
-\bold{x}_{i,t}^l &= 
-\bold{x}_{i,t-1}^l + (\bold{x}_{t}^s \ominus \bold{x}_{t-1}^s)
+\mathbf{x}\_{i,t}^l &= 
+\mathbf{x}\_{i,t-1}^l + (\mathbf{x}\_{t}^s \ominus \mathbf{x}\_{t-1}^s)
 \\
-\bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)&=
-\bold{x}_{i,t}^l - \bold{x}_{t}^s
+\mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)&=
+\mathbf{x}\_{i,t}^l - \mathbf{x}\_{t}^s
 \end{align*}
 $$
 
-$\bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)$ shows an edge between a robot state and the $i$-th landmark.
+$\mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)$ shows an edge between a robot state and the $i$-th landmark.
 
-* Error Function for $\bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)$ is
+* Error Function for $\mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)$ is
 
 $$
-\bold{e}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)=
-\bold{z}_{t,i} - \bold{h}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)
+\mathbf{e}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)=
+\mathbf{z}\_{t,i} - \mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)
 $$
 
 Intuition: we want to minimize the error/gap between measured landmark distance and motion-based computed distance.
 
 ### G2O Builtin Functions
 
-An error function takes two inputs: $\bold{e}_t(\bold{x}_t, \bold{z}_t)$ for estimation and measurement. 
-They are defined in g2o internal classes `BaseVertex` and `BaseEdge`, respectively. Information $\bold{\Omega}_t$ (defined in `BaseEdge`) should be defined to take into consideration of covariances.
+An error function takes two inputs: $\mathbf{e}_t(\mathbf{x}_t, \mathbf{z}_t)$ for estimation and measurement. 
+They are defined in g2o internal classes `BaseVertex` and `BaseEdge`, respectively. Information $\mathbf{\Omega}_t$ (defined in `BaseEdge`) should be defined to take into consideration of covariances.
 
 * `BaseVertex`
 
@@ -395,7 +395,7 @@ virtual void setToOriginImpl();
 
 `setToOriginImpl`: to init `_estimate` served as the initial value for start.
 
-`oplusImpl`: to do update $\bold{x}_{t+1}=\bold{x}_t \oplus \Delta\bold{x}_t$.
+`oplusImpl`: to do update $\mathbf{x}\_{t+1}=\mathbf{x}_t \oplus \Delta\mathbf{x}_t$.
 
 * `BaseBinaryEdge`
 
@@ -425,9 +425,9 @@ The **two most important functions** are `computeError` and `linearizeOplus` tha
 
 `_estimate`, `_measurement` and `_information` should be set by overridden virtual functions from their base classes.
 
-* $\hat{\bold{x}}_k$ init guess/estimate
-* $\bold{z}_k$: measurements/observations.
-* $\Omega_k$: information matrix, defined as inversed covariance matrix about $\bold{x}$.
+* $\hat{\mathbf{x}}_k$ init guess/estimate
+* $\mathbf{z}_k$: measurements/observations.
+* $\Omega_k$: information matrix, defined as inversed covariance matrix about $\mathbf{x}$.
   
 ```cpp
 // BaseVertex
@@ -470,9 +470,9 @@ public:
 
 * Vertex Type definition
 
-Landmarks $\bold{x}^l_i=(x_i^l, y_i^l)$ is defined as `Eigen::Vector2d`. 
+Landmarks $\mathbf{x}^l_i=(x\_i^l, y_i^l)$ is defined as `Eigen::Vector2d`. 
 
-`SE2` is defined for $\bold{x}^s$. `operator`s are customized and used to compute errors, transoformations, etc.
+`SE2` is defined for $\mathbf{x}^s$. `operator`s are customized and used to compute errors, transoformations, etc.
 ```cpp
 class SE2 {
  public:
@@ -557,7 +557,7 @@ class VertexPointXY
 
 * Edge definitions
 
-$\bold{e}^s_{t,t+1}(\bold{x}_{t}^s, \bold{x}_{t+1}^s)$ can be defined in `EdgeSE2PointSE2`
+$\mathbf{e}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)$ can be defined in `EdgeSE2PointSE2`
 ```cpp
 class EdgeSE2PointSE2
     : public BaseBinaryEdge<3, SE2, VertexPointSE2, VertexPointSE2> {
@@ -573,7 +573,7 @@ class EdgeSE2PointSE2
 };
 ```
 
-$\bold{e}^l_{t,i}(\bold{x}_{t}^s, \bold{x}_{i}^l)$ is defined `EdgeSE2PointXY`.
+$\mathbf{e}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)$ is defined `EdgeSE2PointXY`.
 ```cpp
 class EdgeSE2PointXY
     : public BaseBinaryEdge<2, Eigen::Vector2d, VertexPointSE2, VertexPointXY> {

@@ -2,12 +2,12 @@
 
 ## Scalar and Vector Rule Table
 
-|$\text{Scalar derivative} \\ f(x) \rightarrow \frac{df}{dx}$ | $\text{Vector derivative} \\ f(\bold{x}) \rightarrow \frac{df}{d\bold{x}}$|
+|$\text{Scalar derivative} \\ f(x) \rightarrow \frac{df}{dx}$ | $\text{Vector derivative} \\ f(\mathbf{x}) \rightarrow \frac{df}{d\mathbf{x}}$|
 |-|-|
-|$bx \rightarrow b$|$\bold{x}^\mathsf{T} \bold{B} \rightarrow \bold{B}$|
-|$bx \rightarrow b$|$\bold{x}^\mathsf{T} \bold{b} \rightarrow \bold{b}$|
-|$x^2 \rightarrow 2x$|$\bold{x}^\mathsf{T}  \bold{x} \rightarrow 2\bold{x}$|
-|$bx^2 \rightarrow 2bx$|$\bold{x}^\mathsf{T} \bold{B}  \bold{x} \rightarrow 2\bold{B}\bold{x}$|
+|$bx \rightarrow b$|$\mathbf{x}^\mathsf{T} \mathbf{B} \rightarrow \mathbf{B}$|
+|$bx \rightarrow b$|$\mathbf{x}^\mathsf{T} \mathbf{b} \rightarrow \mathbf{b}$|
+|$x^2 \rightarrow 2x$|$\mathbf{x}^\mathsf{T}  \mathbf{x} \rightarrow 2\mathbf{x}$|
+|$bx^2 \rightarrow 2bx$|$\mathbf{x}^\mathsf{T} \mathbf{B}  \mathbf{x} \rightarrow 2\mathbf{B}\mathbf{x}$|
 
 ## Chain Rule
 
@@ -69,8 +69,8 @@ $$
     \\ && &=
     \lim_{\epsilon \rightarrow 0} \frac{(x+\epsilon)^2+(x+\epsilon)y}{\epsilon}
     \\ && &=
-    \lim_{\epsilon \rightarrow 0} \frac{ \underbrace{x^2+xy}_{=f(x,y)}
-    +(2x+y)\epsilon+\epsilon^2}{\underbrace{\epsilon}_{\frac{d \epsilon}{d \epsilon}=1}}
+    \lim_{\epsilon \rightarrow 0} \frac{ \underbrace{x^2+xy}\_{=f(x,y)}
+    +(2x+y)\epsilon+\epsilon^2}{\underbrace{\epsilon}\_{\frac{d \epsilon}{d \epsilon}=1}}
     \\ \begin{matrix}
         \text{By L'Hôpital's rule, there is} \\
         \lim_{(x,y)\rightarrow (1,3)} f(x,y)=0
@@ -107,34 +107,34 @@ $$
 
 Any vector space $V$ has a corresponding dual vector space (or just dual space for short) consisting of all linear forms on $V$.
 
-Define a  Jet: a Jet is a $n$-dimensional dual number: $\bold{\epsilon}=[\epsilon_1, \epsilon_2, ..., \epsilon_n]$ with the property $\forall i,j: \epsilon_i \epsilon_j=0$. Then a Jet consists of a real part $a$ and a $n$-dimensional infinitesimal part $\bold{v}$, i.e.,
+Define a  Jet: a Jet is a $n$-dimensional dual number: $\mathbf{\epsilon}=[\epsilon_1, \epsilon_2, ..., \epsilon_n]$ with the property $\forall i,j: \epsilon_i \epsilon_j=0$. Then a Jet consists of a real part $a$ and a $n$-dimensional infinitesimal part $\mathbf{v}$, i.e.,
 $$
 \begin{align*}
 x &= a+\sum_{i=1}^{n} v_i \epsilon_i
-\\ &= a + \bold{v}
+\\ &= a + \mathbf{v}
 \end{align*}
 $$
 
 Then, using the same Taylor series expansion used above, there is
 $$
-f(a+\bold{v})=f(a)+kf(a)\bold{v}
+f(a+\mathbf{v})=f(a)+kf(a)\mathbf{v}
 $$
 
-Expand to a multivariate function $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ evaluated on $x_j=a_j+\bold{v}_j$
+Expand to a multivariate function $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ evaluated on $x_j=a_j+\mathbf{v}_j$
 
 $$
 \begin{align*}
-f(\bold{x}) &=
+f(\mathbf{x}) &=
 f(x_1, x_2, ..., x_n)
 \\&=
-f(a_1, a_2, ..., a_n) + \sum_{j=1}^{n} k_j f(a_1, a_2, ..., a_n)\bold{v}_j
+f(a_1, a_2, ..., a_n) + \sum_{j=1}^{n} k_j f(a_1, a_2, ..., a_n)\mathbf{v}_j
 \end{align*}
 $$
 
-Set $\bold{v}_j=\bold{e}_j$ to be a unit vector, there is
+Set $\mathbf{v}_j=\mathbf{e}_j$ to be a unit vector, there is
 $$
 f(x_1, x_2, ..., x_n) =
-f(a_1, a_2, ..., a_n) + \sum_{j=1}^{n} k_j f(a_1, a_2, ..., a_n)\bold{\epsilon}_j
+f(a_1, a_2, ..., a_n) + \sum_{j=1}^{n} k_j f(a_1, a_2, ..., a_n)\mathbf{\epsilon}_j
 $$
 
 ## Automatic Differentiation
@@ -150,30 +150,30 @@ $$
 
 ### Numerical Differentiation
 
-Take $\bold{x}=(x_1, x_2)$, define a infinitesimal amount $\epsilon$ as a step, consider:
+Take $\mathbf{x}=(x_1, x_2)$, define a infinitesimal amount $\epsilon$ as a step, consider:
 
 * Forward Differentiation
 
 $$
-\frac{\partial f(\bold{x})}{\partial x}
+\frac{\partial f(\mathbf{x})}{\partial x}
 \approx
-\frac{f(\bold{x}+\epsilon)-f(\bold{x})}{\epsilon}
+\frac{f(\mathbf{x}+\epsilon)-f(\mathbf{x})}{\epsilon}
 $$
 
 * Backward Differentiation
 
 $$
-\frac{\partial f(\bold{x})}{\partial x}
+\frac{\partial f(\mathbf{x})}{\partial x}
 \approx
-\frac{f(\bold{x})-f(\bold{x}-\epsilon)}{\epsilon}
+\frac{f(\mathbf{x})-f(\mathbf{x}-\epsilon)}{\epsilon}
 $$
 
 * Central Differentiation
 
 $$
-\frac{\partial f(\bold{x})}{\partial x}
+\frac{\partial f(\mathbf{x})}{\partial x}
 \approx
-\frac{f(\bold{x}+\epsilon)-f(\bold{x}-\epsilon)}{2\epsilon}
+\frac{f(\mathbf{x}+\epsilon)-f(\mathbf{x}-\epsilon)}{2\epsilon}
 $$
 
 Numerical differentiation only taking care of the final output is bad since it discards many intermediate steps, especially when the differentiation includes a long chain rule.
@@ -181,10 +181,10 @@ Numerical differentiation only taking care of the final output is bad since it d
 For example, compute $\frac{\partial f}{\partial x_1} \bigg|_{(x_1,x_2)=(2,5)}$ by forward differentiation, set $\epsilon=10^{-6}$, there is
 $$
 \begin{align*}
-    \frac{\partial f(\bold{x})}{\partial x_1}
+    \frac{\partial f(\mathbf{x})}{\partial x_1}
     \bigg|_{(x_1,x_2)=(2,5)}
     &\approx
-    \frac{f(\bold{x}+\epsilon)-f(\bold{x})}{\epsilon}
+    \frac{f(\mathbf{x}+\epsilon)-f(\mathbf{x})}{\epsilon}
     \\ &=
     \frac{\big(\ln(x_1+\epsilon)+(x_1+\epsilon)x_2-\sin(x_2)\big)-\big(\ln(x_1)+x_1x_2-\sin(x_2)\big)}{\epsilon}
     \\ &=
@@ -229,34 +229,34 @@ $$
 
 * Forward Mode
 
-Below only compute partial derivative on $x_1$ noted as $\dot{f}(x_1,x_2)=\frac{\partial f(x_1,x_2)}{\partial x_1}$, hence there are $\dot{v}_{-1}=\dot{x}_1=1$ and $\dot{v}_{0}=\dot{x}_2=0$.
+Below only compute partial derivative on $x_1$ noted as $\dot{f}(x_1,x_2)=\frac{\partial f(x_1,x_2)}{\partial x_1}$, hence there are $\dot{v}\_{-1}=\dot{x}_1=1$ and $\dot{v}\_{0}=\dot{x}_2=0$.
 
 The forward mode computes derivatives along side with the primals $f(x_1,x_2)$.
 
 $$
 \begin{matrix}
     &\downarrow& v_{-1} &= x_1 && &= 2
-    && &\downarrow& \dot{v}_{-1} &= \dot{x}_1 && &=1
+    && &\downarrow& \dot{v}\_{-1} &= \dot{x}_1 && &=1
     \\
     &\downarrow& v_{0} &= x_2 && &= 5
-    && &\downarrow& \dot{v}_{0} &= \dot{x}_2 && &=0
+    && &\downarrow& \dot{v}\_{0} &= \dot{x}_2 && &=0
     \\ &\downarrow&---- &----&&&--------&& &\downarrow&
     ----& ----&& &--------\\
     &\downarrow&
     v_{1} &= \ln(v_{-1}) && &= \ln(2)
-    && &\downarrow& \dot{v}_{1} &= \frac{\dot{v_{-1}}}{v_{-1}} && &= \frac{1}{2}
+    && &\downarrow& \dot{v}\_{1} &= \frac{\dot{v_{-1}}}{v_{-1}} && &= \frac{1}{2}
     \\ &\downarrow&
     v_{2} &= v_{-1} \cdot v_0 && &= 2 \times 5 = 10
-    && &\downarrow& \dot{v}_{2} &= \dot{v}_{-1} \cdot {v}_0 + v_{-1} \cdot \dot{v}_0 && &= 1 \times 5 + 0 \times 2 = 5
+    && &\downarrow& \dot{v}\_{2} &= \dot{v}\_{-1} \cdot {v}_0 + v_{-1} \cdot \dot{v}_0 && &= 1 \times 5 + 0 \times 2 = 5
     \\ &\downarrow&
     v_{3} &= \sin(v_0) && &= \sin(5)
-    && &\downarrow& \dot{v}_{3} &= \dot{v_0} \times \cos(v_0) && &= 0 \times \cos(5)=0
+    && &\downarrow& \dot{v}\_{3} &= \dot{v_0} \times \cos(v_0) && &= 0 \times \cos(5)=0
     \\ &\downarrow&
     v_{4} &= v_1+v_2 && &= \ln(2)+10
-    && &\downarrow& \dot{v}_{4} &= \dot{v}_1+\dot{v}_2 && &= \frac{1}{2}+5=5.5
+    && &\downarrow& \dot{v}\_{4} &= \dot{v}_1+\dot{v}_2 && &= \frac{1}{2}+5=5.5
     \\ &\downarrow&
     v_{5} &= v_4-v_3 && &= \ln(2)+10-\sin(5)
-    && &\downarrow& \dot{v}_{5} &= \dot{v}_4-\dot{v}_3 && &= 5.5-0=5.5
+    && &\downarrow& \dot{v}\_{5} &= \dot{v}_4-\dot{v}_3 && &= 5.5-0=5.5
     \\ &\downarrow&---- &----&&&--------&& &\downarrow&
     ----& ----&& &--------\\    &\downarrow&
     f(x_1,x_2)&= v_5 && &= \ln(2)+10-\sin(5)
@@ -264,7 +264,7 @@ $$
 \end{matrix}
 $$
 
-Partial derivative on $x_2$ can be computed similarly by setting $\dot{v}_{-1}=\dot{x}_1=0$ and $\dot{v}_{0}=\dot{x}_2=1$.
+Partial derivative on $x_2$ can be computed similarly by setting $\dot{v}\_{-1}=\dot{x}_1=0$ and $\dot{v}\_{0}=\dot{x}_2=1$.
 
 * Backward Mode
 
@@ -273,37 +273,37 @@ In other words, it reverses the directed graph computing from $v_5$ to $v_{-1}$ 
 $$
 \begin{matrix}
     &\downarrow& v_{-1} &= x_1 && &= 2
-    && &\uparrow& \dot{x}_{1} &= \dot{v}_{-1} && &=5.5 \\
+    && &\uparrow& \dot{x}\_{1} &= \dot{v}\_{-1} && &=5.5 \\
     &\downarrow& v_{0} &= x_2 && &= 5
-    && &\uparrow& \dot{x}_{2} &= \dot{v}_0 && &=2-\cos(5)
+    && &\uparrow& \dot{x}\_{2} &= \dot{v}_0 && &=2-\cos(5)
     \\ &\downarrow&---- &----&&&--------&& &\uparrow&
     ----& ----&& &--------
     \\&\downarrow&
     v_{1} &= \ln(v_{-1}) && &= \ln(2)
     && &\uparrow&
-    \dot{v}_{-1} &= \dot{v}_{-1} + \dot{v}_{1}\frac{\dot{v_{1}}}{v_{-1}}=\dot{v}_{-1} + \dot{v}_{1}\frac{1}{v_{-1}} && &= 5 + \frac{1}{2} = 5.5
+    \dot{v}\_{-1} &= \dot{v}\_{-1} + \dot{v}\_{1}\frac{\dot{v_{1}}}{v_{-1}}=\dot{v}\_{-1} + \dot{v}\_{1}\frac{1}{v_{-1}} && &= 5 + \frac{1}{2} = 5.5
     \\ &\downarrow&
     v_{2} &= v_{-1} \cdot v_0 && &= 2 \times 5 = 10
     && &\uparrow&
-    \dot{v}_{0} &= \dot{v}_{0} + \dot{v}_2\frac{\partial v_2}{\partial v_0}=\dot{v}_0+\dot{v}_2 \cdot v_{-1} && &= -\cos(5)+1\times 2=2-\cos(5)
+    \dot{v}\_{0} &= \dot{v}\_{0} + \dot{v}_2\frac{\partial v_2}{\partial v_0}=\dot{v}_0+\dot{v}_2 \cdot v_{-1} && &= -\cos(5)+1\times 2=2-\cos(5)
     \\ &\downarrow& &&&&&& &\uparrow&
-    \dot{v}_{-1} &= \dot{v}_2\frac{\partial v_2}{\partial v_{-1}} = \dot{v}_2 \cdot v_0 && &=1\times 5=5
+    \dot{v}\_{-1} &= \dot{v}_2\frac{\partial v_2}{\partial v_{-1}} = \dot{v}_2 \cdot v_0 && &=1\times 5=5
     \\ &\downarrow&
     v_{3} &= \sin(v_0) && &= \sin(5)
     && &\uparrow&
-    \dot{v}_{0} &= \dot{v}_3\frac{\partial v_3}{\partial v_0} = \dot{v}_3 \cdot \cos(v_0)=0 && &= -\cos(5)
+    \dot{v}\_{0} &= \dot{v}_3\frac{\partial v_3}{\partial v_0} = \dot{v}_3 \cdot \cos(v_0)=0 && &= -\cos(5)
     \\ &\downarrow&
     v_{4} &= v_1+v_2 && &= \ln(2)+10
     && &\uparrow&
-    \dot{v}_{1} &= \dot{v}_4\frac{\partial v_4}{\partial v_1} = \dot{v}_4 \cdot 1 && &=1
+    \dot{v}\_{1} &= \dot{v}_4\frac{\partial v_4}{\partial v_1} = \dot{v}_4 \cdot 1 && &=1
     \\ &\downarrow& &&&&&& &\uparrow&
-    \dot{v}_{2} &= \dot{v}_4\frac{\partial v_4}{\partial v_2} = \dot{v}_4 \cdot 1 && &=1
+    \dot{v}\_{2} &= \dot{v}_4\frac{\partial v_4}{\partial v_2} = \dot{v}_4 \cdot 1 && &=1
     \\ &\downarrow&
     v_{5} &= v_4-v_3 && &= \ln(2)+10-\sin(5)
     && &\uparrow&
-    \dot{v}_{3} &= \dot{v}_5\frac{\partial v_5}{\partial v_3} = \dot{v}_5 \cdot (-1) && &=-1
+    \dot{v}\_{3} &= \dot{v}_5\frac{\partial v_5}{\partial v_3} = \dot{v}_5 \cdot (-1) && &=-1
     \\ &\downarrow& &&&&&& &\uparrow&
-    \dot{v}_{4} &= \dot{v}_5\frac{\partial v_5}{\partial v_4} = \dot{v}_5 \cdot 1 && &=1
+    \dot{v}\_{4} &= \dot{v}_5\frac{\partial v_5}{\partial v_4} = \dot{v}_5 \cdot 1 && &=1
     \\ &\downarrow&---- &----&&&--------&& &\uparrow&
     ----& ----&& &--------
     \\ &\downarrow&

@@ -197,7 +197,7 @@ $$
 Let $C_{t_1},C_{t_2},...,C_{t_n}$ be bond cash flow, the present value estimate is
 
 $$
-PV=\sum^n_{i=1} C_{t_i} e^{-r(t_i)t_i}
+PV=\sum^n\_{i=1} C_{t_i} e^{-r(t_i)t_i}
 $$
 
 For example, a three-year maturity bond with 3% annualized coupon rate would see cash flow:

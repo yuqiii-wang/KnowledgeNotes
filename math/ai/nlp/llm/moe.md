@@ -6,7 +6,7 @@ Reference:
 
 Mixture-of-Experts models enhance transformers by replacing the original FFNs (Fully Connected Networks) with $N$ **parallel FFNs** combined with a **router**.
 
-In training, input $\bold{x}$ is assigned to only a subset of FFNs by router.
+In training, input $\mathbf{x}$ is assigned to only a subset of FFNs by router.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/transformer_moe.png" width="30%" height="40%" alt="transformer_moe" />
@@ -14,24 +14,24 @@ In training, input $\bold{x}$ is assigned to only a subset of FFNs by router.
 </br>
 
 * These $N$ FFNs are also called experts (denoted as $E_n$ for $n \in [1,N]$).
-* By top-$k$ selection, a router can be modeled as $g(\bold{x}; \bold{G}, k) \in \mathbb{R}^N$, where $\bold{G}$ is a parameter matrix that takes in input $\bold{x}$ and assigns it to the corresponding top-$k$ experts. The router in a typical setup is a softmax gated function $g_{\sigma}=\text{softmax}(\bold{x} \cdot W_g)$
+* By top-$k$ selection, a router can be modeled as $g(\mathbf{x}; \mathbf{G}, k) \in \mathbb{R}^N$, where $\mathbf{G}$ is a parameter matrix that takes in input $\mathbf{x}$ and assigns it to the corresponding top-$k$ experts. The router in a typical setup is a softmax gated function $g_{\sigma}=\text{softmax}(\mathbf{x} \cdot W_g)$
 
 Together, MoEs can be formulated as
 
 $$
-\bold{y} = \sum_{n\in N} g_n(\bold{x}; \bold{G},k) E_n(\bold{x})
+\mathbf{y} = \sum_{n\in N} g_n(\mathbf{x}; \mathbf{G},k) E_n(\mathbf{x})
 $$
 
-For not-selected FFNs for the input $\bold{x}$, there is $g_n=0$, thereby saved compute.
+For not-selected FFNs for the input $\mathbf{x}$, there is $g_n=0$, thereby saved compute.
 
-Consider that there are $N$ FFNs but only a subset of $k$ FFNs participated in computation for an input $\bold{x}$, this is called *sparsity*.
+Consider that there are $N$ FFNs but only a subset of $k$ FFNs participated in computation for an input $\mathbf{x}$, this is called *sparsity*.
 
 ## Enhancements to MoEs
 
 * Why Sparsity
 
 For one FFN to learn long context input, it is expected that this FNN should be of big size, and for every single input token be computed by this large FNN, it is expensive.
-As mentioned, sparsity allows only run input $\bold{x}$ on some parts of the whole system (many FNNs), hence each expert/FNN can be small.
+As mentioned, sparsity allows only run input $\mathbf{x}$ on some parts of the whole system (many FNNs), hence each expert/FNN can be small.
 
 Reference: GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding https://arxiv.org/abs/2006.16668 
 

@@ -207,7 +207,7 @@ $$
 result.slice(2, 2, 4).exp_().mul_(anchors_tensor);
 ```
 
-The bound box has the $5$-th prediction element: if this bounding box contains an object: $\mathbb{1}^{obj}_{ij} \in \{0,1\}$.
+The bound box has the $5$-th prediction element: if this bounding box contains an object: $\mathbb{1}^{obj}\_{ij} \in \{0,1\}$.
 ```cpp
 result.select(2, 4).sigmoid_();
 ...

@@ -1,6 +1,6 @@
 # Conjugate Gradient
 
-Conjugate gradient finds out residual $\bold{r}$ 's orthogonality, descending along with each orthogonal vector direction.
+Conjugate gradient finds out residual $\mathbf{r}$ 's orthogonality, descending along with each orthogonal vector direction.
 
 It has only $O(n)$ for $n$-dimensional space, much faster than steepest descent.
 
@@ -8,83 +8,83 @@ It has only $O(n)$ for $n$-dimensional space, much faster than steepest descent.
 
 ### Step $\lambda_k$ Formulation
 
-Given an objective function ($A$ being positive definite, $f(\bold{x})$ must have at least first-order derivative):
+Given an objective function ($A$ being positive definite, $f(\mathbf{x})$ must have at least first-order derivative):
 $$
-f(\bold{x})=
-\frac{1}{2} \bold{x}^T A \bold{x} + \bold{b}^T \bold{x} + \bold{c}
+f(\mathbf{x})=
+\frac{1}{2} \mathbf{x}^T A \mathbf{x} + \mathbf{b}^T \mathbf{x} + \mathbf{c}
 $$
 
 The first-order derivative is
 $$
-\frac{\partial f(\bold{x})}{\partial \bold{x}}=
-A \bold{x} + \bold{b}
+\frac{\partial f(\mathbf{x})}{\partial \mathbf{x}}=
+A \mathbf{x} + \mathbf{b}
 $$
 
-Define $n$ mutually conjugate vectors $P$ with respect to $A$, such as $\bold{p}_j^\text{T} A \bold{p}_i = 0, i \ne j$:
+Define $n$ mutually conjugate vectors $P$ with respect to $A$, such as $\mathbf{p}_j^\text{T} A \mathbf{p}\_i = 0, i \ne j$:
 $$
-P=\{ \bold{p}_1, \bold{p}_2, ..., \bold{p}_n \}
+P=\{ \mathbf{p}_1, \mathbf{p}_2, ..., \mathbf{p}_n \}
 $$
 
-Set $\bold{x}^*$ to denote the solution to $A \bold{x} + \bold{b} = 0$.
+Set $\mathbf{x}^*$ to denote the solution to $A \mathbf{x} + \mathbf{b} = 0$.
 
 $$
-\bold{x}^* = \sum_{i=1}^{n} \lambda_i \bold{p}_i 
+\mathbf{x}^* = \sum_{i=1}^{n} \lambda_i \mathbf{p}\_i 
 \Rightarrow
-A \bold{x}^* = \sum_{i=1}^{n} \lambda_i A \bold{p}_i
+A \mathbf{x}^* = \sum_{i=1}^{n} \lambda_i A \mathbf{p}\_i
 $$
 
-Multiplying by $\bold{p}_k^\text{T}$ yields
+Multiplying by $\mathbf{p}_k^\text{T}$ yields
 $$
 \begin{align*}
-\bold{p}_k^\text{T} \bold{b}&=
-\bold{p}_k^\text{T} A \bold{x}^*
+\mathbf{p}_k^\text{T} \mathbf{b}&=
+\mathbf{p}_k^\text{T} A \mathbf{x}^*
 \\ &=
-\sum_{i=1}^{n} \lambda_i \bold{p}_k^\text{T} A \bold{p}_i
+\sum_{i=1}^{n} \lambda_i \mathbf{p}_k^\text{T} A \mathbf{p}\_i
 \\ &=
-\sum_{i=1}^{n} \lambda_i {\langle \bold{p}_k, \bold{p}_i \rangle}_A
+\sum_{i=1}^{n} \lambda_i {\langle \mathbf{p}_k, \mathbf{p}\_i \rangle}_A
 \\ &=
-\lambda_i {\langle\bold{p}_k, \bold{p}_k\rangle}_A
+\lambda_i {\langle\mathbf{p}_k, \mathbf{p}_k\rangle}_A
 \end{align*}
 $$
 where ${\langle\space\cdot\space\rangle}_A$ denotes inner product operation with or without respect to $A$: 
 
-* ${\langle\bold{p}_j, \bold{p}_i\rangle}_A=\bold{p}_j^\text{T} A \bold{p}_i$
+* ${\langle\mathbf{p}_j, \mathbf{p}\_i\rangle}_A=\mathbf{p}_j^\text{T} A \mathbf{p}\_i$
 
-* ${\langle\bold{p}_j, \bold{p}_i\rangle}=\bold{p}_j^\text{T} \bold{p}_i$.
+* ${\langle\mathbf{p}_j, \mathbf{p}\_i\rangle}=\mathbf{p}_j^\text{T} \mathbf{p}\_i$.
 
 Finally,
 $$
 \lambda_k = 
-\frac{ {\langle \bold{p}_k, \bold{b} \rangle} }{ {\langle \bold{p}_k, \bold{p}_k \rangle}_A}
+\frac{ {\langle \mathbf{p}_k, \mathbf{b} \rangle} }{ {\langle \mathbf{p}_k, \mathbf{p}_k \rangle}_A}
 $$
 
 ### Iterative approach
 
-Let $\bold{r}_k$ be the residual at the $k$-th step:
+Let $\mathbf{r}_k$ be the residual at the $k$-th step:
 $$
-\bold{r}_k = \bold{b} - A \bold{x}_k
+\mathbf{r}_k = \mathbf{b} - A \mathbf{x}_k
 $$
 
-Gram-Schmidt orthonormalization gives update for the $k$-th step conjugate vector $\bold{p}_k$:
+Gram-Schmidt orthonormalization gives update for the $k$-th step conjugate vector $\mathbf{p}_k$:
 $$
-\bold{p}_k = 
-\bold{r}_k - \sum_{i < k} \frac{{\langle\bold{p}_i, \bold{r}_k\rangle}_A}{{\langle\bold{p}_i, \bold{p}_i\rangle}_A} \bold{p}_i
+\mathbf{p}_k = 
+\mathbf{r}_k - \sum_{i < k} \frac{{\langle\mathbf{p}\_i, \mathbf{r}_k\rangle}_A}{{\langle\mathbf{p}\_i, \mathbf{p}\_i\rangle}_A} \mathbf{p}\_i
 $$
 
 The $k$-th update is
 $$
-\bold{x}_{k+1} = \bold{x}_k + \lambda_k \bold{p}_k
+\mathbf{x}\_{k+1} = \mathbf{x}_k + \lambda_k \mathbf{p}_k
 $$
 
 ## Intuition
 
-For $f(\bold{x}), \bold{x} \in \mathbb{R}^n$, the minima can be found when its derivative is zero: $A\bold{x}+\bold{b}=0$.
+For $f(\mathbf{x}), \mathbf{x} \in \mathbb{R}^n$, the minima can be found when its derivative is zero: $A\mathbf{x}+\mathbf{b}=0$.
 
-To find $\bold{x}^*$ (optimal solution to $f(\bold{x})$), first find the $k$-th conjugate direction $\bold{p}_k$ then compute the descent distance $\lambda_k$.
+To find $\mathbf{x}^*$ (optimal solution to $f(\mathbf{x})$), first find the $k$-th conjugate direction $\mathbf{p}_k$ then compute the descent distance $\lambda_k$.
 
-$\bold{p}_k$ computation takes into consideration that, $\bold{x}^* - \bold{x}_k$ can be decomposed into a set of orthogonal vector additions.
+$\mathbf{p}_k$ computation takes into consideration that, $\mathbf{x}^* - \mathbf{x}_k$ can be decomposed into a set of orthogonal vector additions.
 $$
-\bold{r}_k = \bold{p}_k + \sum_{i < k} \frac{{\langle\bold{p}_i, \bold{r}_k\rangle}_A}{{\langle\bold{p}_i, \bold{p}_i\rangle}_A} \bold{p}_i
+\mathbf{r}_k = \mathbf{p}_k + \sum_{i < k} \frac{{\langle\mathbf{p}\_i, \mathbf{r}_k\rangle}_A}{{\langle\mathbf{p}\_i, \mathbf{p}\_i\rangle}_A} \mathbf{p}\_i
 $$
 
 ## Conjugate Gradient vs Steepest Descent
@@ -93,7 +93,7 @@ Green lines indicate steepest descent; red lines indicate conjugate descent.
 
 The first steps for both steepest descent and conjugate descent are by steepest descent (descent perpendicular to tagent space).
 
-Steepest descent continues descending along with $\frac{\bold{r}_k^T \bold{r}_k}{\bold{r}_k^T A \bold{r}_k} \triangledown f$, while conjugate descent uses orthogonality of residual $\bold{r}$ for descent route.
+Steepest descent continues descending along with $\frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathbf{r}_k^T A \mathbf{r}_k} \triangledown f$, while conjugate descent uses orthogonality of residual $\mathbf{r}$ for descent route.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/conjugate_gradient.png" width="35%" height="35%" alt="conjugate_gradient" />

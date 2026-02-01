@@ -15,11 +15,11 @@ Large learning rate renders instability as iteration grows.
 
 * ADAM Failed for large iteration $n$
 
-For ADAM optimizer $\Delta W_{n+1} = \eta \frac{\hat{m}_{n+1}}{\sqrt{\hat{v}_{n+1}}+\epsilon}$ that takes into account the momentum, whose controlling parameters approach to zeros $\lim_{n \rightarrow +\infty} \beta_1^n = 0$ and $\lim_{n \rightarrow +\infty} \beta_2^n = 0$ when the iteration num $n$ goes very large.
+For ADAM optimizer $\Delta W_{n+1} = \eta \frac{\hat{m}\_{n+1}}{\sqrt{\hat{v}\_{n+1}}+\epsilon}$ that takes into account the momentum, whose controlling parameters approach to zeros $\lim_{n \rightarrow +\infty} \beta_1^n = 0$ and $\lim_{n \rightarrow +\infty} \beta_2^n = 0$ when the iteration num $n$ goes very large.
 
 * Instability of Gradients
 
-$\frac{\partial \mathcal{L}}{\partial \bold{\theta}_k}$ can suddenly be very large due to gradient exploding.
+$\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}$ can suddenly be very large due to gradient exploding.
 This causes instability of the produced weights (totally large meaningless values) and the loss.
 
 ## Gradient Exploding/Vanishing
@@ -28,24 +28,24 @@ This causes instability of the produced weights (totally large meaningless value
 
 * Gradient Vanishing
 
-By chain rule $\frac{\partial \mathcal{L}}{\partial \bold{\theta}_k}=\frac{\partial \mathcal{L}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial \bold{h}_l}\frac{\partial \bold{h}_l}{\partial \bold{h}_{l-1}}...\frac{\partial \bold{h}_{k+1}}{\partial \bold{h}_{k}} \frac{\partial \bold{h}_{k}}{\partial \bold{\theta}_k}$,
-when a neural network is very deep, the gradient can be very small, and the weight/parameter/update $\bold{\theta}_k \leftarrow \eta\frac{\partial \mathcal{L}}{\partial \bold{\theta}_k} + \bold{\theta}_k$ is almost unchanged for $\frac{\partial \mathcal{L}}{\partial \bold{\theta}_k} \approx \bold{0}$.
+By chain rule $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}=\frac{\partial \mathcal{L}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial \mathbf{h}_l}\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}\_{l-1}}...\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}\_{k}} \frac{\partial \mathbf{h}\_{k}}{\partial \mathbf{\theta}_k}$,
+when a neural network is very deep, the gradient can be very small, and the weight/parameter/update $\mathbf{\theta}_k \leftarrow \eta\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k} + \mathbf{\theta}_k$ is almost unchanged for $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k} \approx \mathbf{0}$.
 Here, $\eta$ is learning rate.
 
-A typical observation is that $\frac{\partial \mathcal{L}}{\partial \bold{h}_l}$ is large and $\frac{\partial \mathcal{L}}{\partial \bold{\theta}_k}$ is small.
+A typical observation is that $\frac{\partial \mathcal{L}}{\partial \mathbf{h}_l}$ is large and $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}$ is small.
 
 * Gradient Exploding
 
-The parameter update $\bold{\theta}_k \leftarrow \eta\frac{\partial \mathcal{L}}{\partial \bold{\theta}_{k}} + \bold{\theta}_k$ keeps increasing fast/is too large for `float32`/`double64` to hold full value that leads to overflow to `nan`.
+The parameter update $\mathbf{\theta}_k \leftarrow \eta\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}\_{k}} + \mathbf{\theta}_k$ keeps increasing fast/is too large for `float32`/`double64` to hold full value that leads to overflow to `nan`.
 
 There are many reasons.
-It can be $\mathcal{L}(\bold{\theta})$ space being to mountainous containing abrupt cliffs that lead to sudden increase of derivatives.
+It can be $\mathcal{L}(\mathbf{\theta})$ space being to mountainous containing abrupt cliffs that lead to sudden increase of derivatives.
 It can be used optimizer having too strong accumulated momentum that rushes out/misses its nearby minimum.
 
 Non-linearity introduces lots of abrupt cliffs.
 In neural network, the activation function $\sigma(\space \cdot \space)$ is often non-linear (this is why one remediation solution is to use $\text{ReLU}$ as the activation function).
 $$
-\hat{\bold{y}} = \sigma \big( W_l \big( ... \sigma \big(W_2 \space \sigma(W_1 \bold{x} + \bold{b}_1) + \bold{b}_2) + ... + \big) + \bold{b}_l \big)
+\hat{\mathbf{y}} = \sigma \big( W_l \big( ... \sigma \big(W_2 \space \sigma(W_1 \mathbf{x} + \mathbf{b}_1) + \mathbf{b}_2) + ... + \big) + \mathbf{b}_l \big)
 $$
 
 For example, define $f(x)=-3.5 x^2 + 3.5x$.
@@ -58,8 +58,8 @@ Take $f(x)$'s output as another $f(x)$'s input, and keep stacking them, it can s
 
 ### Measurement
 
-For a typical forward pass $\bold{h}_{k+1}=\sigma(W_k \bold{h}_k + \bold{b}_k )$,
-there exists derivative $\frac{\partial \bold{h}_{k+1}}{\partial \bold{h}_k}=\frac{\partial }{\partial \bold{h}_k} \Big(\sigma(W_k \bold{h}_k + \bold{b}_k )\Big)=W_k \space \sigma'(W_k \bold{h}_k + \bold{b}_k )$.
+For a typical forward pass $\mathbf{h}\_{k+1}=\sigma(W_k \mathbf{h}_k + \mathbf{b}_k )$,
+there exists derivative $\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}_k}=\frac{\partial }{\partial \mathbf{h}_k} \Big(\sigma(W_k \mathbf{h}_k + \mathbf{b}_k )\Big)=W_k \space \sigma'(W_k \mathbf{h}_k + \mathbf{b}_k )$.
 
 Diagonalizing a matrix $A$ is also equivalent to finding the matrix's eigenvalues $\lambda_i$, that comprise the diagonal values of $\Lambda$, whose rank is $\text{rank}(\Lambda)=r$.
 Here, $P$ is the eigenvector-composed matrix.
@@ -69,8 +69,8 @@ P^{-1} A P = D \Rightarrow
 AP = PD =
 \underbrace{
 \begin{bmatrix}
-  \bold{v}_1 & \bold{v}_2 & ... & \bold{v}_r
-\end{bmatrix}}_{P}
+  \mathbf{v}_1 & \mathbf{v}_2 & ... & \mathbf{v}_r
+\end{bmatrix}}\_{P}
 \underbrace{
 \begin{bmatrix}
   \lambda_1 & 0 & 0&  & 0\\
@@ -78,18 +78,18 @@ AP = PD =
   0 & 0 & \lambda_3 &  & 0 \\
    &  &  & \ddots &  \\
   0 & 0 & 0 &  & \lambda_r
-\end{bmatrix}}_{\Lambda}
+\end{bmatrix}}\_{\Lambda}
 $$
 
-For spectral radius $||A\bold{x}|| \le \lambda_{max}||\bold{x}||$ that states that the max length stretching by $A$ is the max eigenvalue $\lambda_{max}$, here sets $A=\frac{\partial \bold{h}_{k+1}}{\partial \bold{h}_k}$.
+For spectral radius $||A\mathbf{x}|| \le \lambda_{max}||\mathbf{x}||$ that states that the max length stretching by $A$ is the max eigenvalue $\lambda_{max}$, here sets $A=\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}_k}$.
 $||A||$ describes the overall length/volume of a transform.
-$||\frac{\partial \bold{h}_l}{\partial \bold{h}_{l-1}}||...||\frac{\partial \bold{h}_{k+1}}{\partial \bold{h}_{k}}|| \space ||\frac{\partial \bold{h}_{k}}{\partial \bold{\theta}_k}||$ can quantitatively describe the volume of change down to which layer of transform.
+$||\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}\_{l-1}}||...||\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}\_{k}}|| \space ||\frac{\partial \mathbf{h}\_{k}}{\partial \mathbf{\theta}_k}||$ can quantitatively describe the volume of change down to which layer of transform.
 
 ### Remediation for Both Vanishing and Exploding Gradient
 
 * Batch Normalization
 
-For gradient $\frac{\partial \mathcal{L}}{\partial \bold{\theta}_k}$ that works on sample input, take input $\bold{x}$ by large batch can resist extreme samples.
+For gradient $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}$ that works on sample input, take input $\mathbf{x}$ by large batch can resist extreme samples.
 
 * Adam-Adjustable Learning Rate
 
@@ -103,12 +103,12 @@ ADAM updates any parameter with an individual learning rate.
 
 * Do not go too deep
 
-By chain rule $\frac{\partial \mathcal{L}}{\partial \bold{\theta}_k}=\frac{\partial \mathcal{L}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial \bold{h}_l}\frac{\partial \bold{h}_l}{\partial \bold{h}_{l-1}}...\frac{\partial \bold{h}_{k+1}}{\partial \bold{h}_{k}} \frac{\partial \bold{h}_{k}}{\partial \bold{\theta}_k}$, 
+By chain rule $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}=\frac{\partial \mathcal{L}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial \mathbf{h}_l}\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}\_{l-1}}...\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}\_{k}} \frac{\partial \mathbf{h}\_{k}}{\partial \mathbf{\theta}_k}$, 
 when a neural network is very deep, the gradient can be very small.
 
 * Weight Init
 
-The parameter/weight init is to provide $W_0$ for $\mathcal{L}(\bold{\theta})$ to converge by updating $W$.
+The parameter/weight init is to provide $W_0$ for $\mathcal{L}(\mathbf{\theta})$ to converge by updating $W$.
 The initial parameters matter guiding where optimizer starts.
 
 Typically, $W_0$ is init with standard normal distribution $W_0 \sim N(0, 1)$.
@@ -123,13 +123,13 @@ Therefore, small variances $\sigma^2=\frac{1}{\sqrt{n}}$ can be used rather than
 
 * Gradient Clipping
 
-Simply set a threshold $t$ that if gradient $||\bold{g}||$ is too large, multiply gradient $\bold{g}$ with a small value $\epsilon$.
+Simply set a threshold $t$ that if gradient $||\mathbf{g}||$ is too large, multiply gradient $\mathbf{g}$ with a small value $\epsilon$.
 
 $$
-\bold{g} \leftarrow \left\{
+\mathbf{g} \leftarrow \left\{
     \begin{array}{c}
-        \epsilon \bold{g} & ||\bold{g}|| > t \\
-        \bold{g} & ||\bold{g}|| \le t \\
+        \epsilon \mathbf{g} & ||\mathbf{g}|| > t \\
+        \mathbf{g} & ||\mathbf{g}|| \le t \\
     \end{array}
 \right.
 $$
@@ -148,20 +148,20 @@ Symmetric matrices have real eigenvalues and orthogonal eigenvectors that make t
 ### Proof: Symmetric Matrices Have Real Eigenvalues Orthogonal Eigenvectors
 
 Let $W$ be a real symmetric matrix, meaning: $W^{\top}=W$.
-Let $\bold{v}$ be eigenvector and $\lambda$ be eigenvalue, there is
+Let $\mathbf{v}$ be eigenvector and $\lambda$ be eigenvalue, there is
 
 $$
-W\bold{v}=\lambda\bold{v}
+W\mathbf{v}=\lambda\mathbf{v}
 $$
 
 #### Symmetric Matrices Have Real Eigenvalues
 
-Let $\bold{v}^{H}$ be Hermitian transpose of $\bold{v}$,
+Let $\mathbf{v}^{H}$ be Hermitian transpose of $\mathbf{v}$,
 
 $$
 \begin{align*}
-&& W\bold{v}&=\lambda\bold{v} \\
-\Rightarrow && \bold{v}^{H} W\bold{v}&=\lambda\bold{v}^{H}\bold{v}
+&& W\mathbf{v}&=\lambda\mathbf{v} \\
+\Rightarrow && \mathbf{v}^{H} W\mathbf{v}&=\lambda\mathbf{v}^{H}\mathbf{v}
 \end{align*}
 $$
 
@@ -171,48 +171,48 @@ If a complex number's conjugate is equal to the complex number itself, this comp
 
 $$
 \begin{align*}
-    \bold{v}^{H} W\bold{v} &=
-    \sum_{i}\sum_{j} \overline{v}_i w_{ij} v_j \\
-    &= \sum_{i=j} \overline{v}_i w_{ii} v_i + \sum_{i\ne j} \overline{v}_i w_{ij} v_j \\
+    \mathbf{v}^{H} W\mathbf{v} &=
+    \sum_{i}\sum_{j} \overline{v}\_i w_{ij} v_j \\
+    &= \sum_{i=j} \overline{v}\_i w_{ii} v_i + \sum_{i\ne j} \overline{v}\_i w_{ij} v_j \\
 \end{align*}
 $$
 
-Decompose $\sum_{i\ne j}^{n} \overline{v}_i w_{ij} v_j \Rightarrow \sum_{i\ne j}^{\frac{n}{2}} \overline{v}_i w_{ij} v_j + \overline{v}_j w_{ji} v_i$, and for $\bold{v}^H$ is the hermitian transpose of $\bold{v}$ and $W$ is symmetric, denote $(.)^*$ as conjugate operator, there is
+Decompose $\sum_{i\ne j}^{n} \overline{v}\_i w_{ij} v_j \Rightarrow \sum_{i\ne j}^{\frac{n}{2}} \overline{v}\_i w_{ij} v_j + \overline{v}_j w_{ji} v_i$, and for $\mathbf{v}^H$ is the hermitian transpose of $\mathbf{v}$ and $W$ is symmetric, denote $(.)^*$ as conjugate operator, there is
 
 $$
-(\overline{v}_i w_{ij} v_j + \overline{v}_j w_{ji} v_i)^* =
-\overline{v}_j w_{ji} v_i + \overline{v}_i w_{ij} v_j
+(\overline{v}\_i w_{ij} v_j + \overline{v}_j w_{ji} v_i)^* =
+\overline{v}_j w_{ji} v_i + \overline{v}\_i w_{ij} v_j
 $$
 
 For a complex number's conjugate is itself, this complex number must be real.
 
-$\overline{v}_i w_{ii} v_i$ is real for $\overline{v}_i v_i \ge 0$ and $w_{ii}$ is real for $W$ by definition is a real matrix.
+$\overline{v}\_i w_{ii} v_i$ is real for $\overline{v}\_i v_i \ge 0$ and $w_{ii}$ is real for $W$ by definition is a real matrix.
 
-For $\bold{v}^{H}\bold{v}$ and $\bold{v}^{H} W\bold{v}$ are real, the eigenvalues $\lambda$ are real as well in $\bold{v}^{H} W\bold{v}=\lambda\bold{v}^{H}\bold{v}$.
+For $\mathbf{v}^{H}\mathbf{v}$ and $\mathbf{v}^{H} W\mathbf{v}$ are real, the eigenvalues $\lambda$ are real as well in $\mathbf{v}^{H} W\mathbf{v}=\lambda\mathbf{v}^{H}\mathbf{v}$.
 
 #### Symmetric Matrices Have Orthogonal Eigenvectors
 
 Define
 
 $$
-W\bold{v}_1=\lambda_1\bold{v}_1 \qquad
-W\bold{v}_2=\lambda_2\bold{v}_2
+W\mathbf{v}_1=\lambda_1\mathbf{v}_1 \qquad
+W\mathbf{v}_2=\lambda_2\mathbf{v}_2
 $$
 
-then multiply by $\bold{v}_2^{\top}$, there is
+then multiply by $\mathbf{v}_2^{\top}$, there is
 
 $$
 \begin{align*}
-    && \bold{v}_2^{\top}W\bold{v}_1 &=
-  \bold{v}_2^{\top}\lambda_1\bold{v}_1 \\
-  \Rightarrow && (W\bold{v}_2)^{\top}\bold{v}_1 &=
-  \bold{v}_2^{\top}\lambda_1\bold{v}_1 \\
-  \Rightarrow && \lambda_2\bold{v}_2^{\top}\bold{v}_1 &=
-  \lambda_1\bold{v}_2^{\top}\bold{v}_1 \\
+    && \mathbf{v}_2^{\top}W\mathbf{v}_1 &=
+  \mathbf{v}_2^{\top}\lambda_1\mathbf{v}_1 \\
+  \Rightarrow && (W\mathbf{v}_2)^{\top}\mathbf{v}_1 &=
+  \mathbf{v}_2^{\top}\lambda_1\mathbf{v}_1 \\
+  \Rightarrow && \lambda_2\mathbf{v}_2^{\top}\mathbf{v}_1 &=
+  \lambda_1\mathbf{v}_2^{\top}\mathbf{v}_1 \\
 \end{align*}
 $$
 
-For by eigen-decomposition, there is $\lambda_1 \ne \lambda_2 \ne 0$, there could be only $\bold{v}_2^{\top}\bold{v}_1=0$, hence orthogonal.
+For by eigen-decomposition, there is $\lambda_1 \ne \lambda_2 \ne 0$, there could be only $\mathbf{v}_2^{\top}\mathbf{v}_1=0$, hence orthogonal.
 
 ## Overfitting
 
@@ -230,30 +230,30 @@ Usually cut off $10\%$ neural connections of a dense layer (set some entries of 
 
 ### Regularization
 
-Optimizer attempts to learn parameter $\bold{\theta} \in \mathbb{R}^d$.
+Optimizer attempts to learn parameter $\mathbf{\theta} \in \mathbb{R}^d$.
 Cost with added regularization can be defined as below.
 
 $$
-\min_{\bold{\theta}}
-\mathcal{J}(\bold{\theta}) = 
-\underbrace{\big( \bold{y} - \hat{\bold{y}} \big)^2}_{\text{traditional loss}} +
-\underbrace{\lambda \sum_{i=1}^d \theta^p_i}_{\text{regularization}}
+\min_{\mathbf{\theta}}
+\mathcal{J}(\mathbf{\theta}) = 
+\underbrace{\big( \mathbf{y} - \hat{\mathbf{y}} \big)^2}\_{\text{traditional loss}} +
+\underbrace{\lambda \sum_{i=1}^d \theta^p_i}\_{\text{regularization}}
 $$
 
 where $\mathcal{L}_1$ penalty is $\lambda \sum^d_{i=1} |\theta_i|$ and $\mathcal{L}_2$ penalty is $\lambda \sum^d_{i=1} \theta^2_i$.
 
 Explained (see the figure below for example): 
 
-An optimizer attempts to learn the best $\bold{\theta} = \{\theta_1, \theta_2\}$ by $\min_{\bold{\theta}}\mathcal{J}(\bold{\theta})$.
-Intuitively, the minimum (represented as the smallest blue inner circle) is located at somewhere $\bold{\theta} > \bold{0}$, and along the $\theta_1$-axis direction see steeper gradient (see contour lines, where contour intervals are small) than that of the $\theta_2$-axis' (indicating optimizer likely going along the $\theta_1$-axis' direction).
+An optimizer attempts to learn the best $\mathbf{\theta} = \{\theta_1, \theta_2\}$ by $\min_{\mathbf{\theta}}\mathcal{J}(\mathbf{\theta})$.
+Intuitively, the minimum (represented as the smallest blue inner circle) is located at somewhere $\mathbf{\theta} > \mathbf{0}$, and along the $\theta_1$-axis direction see steeper gradient (see contour lines, where contour intervals are small) than that of the $\theta_2$-axis' (indicating optimizer likely going along the $\theta_1$-axis' direction).
 
 To regularize it, add $\lambda \sum_{i=1}^2 \theta^p_i$ (shown as orange contours).
 
-The regularizer $\lambda \sum_{i=1}^d \theta^p_i$ increases cost when $\bold{\theta}$ stray away from the origin coordinate $(0, 0)$, hence, to reduce the overall cost $\mathcal{J}(\bold{\theta})$, $\theta_1 \rightarrow 0$ and $\theta_2 \rightarrow 0$ are contained close to the origin.
-As a result, the best $\bold{\theta}$ are likely small values.
+The regularizer $\lambda \sum_{i=1}^d \theta^p_i$ increases cost when $\mathbf{\theta}$ stray away from the origin coordinate $(0, 0)$, hence, to reduce the overall cost $\mathcal{J}(\mathbf{\theta})$, $\theta_1 \rightarrow 0$ and $\theta_2 \rightarrow 0$ are contained close to the origin.
+As a result, the best $\mathbf{\theta}$ are likely small values.
 
 There are diffs between $\mathcal{L}_1$ (p=1) vs $\mathcal{L}_2$ (p=2),
-that when converging $\mathcal{J}(\bold{\theta})$ by $|\theta_i|$ (the $\mathcal{L}_1$ scenario), individual $|\theta_1|$ would have more sway over $|\theta_2|$, dragging the new minimum (the white point in the figure) to the $\theta_1$-axis.
+that when converging $\mathcal{J}(\mathbf{\theta})$ by $|\theta_i|$ (the $\mathcal{L}_1$ scenario), individual $|\theta_1|$ would have more sway over $|\theta_2|$, dragging the new minimum (the white point in the figure) to the $\theta_1$-axis.
 This results in totally missing out the $\theta_2$ info for the learned $\theta_2=0$ and $\theta_1 \gg \theta_2$.
 
 In the $\mathcal{L}_2$ scenario, the regularizer is "rounded" that both $\theta_1 \ne 0$ and $\theta_2 \ne 0$ are learned.
@@ -265,7 +265,7 @@ In the $\mathcal{L}_2$ scenario, the regularizer is "rounded" that both $\theta_
 
 ### PyTorch Implementation
 
-$\mathcal{L}_1$ penalty in python/pytorch is simply $\lambda|\bold{\theta|}$ by `torch.linalg.norm(param, p=1)`, where $\lambda=10^{-5}$.
+$\mathcal{L}_1$ penalty in python/pytorch is simply $\lambda|\mathbf{\theta|}$ by `torch.linalg.norm(param, p=1)`, where $\lambda=10^{-5}$.
 The 
 
 ```python

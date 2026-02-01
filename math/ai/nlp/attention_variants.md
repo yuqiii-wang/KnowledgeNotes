@@ -47,8 +47,8 @@ To solve this, Flash Attention keeps running statistics for:
 * $z_i$ The sum of exponentials in each row (to normalize the softmax).
 
 $$
-\text{softmax}(x_i)=\frac{\exp(x_i)}{\sum_j \exp(x_j)}
-\Rightarrow \frac{\exp(x_i)}{z_i}
+\text{softmax}(x\_i)=\frac{\exp(x\_i)}{\sum_j \exp(x_j)}
+\Rightarrow \frac{\exp(x\_i)}{z_i}
 $$
 
 In other words, the softmax computation is approximated with the help of $m_i$ and $z_i$ without mandating an entire row be joined at once.
@@ -65,17 +65,17 @@ A forward of the flash attention shows as follows (here the index $i$ and $j$ re
 
 $$
 \begin{align*}
-&\bold{for}\space 1 \le j \le T_c \space\bold{do} \\
+&\mathbf{for}\space 1 \le j \le T_c \space\mathbf{do} \\
 &\qquad \text{Load } K_j, V_j \text{ from HBM to on-chip SRAM} \\
-&\qquad \bold{for}\space 1 \le i \le T_r \space\bold{do} \\
-&\qquad\qquad \text{Load } Q_i, A_i, \bold{m}_i, \bold{z}_i \text{ from HBM to on-chip SRAM} \\
+&\qquad \mathbf{for}\space 1 \le i \le T_r \space\mathbf{do} \\
+&\qquad\qquad \text{Load } Q_i, A_i, \mathbf{m}\_i, \mathbf{z}\_i \text{ from HBM to on-chip SRAM} \\
 &\qquad\qquad \text{On chip, compute } S_{ij}=Q_iK^{\top}_j \in \mathbb{R}^{b_r \times b_c} \\
-&\qquad\qquad \text{On chip, compute } \tilde{\bold{m}}_{ij}=\text{rowmax}(S_{ij})\in\mathbb{R}^{b_r}, \tilde{P}_{ij}=\exp(S_{ij}-\tilde{\bold{m}}_{ij}) \in \mathbb{R}^{b_r \times b_c}, \tilde{\bold{z}}_{ij}=\text{rowsum}(\tilde{P}_{ij}) \in\mathbb{R}^{b_r} \\
-&\qquad\qquad \text{On chip, update } \bold{m}_i^{(\text{new})}=\max(\bold{m}_i, \tilde{\bold{m}}_{ij})\in\mathbb{R}^{b_r}, \bold{z}_i^{(\text{new})}=e^{\bold{m}_i-\bold{m}_i^{(\text{new})}}\bold{z}_i+e^{\tilde{\bold{m}}_i-\bold{m}_i^{(\text{new})}}\tilde{\bold{z}}_i\in\mathbb{R}^{b_r} \\
-&\qquad\qquad \text{Write back to HBM: } A_i \leftarrow \text{diag}(\bold{z}_i^{(\text{new})})^{-1}\big(\text{diag}(\bold{z}_i)e^{\bold{m}_i-\bold{m}_i^{(\text{new})}}A_i+e^{\tilde{\bold{m}}_i-\bold{m}_i^{(\text{new})}}\tilde{P}_{ij}V_{j}\big) \\
-&\qquad\qquad \text{Write back to HBM: } \bold{z}_i \leftarrow \bold{z}_i^{(\text{new})}, \bold{m}_i \leftarrow \bold{m}_i^{(\text{new})} \\
-&\qquad \bold{end} \space \bold{for} \\
-& \bold{end} \space \bold{for} \\
+&\qquad\qquad \text{On chip, compute } \tilde{\mathbf{m}}\_{ij}=\text{rowmax}(S_{ij})\in\mathbb{R}^{b_r}, \tilde{P}\_{ij}=\exp(S_{ij}-\tilde{\mathbf{m}}\_{ij}) \in \mathbb{R}^{b_r \times b_c}, \tilde{\mathbf{z}}\_{ij}=\text{rowsum}(\tilde{P}\_{ij}) \in\mathbb{R}^{b_r} \\
+&\qquad\qquad \text{On chip, update } \mathbf{m}\_i^{(\text{new})}=\max(\mathbf{m}\_i, \tilde{\mathbf{m}}\_{ij})\in\mathbb{R}^{b_r}, \mathbf{z}\_i^{(\text{new})}=e^{\mathbf{m}\_i-\mathbf{m}\_i^{(\text{new})}}\mathbf{z}\_i+e^{\tilde{\mathbf{m}}\_i-\mathbf{m}\_i^{(\text{new})}}\tilde{\mathbf{z}}\_i\in\mathbb{R}^{b_r} \\
+&\qquad\qquad \text{Write back to HBM: } A_i \leftarrow \text{diag}(\mathbf{z}\_i^{(\text{new})})^{-1}\big(\text{diag}(\mathbf{z}\_i)e^{\mathbf{m}\_i-\mathbf{m}\_i^{(\text{new})}}A_i+e^{\tilde{\mathbf{m}}\_i-\mathbf{m}\_i^{(\text{new})}}\tilde{P}\_{ij}V_{j}\big) \\
+&\qquad\qquad \text{Write back to HBM: } \mathbf{z}\_i \leftarrow \mathbf{z}\_i^{(\text{new})}, \mathbf{m}\_i \leftarrow \mathbf{m}\_i^{(\text{new})} \\
+&\qquad \mathbf{end} \space \mathbf{for} \\
+& \mathbf{end} \space \mathbf{for} \\
 \end{align*}
 $$
 
@@ -83,14 +83,14 @@ $$
 
 $S_{ij}=Q_iK^{\top}_j \in \mathbb{R}^{b_r \times b_c}$ only accounts for $b_r$ dims, however, to approximate the full $\text{Softmax}(S_i)$, need full row all elements $n=b_c \times T_c$ included.
 
-To aggregate the $S_{ij}$ for $1 \le i \le T_r$ without storing all elements, max element $\tilde{\bold{m}}_{ij}$ is computed and iteratively updated $\bold{m}_i^{(\text{new})}=\max(\bold{m}_i, \tilde{\bold{m}}_{ij})$.
-The max element $\bold{m}_i$ of $S_{ij}$ is a normalization method to prevent overflow such as $\exp(S_{ij}-\tilde{\bold{m}}_{ij})\le\bold{1}$, and the ensued $\exp(\bold{m}_i-\bold{m}_i^{(\text{new})})\le\bold{1}$.
+To aggregate the $S_{ij}$ for $1 \le i \le T_r$ without storing all elements, max element $\tilde{\mathbf{m}}\_{ij}$ is computed and iteratively updated $\mathbf{m}\_i^{(\text{new})}=\max(\mathbf{m}\_i, \tilde{\mathbf{m}}\_{ij})$.
+The max element $\mathbf{m}\_i$ of $S_{ij}$ is a normalization method to prevent overflow such as $\exp(S_{ij}-\tilde{\mathbf{m}}\_{ij})\le\mathbf{1}$, and the ensued $\exp(\mathbf{m}\_i-\mathbf{m}\_i^{(\text{new})})\le\mathbf{1}$.
 
-$\text{diag}(\bold{z}_i^{(\text{new})})^{-1}$ is the normalization approximated as denominator of $\text{softmax}$.
-$A_i$ is added with the iterative increment $\tilde{P}_{ij}V_{j}$.
+$\text{diag}(\mathbf{z}\_i^{(\text{new})})^{-1}$ is the normalization approximated as denominator of $\text{softmax}$.
+$A_i$ is added with the iterative increment $\tilde{P}\_{ij}V_{j}$.
 
-At this iterative step $i=t$ to write back to HBM to derive $A_i$, the normalization term $\text{diag}(\bold{z}_i^{(\text{new})})^{-1}$ accounts for the accumulated $t$ steps of attention output $A_{1:t}=\sum_{i=1}^{t}e^{\tilde{\bold{m}}_i-\bold{m}_i^{(\text{new})}}\tilde{P}_{ij}V_{j}$;
-$\text{diag}(\bold{z}_i)e^{\bold{m}_i-\bold{m}_i^{(\text{new})}}$ accounts for previous $t-1$ steps $A_{1:t-1}$, and $e^{\tilde{\bold{m}}_i-\bold{m}_i^{(\text{new})}}$ is the scale for this $t$-th step $A_t$.
+At this iterative step $i=t$ to write back to HBM to derive $A_i$, the normalization term $\text{diag}(\mathbf{z}\_i^{(\text{new})})^{-1}$ accounts for the accumulated $t$ steps of attention output $A_{1:t}=\sum_{i=1}^{t}e^{\tilde{\mathbf{m}}\_i-\mathbf{m}\_i^{(\text{new})}}\tilde{P}\_{ij}V_{j}$;
+$\text{diag}(\mathbf{z}\_i)e^{\mathbf{m}\_i-\mathbf{m}\_i^{(\text{new})}}$ accounts for previous $t-1$ steps $A_{1:t-1}$, and $e^{\tilde{\mathbf{m}}\_i-\mathbf{m}\_i^{(\text{new})}}$ is the scale for this $t$-th step $A_t$.
 
 ### Memory Efficiency Discussions
 
@@ -224,26 +224,26 @@ The MLA attempts to compress the cached $K$ and $V$ with a low-rank joint compre
 
 ### Derive the compression matrix $C$
 
-Let $\bold{h}_t\in\mathbb{R}^{d}$ be the input to an attention layer, where $d=n_h\times d_h$ is the embedding dimension in which $n_h$ is the number of attention heads, and $d_h$ is the dimension per head.
+Let $\mathbf{h}_t\in\mathbb{R}^{d}$ be the input to an attention layer, where $d=n_h\times d_h$ is the embedding dimension in which $n_h$ is the number of attention heads, and $d_h$ is the dimension per head.
 
 #### Preliminaries: Standard Multi-Head Attention
 
-For standard multi-head attention, $\bold{q}_t, \bold{k}, \bold{v}_t$ are computed by linear projection from $\bold{h}_t$, and sliced into $n_h$ heads/blocks.
+For standard multi-head attention, $\mathbf{q}_t, \mathbf{k}, \mathbf{v}_t$ are computed by linear projection from $\mathbf{h}_t$, and sliced into $n_h$ heads/blocks.
 
 $$
 \begin{align*}
-    [\bold{q}_{t,1};\bold{q}_{t,2};...;\bold{q}_{t,n_h}]=\bold{q}_t=W^{Q}\bold{h}_t \\
-    [\bold{k}_{t,1};\bold{k}_{t,2};...;\bold{k}_{t,n_h}]=\bold{k}_t=W^{K}\bold{h}_t \\
-    [\bold{v}_{t,1};\bold{v}_{t,2};...;\bold{v}_{t,n_h}]=\bold{v}_t=W^{V}\bold{h}_t \\
+    [\mathbf{q}\_{t,1};\mathbf{q}\_{t,2};...;\mathbf{q}\_{t,n_h}]=\mathbf{q}_t=W^{Q}\mathbf{h}_t \\
+    [\mathbf{k}\_{t,1};\mathbf{k}\_{t,2};...;\mathbf{k}\_{t,n_h}]=\mathbf{k}_t=W^{K}\mathbf{h}_t \\
+    [\mathbf{v}\_{t,1};\mathbf{v}\_{t,2};...;\mathbf{v}\_{t,n_h}]=\mathbf{v}_t=W^{V}\mathbf{h}_t \\
 \end{align*}
 $$
 
-The sliced $\bold{q}_t, \bold{k}, \bold{v}_t$ are used for the multi-head attention computation.
+The sliced $\mathbf{q}_t, \mathbf{k}, \mathbf{v}_t$ are used for the multi-head attention computation.
 
 $$
 \begin{align*}
-    \bold{o}_{t,i} &= \sum_{j=1}^{t} \text{softmax}_j\Big(\frac{\bold{q}^{\top}_{t,i}\bold{k}_{j,i}}{\sqrt{d_h}}\Big)\bold{v}_{j,i} \\
-    \bold{o}_{t} &= W^{O}[\bold{o}_{t,1};\bold{o}_{t,2};...;\bold{o}_{t,n_h}]
+    \mathbf{o}\_{t,i} &= \sum_{j=1}^{t} \text{softmax}_j\Big(\frac{\mathbf{q}^{\top}\_{t,i}\mathbf{k}\_{j,i}}{\sqrt{d_h}}\Big)\mathbf{v}\_{j,i} \\
+    \mathbf{o}\_{t} &= W^{O}[\mathbf{o}\_{t,1};\mathbf{o}\_{t,2};...;\mathbf{o}\_{t,n_h}]
 \end{align*}
 $$
 
@@ -251,20 +251,20 @@ where $[...]$ is a concatenation operator.
 
 #### Add Compression Cache Matrices
 
-Add a down-projection matrix $W^{\text{Down-}KV}$ to generate the KV cache $\bold{c}_t^{KV}$, by which add two up-projection matrices to restore $K$ by $W^{\text{up-}K}$ and $V$ by $W^{\text{up-}V}$ to full multi-head dimension: $\bold{k}_t^{C},\bold{v}_t^{C}\in\mathbb{R}^{n_h d_h}$.
+Add a down-projection matrix $W^{\text{Down-}KV}$ to generate the KV cache $\mathbf{c}_t^{KV}$, by which add two up-projection matrices to restore $K$ by $W^{\text{up-}K}$ and $V$ by $W^{\text{up-}V}$ to full multi-head dimension: $\mathbf{k}_t^{C},\mathbf{v}_t^{C}\in\mathbb{R}^{n_h d_h}$.
 
-During inference, MLA only needs to cache $\bold{c}_t^{KV}$.
+During inference, MLA only needs to cache $\mathbf{c}_t^{KV}$.
 
 $$
 \begin{align*}
-    \bold{c}_t^{KV} &= W^{\text{Down-}KV}\bold{h}_t \\
-    \bold{k}_t^{C} &= W^{\text{Up-}K}\bold{c}_t^{KV} \\
-    \bold{v}_t^{C} &= W^{\text{Up-}V}\bold{c}_t^{KV} \\
+    \mathbf{c}_t^{KV} &= W^{\text{Down-}KV}\mathbf{h}_t \\
+    \mathbf{k}_t^{C} &= W^{\text{Up-}K}\mathbf{c}_t^{KV} \\
+    \mathbf{v}_t^{C} &= W^{\text{Up-}V}\mathbf{c}_t^{KV} \\
 \end{align*}
 $$
 
-where $\bold{c}_t^{KV}\in\mathbb{R}^{d_c}$ is the compressed latent vector for keys and values such that $d_c\ll d_h n_h$.
-This shows that the token cache $\bold{c}_t^{KV}$ compresses the token's multi-head vectors into a small encoding.
+where $\mathbf{c}_t^{KV}\in\mathbb{R}^{d_c}$ is the compressed latent vector for keys and values such that $d_c\ll d_h n_h$.
+This shows that the token cache $\mathbf{c}_t^{KV}$ compresses the token's multi-head vectors into a small encoding.
 
 $W^{\text{Up-}K}, W^{\text{Up-}V} \in\mathbb{R}^{d_h n_h \times d_c}$ restore the key $K$ and value $V$ to full dimension $d=d_h \times n_h$.
 
@@ -272,8 +272,8 @@ Also perform low-rank compression for the queries (this is for training):
 
 $$
 \begin{align*}
-    \bold{c}_t^{Q} &= W^{\text{Down-}Q}\bold{h}_t \\
-    \bold{q}_t^{C} &= W^{\text{Up-}Q}\bold{c}_t^{Q} \\
+    \mathbf{c}_t^{Q} &= W^{\text{Down-}Q}\mathbf{h}_t \\
+    \mathbf{q}_t^{C} &= W^{\text{Up-}Q}\mathbf{c}_t^{Q} \\
 \end{align*}
 $$
 
@@ -285,8 +285,8 @@ RoPE is position-sensitive for both keys and queries, that only $Q$ and $K$ are 
 
 $$
 \begin{align*}
-    [\bold{q}_{t,1}^{\text{Ro}};\bold{q}_{t,2}^{\text{Ro}};...;\bold{q}_{t,n_h}^{\text{Ro}}]=\bold{q}_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}Q}\bold{c}_t^Q) \\
-    \bold{k}_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}K}\bold{h}_t) \\
+    [\mathbf{q}\_{t,1}^{\text{Ro}};\mathbf{q}\_{t,2}^{\text{Ro}};...;\mathbf{q}\_{t,n_h}^{\text{Ro}}]=\mathbf{q}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}Q}\mathbf{c}_t^Q) \\
+    \mathbf{k}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}K}\mathbf{h}_t) \\
 \end{align*}
 $$
 
@@ -294,46 +294,46 @@ Accordingly, the $Q$ and $K$ are
 
 $$
 \begin{align*}
-    \bold{q}_{t,i}=[\bold{q}_{t,i}^{\text{C}};\bold{q}_{t,i}^{\text{Ro}}] \\
-    \bold{k}_{t,i}=[\bold{k}_{t,i}^{\text{C}};\bold{k}_{t}^{\text{Ro}}] \\
+    \mathbf{q}\_{t,i}=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\
+    \mathbf{k}\_{t,i}=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\
 \end{align*}
 $$
 
-Notice here $\bold{k}_{t,i}=[\bold{k}_{t,i}^{\text{C}};\bold{k}_{t}^{\text{Ro}}]$ for each token key head $\bold{k}_{t,i}$ share the same key $\bold{k}_{t}^{\text{Ro}}$.
+Notice here $\mathbf{k}\_{t,i}=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}]$ for each token key head $\mathbf{k}\_{t,i}$ share the same key $\mathbf{k}\_{t}^{\text{Ro}}$.
 
 #### Motivation: The non-commutative RoPE
 
-Recall the $QK^{\top}$ definition that for the attention score of the token $t$, it can be decomposed into $\Big(W^{Q}\bold{h}_t\Big)\Big(W^{K}\bold{h}_t\Big)^{\top}$.
+Recall the $QK^{\top}$ definition that for the attention score of the token $t$, it can be decomposed into $\Big(W^{Q}\mathbf{h}_t\Big)\Big(W^{K}\mathbf{h}_t\Big)^{\top}$.
 
-Then introduce compression, there is $\Big(W^{Q}\bold{h}_t\Big)\Big(W^{\text{Up-}KV}W^{\text{Down-}KV}\bold{h}_t\Big)^{\top}$.
-Recall that $\bold{c}_t^{KV}=W^{\text{Down-}KV}\bold{h}_t\in\mathbb{R}^{d_c}$ is quite small in dimension length compared to the full dimension multiplication $W^{\text{Up-}KV}W^{\text{Down-}KV}\bold{h}_t\in\mathbb{R}^{d}$, it can be arranged that $W^{Q}{(W^{\text{Up-}KV})}^{\top}\bold{h}_t$ be absorbed together in matrix multiplication to reduce memory footprint.
+Then introduce compression, there is $\Big(W^{Q}\mathbf{h}_t\Big)\Big(W^{\text{Up-}KV}W^{\text{Down-}KV}\mathbf{h}_t\Big)^{\top}$.
+Recall that $\mathbf{c}_t^{KV}=W^{\text{Down-}KV}\mathbf{h}_t\in\mathbb{R}^{d_c}$ is quite small in dimension length compared to the full dimension multiplication $W^{\text{Up-}KV}W^{\text{Down-}KV}\mathbf{h}_t\in\mathbb{R}^{d}$, it can be arranged that $W^{Q}{(W^{\text{Up-}KV})}^{\top}\mathbf{h}_t$ be absorbed together in matrix multiplication to reduce memory footprint.
 
 $$
-\underbrace{\Big(W^{Q}\bold{h}_t\Big)}_{\bold{q}_t\in\mathbb{R}^{d}}\Big(W^{\text{Up-}KV}W^{\text{Down-}KV}\bold{h}_t\Big)^{\top}
-\quad\Rightarrow\quad \underbrace{\Big(W^{Q}{(W^{\text{Up-}KV})}^{\top}\bold{h}_t\Big)}_{\bold{q}_t\in\mathbb{R}^{d_c}} \Big(W^{\text{Down-}KV}\bold{h}_t\Big)^{\top}
+\underbrace{\Big(W^{Q}\mathbf{h}_t\Big)}\_{\mathbf{q}_t\in\mathbb{R}^{d}}\Big(W^{\text{Up-}KV}W^{\text{Down-}KV}\mathbf{h}_t\Big)^{\top}
+\quad\Rightarrow\quad \underbrace{\Big(W^{Q}{(W^{\text{Up-}KV})}^{\top}\mathbf{h}_t\Big)}\_{\mathbf{q}_t\in\mathbb{R}^{d_c}} \Big(W^{\text{Down-}KV}\mathbf{h}_t\Big)^{\top}
 $$
 
 However, if added RoPE, the above linear matrix multiplication does not hold for matrix multiplication does not follow commutative rules.
 
-Introduce RoPE to keys: $\Big(W^{Q}\bold{h}_t\Big)\Big(\text{RoPE}\big(W^{\text{Up-}KV}W^{\text{Down-}KV}\bold{h}_t\big)\Big)^{\top}$.
+Introduce RoPE to keys: $\Big(W^{Q}\mathbf{h}_t\Big)\Big(\text{RoPE}\big(W^{\text{Up-}KV}W^{\text{Down-}KV}\mathbf{h}_t\big)\Big)^{\top}$.
 
 But RoPE cannot commute with $W^{\text{Up-}KV}$:
 
 $$
-\Big(W^{Q}\bold{h}_t\Big)\Big(\text{RoPE}\big(W^{\text{Up-}KV}...\big)\Big)^{\top}
-\quad\not\Rightarrow\quad \Big(W^{Q}\big(\text{RoPE} \cdot W^{\text{Up-}KV}\big)^{\top}\bold{h}_t\Big)\Big(...\Big)^{\top}
+\Big(W^{Q}\mathbf{h}_t\Big)\Big(\text{RoPE}\big(W^{\text{Up-}KV}...\big)\Big)^{\top}
+\quad\not\Rightarrow\quad \Big(W^{Q}\big(\text{RoPE} \cdot W^{\text{Up-}KV}\big)^{\top}\mathbf{h}_t\Big)\Big(...\Big)^{\top}
 $$
 
 #### Solution: Decoupled RoPE to query and key
 
-The solution is to decouple RoPE by adding additional multi-head queries $\bold{q}_{t,i}^{\text{Ro}}\in\mathbb{R}^{d^{\text{Ro}}_h}$ and a shared key $\bold{k}_{t}^{\text{Ro}}\in\mathbb{R}^{d^{\text{Ro}}_h}$ to carry RoPE.
+The solution is to decouple RoPE by adding additional multi-head queries $\mathbf{q}\_{t,i}^{\text{Ro}}\in\mathbb{R}^{d^{\text{Ro}}_h}$ and a shared key $\mathbf{k}\_{t}^{\text{Ro}}\in\mathbb{R}^{d^{\text{Ro}}_h}$ to carry RoPE.
 
 Introduce $W^{\text{Ro-}Q}\in\mathbb{R}^{d^{\text{Ro}}_hn_h\times d_c^Q}$ and $W^{\text{Ro-}K}\in\mathbb{R}^{d^{\text{Ro}}_h\times d}$
 
 $$
 \begin{align*}
-    [\bold{q}_{t,1}^{\text{Ro}};\bold{q}_{t,2}^{\text{Ro}};...;\bold{q}_{t,n_h}^{\text{Ro}}]=\bold{q}_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}Q}\bold{c}_t^Q) \\
-    \bold{k}_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}K}\bold{h}_t) \\
+    [\mathbf{q}\_{t,1}^{\text{Ro}};\mathbf{q}\_{t,2}^{\text{Ro}};...;\mathbf{q}\_{t,n_h}^{\text{Ro}}]=\mathbf{q}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}Q}\mathbf{c}_t^Q) \\
+    \mathbf{k}\_{t}^{\text{Ro}}=\text{RoPE}(W^{\text{Ro-}K}\mathbf{h}_t) \\
 \end{align*}
 $$
 
@@ -341,8 +341,8 @@ Accordingly, the $Q$ and $K$ are
 
 $$
 \begin{align*}
-    \bold{q}_{t,i}=[\bold{q}_{t,i}^{\text{C}};\bold{q}_{t,i}^{\text{Ro}}] \\
-    \bold{k}_{t,i}=[\bold{k}_{t,i}^{\text{C}};\bold{k}_{t}^{\text{Ro}}] \\
+    \mathbf{q}\_{t,i}=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\
+    \mathbf{k}\_{t,i}=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\
 \end{align*}
 $$
 
@@ -354,9 +354,9 @@ For each token, the attention is
 
 $$
 \begin{align*}
-    \bold{q}_{t,i} &=[\bold{q}_{t,i}^{\text{C}};\bold{q}_{t,i}^{\text{Ro}}] \\
-    \bold{k}_{t,i} &=[\bold{k}_{t,i}^{\text{C}};\bold{k}_{t}^{\text{Ro}}] \\
-    \bold{o}_{t,i} &= \sum_{j=1}^{t} \text{softmax}_j\Big(\frac{\bold{q}^{\top}_{t,i}\bold{k}_{j,i}}{\sqrt{d_h+d^{\text{Ro}}_h}}\Big)\bold{v}_{j,i}^C \\
-    \bold{o}_{t} &= W^{O}[\bold{o}_{t,1};\bold{o}_{t,2};...;\bold{o}_{t,n_h}]
+    \mathbf{q}\_{t,i} &=[\mathbf{q}\_{t,i}^{\text{C}};\mathbf{q}\_{t,i}^{\text{Ro}}] \\
+    \mathbf{k}\_{t,i} &=[\mathbf{k}\_{t,i}^{\text{C}};\mathbf{k}\_{t}^{\text{Ro}}] \\
+    \mathbf{o}\_{t,i} &= \sum_{j=1}^{t} \text{softmax}_j\Big(\frac{\mathbf{q}^{\top}\_{t,i}\mathbf{k}\_{j,i}}{\sqrt{d_h+d^{\text{Ro}}_h}}\Big)\mathbf{v}\_{j,i}^C \\
+    \mathbf{o}\_{t} &= W^{O}[\mathbf{o}\_{t,1};\mathbf{o}\_{t,2};...;\mathbf{o}\_{t,n_h}]
 \end{align*}
 $$

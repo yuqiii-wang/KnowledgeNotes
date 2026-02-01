@@ -79,7 +79,7 @@ In conclusion, should at least conduct $N=\frac{\log(1-p)}{\log\big( 1-(1-\epsil
 ## RANSAC Iteration Termination Condition
 
 When outlier percentage $\epsilon$ is known, 
-simply define the termination condition $T=(1-\epsilon)n$ that for a few consecutive tests, every time the number of inliers is greater than the threshold $n_{\text{inliers}}>T$,
+simply define the termination condition $T=(1-\epsilon)n$ that for a few consecutive tests, every time the number of inliers is greater than the threshold $n\_{\text{inliers}}>T$,
 it can be said RANSAC is converged.
 
 ### Adaptive Termination Condition
@@ -89,7 +89,7 @@ The **goal** is that: dynamically increase $N$, so that there is no lower outlie
 
 In detail:
 
-1. Set Total test number $N=+\infty$, set conducted test number $n_{\text{tested}}=0$
-2. When $N>n_{\text{tested}}$, compute $\epsilon=1-\frac{n_{\text{inliers}}}{n_{\text{outliers}}}$; compute $N_{}=\frac{\log(1-p)}{\log\big( 1-(1-\epsilon)^n \big)}$
-3. Set $n_{\text{tested}}=n_{\text{tested}}+1$, and repeat the 2. step.
-4. When $N\le n_{\text{tested}}$, terminate computation
+1. Set Total test number $N=+\infty$, set conducted test number $n\_{\text{tested}}=0$
+2. When $N>n\_{\text{tested}}$, compute $\epsilon=1-\frac{n\_{\text{inliers}}}{n\_{\text{outliers}}}$; compute $N_{}=\frac{\log(1-p)}{\log\big( 1-(1-\epsilon)^n \big)}$
+3. Set $n\_{\text{tested}}=n\_{\text{tested}}+1$, and repeat the 2. step.
+4. When $N\le n\_{\text{tested}}$, terminate computation

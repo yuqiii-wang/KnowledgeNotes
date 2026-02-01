@@ -9,7 +9,7 @@
 Yield to maturity (YTM) is the rate when bond is purchased on the secondary market, expected annualized return rate.
 
 $$
-\text{BondPrice}=\sum^n_{t=1}\frac{\text{CouponRate}}{(1+r)^t}+\frac{\text{FaceValue}}{(1+r)^n}
+\text{BondPrice}=\sum^n\_{t=1}\frac{\text{CouponRate}}{(1+r)^t}+\frac{\text{FaceValue}}{(1+r)^n}
 $$
 
 For example, a two-year maturity, 6% coupon rate bond with a face value of 100 priced at 98 on the market, there is
@@ -82,7 +82,7 @@ $$
 f(t)=\lim_{\Delta t \rightarrow 0} \frac{f(t, t+\Delta t)}{\Delta t}
 $$
 
-Consider $t_2 r(t_2)-t_1 r(t_1)=\int^{t_2}_{t_1} f(t)dt$,
+Consider $t_2 r(t_2)-t_1 r(t_1)=\int^{t_2}\_{t_1} f(t)dt$,
 then at the $t$ moment, the forward rate can be expressed as $r(t)t=\int^t_0 f(u)du$ which is the .
 
 Continuous spot rate growth is
@@ -280,7 +280,7 @@ where $h$ is the step span.
 Given four control points $P_i,P_{i+1},P_{i+2},P_{i+3}$
 
 $$
-S(t)=\sum^n_{i=0} P_i \cdot N_{i,3}(t)
+S(t)=\sum^n\_{i=0} P_i \cdot N_{i,3}(t)
 $$
 
 where
@@ -319,8 +319,8 @@ Add $\lambda$ as smooth control hyper-parameter.
 Optimize $f$ by
 
 $$
-\min_{f}\quad \underbrace{\sum^n_{i=1}\big(P_i-f(t_i)\big)^2}_{\text{deviation penalty}} +
-\lambda \underbrace{\int\Big(\frac{d^2}{dx^2}f_i(t_n)\Big)^2 dx}_{\text{sharp penalty}}
+\min_{f}\quad \underbrace{\sum^n\_{i=1}\big(P_i-f(t_i)\big)^2}\_{\text{deviation penalty}} +
+\lambda \underbrace{\int\Big(\frac{d^2}{dx^2}f_i(t_n)\Big)^2 dx}\_{\text{sharp penalty}}
 $$
 
 where the $\text{deviation penalty}$ encourages the trained $f(t)$ to be as much close as possible to the control point $P_i$ when passing through $f(t_i)$.
@@ -391,7 +391,7 @@ The analytic solution is (integrate over time range $[0,t]$)
 
 $$
 r_t=\mu \big(1-e^{-\theta t}\big)+r_{0}e^{-\theta t}+
-\sigma\int^{t}_{0}\big(e^{-\theta (t-u)}\big)dW_u
+\sigma\int^{t}\_{0}\big(e^{-\theta (t-u)}\big)dW_u
 $$
 
 ### Ho-Lee Model
@@ -418,7 +418,7 @@ $$
 \begin{align*}
 \int_0^T r_u du &=
 \int_0^T r_0 du + \int_0^T\int_0^t \theta_u du dt + \sigma\int_0^T\int_0^t dW_u dt \\
-&= r_0 T + \int_0^T\int_0^t \theta_u du dt + \underbrace{\sigma\int_0^T (T-u) dt}_{\sim N(0, \sigma^2\int_0^T(T-u)^2 du)}
+&= r_0 T + \int_0^T\int_0^t \theta_u du dt + \underbrace{\sigma\int_0^T (T-u) dt}\_{\sim N(0, \sigma^2\int_0^T(T-u)^2 du)}
 \end{align*}
 $$
 
@@ -460,6 +460,6 @@ The analytic solution is (integrate over time range $[0,t]$)
 
 $$
 r_t=r_0 e^{-at}+
-\int^{t}_{0}e^{-a (t-u)}\theta_u du+
-\sigma\int^{t}_{0}\big(e^{-a (t-u)}\big)dW_u
+\int^{t}\_{0}e^{-a (t-u)}\theta_u du+
+\sigma\int^{t}\_{0}\big(e^{-a (t-u)}\big)dW_u
 $$

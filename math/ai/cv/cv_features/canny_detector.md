@@ -93,38 +93,38 @@ Non-maximum suppression (NMS) uses a threshold score to "shrinks" multiple inter
 |-|
 $$
 \begin{align*}
-&\bold{\text{procedure}} \text{ NMS}(B,c)
+&\mathbf{\text{procedure}} \text{ NMS}(B,c)
 \\& \quad 
 B_{nms} \leftarrow \emptyset 
 && \text{Init } B_{nms} \text{ to an empty set} 
 \\& \quad 
-\bold{\text{for }} b_i \in B \bold{\text{ do}}
+\mathbf{\text{for }} b_i \in B \mathbf{\text{ do}}
 && \text{Iterate all } B
 \\& \quad\quad
 discard = False
 && \text{Init } discard \text{ to False }
 \\& \quad\quad 
-\bold{\text{for }} b_j \in B \bold{\text{ do}}
+\mathbf{\text{for }} b_j \in B \mathbf{\text{ do}}
 && \text{Iterate all } B \text{(the second loop)}
 \\& \quad\quad\quad
-\bold{\text{if }} same(b_i, b_j) > \lambda_{nms} \bold{\text{ then}}
+\mathbf{\text{if }} same(b_i, b_j) > \lambda_{nms} \mathbf{\text{ then}}
 && \text{Test if the two boxes have the same IoU,}
 \\ & && \quad\text{having the same IoU indicates two }
 \\ & && \quad\text{rectangular frames are referring to the same object }
 \\& \quad\quad\quad\quad
-\bold{\text{if }} score(c, b_j) > score(c, b_i) \bold{\text{ then}}
+\mathbf{\text{if }} score(c, b_j) > score(c, b_i) \mathbf{\text{ then}}
 && \text{Score judgement, higher the score, }
 \\ & && \quad\text{more accurate the box fits the object}
 \\& \quad\quad\quad\quad\quad
 discard = True
 && \text{Set } discard \text{ to True, } b_i \text{ should be discarded}
 \\& \quad\quad
-\bold{\text{if not }} discard \bold{\text{ then}}
+\mathbf{\text{if not }} discard \mathbf{\text{ then}}
 \\& \quad\quad\quad
 B_{nms} \leftarrow B_{nms} \cup b_i
 && \text{Collect } b_i \text{ when not discarded}
 \\& \quad
-\bold{\text{return }} B_{nms}
+\mathbf{\text{return }} B_{nms}
 \end{align*}
 $$
 where $B$ is the input set consisting of many rectangular frames where one object may see multiple frames overlapping each other; $B_{nms}$ is the total number of retained rectangular frames, where each frame corresponds to one object.

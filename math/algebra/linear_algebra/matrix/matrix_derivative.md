@@ -5,22 +5,22 @@
 Simply, the derivative of a scalar function $f$ over a matrix $X$ can be defined as $\frac{\partial f}{\partial X}=\big[ \frac{\partial f}{\partial x_{ij}} \big]$.
 However, such a definition is not handy since it requires computation of each $\partial x_{ij}$.
 
-The differential of a scalar function $df$ can be expressed as the sum of respective differential $d x_i$. 
+The differential of a scalar function $df$ can be expressed as the sum of respective differential $d x\_i$. 
 $$
-df = \sum^n_{i=1} \frac{\partial f}{\partial x_i} d x_i= \big(\frac{\partial f}{\partial \bold{x}}\big)^\text{T} d\bold{x}
+df = \sum^n\_{i=1} \frac{\partial f}{\partial x\_i} d x\_i= \big(\frac{\partial f}{\partial \mathbf{x}}\big)^\text{T} d\mathbf{x}
 $$
-where, by vector representation, there is $\frac{\partial f}{\partial \bold{x}} \in \mathbb{R}^{n \times 1}$ and $d\bold{x} \in \mathbb{R}^{n \times 1}$. so that $df$ is the inner product of $\frac{\partial f}{\partial \bold{x}} \cdot d\bold{x}$.
+where, by vector representation, there is $\frac{\partial f}{\partial \mathbf{x}} \in \mathbb{R}^{n \times 1}$ and $d\mathbf{x} \in \mathbb{R}^{n \times 1}$. so that $df$ is the inner product of $\frac{\partial f}{\partial \mathbf{x}} \cdot d\mathbf{x}$.
 
 Given this inspiration, expand the vector to a matrix space, so that
 $$
-df = \sum^m_{i=1} \sum^n_{j=1} \frac{\partial f}{\partial X_{ij}} d X_{ij}= tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)
+df = \sum^m_{i=1} \sum^n\_{j=1} \frac{\partial f}{\partial X_{ij}} d X_{ij}= tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)
 $$
 
 As a result $df$ is the trace of inner product between $\frac{\partial f}{\partial X} d X$.
 
 ## Compute $\frac{\partial f}{\partial Y}\frac{\partial Y}{\partial X}$
 
-Intuitively speaking, to compute $\frac{\partial f}{\partial X}=\frac{\partial f}{\partial Y}\frac{\partial Y}{\partial X}$, where $Y$ is a function of matrix $X$, and $f$ only has derivative definition over $Y$, this requires the computation of this undefined term $\frac{\partial Y}{\partial X}$. Commonly, denote $Y=AXB$, where $A$ and $B$ are constant transformations (give $dX\ne \bold{0}$, $dA=\bold{0}$ and $dB=\bold{0}$) around the variable $X$. This is useful to define $\frac{\partial Y}{\partial X}$ by trace operation.
+Intuitively speaking, to compute $\frac{\partial f}{\partial X}=\frac{\partial f}{\partial Y}\frac{\partial Y}{\partial X}$, where $Y$ is a function of matrix $X$, and $f$ only has derivative definition over $Y$, this requires the computation of this undefined term $\frac{\partial Y}{\partial X}$. Commonly, denote $Y=AXB$, where $A$ and $B$ are constant transformations (give $dX\ne \mathbf{0}$, $dA=\mathbf{0}$ and $dB=\mathbf{0}$) around the variable $X$. This is useful to define $\frac{\partial Y}{\partial X}$ by trace operation.
 
 Recall some trace operation properties:
 * Transpose: $tr(A^\text{T})=tr(A)$
@@ -39,7 +39,7 @@ tr \big(
 \big)
 \\ &=
 tr \bigg(
-    (\frac{\partial f}{\partial Y})^\text{T} \space \big( \underbrace{(d A) X B}_{=\bold{0}\text{, for }dA=\bold{0}} + A (d X) B +  \underbrace{A X (dB)}_{=\bold{0}\text{, for }dB=\bold{0}} \big)
+    (\frac{\partial f}{\partial Y})^\text{T} \space \big( \underbrace{(d A) X B}\_{=\mathbf{0}\text{, for }dA=\mathbf{0}} + A (d X) B +  \underbrace{A X (dB)}\_{=\mathbf{0}\text{, for }dB=\mathbf{0}} \big)
 \bigg)
 \\ &=
 tr \big(
@@ -62,7 +62,7 @@ $$
 
 This gives $\frac{\partial f}{\partial X}=A^\text{T} (\frac{\partial f}{\partial Y})^\text{T} B$. Remember, $\frac{\partial f}{\partial Y}$ is defined such as $\frac{\partial f}{\partial Y}=tr\big((\frac{\partial f}{\partial Y})^\text{T}\big) dY$.
 
-### Example: Find $\frac{\partial f}{\partial X}$ where $f=\bold{a}^\text{T}e^{X\bold{b}}$
+### Example: Find $\frac{\partial f}{\partial X}$ where $f=\mathbf{a}^\text{T}e^{X\mathbf{b}}$
 
 First, define element-wise multiplication operator $\odot$.
 There is $d\sigma(X)=\sigma'(X) \odot dX$.
@@ -81,32 +81,32 @@ d \space sin(X) =
 cos(X) \odot dX
 $$
 
-Back to $f$, first compute $df$ by $\odot$ ($d\space e^{X\bold{b}}=e^{X\bold{b}} \odot dX\bold{b}$). Then apply trace operations.
+Back to $f$, first compute $df$ by $\odot$ ($d\space e^{X\mathbf{b}}=e^{X\mathbf{b}} \odot dX\mathbf{b}$). Then apply trace operations.
 
-Regarding the size, there are $\bold{a} \in \mathbb{R}^{m \times 1}, X \in \mathbb{R}^{m \times n}, \bold{b} \in \mathbb{R}^{n \times 1}$. $e^{X}$ has the same size of $X$'s since the exponential $e^{X}$ is an element-wise operation on each element $x_{ij}$ of $X$. Besides, $X\bold{b} \in \mathbb{R}^{m \times 1}$.
+Regarding the size, there are $\mathbf{a} \in \mathbb{R}^{m \times 1}, X \in \mathbb{R}^{m \times n}, \mathbf{b} \in \mathbb{R}^{n \times 1}$. $e^{X}$ has the same size of $X$'s since the exponential $e^{X}$ is an element-wise operation on each element $x_{ij}$ of $X$. Besides, $X\mathbf{b} \in \mathbb{R}^{m \times 1}$.
 $$
 \begin{align*}
-    df &= \bold{a}^\text{T} (e^{X\bold{b}} \odot dX\bold{b})
+    df &= \mathbf{a}^\text{T} (e^{X\mathbf{b}} \odot dX\mathbf{b})
     \\ &=
     tr \big(
-        \bold{a}^\text{T} (e^{X\bold{b}} \odot dX\bold{b})
+        \mathbf{a}^\text{T} (e^{X\mathbf{b}} \odot dX\mathbf{b})
     \big)
     \\ &=
     tr \big(
-        (\bold{a} \odot e^{X\bold{b}})^\text{T} dX\bold{b}
+        (\mathbf{a} \odot e^{X\mathbf{b}})^\text{T} dX\mathbf{b}
     \big)
     \\ &=
     tr \big(
-        \bold{b} (\bold{a} \odot e^{X\bold{b}})^\text{T} dX
+        \mathbf{b} (\mathbf{a} \odot e^{X\mathbf{b}})^\text{T} dX
     \big)
     \\ &=
     tr \big(
-        ((\bold{a} \odot e^{X\bold{b}}) \bold{b}^\text{T})^\text{T} dX
+        ((\mathbf{a} \odot e^{X\mathbf{b}}) \mathbf{b}^\text{T})^\text{T} dX
     \big)
 \end{align*}
 $$
 
-Given the above result $df  =  tr \big(   ((\bold{a} \odot e^{X\bold{b}}) \bold{b}^\text{T})^\text{T} dX    \big)$ comparing against $df = tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)$, derive the final solution that $\frac{\partial f}{\partial X}=(\bold{a} \odot e^{X\bold{b}}) \bold{b}^\text{T}$
+Given the above result $df  =  tr \big(   ((\mathbf{a} \odot e^{X\mathbf{b}}) \mathbf{b}^\text{T})^\text{T} dX    \big)$ comparing against $df = tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)$, derive the final solution that $\frac{\partial f}{\partial X}=(\mathbf{a} \odot e^{X\mathbf{b}}) \mathbf{b}^\text{T}$
 
 ### Appendix: Proof of $\nabla_A tr(AB) = B^\text{T}$
 
@@ -117,25 +117,25 @@ $$
 tr(AB) &=
 tr \bigg(
     \begin{bmatrix}
-    \bold{a_1} \\
-    \bold{a_2} \\
+    \mathbf{a_1} \\
+    \mathbf{a_2} \\
     \vdots \\
-    \bold{a_n}
+    \mathbf{a_n}
 \end{bmatrix}
 \begin{bmatrix}
-    \bold{b_1} \\
-    \bold{b_2} \\
+    \mathbf{b_1} \\
+    \mathbf{b_2} \\
     \vdots \\
-    \bold{b_n}
+    \mathbf{b_n}
 \end{bmatrix}^\text{T}
 \bigg)\\ &=
 tr \begin{bmatrix}
-    \bold{a_1}\bold{b_1}^\text{T} & \bold{a_1}\bold{b_2}^\text{T} & &  \\
-    \bold{a_2}\bold{b_1}^\text{T} & \bold{a_2}\bold{b_2}^\text{T} & & \\
+    \mathbf{a_1}\mathbf{b_1}^\text{T} & \mathbf{a_1}\mathbf{b_2}^\text{T} & &  \\
+    \mathbf{a_2}\mathbf{b_1}^\text{T} & \mathbf{a_2}\mathbf{b_2}^\text{T} & & \\
     & & \ddots & \\
-    & & & \bold{a_n}\bold{b_n}^\text{T}
+    & & & \mathbf{a_n}\mathbf{b_n}^\text{T}
 \end{bmatrix}\\ &=
-\sum^n_i \bold{a_i}\bold{b_i}^\text{T}
+\sum^n_i \mathbf{a_i}\mathbf{b_i}^\text{T}
 \end{align*}
 $$
 

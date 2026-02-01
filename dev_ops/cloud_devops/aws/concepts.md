@@ -144,8 +144,6 @@ Amplify.configure({
 
 * Diffs between Interface and Gateway
 
-![AwsVpcInterfaceVsGateway](../imgs/AwsVpcInterfaceVsGateway.png "AwsVpcInterfaceVsGateway")
-
 * Prefix List
 
 A prefix list is a set of one or more CIDR blocks, convenient to manage multiple CIDRs of similar purposes.

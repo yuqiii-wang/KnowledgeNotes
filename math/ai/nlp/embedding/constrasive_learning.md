@@ -2,12 +2,12 @@
 
 Contrastive learning is a technique where a model learns to distinguish between similar and dissimilar examples by comparing them in pairs or triplets.
 
-Provided a batch of $N$ positive sentence/document pairs $\{(s_i, s_i^+)\}^{N}_{i=1}$, where for each anchor $s_i$, the positives are $s_i^+$ (the one another sentence/document most similar to the anchor),
+Provided a batch of $N$ positive sentence/document pairs $\{(s_i, s_i^+)\}^{N}\_{i=1}$, where for each anchor $s_i$, the positives are $s_i^+$ (the one another sentence/document most similar to the anchor),
 and the negatives are all other $s_j^+$ in the batch for $j\ne i$,
 the loss for a single pair $(s_i, s_i^+)$ is
 
 $$
-\mathcal{L}_i=-\log\frac{\exp\big(\frac{1}{\tau}\text{sim}(s_i, s_i^+)\big)}{\sum^N_{j=1}\exp\big(\frac{1}{\tau}\text{sim}(s_i, s_j^+)\big)}
+\mathcal{L}\_i=-\log\frac{\exp\big(\frac{1}{\tau}\text{sim}(s_i, s_i^+)\big)}{\sum^N_{j=1}\exp\big(\frac{1}{\tau}\text{sim}(s_i, s_j^+)\big)}
 $$
 
 where $\tau$ is a temperature hyperparameter to scale similarity.
@@ -22,7 +22,7 @@ $$
 The total loss over the batch is:
 
 $$
-\mathcal{L}=\frac{1}{N}\sum^N_{i=1}\mathcal{L}_i
+\mathcal{L}=\frac{1}{N}\sum^N_{i=1}\mathcal{L}\_i
 $$
 
 ## Obtain Sentence/Document Embedding from Token Embeddings
@@ -30,7 +30,7 @@ $$
 In LLM, embedding is usually applied per token.
 To use ONE embedding to represent a whole sentence/document, need to aggregate/consolidate the all sentence/document tokens/embeddings.
 
-Let $\text{emb}(t_i)\in\mathbb{R}^d$ be the embedding of token $\text{emb}(t_i)\in\text{emb}(\bold{t})\in\mathbb{R}^{n\times d}$ from an $n$ length sentence/document $\bold{t}\in\mathbb{R}^n$.
+Let $\text{emb}(t_i)\in\mathbb{R}^d$ be the embedding of token $\text{emb}(t_i)\in\text{emb}(\mathbf{t})\in\mathbb{R}^{n\times d}$ from an $n$ length sentence/document $\mathbf{t}\in\mathbb{R}^n$.
 
 ### Embedding Aggregation
 
@@ -40,7 +40,7 @@ The pooling is per-DIMENSION/normalized by sequence length $n$, i.e., $\mathbb{R
 #### Max-Pooling Embedding Aggregation
 
 $$
-\text{emb}_{\max}(s)=\max\text{emb}(\bold{t})=
+\text{emb}\_{\max}(s)=\max\text{emb}(\mathbf{t})=
 \begin{bmatrix}
     \max(t_{1,1}, t_{2,1}, ..., t_{n,1}) \\
     \max(t_{1,2}, t_{2,2}, ..., t_{n,2}) \\
@@ -52,7 +52,7 @@ $$
 #### Mean-Pooling Embedding Aggregation
 
 $$
-\text{emb}_{\mu}(s)=\frac{1}{n}\sum_{i=1}^n\text{emb}(\bold{t})=
+\text{emb}\_{\mu}(s)=\frac{1}{n}\sum_{i=1}^n\text{emb}(\mathbf{t})=
 \frac{1}{n}\begin{bmatrix}
     t_{1,1} + t_{2,1} + ... + t_{n,1} \\
     t_{1,2} + t_{2,2} + ... + t_{n,2} \\
@@ -71,18 +71,18 @@ $$
 
 During pretraining, BERT includes the Next Sentence Prediction (NSP) and classification tasks that train the model to encode meaningful information in the `[CLS]` token.
 
-Let $\bold{h}^{(l)}_i$ be the $i$-th hidden state at the $l$-th layer, together there is
+Let $\mathbf{h}^{(l)}\_i$ be the $i$-th hidden state at the $l$-th layer, together there is
 
 $$
-\bold{h}^{(l)}=[\bold{h}^{(l)}_{\text{[CLS]}}, \bold{h}^{(l)}_{1}, \bold{h}^{(l)}_{2}, ...,  \bold{h}^{(l)}_{n}]
+\mathbf{h}^{(l)}=[\mathbf{h}^{(l)}\_{\text{[CLS]}}, \mathbf{h}^{(l)}\_{1}, \mathbf{h}^{(l)}\_{2}, ...,  \mathbf{h}^{(l)}\_{n}]
 $$
 
 Take self-attention as an example, a naive transformer is
 
 $$
 \begin{align*}
-    \bold{h}^{(l+1)}_{i} &=\text{FFN}\big(\text{SelfAttention}(\bold{h}^{(l)}, \bold{h}^{(l)}_i)\big) \\
-    &=\text{FFN}\big(\text{Softmax}\big(\frac{\bold{q}_iK^{\top}}{\sqrt{d}}\big)\bold{v}_i\big)
+    \mathbf{h}^{(l+1)}\_{i} &=\text{FFN}\big(\text{SelfAttention}(\mathbf{h}^{(l)}, \mathbf{h}^{(l)}\_i)\big) \\
+    &=\text{FFN}\big(\text{Softmax}\big(\frac{\mathbf{q}_iK^{\top}}{\sqrt{d}}\big)\mathbf{v}\_i\big)
 \end{align*}
 $$
 

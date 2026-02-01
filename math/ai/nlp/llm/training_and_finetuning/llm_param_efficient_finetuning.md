@@ -2,11 +2,11 @@
 
 ## LoRA: Low-Rank Adaptation of Large Language Models
 
-For input $\bold{x} \in \mathbb{R}^{n \times d}$, where $d$ is for dimensionality, to fine tune an pretrained model, LoRA proposes below idea.
+For input $\mathbf{x} \in \mathbb{R}^{n \times d}$, where $d$ is for dimensionality, to fine tune an pretrained model, LoRA proposes below idea.
 
 * $W_0 \in \mathbb{R}^{d \times d}$ is the pretrained parameters. 
 * $A \sim N(0, \sigma^2) \in \mathbb{R}^{d \times r}$ is a weight matrix to be learned; it parameters are init by Gaussian distribution. $A$'s output reduces dimension to $r$
-* $B = \bold{0} \in \mathbb{R}^{r \times d}$ is another weight matrix init to zeros. $B$'s output reset the dimension to $d$.
+* $B = \mathbf{0} \in \mathbb{R}^{r \times d}$ is another weight matrix init to zeros. $B$'s output reset the dimension to $d$.
 
 The training goes as below, that $W_0$ is kept unchanged/frozen; $B^{\top} A^{\top}$ are trainable parameter matrices. 
 
@@ -22,7 +22,7 @@ A small $r$ can help reduce computation maintaining small sizes for $A$ and $B$.
 The new hidden layer matrix is computed as below.
 
 $$
-\bold{h} = W^{\top}_0\bold{x} + \underbrace{B^{\top} A^{\top}}_{W_{\Delta}} \bold{x}
+\mathbf{h} = W^{\top}_0\mathbf{x} + \underbrace{B^{\top} A^{\top}}\_{W_{\Delta}} \mathbf{x}
 $$
 
 For intrinsic dimension (intrinsic dimension for a data set can be thought of as the number of variables needed in a minimal representation of the data), the number of neurons is small $r \ll d$ but can produce good approximation results.
@@ -123,13 +123,13 @@ AdaLoRA takes SVD on the added weight matrix such that $W_{\Delta}=P \Lambda Q$.
 
 $$
 \begin{align*}
-    \bold{h} &= W^{\top}_0\bold{x} + \underbrace{B^{\top} A^{\top}}_{W_{\Delta}} \bold{x} \\
-    &= W^{\top}_0\bold{x} + P \Lambda Q \bold{x}
+    \mathbf{h} &= W^{\top}_0\mathbf{x} + \underbrace{B^{\top} A^{\top}}\_{W_{\Delta}} \mathbf{x} \\
+    &= W^{\top}_0\mathbf{x} + P \Lambda Q \mathbf{x}
 \end{align*}
 $$
 
 To train $W_{\Delta}=P \Lambda Q$, in contrast to primitive LoRA that just trains $A$ and $B$, AdaLoRA trains $P \in \mathbb{R}^{d_P \times r}$ and $Q \in \mathbb{R}^{r \times d_Q}$.
-At the beginning of training $t=0$, $W_{\Delta}$ uses random Gaussian initialization to $P$ and $Q$ to ensure $W_{\Delta}=\bold{0}$.
+At the beginning of training $t=0$, $W_{\Delta}$ uses random Gaussian initialization to $P$ and $Q$ to ensure $W_{\Delta}=\mathbf{0}$.
 
 To enforce the orthogonality of $P$ and $Q$, i.e., $P^{\top}P=I$ and $Q^{\top}Q=I$, use the below regularizer:
 
@@ -154,8 +154,8 @@ AdaLoRA proposes using *importance-aware rank allocation* scheme.
 
 Generally speaking, *importance score* is consisted of singular value magnitude and sensitivity measurement (magnitude of the gradient-weight product), and is used to determine what singular values are to be retained.
 
-Define a triplet $\bold{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$, where $i$ denotes the index of the $i$-th singular value $\lambda_i$.
-When setting $\lambda_i=0$, the corresponding triplets $\bold{w}_{\Delta, i}$ are set to $\bold{0}$ as well, thereby removing the less-importance dimensions of $W_{\Delta}=P \Lambda Q$.
+Define a triplet $\mathbf{w}\_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$, where $i$ denotes the index of the $i$-th singular value $\lambda_i$.
+When setting $\lambda_i=0$, the corresponding triplets $\mathbf{w}\_{\Delta, i}$ are set to $\mathbf{0}$ as well, thereby removing the less-importance dimensions of $W_{\Delta}=P \Lambda Q$.
 
 The update of $\Lambda_t$ at the training step $t$ is shown as below. Here $\eta$ is learning rate.
 
@@ -169,18 +169,18 @@ $$
 \Lambda_{t+1} = \text{prune}(\hat{\Lambda}_t, S_t) =
 \left\{
     \begin{matrix}
-        \hat{\Lambda}_t & S_t \text{ is among top in all } \bold{S}_t \\
+        \hat{\Lambda}_t & S_t \text{ is among top in all } \mathbf{S}_t \\
         0 & \text{otherwise}
     \end{matrix}
 \right.
 $$
 
-where $\bold{S}_t$ refers to the set of importance scores of all LoRA additional weight matrices in an LLM.
+where $\mathbf{S}_t$ refers to the set of importance scores of all LoRA additional weight matrices in an LLM.
 
 Importance score $S_t$ is computed with two considerations
 
-* Magnitude of singular value: large $|\lambda_i|$ indicates high importance of its corresponding triplet $\bold{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$
-* Sensitivity-based importance: if the removal of a parameter, e.g., $\lambda_i$, has a large influence, then the model is sensitive to it and the triplet $\bold{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ should be retained
+* Magnitude of singular value: large $|\lambda_i|$ indicates high importance of its corresponding triplet $\mathbf{w}\_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$
+* Sensitivity-based importance: if the removal of a parameter, e.g., $\lambda_i$, has a large influence, then the model is sensitive to it and the triplet $\mathbf{w}\_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ should be retained
 
 In summary, $S_t$ is computed as below.
 
@@ -202,20 +202,20 @@ where, with the help of coefficients $0 < \beta_1, \beta_2 < 1$, there are
 
 $$
 \begin{align*}
-    \overline{s}_{t}(w_{ij}) &= \beta_1 \overline{s}_{t-1}(w_{ij}) + (1-\beta_1)\hat{s}_{t}(w_{ij}) \\
-    \overline{u}_{t}(w_{ij}) &= \beta_2 \overline{u}_{t-1}(w_{ij}) + (1-\beta_2)\Big| \hat{s}_{t}(w_{ij}) - \overline{s}_{t}(w_{ij}) \Big|
+    \overline{s}\_{t}(w_{ij}) &= \beta_1 \overline{s}\_{t-1}(w_{ij}) + (1-\beta_1)\hat{s}\_{t}(w_{ij}) \\
+    \overline{u}\_{t}(w_{ij}) &= \beta_2 \overline{u}\_{t-1}(w_{ij}) + (1-\beta_2)\Big| \hat{s}\_{t}(w_{ij}) - \overline{s}\_{t}(w_{ij}) \Big|
 \end{align*}
 $$
 
 #### Further Explanation
 
-A naive inspiration would be just performing SVD such that $W_{\Delta}=P \Lambda Q$, then remove triplets $\bold{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ with small $\lambda_i$, and increase $d_P$ and $d_Q$ for even smallest $\lambda_i$ remains large.
+A naive inspiration would be just performing SVD such that $W_{\Delta}=P \Lambda Q$, then remove triplets $\mathbf{w}\_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ with small $\lambda_i$, and increase $d_P$ and $d_Q$ for even smallest $\lambda_i$ remains large.
 However, at each training step $t$, performing once SVD would be very computation-expensive.
 AdaLoRA proposes turning $P$, $\Lambda$ and $Q$ into trainable matrices, thereby approximating $W_{\Delta}=AB$.
 
 SVD's orthogonality property is guaranteed by regularization $\text{regularizer}(P,Q)$.
 
-Pruning of $\Lambda$ is by $\lambda_i$'s relative importance score $S_t$ in $\bold{S}_t$.
+Pruning of $\Lambda$ is by $\lambda_i$'s relative importance score $S_t$ in $\mathbf{S}_t$.
 A further explanation of score $\hat{s}(w_{ij})=|w_{ij} \nabla_{w_{ij}} \mathcal{L}|$ is that, it is proportional to the gradient $\nabla_{w_{ij}} \mathcal{L}$ that score is high when weight update $\Delta w_{ij}$ sees steep loss descent.
 
 $s(w_{ij}) = \overline{s}(w_{ij}) \cdot \overline{u}(w_{ij})$ is to smooth scores preventing large variances when training on batches.
@@ -387,8 +387,8 @@ class PeftModelForCausalLM(PeftModel):
 Motivation is that, given a sequence of tokens, the first few tokens of this sequence should contain rich info about predicting next remaining tokens,
 so that by only training a small network on these first few tokens, this small network's output should see high attention scores when passed to transformers predicting next remaining tokens.
 
-Construct the input $\bold{z} = \{ \text{PREFIX}, \bold{x}, \bold{y} \}$, whose activation values $h_i$ are shown as below.
-$\{ \text{PREFIX}, \bold{x} \}$ are concatenated as new keys $K$ and values $V$ to transformers for predicting result tokens $\bold{y}$.
+Construct the input $\mathbf{z} = \{ \text{PREFIX}, \mathbf{x}, \mathbf{y} \}$, whose activation values $h_i$ are shown as below.
+$\{ \text{PREFIX}, \mathbf{x} \}$ are concatenated as new keys $K$ and values $V$ to transformers for predicting result tokens $\mathbf{y}$.
 
 Define a small network $P_\theta$ to be trained on the $\text{PREFIX}$ virtual tokens. 
 Other parameters of the underlying base model are frozen.

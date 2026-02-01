@@ -9,36 +9,36 @@ It attempts to add dimensionality (constructing a hyperplane by a kernel functio
 
 ## Definition
 
-Given a dataset $(\bold{x}, \bold{y})=[(x_1, y_1), (x_2, y_2), ..., (x_m, y_m)]$, where $x_i$ is a $n$-dimensional vector.
+Given a dataset $(\mathbf{x}, \mathbf{y})=[(x_1, y_1), (x_2, y_2), ..., (x_m, y_m)]$, where $x\_i$ is a $n$-dimensional vector.
 
-Construct a hyperplane that makes training data $\bold{x}$ satisfy
+Construct a hyperplane that makes training data $\mathbf{x}$ satisfy
 $$
-\bold{w}^T \bold{x} - b = 0
+\mathbf{w}^T \mathbf{x} - b = 0
 $$
-where $\bold{w}$  is the (not necessarily normalized) normal vector to the hyperplane.
+where $\mathbf{w}$  is the (not necessarily normalized) normal vector to the hyperplane.
 $$
-\bold{w}^T \bold{x} - b = 1,\quad \text{for } y_i=1
+\mathbf{w}^T \mathbf{x} - b = 1,\quad \text{for } y_i=1
 \\
-\bold{w}^T \bold{x} - b = -1,\quad \text{for } y_i=-1
+\mathbf{w}^T \mathbf{x} - b = -1,\quad \text{for } y_i=-1
 $$
 
 This can be rewritten as
 $$
-y_i(\bold{w}^Tx_i-b) \ge 1, \quad \forall x_i \in \bold{x}, \space \forall y_i \in \bold{y}
+y_i(\mathbf{w}^Tx_i-b) \ge 1, \quad \forall x\_i \in \mathbf{x}, \space \forall y_i \in \mathbf{y}
 $$
 
-To achieve best separation, we want to maximize $\frac{2}{||\bold{w}||}$, which means
+To achieve best separation, we want to maximize $\frac{2}{||\mathbf{w}||}$, which means
 $$
-\arg \space \underset{\bold{w}}{\text{min}} ||\bold{w}||
+\arg \space \underset{\mathbf{w}}{\text{min}} ||\mathbf{w}||
 $$
 subject to
 $$
-y_i(\bold{w}^Tx_i-b) \ge 1
+y_i(\mathbf{w}^Tx_i-b) \ge 1
 $$
 
 ### Example
 
-$x_i = (x_{i,1}, x_{i,2})$ is a two-dimensional sample. We want to maximize $\frac{b}{||\bold{w}||}$
+$x\_i = (x_{i,1}, x_{i,2})$ is a two-dimensional sample. We want to maximize $\frac{b}{||\mathbf{w}||}$
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/svm_theory.png" width="40%" height="40%" alt="svm_theory" />
@@ -50,47 +50,47 @@ $x_i = (x_{i,1}, x_{i,2})$ is a two-dimensional sample. We want to maximize $\fr
 Consider a *Hinge Loss* $\xi_i$ applied to the above separation problem:
 $$
 \xi_i = 
-\max \big(0, 1 - y_i (\bold{w}^\top \bold{x}_i) - b \big)
+\max \big(0, 1 - y_i (\mathbf{w}^\top \mathbf{x}\_i) - b \big)
 $$
 
-Since $y_i(\bold{w}^Tx_i-b) \ge 1$ if all $x_i$ are correctly predicted,  there is $\xi_i = 0$ if all samples are correctly labelled.
+Since $y_i(\mathbf{w}^Tx_i-b) \ge 1$ if all $x\_i$ are correctly predicted,  there is $\xi_i = 0$ if all samples are correctly labelled.
 
 Define the cost $L$ that sums up all samples' error $\xi_i$:
 
 $$
 \begin{align*}
-\min_{\bold{w}, b, \bold{\xi}}
+\min_{\mathbf{w}, b, \mathbf{\xi}}
 L &= 
-    \lambda \big|\big|\bold{w}\big|\big|^2 +
+    \lambda \big|\big|\mathbf{w}\big|\big|^2 +
     \Bigg( 
-    \frac{1}{n}\sum_{i=1}^n \big(0, 1 - y_i (\bold{w}^\top \bold{x}_i) - b \big) 
+    \frac{1}{n}\sum_{i=1}^n \big(0, 1 - y_i (\mathbf{w}^\top \mathbf{x}\_i) - b \big) 
     \Bigg)
 \\ &=
-    \lambda \big|\big|\bold{w}\big|\big|^2 +
+    \lambda \big|\big|\mathbf{w}\big|\big|^2 +
     C \sum_{i=1}^n \xi_i
 \\ \text{subject to } 
 \\ &
-1 - y_i (\bold{w}^\top \bold{x}_i - b) \ge 1 - \xi_i
+1 - y_i (\mathbf{w}^\top \mathbf{x}\_i - b) \ge 1 - \xi_i
 , \quad\quad
 \xi_i \ge 0, \space \forall i \in \{1,2,...,n\}
 \end{align*}
 $$
-where $\lambda$ is a scaling factor for minimizing $\big|\big|\bold{w}\big|\big|^2$ which makes the separation margin as wide as possible; $C$ is an overall error tolerance factor for the summed error $\sum_{i=1}^n \xi_i$.
+where $\lambda$ is a scaling factor for minimizing $\big|\big|\mathbf{w}\big|\big|^2$ which makes the separation margin as wide as possible; $C$ is an overall error tolerance factor for the summed error $\sum_{i=1}^n \xi_i$.
 
 It can tell that $\lambda$ and $C$ are inversely related such that, 
-if $\lambda$ is large and $C$ is small, the SVM algorithm would try to separate the samples as wide as possible and have little tolerance to errors, but could fail to converge for constraints being too strict (there is no support vector weights $\bold{w}$ that satisfies $1 - y_i (\bold{w}^\top \bold{x}_i - b) \ge 1 - \xi_i$).
+if $\lambda$ is large and $C$ is small, the SVM algorithm would try to separate the samples as wide as possible and have little tolerance to errors, but could fail to converge for constraints being too strict (there is no support vector weights $\mathbf{w}$ that satisfies $1 - y_i (\mathbf{w}^\top \mathbf{x}\_i - b) \ge 1 - \xi_i$).
 
 
 ## Kernel Tricks
 
-Kernel functions are used to map source data space to a higher dimensional space that makes separation easy. The additional dimensions $m$ are the result of a kernel function: $\phi(\overrightarrow{x_i}, \overrightarrow{x_j}): n \rightarrow m$, where $n$ is the nuumber of dimensions in source dataset. As a result, the new space has $n+m$ dimensions. $i, j$ are the indices referencing data samples.
+Kernel functions are used to map source data space to a higher dimensional space that makes separation easy. The additional dimensions $m$ are the result of a kernel function: $\phi(\overrightarrow{x\_i}, \overrightarrow{x_j}): n \rightarrow m$, where $n$ is the nuumber of dimensions in source dataset. As a result, the new space has $n+m$ dimensions. $i, j$ are the indices referencing data samples.
 
 Choice of kernels depends on dataset distributions.
 
 Some typical kernels are
 
 * Polynomial
-$$\phi(\overrightarrow{x_i}, \overrightarrow{x_j}) = (\overrightarrow{x_i} \cdot \overrightarrow{x_j})^d
+$$\phi(\overrightarrow{x\_i}, \overrightarrow{x_j}) = (\overrightarrow{x\_i} \cdot \overrightarrow{x_j})^d
 $$
 
 **Example**: set $d=2$, and given two sample points $\overrightarrow{x_1}=(5,6,7)$ and $\overrightarrow{x_2}=(8,9,10)$
@@ -130,11 +130,11 @@ $$
 
 * Gaussian radial basis function
 $$
-\phi(\overrightarrow{x_i}, \overrightarrow{x_j}) = e^{-\gamma||\overrightarrow{x_i} - \overrightarrow{x_j}||^2}, \quad \gamma>0
+\phi(\overrightarrow{x\_i}, \overrightarrow{x_j}) = e^{-\gamma||\overrightarrow{x\_i} - \overrightarrow{x_j}||^2}, \quad \gamma>0
 $$
 
 * sigmoid
 
 $$
-\phi(\overrightarrow{x_i}, \overrightarrow{x_j}) = tanh (\gamma \overrightarrow{x_i} \cdot \overrightarrow{x_j} + c)
+\phi(\overrightarrow{x\_i}, \overrightarrow{x_j}) = tanh (\gamma \overrightarrow{x\_i} \cdot \overrightarrow{x_j} + c)
 $$

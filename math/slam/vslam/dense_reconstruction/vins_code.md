@@ -135,29 +135,29 @@ void process()
 
 `processIMU` describes how pre-integration takes into account of IMU data to a corresponding frame.
 
-`Bas` $\bold{b}_a$ and `Bgs` $\bold{b}_g$ are pre-computed biases from IMU pre-integration.
-They are used as assumed noises to be subtracted from the computed rotation/orientation `Rs[j]` $\bold{R}_j$, position `Ps[j]` $\bold{p}_j$ and velocity `Vs[j]` $\bold{v}_j$
+`Bas` $\mathbf{b}_a$ and `Bgs` $\mathbf{b}_g$ are pre-computed biases from IMU pre-integration.
+They are used as assumed noises to be subtracted from the computed rotation/orientation `Rs[j]` $\mathbf{R}_j$, position `Ps[j]` $\mathbf{p}_j$ and velocity `Vs[j]` $\mathbf{v}_j$
 
-From each IMU reading obatin linear acceleration `linear_acceleration` $\hat{\bold{a}}_{t}$ and angular acceleration `angular_velocity` $\hat{\bold{\omega}}_{t}$, then compute `Rs[j]` $\bold{R}_j$, `Ps[j]` $\bold{p}_j$ and `Vs[j]` $\bold{v}_j$.
+From each IMU reading obatin linear acceleration `linear_acceleration` $\hat{\mathbf{a}}\_{t}$ and angular acceleration `angular_velocity` $\hat{\mathbf{\omega}}\_{t}$, then compute `Rs[j]` $\mathbf{R}_j$, `Ps[j]` $\mathbf{p}_j$ and `Vs[j]` $\mathbf{v}_j$.
 
-$\bold{a}_{t} = \frac{1}{2} (\hat{\bold{a}}_{t,t-1} + \hat{\bold{a}}_{t,t})$ assumes linear interpolation, 
-that acceleration is transformed/rotated linearly between $\bold{R}_{j, t-1}$ and $\bold{R}_{j, t}$.
+$\mathbf{a}\_{t} = \frac{1}{2} (\hat{\mathbf{a}}\_{t,t-1} + \hat{\mathbf{a}}\_{t,t})$ assumes linear interpolation, 
+that acceleration is transformed/rotated linearly between $\mathbf{R}\_{j, t-1}$ and $\mathbf{R}\_{j, t}$.
 
 $$
 \begin{align*}
-\hat{\bold{a}}_{t, t-1} &= \bold{R}_{j, t-1} (\bold{a}_{t-1} - \bold{b}_a) - \bold{g}_{earth}
+\hat{\mathbf{a}}\_{t, t-1} &= \mathbf{R}\_{j, t-1} (\mathbf{a}\_{t-1} - \mathbf{b}_a) - \mathbf{g}\_{earth}
 \\
-{\bold{\omega}}_{t} &= \frac{1}{2} (\bold{\omega}_{t-1} + \hat{\bold{\omega}}_{t}) - \bold{b}_\omega
+{\mathbf{\omega}}\_{t} &= \frac{1}{2} (\mathbf{\omega}\_{t-1} + \hat{\mathbf{\omega}}\_{t}) - \mathbf{b}\_\omega
 \\
-{\bold{R}}_{j, t} &= \bold{R}_{j, t-1} \cdot ({\bold{\omega}}_{t} \cdot \delta t)^\wedge
+{\mathbf{R}}\_{j, t} &= \mathbf{R}\_{j, t-1} \cdot ({\mathbf{\omega}}\_{t} \cdot \delta t)^\wedge
 \\
-\hat{\bold{a}}_{t,t} &= {\bold{R}}_{j, t} (\hat{\bold{a}}_{t} - \bold{b}_a) - \bold{g}_{earth}
+\hat{\mathbf{a}}\_{t,t} &= {\mathbf{R}}\_{j, t} (\hat{\mathbf{a}}\_{t} - \mathbf{b}_a) - \mathbf{g}\_{earth}
 \\
-\bold{a}_{t} &= \frac{1}{2} (\hat{\bold{a}}_{t,t-1} + \hat{\bold{a}}_{t,t})
+\mathbf{a}\_{t} &= \frac{1}{2} (\hat{\mathbf{a}}\_{t,t-1} + \hat{\mathbf{a}}\_{t,t})
 \\
-\bold{p}_{j, t} &= \bold{p}_{j, t-1} + \bold{v}_{j, t-1} \cdot \delta t + \frac{1}{2} \bold{a}_{t} (\delta t)^2
+\mathbf{p}\_{j, t} &= \mathbf{p}\_{j, t-1} + \mathbf{v}\_{j, t-1} \cdot \delta t + \frac{1}{2} \mathbf{a}\_{t} (\delta t)^2
 \\
-\bold{v}_{j, t} &= \bold{v}_{j, t-1} + \bold{a}_{j, t} \cdot \delta t 
+\mathbf{v}\_{j, t} &= \mathbf{v}\_{j, t-1} + \mathbf{a}\_{j, t} \cdot \delta t 
 \end{align*}
 $$
 
@@ -296,21 +296,21 @@ void Estimator::processImage(const map<int, vector<pair<int, Eigen::Matrix<doubl
 
 Recall in VINS that the objective constains three items:
 $$
-\min_{\bold{\mathcal{X}}}
+\min_{\mathbf{\mathcal{X}}}
 \underbrace{\big|\big|
-    \bold{r}_p - H_p \bold{\mathcal{X}}
-\big|\big|^2}_{
+    \mathbf{r}_p - H_p \mathbf{\mathcal{X}}
+\big|\big|^2}\_{
 \text{Marginalization residuals}}
 +
 \underbrace{\sum_{k_i \in \mathcal{B}} 
 \Big|\Big|
-    \bold{r}_\mathcal{B} ( \hat{\bold{z}}_{\tiny{BK}} ,\bold{\mathcal{X}} )
-\Big|\Big|^2}_{
+    \mathbf{r}\_\mathcal{B} ( \hat{\mathbf{z}}\_{\tiny{BK}} ,\mathbf{\mathcal{X}} )
+\Big|\Big|^2}\_{
 \text{IMU measurement residuals}}+ 
 \underbrace{\sum_{(j,l) \in \mathcal{C}} 
 \rho\Big( \big|\big|
-    \bold{r}_\mathcal{C} ( \hat{\bold{z}}_{\tiny{C_jl}},\bold{\mathcal{X}} )
-\big|\big|^2 \Big)}_{
+    \mathbf{r}\_\mathcal{C} ( \hat{\mathbf{z}}\_{\tiny{C_jl}},\mathbf{\mathcal{X}} )
+\big|\big|^2 \Big)}\_{
 \text{Visual measurement residuals}}
 $$
 where $\rho(e)$ is a Huber norm. 
@@ -590,7 +590,7 @@ void ResidualBlockInfo::Evaluate()
 
 ### Optimized Parameter Mapping
 
-`para_Pose` and `para_SpeedBias` are the two parameter blocks for ceres that have the below mapping relationship to `Rs[j]` $\bold{R}_j$, `Ps[j]` $\bold{p}_j$ and `Vs[j]` $\bold{v}_j$ `Bas` $\bold{b}_a$ and `Bgs` $\bold{b}_g$.
+`para_Pose` and `para_SpeedBias` are the two parameter blocks for ceres that have the below mapping relationship to `Rs[j]` $\mathbf{R}_j$, `Ps[j]` $\mathbf{p}_j$ and `Vs[j]` $\mathbf{v}_j$ `Bas` $\mathbf{b}_a$ and `Bgs` $\mathbf{b}_g$.
 
 ```cpp
 Rs[i] = rot_diff * Quaterniond(para_Pose[i][6], para_Pose[i][3], para_Pose[i][4], para_Pose[i][5]).normalized().toRotationMatrix();
@@ -678,67 +678,67 @@ bool Estimator::visualInitialAlign()
 }
 ```
 
-`VisualIMUAlignment()` consists of two steps `solveGyroscopeBias(...)` that computes an initial guess of `delta_bg` $\bold{b}_{\omega}$, and `LinearAlignment(...)`
+`VisualIMUAlignment()` consists of two steps `solveGyroscopeBias(...)` that computes an initial guess of `delta_bg` $\mathbf{b}\_{\omega}$, and `LinearAlignment(...)`
 
 * `solveGyroscopeBias(...)`
 
 Define the $i$-th and $j$-th frame rotation difference (the $j$-th frame is the next frame to the $i$-th's: $j=i+1$): `q_ij` by $R_{ij}=R_{i}^\top R_{j}$.
 
-Then define $A\bold{x}=\bold{b}$ such that
+Then define $A\mathbf{x}=\mathbf{b}$ such that
 $$
 \begin{align*}
-A_{3 \times 3} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \bold{b}_{\omega}}\Big)^\top \frac{\partial R_j}{\partial \bold{b}_{\omega}}
+A_{3 \times 3} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \mathbf{b}\_{\omega}}\Big)^\top \frac{\partial R_j}{\partial \mathbf{b}\_{\omega}}
 \\
-\bold{b}_{3 \times 1} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \bold{b}_{\omega}}\Big)^\top \big( 2 \Delta R_j R_{ij} \big)
+\mathbf{b}\_{3 \times 1} &= \sum_{i} \Big(\frac{\partial R_j}{\partial \mathbf{b}\_{\omega}}\Big)^\top \big( 2 \Delta R_j R_{ij} \big)
 \end{align*}
 $$
 
-LDLT solves $A\bold{x}=\bold{b}$, where $\bold{x}$ refers to $\Delta \bold{b}_{\omega}$
+LDLT solves $A\mathbf{x}=\mathbf{b}$, where $\mathbf{x}$ refers to $\Delta \mathbf{b}\_{\omega}$
 
 * `LinearAlignment(...)`
 
-Define $A_{\text{tmp, i}} \in \mathbb{R}^{6 \times 10}$ as the Jacobian partial on position and velocity, and $\bold{b}_{\text{tmp, i}} \in \mathbb{R}^{6}$ as the residuals of position and velocity, where $i$ denotes the $i$-th frame.
+Define $A_{\text{tmp, i}} \in \mathbb{R}^{6 \times 10}$ as the Jacobian partial on position and velocity, and $\mathbf{b}\_{\text{tmp, i}} \in \mathbb{R}^{6}$ as the residuals of position and velocity, where $i$ denotes the $i$-th frame.
 
 $$
 \begin{align*}
 A_{\text{tmp, i}} &= 
 \begin{bmatrix}
-    \frac{\partial \bold{p}}{\partial \bold{p}}
-    & \frac{\partial \bold{p}}{\partial \bold{v}}
-    & \frac{\partial \bold{p}}{\partial \bold{a}}
-    & \frac{\partial \bold{p}}{\partial s}
+    \frac{\partial \mathbf{p}}{\partial \mathbf{p}}
+    & \frac{\partial \mathbf{p}}{\partial \mathbf{v}}
+    & \frac{\partial \mathbf{p}}{\partial \mathbf{a}}
+    & \frac{\partial \mathbf{p}}{\partial s}
 \\
-    \frac{\partial \bold{v}}{\partial \bold{p}}
-    & \frac{\partial \bold{v}}{\partial \bold{v}}
-    & \frac{\partial \bold{v}}{\partial \bold{a}}
-    & \frac{\partial \bold{v}}{\partial s}
+    \frac{\partial \mathbf{v}}{\partial \mathbf{p}}
+    & \frac{\partial \mathbf{v}}{\partial \mathbf{v}}
+    & \frac{\partial \mathbf{v}}{\partial \mathbf{a}}
+    & \frac{\partial \mathbf{v}}{\partial s}
 \end{bmatrix}
 \\ &=
 \begin{bmatrix}
-    -\bold{I}_{3 \times 3} \cdot (\delta t)
-    & \bold{0}_{3 \times 3}
+    -\mathbf{I}\_{3 \times 3} \cdot (\delta t)
+    & \mathbf{0}\_{3 \times 3}
     & \frac{1}{2} R_i^\top \cdot (\delta t)^2
-    & \frac{1}{100} R_i^\top (\bold{t}_j - \bold{t}_i)
+    & \frac{1}{100} R_i^\top (\mathbf{t}_j - \mathbf{t}\_i)
 \\
-    -\bold{I}_{3 \times 3}
+    -\mathbf{I}\_{3 \times 3}
     & R_i^\top R_j
     & R_i^\top \cdot (\delta t)
-    & \bold{0}_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
 \end{bmatrix}
 \\
 \space
 \\
-\bold{b}_{\text{tmp, i}} &= 
+\mathbf{b}\_{\text{tmp, i}} &= 
 \begin{bmatrix}
-    \Delta \bold{p}_j + R_i^\top R_j \bold{t}_{ce} - \bold{t}_{ce}
+    \Delta \mathbf{p}_j + R_i^\top R_j \mathbf{t}\_{ce} - \mathbf{t}\_{ce}
 \\
-    \Delta \bold{v}_j
+    \Delta \mathbf{v}_j
 \end{bmatrix}
 \end{align*}
 $$
-where $\bold{t}_{ce}$ is camera extrinsics.
+where $\mathbf{t}\_{ce}$ is camera extrinsics.
 
-Then define $A\bold{x}=\bold{b}$, where $A \in \mathbb{R}^{\big((n \times 3) + 3 + 1\big) \times \big((n \times 3) + 3 + 1\big)}$ and $\bold{b} \in \mathbb{R}^{(n \times 3) + 3 + 1}$ $n$ is the total number of frames.
+Then define $A\mathbf{x}=\mathbf{b}$, where $A \in \mathbb{R}^{\big((n \times 3) + 3 + 1\big) \times \big((n \times 3) + 3 + 1\big)}$ and $\mathbf{b} \in \mathbb{R}^{(n \times 3) + 3 + 1}$ $n$ is the total number of frames.
 
 $$
 \begin{align*}
@@ -746,7 +746,7 @@ A &=
 \begin{bmatrix}
     \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 1:3} 
     & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 4:6} 
-    & \bold{0}_{3 \times 3} & & & & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 7:10} 
+    & \mathbf{0}\_{3 \times 3} & & & & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{1:3, 7:10} 
 \\
     \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 1:3} 
     & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 4:6} + \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 1:3} 
@@ -754,7 +754,7 @@ A &=
     & & & 
     & \Big( A_{\text{tmp, 1}}^\top A_{\text{tmp, 1}} \Big)_{4:6, 7:10} +  \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{1:3, 7:10} 
 \\
-    \bold{0}_{3 \times 3} & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 1:3} 
+    \mathbf{0}\_{3 \times 3} & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 1:3} 
     & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 4:6} + \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{1:3, 1:3} 
     & & & 
     & \Big( A_{\text{tmp, 2}}^\top A_{\text{tmp, 2}} \Big)_{4:6, 7:10} +  \Big( A_{\text{tmp, 3}}^\top A_{\text{tmp, 3}} \Big)_{1:3, 7:10} 
@@ -772,18 +772,18 @@ A &=
     & \sum_i \Big( A_{\text{tmp, i}}^\top A_{\text{tmp, i}} \Big)_{7:10, 7:10} 
 \end{bmatrix}
 \\
-\bold{b} &= 
+\mathbf{b} &= 
 \begin{bmatrix}
-    \bold{b}_{\text{tmp, 1}, 1:3} \\
-    \bold{b}_{\text{tmp, 1}, 4:6} + \bold{b}_{\text{tmp, 2}, 1:3} \\
-    \bold{b}_{\text{tmp, 2}, 4:6} + \bold{b}_{\text{tmp, 3}, 1:3} \\
+    \mathbf{b}\_{\text{tmp, 1}, 1:3} \\
+    \mathbf{b}\_{\text{tmp, 1}, 4:6} + \mathbf{b}\_{\text{tmp, 2}, 1:3} \\
+    \mathbf{b}\_{\text{tmp, 2}, 4:6} + \mathbf{b}\_{\text{tmp, 3}, 1:3} \\
     \vdots \\
-    \sum_i \bold{b}_{\text{tmp, i}, 7:10}
+    \sum_i \mathbf{b}\_{\text{tmp, i}, 7:10}
 \end{bmatrix}
 \end{align*}
 $$
 
-LDLT solves $A\bold{x}=\bold{b}$, where $\bold{x}$ refers to $[\bold{p}_1, \bold{p}_2, ..., \bold{p}_n, \bold{a}, s]$
+LDLT solves $A\mathbf{x}=\mathbf{b}$, where $\mathbf{x}$ refers to $[\mathbf{p}_1, \mathbf{p}_2, ..., \mathbf{p}_n, \mathbf{a}, s]$
 
 ```cpp
 bool VisualIMUAlignment(map<double, ImageFrame> &all_image_frame, Vector3d* Bgs, Vector3d &g, VectorXd &x)
@@ -937,10 +937,10 @@ ROS_DEBUG("end marginalization, %f ms", t_margin.toc());
 ### Marginalization Residuals and Jacobians
 
 $$
-\min_{\bold{\mathcal{X}}}
+\min_{\mathbf{\mathcal{X}}}
 \underbrace{\big|\big|
-    \bold{r}_p - H_p \bold{\mathcal{X}}
-\big|\big|^2}_{
+    \mathbf{r}_p - H_p \mathbf{\mathcal{X}}
+\big|\big|^2}\_{
 \text{Marginalization residuals}}
 $$
 
@@ -1023,77 +1023,77 @@ void MarginalizationInfo::preMarginalize()
 
 ### Compute Marginalization
 
-First, set matrix size `Eigen::MatrixXd A(pos, pos);` $A \in \mathbb{R}^{(m+n)\times(m+n)}$ and `Eigen::VectorXd b(pos);` $\bold{b} \in \mathbb{R}^{m+n}$ where `pos = m + n`;
+First, set matrix size `Eigen::MatrixXd A(pos, pos);` $A \in \mathbb{R}^{(m+n)\times(m+n)}$ and `Eigen::VectorXd b(pos);` $\mathbf{b} \in \mathbb{R}^{m+n}$ where `pos = m + n`;
 `m` refers to the parameter block size to be marginalized out, and `n` refers to the parameter block size to be kept).
 
-Take Jacobians $\bold{J}$ and residuals $\bold{r}$ from `ResidualBlockInfo`, and compute for $A_t=A_{t-1}+\bold{J}^\top \bold{J}$, and $\bold{b}_t = \bold{b}_{t-1} + \bold{J}^\top\bold{r}$, where the subscripts $\space_{t}$ and $\space_{t-1}$ refer to timestamps before and after updating.
+Take Jacobians $\mathbf{J}$ and residuals $\mathbf{r}$ from `ResidualBlockInfo`, and compute for $A_t=A_{t-1}+\mathbf{J}^\top \mathbf{J}$, and $\mathbf{b}_t = \mathbf{b}\_{t-1} + \mathbf{J}^\top\mathbf{r}$, where the subscripts $\space_{t}$ and $\space_{t-1}$ refer to timestamps before and after updating.
 
-To facilitate computation, $A_t=A_{t-1}+\bold{J}^\top \bold{J}$, and $\bold{b}_t = \bold{b}_{t-1} + \bold{J}^\top\bold{r}$ are computed in parallel by multi-threading where data is partitioned in `ThreadsStruct* p`.
+To facilitate computation, $A_t=A_{t-1}+\mathbf{J}^\top \mathbf{J}$, and $\mathbf{b}_t = \mathbf{b}\_{t-1} + \mathbf{J}^\top\mathbf{r}$ are computed in parallel by multi-threading where data is partitioned in `ThreadsStruct* p`.
 The computed results are summed to `A` and `b`.
 
 Then, `Amm` is $A_{mm}=\frac{1}{2} A_{mm} + A_{mm}^\top$, and is self-adjoint.
 
 The inverse of $A_{mm}$ (denoted in code as `Amm_inv` $A_{mm}^{-1}$) can be computed by, 
 first take eigen-decomposition of $A_{mm}$ such that $A_{mm}=V_{mm} \Sigma_{mm} V_{mm}^{\top}$, where $\Sigma_{mm}=\text{diag}(\sigma_1, \sigma_2, ..., \sigma_m)$ is the diagonal matrix comprised of eigenvalues; 
-then take element-wise inverse operation on $\Sigma_{mm}$ such that $\Sigma^{-1}_{mm}=\text{diag}(\sigma_1^{-1}, \sigma_2^{-1}, ..., \sigma_m^{-1})$;
-finally, there is $A_{mm}^{-1}=V_{mm} \Sigma^{-1}_{mm} V_{mm}^{\top}$
+then take element-wise inverse operation on $\Sigma_{mm}$ such that $\Sigma^{-1}\_{mm}=\text{diag}(\sigma_1^{-1}, \sigma_2^{-1}, ..., \sigma_m^{-1})$;
+finally, there is $A_{mm}^{-1}=V_{mm} \Sigma^{-1}\_{mm} V_{mm}^{\top}$
 
-The marginalization aims to compute $\Delta \bold{x}_{{\bold{x}_m } \notin \bold{x}}$.
+The marginalization aims to compute $\Delta \mathbf{x}\_{{\mathbf{x}_m } \notin \mathbf{x}}$.
 $$
 \begin{bmatrix}
     A_{mm} & A_{mr} \\
     A_{rm} & A_{rr}
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \bold{x}_{{\bold{x}_m }} \\
-    \Delta \bold{x}_{{\bold{x}_m } \notin \bold{x}}
+    \Delta \mathbf{x}\_{{\mathbf{x}_m }} \\
+    \Delta \mathbf{x}\_{{\mathbf{x}_m } \notin \mathbf{x}}
 \end{bmatrix}=
 \begin{bmatrix}
-    \bold{b}_{mm} \\
-    \bold{b}_{rr}
+    \mathbf{b}\_{mm} \\
+    \mathbf{b}\_{rr}
 \end{bmatrix}
 $$
 
-The expression (by Schur trick) for $\Delta \bold{x}_{{\bold{x}_1 } \notin \bold{x}}$ should be as below, rewrite the coefficients to $A$ and bias to $\bold{b}$
+The expression (by Schur trick) for $\Delta \mathbf{x}\_{{\mathbf{x}_1 } \notin \mathbf{x}}$ should be as below, rewrite the coefficients to $A$ and bias to $\mathbf{b}$
 $$
-\underbrace{(A_{rr}- A_{rm}A_{mm}^{-1}A_{mr})}_{A}
-\Delta \bold{x}_{{\bold{x}_m } \notin \bold{x}}=
-\underbrace{\bold{b}_{rr} - A_{rm}A_{mm}^{-1} \bold{b}_{mm}
-}_{\bold{b}}
+\underbrace{(A_{rr}- A_{rm}A_{mm}^{-1}A_{mr})}\_{A}
+\Delta \mathbf{x}\_{{\mathbf{x}_m } \notin \mathbf{x}}=
+\underbrace{\mathbf{b}\_{rr} - A_{rm}A_{mm}^{-1} \mathbf{b}\_{mm}
+}\_{\mathbf{b}}
 $$
 
 Take eigen-decomposition of $A=V_A \Sigma_A V_A^{\top}$. 
-Define $\bold{s}=[\sigma_1, \sigma_2, ..., \sigma_r]$, 
+Define $\mathbf{s}=[\sigma_1, \sigma_2, ..., \sigma_r]$, 
 where $\sigma_i \in \Sigma_A$ is the non-zero eigenvalues of $A$, similarly, 
-define element-wise inverse $\bold{s}^{-1}=[\sigma_1^{-1}, \sigma_2^{-1}, ..., \sigma_r^{-1}]$ (denoted as `S` and `S_inv` in code).
+define element-wise inverse $\mathbf{s}^{-1}=[\sigma_1^{-1}, \sigma_2^{-1}, ..., \sigma_r^{-1}]$ (denoted as `S` and `S_inv` in code).
 
-Take the element-wise square root of $\bold{s}$ and $\bold{s}^{-1}$ (denoted as $|\bold{s}|$ and $|\bold{s}^{-1}|$), and the linearized Jacobians $\bold{J}$ and residuals $\bold{r}$ are
+Take the element-wise square root of $\mathbf{s}$ and $\mathbf{s}^{-1}$ (denoted as $|\mathbf{s}|$ and $|\mathbf{s}^{-1}|$), and the linearized Jacobians $\mathbf{J}$ and residuals $\mathbf{r}$ are
 $$
 \begin{align*}
-\bold{J} &= \text{diag}(|\bold{s}|) \cdot V_A^\top
+\mathbf{J} &= \text{diag}(|\mathbf{s}|) \cdot V_A^\top
 \\
-\bold{r} &=
-\underbrace{\text{diag}(|\bold{s}^{-1}|) \cdot V_A^\top}_{\bold{J}^{-1}}
- \cdot \bold{b}
+\mathbf{r} &=
+\underbrace{\text{diag}(|\mathbf{s}^{-1}|) \cdot V_A^\top}\_{\mathbf{J}^{-1}}
+ \cdot \mathbf{b}
 \end{align*}
 $$
 
-The Jacobian and residual explained: consider a general least squares problem $\min \frac{1}{2} \bold{r}^\top(\bold{x}) \bold{r}(\bold{x})$, and let $\bold{J}$ be the Jacobian of $\bold{r}(\bold{x})$, and the Hessian be $\bold{J}^\top \bold{J}$.
-By Gauss-Newton method (ignored higher order terms greater than Hessian), the optimal $\bold{x}^*=\bold{x}_0+\Delta\bold{x}$ can be found by successive iteration: 
+The Jacobian and residual explained: consider a general least squares problem $\min \frac{1}{2} \mathbf{r}^\top(\mathbf{x}) \mathbf{r}(\mathbf{x})$, and let $\mathbf{J}$ be the Jacobian of $\mathbf{r}(\mathbf{x})$, and the Hessian be $\mathbf{J}^\top \mathbf{J}$.
+By Gauss-Newton method (ignored higher order terms greater than Hessian), the optimal $\mathbf{x}^*=\mathbf{x}_0+\Delta\mathbf{x}$ can be found by successive iteration: 
 
 $$
 \begin{align*}
 &&
-\bold{x}_{k+1} &= \bold{x}_k - (\bold{J}^\top \bold{J})^{-1} \bold{J}^\top \bold{r}(\bold{x})
+\mathbf{x}\_{k+1} &= \mathbf{x}_k - (\mathbf{J}^\top \mathbf{J})^{-1} \mathbf{J}^\top \mathbf{r}(\mathbf{x})
 \\ \Rightarrow &&
-\bold{J}^\top \bold{J}(\bold{x}_{k+1} - \bold{x}_k) &=  -\bold{J}^\top \bold{r}(\bold{x})
+\mathbf{J}^\top \mathbf{J}(\mathbf{x}\_{k+1} - \mathbf{x}_k) &=  -\mathbf{J}^\top \mathbf{r}(\mathbf{x})
 \\ \Rightarrow &&
-\underbrace{\bold{J}^\top \bold{J}}_{A} 
-\Delta \bold{x}_k &=  
-\underbrace{-\bold{J}^\top \bold{r}(\bold{x})}_{\bold{r}}
+\underbrace{\mathbf{J}^\top \mathbf{J}}\_{A} 
+\Delta \mathbf{x}_k &=  
+\underbrace{-\mathbf{J}^\top \mathbf{r}(\mathbf{x})}\_{\mathbf{r}}
 \end{align*}
 $$
-where $\bold{r}(\bold{x}) := \bold{b}$ is defined interchangeably as in the code's notation.
+where $\mathbf{r}(\mathbf{x}) := \mathbf{b}$ is defined interchangeably as in the code's notation.
 
 ```cpp
 struct ThreadsStruct
@@ -1263,33 +1263,33 @@ In `estimator`, `IntegrationBase` is stored in a list where each integration ter
 
 ### IMU Noise and Covariance Propogation
 
-IMU noises $\bold{N}_{18 \times 18}$ are simulated as below
+IMU noises $\mathbf{N}\_{18 \times 18}$ are simulated as below
 
 $$
-\bold{N}_{ma} = \begin{bmatrix}
-    n_{ma} & 0 & 0 \\
-    0 &  n_{ma} & 0 \\
-    0 & 0 & n_{ma} \\
+\mathbf{N}\_{ma} = \begin{bmatrix}
+    n\_{ma} & 0 & 0 \\
+    0 &  n\_{ma} & 0 \\
+    0 & 0 & n\_{ma} \\
 \end{bmatrix}
 , \qquad
-\bold{N}_{m\omega} = \begin{bmatrix}
-    n_{m\omega} & 0 & 0 \\
-    0 &  n_{m\omega} & 0 \\
-    0 & 0 & n_{m\omega} \\
+\mathbf{N}\_{m\omega} = \begin{bmatrix}
+    n\_{m\omega} & 0 & 0 \\
+    0 &  n\_{m\omega} & 0 \\
+    0 & 0 & n\_{m\omega} \\
 \end{bmatrix}
 \\
 \space
 \\
-\bold{N}_{ba} = \begin{bmatrix}
-    n_{ba} & 0 & 0 \\
-    0 &  n_{ba} & 0 \\
-    0 & 0 & n_{ba} \\
+\mathbf{N}\_{ba} = \begin{bmatrix}
+    n\_{ba} & 0 & 0 \\
+    0 &  n\_{ba} & 0 \\
+    0 & 0 & n\_{ba} \\
 \end{bmatrix}
 , \qquad
-\bold{N}_{b\omega} = \begin{bmatrix}
-    n_{b\omega} & 0 & 0 \\
-    0 &  n_{b\omega} & 0 \\
-    0 & 0 & n_{b\omega} \\
+\mathbf{N}\_{b\omega} = \begin{bmatrix}
+    n\_{b\omega} & 0 & 0 \\
+    0 &  n\_{b\omega} & 0 \\
+    0 & 0 & n\_{b\omega} \\
 \end{bmatrix}
 $$
 
@@ -1311,7 +1311,7 @@ noise.block<3, 3>(15, 15) =  (GYR_W * GYR_W) * Eigen::Matrix3d::Identity();
 IMU readings get processed in `processIMU(...)` and `slideWindow()` where IMU readings are `push_back`ed to preintegration.
 One IMU reading is comprised of `linear_acceleration` and `angular_velocity` as well as the elapsed time `dt` to next IMU reading.
 
-`push_back`/`propagate` takes this time IMU reading `_acc_1` $\hat{\bold{a}}_{t}$ and `_gyr_1` $\hat{\bold{\omega}}_{t}$ and the previous time reading (after preintegration correction) `acc_0` ${\bold{a}}_{t-1}$ and `gyr_0` ${\bold{\omega}}_{t}$ to compute the differences between this and the previous: `result_delta_p, result_delta_q, result_delta_v, result_linearized_ba, result_linearized_bg` for $\Delta \bold{p}, \Delta \bold{\theta}, \Delta \bold{v}, \Delta \bold{b}_a, \Delta \bold{b}_\omega$, representing changes of position, orientation, velocity, linear acceleration bias and angular/gyro velocity bias.
+`push_back`/`propagate` takes this time IMU reading `_acc_1` $\hat{\mathbf{a}}\_{t}$ and `_gyr_1` $\hat{\mathbf{\omega}}\_{t}$ and the previous time reading (after preintegration correction) `acc_0` ${\mathbf{a}}\_{t-1}$ and `gyr_0` ${\mathbf{\omega}}\_{t}$ to compute the differences between this and the previous: `result_delta_p, result_delta_q, result_delta_v, result_linearized_ba, result_linearized_bg` for $\Delta \mathbf{p}, \Delta \mathbf{\theta}, \Delta \mathbf{v}, \Delta \mathbf{b}_a, \Delta \mathbf{b}\_\omega$, representing changes of position, orientation, velocity, linear acceleration bias and angular/gyro velocity bias.
 
 ```cpp
 void Estimator::processIMU(double dt, const Vector3d &linear_acceleration, const Vector3d &angular_velocity)
@@ -1356,30 +1356,30 @@ void IntegrationBase::propagate(double _dt, const Eigen::Vector3d &_acc_1, const
     gyr_0 = _gyr_1;  
 }
 ```
-where `midPointIntegration(...)` computes $\Delta \bold{p}, \Delta \bold{\theta}, \Delta \bold{v}, \Delta \bold{b}_a, \Delta \bold{b}_\omega$ and the Jacobian $\bold{J}$ as well as covariance.
+where `midPointIntegration(...)` computes $\Delta \mathbf{p}, \Delta \mathbf{\theta}, \Delta \mathbf{v}, \Delta \mathbf{b}_a, \Delta \mathbf{b}\_\omega$ and the Jacobian $\mathbf{J}$ as well as covariance.
 
 
 $$
 \begin{align*}
-    \hat{\bold{a}}_{t, t-1} &= (\Delta \bold{\omega}_{t-1})_\mathbf{Q} (\bold{a}_{t-1} - \bold{b}_{a})
+    \hat{\mathbf{a}}\_{t, t-1} &= (\Delta \mathbf{\omega}\_{t-1})_\mathbf{Q} (\mathbf{a}\_{t-1} - \mathbf{b}\_{a})
     \qquad&& (.)_\mathbf{Q} \text{ denotes quaternion rotating a vector}
 \\
-    \bold{\omega}_t &= \frac{1}{2} (\bold{\omega}_{t-1} + \hat{\bold{\omega}}_{t}) - \bold{b}_{\omega}
+    \mathbf{\omega}_t &= \frac{1}{2} (\mathbf{\omega}\_{t-1} + \hat{\mathbf{\omega}}\_{t}) - \mathbf{b}\_{\omega}
 \\
-    \Delta \bold{\theta}_{t} &= \Delta \bold{\theta}_{t-1} \otimes \begin{bmatrix}
+    \Delta \mathbf{\theta}\_{t} &= \Delta \mathbf{\theta}\_{t-1} \otimes \begin{bmatrix}
         1 \\
-        \frac{1}{2} \bold{\omega}_t \cdot \delta t
+        \frac{1}{2} \mathbf{\omega}_t \cdot \delta t
     \end{bmatrix} 
     \qquad&& \otimes \text{ denotes quaternion multiplication}
-    \\ & && \frac{1}{2} \bold{\omega}_t \cdot \delta t \text{ is right perturbation}
+    \\ & && \frac{1}{2} \mathbf{\omega}_t \cdot \delta t \text{ is right perturbation}
 \\
-    \hat{\bold{a}}_{t,t} &= (\Delta \bold{\theta}_{t})_{\mathbf{Q}} (\hat{\bold{a}}_{t} - \bold{b}_a)
+    \hat{\mathbf{a}}\_{t,t} &= (\Delta \mathbf{\theta}\_{t})_{\mathbf{Q}} (\hat{\mathbf{a}}\_{t} - \mathbf{b}_a)
 \\
-    \bold{a}_{t} &= \frac{1}{2} (\hat{\bold{a}}_{t,t} + \hat{\bold{a}}_{t, t-1})
+    \mathbf{a}\_{t} &= \frac{1}{2} (\hat{\mathbf{a}}\_{t,t} + \hat{\mathbf{a}}\_{t, t-1})
 \\
-    \Delta\bold{p}_{j, t} &= \Delta \bold{p}_{j, t-1} + \Delta \bold{v}_{j, t-1} \cdot \delta t + \frac{1}{2} \bold{a}_{t} (\delta t)^2
+    \Delta\mathbf{p}\_{j, t} &= \Delta \mathbf{p}\_{j, t-1} + \Delta \mathbf{v}\_{j, t-1} \cdot \delta t + \frac{1}{2} \mathbf{a}\_{t} (\delta t)^2
 \\
-    \Delta \bold{v}_{j, t} &= \Delta \bold{v}_{j, t-1} + \bold{a}_{j, t} \cdot \delta t 
+    \Delta \mathbf{v}\_{j, t} &= \Delta \mathbf{v}\_{j, t-1} + \mathbf{a}\_{j, t} \cdot \delta t 
 \end{align*}
 $$
 
@@ -1393,15 +1393,15 @@ R_{\omega} &= \begin{bmatrix}
 \end{bmatrix}
 ,\qquad
 R_{a,t-1} = \begin{bmatrix}
-    0 & -{a}_{t-1,z} & {a}_{t-1,y} \\
-    {a}_{t-1,z} & 0 & -{a}_{t-1,x} \\
-    -{a}_{t-1,y} & {a}_{t-1,x} & 0 \\
+    0 & -{a}\_{t-1,z} & {a}\_{t-1,y} \\
+    {a}\_{t-1,z} & 0 & -{a}\_{t-1,x} \\
+    -{a}\_{t-1,y} & {a}\_{t-1,x} & 0 \\
 \end{bmatrix}
 ,\qquad
 R_{a,t} = \begin{bmatrix}
-    0 & -{a}_{t,z} & {a}_{t,y} \\
-    {a}_{t,z} & 0 & -{a}_{t,x} \\
-    -{a}_{t,y} & {a}_{t,x} & 0 \\
+    0 & -{a}\_{t,z} & {a}\_{t,y} \\
+    {a}\_{t,z} & 0 & -{a}\_{t,x} \\
+    -{a}\_{t,y} & {a}\_{t,x} & 0 \\
 \end{bmatrix}
 \\
 \space\\
@@ -1409,132 +1409,132 @@ R_{\Delta \theta} :&= \text{Quaternion }\Delta \theta \rightarrow \text{Rotation
 \end{align*}
 $$
 
-The Jacobian $\bold{J}$ is updated such as $\bold{J}_{t}=\bold{F}\bold{J}_{t-1}= \big(\bold{I}+\hat{\bold{J}}_t \cdot(\delta t) \big)\bold{J}_{t-1}$,
-where $\hat{\bold{J}}$ is the Jacobian, and $\delta t$ is the time interval between two IMU readings.
+The Jacobian $\mathbf{J}$ is updated such as $\mathbf{J}\_{t}=\mathbf{F}\mathbf{J}\_{t-1}= \big(\mathbf{I}+\hat{\mathbf{J}}_t \cdot(\delta t) \big)\mathbf{J}\_{t-1}$,
+where $\hat{\mathbf{J}}$ is the Jacobian, and $\delta t$ is the time interval between two IMU readings.
 
 $$
-\hat{\bold{J}} = \begin{bmatrix}
-    \frac{\partial \Delta\bold{p}}{\partial \Delta\bold{p}} 
-    & \frac{\partial \Delta\bold{p}}{\partial \Delta\bold{\theta}} 
-    & \frac{\partial \Delta\bold{p}}{\partial \Delta\bold{v}} 
-    & \frac{\partial \Delta\bold{p}}{\partial \bold{b}_a} 
-    & \frac{\partial \Delta\bold{p}}{\partial \bold{b}_\omega} 
+\hat{\mathbf{J}} = \begin{bmatrix}
+    \frac{\partial \Delta\mathbf{p}}{\partial \Delta\mathbf{p}} 
+    & \frac{\partial \Delta\mathbf{p}}{\partial \Delta\mathbf{\theta}} 
+    & \frac{\partial \Delta\mathbf{p}}{\partial \Delta\mathbf{v}} 
+    & \frac{\partial \Delta\mathbf{p}}{\partial \mathbf{b}_a} 
+    & \frac{\partial \Delta\mathbf{p}}{\partial \mathbf{b}\_\omega} 
 \\
-    \frac{\partial \Delta\bold{\theta}}{\partial \Delta\bold{p}} 
-    & \frac{\partial \Delta\bold{\theta}}{\partial \Delta\bold{\theta}} 
-    & \frac{\partial \Delta\bold{\theta}}{\partial \Delta\bold{v}} 
-    & \frac{\partial \Delta\bold{\theta}}{\partial \bold{b}_a} 
-    & \frac{\partial \Delta\bold{\theta}}{\partial \bold{b}_\omega} 
+    \frac{\partial \Delta\mathbf{\theta}}{\partial \Delta\mathbf{p}} 
+    & \frac{\partial \Delta\mathbf{\theta}}{\partial \Delta\mathbf{\theta}} 
+    & \frac{\partial \Delta\mathbf{\theta}}{\partial \Delta\mathbf{v}} 
+    & \frac{\partial \Delta\mathbf{\theta}}{\partial \mathbf{b}_a} 
+    & \frac{\partial \Delta\mathbf{\theta}}{\partial \mathbf{b}\_\omega} 
 \\
-    \frac{\partial \Delta\bold{v}}{\partial \Delta\bold{p}} 
-    & \frac{\partial \Delta\bold{v}}{\partial \Delta\bold{\theta}} 
-    & \frac{\partial \Delta\bold{v}}{\partial \Delta\bold{v}} 
-    & \frac{\partial \Delta\bold{v}}{\partial \bold{b}_a} 
-    & \frac{\partial \Delta\bold{v}}{\partial \bold{b}_\omega} 
+    \frac{\partial \Delta\mathbf{v}}{\partial \Delta\mathbf{p}} 
+    & \frac{\partial \Delta\mathbf{v}}{\partial \Delta\mathbf{\theta}} 
+    & \frac{\partial \Delta\mathbf{v}}{\partial \Delta\mathbf{v}} 
+    & \frac{\partial \Delta\mathbf{v}}{\partial \mathbf{b}_a} 
+    & \frac{\partial \Delta\mathbf{v}}{\partial \mathbf{b}\_\omega} 
 \\
-    \frac{\partial \bold{b}_a}{\partial \Delta\bold{p}} 
-    & \frac{\partial \bold{b}_a}{\partial \Delta\bold{\theta}} 
-    & \frac{\partial \bold{b}_a}{\partial \Delta\bold{v}} 
-    & \frac{\partial \bold{b}_a}{\partial \bold{b}_a} 
-    & \frac{\partial \bold{b}_a}{\partial \bold{b}_\omega} 
+    \frac{\partial \mathbf{b}_a}{\partial \Delta\mathbf{p}} 
+    & \frac{\partial \mathbf{b}_a}{\partial \Delta\mathbf{\theta}} 
+    & \frac{\partial \mathbf{b}_a}{\partial \Delta\mathbf{v}} 
+    & \frac{\partial \mathbf{b}_a}{\partial \mathbf{b}_a} 
+    & \frac{\partial \mathbf{b}_a}{\partial \mathbf{b}\_\omega} 
 \\
-    \frac{\partial \bold{b}_{\omega}}{\partial \Delta\bold{p}} 
-    & \frac{\partial \bold{b}_{\omega}}{\partial \Delta\bold{\theta}} 
-    & \frac{\partial \bold{b}_{\omega}}{\partial \Delta\bold{v}} 
-    & \frac{\partial \bold{b}_{\omega}}{\partial \bold{b}_a} 
-    & \frac{\partial \bold{b}_{\omega}}{\partial \bold{b}_\omega} 
+    \frac{\partial \mathbf{b}\_{\omega}}{\partial \Delta\mathbf{p}} 
+    & \frac{\partial \mathbf{b}\_{\omega}}{\partial \Delta\mathbf{\theta}} 
+    & \frac{\partial \mathbf{b}\_{\omega}}{\partial \Delta\mathbf{v}} 
+    & \frac{\partial \mathbf{b}\_{\omega}}{\partial \mathbf{b}_a} 
+    & \frac{\partial \mathbf{b}\_{\omega}}{\partial \mathbf{b}\_\omega} 
 \end{bmatrix}
 $$
 
-Accordingly, $\bold{F}$ can be computed as below
+Accordingly, $\mathbf{F}$ can be computed as below
 $$
-\bold{F}_{15 \times 15} = \begin{bmatrix}
-    \bold{I}_{3 \times 3} 
-    & -\frac{1}{4} \Big( R_{\Delta \theta, t-1} R_{a,t-1} +  R_{\Delta \theta, t} R_{a,t} \big(\bold{I}_{3 \times 3} - R_{\omega}\cdot (\delta t) \big) \Big) \cdot (\delta t)^2 
-    & \bold{I}_{3 \times 3} \cdot (\delta t)
+\mathbf{F}\_{15 \times 15} = \begin{bmatrix}
+    \mathbf{I}\_{3 \times 3} 
+    & -\frac{1}{4} \Big( R_{\Delta \theta, t-1} R_{a,t-1} +  R_{\Delta \theta, t} R_{a,t} \big(\mathbf{I}\_{3 \times 3} - R_{\omega}\cdot (\delta t) \big) \Big) \cdot (\delta t)^2 
+    & \mathbf{I}\_{3 \times 3} \cdot (\delta t)
     & -\frac{1}{4} (R_{\Delta \theta, t-1} + R_{\Delta \theta,t} ) \cdot (\delta t)^2 
     & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot (-\delta t)
 \\
-    \bold{0}_{3 \times 3}
-    & \bold{I}_{3 \times 3} - R_{\omega}\cdot (\delta t)
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & - \bold{I}_{3 \times 3} \cdot (\delta t)
+    \mathbf{0}\_{3 \times 3}
+    & \mathbf{I}\_{3 \times 3} - R_{\omega}\cdot (\delta t)
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & - \mathbf{I}\_{3 \times 3} \cdot (\delta t)
 \\
-    \bold{0}_{3 \times 3}
-    & -\frac{1}{2} \Big(R_{\Delta \theta, t-1} R_{a,t-1} + R_{\Delta \theta, t} R_{a,t} \big(\bold{I}_{3 \times 3} - R_{\omega}\cdot (\delta t) \big) \Big) \cdot (\delta t)
-    & \bold{I}_{3 \times 3} 
+    \mathbf{0}\_{3 \times 3}
+    & -\frac{1}{2} \Big(R_{\Delta \theta, t-1} R_{a,t-1} + R_{\Delta \theta, t} R_{a,t} \big(\mathbf{I}\_{3 \times 3} - R_{\omega}\cdot (\delta t) \big) \Big) \cdot (\delta t)
+    & \mathbf{I}\_{3 \times 3} 
     & -\frac{1}{2} (R_{\Delta \theta, t-1} + R_{\Delta \theta,t} ) \cdot (\delta t)
     & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot (-\delta t)
 \\
-    \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{I}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
+    \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{I}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
 \\
-    \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{I}_{3 \times 3}
+    \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{I}\_{3 \times 3}
 \end{bmatrix}
 $$
 
 VINS uses the below list of linear approximations to integrate noises over the time $\tau \in \delta t$ between two IMU readings.
 
-* Acceleration measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row first-col position of $\bold{V}$ in below) is done by integrating the previous rotation change: $\big( \frac{1}{4} R_{\Delta \theta, t-1} \cdot (\delta t)^2 \big) \bold{N}_{ma}   = \int \int_{\tau \in \delta t} \big( R_{\Delta \theta, t-1}\bold{N}_{ma} \big) d\tau^2$
-* Rotation measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row second-col position of $\bold{V}$ in below) is done by integrating the previous halfway rotation change multiplying the current acceleration: $\big( \frac{1}{4} R_{\Delta \theta, t} \cdot (\delta t)^2 \big) \bold{N}_{m\omega} = \int \int_{\tau \in \delta t} \big(-R_{\Delta \theta, t} R_{a,t} \cdot \frac{1}{2}\delta t \bold{N}_{m\omega} \big) d\tau^2$
+* Acceleration measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row first-col position of $\mathbf{V}$ in below) is done by integrating the previous rotation change: $\big( \frac{1}{4} R_{\Delta \theta, t-1} \cdot (\delta t)^2 \big) \mathbf{N}\_{ma}   = \int \int_{\tau \in \delta t} \big( R_{\Delta \theta, t-1}\mathbf{N}\_{ma} \big) d\tau^2$
+* Rotation measurement noise approximation for position change over the time $\tau \in \delta t$ (denoted in the first-row second-col position of $\mathbf{V}$ in below) is done by integrating the previous halfway rotation change multiplying the current acceleration: $\big( \frac{1}{4} R_{\Delta \theta, t} \cdot (\delta t)^2 \big) \mathbf{N}\_{m\omega} = \int \int_{\tau \in \delta t} \big(-R_{\Delta \theta, t} R_{a,t} \cdot \frac{1}{2}\delta t \mathbf{N}\_{m\omega} \big) d\tau^2$
 * ... (the same rules go with other noise terms)
-* Acceleration bias noise approximation for acceleration bias itself over the time $\tau \in \delta t$ is simply the linear increment $\big( \bold{I}_{3 \times 3} \cdot (\delta t) \big) \bold{N}_{ba} = \int_{\tau \in \delta t} \bold{N}_{ba} d\tau$
-* Similarly for rotation bias noise approximation, there is $\big( \bold{I}_{3 \times 3} \cdot (\delta t) \big) \bold{N}_{b\omega} = \int_{\tau \in \delta t} \bold{N}_{b\omega} d\tau$
+* Acceleration bias noise approximation for acceleration bias itself over the time $\tau \in \delta t$ is simply the linear increment $\big( \mathbf{I}\_{3 \times 3} \cdot (\delta t) \big) \mathbf{N}\_{ba} = \int_{\tau \in \delta t} \mathbf{N}\_{ba} d\tau$
+* Similarly for rotation bias noise approximation, there is $\big( \mathbf{I}\_{3 \times 3} \cdot (\delta t) \big) \mathbf{N}\_{b\omega} = \int_{\tau \in \delta t} \mathbf{N}\_{b\omega} d\tau$
 
-Take away the noise terms $\bold{N}$, the noise approximation matrix $\bold{V}$ can be expressed as below.
+Take away the noise terms $\mathbf{N}$, the noise approximation matrix $\mathbf{V}$ can be expressed as below.
 
 $$
-\bold{V}_{15 \times 18} = \begin{bmatrix}
+\mathbf{V}\_{15 \times 18} = \begin{bmatrix}
     \frac{1}{4} R_{\Delta \theta, t-1} \cdot (\delta t)^2 
     & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot \frac{1}{2}\delta t
     & \frac{1}{4} R_{\Delta \theta, t} \cdot (\delta t)^2
     & -\frac{1}{4} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t)^2 \cdot \frac{1}{2}\delta t
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
 \\
-    \bold{0}_{3 \times 3}
-    & \frac{1}{2} \bold{I}_{3 \times 3} \cdot (\delta t)
-    & \bold{0}_{3 \times 3}
-    & \frac{1}{2} \bold{I}_{3 \times 3} \cdot (\delta t)
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
+    \mathbf{0}\_{3 \times 3}
+    & \frac{1}{2} \mathbf{I}\_{3 \times 3} \cdot (\delta t)
+    & \mathbf{0}\_{3 \times 3}
+    & \frac{1}{2} \mathbf{I}\_{3 \times 3} \cdot (\delta t)
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
 \\
     \frac{1}{2}R_{\Delta \theta, t-1} \cdot (\delta t)
     & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot \frac{1}{2}\delta t
     & \frac{1}{2} R_{\Delta \theta, t} \cdot (\delta t)
     & -\frac{1}{2} R_{\Delta \theta, t} R_{a,t} \cdot (\delta t) \cdot \frac{1}{2}\delta t
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
 \\
-    \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{I}_{3 \times 3} \cdot (\delta t)
-    & \bold{0}_{3 \times 3}
+    \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{I}\_{3 \times 3} \cdot (\delta t)
+    & \mathbf{0}\_{3 \times 3}
 \\
-    \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{0}_{3 \times 3}
-    & \bold{I}_{3 \times 3} \cdot (\delta t)
+    \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{0}\_{3 \times 3}
+    & \mathbf{I}\_{3 \times 3} \cdot (\delta t)
 \end{bmatrix}
 $$
 
-Covariance update is (when started, the covariance is set to zero to begin with $\bold{\Sigma}_0=\bold{0}$)
+Covariance update is (when started, the covariance is set to zero to begin with $\mathbf{\Sigma}_0=\mathbf{0}$)
 $$
-\bold{\Sigma}_t = 
-\bold{F} \bold{\Sigma}_{t-1} \bold{F}^\top+
-\bold{V} \bold{N} \bold{V}^{\top}
+\mathbf{\Sigma}_t = 
+\mathbf{F} \mathbf{\Sigma}\_{t-1} \mathbf{F}^\top+
+\mathbf{V} \mathbf{N} \mathbf{V}^{\top}
 $$
 
 ```cpp
@@ -1617,96 +1617,96 @@ $$
 \min_{\mathcal{X}}
 \underbrace{\sum_{k_i \in \mathcal{B}} 
 \Big|\Big|
-    \bold{r}_\mathcal{B} ( \hat{\bold{z}}_{\tiny{BK}} ,\bold{\mathcal{X}} )
-\Big|\Big|^2}_{
+    \mathbf{r}\_\mathcal{B} ( \hat{\mathbf{z}}\_{\tiny{BK}} ,\mathbf{\mathcal{X}} )
+\Big|\Big|^2}\_{
 \text{IMU measurement residuals}}
 $$
 
-The residual `Eigen::Matrix<double, 15, 1> residuals;` $\bold{r} \in \mathbb{R}^{15}$ is defined as the differences between two preintegrated IMU results from two frames: the $i$-th and the $j$-th frame.
+The residual `Eigen::Matrix<double, 15, 1> residuals;` $\mathbf{r} \in \mathbb{R}^{15}$ is defined as the differences between two preintegrated IMU results from two frames: the $i$-th and the $j$-th frame.
 The parameters to be optimized:
 $$
-\bold{p}_i \in \mathbb{R}^3, \qquad
-\bold{\theta}_i \in \mathbb{R}^4, \qquad
-\bold{v}_i \in \mathbb{R}^3, \qquad
-\bold{b}_{a,i} \in \mathbb{R}^3, \qquad
-\bold{b}_{\omega,i} \in \mathbb{R}^3
+\mathbf{p}\_i \in \mathbb{R}^3, \qquad
+\mathbf{\theta}\_i \in \mathbb{R}^4, \qquad
+\mathbf{v}\_i \in \mathbb{R}^3, \qquad
+\mathbf{b}\_{a,i} \in \mathbb{R}^3, \qquad
+\mathbf{b}\_{\omega,i} \in \mathbb{R}^3
 \\
-\bold{p}_j \in \mathbb{R}^3, \qquad
-\bold{\theta}_j \in \mathbb{R}^4, \qquad
-\bold{v}_j \in \mathbb{R}^3, \qquad
-\bold{b}_{a,j} \in \mathbb{R}^3, \qquad
-\bold{b}_{\omega,j} \in \mathbb{R}^3
+\mathbf{p}_j \in \mathbb{R}^3, \qquad
+\mathbf{\theta}_j \in \mathbb{R}^4, \qquad
+\mathbf{v}_j \in \mathbb{R}^3, \qquad
+\mathbf{b}\_{a,j} \in \mathbb{R}^3, \qquad
+\mathbf{b}\_{\omega,j} \in \mathbb{R}^3
 $$
 
 From `jacobian` get
 $$
-    \frac{\partial \bold{p}}{\partial \bold{b}_a} = \bold{J}_{1:3, 10:12}
+    \frac{\partial \mathbf{p}}{\partial \mathbf{b}_a} = \mathbf{J}\_{1:3, 10:12}
 , \qquad
-    \frac{\partial \bold{p}}{\partial \bold{b}_\omega} = \bold{J}_{1:3, 13:15}
+    \frac{\partial \mathbf{p}}{\partial \mathbf{b}\_\omega} = \mathbf{J}\_{1:3, 13:15}
 , \qquad
-    \frac{\partial \bold{\theta}}{\partial \bold{b}_\omega} = \bold{J}_{4:6, 13:15}
+    \frac{\partial \mathbf{\theta}}{\partial \mathbf{b}\_\omega} = \mathbf{J}\_{4:6, 13:15}
 , \qquad
-    \frac{\partial \bold{v}}{\partial \bold{b}_a} = \bold{J}_{7:9, 10:12}
+    \frac{\partial \mathbf{v}}{\partial \mathbf{b}_a} = \mathbf{J}\_{7:9, 10:12}
 , \qquad
-    \frac{\partial \bold{v}}{\partial \bold{b}_\omega} = \bold{J}_{7:9, 13:15}
+    \frac{\partial \mathbf{v}}{\partial \mathbf{b}\_\omega} = \mathbf{J}\_{7:9, 13:15}
 , \qquad
-    \Delta\bold{b}_a = 
+    \Delta\mathbf{b}_a = 
 , \qquad
-    \Delta\bold{b}_\omega = 
+    \Delta\mathbf{b}\_\omega = 
 $$
 
-Compute the corrected $\Delta\bold{\theta}, \Delta\bold{v}, \Delta\bold{p}$ considered linearized acceleration and gyro biases.
+Compute the corrected $\Delta\mathbf{\theta}, \Delta\mathbf{v}, \Delta\mathbf{p}$ considered linearized acceleration and gyro biases.
 $$
-\Delta\bold{\theta} = \Delta\hat{\bold{\theta}} \frac{\partial \bold{\theta}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+\Delta\mathbf{\theta} = \Delta\hat{\mathbf{\theta}} \frac{\partial \mathbf{\theta}}{\partial \mathbf{b}\_\omega} \Delta\mathbf{b}\_\omega
 ,\qquad
-\Delta\bold{v} = \Delta\hat{\bold{v}} + \frac{\partial \bold{v}}{\partial \bold{b}_a} \Delta\bold{b}_a + \frac{\partial \bold{v}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+\Delta\mathbf{v} = \Delta\hat{\mathbf{v}} + \frac{\partial \mathbf{v}}{\partial \mathbf{b}_a} \Delta\mathbf{b}_a + \frac{\partial \mathbf{v}}{\partial \mathbf{b}\_\omega} \Delta\mathbf{b}\_\omega
 , \qquad
-\Delta\bold{p} = \Delta\hat{\bold{p}} + \frac{\partial \bold{p}}{\partial \bold{b}_a} \Delta\bold{b}_a + \frac{\partial \bold{p}}{\partial \bold{b}_\omega} \Delta\bold{b}_\omega
+\Delta\mathbf{p} = \Delta\hat{\mathbf{p}} + \frac{\partial \mathbf{p}}{\partial \mathbf{b}_a} \Delta\mathbf{b}_a + \frac{\partial \mathbf{p}}{\partial \mathbf{b}\_\omega} \Delta\mathbf{b}\_\omega
 $$
 
 The residual
 
 $$
 \begin{align*}
-\bold{r}_{1:3} &= 
-(\bold{\theta}_{i}^{-1} )_{\mathbf{Q}} \big(
-    \frac{1}{2} \bold{g}_{earth} (\delta t)^2 + \bold{p}_j - \bold{p}_i - \bold{v}_i \cdot (\delta t)
+\mathbf{r}\_{1:3} &= 
+(\mathbf{\theta}\_{i}^{-1} )_{\mathbf{Q}} \big(
+    \frac{1}{2} \mathbf{g}\_{earth} (\delta t)^2 + \mathbf{p}_j - \mathbf{p}\_i - \mathbf{v}\_i \cdot (\delta t)
 \big)
 && (.)_{\mathbf{Q}} \text{ means quaternion operation}
 \\
-\bold{r}_{4:6} &= 
-\Big((\Delta\bold{\theta})_\mathbf{Q} (\bold{\theta}_{i}^{-1} )_{\mathbf{Q}} (\bold{\theta}_{j} )_{\mathbf{Q}}\Big)_{\mathbf{E}}
+\mathbf{r}\_{4:6} &= 
+\Big((\Delta\mathbf{\theta})_\mathbf{Q} (\mathbf{\theta}\_{i}^{-1} )_{\mathbf{Q}} (\mathbf{\theta}\_{j} )_{\mathbf{Q}}\Big)_{\mathbf{E}}
 && \text{ Quaternion } (.)_{\mathbf{Q}}  \text{ to Euler } (.)_{\mathbf{E}}: \quad \mathbb{R}^4 \rightarrow \mathbb{R}^3
 \\
-\bold{r}_{7:9} &= 
-(\bold{\theta}_{i}^{-1} )_{\mathbf{Q}} \big(
-    \bold{g}_{earth} (\delta t) + \bold{v}_j - \bold{v}_i - \Delta\bold{v}
+\mathbf{r}\_{7:9} &= 
+(\mathbf{\theta}\_{i}^{-1} )_{\mathbf{Q}} \big(
+    \mathbf{g}\_{earth} (\delta t) + \mathbf{v}_j - \mathbf{v}\_i - \Delta\mathbf{v}
 \big)
 \\
-\bold{r}_{10:12} &= \bold{b}_{a,j} - \bold{b}_{a,i}
+\mathbf{r}\_{10:12} &= \mathbf{b}\_{a,j} - \mathbf{b}\_{a,i}
 \\
-\bold{r}_{13:15} &= \bold{b}_{\omega,j} - \bold{b}_{\omega,i}
+\mathbf{r}\_{13:15} &= \mathbf{b}\_{\omega,j} - \mathbf{b}\_{\omega,i}
 \end{align*}
 $$
 
 For the $i$-th frame
 $$
-\frac{\partial \bold{r}}{\partial (\bold{p}_i, \bold{\theta}_i)} = \begin{bmatrix}
-    \frac{\partial \bold{p}_i}{\partial \bold{p}_i}
-    & \frac{\partial \bold{p}_i}{\partial \bold{\theta}_i}
-    & \bold{0}_{1 \times 3}
+\frac{\partial \mathbf{r}}{\partial (\mathbf{p}\_i, \mathbf{\theta}\_i)} = \begin{bmatrix}
+    \frac{\partial \mathbf{p}\_i}{\partial \mathbf{p}\_i}
+    & \frac{\partial \mathbf{p}\_i}{\partial \mathbf{\theta}\_i}
+    & \mathbf{0}\_{1 \times 3}
 \\
-    \bold{0}_{3 \times 3}
-    & \frac{\partial \bold{\theta}_i}{\partial \bold{\theta}_i}
-    & \bold{0}_{1 \times 3}
+    \mathbf{0}\_{3 \times 3}
+    & \frac{\partial \mathbf{\theta}\_i}{\partial \mathbf{\theta}\_i}
+    & \mathbf{0}\_{1 \times 3}
 \\ 
-    \bold{0}_{3 \times 3}
-    & \frac{\partial \bold{v}_i}{\partial \bold{\theta}_i}
-    & \bold{0}_{1 \times 3}
+    \mathbf{0}\_{3 \times 3}
+    & \frac{\partial \mathbf{v}\_i}{\partial \mathbf{\theta}\_i}
+    & \mathbf{0}\_{1 \times 3}
 \\ 
-    \bold{0}_{6 \times 3}
-    & \bold{0}_{6 \times 3}
-    & \bold{0}_{1 \times 3}
+    \mathbf{0}\_{6 \times 3}
+    & \mathbf{0}\_{6 \times 3}
+    & \mathbf{0}\_{1 \times 3}
 \end{bmatrix}
 $$
 
@@ -1894,37 +1894,37 @@ ProjectionTdFactor(const Eigen::Vector3d &_pts_i, const Eigen::Vector3d &_pts_j,
 
 $$
 \begin{align*}
-\bold{x}_{imu,i} &= (\bold{\theta}_{ce})_{\mathbf{Q}} (\bold{x}_{cam,i} / d_i) + \bold{t}_{ce}
+\mathbf{x}\_{imu,i} &= (\mathbf{\theta}\_{ce})_{\mathbf{Q}} (\mathbf{x}\_{cam,i} / d_i) + \mathbf{t}\_{ce}
 \\    
-\bold{X}_{world} &= (\bold{\theta}_i)_{\mathbf{Q}} \bold{x}_{imu,i} + \bold{p}_i
+\mathbf{X}\_{world} &= (\mathbf{\theta}\_i)_{\mathbf{Q}} \mathbf{x}\_{imu,i} + \mathbf{p}\_i
 \\
-\bold{x}_{imu,j} &= (\bold{\theta}_j^{-1})_{\mathbf{Q}} (\bold{X}_{world} - \bold{p}_j)
+\mathbf{x}\_{imu,j} &= (\mathbf{\theta}_j^{-1})_{\mathbf{Q}} (\mathbf{X}\_{world} - \mathbf{p}_j)
 \\
-\hat{\bold{x}}_{cam,j} &= (\bold{\theta}_{ce}^{-1})_{\mathbf{Q}} (\bold{x}_{imu,j} - \bold{t}_{ce})
+\hat{\mathbf{x}}\_{cam,j} &= (\mathbf{\theta}\_{ce}^{-1})_{\mathbf{Q}} (\mathbf{x}\_{imu,j} - \mathbf{t}\_{ce})
 \end{align*}
 $$
 
-The residual is defined as $\bold{r}_{proj,cam,j} = \big(d_j\hat{\bold{x}}_{cam,j} - \bold{x}_{cam,j} \big)_{1:2}$, where $\space_{1:2}$ represents taking the first two elements $(u, v)$. 
+The residual is defined as $\mathbf{r}\_{proj,cam,j} = \big(d_j\hat{\mathbf{x}}\_{cam,j} - \mathbf{x}\_{cam,j} \big)_{1:2}$, where $\space_{1:2}$ represents taking the first two elements $(u, v)$. 
 
 $$
 R_r = \begin{bmatrix}
-    1/d_j & 0 & \hat{\bold{x}}_{cam,j}.x / (d_j^2) \\
-    0 & 1/d_j & \hat{\bold{x}}_{cam,j}.y / (d_j^2)
+    1/d_j & 0 & \hat{\mathbf{x}}\_{cam,j}.x / (d_j^2) \\
+    0 & 1/d_j & \hat{\mathbf{x}}\_{cam,j}.y / (d_j^2)
 \end{bmatrix}
 \in \mathbb{R}^{2 \times 3}
 $$
 
 $$
-\frac{\partial \bold{r}_{proj,cam,j} }{\partial (\bold{p}_j, \bold{\theta}_j)} \in \mathbb{R}^{2 \times 7} = 
+\frac{\partial \mathbf{r}\_{proj,cam,j} }{\partial (\mathbf{p}_j, \mathbf{\theta}_j)} \in \mathbb{R}^{2 \times 7} = 
 R_r 
 \begin{bmatrix}
     R_{ec}^{\top} R_j^{\top} 
-    & R_{ec}^{\top} R_j^{\top} R_i  \bold{x}_{imu,i}^{\wedge}
-    & \bold{0}_{2 \times 1}
+    & R_{ec}^{\top} R_j^{\top} R_i  \mathbf{x}\_{imu,i}^{\wedge}
+    & \mathbf{0}\_{2 \times 1}
 \end{bmatrix}
 $$
-where $(\bold{p}_j, \bold{\theta}_j) \in \mathbb{R}^{7}$ consists of 3d translation elements and 4d quaternion for rotation.
-The 4d rotation representation by quaternion is here replaced with rotation matrix that gives a 3d vector, hence the last col is $\bold{0}_{2 \times 1}$.
+where $(\mathbf{p}_j, \mathbf{\theta}_j) \in \mathbb{R}^{7}$ consists of 3d translation elements and 4d quaternion for rotation.
+The 4d rotation representation by quaternion is here replaced with rotation matrix that gives a 3d vector, hence the last col is $\mathbf{0}\_{2 \times 1}$.
 
 ```cpp
 // tic, ric, sqrt_info, td are defined as static/global variables

@@ -4,7 +4,7 @@
 
 Define a shifting window ${W}$ of a size of $m \times n$, window moving step of $(u,v)$ on an image $I$, and define an error *sum of squared differences* (SSD) which is the squared differences of all pixels in a window before and after window's shifting.
 $$
-E_{ssd}(u,v)=\sum_{(x,y)\in {W}_{m \times n}} 
+E_{ssd}(u,v)=\sum_{(x,y)\in {W}\_{m \times n}} 
 \big[
     I(x+u, y+v)-I(x,y)    
 \big]^2
@@ -31,12 +31,12 @@ So that $E_{ssd}(u,v)$ can be expressed as
 $$
 \begin{align*}
 E_{ssd}(u,v)&=
-\sum_{(x,y)\in {W}_{m \times n}} 
+\sum_{(x,y)\in {W}\_{m \times n}} 
 \big[
     I(x+u, y+v)-I(x,y)    
 \big]^2
 \\ &\approx
-\sum_{(x,y)\in {W}_{m \times n}} 
+\sum_{(x,y)\in {W}\_{m \times n}} 
 \bigg[
     I(x,y) + 
 \begin{bmatrix}
@@ -49,7 +49,7 @@ E_{ssd}(u,v)&=
 -I(x,y)    
 \bigg]^2
 \\ & \approx
-\sum_{(x,y)\in {W}_{m \times n}} 
+\sum_{(x,y)\in {W}\_{m \times n}} 
 \bigg(
 \begin{bmatrix}
     I_{dx} & I_{dy}
@@ -64,7 +64,7 @@ E_{ssd}(u,v)&=
     u & v
 \end{bmatrix}
 \bigg(
-\sum_{(x,y)\in {W}_{m \times n}} 
+\sum_{(x,y)\in {W}\_{m \times n}} 
 \begin{bmatrix}
     I_{dx}^2 & I_{dx}I_{dy} \\
     I_{dy}I_{dx} & I_{dy}^2
@@ -82,7 +82,7 @@ $$
 Define $H$ as below to rewrite $E_{ssd}$
 $$
 H=
-\sum_{(x,y)\in {W}_{m \times n}} 
+\sum_{(x,y)\in {W}\_{m \times n}} 
 \begin{bmatrix}
     I_{dx}^2 & I_{dx}I_{dy} \\
     I_{dy}I_{dx} & I_{dy}^2
@@ -104,9 +104,9 @@ $$
 
 Since $rank(H)=2$, there are two eigenvalues corresponding to two eigenvectors
 $$
-H \bold{x}_+ = \lambda_+\bold{x}_+
+H \mathbf{x}\_+ = \lambda_+\mathbf{x}\_+
 \\
-H \bold{x}_- = \lambda_-\bold{x}_-
+H \mathbf{x}\_- = \lambda_-\mathbf{x}\_-
 $$
 
 ![eigen_feat_detection](imgs/eigen_feat_detection.png "eigen_feat_detection")

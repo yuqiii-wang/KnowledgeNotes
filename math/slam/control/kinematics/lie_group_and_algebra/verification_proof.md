@@ -2,7 +2,7 @@
 
 ## Verify that $SO(3)$, $SE(3)$, and $Sim(3)$ are Groups on Matrix Multiplication.
 
-Define rotation ${R} \in \mathbb{R}^{3 \times 3}$, translation ${t} \in \mathbb{R}^{3}$ (together denoted as $[{R}|{t}] \in \mathbb{R}^{4 \times 4}$) and scale-variant rotation plus translation $\bold{\zeta} \in \mathbb{R}^{7}$. 
+Define rotation ${R} \in \mathbb{R}^{3 \times 3}$, translation ${t} \in \mathbb{R}^{3}$ (together denoted as $[{R}|{t}] \in \mathbb{R}^{4 \times 4}$) and scale-variant rotation plus translation $\mathbf{\zeta} \in \mathbb{R}^{7}$. 
 
 Recall the properties of a group, for $X , Y, Z \in G$
 
@@ -296,48 +296,48 @@ $$
 \big[\phi_1, [\phi_2, \phi_3]\big] + \big[\phi_2, [\phi_3, \phi_1]\big]  + \big[\phi_3, [\phi_1, \phi_2]\big] = 0
 $$
 
-## Show that $R e^{\bold{p}^\wedge} R = e^{(R\bold{p})^\wedge}$ (the adjoint property of $SO(3)$)
+## Show that $R e^{\mathbf{p}^\wedge} R = e^{(R\mathbf{p})^\wedge}$ (the adjoint property of $SO(3)$)
 
-### First, Show $R\bold{p}^\wedge R = (R\bold{p})^\wedge$
+### First, Show $R\mathbf{p}^\wedge R = (R\mathbf{p})^\wedge$
 
-$\forall \bold{r}_1, \bold{r}_2, \bold{r}_3 \in \mathbb{R}^3$, Define $R$ and $R^\text{T}$ such as
+$\forall \mathbf{r}_1, \mathbf{r}_2, \mathbf{r}_3 \in \mathbb{R}^3$, Define $R$ and $R^\text{T}$ such as
 $$
 R = \begin{bmatrix}
-    \bold{r}_1^\text{T} \\
-    \bold{r}_2^\text{T} \\
-    \bold{r}_3^\text{T}
+    \mathbf{r}_1^\text{T} \\
+    \mathbf{r}_2^\text{T} \\
+    \mathbf{r}_3^\text{T}
 \end{bmatrix}
 , \quad 
 R^\text{T} = \begin{bmatrix}
-    \bold{r}_1 &
-    \bold{r}_2 &
-    \bold{r}_3
+    \mathbf{r}_1 &
+    \mathbf{r}_2 &
+    \mathbf{r}_3
 \end{bmatrix}
 $$
 
-Besides, define $\bold{p}=[p_x, p_y, p_z]$, so that $\bold{p}^\wedge=\begin{bmatrix}     0 & -p_z & p_y \\    p_z & 0 & -p_x \\    -p_y & p_x & 0\end{bmatrix}$.
+Besides, define $\mathbf{p}=[p_x, p_y, p_z]$, so that $\mathbf{p}^\wedge=\begin{bmatrix}     0 & -p_z & p_y \\    p_z & 0 & -p_x \\    -p_y & p_x & 0\end{bmatrix}$.
 
-The expression of $(R\bold{p})^\wedge$ is
+The expression of $(R\mathbf{p})^\wedge$ is
 $$
 \begin{align*}
 && 
-R\bold{p} &= \begin{bmatrix}
-  \bold{r}_1^\text{T} \bold{p} & \bold{r}_2^\text{T} \bold{p} & \bold{r}_3^\text{T} \bold{p}
+R\mathbf{p} &= \begin{bmatrix}
+  \mathbf{r}_1^\text{T} \mathbf{p} & \mathbf{r}_2^\text{T} \mathbf{p} & \mathbf{r}_3^\text{T} \mathbf{p}
 \end{bmatrix}
 \\ \Rightarrow &&
-(R\bold{p})^\wedge &= \begin{bmatrix}
-    0 & -\bold{r}_3^\text{T}\bold{p} & \bold{r}_2^\text{T}\bold{p} \\
-    \bold{r}_3^\text{T}\bold{p} & 0 & -\bold{r}_1^\text{T}\bold{p} \\
-    -\bold{r}_2^\text{T}\bold{p} & \bold{r}_1^\text{T}\bold{p} & 0
+(R\mathbf{p})^\wedge &= \begin{bmatrix}
+    0 & -\mathbf{r}_3^\text{T}\mathbf{p} & \mathbf{r}_2^\text{T}\mathbf{p} \\
+    \mathbf{r}_3^\text{T}\mathbf{p} & 0 & -\mathbf{r}_1^\text{T}\mathbf{p} \\
+    -\mathbf{r}_2^\text{T}\mathbf{p} & \mathbf{r}_1^\text{T}\mathbf{p} & 0
 \end{bmatrix}
 \end{align*}
 $$
 
-Compute $\bold{p}^\wedge \bold{r}_i$, there is
+Compute $\mathbf{p}^\wedge \mathbf{r}\_i$, there is
 
 $$
 \begin{align*}
-\bold{p}^\wedge \bold{r}_i &= 
+\mathbf{p}^\wedge \mathbf{r}\_i &= 
 \begin{bmatrix}
     0 & -p_z & p_y \\
     p_z & 0 & -p_x \\
@@ -352,136 +352,136 @@ $$
 \\ &=
 r_{i,x} (p_z - p_y)+r_{i,y} (p_x - p_y)+r_{i,z} (p_y - p_x)
 \\ &=
-\bold{p} \times \bold{r}_i
+\mathbf{p} \times \mathbf{r}\_i
 \end{align*}
 $$
 
 So that,
 $$
 \begin{align*}
-  R\bold{p}^\wedge R &= R (\bold{p}^\wedge R)
+  R\mathbf{p}^\wedge R &= R (\mathbf{p}^\wedge R)
   \\ &=
   \begin{bmatrix}
-    \bold{r}_1^\text{T} \\
-    \bold{r}_2^\text{T} \\
-    \bold{r}_3^\text{T}
+    \mathbf{r}_1^\text{T} \\
+    \mathbf{r}_2^\text{T} \\
+    \mathbf{r}_3^\text{T}
   \end{bmatrix}
   \begin{bmatrix}
-    \bold{p} \times \bold{r}_1 &
-    \bold{p} \times \bold{r}_2 &
-    \bold{p} \times \bold{r}_3
+    \mathbf{p} \times \mathbf{r}_1 &
+    \mathbf{p} \times \mathbf{r}_2 &
+    \mathbf{p} \times \mathbf{r}_3
   \end{bmatrix}
   \\ &=
   \begin{bmatrix}
-    \bold{r}_1^\text{T} (\bold{p} \times \bold{r}_1) &
-    \bold{r}_1^\text{T} (\bold{p} \times \bold{r}_2) &
-    \bold{r}_1^\text{T} (\bold{p} \times \bold{r}_3) \\
-    \bold{r}_2^\text{T} (\bold{p} \times \bold{r}_1) &
-    \bold{r}_2^\text{T} (\bold{p} \times \bold{r}_2) &
-    \bold{r}_2^\text{T} (\bold{p} \times \bold{r}_3) \\
-    \bold{r}_3^\text{T} (\bold{p} \times \bold{r}_1) &
-    \bold{r}_3^\text{T} (\bold{p} \times \bold{r}_2) &
-    \bold{r}_3^\text{T} (\bold{p} \times \bold{r}_3)
+    \mathbf{r}_1^\text{T} (\mathbf{p} \times \mathbf{r}_1) &
+    \mathbf{r}_1^\text{T} (\mathbf{p} \times \mathbf{r}_2) &
+    \mathbf{r}_1^\text{T} (\mathbf{p} \times \mathbf{r}_3) \\
+    \mathbf{r}_2^\text{T} (\mathbf{p} \times \mathbf{r}_1) &
+    \mathbf{r}_2^\text{T} (\mathbf{p} \times \mathbf{r}_2) &
+    \mathbf{r}_2^\text{T} (\mathbf{p} \times \mathbf{r}_3) \\
+    \mathbf{r}_3^\text{T} (\mathbf{p} \times \mathbf{r}_1) &
+    \mathbf{r}_3^\text{T} (\mathbf{p} \times \mathbf{r}_2) &
+    \mathbf{r}_3^\text{T} (\mathbf{p} \times \mathbf{r}_3)
   \end{bmatrix}
 \end{align*}
 $$
 
-Recall the definition of vector dot product and cross product: define $\bold{a},\bold{b},\bold{c} \in \mathbb{R}^3$ and set $M=[\bold{a},\bold{b},\bold{c}]$, there is
+Recall the definition of vector dot product and cross product: define $\mathbf{a},\mathbf{b},\mathbf{c} \in \mathbb{R}^3$ and set $M=[\mathbf{a},\mathbf{b},\mathbf{c}]$, there is
 $$
-det(M) = \bold{a}^\text{T}(\bold{b}\times\bold{c})= \bold{b}^\text{T}(\bold{c}\times\bold{a})= \bold{c}^\text{T}(\bold{a}\times\bold{b})
+det(M) = \mathbf{a}^\text{T}(\mathbf{b}\times\mathbf{c})= \mathbf{b}^\text{T}(\mathbf{c}\times\mathbf{a})= \mathbf{c}^\text{T}(\mathbf{a}\times\mathbf{b})
 $$
 
-So that, set $M=[\bold{r}_i \quad \bold{p} \quad \bold{r}_i]$. Since $\bold{r}_i$ is perpendicular to $\bold{p}\times\bold{r}_i$, the dot product should be zero. 
+So that, set $M=[\mathbf{r}\_i \quad \mathbf{p} \quad \mathbf{r}\_i]$. Since $\mathbf{r}\_i$ is perpendicular to $\mathbf{p}\times\mathbf{r}\_i$, the dot product should be zero. 
 $$
 \begin{align*}
-    det(M) &= 0 = \bold{r}_1^\text{T} (\bold{p} \times \bold{r}_1) \\
-    det(M) &= 0 = \bold{r}_2^\text{T} (\bold{p} \times \bold{r}_2) \\
-    det(M) &= 0 = \bold{r}_3^\text{T} (\bold{p} \times \bold{r}_3) \\
+    det(M) &= 0 = \mathbf{r}_1^\text{T} (\mathbf{p} \times \mathbf{r}_1) \\
+    det(M) &= 0 = \mathbf{r}_2^\text{T} (\mathbf{p} \times \mathbf{r}_2) \\
+    det(M) &= 0 = \mathbf{r}_3^\text{T} (\mathbf{p} \times \mathbf{r}_3) \\
 \end{align*}
 $$
 
-Recall that a rotation matrix $R$ is orthogonal that $\bold{r}_1, \bold{r}_2, \bold{r}_3 \in \mathbb{R}^3$ are perpendicular to each other, hence, by vector cross product  right-hand rule, there are $\bold{r}_1 \times \bold{r}_3 = \bold{r}_2,\space\space \bold{r}_1 \times \bold{r}_2 = -\bold{r}_3,\space\space \bold{r}_2 \times \bold{r}_3 = -\bold{r}_1$.
+Recall that a rotation matrix $R$ is orthogonal that $\mathbf{r}_1, \mathbf{r}_2, \mathbf{r}_3 \in \mathbb{R}^3$ are perpendicular to each other, hence, by vector cross product  right-hand rule, there are $\mathbf{r}_1 \times \mathbf{r}_3 = \mathbf{r}_2,\space\space \mathbf{r}_1 \times \mathbf{r}_2 = -\mathbf{r}_3,\space\space \mathbf{r}_2 \times \mathbf{r}_3 = -\mathbf{r}_1$.
 
-This time, set $M=[\bold{r}_i \quad \bold{p} \quad \bold{r}_j], \quad \forall i \ne j$, there are
+This time, set $M=[\mathbf{r}\_i \quad \mathbf{p} \quad \mathbf{r}_j], \quad \forall i \ne j$, there are
 $$
 \begin{align*}
-    \bold{r}_1^\text{T}(\bold{p} \times \bold{r}_2) &=
-    \bold{p}^\text{T}(\bold{r}_1 \times \bold{r}_2) = \bold{p}^\text{T} (-\bold{r}_3) =
-    -\bold{r}_3^\text{T}\bold{p}
+    \mathbf{r}_1^\text{T}(\mathbf{p} \times \mathbf{r}_2) &=
+    \mathbf{p}^\text{T}(\mathbf{r}_1 \times \mathbf{r}_2) = \mathbf{p}^\text{T} (-\mathbf{r}_3) =
+    -\mathbf{r}_3^\text{T}\mathbf{p}
     \\
-    \bold{r}_2^\text{T}(\bold{p} \times \bold{r}_1) &=
-    \bold{p}^\text{T}(\bold{r}_2 \times \bold{r}_1) = \bold{p}^\text{T} \bold{r}_3 =
-    \bold{r}_3^\text{T}\bold{p}
+    \mathbf{r}_2^\text{T}(\mathbf{p} \times \mathbf{r}_1) &=
+    \mathbf{p}^\text{T}(\mathbf{r}_2 \times \mathbf{r}_1) = \mathbf{p}^\text{T} \mathbf{r}_3 =
+    \mathbf{r}_3^\text{T}\mathbf{p}
     \\
-    \bold{r}_3^\text{T}(\bold{p} \times \bold{r}_2) &=
-    \bold{p}^\text{T}(\bold{r}_3 \times \bold{r}_2) = \bold{p}^\text{T} (-\bold{r}_1) =
-    -\bold{r}_1^\text{T}\bold{p}
+    \mathbf{r}_3^\text{T}(\mathbf{p} \times \mathbf{r}_2) &=
+    \mathbf{p}^\text{T}(\mathbf{r}_3 \times \mathbf{r}_2) = \mathbf{p}^\text{T} (-\mathbf{r}_1) =
+    -\mathbf{r}_1^\text{T}\mathbf{p}
     \\
-    \bold{r}_2^\text{T}(\bold{p} \times \bold{r}_3) &=
-    \bold{p}^\text{T}(\bold{r}_2 \times \bold{r}_3) = \bold{p}^\text{T} \bold{r}_1 =
-    \bold{r}_1^\text{T}\bold{p}
+    \mathbf{r}_2^\text{T}(\mathbf{p} \times \mathbf{r}_3) &=
+    \mathbf{p}^\text{T}(\mathbf{r}_2 \times \mathbf{r}_3) = \mathbf{p}^\text{T} \mathbf{r}_1 =
+    \mathbf{r}_1^\text{T}\mathbf{p}
     \\
-    \bold{r}_3^\text{T}(\bold{p} \times \bold{r}_1) &=
-    \bold{p}^\text{T}(\bold{r}_3 \times \bold{r}_1) = \bold{p}^\text{T} (-\bold{r}_2) =
-    -\bold{r}_2^\text{T}\bold{p}
+    \mathbf{r}_3^\text{T}(\mathbf{p} \times \mathbf{r}_1) &=
+    \mathbf{p}^\text{T}(\mathbf{r}_3 \times \mathbf{r}_1) = \mathbf{p}^\text{T} (-\mathbf{r}_2) =
+    -\mathbf{r}_2^\text{T}\mathbf{p}
     \\
-    \bold{r}_1^\text{T}(\bold{p} \times \bold{r}_3) &=
-    \bold{p}^\text{T}(\bold{r}_1 \times \bold{r}_3) = \bold{p}^\text{T} \bold{r}_2 =
-    \bold{r}_2^\text{T}\bold{p}
+    \mathbf{r}_1^\text{T}(\mathbf{p} \times \mathbf{r}_3) &=
+    \mathbf{p}^\text{T}(\mathbf{r}_1 \times \mathbf{r}_3) = \mathbf{p}^\text{T} \mathbf{r}_2 =
+    \mathbf{r}_2^\text{T}\mathbf{p}
 \end{align*}
 $$
 
 Finally, combine them together, there is
 $$
 \begin{align*}
-R\bold{p}^\wedge R &= 
+R\mathbf{p}^\wedge R &= 
 \begin{bmatrix}
-    \bold{r}_1^\text{T} (\bold{p} \times \bold{r}_1) &
-    \bold{r}_1^\text{T} (\bold{p} \times \bold{r}_2) &
-    \bold{r}_1^\text{T} (\bold{p} \times \bold{r}_3) \\
-    \bold{r}_2^\text{T} (\bold{p} \times \bold{r}_1) &
-    \bold{r}_2^\text{T} (\bold{p} \times \bold{r}_2) &
-    \bold{r}_2^\text{T} (\bold{p} \times \bold{r}_3) \\
-    \bold{r}_3^\text{T} (\bold{p} \times \bold{r}_1) &
-    \bold{r}_3^\text{T} (\bold{p} \times \bold{r}_2) &
-    \bold{r}_3^\text{T} (\bold{p} \times \bold{r}_3)
+    \mathbf{r}_1^\text{T} (\mathbf{p} \times \mathbf{r}_1) &
+    \mathbf{r}_1^\text{T} (\mathbf{p} \times \mathbf{r}_2) &
+    \mathbf{r}_1^\text{T} (\mathbf{p} \times \mathbf{r}_3) \\
+    \mathbf{r}_2^\text{T} (\mathbf{p} \times \mathbf{r}_1) &
+    \mathbf{r}_2^\text{T} (\mathbf{p} \times \mathbf{r}_2) &
+    \mathbf{r}_2^\text{T} (\mathbf{p} \times \mathbf{r}_3) \\
+    \mathbf{r}_3^\text{T} (\mathbf{p} \times \mathbf{r}_1) &
+    \mathbf{r}_3^\text{T} (\mathbf{p} \times \mathbf{r}_2) &
+    \mathbf{r}_3^\text{T} (\mathbf{p} \times \mathbf{r}_3)
 \end{bmatrix}
 \\ &=
 \begin{bmatrix}
     0 &
-    -\bold{r}_3^\text{T}\bold{p} &
-    \bold{r}_2^\text{T}\bold{p} \\
-    \bold{r}_3^\text{T}\bold{p} &
+    -\mathbf{r}_3^\text{T}\mathbf{p} &
+    \mathbf{r}_2^\text{T}\mathbf{p} \\
+    \mathbf{r}_3^\text{T}\mathbf{p} &
     0 &
-    -\bold{r}_1^\text{T}\bold{p} \\
-    -\bold{r}_2^\text{T}\bold{p} &
-    \bold{r}_1^\text{T}\bold{p} &
+    -\mathbf{r}_1^\text{T}\mathbf{p} \\
+    -\mathbf{r}_2^\text{T}\mathbf{p} &
+    \mathbf{r}_1^\text{T}\mathbf{p} &
     0
 \end{bmatrix}
 \\ &=
-(R\bold{p})^\wedge
+(R\mathbf{p})^\wedge
 \end{align*}
 $$
 
-### Show Adjoint Property of $SO(3)$: $R e^{\bold{p}^\wedge}R^\text{T}=e^{(R\bold{p})^\wedge}$
+### Show Adjoint Property of $SO(3)$: $R e^{\mathbf{p}^\wedge}R^\text{T}=e^{(R\mathbf{p})^\wedge}$
 
-Expand $R e^{\bold{p}^\wedge} R^\text{T}$ by Taylor series, and recall that $R$ is orthogonal having this property: $R^\text{T} R = R R^\text{T} = I$, there is
+Expand $R e^{\mathbf{p}^\wedge} R^\text{T}$ by Taylor series, and recall that $R$ is orthogonal having this property: $R^\text{T} R = R R^\text{T} = I$, there is
 $$
 \begin{align*}
-R e^{\bold{p}^\wedge} R^\text{T} &= 
-R \sum^{+\infty}_{i=n} \bigg( \frac{(\bold{p}^\wedge)^n}{n!}\bigg) R^\text{T}
+R e^{\mathbf{p}^\wedge} R^\text{T} &= 
+R \sum^{+\infty}\_{i=n} \bigg( \frac{(\mathbf{p}^\wedge)^n}{n!}\bigg) R^\text{T}
 \\ &=
-R \sum^{+\infty}_{i=n} \bigg( \frac{\bold{p}^\wedge\bold{p}^\wedge\bold{p}^\wedge ... \bold{p}^\wedge}{n!}\bigg) R^\text{T}
+R \sum^{+\infty}\_{i=n} \bigg( \frac{\mathbf{p}^\wedge\mathbf{p}^\wedge\mathbf{p}^\wedge ... \mathbf{p}^\wedge}{n!}\bigg) R^\text{T}
 \\ &=
-R \sum^{+\infty}_{i=n} \bigg( \frac{(\bold{p}^\wedge R^\text{T})(R\bold{p}^\wedge R^\text{T}) (R\bold{p}^\wedge R^\text{T}) ... (R\bold{p}^\wedge)}{n!}\bigg) R^\text{T}
+R \sum^{+\infty}\_{i=n} \bigg( \frac{(\mathbf{p}^\wedge R^\text{T})(R\mathbf{p}^\wedge R^\text{T}) (R\mathbf{p}^\wedge R^\text{T}) ... (R\mathbf{p}^\wedge)}{n!}\bigg) R^\text{T}
 \\ &=
-\sum^{+\infty}_{i=n} \bigg( \frac{(R\bold{p}^\wedge R^\text{T})(R\bold{p}^\wedge R^\text{T}) (R\bold{p}^\wedge R^\text{T}) ... (R\bold{p}^\wedge R^\text{T})}{n!}\bigg)
+\sum^{+\infty}\_{i=n} \bigg( \frac{(R\mathbf{p}^\wedge R^\text{T})(R\mathbf{p}^\wedge R^\text{T}) (R\mathbf{p}^\wedge R^\text{T}) ... (R\mathbf{p}^\wedge R^\text{T})}{n!}\bigg)
 \\ &=
-\sum^{+\infty}_{i=n} \frac{(R\bold{p}^\wedge R^\text{T})^n}{n!}
+\sum^{+\infty}\_{i=n} \frac{(R\mathbf{p}^\wedge R^\text{T})^n}{n!}
 \\ &=
-\sum^{+\infty}_{i=n} \frac{((R\bold{p})^\wedge)^n}{n!}
+\sum^{+\infty}\_{i=n} \frac{((R\mathbf{p})^\wedge)^n}{n!}
 \\ &=
-e^{(R\bold{p})^\wedge}
+e^{(R\mathbf{p})^\wedge}
 \end{align*}
 $$
 

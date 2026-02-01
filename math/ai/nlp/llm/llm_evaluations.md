@@ -29,12 +29,12 @@ Semantically similar words should have high similarity score.
 Typically cosine similarity is used.
 
 $$
-\text{similarity}_{\cos}(\bold{v}_i, \bold{v}_j) = \cos(\theta) = \frac{\bold{v}_i \cdot \bold{v}_j}{||\bold{v}_i || \space || \bold{v}_j ||}
+\text{similarity}\_{\cos}(\mathbf{v}\_i, \mathbf{v}_j) = \cos(\theta) = \frac{\mathbf{v}\_i \cdot \mathbf{v}_j}{||\mathbf{v}\_i || \space || \mathbf{v}_j ||}
 $$
 
 * Concept Categorization
 
-Words belonged to the same concept category should be similar (measured by $\text{similarity}_{\cos}(\bold{v}_i, \bold{v}_j)$).
+Words belonged to the same concept category should be similar (measured by $\text{similarity}\_{\cos}(\mathbf{v}\_i, \mathbf{v}_j)$).
 
 For example, "mountain", "river", "plain" should be more similar than "cat", "dog", "rabbit", etc.
 
@@ -50,13 +50,13 @@ Aim to compare if two sentences are the same in terms of token sequences by exac
 
 $$
 p_n =
-\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}_{clip}(\text{n-gram})}
+\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}\_{clip}(\text{n-gram})}
 {\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} \text{Count}(\text{n-gram}')}
 $$
 
 where n-gram refers to n-sequence tokens present both in two texts.
 The $\text{Count}(\text{n-gram})$ is the count of the contained tokens,
-and $\text{Count}_{clip}(\text{n-gram})=\max\big(\text{Count}(\text{n-gram}), \text{maxCount} \big)$ simply clips the count by setting a max threshold, that if an n-gram repeats for too many times, 
+and $\text{Count}\_{clip}(\text{n-gram})=\max\big(\text{Count}(\text{n-gram}), \text{maxCount} \big)$ simply clips the count by setting a max threshold, that if an n-gram repeats for too many times, 
 
 For example, there are $37$ words in the candidate prediction, and by setting $\text{maxCount}=2$, for 2-gram, there are "It is a guide to action" x 1, "ensures that the military" x 1, "the party" x 3, "absolute control" x 1, "the military" x 1.
 The 2-gram token count is $20$. However, having set the threshold $\text{maxCount}=2$, the "the party" is only counted twice instead of three times.
@@ -68,34 +68,34 @@ Finally, the result is $p_2=\frac{18}{37}$.
 
 * Longest Common Sub-Sequence (LCS)
 
-Find the longest common sub-sequence of two texts $\bold{v}_A$ and $\bold{v}_B$.
+Find the longest common sub-sequence of two texts $\mathbf{v}_A$ and $\mathbf{v}_B$.
 The precision $P_{lcs}$ and recall $R_{lcs}$ are computed as below, by which F score is derived.
 
 $$
 \begin{align*}
-&& R_{lcs} &= \frac{LCS(\bold{v}_A, \bold{v}_B)}{\text{len}(\bold{v}_A)}
+&& R_{lcs} &= \frac{LCS(\mathbf{v}_A, \mathbf{v}_B)}{\text{len}(\mathbf{v}_A)}
 &&
-P_{lcs} &= \frac{LCS(\bold{v}_A, \bold{v}_B)}{\text{len}(\bold{v}_B)} \\
+P_{lcs} &= \frac{LCS(\mathbf{v}_A, \mathbf{v}_B)}{\text{len}(\mathbf{v}_B)} \\
 \Rightarrow && F_{lcs} &= \frac{(1+\beta^2)R_{lcs}P_{lcs}}{R_{lcs}+\beta^2 P_{lcs}}
 \end{align*}
 $$
 
 where $\beta$ is the coefficient controlling the relative importance of $P_{lcs}$ and $R_{lcs}$, such that $\lim_{\beta \rightarrow 0} F_{lcs} = P_{lcs}$ and $\lim_{\beta \rightarrow +\infty} F_{lcs} = R_{lcs}$.
-$\text{len}(\bold{v})$ is the count of tokens in the vector $\bold{v}$.
+$\text{len}(\mathbf{v})$ is the count of tokens in the vector $\mathbf{v}$.
 
 * Perplexity
 
 Perplexity can be thought of as an evaluation of the model's ability to predict uniformly among the set of specified tokens in a corpus.
 
-For a sequence $\bold{x}$ of $T$ tokens, the perplexity is computed as
+For a sequence $\mathbf{x}$ of $T$ tokens, the perplexity is computed as
 
 $$
-\text{Perplexity}(\bold{x}) =
-\exp \bigg( -\frac{1}{T} \sum_{t=1}^T \log p_{\theta} (x_t | \bold{x}_{1:t-1}) \bigg)
+\text{Perplexity}(\mathbf{x}) =
+\exp \bigg( -\frac{1}{T} \sum_{t=1}^T \log p_{\theta} (x_t | \mathbf{x}\_{1:t-1}) \bigg)
 $$
 
 where $p_{\theta}(...) \in [0,1]$. Negative log likelihood $-\log p_{\theta}(...) \in [0, +\infty)$ sees $-\log p_{\theta}(1) = 0$.
-This means when the prediction of $x_t$ is almost certain, $\text{Perplexity}(\bold{x})$ is very small.
+This means when the prediction of $x_t$ is almost certain, $\text{Perplexity}(\mathbf{x})$ is very small.
 
 Cross entropy $\text{H}$ measures how close  two distributions $P$ and $Q$ are.
 Set $P$ as the label truth token sequence, and $Q$ as the LLM prediction token sequence, so that predictions vs labels can be measured in cross entropy.
@@ -103,9 +103,9 @@ Set $P$ as the label truth token sequence, and $Q$ as the LLM prediction token s
 $$
 \begin{align*}
 \text{H}(P, Q) &= E_P \big( -\log Q \big) \\
-    &= -\sum_{x_t \in \bold{x}} P(x_t) \log Q(x_t) \\
-    &= -\sum_{x_t \in \bold{x}} P(x_t) \big(\log P(x_t) +  \log Q(x_t) -\log P(x_t) \big) \\
-    &= -\sum_{x_t \in \bold{x}} P(x_t) \log P(x_t) - \sum_{x_t \in \bold{x}} P(x_t) \log \frac{Q(x_t)}{P(x_t)} \\
+    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \log Q(x_t) \\
+    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \big(\log P(x_t) +  \log Q(x_t) -\log P(x_t) \big) \\
+    &= -\sum_{x_t \in \mathbf{x}} P(x_t) \log P(x_t) - \sum_{x_t \in \mathbf{x}} P(x_t) \log \frac{Q(x_t)}{P(x_t)} \\
     &= \text{H}(P) + D_{KL}(P || Q)
 \end{align*}
 $$
@@ -143,7 +143,7 @@ It proposes clipped *n-grams* percentage $p_n$:
 
 $$
 p_n =
-\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}_{clip}(\text{n-gram})}
+\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}\_{clip}(\text{n-gram})}
 {\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} \text{Count}(\text{n-gram}')}
 $$
 
@@ -329,7 +329,7 @@ Conciseness is a writing principle of removing redundant information in text.
 Conciseness can be considered a variant of summarization, that LLM input by such as `Summarize the text '[INPUT_TEXTS]'` can be simply replaced to `Rewrite to more concise for the text '[INPUT_TEXTS]'`, and LLM output can be measured by equivalence test against labelled summarized texts.
 
 Info density can be measured by
-$\text{Inverse Document Frequency}_{i} = \log \frac{\text{Total no. of documents}}{\text{No. of documents containing term i}}$.
+$\text{Inverse Document Frequency}\_{i} = \log \frac{\text{Total no. of documents}}{\text{No. of documents containing term i}}$.
 
 ### Bias and Fairness
 

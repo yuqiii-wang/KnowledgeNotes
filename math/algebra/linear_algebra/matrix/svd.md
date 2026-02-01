@@ -13,10 +13,10 @@ SVD generalizes the eigen-decomposition of a square normal matrix with an orthon
 Compute the eigenvalues and eigenvectors of $A^{\top}A$
 
 $$
-A^{\top}A \bold{v}_1 = \sigma_1^2 \bold{v}_1 \\
-A^{\top}A \bold{v}_2 = \sigma_2^2 \bold{v}_2 \\
+A^{\top}A \mathbf{v}_1 = \sigma_1^2 \mathbf{v}_1 \\
+A^{\top}A \mathbf{v}_2 = \sigma_2^2 \mathbf{v}_2 \\
 ... \\
-A^{\top}A \bold{v}_n = \sigma_n^2 \bold{v}_n
+A^{\top}A \mathbf{v}_n = \sigma_n^2 \mathbf{v}_n
 $$
 
 * So that $V$ is
@@ -25,7 +25,7 @@ $$
 V=
 \begin{bmatrix}
     \vdots & & \vdots \\
-    \bold{v}_1 & ... & \bold{v}_n \\
+    \mathbf{v}_1 & ... & \mathbf{v}_n \\
     \vdots & & \vdots
 \end{bmatrix}
 $$
@@ -36,7 +36,7 @@ $$
 \Sigma=
 \begin{bmatrix}
     \sigma_1 & & & \\
-     & \ddots & & \bold{0} \\
+     & \ddots & & \mathbf{0} \\
      & & \sigma_n & \\
 \end{bmatrix}
 $$
@@ -49,7 +49,7 @@ $$
     \sigma_1 & & \\
      & \ddots & \\
      & & \sigma_n \\
-     & \bold{0} &
+     & \mathbf{0} &
 \end{bmatrix}
 $$
 
@@ -66,26 +66,26 @@ $$
 Define follows for $i\ne j$
 
 $$
-A^{\top}A\bold{v}_i=\sigma_i^2\bold{v}_i \qquad
-A^{\top}A\bold{v}_j=\sigma_j^2\bold{v}_j
+A^{\top}A\mathbf{v}\_i=\sigma_i^2\mathbf{v}\_i \qquad
+A^{\top}A\mathbf{v}_j=\sigma_j^2\mathbf{v}_j
 $$
 
-then multiply by $\bold{v}_j^{\top}$, there is
+then multiply by $\mathbf{v}_j^{\top}$, there is
 
 $$
 \begin{align*}
-    && \bold{v}_j^{\top}A^{\top}A\bold{v}_i &=
-  \bold{v}_j^{\top}\sigma_i^2\bold{v}_i \\
-  \Rightarrow && (A^{\top}A\bold{v}_j)^{\top}\bold{v}_i &=
-  \bold{v}_j^{\top}\sigma_i^2\bold{v}_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\
-  \Rightarrow && \sigma_j^2\bold{v}_j^{\top}\bold{v}_i &=
-  \sigma_i^2\bold{v}_j^{\top}\bold{v}_i \\
+    && \mathbf{v}_j^{\top}A^{\top}A\mathbf{v}\_i &=
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \\
+  \Rightarrow && (A^{\top}A\mathbf{v}_j)^{\top}\mathbf{v}\_i &=
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\
+  \Rightarrow && \sigma_j^2\mathbf{v}_j^{\top}\mathbf{v}\_i &=
+  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}\_i \\
 \end{align*}
 $$
 
-For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\bold{v}_j^{\top}\bold{v}_i=0$, hence orthogonal.
+For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\mathbf{v}_j^{\top}\mathbf{v}\_i=0$, hence orthogonal.
 
-For $\{\bold{v}_1, \bold{v}_2, ..., \bold{v}_n\}$ are defined as eigenvectors of $A$ such that $V=\begin{bmatrix} \vdots & & \vdots \\ \bold{v}_1 & ... & \bold{v}_n \\ \vdots & & \vdots \end{bmatrix}$, $V$ is orthogonal.
+For $\{\mathbf{v}_1, \mathbf{v}_2, ..., \mathbf{v}_n\}$ are defined as eigenvectors of $A$ such that $V=\begin{bmatrix} \vdots & & \vdots \\ \mathbf{v}_1 & ... & \mathbf{v}_n \\ \vdots & & \vdots \end{bmatrix}$, $V$ is orthogonal.
 
 #### $U$ Is Orthogonal For It Is Equivalent of $V$ For $AA^{\top}$
 
@@ -113,11 +113,11 @@ This is for that
 
 * During reflection/rotation, the linear space angle is preserved.
 
-Given two input vectors $\bold{x}_i$ and $\bold{x}_j$, the angle between them satisfies $\cos(\theta)=\frac{\bold{x}_i^{\top}\bold{x}_j}{||\bold{x}_i||\space||\bold{x}_i||}$. Apply the orthonormal matrix $V$, there is
+Given two input vectors $\mathbf{x}\_i$ and $\mathbf{x}_j$, the angle between them satisfies $\cos(\theta)=\frac{\mathbf{x}\_i^{\top}\mathbf{x}_j}{||\mathbf{x}\_i||\space||\mathbf{x}\_i||}$. Apply the orthonormal matrix $V$, there is
 
 $$
-\cos(\theta')=\frac{(V\bold{x}_i)^{\top}V\bold{x}_j}{||V\bold{x}_i||\space||V\bold{x}_i||}=
-\frac{\bold{x}_i^{\top}\bold{x}_j}{||\bold{x}_i||\space||\bold{x}_i||}=
+\cos(\theta')=\frac{(V\mathbf{x}\_i)^{\top}V\mathbf{x}_j}{||V\mathbf{x}\_i||\space||V\mathbf{x}\_i||}=
+\frac{\mathbf{x}\_i^{\top}\mathbf{x}_j}{||\mathbf{x}\_i||\space||\mathbf{x}\_i||}=
 \cos(\theta)
 $$
 
@@ -131,12 +131,12 @@ $\Sigma$ is a diagonal matrix, hence its non-zero entries act as pure scaling.
 
 #### SVD Explanation by Geometry
 
-Let $\bold{x}_i=[3, 3]$ and $\bold{x}_i=[3, 1]$ that are transformed by $A=\begin{bmatrix} -1 & 1 \\ 0 & 1 \end{bmatrix}$.
-Below process shows how $A\bold{x}=U \Sigma V^{\top}\bold{x}$ is computed.
+Let $\mathbf{x}\_i=[3, 3]$ and $\mathbf{x}\_i=[3, 1]$ that are transformed by $A=\begin{bmatrix} -1 & 1 \\ 0 & 1 \end{bmatrix}$.
+Below process shows how $A\mathbf{x}=U \Sigma V^{\top}\mathbf{x}$ is computed.
 
-* For $\text{det}(V)=-1$, the $V^{\top}\bold{x}$ is a reflection operation.
-* For $\Sigma$ is a diagonal matrix, the $\Sigma V^{\top}\bold{x}$ is a scaling operation.
-* For $\text{det}(U)=1$, the $U\Sigma V^{\top}\bold{x}$ is a rotation operation.
+* For $\text{det}(V)=-1$, the $V^{\top}\mathbf{x}$ is a reflection operation.
+* For $\Sigma$ is a diagonal matrix, the $\Sigma V^{\top}\mathbf{x}$ is a scaling operation.
+* For $\text{det}(U)=1$, the $U\Sigma V^{\top}\mathbf{x}$ is a rotation operation.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/svd_example.png" width="70%" height="30%" alt="svd_example" />
@@ -162,11 +162,11 @@ PCA (Principal Component Analysis) simply takes the first few most significant c
 ## SVD for Least Squares Problem
 
 Given a least squares problem:
-for a residual $\bold{r} = A \bold{x} - \bold{b}$, where $A \in \mathbb{R}^{m \times n}$ (assumed $A$ is full rank that $n = \text{rank}(A)$), and there is $m > n$, here attempts to minimize
+for a residual $\mathbf{r} = A \mathbf{x} - \mathbf{b}$, where $A \in \mathbb{R}^{m \times n}$ (assumed $A$ is full rank that $n = \text{rank}(A)$), and there is $m > n$, here attempts to minimize
 
 $$
-\space \underset{\bold{x}}{\text{min}} \space
-||A \bold{x} - \bold{b}||^2=
+\space \underset{\mathbf{x}}{\text{min}} \space
+||A \mathbf{x} - \mathbf{b}||^2=
 r_1^2 + r_2^2 + ... + r^2_m
 $$
 
@@ -174,51 +174,51 @@ Process:
 
 $$
 \begin{align*}
-& ||A \bold{x} - \bold{b}||^2 \\ =& 
-||U \Sigma V^{\top} \bold{x} - \bold{b}||^2 \\ =&
-||U^{\top}(U \Sigma V^{\top} \bold{x} - \bold{b})||^2 \\ =& 
-||U^{\top}U \Sigma V^{\top} \bold{x} - U^{\top}\bold{b}||^2
+& ||A \mathbf{x} - \mathbf{b}||^2 \\ =& 
+||U \Sigma V^{\top} \mathbf{x} - \mathbf{b}||^2 \\ =&
+||U^{\top}(U \Sigma V^{\top} \mathbf{x} - \mathbf{b})||^2 \\ =& 
+||U^{\top}U \Sigma V^{\top} \mathbf{x} - U^{\top}\mathbf{b}||^2
 \quad U\text{ is orthoganal that } U^{\top}U=I\\ =&
-||\Sigma V^{\top} \bold{x} - U^{\top}\bold{b}||^2\\ =&
-||\Sigma \bold{y} - U^{\top}\bold{b}||^2
-\quad \text{denote } \bold{y}=V^\top\bold{x}
-\text{ and } \bold{z}=U^\top\bold{b} \\ =&
+||\Sigma V^{\top} \mathbf{x} - U^{\top}\mathbf{b}||^2\\ =&
+||\Sigma \mathbf{y} - U^{\top}\mathbf{b}||^2
+\quad \text{denote } \mathbf{y}=V^\top\mathbf{x}
+\text{ and } \mathbf{z}=U^\top\mathbf{b} \\ =&
 \Bigg|\Bigg|
 \begin{bmatrix}
     \sigma_1 & & & \\
      & \ddots & & \\
     & & \sigma_n & \\
-    & & & \bold{0}
+    & & & \mathbf{0}
 \end{bmatrix}
-\bold{y} - \bold{z}
+\mathbf{y} - \mathbf{z}
 \Bigg|\Bigg|^2\\ =&
-\sum^{n}_{i=1} \big( \sigma_i {y}_i - \bold{u}^{\top}_i \bold{b} \big)^2+\sum^{m}_{i=n+1} \big( \bold{u}^{\top}_i \bold{b} \big)^2
+\sum^{n}\_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2
 \end{align*}
 $$
 
-$\bold{y}$ is determined as
+$\mathbf{y}$ is determined as
 
 $$
 y_i=
 \left\{
     \begin{array}{cc}
-        \frac{\bold{u}^{\top}_i \bold{b}}{\sigma_i} &\quad \sigma_i \ne 0 \text{ same as } i \le n
+        \frac{\mathbf{u}^{\top}\_i \mathbf{b}}{\sigma_i} &\quad \sigma_i \ne 0 \text{ same as } i \le n
         \\
         \text{any value} &\quad \sigma_i = 0 \text{ same as } i > n
     \end{array}
 \right.
 $$
 
-Then, it is easy to find $\bold{x}$ by $\bold{x} = V\bold{y}$.
+Then, it is easy to find $\mathbf{x}$ by $\mathbf{x} = V\mathbf{y}$.
 
-The residual is $\sum^{m}_{i=n+1} \big( \bold{u}^{\top}_i \bold{b} \big)^2$.
+The residual is $\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$.
 
 ### Proof of SVD as Solution for Least Squares Problem
 
-In the above obtained $||A \bold{x} - \bold{b}||^2=\sum^{n}_{i=1} \big( \sigma_i {y}_i - \bold{u}^{\top}_i \bold{b} \big)^2+\sum^{m}_{i=n+1} \big( \bold{u}^{\top}_i \bold{b} \big)^2$,
-the second residual term $\sum^{m}_{i=n+1} \big( \bold{u}^{\top}_i \bold{b} \big)^2$ does not depend on $\bold{y}$, so it is simply the irreducible residual.
+In the above obtained $||A \mathbf{x} - \mathbf{b}||^2=\sum^{n}\_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$,
+the second residual term $\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$ does not depend on $\mathbf{y}$, so it is simply the irreducible residual.
 
-The first sum reaches its minimum $0=\sum^{n}_{i=1} \big( \sigma_i {y}_i - \bold{u}^{\top}_i \bold{b} \big)^2$ with $y_i=\frac{\bold{u}^{\top}_i \bold{b}}{\sigma_i}$.
+The first sum reaches its minimum $0=\sum^{n}\_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$ with $y_i=\frac{\mathbf{u}^{\top}\_i \mathbf{b}}{\sigma_i}$.
 
 ## SVD vs Eigen Decomposition
 
@@ -226,7 +226,7 @@ The first sum reaches its minimum $0=\sum^{n}_{i=1} \big( \sigma_i {y}_i - \bold
 
 * Eigen decomposition: not necessarily orthonormal vs SVD: orthonormal
 
-Here defines a typical linear system $A\bold{x}=\bold{b}$.
+Here defines a typical linear system $A\mathbf{x}=\mathbf{b}$.
 Consider the eigen decomposition $A = P\Lambda P^{-1}$ and $A=U\Sigma V^{\top}$.
 
 Eigen decomposition only takes one basis $P$ in contrast to SVD using two bases $U$ and $V$. Besides, $P$ might not be orthogonal but $U$ and $V$ are orthonormal (orthogonal + unitary).

@@ -22,11 +22,11 @@ while feature-based approaches consume extra computational resources on extracti
 
 ### Inverse Depth Parameterization
 
-Define a point $\bold{p}=(x,y,z)$ in 3D space (the reference frame is $(e_1, e_2, e_3)$) observed by a monocular pinhole camera from multiple views.
+Define a point $\mathbf{p}=(x,y,z)$ in 3D space (the reference frame is $(e_1, e_2, e_3)$) observed by a monocular pinhole camera from multiple views.
 
-The inverse depth parametrization of the point's position is a 6D vector $\bold{y}=(x_0, y_0, z_0, \theta, \phi, \rho)$ that encodes the optical centre of the camera $\bold{c}_0=(x_0, y_0, z_0)$ when in first observed the point, and the position of the point along the ray passing through $\bold{p}$ and $\bold{c}_0$.
+The inverse depth parametrization of the point's position is a 6D vector $\mathbf{y}=(x_0, y_0, z_0, \theta, \phi, \rho)$ that encodes the optical centre of the camera $\mathbf{c}_0=(x_0, y_0, z_0)$ when in first observed the point, and the position of the point along the ray passing through $\mathbf{p}$ and $\mathbf{c}_0$.
 
-In detail, $\phi$ is the azimuth, $\theta$ is the elevation/altitude angle, and $\rho=\frac{1}{||\bold{p}-\bold{c}_0||}$ is the inverse depth of $\bold{p}$ at the first observation.
+In detail, $\phi$ is the azimuth, $\theta$ is the elevation/altitude angle, and $\rho=\frac{1}{||\mathbf{p}-\mathbf{c}_0||}$ is the inverse depth of $\mathbf{p}$ at the first observation.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/inverse_depth_param.png" width="30%" height="30%" alt="inverse_depth_param" />

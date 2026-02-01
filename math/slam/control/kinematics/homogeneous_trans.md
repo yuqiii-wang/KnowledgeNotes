@@ -2,21 +2,21 @@
 
 For rigid motion, there are rotations and translation.
 
-Given a three-dimensional space, there is unit orthogonal basis vector for a global coordinate $\bold{e}$
+Given a three-dimensional space, there is unit orthogonal basis vector for a global coordinate $\mathbf{e}$
 $$
 \begin{bmatrix}
 e_1 , e_2, e_3
 \end{bmatrix}
 $$
 
-Given robot as origin, there exists another robot-based coordinate $\bold{e^{'}}$
+Given robot as origin, there exists another robot-based coordinate $\mathbf{e^{'}}$
 $$
 \begin{bmatrix}
 e^{'}_1, e^{'}_2, e^{'}_3
 \end{bmatrix}
 $$
 
-To represent an object in the two aforementioned coordinates, there are $\bold{a}$ and $\bold{a^{'}}$
+To represent an object in the two aforementioned coordinates, there are $\mathbf{a}$ and $\mathbf{a^{'}}$
 $$
 \begin{bmatrix}
 a_1 \\
@@ -72,7 +72,7 @@ $$
 
 To put it in a simple way
 $$
-\bold{a} = R \bold{a^{'}}
+\mathbf{a} = R \mathbf{a^{'}}
 $$
 
 Remember, $R$'s determinant is $1$: $det(R)=1$, and $R^{-1} = R^T$, hence $R^T R = I$
@@ -107,7 +107,7 @@ $$
 
 To put it in a simple way
 $$
-\bold{a} = T \bold{a^{'}}
+\mathbf{a} = T \mathbf{a^{'}}
 $$
 
 Here introduces *Homogeneous Transformation* that takes translation and rotation merged as one: 
@@ -142,26 +142,26 @@ SE(3) =
 \bigg\{
     T = 
     \begin{bmatrix}
-        R & \bold{t} \\
-        \bold{0} & 1
+        R & \mathbf{t} \\
+        \mathbf{0} & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
     \quad|\quad
-    R \in SO(3), \bold{t} \in \mathbb{R}^3
+    R \in SO(3), \mathbf{t} \in \mathbb{R}^3
 \bigg\}
 $$
 
 ## Transform Forward
 
-Given two transforms $R_1,\bold{t}_1$ and $R_2,\bold{t}_2$, the combined expression can be expressed as below
+Given two transforms $R_1,\mathbf{t}_1$ and $R_2,\mathbf{t}_2$, the combined expression can be expressed as below
 $$
 \begin{align*}
 &&
-\bold{b} &= R_1 \bold{a} + \bold{t}_1
+\mathbf{b} &= R_1 \mathbf{a} + \mathbf{t}_1
 \qquad
-\bold{c} = R_2 \bold{b} + \bold{t}_2
+\mathbf{c} = R_2 \mathbf{b} + \mathbf{t}_2
 \\ \Rightarrow &&
-\bold{c} &= R_2 (R_1 \bold{a} + \bold{t}_1) + \bold{t}_2
+\mathbf{c} &= R_2 (R_1 \mathbf{a} + \mathbf{t}_1) + \mathbf{t}_2
 \end{align*}
 $$
 
@@ -171,12 +171,12 @@ $$
 \bigg\{
     T^{-1} = 
     \begin{bmatrix}
-        R^{\top} & -R^{\top}\bold{t} \\
-        \bold{0}^{\top} & 1
+        R^{\top} & -R^{\top}\mathbf{t} \\
+        \mathbf{0}^{\top} & 1
     \end{bmatrix}
     \in \mathbb{R}^{4 \times 4}
     \quad|\quad
-    R^{\top} \in SO(3), -R^{\top}\bold{t} \in \mathbb{R}^3
+    R^{\top} \in SO(3), -R^{\top}\mathbf{t} \in \mathbb{R}^3
 \bigg\}
 $$
 where $R^{-1}=R^{\top}$

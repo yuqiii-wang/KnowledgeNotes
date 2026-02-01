@@ -26,13 +26,13 @@ Next is to perform a detailed fit to the nearby data (neighbor pixels of keypoin
 
 Using the quadratic Taylor expansion of the Difference-of-Gaussian (DoG) scale-space function, DoG can be expressed as
 $$
-D(\bold{x}) = D + 
-\frac{\partial D^\text{T}}{\partial \bold{x}} \bold{x} +
-\frac{1}{2} \bold{x}^\text{T} \frac{\partial^2 D}{\partial \bold{x}^2} \bold{x}
+D(\mathbf{x}) = D + 
+\frac{\partial D^\text{T}}{\partial \mathbf{x}} \mathbf{x} +
+\frac{1}{2} \mathbf{x}^\text{T} \frac{\partial^2 D}{\partial \mathbf{x}^2} \mathbf{x}
 $$
-where $\bold{x}=(x_{\pm}, y_{\pm}, \sigma)^\text{T}$ is the offset from a candidate keypoint.
+where $\mathbf{x}=(x_{\pm}, y_{\pm}, \sigma)^\text{T}$ is the offset from a candidate keypoint.
 
-The location of the extremum, $\hat{\bold{x}}$ is determined by taking the derivative of this function $D$ with respect to $\bold{x}$ and setting it to zero. Keypoints are adjusted/merged to the computed new local extremum points.
+The location of the extremum, $\hat{\mathbf{x}}$ is determined by taking the derivative of this function $D$ with respect to $\mathbf{x}$ and setting it to zero. Keypoints are adjusted/merged to the computed new local extremum points.
 
 Besides, candidate keypoints with too little differences between $D$ of different scaling factors $k\sigma$ are discarded.
 

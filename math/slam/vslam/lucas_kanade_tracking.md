@@ -18,37 +18,37 @@ It can be used to find the offset between two chronologically sequential images,
 
 ### Least Squares Retrospect
 
-Given a residual function $\bold{r}(\bold{x})$ where $\bold{x} \in \mathbb{R}^n$ and output $\bold{r} \in \mathbb{R}^m$. Define an $\mathcal{L}_2$ norm cost function to be minimized:
+Given a residual function $\mathbf{r}(\mathbf{x})$ where $\mathbf{x} \in \mathbb{R}^n$ and output $\mathbf{r} \in \mathbb{R}^m$. Define an $\mathcal{L}_2$ norm cost function to be minimized:
 $$
-\underset{\bold{x}}{\min}\quad \bold{r}(\bold{x})^\top \bold{r}(\bold{x})
+\underset{\mathbf{x}}{\min}\quad \mathbf{r}(\mathbf{x})^\top \mathbf{r}(\mathbf{x})
 $$
 
 By first order approximation, there is
 $$
-\bold{r}(\Delta \bold{x}) \approx
-J(\bold{x}_0) \Delta \bold{x} + \bold{r}(\bold{x}_0)
+\mathbf{r}(\Delta \mathbf{x}) \approx
+J(\mathbf{x}_0) \Delta \mathbf{x} + \mathbf{r}(\mathbf{x}_0)
 $$
 where $J$ is the Jacobian.
 
-Take shorthand notes and write down $J_0=J(\bold{x}_0)$ and $\bold{r}_0=\bold{r}(\bold{x}_0)$, and take the Jacobian approximation into the cost function, there is
+Take shorthand notes and write down $J_0=J(\mathbf{x}_0)$ and $\mathbf{r}_0=\mathbf{r}(\mathbf{x}_0)$, and take the Jacobian approximation into the cost function, there is
 $$
-\underset{\bold{x}}{\min}\quad \bold{r}(\bold{x})^\top \bold{r}(\bold{x})=
-\Delta\bold{x}^\top J_0^\top J_0 \Delta\bold{x}+2 J_0^\top \bold{r}_0 \Delta\bold{x} +\bold{r}_0^\top \bold{r}_0
+\underset{\mathbf{x}}{\min}\quad \mathbf{r}(\mathbf{x})^\top \mathbf{r}(\mathbf{x})=
+\Delta\mathbf{x}^\top J_0^\top J_0 \Delta\mathbf{x}+2 J_0^\top \mathbf{r}_0 \Delta\mathbf{x} +\mathbf{r}_0^\top \mathbf{r}_0
 $$
 
-The minima exists at $\frac{\partial\space \bold{r}^\top \bold{r}}{\partial \Delta\bold{x}}=0$, so that
+The minima exists at $\frac{\partial\space \mathbf{r}^\top \mathbf{r}}{\partial \Delta\mathbf{x}}=0$, so that
 $$
 \begin{align*}
   &&
-  2 J_0^\top J_0 \Delta\bold{x} &=
-  2 J_0^\top \bold{r}_0
+  2 J_0^\top J_0 \Delta\mathbf{x} &=
+  2 J_0^\top \mathbf{r}_0
   \\ \Rightarrow &&
-  \Delta\bold{x} &=
-  \frac{J_0^\top \bold{r}_0}{J_0^\top J_0}
+  \Delta\mathbf{x} &=
+  \frac{J_0^\top \mathbf{r}_0}{J_0^\top J_0}
 \end{align*}
 $$
 
-The optimal $\bold{x}^*$ can be determined by $\bold{x}^* = \bold{x}_0 + \Delta\bold{x}$
+The optimal $\mathbf{x}^*$ can be determined by $\mathbf{x}^* = \mathbf{x}_0 + \Delta\mathbf{x}$
 
 ## Lucas-Kanade Problem Formulation
 
@@ -62,7 +62,7 @@ I_A(x,y) - I_B(x+dx,y+dy)
 $$
 whose residuals with respects to each pixel are
 $$
-\bold{r}(dx,dy) = 
+\mathbf{r}(dx,dy) = 
 \begin{bmatrix}
     r_{x=1, y=1}(dx,dy) \\
     r_{x=1, y=2}(dx,dy) \\
@@ -85,7 +85,7 @@ $$
 \end{bmatrix}
 $$
 
-For a particular pixel $p(x_i,y_j)$, the residual can be approximated by Jacobian
+For a particular pixel $p(x\_i,y_j)$, the residual can be approximated by Jacobian
 $$
 \begin{align*}
     &&
@@ -96,9 +96,9 @@ $$
     r_{x=i, y=j}(\Delta dx,\Delta dy)
     &= 
     \underbrace{\begin{bmatrix}
-        \frac{\partial r_{x=i, y=j} p(x_i,y_j)}{\partial dx} &
-        \frac{\partial r_{x=i, y=j} p(x_i,y_j)}{\partial dy}
-    \end{bmatrix}}_{\text{Jacobian}}
+        \frac{\partial r_{x=i, y=j} p(x\_i,y_j)}{\partial dx} &
+        \frac{\partial r_{x=i, y=j} p(x\_i,y_j)}{\partial dy}
+    \end{bmatrix}}\_{\text{Jacobian}}
     \begin{bmatrix}
         \Delta dx \\
         \Delta dy
@@ -114,7 +114,7 @@ To find the optimal $\begin{bmatrix}      \Delta dx & \Delta dy \end{bmatrix}^*$
 Set the $dx=a$ and $dy=b$ as image offset. For the whole image's Jacobian, there is (only $x$-axis is shown, $y$-axis should the same expression).
 $$
 \begin{align*}
-    \frac{\partial \bold{r}(dx,dy)}{\partial dx}
+    \frac{\partial \mathbf{r}(dx,dy)}{\partial dx}
     \bigg|_{\begin{align*}
         \footnotesize{dx=a, dy=b} \\
         \footnotesize{x=1,2,...,n} \\

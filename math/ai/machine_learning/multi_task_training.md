@@ -16,15 +16,15 @@ $$
 \gamma_i=\frac{||\nabla_{W}L_i||_2}{\frac{1}{N}\sum^N_{j=1}||\nabla_{W}L_j||_2}
 $$
 
-Rewrite the loss as the sum over the deviation from task loss average $\overline{\gamma}_i$.
+Rewrite the loss as the sum over the deviation from task loss average $\overline{\gamma}\_i$.
 
 $$
-L_{gradNorm}=\sum_i |w_i\gamma_i-\alpha\overline{\gamma}_i|
+L\_{gradNorm}=\sum_i |w_i\gamma_i-\alpha\overline{\gamma}\_i|
 $$
 
 where $\alpha$ is a hyper-parameter to control the aptitude of the deviation.
 
-The drawback is expensive computation that every layer weights need recomputation for $L_{gradNorm}$.
+The drawback is expensive computation that every layer weights need recomputation for $L\_{gradNorm}$.
 
 ## Task Normalization
 
@@ -41,7 +41,7 @@ where $\beta$ is a decaying factor, e.g., 0.9, used to control history weights.
 EMA is used as a per-task normalization term to make sure per task loss does not aggressively change.
 
 $$
-L_{taskNorm}=\sum^N_{i=1}w_i\cdot \frac{L_i(t)}{EMA_i(t)}
+L\_{taskNorm}=\sum^N_{i=1}w_i\cdot \frac{L_i(t)}{EMA_i(t)}
 $$
 
 It is useful when some tasks are fast converging while others are not.
@@ -53,7 +53,7 @@ Focal loss adjust/increase the weights $\gamma_i$ of hard-to-solve task loss to 
 The standard cross entropy at the $t$-th training step for binary classification (output either be $y=1$ or $y=0$) is defined as
 
 $$
-L_{CE}=-\log\big(p(t)\big),\qquad
+L\_{CE}=-\log\big(p(t)\big),\qquad
 p(t)=\begin{cases}
     p & \text{if } y=1 \\
     1-p & \text{if } y=0 \\
@@ -63,7 +63,7 @@ $$
 Focal loss adjustment is
 
 $$
-L_{focal}=\alpha \big(1-p(t)\big)^{\gamma}\log\big(p(t)\big)
+L\_{focal}=\alpha \big(1-p(t)\big)^{\gamma}\log\big(p(t)\big)
 $$
 
 When

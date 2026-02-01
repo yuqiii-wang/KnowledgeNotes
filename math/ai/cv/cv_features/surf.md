@@ -68,8 +68,8 @@ H\big(i(x,y)\big) &=
 \end{bmatrix}
 \\ &=
 \begin{bmatrix}
-    L_{xx} & L_{xy} \\
-    L_{yx} & L_{yy}
+    L\_{xx} & L\_{xy} \\
+    L\_{yx} & L\_{yy}
 \end{bmatrix}
 \end{align*}
 $$
@@ -101,11 +101,11 @@ $$
 \begin{align*}
 det(H) &= 
 \sigma_k^2 \big(
-    L_{xx} L_{yy} - L_{xy}^2
+    L\_{xx} L\_{yy} - L\_{xy}^2
 \big)
 \\
 tr(H) &=
-\sigma_k (L_{xx}+L_{yy})
+\sigma_k (L\_{xx}+L\_{yy})
 \end{align*}$$
 
 By choosing points that maximize the determinant of the Hessian, this measure penalizes longer structures that have small second derivatives (signal changes) in a single direction.
@@ -182,9 +182,9 @@ The longest such vector lends its orientation to the interest point.
 The first step consists of constructing a square region of radius $20$s centered around the keypoint, and oriented along the orientation selected in the previous section.
 
 "Horizontal" $d_x$ and "vertical" $d_y$
-here are defined in relation to the selected keypoint orientation. Then, the wavelet responses $d_x$ and $d_y$ are summed up over each $4 \times 4$ subregion and form a first set of entries to the feature vector $\bold{v}$ that
+here are defined in relation to the selected keypoint orientation. Then, the wavelet responses $d_x$ and $d_y$ are summed up over each $4 \times 4$ subregion and form a first set of entries to the feature vector $\mathbf{v}$ that
 $$
-\bold{v} = 
+\mathbf{v} = 
 \bigg(
     \sum d_x, \sum d_y, \sum |d_x|, \sum |d_y|
 \bigg)

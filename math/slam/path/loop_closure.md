@@ -31,10 +31,10 @@ Define $n$ features/attributes that describe an image, such as the presence or a
 </div>
 </br>
 
-Assign weights $\bold{w}$ to these features/attributes, so that the image can be described by
+Assign weights $\mathbf{w}$ to these features/attributes, so that the image can be described by
 
 $$
-\bold{a} = 
+\mathbf{a} = 
 1\cdot w_1 +
 0\cdot w_2 +
 1\cdot w_3 +
@@ -46,8 +46,8 @@ where $0$ or $1$ indicate the presence/absence of an attribute.
 
 Hence, image similarity between two images can be computed by
 $$
-s(\bold{a}_1, \bold{a}_2) = 
-1 - \frac{1}{n}|| \bold{a}_1 - \bold{a}_2 ||_1
+s(\mathbf{a}_1, \mathbf{a}_2) = 
+1 - \frac{1}{n}|| \mathbf{a}_1 - \mathbf{a}_2 ||_1
 $$
 where it takes the $\mathcal{L}_1$ norm, which is the sum of the absolute values of the elements.
 
@@ -73,6 +73,6 @@ $$
 
 ### Similarity Score Processing
 
-Vehicles should see similar scenes within a short time of movement $t-\Delta t$, or identified between two chronological sequential keyframes $\bold{v}_t, \bold{v}_{t+\Delta t}$.
+Vehicles should see similar scenes within a short time of movement $t-\Delta t$, or identified between two chronological sequential keyframes $\mathbf{v}_t, \mathbf{v}\_{t+\Delta t}$.
 
-BoWs in $\bold{v}_t, \bold{v}_{t+\Delta t}$ are more likely to be related/similar than non-chronological related keyframes, hence, they should likely form a loop.
+BoWs in $\mathbf{v}_t, \mathbf{v}\_{t+\Delta t}$ are more likely to be related/similar than non-chronological related keyframes, hence, they should likely form a loop.

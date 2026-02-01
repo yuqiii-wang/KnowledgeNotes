@@ -59,43 +59,43 @@ Studentized range distribution (q-distribution) selectively seeks extreme differ
 Let $X_{ij}$ represent the $j$-th observation in the $i$-th population (there are a total of $k$ population groups) having a normal distribution with mean $\mu_i$ and variance $\sigma_i^2$ (by equal variance assumption, there is $\sigma^2=\sigma^2_1=\sigma^2_2=...=\sigma^2_i...=\sigma^2_k$). 
 There is $X_{ij} \sim N (\mu_i, \sigma^2)$.
 
-Rather than randomly selecting samples from populations, q-distribution find the largest sample mean $\overline{X}_{max}$ and smallest sample mean $\overline{X}_{min}$.
+Rather than randomly selecting samples from populations, q-distribution find the largest sample mean $\overline{X}\_{max}$ and smallest sample mean $\overline{X}\_{min}$.
 Set $s^2$ is the pooled sample variance from these samples.
 
 $$
-q = \frac{\overline{X}_{max}-\overline{X}_{min}}{\frac{s}{\sqrt{n}}}
+q = \frac{\overline{X}\_{max}-\overline{X}\_{min}}{\frac{s}{\sqrt{n}}}
 $$
 
 
 ## Relationship between the Hessian and Covariance Matrix for Gaussian Random Variables
 
-Consider a Gaussian random vector $\bold{\theta}$ with mean $\mu_{\bold{\theta}}$ and covariance matrix $\Sigma_\bold{\theta}$ so its joint probability density function (PDF) is given by
+Consider a Gaussian random vector $\mathbf{\theta}$ with mean $\mu_{\mathbf{\theta}}$ and covariance matrix $\Sigma_\mathbf{\theta}$ so its joint probability density function (PDF) is given by
 $$
-p(\bold{\theta}) = 
-\frac{1}{(\sqrt{2\pi})^{N_\theta} \cdot \sqrt{|\Sigma_\bold{\theta}|}}
-e^{-\frac{1}{2} (\bold{\theta} - \mu_{\bold{\theta}})^\top \Sigma_\bold{\theta}^{-1} (\bold{\theta} - \mu_{\bold{\theta}})}
+p(\mathbf{\theta}) = 
+\frac{1}{(\sqrt{2\pi})^{N_\theta} \cdot \sqrt{|\Sigma_\mathbf{\theta}|}}
+e^{-\frac{1}{2} (\mathbf{\theta} - \mu_{\mathbf{\theta}})^\top \Sigma_\mathbf{\theta}^{-1} (\mathbf{\theta} - \mu_{\mathbf{\theta}})}
 $$
 
-Take negative logarithm of $p(\bold{\theta})$, 
+Take negative logarithm of $p(\mathbf{\theta})$, 
 there is
 $$
-J(\bold{\theta}) \equiv
--\ln p(\bold{\theta}) =
-\frac{N_\bold{\theta}}{2} \ln 2\pi+\frac{1}{2} \ln |\Sigma_\bold{\theta}|+\frac{1}{2} (\bold{\theta}-\mu_{\bold{\theta}})^\top \Sigma_\bold{\theta}^{-1} (\bold{\theta}-\mu_{\bold{\theta}})
+J(\mathbf{\theta}) \equiv
+-\ln p(\mathbf{\theta}) =
+\frac{N_\mathbf{\theta}}{2} \ln 2\pi+\frac{1}{2} \ln |\Sigma_\mathbf{\theta}|+\frac{1}{2} (\mathbf{\theta}-\mu_{\mathbf{\theta}})^\top \Sigma_\mathbf{\theta}^{-1} (\mathbf{\theta}-\mu_{\mathbf{\theta}})
 $$
 
-The Jacobian over $\bold{\theta}$ is
+The Jacobian over $\mathbf{\theta}$ is
 $$
 \begin{align*}
-J'(\bold{\theta}) = \frac{\partial J}{\partial \bold{\theta}}&=
-\frac{\partial \space \frac{1}{2} (\bold{\theta}-\mu_{\bold{\theta}})^\top \Sigma_\bold{\theta}^{-1} (\bold{\theta}-\mu_{\bold{\theta}})}{\partial \bold{\theta}}
+J'(\mathbf{\theta}) = \frac{\partial J}{\partial \mathbf{\theta}}&=
+\frac{\partial \space \frac{1}{2} (\mathbf{\theta}-\mu_{\mathbf{\theta}})^\top \Sigma_\mathbf{\theta}^{-1} (\mathbf{\theta}-\mu_{\mathbf{\theta}})}{\partial \mathbf{\theta}}
 \\ &=
-\frac{1}{2} (\bold{\theta}-\mu_{\bold{\theta}})^\top
-\Sigma_\bold{\theta}^{-1} 
-\frac{\partial (\bold{\theta}-\mu_{\bold{\theta}})}{\partial \bold{\theta}}
+\frac{1}{2} (\mathbf{\theta}-\mu_{\mathbf{\theta}})^\top
+\Sigma_\mathbf{\theta}^{-1} 
+\frac{\partial (\mathbf{\theta}-\mu_{\mathbf{\theta}})}{\partial \mathbf{\theta}}
 \\ &=
-(\bold{\theta}-\mu_{\bold{\theta}})^\top
-\Sigma_\bold{\theta}^{-1} 
+(\mathbf{\theta}-\mu_{\mathbf{\theta}})^\top
+\Sigma_\mathbf{\theta}^{-1} 
 \end{align*}
 $$
 
@@ -103,17 +103,17 @@ By taking partial differentiations with
 respect to $\theta_l$ and $\theta_{l'}$,
 the $(l, l')$ component of the Hessian matrix can be obtained:
 $$
-H^{(l, l')}(\bold{\theta}) =
-\frac{\partial^2 J(\bold{\theta})}{\partial \theta_l \space \partial \theta_{l'}}
-\bigg|_{\bold{\theta}=\mu_{\bold{\theta}}}=
-(\Sigma_{\bold{\theta}}^{-1})^{(l,l')}
+H^{(l, l')}(\mathbf{\theta}) =
+\frac{\partial^2 J(\mathbf{\theta})}{\partial \theta_l \space \partial \theta_{l'}}
+\bigg|_{\mathbf{\theta}=\mu_{\mathbf{\theta}}}=
+(\Sigma_{\mathbf{\theta}}^{-1})^{(l,l')}
 $$
 
 ### Discussions
 
-Optimal $\bold{\theta}^*$ can be obtained via $J'(\bold{\theta}) = 0$ that asserts $\max J(\theta)$ from which deduce $\bold{\theta}^*=\mu_{\bold{\theta}}$.
+Optimal $\mathbf{\theta}^*$ can be obtained via $J'(\mathbf{\theta}) = 0$ that asserts $\max J(\theta)$ from which deduce $\mathbf{\theta}^*=\mu_{\mathbf{\theta}}$.
 
-The Hessian matrix of $J(\bold{\theta})$ is equal to the inverse of the covariance matrix:
+The Hessian matrix of $J(\mathbf{\theta})$ is equal to the inverse of the covariance matrix:
 $$
-H(\bold{\theta}) = \Sigma_{\bold{\theta}}^{-1}
+H(\mathbf{\theta}) = \Sigma_{\mathbf{\theta}}^{-1}
 $$

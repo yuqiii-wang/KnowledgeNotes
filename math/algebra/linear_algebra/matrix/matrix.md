@@ -77,13 +77,13 @@ $$
 
 ### Gram Matrix
 
-Given a set of vectors $\{\bold{a}_1, \bold{a}_2, ... \bold{a}_n\}$, the Gram matrix $G\in\mathbb{R}^{n \times n}$ has its entries as the inner products of these vectors.
+Given a set of vectors $\{\mathbf{a}_1, \mathbf{a}_2, ... \mathbf{a}_n\}$, the Gram matrix $G\in\mathbb{R}^{n \times n}$ has its entries as the inner products of these vectors.
 
 $$
-G_{ij}=\langle \bold{a}_i, \bold{a}_j \rangle
+G_{ij}=\langle \mathbf{a}\_i, \mathbf{a}_j \rangle
 $$
 
-If $\{\bold{a}_1, \bold{a}_2, ... \bold{a}_n\}$ are arranged as the columns of a matrix $A$, then
+If $\{\mathbf{a}_1, \mathbf{a}_2, ... \mathbf{a}_n\}$ are arranged as the columns of a matrix $A$, then
 
 $$
 G=A^{\top}A
@@ -101,10 +101,10 @@ $A^{\top}A$ is symmetric.
 
 #### Proof of $A^{\top}A$ Be Positive Semi-Definite
 
-For a matrix be positive semi-definite, its quadratic form $\bold{x}\big(A^{\top}A\big)\bold{x} \ge 0$ is non-negative.
+For a matrix be positive semi-definite, its quadratic form $\mathbf{x}\big(A^{\top}A\big)\mathbf{x} \ge 0$ is non-negative.
 
 $$
-\bold{x}\big(A^{\top}A\big)\bold{x}=\big(A\bold{x}\big)^{\top}A\bold{x}=\big|\big|A\bold{x}\big|\big|^2
+\mathbf{x}\big(A^{\top}A\big)\mathbf{x}=\big(A\mathbf{x}\big)^{\top}A\mathbf{x}=\big|\big|A\mathbf{x}\big|\big|^2
 $$
 
 #### $A^{\top}A$ is Symmetric Hence Orthogonal
@@ -112,24 +112,24 @@ $$
 Define follows for $i\ne j$
 
 $$
-A^{\top}A\bold{v}_i=\sigma_i^2\bold{v}_i \qquad
-A^{\top}A\bold{v}_j=\sigma_j^2\bold{v}_j
+A^{\top}A\mathbf{v}\_i=\sigma_i^2\mathbf{v}\_i \qquad
+A^{\top}A\mathbf{v}_j=\sigma_j^2\mathbf{v}_j
 $$
 
-then multiply by $\bold{v}_j^{\top}$, there is
+then multiply by $\mathbf{v}_j^{\top}$, there is
 
 $$
 \begin{align*}
-    && \bold{v}_j^{\top}A^{\top}A\bold{v}_i &=
-  \bold{v}_j^{\top}\sigma_i^2\bold{v}_i \\
-  \Rightarrow && (A^{\top}A\bold{v}_j)^{\top}\bold{v}_i &=
-  \bold{v}_j^{\top}\sigma_i^2\bold{v}_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\
-  \Rightarrow && \sigma_j^2\bold{v}_j^{\top}\bold{v}_i &=
-  \sigma_i^2\bold{v}_j^{\top}\bold{v}_i \\
+    && \mathbf{v}_j^{\top}A^{\top}A\mathbf{v}\_i &=
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \\
+  \Rightarrow && (A^{\top}A\mathbf{v}_j)^{\top}\mathbf{v}\_i &=
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\
+  \Rightarrow && \sigma_j^2\mathbf{v}_j^{\top}\mathbf{v}\_i &=
+  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}\_i \\
 \end{align*}
 $$
 
-For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\bold{v}_j^{\top}\bold{v}_i=0$, hence orthogonal.
+For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\mathbf{v}_j^{\top}\mathbf{v}\_i=0$, hence orthogonal.
 
 ##### Spectral Theorem
 
@@ -207,7 +207,7 @@ $$
 
 ### Disjoint Linear Projection
 
-In vector space $V$ define two linear projection $P$ and $Q$, if they satisfy $PQ=QP=\bold{0}$, it is termed *disjoint linear projection*.
+In vector space $V$ define two linear projection $P$ and $Q$, if they satisfy $PQ=QP=\mathbf{0}$, it is termed *disjoint linear projection*.
 
 This means that the projections are orthogonal to each other, and their ranges (the subspaces they project onto) do not overlap.
 
@@ -304,12 +304,12 @@ which give the volume of a parallelotope.
 
 ### Input Vector Updates With Different Determinants
 
-Given an input vector $\bold{x}$ and linear transform $A$, the result vector $A\bold{x}$ is a combination of scaling, rotation, and shearing, depending on the structure of $A$.
+Given an input vector $\mathbf{x}$ and linear transform $A$, the result vector $A\mathbf{x}$ is a combination of scaling, rotation, and shearing, depending on the structure of $A$.
 
 #### $\text{det}(A)>1$ Expansion
 
 $$
-A\bold{x}=\begin{bmatrix}
+A\mathbf{x}=\begin{bmatrix}
     1 & 2 \\
     3 & 4
 \end{bmatrix} \begin{bmatrix}
@@ -322,7 +322,7 @@ $$
 #### $\text{det}(A)<1$ Contraction
 
 $$
-A\bold{x}=\begin{bmatrix}
+A\mathbf{x}=\begin{bmatrix}
     0.1 & 0.2 \\
     0.3 & 0.4
 \end{bmatrix} \begin{bmatrix}
@@ -335,7 +335,7 @@ $$
 #### $\text{det}(A)=1$ Volume Preservation/Pure Rotation
 
 $$
-A\bold{x}=\begin{bmatrix}
+A\mathbf{x}=\begin{bmatrix}
     0 & -1 \\
     1 & 0
 \end{bmatrix} \begin{bmatrix}
@@ -345,14 +345,14 @@ A\bold{x}=\begin{bmatrix}
 \end{bmatrix}
 $$
 
-The vector $\bold{x}$ is rotated by $90$ degrees counterclockwise.
+The vector $\mathbf{x}$ is rotated by $90$ degrees counterclockwise.
 
 #### $\text{det}(A)=0$ Collapse
 
 $\text{det}(A)=0$ happens when $\text{rank}(A)$ is not full.
 
 $$
-A\bold{x}_1=\begin{bmatrix}
+A\mathbf{x}_1=\begin{bmatrix}
     1 & 1 \\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
@@ -360,7 +360,7 @@ A\bold{x}_1=\begin{bmatrix}
 \end{bmatrix} = \begin{bmatrix}
     2 \\ 2
 \end{bmatrix} \\
-A\bold{x}_2=\begin{bmatrix}
+A\mathbf{x}_2=\begin{bmatrix}
     1 & 1 \\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
@@ -368,7 +368,7 @@ A\bold{x}_2=\begin{bmatrix}
 \end{bmatrix} = \begin{bmatrix}
     3 \\ 3
 \end{bmatrix} \\
-A\bold{x}_3=\begin{bmatrix}
+A\mathbf{x}_3=\begin{bmatrix}
     1 & 1 \\
     1 & 1
 \end{bmatrix} \begin{bmatrix}
@@ -378,7 +378,7 @@ A\bold{x}_3=\begin{bmatrix}
 \end{bmatrix}
 $$
 
-All $\bold{x}_i$ are collapsed into the line $0=x_2-x_1$.
+All $\mathbf{x}\_i$ are collapsed into the line $0=x_2-x_1$.
 
 ### Derivation
 
@@ -441,31 +441,31 @@ Finding classical adjoint of a matrix is same as applying a linear transformatio
 
 ### Proof of Determinant
 
-Take an orthonormal basis $\bold{e}_1,…,\bold{e}_n$ and let columns of $A$ be $a_1,…,a_n$, where $∧$ represents exterior product operator,
+Take an orthonormal basis $\mathbf{e}_1,…,\mathbf{e}_n$ and let columns of $A$ be $a_1,…,a_n$, where $∧$ represents exterior product operator,
 
 $$
- \bold{a}_1 ∧ ... ∧\bold{a}_n=\text{det}(A) (\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)
+ \mathbf{a}_1 ∧ ... ∧\mathbf{a}_n=\text{det}(A) (\mathbf{e}_1 ∧ ⋯ ∧ \mathbf{e}_n)
 $$
 
 hence
 
 $$
-\text{det}(A)=(\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)^{−1}(a_1 ∧ ⋯ ∧ \bold{a}_n)
+\text{det}(A)=(\mathbf{e}_1 ∧ ⋯ ∧ \mathbf{e}_n)^{−1}(a_1 ∧ ⋯ ∧ \mathbf{a}_n)
 $$
 
 given orthogonality ($E^{-1}=E^T$):
 
 $$
-(\bold{e}_1 ∧ ⋯ ∧ \bold{e}_n)^{−1} = (\bold{e}_1 ⋯ \bold{e}_n)^{−1} = \bold{e}_n ⋯ \bold{e}_1 = \bold{e}_n ∧ ⋯ ∧ \bold{e}_1
+(\mathbf{e}_1 ∧ ⋯ ∧ \mathbf{e}_n)^{−1} = (\mathbf{e}_1 ⋯ \mathbf{e}_n)^{−1} = \mathbf{e}_n ⋯ \mathbf{e}_1 = \mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_1
 $$
 
-Note that $\bold{e}_n ∧ ⋯ ∧ \bold{e}_1$ is a subspace of $a_1 ∧ ⋯ ∧ \bold{a}_n$, we can further write
+Note that $\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_1$ is a subspace of $a_1 ∧ ⋯ ∧ \mathbf{a}_n$, we can further write
 
 $$\begin{align*}
 \text{det}(A)
-& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_1)⋅(a_1 ∧ ⋯ ∧ \bold{a}_n) \\
-& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_2)⋅\big(\bold{e}_1⋅(a_1 ∧ ⋯ ∧ \bold{a}_n)\big) \\
-& =(\bold{e}_n ∧ ⋯ ∧ \bold{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \bold{a}_n)−\sum_{i=2}^n (-1)^i \bold{a}_{1,i}(a_1 ∧ ⋯ ∧ \hat{\bold{a}}_i ∧ ⋯ ∧ \bold{a}_n) \bigg)
+& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_1)⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n) \\
+& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\big(\mathbf{e}_1⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n)\big) \\
+& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \mathbf{a}_n)−\sum_{i=2}^n (-1)^i \mathbf{a}\_{1,i}(a_1 ∧ ⋯ ∧ \hat{\mathbf{a}}\_i ∧ ⋯ ∧ \mathbf{a}_n) \bigg)
 \end{align*}
 $$
 
@@ -541,15 +541,15 @@ $$
 Given a non-square matrix $A \in \mathbb{R}^{n \times m}$ for $m \ne n$, the "best approximation" of the inverse is defined as $A^{\dagger}$ that satisfies the above pseudo inverse definition $AA^{\dagger}A=A$.
 By strict definition, non-square matrix has no inverse.
 
-The motivation is that, consider a linear system $A\bold{x} = \bold{b}$, if $A$ is a square matrix ($m=n$), there is an exact solution for the system $\bold{x}=A^{-1}\bold{b}$, if not ($m \ne n$), there is $AA^{\dagger}A=A$.
+The motivation is that, consider a linear system $A\mathbf{x} = \mathbf{b}$, if $A$ is a square matrix ($m=n$), there is an exact solution for the system $\mathbf{x}=A^{-1}\mathbf{b}$, if not ($m \ne n$), there is $AA^{\dagger}A=A$.
 
-To approximate $\bold{x}=A^{-1}\bold{b}$ for non-square matrix $A$, set $\bold{x}=A^{\dagger}\bold{b}$ as the pseudo solution, so that there is $A\bold{x}=AA^{\dagger}\bold{b}=\bold{b}$, where $A^{\dagger} \in \mathbb{R}^{m \times n}$.
+To approximate $\mathbf{x}=A^{-1}\mathbf{b}$ for non-square matrix $A$, set $\mathbf{x}=A^{\dagger}\mathbf{b}$ as the pseudo solution, so that there is $A\mathbf{x}=AA^{\dagger}\mathbf{b}=\mathbf{b}$, where $A^{\dagger} \in \mathbb{R}^{m \times n}$.
 
-OpenCV has builtin API for $\bold{x}=A^{\dagger}\bold{b}$.
+OpenCV has builtin API for $\mathbf{x}=A^{\dagger}\mathbf{b}$.
 In the below code, first construct the linear system by pushing back rows (such as robot states) to `A` and `b`.
 Then, find the pseudo inverse of `A` denoted as `pinA`, by which the solution can be constructed as `x = pinA * b;`.
 
-In least squares problem, solution $\bold{x} \in \mathbb{R}^m$ should be derived from an over-determined system where $n > m$.
+In least squares problem, solution $\mathbf{x} \in \mathbb{R}^m$ should be derived from an over-determined system where $n > m$.
 
 ```cpp
 double cv::invert(InputArray src,
