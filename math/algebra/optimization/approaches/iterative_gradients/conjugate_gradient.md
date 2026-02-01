@@ -85,6 +85,7 @@ For $f(\mathbf{x}), \mathbf{x} \in \mathbb{R}^n$, the minima can be found when i
 To find $\mathbf{x}^*$ (optimal solution to $f(\mathbf{x})$), first find the $k$-th conjugate direction $\mathbf{p}_k$ then compute the descent distance $\lambda_k$.
 
 $\mathbf{p}_k$ computation takes into consideration that, $\mathbf{x}^* - \mathbf{x}_k$ can be decomposed into a set of orthogonal vector additions.
+
 $$
 \mathbf{r}_k = \mathbf{p}_k + \sum_{i < k} \frac{{\langle\mathbf{p}\_i, \mathbf{r}_k\rangle}_A}{{\langle\mathbf{p}\_i, \mathbf{p}\_i\rangle}_A} \mathbf{p}\_i
 $$

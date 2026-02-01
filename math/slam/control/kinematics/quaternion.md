@@ -45,6 +45,7 @@ $$
 \quad s=q_0 \in \mathbb{R},
 \quad \mathbf{v}=[x \overrightarrow{i}, y \overrightarrow{j}, z \overrightarrow{k}]^\text{T} \in \mathbb{R}^3
 $$
+
 where $\overrightarrow{i},\overrightarrow{j},\overrightarrow{k}$ represent imaginary parts in respect to the three dimensions.
 
 * Addition/Subtraction
@@ -140,6 +141,7 @@ $$
 where, for quaternion $\mathbf{q} \in \mathbb{H}^4$ multiplying with angular velocity $\mathbf{\omega} \in \mathbb{R}^3$, here redefines $\mathbf{\omega}=[0\quad \omega_x\quad \omega_y\quad \omega_z] \in \mathbb{H}^4$.
 
 Finally, develop the time-derivative of the quaternions.
+
 $$
 \begin{align*}
 \frac{d\mathbf{q}}{d\Delta t} &= \lim_{\Delta t \rightarrow 0} \frac{\mathbf{q}(t+\Delta t)-\mathbf{q}(t)}{\Delta t}
@@ -212,6 +214,7 @@ $$
 where $\wedge$ denotes the skew-symmetric matrix representation of the vector and $I$ is the identity matrix.
 
 Derivation shows as below.
+
 $$
 \mathbf{q}_a^+ \mathbf{q}_b=
 \begin{bmatrix}

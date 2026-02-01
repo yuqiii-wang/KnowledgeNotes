@@ -297,10 +297,12 @@ $$ \mathbf{q}_n = W_Q^{(l)} \mathbf{t}_n^{(l-1)} $$
 2. The Key (Historical Context at position $i$):
 
 Because of previous-token head, the vector at historical position $i$, $\mathbf{t}\_i^{(l-1)}$, contains a copy of its predecessor $\mathbf{t}\_{i-1}$.
+
 $$ \mathbf{k}\_i = W_K^{(l)} \mathbf{t}\_i^{(l-1)} \qquad \text{Contains info about } \mathbf{t}\_{i-1} \text{} $$
 
 3. The Attention Score (Pattern Matching):
 The score peaks when the current token matches the historical predecessor ($\mathbf{t}_n \approx \mathbf{t}\_{i-1}$).
+
 $$ \alpha_{n,i} = \text{softmax}\left( \frac{(\mathbf{t}_n^{(l-1)})^\top (W_Q^{(l)})^\top W_K^{(l)} \mathbf{t}\_i^{(l-1)}}{\sqrt{d}} \right) $$
 
 4. The Update (Copying Next Token):

@@ -15,7 +15,9 @@ Construct a hyperplane that makes training data $\mathbf{x}$ satisfy
 $$
 \mathbf{w}^T \mathbf{x} - b = 0
 $$
+
 where $\mathbf{w}$  is the (not necessarily normalized) normal vector to the hyperplane.
+
 $$
 \mathbf{w}^T \mathbf{x} - b = 1,\quad \text{for } y_i=1 \\\\
 \mathbf{w}^T \mathbf{x} - b = -1,\quad \text{for } y_i=-1
@@ -30,6 +32,7 @@ To achieve best separation, we want to maximize $\frac{2}{||\mathbf{w}||}$, whic
 $$
 \arg \space \underset{\mathbf{w}}{\text{min}} ||\mathbf{w}||
 $$
+
 subject to
 $$
 y_i(\mathbf{w}^Tx_i-b) \ge 1

@@ -45,6 +45,7 @@ $$
 \mathbf{p}_k^C = 
 -\tau_k \frac{\Delta_k}{\big|\big| \nabla \mathbf{f}_k \big|\big|} \nabla \mathbf{f}_k
 $$
+
 where
 $$
 \tau_k = \left\{

@@ -104,6 +104,7 @@ $$
 By Riccati Equation, $K$ can be computed to update the new close loop system coefficient matrix $A_{cl}=A-BK$.
 
 Finally, by this new $A_{cl}$, the output $\mathbf{y}(t)$ should gradually converge to the horizon reference line as $t \rightarrow t_f$.
+
 $$
 \begin{align*}
 \dot{\mathbf{x}}(t) &= A_{cl}\mathbf{x}(t) + B \mathbf{u}(t) \\\\

@@ -31,6 +31,7 @@ $$
 
 Here give the definition to $Sim(3)$ and $sim(3)$. $\mathbf{\zeta}$ is a 7-dimensional
 vector that has the same elements as $se(3)$ plus one scaling factor $\sigma$.
+
 $$
 \begin{align*}
 Sim(3) &= \bigg\{
@@ -136,6 +137,7 @@ For any vector $\mathbf{r}\_{l,i}$, attempt to find $\hat{\mathbf{r}}\_{r,i} = s
 Here $s$ is a scale factor to rotation matrix $R( \mathbf{r}\_{l,i})$ that has $\big|\big| R(\mathbf{r}\_{l,i}) \big|\big|^2 = \big|\big| \mathbf{r}\_{l,i} \big|\big|^2$ preserving the length during rotation operation ($\big|\big| \mathbf{r}\_{l,i} \big|\big|^2=\mathbf{r}\_{l,i} \cdot \mathbf{r}\_{l,i}$).
 
 The residual of the least squared problem to find the optimal $\mathbf{t}^*$ is defined as below.
+
 $$
 \begin{align*}
 \mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}\_i &= 
@@ -146,6 +148,7 @@ $$
 $$
 
 Now, compute centroids served as offsets.
+
 $$
 \overline{\mathbf{r}}_l = \frac{1}{n} \sum_{i=1}^n \mathbf{r}\_{l,i}
 \qquad
@@ -153,6 +156,7 @@ $$
 $$
 
 For any vector $\mathbf{r}\_{l,i}$ or $\mathbf{r}\_{r,i}$, move/offset their coordinates from the origin reference $\mathbf{r}\_{l,1}$ and $\mathbf{r}\_{r,1}$ to the above computed centroid, denote the new origin's vectors as $\mathbf{r}'_{l,i}$ and $\mathbf{r}'_{r,i}$.
+
 $$
 \mathbf{r}'_{l,i} = \mathbf{r}\_{l,i} - \overline{\mathbf{r}}_l
 \qquad
@@ -160,6 +164,7 @@ $$
 $$
 
 Apparently, the new centroid reference's vectors' sums should be zeros.
+
 $$
 \mathbf{r}'_{l,o} = \sum_{i=1}^n \mathbf{r}'_{l,i} = [0 \quad 0 \quad 0]^{\top}
 \qquad
@@ -192,6 +197,7 @@ So that $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2$ reaches its minimum
 
 Rewrite $\mathbf{t}' = \mathbf{0} = \mathbf{t} - \overline{\mathbf{r}}_r + sR(\overline{\mathbf{r}}_l)$, so that the optimal translation $\mathbf{t}^*$ in $Sim(3)$ is just the difference between $\overline{\mathbf{r}}_r$ and scaled rotation $sR(\overline{\mathbf{r}}_l)$.
 In other words, if $sR(\overline{\mathbf{r}}_l)$ is known, the $\mathbf{t}^*$ can easily computed.
+
 $$
 \mathbf{t}^* =  \overline{\mathbf{r}}_r - sR(\overline{\mathbf{r}}_l)
 $$
@@ -385,6 +391,7 @@ $$
 Sort the eigenvalues so that $\lambda_1 \ge \lambda_2 \ge \lambda_3 \ge \lambda_4$.
 
 $\mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}}$ reaches its maximum when $\alpha_1=1$ and $\alpha_2=\alpha_3=\alpha_4=0$.
+
 $$
 \mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}} \le
 \alpha_1^2 \lambda_1 + \alpha_2^2 \lambda_1 + \alpha_3^2 \lambda_1 + \alpha_4^2 \lambda_1= \lambda_1

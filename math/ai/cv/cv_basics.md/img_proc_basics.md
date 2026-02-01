@@ -12,6 +12,7 @@ $$
 p_x(i) = p(x=i) = \frac{n_i}{n}
 , \qquad 0 \le i \le L
 $$
+
 where $L$ is the total number of gray levels in the image (typically $255$), $n$ is the total number of pixels in the image, 
 and $p_x(i)$ being in fact the image's histogram for pixel value $i$, normalized to $[0,1]$.
 

@@ -47,6 +47,7 @@ The principal curvature across the edge $x_{+}$ would be much larger than the pr
 </br>
 
 Finding these principal curvatures amounts to solving for the eigenvalues of the second-order Hessian matrix.
+
 $$
 H=\begin{bmatrix}
     D_{xx} & D_{xy} \\\\
@@ -75,6 +76,7 @@ This processing step for suppressing responses at edges is a transfer of a corre
 ## Orientation Assignment
 
 Compute gradient magnitude and direction of pixels within a window.
+
 $$
 \begin{align*}
 m(x,y) &= 

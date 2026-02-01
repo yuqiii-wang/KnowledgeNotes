@@ -18,6 +18,7 @@ B := (Q, \tau)
 $$
 
 Define a number of objective function $f_k(B)$ to be optimized, where $\gamma_k$ refers to relative importance/weight of different real world considerations (admissible path, obstacles, speed, acceleration, fastest path)
+
 $$
 \begin{align*}
 f(B) &= \sum_k \gamma_k f_k(B) \\\\
@@ -26,6 +27,7 @@ B^* &= arg \space \underset{B}{min} \space f(B)
 $$
 
 The indivisual objective function $f_k(B)$ is a loss function $e_{\Gamma}$ when input $x$ exceeds a defined error bound $x_r$, zero otherwise.
+
 $$
 e_{\Gamma}(x,x_r,\epsilon,S,n)=
 \left\{ 

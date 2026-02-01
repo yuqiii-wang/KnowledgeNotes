@@ -54,6 +54,7 @@ $$
 $-ln\bigg(\frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}\bigg)$ is discarded since optimization to finding optimum is by the change of hidden parameter $\mathbf{\theta}$ that does not affect the source data distribution $\mathbf{y}$.
 
 Since $-ln(P(\mathbf{y};\theta))$ is monotonically decreasing, finding the maximum of $L_n(\mathbf{y};\theta)$ is same as find the minimum of the negative logarithm mapping.
+
 $$
 \begin{align*}
 \hat{\theta} &=

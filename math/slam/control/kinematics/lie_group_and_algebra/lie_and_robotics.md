@@ -5,6 +5,7 @@
 The three-dimensional rotation
 matrix $R$ constitutes the *special orthogonal group* $SO(3)$, and the transformation matrix $t$
 constitutes the *special Euclidean group* $SE(3)$.
+
 $$
 \begin{align*}
 SO(3) &=
@@ -65,6 +66,7 @@ $$
 \dot{R(t)}R(t)^T + R(t)\dot{R(t)^T} = 0 \\\\
 \dot{R(t)}R(t)^T = -(\dot{R(t)}R(t)^T)^T
 $$
+
 where $\dot{R(t)}R(t)^T$ is a skew-symmetric matrix.
 
 Remember one property of skew-symmetric matrix:
@@ -97,6 +99,7 @@ $$
 $$
 
 First degree Taylor Series of $R$ at the time $t_0=0$ is shown as below.
+
 $$
 R(t) \approx R(t_0) + \dot{R(t_0)} (t-t_0)
 \\= I + \phi(t_0)^{\wedge}(t)
@@ -169,6 +172,7 @@ For example, for a 2-dimensional rotation $\mathbf{z} = \mathbf{x}e^{i\theta}$, 
 ### Exponential Mapping $so(3) \mapsto SO(3)$
 
 Define a unit vector $\mathbf{v}$; remember *Rodrigues’s Rotation Formula* that describes the matrix representation over a 3-dimensional angle $\theta$. Here derives the exponential mapping $so(3) \mapsto SO(3)$.
+
 $$
 \begin{align*}
 R &= e^{\phi^{\wedge}} =

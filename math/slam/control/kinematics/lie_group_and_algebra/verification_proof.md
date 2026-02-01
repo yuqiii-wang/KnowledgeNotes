@@ -110,6 +110,7 @@ $$
 $$
 
 Recall the definitions of $so(3)$ and $se(3)$.
+
 $$
 \begin{align*}
 so(3) &= 

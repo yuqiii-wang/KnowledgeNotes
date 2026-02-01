@@ -25,6 +25,7 @@ $$
 where $i(x',y')$ is a pixel value.
 
 Once the summed-area table has been computed, evaluating the sum of intensities over any rectangular area requires exactly four array references regardless of the area size.
+
 $$
 \sum_{
     \scriptsize{
@@ -53,6 +54,7 @@ For selecting the location and the scale (Hessian-Laplace detector), Hessian aff
 The *Laplace operator* or *Laplacian* is a differential operator given by the divergence of the gradient of a scalar function on Euclidean space, denoted as $\nabla \cdot \nabla$, or simply $\nabla^2$, or $\Delta$.
 
 In a Cartesian coordinate system, the Laplacian is given by the sum of second partial derivatives of the function with respect to each independent variable.
+
 $$
 \Delta f = \nabla^2 f = 
 \sum_{i=1}^{n} \frac{\partial^2 f}{\partial x^2_i}

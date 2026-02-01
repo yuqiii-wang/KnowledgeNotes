@@ -39,6 +39,7 @@ Define images at consecutive timestamps as $\mathbf{I}(t)$. For a pixel at $(x,y
 
 * Constant gray scale assumption: 
 The pixel’s gray scale is constant in each image.
+
 $$
 \mathbf{I}(x+ dx, y+ dy, t+ dt)=
 \mathbf{I}(x,y,t)
@@ -184,6 +185,7 @@ $$
 $$
 
 The pixel brightness error can be defined as the differences between two image pixels' projection representation of the same world point $\mathbf{P}$.
+
 $$
 e = \mathbf{I}_1(\mathbf{p}_1) - \mathbf{I}_2(\mathbf{p}_2)
 $$

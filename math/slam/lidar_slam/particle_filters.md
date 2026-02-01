@@ -40,4 +40,5 @@ n=\frac{k-1}{2\epsilon}
     1-\frac{2}{9(k-1)} + \sqrt{\frac{2}{9(k-1)}}z_{1-\delta} 
 \bigg)^3
 $$
+
 where $z_{1-\delta}$ is the upper $1-\delta$ quantile of the standard normal distribution.

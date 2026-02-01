@@ -35,6 +35,7 @@ Some choices of $w(x)$ and $f_i(x)$ are
 ## Derivations
 
 Assume $f$ is a polynomial of degree at most $2n + 1$, define $q(x)$ and $r(x)$ have degrees at most $n$, $f$ can be decomposed as the below expression.
+
 $$
 f(x) = q(x)p(x)+r(x)
 $$

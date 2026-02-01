@@ -9,6 +9,7 @@ Define $\mathbf{X}$ as observation data, $\mathbf{Z}$ as latent/unobserved data,
 Semantically speaking, $\mathbf{Z}$ usually refers to as labels/classes of observed data $\mathbf{X}.$
 
 The maximum likelihood estimate (MLE) of the unknown parameters $\mathbf{\theta}$ is determined by maximizing the marginal likelihood of the observed data $\mathbf{X}$.
+
 $$
 \begin{align*}
 L(\mathbf{\theta}; \mathbf{X})&=

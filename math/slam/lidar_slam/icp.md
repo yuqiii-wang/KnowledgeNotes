@@ -10,6 +10,7 @@ $$
 $$
 
 There should be extrinsics (rotation and translation) that corresponds the two sets of points.
+
 $$
 \begin{align*}
 \forall i, \mathbf{p}\_i &= \mathbf{R}\mathbf{p}'_i+\mathbf{t}
@@ -167,6 +168,7 @@ $$
 $$
 
 Then consider the trace operator.
+
 $$
 tr \big(
         \mathbf{R} \mathbf{Q}' \mathbf{Q}^\text{T}
@@ -184,6 +186,7 @@ Set $\mathbf{M}=\mathbf{V}^\text{T} \mathbf{R} \mathbf{U}$. Note that $\mathbf{V
 
 Due to orthogonality, there is $\mathbf{M}^\text{T}\mathbf{M}=\mathbf{I}$. So that for each column vector, the vector product should be $1$.
 Set $d=3$ for the rigid motion $SE(3)$, and derived $|m_{ij}| \le 1$.
+
 $$
 \begin{align*}
 &
@@ -247,6 +250,7 @@ $$
 ## Using Non-Linear Optimization
 
 Alternatively, the least square problem can be solved by Lie algebra. Define a six-dimensional vector $\mathbf{\xi}$ representing rotation and translation, and $\mathbf{\xi}^\wedge$ is the skew-symmetric matrix representation of $\mathbf{\xi}$ .
+
 $$
 \mathbf{\xi}=[\mathbf{R} | \mathbf{t}]
 , \quad 
@@ -291,6 +295,7 @@ Point-to-Plane ICP is useful if the to-be-detected objects have plane surface th
 Point-to-Plane ICP instead of measuring two clouds' centroids, it measures normals.
 
 For a correspondence point pair $(\mathbf{d}\_i, \mathbf{s}\_i)$, the normal of $\mathbf{d}\_i$ can be computed by, for example, collectively compute $\mathbf{d}\_i$'s 5 neighbor points as a plane, then finding the normal $\mathbf{n}\_i$.
+
 $$
 \min_{\mathbf{s_i}} \sum_i \big( (\mathbf{d}\_i - {\mathbf{s}}\_i) \cdot \mathbf{n}_d \big)^2
 $$

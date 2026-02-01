@@ -24,6 +24,7 @@ $$
 $$
 
 2. Project $\mathbf{P}'$ into the normalized plane and get the normalized coordinates $(u,v)$ (the camera frame)
+
 $$
 \begin{align*}
 \mathbf{P}_c &= [u_c, v_c, 1]^\text{T}
@@ -69,6 +70,7 @@ Take $(0,0,0)$ as the origin ($\mathbf{x}_0=(0,0,0)$), to find $\mathbf{x}_k$ fo
 Rewrite indices that $i$ represents the $i$-th camera and $j$ represents the $j$-th landmark. Error $\mathbf{e}$ can be defined as discrepancy between the computed $h([\mathbf{R}|\mathbf{t}]_i, \mathbf{p}\_{j})$ and $\mathbf{z}\_{ij}$. 
 
 Here, landmark $\mathbf{p}_j$ does not discriminate between landmark estimations at different camera $i$. In other words, $\mathbf{p} \in \mathbb{R}^{m \times 3}$.
+
 $$
 \frac{1}{2} \sum^m_{i=1} \sum^n\_{j=1} 
 \big|\big| \mathbf{e}\_{ij} \big|\big|^2=
@@ -92,6 +94,7 @@ $$
 $$
 
 The error $\mathbf{e}$ to be minimized can be approximated by first-order derivative.
+
 $$
 \frac{1}{2} \big|\big|
     \mathbf{e}(\mathbf{x}+\Delta\mathbf{x})
@@ -129,6 +132,7 @@ $$
     \mathbf{e} + \mathbf{F}\Delta\mathbf{x}\_{\mathbf{\xi}} + \mathbf{E}\Delta\mathbf{x}\_{\mathbf{p}}
 \big|\big|^2
 $$
+
 where $\mathbf{F} \in \mathbb{R}^{2 \times 6 \times (n \times m) \times n}$ and $\mathbf{E} \in \mathbb{R}^{2 \times 3 \times (n \times m) \times m}$ are sparse Jacobian matrices with many non-zero elements crowded along the diagonal line. $2$ represents derivatives with respect to $x$- and $y$- axis.
 
 To employ Gauss-Newton method, this term $(\mathbf{J}^\text{T} \mathbf{J})^{-1} \mathbf{J}^\text{T}$ needs to be computed. here define 
@@ -460,6 +464,7 @@ The assumed total $\mathcal{L}_2$ norm error $||\mathbf{e}||^2$ in the above equ
 This is attributed to optimization attempting to reduce overall $||\mathbf{e}||^2$ and the large error term $||\mathbf{e}\_{ij}||^2$ has a significant weight that causes optimization focusing too much on this particular error, rather than taking care of all error terms $||\mathbf{e}\_{ij}||^2, \forall i \in [1,n], \forall j \in [1,m]$.
 
 Solution to address this issue is by employing a robust kernel error, such as Huber loss, that constraints $\mathcal{L}_2$-norm error when error is small $|e|\le \delta$, and linear otherwise.
+
 $$
 L\_{\delta}(e)=
 \left\{

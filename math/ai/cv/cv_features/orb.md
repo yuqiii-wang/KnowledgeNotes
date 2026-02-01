@@ -86,6 +86,7 @@ $(p,q)$ pair sampling can follows *Gaussian distribution* or *Coarse Polar Grid*
 * in polar coordinates, set $p=(0,0)$, while $q$ is sampled randomly
 
 The $256$-dimensional test vector is represented in a $2 \times n$ matrix $S$ such as $(x\_i, y_i), i=1,2,...,256$.
+
 $$
 S = 
 \begin{bmatrix}
@@ -103,6 +104,7 @@ $$
 The Hamming distance between two strings of equal length is the number of positions at which the corresponding symbols are different. 
 
 For example, the Hamming distance is $D_h(v_1, v2)=5$ for there are $5$ positions where $v_1$ and $v_2$ have the opposite $0$ and $1$.
+
 $$
 \begin{align*}
     v_1 = 00100101011101
@@ -121,6 +123,7 @@ Using the patch orientation $\theta$ and the corresponding rotation matrix $R_{\
 $$
 S_{\theta} = R_{\theta} S
 $$
+
 where
 $$
 R_{\theta} = 

@@ -219,6 +219,7 @@ $$
 Each laser should see assumed Gaussian distribution $\text{prob}(\text{dist}, \sigma_{\text{hit}}) \sim N(\text{dist}, \sigma_{\text{hit}})$.
 Laser-obstacle hit measurement only takes binary value $z_{\text{hit}} \in \{0, 1\}$.
 Here $q$ serves as the accumulated weight for the particle $m$. In other words, $m.\text{weight}=\prod^K_{k=1} q_k$.
+
 $$
 q = q \cdot
 \Big( z_{\text{hit}} \cdot \text{prob}(\text{dist}, \sigma_{\text{hit}}) +\frac{z_{\text{random}}}{z_{\text{max}}} \Big)
@@ -755,12 +756,14 @@ int pf_update_converged(pf_t *pf)
 ### KLD Limit 
 
 `pf_resample_limit(...)` implements the KLD limit.
+
 $$
 n=\frac{k-1}{2\epsilon}
 \bigg( 
     1-\frac{2}{9(k-1)} + \sqrt{\frac{2}{9(k-1)}}z_{1-\delta} 
 \bigg)^3
 $$
+
 where $z_{1-\delta}$ is the upper $1-\delta$ quantile of the standard normal distribution.
 
 ```cpp

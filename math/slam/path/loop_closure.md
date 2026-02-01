@@ -42,6 +42,7 @@ $$
 ...
 0\cdot w_n
 $$
+
 where $0$ or $1$ indicate the presence/absence of an attribute.
 
 Hence, image similarity between two images can be computed by
@@ -49,6 +50,7 @@ $$
 s(\mathbf{a}_1, \mathbf{a}_2) = 
 1 - \frac{1}{n}|| \mathbf{a}_1 - \mathbf{a}_2 ||_1
 $$
+
 where it takes the $\mathcal{L}_1$ norm, which is the sum of the absolute values of the elements.
 
 ### Training of BoWs

@@ -1024,6 +1024,7 @@ then take element-wise inverse operation on $\Sigma_{mm}$ such that $\Sigma^{-1}
 finally, there is $A_{mm}^{-1}=V_{mm} \Sigma^{-1}\_{mm} V_{mm}^{\top}$
 
 The marginalization aims to compute $\Delta \mathbf{x}\_{{\mathbf{x}_m } \notin \mathbf{x}}$.
+
 $$
 \begin{bmatrix}
     A_{mm} & A_{mr} \\\\
@@ -1497,6 +1498,7 @@ $$
 $$
 
 Covariance update is (when started, the covariance is set to zero to begin with $\mathbf{\Sigma}_0=\mathbf{0}$)
+
 $$
 \mathbf{\Sigma}_t = 
 \mathbf{F} \mathbf{\Sigma}\_{t-1} \mathbf{F}^\top+
@@ -1621,6 +1623,7 @@ $$
 $$
 
 Compute the corrected $\Delta\mathbf{\theta}, \Delta\mathbf{v}, \Delta\mathbf{p}$ considered linearized acceleration and gyro biases.
+
 $$
 \Delta\mathbf{\theta} = \Delta\hat{\mathbf{\theta}} \frac{\partial \mathbf{\theta}}{\partial \mathbf{b}\_\omega} \Delta\mathbf{b}\_\omega
 ,\qquad

@@ -258,6 +258,7 @@ Besides, $c_t$ employs addition as the operation that helps mitigate the vanishi
 reference: https://www.geeksforgeeks.org/lstm-derivation-of-back-propagation-through-time/
 
 Define an error (MSE) from the layer's output, and the $t$-th layer's gradient.
+
 $$
 \begin{align*}
     {e} &= \big( {y} - {h}({x}) \big)^2 \\\\

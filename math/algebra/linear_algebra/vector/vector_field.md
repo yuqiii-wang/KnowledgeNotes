@@ -32,6 +32,7 @@ More precisely, a vector field $F$ is a mapping from $M$ into the tangent bundle
 ### Tangent bundle
 
 In differential geometry, the tangent bundle of a differentiable manifold $M$ is a manifold $TM$ which assembles all the tangent vectors in $M$.
+
 $$
 \begin{align*}
 TM 

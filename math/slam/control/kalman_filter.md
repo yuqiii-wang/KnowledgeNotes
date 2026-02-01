@@ -300,6 +300,7 @@ The $cov(\mathbf{x}_k - \mathbf{\hat{x}}\_{k|k})$ 's expression taking into cons
 This means, the ratio Kalman filter $\mathbf{K}_k$ is a compromise between the dynamic model's and measurement's Gaussian distribution samplings. The correction by $\mathbf{K}_k$ can only be optimal when $\mathbf{Q}$ and $\mathbf{R}$ are accurate (the fluctuations of $\mathbf{\hat{x}}\_{k|k-1}$ and $\mathbf{z_k}$ are contained in $\mathbf{Q}$ and $\mathbf{R}$).
 
 In other words, $\mathbf{K}_k \mathbf{\hat{y}}_k$ can be a good compensation to $\mathbf{\hat{x}}\_{k|k-1}$ when $\mathbf{\hat{y}}_k$ is contained in $\mathbf{R}$, and $\mathbf{K}_k$ in $\mathbf{R}$ and $\mathbf{Q}$, respectively.
+
 $$
 \mathbf{x}\_{k|k}=
 \mathbf{\hat{x}}\_{k|k-1} + \mathbf{K}_k \mathbf{\hat{y}}_k
@@ -322,6 +323,7 @@ Vehicle drives with a constant acceleration $a_k$ between two timesteps $k-1$ an
 $$
 \mathbf{x}_k = \mathbf{F} \mathbf{x}\_{k-1} + \mathbf{B} a_k
 $$
+
 where
 $$
 \mathbf{F} = 
@@ -338,9 +340,11 @@ $$
 $$
 
 Given $a_k$ following normal distribution, there is (remember $E(a_k)=0$, so that in the dynamic model, $\mathbf{B}\mathbf{u}$ is removed)
+
 $$
 \mathbf{x}_k = \mathbf{F} \mathbf{x}\_{k-1} + \mathbf{w}_k
 $$
+
 where $\mathbf{w}_k \sim N(0, \mathbf{Q})$ (remember the noise $\mathbf{w}_k$ is associated with the acceleration, so only $\sigma_{a_k}\mathbf{B}$ is considered as the standard deviation, not included $\mathbf{F}_k$), in which 
 $$
 \mathbf{Q} = \sigma_{a_k}\mathbf{B} \mathbf{B}^\text{T} \sigma_{a_k} =

@@ -18,6 +18,7 @@ A Riemann sum $S$ is defined as
 $$
 S=\sum^n\_{i=1} f(x\_i^*) \Delta x\_i
 $$
+
 where $x\_i^* \in [x_{i-1}, x\_i]$.
 
 Below is an example of *Left Riemann Sum*, where $x\_i^*=x_{i-1}$ for each partition.

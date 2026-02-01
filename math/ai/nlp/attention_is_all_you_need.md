@@ -83,6 +83,7 @@ Given $Q$ for query, $K$ for key, $V$ for value, a simple self-attention can be 
 $$
 \text{attention}(Q,K,V) = \text{softmax} \Big( \frac{Q K^{\top}}{\sqrt{d_k}} \Big) V
 $$
+
 where $\text{softmax} (\mathbf{x}) = \frac{e^{\mathbf{x}}}{\sum^K_{k=1}e^{\mathbf{x}}}$ in which $\mathbf{x}=\frac{Q K^{\top}}{\sqrt{d_k}}$.
 
 * 1st MatMul: $Q K^{\top} \in \mathbb{R}^{d_{model} \times d_{model}}$
@@ -325,6 +326,7 @@ The *Feed Forward* layer is a typical neural network layer such as below
 $$
 \text{FeedForward}(X) = \sigma(W_1^{\top} X + b_1)^{\top} W_2 + b_2
 $$
+
 where $\sigma(X)$ is an activation function.
 In transformer, ReLU is used.
 

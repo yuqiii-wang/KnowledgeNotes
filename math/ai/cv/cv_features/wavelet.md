@@ -75,6 +75,7 @@ Therefore, the bases of Fourier series are orthogonal to each other.
 ### Fourier Transform
 
 For absolutely integrable time signals $x(t)$, the Fourier transform can be used to get the frequency domain description.
+
 $$
 X(\omega) = 
 \int^{+\infty}\_{-\infty}
@@ -89,6 +90,7 @@ STFT\{x(t)\}(\tau,\omega)
 \int^{+\infty}\_{-\infty}
 x(t) w(t-\tau) e^{-i n\omega_0 t} dt
 $$
+
 where $w(t-\tau)$ is the window function,  commonly a Hann window or Gaussian window centered around zero. $\tau$ is the time localization term so that the Fourier transform only targets a fraction of a signal.
 
 ### Fourier Drawbacks
@@ -158,6 +160,7 @@ $$
 ### Continuous Wavelet Transform (CWT)
 
 The continuous wavelet transform (CWT) is a formal (i.e., non-numerical) tool that provides an overcomplete representation of a signal by letting the translation $\tau$ and scale parameter $s$ of the wavelets vary continuously.
+
 $$
 \begin{align*}
 X_\omega(s,\tau) &= 

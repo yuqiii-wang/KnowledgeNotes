@@ -86,6 +86,7 @@ Take the integral on the $x$-axis, there is
 $$
 x(\lambda) = \int \frac{dx}{d\lambda} d\lambda = \int 1 d\lambda = \lambda + c_x
 $$
+
 where $c_x \in \mathbb{R}$ is a random constant after integral.
 
 Take the integral on the $y$-axis, there is
@@ -225,6 +226,7 @@ $$
 Replace $\tau$ with $\tau_1$ for notation purpose. This result $T \tau_1 T^{-1}$ states the derivative result on a Lie group point $\mathcal{E}$'s exponential mapping $e^{\mathcal{E}\tau_1}$ when carrying isomorphism transformation.
 
 Then, in this derivative expression $T \tau_1  T^{-1}$, replace $T$ with $e^{\mathcal{E}\tau_2}$ (the transformation itself is a Lie group $\mathcal{M}$'s exponential mapping on the point $\mathcal{E}$) and take derivative on the point $\mathcal{E}$'s transformation.
+
 $$
 \begin{align*}
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
@@ -296,6 +298,7 @@ $$
 $$
 
 Here derive Jacobi identity.
+
 $$
 \begin{align*}
     & &&
@@ -316,6 +319,7 @@ C = ln(e^A e^B)= A + B + \frac{1}{2}[A, B] + \frac{1}{12}[A,[A, B]] + \frac{1}{1
 $$
 
 Ignore higher degree elements, $C$ can be approximated by a linear term $A+B$ plus a Lie bracket.
+
 $$
 C \approx A + B + \frac{1}{2}[A, B]
 $$

@@ -32,6 +32,7 @@ Define a transform matrix $H$ that maps this projective relationship, there is (
 $$
 \mathbf{x}_2=H \mathbf{x}_1
 $$
+
 where
 $$
 H=
@@ -184,6 +185,7 @@ Given two vectors of points from two images `vP1` and `vP2`, compute the fundame
 ### Fundamental Matrix $F$
 
 Given $n$ matching points from the left and right images, compute the below equation.
+
 $$
 \underbrace{\begin{bmatrix}
     u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\\\

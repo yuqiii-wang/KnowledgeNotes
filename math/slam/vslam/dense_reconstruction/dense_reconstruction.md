@@ -43,6 +43,7 @@ P(d) = N(\mu, \sigma^2)
 $$
 
 Assume observation is also a Gaussian distribution.
+
 $$
 P(d_{obs}) = N(\mu_{obs}, \sigma_{obs}^2)
 $$

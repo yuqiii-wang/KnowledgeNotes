@@ -21,6 +21,7 @@ $$
 $$
 
 Matches $\mathbf{x}_c$ and $\mathbf{x}_r$ are shown as below, and $\mathbf{E}$ denotes the essential matrix (fundamental matrix $\mathbf{F}$ is computed from $\mathbf{E}$ with camera pin-hole model parameters)
+
 $$
 \mathbf{x}_c=
 \begin{bmatrix}
@@ -96,6 +97,7 @@ A \mathbf{h} = \mathbf{0}
 $$
 
 where
+
 $$
 A=
 \begin{bmatrix}
@@ -120,7 +122,9 @@ S_M =
     d^2_{rc}(\mathbf{x}\_{ri}, \mathbf{x}\_{ci}) \big)
 \bigg)
 $$
+
 where 
+
 $$
 \rho_M \big( d^2 \big) =
 \left\{
@@ -295,4 +299,5 @@ $$
     + \rho_h (\mathbf{e}_2^\top \mathbf{\Omega}^{-1}\_{j,K_2} \mathbf{e}_2)
 \Big)
 $$
+
 where $\mathbf{\Omega}$ is covariance and $\rho_h$ is Huber loss function.

@@ -17,6 +17,7 @@ $$
 $$
 
 For rotation has no effect on $\mathbf{a}$, but rotates $\mathbf{b}$ by $\theta$ to $\mathbf{b}'$, here define the $\mathbf{c}$ perpendicular to $\mathbf{b}$ on the same rotation plane.
+
 $$
 \mathbf{c} = \mathbf{u} \times \mathbf{p}
 $$
@@ -45,6 +46,7 @@ The rotation $I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top} + \mathbf{
 $I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top}$ is symmetric, and $\mathbf{u}^{\wedge}\sin\theta$ is anti-symmetric.
 
 So that in $R-R^{\top}$, the symmetric term  is canceled out for $\Big(I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top}\Big) - \Big(I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top}\Big)^{\top} = 0$, leaving only $\mathbf{u}^{\wedge}\sin\theta$ untouched.
+
 $$
 \begin{align*}
 R - R^{-1} &= R - R^{\top}
@@ -291,6 +293,7 @@ $$
 ## Derivative of Rotation Over $\theta$
 
 Consider a rotation matrix $R_x(\theta)$ on the $x$-axis.
+
 $$
 R_x(\theta) = 
 \exp \Bigg( \theta \begin{bmatrix}

@@ -36,7 +36,7 @@ $$
 
 Here is a table of result summary.
 
-|$n$|$x\_i$|$w_i$|
+|$n$|$x_i$|$w_i$|
 |-|-|-|
 |$1$|$0$|$2$|
 |$2$|$\frac{1}{\sqrt{3}}, -\frac{1}{\sqrt{3}}$|$1,1$|
@@ -114,6 +114,7 @@ $$
 \int^{1}\_{-1} 
 f(\frac{b-a}{2} \xi \frac{a+b}{2}) \frac{dx}{d \xi} d \xi
 $$
+
 where $\frac{dx}{d \xi}=\frac{b-a}{2}$
 
 ## First few Legendre polynomials

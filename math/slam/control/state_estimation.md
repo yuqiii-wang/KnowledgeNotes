@@ -65,6 +65,7 @@ P(\mathbf{z}, \mathbf{u} | \mathbf{x}, \mathbf{y} )=
 $$
 
 The error $\mathbf{e}$ can be measured separately since dynamics $\mathbf{u}$ and observations $\mathbf{z}$ are independent.
+
 $$
 \begin{align*}
 \mathbf{e}\_{u,k} &= 
@@ -92,6 +93,7 @@ This relationship will give a sparse least-square problem for all $k$ steps.
 ## Example: Batch State Estimation
 
 Consider a very simple linear system that describes a vehicle running on a 1-d space either forward or backward.
+
 $$
 \begin{align*}
 x_k &= x_{k-1}+u_{k}+w_k, & \quad w_k & \sim N(0,Q_k) \\\\
@@ -102,6 +104,7 @@ $$
 Define a batch state variable $\mathbf{x}=[x_0,x_1,x_2,x_3,...,x_n]^\text{T}$, batch observation $\mathbf{z}=[z_1,z_2,z_3,...,z_n]^\text{T}$, batch action/dynamics $\mathbf{u}=[u_1,u_2,u_3,...,u_n]^\text{T}$
 
 The optimal state estimate $\mathbf{x}^*$ derives from this maximum likelihood optimization.
+
 $$
 \begin{align*}
 \mathbf{x}^* &= 
@@ -167,6 +170,7 @@ $$
 and the covariance matrix is $\Sigma=diag(R_1, R_2, R_3,...,R_n,Q_1,Q_2,Q_3,...,Q_n)$.
 
 The Maximum Likelihood optimization given the objective function $\mathbf{e}^\text{T} \Sigma^{-1} \mathbf{e}$ (this is a quadratic function that has a global minimum) can be approximated by the Gauss-Newton method, so that the optimal state $\mathbf{x}^*$ can be computed via the below expression.
+
 $$
 \begin{align*}
 \mathbf{x}^* &=

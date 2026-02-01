@@ -1363,6 +1363,7 @@ $$
 
 For every last frame feature `cv::Mat x3Dw = pMP->GetWorldPos();`, the camera frame coordinate is computed by `cv::Mat x3Dc = Rcw*x3Dw+tcw;`.
 Then, compute projection.
+
 $$
 \begin{align*}
     u &= f_x \frac{X}{Z} + c_x
@@ -2148,6 +2149,7 @@ $$
 \quad\quad
 \mathbf{x}_c {F}\_{cr} \mathbf{x}_r = 0
 $$
+
 where $\mathbf{x}_c$ and $\mathbf{x}_r$ are keypoints in two keyframes. 
 
 Both ${H}\_{cr}$ and ${F}\_{cr}$ are computed via RANSAC *Eight-Point Algorithm* inside `ComputeH21(...)` and `ComputeF21(...)` that use the selected best $8$ points to perform SVD to find ${H}\_{cr}$ and ${F}\_{cr}$ .
@@ -2212,7 +2214,9 @@ S_M =
     d^2_{rc}(\mathbf{x}\_{ri}, \mathbf{x}\_{ci}) \big)
 \bigg)
 $$
+
 where 
+
 $$
 \rho_M \big( d^2 \big) =
 \left\{
@@ -2295,6 +2299,7 @@ $$
 
 Here gives the definition to $Sim(3)$ and $sim(3)$. $\mathbf{\zeta}$ is a 7-dimensional
 vector that has the same elements as $se(3)$ plus one scaling factor $\sigma$.
+
 $$
 \begin{align*}
 Sim(3) &= \bigg\{
@@ -2350,6 +2355,7 @@ For any vector $\mathbf{r}\_{l,i}$, attempt to find $\hat{\mathbf{r}}\_{r,i} = s
 Here $s$ is a scale factor to rotation matrix $R( \mathbf{r}\_{l,i})$ that has $\big|\big| R(\mathbf{r}\_{l,i}) \big|\big|^2 = \big|\big| \mathbf{r}\_{l,i} \big|\big|^2$ preserving the length during rotation operation ($\big|\big| \mathbf{r}\_{l,i} \big|\big|^2=\mathbf{r}\_{l,i} \cdot \mathbf{r}\_{l,i}$).
 
 The residual of the least squared problem to find the optimal $\mathbf{t}^*$ is defined as below.
+
 $$
 \begin{align*}
 \mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}\_i &= 
@@ -2360,6 +2366,7 @@ $$
 $$
 
 Now, compute centroids served as offsets.
+
 $$
 \overline{\mathbf{r}}_l = \frac{1}{n} \sum_{i=1}^n \mathbf{r}\_{l,i}
 \qquad
@@ -2367,6 +2374,7 @@ $$
 $$
 
 For any vector $\mathbf{r}\_{l,i}$ or $\mathbf{r}\_{r,i}$, move/offset their coordinates from the origin reference $\mathbf{r}\_{l,1}$ and $\mathbf{r}\_{r,1}$ to the above computed centroid, denote the new origin's vectors as $\mathbf{r}'_{l,i}$ and $\mathbf{r}'_{r,i}$.
+
 $$
 \mathbf{r}'_{l,i} = \mathbf{r}\_{l,i} - \overline{\mathbf{r}}_l
 \qquad
@@ -2374,6 +2382,7 @@ $$
 $$
 
 Apparently, the new centroid reference's vectors' sums should be zeros.
+
 $$
 \mathbf{r}'_{l,o} = \sum_{i=1}^n \mathbf{r}'_{l,i} = [0 \quad 0 \quad 0]^{\top}
 \qquad
@@ -2405,6 +2414,7 @@ So that $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2$ reaches its minimum
 
 Rewrite $\mathbf{t}' = \mathbf{0} = \mathbf{t} - \overline{\mathbf{r}}_r + sR(\overline{\mathbf{r}}_l)$, so that the optimal translation $\mathbf{t}^*$ in $Sim(3)$ is just the difference between $\overline{\mathbf{r}}_r$ and scaled rotation $sR(\overline{\mathbf{r}}_l)$.
 In other words, if $sR(\overline{\mathbf{r}}_l)$ is known, the $\mathbf{t}^*$ can easily computed.
+
 $$
 \mathbf{t}^* =  \overline{\mathbf{r}}_r - sR(\overline{\mathbf{r}}_l)
 $$
@@ -2554,6 +2564,7 @@ D &=
 $$
 
 The $N$ can be expressed as
+
 $$
 N = \begin{bmatrix}
     S_{xx}+S_{yy}+S_{zz} & S_{yz}-S{zy} & S_{zx}-S{xz} & S_{xy}-S{yx} \\\\
@@ -3682,11 +3693,13 @@ $$
 $$
 
 An error/edge can be defined as below, where $\mathbf{z}\_{ij}$ is the observation (image pixel/feature point) and $\pi$ is the projection mapping that transform the world points to the corresponding camera image pixel coordinates.
+
 $$
 \mathbf{e}\_{ij} = \mathbf{z}\_{ij} - \pi(\mathbf{\xi}_j \mathbf{p}\_i)
 $$
 
 The total error $\mathbf{e}$ to be minimized can be approximated by first-order derivative.
+
 $$
 \begin{align*}
 \frac{1}{2} \big|\big|
@@ -4270,6 +4283,7 @@ Compute the fundamental matrix between the current keyframe and the co-visible k
 Then, `matcher.SearchForTriangulation(...);` finds good matched points for triangulation, that Chi-squared test is performed removing the worst $5\%$ points.
 
 Triangulation starts.
+
 $$
 \begin{align*}
 \text{Given pixel } (x_p, y_p) \text{ and world point } (x_w, y_w), 
@@ -4309,6 +4323,7 @@ For triangulation, here is the full formula.
 
 PnP (Perspective-n-Point) describes how a 3d world point $\mathbf{X}=[X\quad Y\quad Z\quad 1]^\top$ is projected to an image pixel $\mathbf{x}=[u\quad v\quad 1]^\top$ scaled by $s$.
 Denote the projection as $\mathbf{P}$.
+
 $$
 s \underbrace{\begin{bmatrix}
     u \\\\
@@ -4383,6 +4398,7 @@ Denote `x3D` as $\mathbf{x}$.
 
 Denote the projection from the triangulated estimate map point as $(\hat{u},\hat{v})$, and keypoint observations $(u,v)$ from camera as the truth, compute the error.
 If the error passes the $\mathcal{X}^2$ test of $95\%$ confidence, the triangulated result $\mathbf{x}$ is good.
+
 $$
 \begin{align*}
 &&
@@ -5004,6 +5020,7 @@ void KeyFrame::UpdateBestCovisibles()
 
 In DBoW2, image similarity is measured by comparing BoW vector representations of the two keyframes, and a score is produced such that `float score = mpORBVocabulary->score(CurrentBowVec, BowVec);`.
 Higher the score, more similar the two images.
+
 $$
 \text{s}(\mathbf{v}_1, \mathbf{v}_2) =
 1 - \frac{1}{2}

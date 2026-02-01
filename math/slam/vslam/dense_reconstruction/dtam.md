@@ -79,6 +79,7 @@ Regularization can be implemented to address the aforementioned issue, that in r
 In other words, depth changes at the point $a$ should be smooth.
 
 Huber loss can be used to contain large error terms by $\mathcal{L}_1$ norm and amplify small error terms by $\mathcal{L}_2$.
+
 $$
 L\_{\delta}(e)=
 \left\{
@@ -110,6 +111,7 @@ thereby limiting solution smoothing across region boundaries (making edge/corner
 $\nabla I_r (\mathbf{u})$ describes in-image pixel changes (increase weight for visual feature pixels). $\alpha$ is a scaling factor and $\beta$ is the exponential controlling factor.
 
 Below is the energy function that takes into account the regularization and photometric errors.
+
 $$
 E_{\mathbf{\xi}} = 
 \int_{\Omega} \big\{
@@ -122,6 +124,7 @@ $$
 where regularizer $g(\mathbf{u}) \cdot \big|\big|\nabla \mathbf{\xi}(\mathbf{u})\big|\big|_\delta$ is a convex function while $C\big(\mathbf{u}, \mathbf{\xi}(\mathbf{u})\big)$ is non-convex.
 
 In order to optimize the non-convex function, the below approximation is proposes.
+
 $$
 E_{\mathbf{\xi}, \mathbf{\alpha}} = 
 \int_{\Omega} \big\{
@@ -157,7 +160,9 @@ F(\psi)=
     f_{\mathbf{u}}(\psi)
 \big)^2
 $$
+
 where $f_{\mathbf{u}}(\psi)$ is the overall difference between two images $I_l$ and $I_v$, in which $I_l$ takes into account $T_{lv}(\psi)$ that adjusts $I_l$ to reduce the difference to $I_v$.
+
 $$
 f_{\mathbf{u}}(\psi) = 
 I_l \big( \pi\big( 

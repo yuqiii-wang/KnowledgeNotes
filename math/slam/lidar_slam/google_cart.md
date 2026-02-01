@@ -52,6 +52,7 @@ finding a scan pose $\xi$ that maximizes the probabilities at the scan points in
 $$
 arg \space \underset{\xi}{min} \sum_{k=1}^K \big(1-M_{smooth}(T_\xi h_k)\big)^2
 $$
+
 where $T_\xi$ transforms $h_k$ from the scan frame to the submap
 frame according to the scan pose.
 

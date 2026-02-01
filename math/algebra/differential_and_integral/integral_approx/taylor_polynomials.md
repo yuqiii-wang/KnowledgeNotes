@@ -9,6 +9,7 @@ $$
 When $x$ is very near to $c$, there is $T_n(f)(x) \approx f(x)$.
 
 Define $n$-th order remainder $R_n$ of $f(x)$ after removed of $T_n(f)(x)$ as one degree higher than $T_n(f)(x)$ (this demands $f(x)$ should be at least $n+1$ order differentiable)
+
 $$
 \begin{align*}
 R_n(f)(x) &=

@@ -13,6 +13,7 @@ Consider a set of observations $\mathbf{x} \in \mathbb{R}^{N\times d}$ ($N$ is t
 There are $k$ classes such that $\mathbf{y}\_i \in \mathbf{C}=[C_1, C_2, ..., C_k]$. Denote $N_j$ as the number of samples for the $j$-th class $C_j$, and $X_j$ as the sample set for the class $C_j$. Accordingly, $\mathbf{\mu}_j$ refers to the mean of $X_j$ and $\mathbf{\Sigma}_j$ for the sigma of $X_j$.
 
 The mean $\mathbf{\mu}_j$ and variance $\mathbf{\Sigma}_j$ for each class $C_j$ can be computed as below.
+
 $$
 \begin{align*}
 \mathbf{\mu}_j &= \frac{1}{N_j} \sum_{\mathbf{x}\_i \in X_j} \mathbf{x}\_i \\\\
@@ -28,6 +29,7 @@ and their corresponding labels $\mathbf{y}\_i \in \mathbf{C}=[C_1, C_2]$.
 Still consider this example. A good separation such as LD1 should have vastly different $\mu_1$ and $\mu_2$, and large $\Sigma_1, \Sigma_2$ (indicating two distinctive "lean" Gaussian distributions). LD2 in contrast, has $\mu_1 \approx \mu_2$ and small $\Sigma_1, \Sigma_2$ (indicating two overlapping "fat" Gaussian distributions).
 
 In other words, the below expression should be maximized.
+
 $$
 \frac{(\mu_1-\mu_2)^2}{\Sigma_1^2+\Sigma_2^2}
 $$
@@ -41,6 +43,7 @@ Here, the problem becomes optimizing the $2$d-$1$d projection so that $S_b$ is m
 Define a projection matrix $W$. Projection on each data point to a lower dimension space can be expressed as $\mathbf{w}^\text{T}\mathbf{x}\_i$.
 
 The variance can be computed as below.
+
 $$
 \begin{align*}
     \sum_{j=1}^{C=2} \sum_{\mathbf{x} \in X_j}

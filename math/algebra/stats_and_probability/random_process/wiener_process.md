@@ -44,6 +44,7 @@ t_1
 $$
 
 Error propagation can be formulated/simulated as below, where $Z$ is an independent standard normal variable, representing one time test noise from the interval $t_2$ to $t_1$.
+
 $$
 W_{t2} = W_{t1} + \sqrt{t_2 - t_1} \cdot Z
 ,\qquad Z \sim N(0, t_2 - t_1)

@@ -19,9 +19,10 @@ $$
 Newton's method attempts to solve this problem by constructing a sequence $\{x_k\}$ from an initial guess $x_0 \in \mathbb{R}$ that converges via the second-order of Talor expansion of $f$ around $x_k$:
 $$
 f(x_k+t)\approx f(x_k) + f'(x_k)t + \frac{1}{2}f''(x_k)t^2
-$$ 
+$$
 
 To approach to minima, the first-order derivative should be zero.
+
 $$
 0=
 \frac{d}{dt} (f(x_k) + f'(x_k)t + f''(x_k)t^2)=

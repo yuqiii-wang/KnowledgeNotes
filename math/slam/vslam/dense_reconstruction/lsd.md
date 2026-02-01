@@ -41,6 +41,7 @@ $$
 
 Define the 3D projective warp function $\omega$, which projects an
 image point $\mathbf{p}$ and its inverse depth $d$ into a by $\mathbf{\xi}$ transformed camera frame.
+
 $$
 \omega(\mathbf{p}, d, \mathbf{\xi}) :=
 \begin{bmatrix}
@@ -92,11 +93,11 @@ $$
 $$
 
 whose iterative step update $\mathbf{\xi}^*=\Delta\mathbf{\xi}^*+\mathbf{\xi}_0$ by Gauss-Newton method can be computed via
+
 $$
 \Delta\mathbf{\xi}^* = 
 \frac{J^\top \mathbf{r}(\mathbf{\xi}_0)}{J^\top J}
 $$
-
 where $\mathbf{r}(\mathbf{\xi}_0)$ is the initial residual for $\mathbf{\xi}_0$, and $J$ is the Jacobian.
 
 To apply weights on residuals to down-weight large error (Huber loss should have the same result), there is
@@ -104,7 +105,9 @@ $$
 E(\mathbf{\xi}) = 
 \sum_i w_i(\mathbf{\xi}) r_i^2(\mathbf{\xi})
 $$
+
 and update is
+
 $$
 \Delta\mathbf{\xi}^* = 
 \frac{J^\top W \mathbf{r}(\mathbf{\xi}_0)}{J^\top W J}
@@ -131,6 +134,7 @@ $$
     \frac{r_p^2 (\mathbf{p}, \mathbf{\xi}\_{ij})}{\sigma_{r_p (\mathbf{p}, \mathbf{\xi}\_{ij})}^2}
 \bigg|\bigg|_\delta
 $$
+
 where
 $$
 ||e||_\delta=
@@ -203,7 +207,9 @@ $$
     \frac{r_d^2 (\mathbf{p}, \mathbf{\xi}\_{ij})}{\sigma_{r_d (\mathbf{p}, \mathbf{\xi}\_{ij})}^2}   
 \bigg|\bigg|_\delta
 $$
+
 where $r_d$ is defined as the gap between $3$-axis depth and the estimated depth from $1$- and $2$- axises of the transformed pixel $\mathbf{p}':= \omega_s \big(\mathbf{p}, D_i(\mathbf{p}), \mathbf{\xi}\_{ij} \big)$.
+
 $$
 r_d(\mathbf{p}, \mathbf{\xi}\_{ij})
 :=
@@ -242,6 +248,7 @@ An appearance-based feature detector is used to find interesting points in the i
 The observation, $Z$, of the image at time $k$ is
 then reduced to a binary vector, indicating what feature
 words are present in the image.
+
 $$
 Z_k = \{ z_1, z_2, ..., z_n \}
 $$
@@ -273,11 +280,13 @@ $$
     - I_A(\mathbf{\xi}_0)
 \big|\big|^2
 $$
+
 where $\mathbf{\xi}_c$ is the current camera pose and $\mathbf{\xi}_0$ is the previous. Through $\Delta \mathbf{\xi}$, the current camera pose $\mathbf{\xi}_c$ should be transformed to its previous, and the resultant image pixel $I_A(.)$'s difference should be zero.
 
 However, Newton method for SSD problem is time-consuming for Hessian computation.
 
 Efficient Second Order Minimization approximates the problem by only taking $\Delta \mathbf{\xi}$, and it see faster computation without engaging a Hessian.
+
 $$
 \min_{\mathbf{\xi} \in se(3)} 
 \frac{1}{2} \big|\big|
@@ -302,5 +311,6 @@ $$
 \Sigma_{ji}
 \big( \mathbf{\xi}\_{ji} \circ \mathbf{\xi}^{-1}\_{wi} \circ \mathbf{\xi}\_{wj} \big)
 $$
+
 where $\mathbf{\xi}\_{ji}$ denotes the transform from $\mathbf{\xi}\_{j}$ to $\mathbf{\xi}\_{i}$, and the subscript $w$ means in the "world frame". 
 

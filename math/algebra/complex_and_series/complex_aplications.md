@@ -7,6 +7,7 @@
 $$
 F(s)=\mathcal{L}\big(f(t)\big) = \int_0^{\infty} f(t) e^{-st} dt
 $$
+
 where $s=\sigma + i\omega$ in a complex plane. When $s=i\omega$, the aforementioned transform is a Fourier transform.
 
 Inverse Laplace transform:

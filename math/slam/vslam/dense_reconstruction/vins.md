@@ -108,6 +108,7 @@ $$
 \Delta\hat{\mathbf{\phi}}\_{\tiny{k}}
 \Big|\Big|^2
 $$
+
 where subscript $\tiny{C}$ indicates being in a camera frame.
 
 * Velocity, Gravity Vector and Metric Scale Initialization
@@ -347,6 +348,7 @@ $$
 \hat{\mathbf{p}}\_{\tiny{W{o}}},
 ) ||\big)
 $$
+
 where $\mathcal{L}$ is the set of the observation of retrieved features in
 the loop closure frames. $(l, o)$ means $l$-th feature observed in the loop closure frame $o$.
 

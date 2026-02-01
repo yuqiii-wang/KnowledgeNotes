@@ -16,6 +16,7 @@ f(\mathbf{x}\_i, \mathbf{\beta}+\mathbf{\sigma})
 \approx
 f(\mathbf{x}\_i, \mathbf{\beta}) + \mathbf{J}\_i\mathbf{\sigma}\_i
 $$
+
 where $\mathbf{J}\_i$ is Jacobian matrix entry to partial derivative $\mathbf{\beta}$ such as
 $$
 \mathbf{J}\_i=\frac{\partial f(\mathbf{x}\_i, \mathbf{\beta})}{\partial \mathbf{\beta}}

@@ -74,6 +74,7 @@ $$
 Multinomial distribution is a generalization of the binomial distribution. There are $k$ outcomes rather than boolean results as in Binomial Distribution.
 
 There are $k$ outcomes: $x_1, x_2, ..., x_k$, correspodning to $k$ probabilities $p_1, p_2, ..., p_k$. The number of trials is $n$.
+
 $$
 f(x_1, x_2, ..., x_k; n; p_1, p_2, ..., p_k)
 \\\\ 

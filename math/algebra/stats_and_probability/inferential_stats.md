@@ -206,6 +206,7 @@ The score gap $D$ indicates 9 out of 10 students seeing improvements (only stude
 
 Assume $\pi = 0.7$ for there was a priliminary study that concludes $70\%$ of students see improvement after this program.
 The probability of 9 or all 10 students failing the program is $0.0001436$.
+
 $$
 P( N \ge 9) = 
 C^{9}\_{10}(0.3)^9(0.7)^1 + C^{10}\_{10}(0.3)^{10}(0.7)^0 = 0.0001436
@@ -343,6 +344,7 @@ $$
 Recall that $Z$ is used to transform $X$ distribution to a standard normal distribution.
 
 Assumed some statistics: for example, the averange height of a total of 71 people is $168$, while the average male height is $173.7$.
+
 $$
 𝑧=\frac{173.7−168}{27/71}=1.7789
 $$

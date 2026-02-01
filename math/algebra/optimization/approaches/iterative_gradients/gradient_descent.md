@@ -26,7 +26,8 @@ $$
 \frac{d f(\mathbf{x_{k-1}+\Delta \mathbf{x}})}{d\lambda} =
 \frac{d f(\mathbf{x_{k-1} + \lambda \triangledown f})}{d\lambda} =
 0
-$$ 
+$$
+
 This means update step $\lambda$ is optimized (giving the longest descending distance). Shorter $\lambda$ might not travel far enough; Longer $\lambda$ might see gradient ascent.
 
 * Example

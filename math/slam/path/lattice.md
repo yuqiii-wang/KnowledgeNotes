@@ -88,6 +88,7 @@ Derived from definition, $s$ is the nearest point to $\overrightarrow{x}$, denot
 Given the relationship $l=\big(\overrightarrow{x}-\overrightarrow{r}\big)\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}$ that describes the current Cartesian position $\overrightarrow{x}$ is a translation from $\overrightarrow{r}$ following the direction of $\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}$. The angle of $\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}$ is $\theta_{\overrightarrow{r}}+\frac{\pi}{2}$ 
 
 $l$ can be expressed as the dot product between $\overrightarrow{x}-\overrightarrow{r}$ and $\mathbf{\overrightarrow{N}}\_{\overrightarrow{r}}$.
+
 $$
 \begin{align*}
 l &=

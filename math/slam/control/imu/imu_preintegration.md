@@ -136,6 +136,7 @@ For dynamic biases, convert the biases to a true value plus Gaussian noise: $\ha
 Then, compute the corrected $\Delta\mathbf{R}, \Delta\mathbf{v}, \Delta\mathbf{p}$ considered linearized acceleration and gyro biases.
 
 In other words, $\delta\mathbf{b}\_{\mathbf{\omega},k}$ and $\delta\mathbf{b}\_{\mathbf{a},k}$ are approximated by first order derivative increment.
+
 $$
 \Delta\hat{\mathbf{R}}  = \Delta\mathbf{R} \frac{\partial \mathbf{R}}{\partial \mathbf{b}\_\omega} \Delta\mathbf{b}\_\omega
 ,\qquad
@@ -651,6 +652,7 @@ where the Jacobian is $\frac{\partial\space \Delta\hat{\mathbf{R}}\_{ij}}{\parti
 
 Similarly, the Jacobians for $\Delta\hat{\mathbf{v}}\_{ij} (\mathbf{b}\_{\mathbf{\omega},i} + \delta\mathbf{b}\_{\mathbf{\omega},i}, \mathbf{b}\_{\mathbf{a},k} + \delta\mathbf{b}\_{\mathbf{a},k})$ and $\Delta\hat{\mathbf{p}}\_{ij} (\mathbf{b}\_{\mathbf{\omega},i} + \delta\mathbf{b}\_{\mathbf{\omega},i}, \mathbf{b}\_{\mathbf{a},k} + \delta\mathbf{b}\_{\mathbf{a},k})$ can be computed.
 Below are the finished results.
+
 $$
 \begin{align*}
     &&

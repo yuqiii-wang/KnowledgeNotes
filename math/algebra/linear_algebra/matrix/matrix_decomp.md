@@ -73,6 +73,7 @@ Define a positive definite matrix $A \in \mathbb{R}^{n \times n}$.
 It is trivial when $n=1$, and then only consider $n>1$ cases. 
 Partition $A$ as below, where $\~{A} \in \mathbb{R}^{(n-1) \times (n-1)}$, and $\mathbf{a} \in \mathbb{R}^{n-1}$ is a vector. 
 $\alpha$ is a scalar number.
+
 $$
 A = 
 \begin{bmatrix}

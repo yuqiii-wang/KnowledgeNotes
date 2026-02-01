@@ -24,6 +24,7 @@ where $T_{\mathcal{CW}}$ is the transform from $\mathcal{W}$ to $\mathcal{C}$. A
 
 Define a camera projection function $CamProj$ that takes 3D points in a camera frame $\mathbf{p}\_{\mathcal{C}j}$ map to image pixels $[u_j, v_j]$. The camera parameters for focal length $(f_u , f_v)$, principal point $(u_0 , v_0)$ and
 distortion $\omega$ are assumed to be known.
+
 $$
 CamProj(\mathbf{p}\_{\mathcal{C}j})=
 \begin{bmatrix}
@@ -73,6 +74,7 @@ $$
 The determinant of matrix $A$ can be used to decide at which pyramid level of the current frame the patch should be searched (larger the $det(A)$, greater the pixel displacement).
 
 *Sum of Squared Differences* (SSD) is used as the objective function to be minimized for all pixels in a search window $(x,y)\in\mathbf{W}\_{m \times n}$ centered around a candidate feature point $(u_c, v_c)$.
+
 $$
 E_{ssd}(u_c,v_c)=\sum_{(x,y)\in\mathbf{W}\_{m \times n}} 
 \big[
@@ -91,6 +93,7 @@ The optimization problem $\min_{\mathbf{x}} \sum^n\_{i=1} \rho(x\_i)$ can often 
 Common $\rho$ are squared error $\mathcal{L}_2$, Huber loss $\mathcal{L}\_{1.5}$ and absolute error $\mathcal{L}_1$.
 
 PTAM uses Tukey's Biweight as the loss function for reprojection error.
+
 $$
 \rho(x) = 
 \left\{

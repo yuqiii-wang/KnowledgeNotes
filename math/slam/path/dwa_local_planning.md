@@ -31,6 +31,7 @@ $$
     \alpha \cdot heading(v,\omega) + \beta \cdot dist(v,\omega) + \gamma \cdot velocity(v, \omega)
 \big)
 $$
+
 where we want to maximize
 * heading: robot's movement toward goal
 * distance/clearance: robot's distance to its nearby obstacles

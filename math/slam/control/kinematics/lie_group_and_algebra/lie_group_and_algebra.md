@@ -99,10 +99,11 @@ a[X, Z] + y[Y, Z], \\\\
 $$
 
 * Reflective
+
 $$
 \forall X \in \mathbb{V};
 [X,X] = 0
-$$ 
+$$
 
 * Jacobi identity
 

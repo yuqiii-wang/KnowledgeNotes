@@ -85,6 +85,7 @@ $$
 Back to $f$, first compute $df$ by $\odot$ ($d\space e^{X\mathbf{b}}=e^{X\mathbf{b}} \odot dX\mathbf{b}$). Then apply trace operations.
 
 Regarding the size, there are $\mathbf{a} \in \mathbb{R}^{m \times 1}, X \in \mathbb{R}^{m \times n}, \mathbf{b} \in \mathbb{R}^{n \times 1}$. $e^{X}$ has the same size of $X$'s since the exponential $e^{X}$ is an element-wise operation on each element $x_{ij}$ of $X$. Besides, $X\mathbf{b} \in \mathbb{R}^{m \times 1}$.
+
 $$
 \begin{align*}
     df &= \mathbf{a}^\text{T} (e^{X\mathbf{b}} \odot dX\mathbf{b})

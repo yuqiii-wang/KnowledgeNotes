@@ -44,6 +44,7 @@ It can be used optimizer having too strong accumulated momentum that rushes out/
 
 Non-linearity introduces lots of abrupt cliffs.
 In neural network, the activation function $\sigma(\space \cdot \space)$ is often non-linear (this is why one remediation solution is to use $\text{ReLU}$ as the activation function).
+
 $$
 \hat{\mathbf{y}} = \sigma \big( W_l \big( ... \sigma \big(W_2 \space \sigma(W_1 \mathbf{x} + \mathbf{b}_1) + \mathbf{b}_2) + ... + \big) + \mathbf{b}_l \big)
 $$

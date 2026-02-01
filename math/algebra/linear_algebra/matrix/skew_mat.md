@@ -1,6 +1,7 @@
 # Skew Symmetric
 
 A skew-symmetric (or antisymmetric or antimetric) matrix is a square matrix whose transpose equals its negative.
+
 $$
 A^T=-A
 $$

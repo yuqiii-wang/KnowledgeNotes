@@ -273,6 +273,7 @@ Partial derivative on $x_2$ can be computed similarly by setting $\dot{v}\_{-1}=
 
 Once finished primal computation, backward mode starts from the output setting $\dot{v}_5=\dot{f}(x_1,x_2)=1$, then move towards $\dot{x}_1$ and $\dot{x}_2$ with differentials $\dot{v}_k=\frac{\partial v_k}{\partial f}=\frac{\partial v_k}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k+2}}...\frac{\partial v_{n}}{\partial f}$.
 In other words, it reverses the directed graph computing from $v_5$ to $v_{-1}$ and $v_0$.
+
 $$
 \begin{matrix}
     &\downarrow& v_{-1} &= x_1 && &= 2

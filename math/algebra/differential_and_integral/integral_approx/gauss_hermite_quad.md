@@ -169,7 +169,7 @@ E\big(f(y)\big)=
 \frac{1}{\sigma \sqrt{2\pi}}
 e^{-\frac{(y-\mu)^2}{2\sigma^2}}
 f(y) dy
-$$ 
+$$
 
 To make the integral compliant with the form of Hermite polynomial by
 

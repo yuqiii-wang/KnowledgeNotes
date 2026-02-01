@@ -581,6 +581,7 @@ $$
 $$
 
 Given the covariance solutions, update the computed motion results with applied Gaussian noises.
+
 $$
 \begin{align*}
 \check{x}_1^{(0)} &=
@@ -656,6 +657,7 @@ $$
 $$
 
 The observation $y_1^{(i)}$ is updated (without applied Gaussian noises).
+
 $$
 \begin{align*}
 \hat{y}^{(i)}_1 &= h(\hat{x}^{(i)}_1) + \mathbf{v}_k
@@ -735,6 +737,7 @@ $$
 $$
 
 Computed the mean of observation. It is the same as directly measuring ${x}_1^-$.
+
 $$
 \begin{align*}
 \hat{y}^-_1&= \sum^{2d}\_{i=0}
@@ -777,6 +780,7 @@ W^{(m)}\_i \hat{y}^{(i)}_1\\\\ &=
 $$
 
 The covariance for the observation model $\hat{y}_1$ is computed.
+
 $$
 \begin{align*}
 \mathbf{\hat{P}}\_{1,y} &=
@@ -944,6 +948,7 @@ $$
 $$
 
 The final result for $\mathbf{x}_1$ is known via the applied Kalman gain.
+
 $$
 \begin{align*}
 \mathbf{x}_1&=

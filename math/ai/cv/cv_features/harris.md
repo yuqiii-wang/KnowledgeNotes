@@ -3,6 +3,7 @@
 ## Sum of squared differences (SSD)
 
 Define a shifting window ${W}$ of a size of $m \times n$, window moving step of $(u,v)$ on an image $I$, and define an error *sum of squared differences* (SSD) which is the squared differences of all pixels in a window before and after window's shifting.
+
 $$
 E_{ssd}(u,v)=\sum_{(x,y)\in {W}\_{m \times n}} 
 \big[
@@ -11,6 +12,7 @@ E_{ssd}(u,v)=\sum_{(x,y)\in {W}\_{m \times n}}
 $$
 
 By first order approximation (this implies that the window slding step $(u,v)$ should be small), there is this expression ($I_{dx}$ and $I_{dy}$ are just shorthand notations of $\frac{\partial I}{\partial x}$ and $\frac{\partial I}{\partial y}$, respectively).
+
 $$
 \begin{align*}
 I(x+u, y+v) &\approx

@@ -28,6 +28,7 @@ $$
 \mathbf{r}(\Delta \mathbf{x}) \approx
 J(\mathbf{x}_0) \Delta \mathbf{x} + \mathbf{r}(\mathbf{x}_0)
 $$
+
 where $J$ is the Jacobian.
 
 Take shorthand notes and write down $J_0=J(\mathbf{x}_0)$ and $\mathbf{r}_0=\mathbf{r}(\mathbf{x}_0)$, and take the Jacobian approximation into the cost function, there is
@@ -54,6 +55,7 @@ The optimal $\mathbf{x}^*$ can be determined by $\mathbf{x}^* = \mathbf{x}_0 + \
 ## Lucas-Kanade Problem Formulation
 
 The Lucas-Kanade cost function shown as below is a least squares problem.
+
 $$
 \underset{dx, dy}{\min}
 \sum_{x,y} 
@@ -114,6 +116,7 @@ To find the optimal $\begin{bmatrix}      \Delta dx & \Delta dy \end{bmatrix}^*$
 ## Lucas-Kanade Jacobian Formulation
 
 Set the $dx=a$ and $dy=b$ as image offset. For the whole image's Jacobian, there is (only $x$-axis is shown, $y$-axis should the same expression).
+
 $$
 \begin{align*}
     \frac{\partial \mathbf{r}(dx,dy)}{\partial dx}

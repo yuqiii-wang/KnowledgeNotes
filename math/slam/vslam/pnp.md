@@ -148,6 +148,7 @@ $$
 * Find $x=\frac{\overrightarrow{OA}}{\overrightarrow{OC}},  y=\frac{\overrightarrow{OB}}{\overrightarrow{OC}}$
 
 To format the above equations and solve for $A,B,C$, perform substitution to remove $\overrightarrow{OC}$.
+
 $$
 x=\frac{\overrightarrow{OA}}{\overrightarrow{OC}}, \quad
 y=\frac{\overrightarrow{OB}}{\overrightarrow{OC}} \\\\
@@ -191,6 +192,7 @@ and then construct a least-squares optimization problem to adjust the estimated 
 ### Constraint: $O, A, B, C$ should NOT be on the same plane
 
 If $O, A, B, C$ are the same plane, the determinant should be zero.
+
 $$
 \begin{array}{|cccc|}
     X_A & Y_A & Z_A & 1 \\\\
@@ -209,6 +211,7 @@ In SLAM, the usual approach is to first estimate the camera pose using P3P/EPnP 
 
 Suppose there are $n$ known 3D space points $\mathbf{P}$ (denote the element as $\mathbf{P}\_i=(X_i, Y_i, Z_i)^\text{T}$) on the world frame, 
 and their projection (projected pixel coordinates denoted as $\mathbf{x}\_i=[u_i, v_i]^\text{T}$) on an image, we want to calculate the transform from the world coordinates to camera coordinates $\mathbf{P}'=\big[\mathbf{R}|\mathbf{t} \big]\mathbf{P}$.
+
 $$
 s_i \begin{bmatrix}
     u_i \\\\
@@ -282,6 +285,7 @@ s \begin{bmatrix}
 $$
 
 Eliminating $s$ gives the exact result of a pixel representation on an image.
+
 $$
 \begin{align*}
     u &= f_x \frac{X'}{Z'} + c_x

@@ -45,6 +45,7 @@ where $\overrightarrow{O}\_{\tiny{W,L}}$ denotes left camera optical center in t
 ### Epipolar constraint 
 
 Let $\times$ represent a cross product, hence $(O_{\tiny{W,L}}-O_{\tiny{W,R}})\times(\mathbf{x}\_{\tiny{W,R}}-O_{\tiny{W,R}})$ represents the normal to epilolar plane. Since $\mathbf{x}\_{\tiny{W,L}}, O_{\tiny{W,L}}, \mathbf{x}\_{\tiny{W,R}}, O_{\tiny{W,R}}$ are coplanar, the scalar product by $(\mathbf{x}\_{\tiny{W,L}}-O_{\tiny{W,L}})^\text{T}$ and the epipolar plane normal should be zero.
+
 $$
 (\mathbf{x}\_{\tiny{W,L}}-O_{\tiny{W,L}})^\text{T}[(O_{\tiny{W,L}}-O_{\tiny{W,R}})
 \times
@@ -67,6 +68,7 @@ $$
 This transforms a vector multiplication into a matrix multiplication. Some articles denote this vector to matrix transformation as $O_{b}^{\vee}=[O_{b}]_{\times}$. 
 
 The vector representation of a real world point in the left camera frame $\mathbf{x}\_{\tiny{W,L}}-O_{\tiny{W,L}}$ can be computed with its pixel vector $\mathbf{x}\_{\tiny{C,L}}$ multiplied by the orientation $R^\text{T}\_{L}$ of the left camera
+
 $$
 \mathbf{x}\_{\tiny{W,L}}-O_{\tiny{W,L}} = R^\text{T}\_{L}\mathbf{x}\_{\tiny{C,L}}
 $$
@@ -171,6 +173,7 @@ $$
 
 Since the essential matrix $E$ describes a camera motion (extrinsics $M_{ex}$: rotation and translation) from $O_L$ to $O_R$, 
 there should be a mapping decomposing $E$ into rotation and translation (here defines $M_{ex}$ composed of rotation $R$ and translation $T$.) such that $E \rightarrow M_{ex}$. SVD can help in this mapping.
+
 $$
 E = U \Sigma V^\text{T}
 $$
@@ -178,6 +181,7 @@ $$
 ## Fundamental matrix
 
 An instrinsic camera calibration matrix $M_{in}$ defines the transformation from a camera coordinate point $\mathbf{x}\_{\tiny{W,C}}$ to its homogeneous coorsdinate point $\mathbf{x}\_{\tiny{W,h}}$.
+
 $$
 \mathbf{x}\_{\tiny{W,h}} = M_{in} \mathbf{x}\_{\tiny{W,C}}
 $$
@@ -199,6 +203,7 @@ F=
 $$
 
 The epipolar constraint can be rewritten in homogeneous coordinates.
+
 $$
 \mathbf{x}\_{\tiny{L, h}}^\text{T}
 F
@@ -232,6 +237,7 @@ A pair of parallel camera views give simple essential matrix performing one-dime
 $$
 \mathbf{x}\_{\tiny{R}}^\text{T} E \mathbf{x}\_{\tiny{L}} = 0
 $$
+
 where
 $$
 E=
@@ -261,6 +267,7 @@ $$
 $$
 
 Hence, we can prove that $\mathbf{x}\_{\tiny{R}}$ and $\mathbf{x}\_{\tiny{L}}$ are on the same epipolar line that at the height of $v=v'$.
+
 $$
 \begin{align*}
 \begin{bmatrix}
@@ -298,6 +305,7 @@ $$
 By Fundamental matrix, a point $\mathbf{x}\_{\tiny{L}}$ on the left camera view should exist on its corresponding epipolar line $\mathbf{x}\_{\tiny{R}}-\mathbf{e}\_{\tiny{R}}$. Since having implemented homographical transformation that two camera views are now in parallel, the point $\mathbf{x}\_{\tiny{L}}$'s correspondant point $\mathbf{x}\_{\tiny{R}}$ must be on this horizontal scanline.
 
 Consider a shifting window $\mathbf{W}$ of a size of $m \times n$, window moving step of $(u,v)$ on an image $I$, and define an error *sum of squared differences* (SSD) which is the squared differences of all pixels in a window before and after window's shifting.
+
 $$
 E_{ssd}(u,v)=\sum_{(x,y)\in\mathbf{W}\_{m \times n}} 
 \big[

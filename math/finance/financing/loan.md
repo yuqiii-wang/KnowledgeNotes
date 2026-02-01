@@ -1,4 +1,4 @@
-# Load
+# Loan
 
 ## Loan Types
 

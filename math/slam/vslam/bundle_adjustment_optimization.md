@@ -32,12 +32,14 @@ A good keyframe should have a high $S$ score ($v_k$ being very similar to the ot
 * Linear Discriminant Analysis (LDA)
 
 Define a segmentation method to $\mathbf{V}$, such that $\mathbf{V}$ is partitioned into $K$ non-overlapping sets of contiguous frames. Each $\mathbf{Q}_j$ has $N_k$ frames.
+
 $$
 \mathbf{V} = 
 \bigcup_{j=1,2,...,m} \mathbf{Q}_k
 $$
 
 First compute mean feature vector $\mu_j$ from each $\mathbf{Q}_j$ and the global mean $\mu$ from $\mathbf{V}$, then compute the within-class $S_w$ and between-class $S_b$ variances.
+
 $$
 \begin{align*}
     S_w &= \sum^m_{j=1} \sum_{v_i \in \mathbf{Q}_j}
@@ -57,6 +59,7 @@ $$
 Now project the source feature space $\mathbf{V}$ by $\mathbf{W}^*$ to a lower dimensional space $\~\mathbf{V}$, there is $\~\mathbf{V}=\mathbf{W}^{*\text{T}}\mathbf{V}$. The projected space $\~\mathbf{V}$ should see each $\mathbf{Q}_j$'s centroid/mean $\mu_j$ widely separated and frames' features $v_i$ within each $\mathbf{Q}_j$ concentrated.
 
 The best keyframe feature vector $v_k^*$ in each segment $\mathbf{Q}_j$ should be the one frame's feature vector closest to the $\mathbf{Q}_j$'s centroid/mean $\mu_j$ in the projected space $\~\mathbf{V}$.
+
 $$
 v^*_k = arg \space \underset{v_k \in \mathbf{Q}_k}{min} \space
 \big|\big|
@@ -104,10 +107,12 @@ their poses are denoted as $\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_n$.
 Given the same sliding window containing the aforementioned poses, suppose there are $m$ landmarks in this window $\mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_m$.
 
 The conditional distribution of the poses $\mathbf{x}_k$ conditioned on $\mathbf{y}_k$ can be expressed as below under Gaussian noise assumption.
+
 $$
 [\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_n | \mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_m]
 \sim N([\mathbf{\mu}_1, \mathbf{\mu}_2, ..., \mathbf{\mu}_n]^\text{T}, \Sigma_{n})
 $$
+
 where $\mathbf{\mu}_k$ is mean of the $k$-th keyframe, $\Sigma$ is the covariance matrix of all keyframes.
 
 BA collectively computes the windows's keyframes, and delivers the $\mathbf{S}$ that determines camera poses $\mathbf{x}\_{\mathbf{\xi}_k}: k = 1,2,...,n$.
@@ -124,6 +129,7 @@ $$
 [\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_n, \mathbf{x}\_{n+1} | \mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_m, \mathbf{y}\_{m+1}, ..., \mathbf{y}\_{m_{n+1}}]
 \sim N([\mathbf{\mu}_1, \mathbf{\mu}_2, ..., \mathbf{\mu}_n, \mathbf{\mu}\_{n+1}]^\text{T}, \Sigma_{n+1})
 $$
+
 where $[\mathbf{y}\_{m+1}, ..., \mathbf{y}\_{m_{n+1}}]$ are the new landmarks observed from the new pose $\mathbf{x}\_{n+1}$. There is possibility that landmarks $\mathbf{y}_k \in [\mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_m]$ are observed from the new camera pose $\mathbf{x}\_{n+1}$
 
 * Removing Old Keyframes
@@ -158,6 +164,7 @@ and $\mathbf{C}'$ describes the remaining of the original $\mathbf{\Lambda}$ (th
 
 Schur trick works on this linear system, where $\mathbf{v}'$ refers to permuted noises about $\mathbf{x}_1$. 
 The marginalization aims to compute $\Delta \mathbf{x}\_{{\mathbf{x}_1 } \notin \mathbf{x}}$.
+
 $$
 \begin{bmatrix}
     \mathbf{B}' & \mathbf{E}' \\\\
@@ -234,6 +241,7 @@ $$
 
 Apply Lie algebra perturbation $\Delta \mathbf{\xi}$ for finding the Jacobian of $\mathbf{e}$.
 Since there are $\mathbf{\xi}\_i$ and $\mathbf{\xi}_j$, the Jacobian should respect these two variables. Define two trivial disturbance terms $\Delta \mathbf{\xi}\_i$ and $\Delta \mathbf{\xi}_j$ to the above error expression.
+
 $$
 \hat{\mathbf{e}}\_{ij} = 
 ln([\mathbf{R}|\mathbf{t}]_{ij}^{-1}[\mathbf{R}|\mathbf{t}]^{-1}\_i e^{(-\Delta \mathbf{\xi}\_i)^\wedge} e^{(\Delta \mathbf{\xi}_j)^\wedge} [\mathbf{R}|\mathbf{t}]_j)^\vee
