@@ -133,3 +133,20 @@ Destruction|beforeDestroy, destroyed|onUnload
 |-----|---------|---------|-------------|
 | *Custom scroll handling* | `onPullDownRefresh()` | Pull to refresh | `mounted() { this.$refs.scroll.addEventListener('touchstart', this.handlePullDown); }` |
 | *Custom scroll handling* | `onReachBottom()` | Scroll to bottom | `mounted() { this.$refs.scroll.addEventListener('scroll', this.checkBottom); }` |
+
+## Uni-App Underlying Implementation
+
+### `plus.io`
+
+In uni-app, plus.io refers to the HTML5+ IO (Input/Output) module.
+It is a set of native APIs provided by the DCloud (5+ Runtime) environment that bridge between JavaScript and the native OS (Android/iOS) file system.
+
+It **only works on App platforms** (Android and iOS). It will not work on H5 (web browsers) or Mini Programs (WeChat, Alipay, etc.).
+
+#### Directories (Sandbox)
+
+To ensure security, the file system is sandboxed.
+
+* `_www/`: The app's resource directory (where packaged code and static assets live). **Read-only**.
+* `_doc/`: The app's private document directory. User can **read and write here**. Data persists after app restarts but may be cleared if the user clears app data.
+

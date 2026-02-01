@@ -249,6 +249,65 @@ $$
 * Cross-attention ensures that the decoder focuses on the **most relevant** parts of the source input when generating each word in the target sequence.
 * For example, in English-to-Japanese translation, the verb usually comes at the end of the sentence in Japanese, while in English it often comes earlier. Cross-attention helps the model retain the correct verb and align it appropriately across the language pairs.
 
+### Induction Head
+
+Reference: 
+https://arxiv.org/pdf/2209.11895 (In-context Learning and Induction Heads, authored by Claude, referred in this chapter as the paper)
+
+#### Intro: The Typical Attention Head and In-Context Learning
+
+> In modern language models, tokens later in the context are easier to predict than tokens earlier in the context. As the context gets longer, loss goes down., and it is
+usually referred to as *in-context learning*.
+> Emergent in-context learning was noted in GPT-2 and gained significant attention in GPT-3. Simply by adjusting a “prompt”, transformers can be adapted to do many useful things without retraining.
+
+Induction head can help better understand how in-context learning works.
+
+Formally, the paper defines an induction head as one which exhibits the following two properties on a repeated random sequence of tokens:
+
+* Prefix matching: The head attends back to previous tokens that were followed by the current and/or recent tokens. That is, it attends to the token which induction would suggest
+comes next.
+* Copying: The head’s output increases the logit corresponding to the attended-to token.
+
+#### Start with: General Residual Stream Definition
+
+Let $\bold{t}_n^{(l-1)}\in\bold{t}^{(l-1)}$ be the last token vector from from the $(l-1)$-th layer, its corresponding next layer input is 
+
+$$
+\mathbf{t}_n^{(l)} = \mathbf{t}_n^{(l-1)} + \text{Attention}(\mathbf{t}_n^{(l-1)}) + \text{MLP}(\mathbf{t}_n^{(l-1)})
+$$
+
+#### Formulation: The Induction Circuit (in two steps)
+
+Assume the circuit operates across two different layers: a **Previous-Token Head** at layer $u$ and an **Induction Head** at layer $l$ (where $l > u$).
+
+1. **Previous-Token Head (Layer $u$)**
+
+*Goal:* Write the information from position $n-1$ into the vector at position $n$, a.k.a., *Query-Key Circuit (QK)*:
+
+$$ \mathbf{t}_n^{(u)} \leftarrow \mathbf{t}_n^{(u-1)} + \underbrace{W_O^{(u)} W_V^{(u)} \mathbf{t}_{n-1}^{(u-1)}}_{\text{Copying previous token}} $$
+
+2. **Induction Head (Layer $l$)**
+
+*Goal:* The current token $n$ looks for a historical token $i$ where the *predecessor* was also of the same pattern, and copies $i$, a.k.a., *Output-Value Circuit (OV)*
+
+1. The Query (Current Context):
+
+$$ \mathbf{q}_n = W_Q^{(l)} \mathbf{t}_n^{(l-1)} $$
+
+2. The Key (Historical Context at position $i$):
+
+Because of previous-token head, the vector at historical position $i$, $\mathbf{t}_i^{(l-1)}$, contains a copy of its predecessor $\mathbf{t}_{i-1}$.
+$$ \mathbf{k}_i = W_K^{(l)} \mathbf{t}_i^{(l-1)} \qquad \text{Contains info about } \mathbf{t}_{i-1} \text{} $$
+
+3. The Attention Score (Pattern Matching):
+The score peaks when the current token matches the historical predecessor ($\mathbf{t}_n \approx \mathbf{t}_{i-1}$).
+$$ \alpha_{n,i} = \text{softmax}\left( \frac{(\mathbf{t}_n^{(l-1)})^\top (W_Q^{(l)})^\top W_K^{(l)} \mathbf{t}_i^{(l-1)}}{\sqrt{d}} \right) $$
+
+4. The Update (Copying Next Token):
+The head copies the content of $\mathbf{t}_i$ (which is $B$) into the residual stream of $\mathbf{t}_n$.
+
+$$ \mathbf{t}_n^{(l)} = \mathbf{t}_n^{(l-1)} + \sum_{i < n} \alpha_{n,i} \cdot \left( W_O^{(l)} W_V^{(l)} \mathbf{t}_i^{(l-1)} \right) $$
+
 ## Encoder and Decoder
 
 Generally speaking,

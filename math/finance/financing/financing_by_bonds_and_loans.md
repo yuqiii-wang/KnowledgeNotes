@@ -132,3 +132,8 @@ European Central Bank uses ECB to identify securities in its database.
 A ticker-like code used by Refinitiv (formerly Thomson Reuters).
 
 Example: AAPL.O (Apple Inc. on NASDAQ)
+
+## Medium-term Lending Facility (MLF, 中期借贷便利)
+
+It is a key monetary policy tool used by China's central bank, the People's Bank of China (PBOC), to manage liquidity in the banking system and influence interest rates.
+While it remains a vital tool for injecting cash into banks, its function as the primary "price signal" (benchmark interest rate) is diminishing in favor of shorter-term rates.

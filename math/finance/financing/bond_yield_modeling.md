@@ -187,6 +187,8 @@ Given a set of spot rates, the interpolated curves are shown as below.
 
 ### Example Use Cases
 
+#### Indication of Low Liquidity
+
 Dominican Republic govt bonds have low liquidity hence parametric method is used for curve interpolation.
 The large deviation is a sign of low liquidity.
 
@@ -195,7 +197,11 @@ The large deviation is a sign of low liquidity.
 </div>
 </br>
 
-Spline can give a curve shape even if it is NOT monotonic.
+#### Multi-Extreme Points of Spline
+
+Rate distribution at diff timestamp could fluctuate by a lot, and spline can give a curve shape even if it is NOT monotonic.
+
+Also, notice in this figure that for US Govt bonds have high-liquidity, many of the time slots are filled with actual market observations.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/bbg_ust_yield_curve.png" width="60%" height="40%" alt="bbg_ust_yield_curve" />

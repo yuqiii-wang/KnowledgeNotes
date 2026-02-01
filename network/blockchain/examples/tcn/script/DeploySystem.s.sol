@@ -12,12 +12,10 @@ contract DeploySystem is Script {
         
         vm.startBroadcast(deployerKey);
 
-        // AssetFactory factory = new AssetFactory();
         DvPSettlement dvp = new DvPSettlement();
 
         vm.stopBroadcast();
 
-        console.log("AssetFactory:", address(factory));
         console.log("DvPSettlement:", address(dvp));
     }
 }

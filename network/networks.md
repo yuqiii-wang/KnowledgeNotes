@@ -51,16 +51,105 @@ domain_name_server (ip_mult): {172.20.10.x}
 end (none):
 ```
 
-## Network Time Protocol
+## Practice: How Home Computer Obtains an IP 
 
-Allow computers to access network unified time to get time synced. 
+Assume a home computer is connected to a router device that is then connected to a modem device; both are manufactured by ZTE.
+By `ipconfig -all`, there is
 
-Stratum Levels:
+```txt
+Ethernet adapter Ethernet:
 
-* Stratum 0: Atomic clocks
-* Stratum 1 - 5: various Time Servers
-* Stratum 16: unsynced
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Intel(R) Ethernet Controller I226-V
+   Physical Address. . . . . . . . . : 60-CF-84-D8-52-D3
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   IPv6 Address. . . . . . . . . . . : 2408:8256:a8a:8901:3ab0:3eed:8d7a:f115(Preferred)
+   Temporary IPv6 Address. . . . . . : 2408:8256:a8a:8901:b485:7324:df4c:e0f6(Preferred)
+   Link-local IPv6 Address . . . . . : fe80::83da:7414:ada6:2b68%19(Preferred)
+   IPv4 Address. . . . . . . . . . . : 192.168.5.59(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : fe80::5%19
+                                       192.168.5.1
+   DHCPv6 IAID . . . . . . . . . . . : 258002820
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-2F-C6-BD-9B-60-CF-84-D8-52-D3
+   DNS Servers . . . . . . . . . . . : fe80::5%19
+                                       192.168.5.1
+                                       fe80::5%19
+```
 
-Time authentication fails for large time gaps.
+where `192.168.5.59` is home computer.
 
-Primary NTP servers provide first source time data to secondary servers and forward to other NTP servers, and NTP clients request for time sync info from these NTP servers.
+### The ZTE Router (`192.168.5.1`)
+
+* It manages home Wi-Fi and local Ethernet traffic.
+* username/password is set by ZTE device.
+* A DHCP server (It holds the "pool" of available IP addresses and assigns them to devices when they connect)
+* A DNS Server (usually acting as a Relay) that if it does not know a domain name mapped IP, it asks ISP for info 
+
+The DHCP server (the router `192.168.5.1`) leases a random IP to home computer.
+If home computer wants to reject DHCP server assigning IP, run these.
+
+```ps
+netsh interface ip set address "Ethernet" static 192.168.5.59 255.255.255.0 192.168.5.1
+netsh interface ip set dns "Ethernet" static 192.168.5.1
+```
+
+The above cmd sets the home computer to using the static IP `192.168.5.59`.
+The success of set up can be seen in `ipconfig -all` that there is
+
+```txt
+DHCP Enabled. . . . . . . . . . . : No
+```
+
+Home computer can set up to look up a static DNS server if ISP provided DNS result is not reliable.
+
+```ps
+netsh interface ip set dns "Ethernet" static 8.8.8.8
+netsh interface ip add dns "Ethernet" 1.1.1.1 index=2
+```
+
+where `8.8.8.8` is Google and `1.1.1.1` is Cloudflare.
+
+### The Modem (`192.168.1.1`)
+
+In home network setup, the ZTE (Wifi) router is connected to ISP device modem (`192.168.1.1`).
+
+* ISP (Internet Service Provider) connects directly to the fiber optic cable or telephone line
+* Its username/password is set by the ISP
+* Visiting `192.168.1.1` bypasses ZTE router talking directly to the outer modem
+
+### ARP Validating Ownership of Home Computer IP `192.168.5.59`
+
+Address Resolution Protocol (ARP) translates logical IP addresses (Layer 3) into physical MAC addresses (Layer 2).
+
+For example, `arp -a 192.168.5.1` reveals the mapping between the router `192.168.5.1` and its MAC physical addr.
+
+```txt
+Interface: 192.168.5.59 --- 0x13
+  Internet Address      Physical Address      Type
+  192.168.5.1           f4-fc-49-27-d2-6a     dynamic
+```
+
+If home computer is set up the static `192.168.5.59` IP, user can use ARP to validate if it has exclusive ownership of IP `192.168.5.59`. 
+
+First make sure `192.168.5.59` exists by `ping`.
+
+```txt
+C:\Windows\System32>ping 192.168.5.59 -n 1
+
+Pinging 192.168.5.59 with 32 bytes of data:
+Reply from 192.168.5.59: bytes=32 time<1ms TTL=128
+
+Ping statistics for 192.168.5.59:
+    Packets: Sent = 1, Received = 1, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+```
+
+Then, by `arp -a 192.168.5.59` (this cmd broadcasts `192.168.5.59` to the whole network asking if any device has already owned the IP), there should be no response from the local network managed by the router `192.168.5.1`.
+
+```txt
+C:\Windows\System32>arp -a 192.168.5.59
+No ARP Entries Found.
+```

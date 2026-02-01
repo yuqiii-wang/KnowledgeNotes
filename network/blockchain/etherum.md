@@ -16,7 +16,14 @@ The EVM does not use a SQL database (like Postgres). It uses high-performance, e
 |Nethermind / Besu|RocksDB|LSM Tree|Created by Facebook. A fork of LevelDB optimized for multi-core CPUs and fast NVMe SSDs.|
 |Erigon / Reth|MDBX|B+ Tree|A super-fast version of LMDB. It uses Memory Mapping, allowing the database to be read directly from RAM/Disk without copying buffers.|
 
-### The EVM Execution Components
+By the latest development (Jan 2026), Ethereum needs Execution Client (e.g., Geth) and Beacon Client (e.g., Consensus).
+
+### The Execution and Beacon Client
+
+* Execution Client (e.g., Geth): The worker. It deals with transactions, smart contracts, and balances. It is heavy on computation.
+* Beacon Client (e.g., Consensus): The manager. It deals with people (validators), time, and agreement. It is heavy on networking and rules.
+
+#### The EVM Execution Components
 
 When a transaction runs, the EVM instantiates a new Execution Context.
 
@@ -46,7 +53,7 @@ Popular engines are
 
 P.S., since v1.14, Geth separates execution and consensus components, while in v1.13, a lightweight consensus engine *Clique* in embedded.
 
-### The EVM Consensus Components
+#### The EVM Consensus Components
 
 The Consensus Client handles the Beacon Chain. It manages the validators, tracks the logic of who votes for what block.
 
@@ -334,7 +341,32 @@ A standard Ethereum node does NOT maintain a database index that maps `Address -
 Etherscan/MetaMask build a massive External Indexing Layer (usually a standard SQL database or specialized software).
 They have a script that listens to every new block from Geth, and write data into a centralized database (like PostgreSQL).
 
+### Ethereum Money Flow
+
+This explains by the end of an epoch (wrapped of many transactions) how ETH coins are issued/minted (inflation) and burned/consumed (deflation).
+
+#### Coin Burn for Deflation
+
+When a user pays transaction fee/gas, the fee is composed of $\text{BaseFee}+\text{PriorityFee}$.
+
+The base fee is burned for the purpose of deflation, while the priority fee is given to computer node.
+
+The word "burn" means, coins are just burnt out to non-existence; not distributed to other computer nodes.
+
+#### Computer Node Earning Money
+
+* The Consensus Layer
+
+Every 6.4 minutes (an epoch), the protocol prints new ETH and gives it to validators who did their job correctly (voting on blocks).
+This mechanism is effectively inflating money supply.
+
+* The Execution Layer
+
+Priority Fees (Tips): When human user uses Uniswap or send USDT, he/she pays a gas fee. Part of that fee (the tip) goes directly to the validator who included transaction.
+
 ## Ethereum Variant Chains
+
+### Forked Ethereum Branches
 
 * ETH (Ethereum Mainnet - Proof of Stake)
 
@@ -348,3 +380,87 @@ Purpose: To give miners a way to keep using their equipment.
 * ETC (Ethereum Classic)
 
 This is actually the original Ethereum. In 2016, Ethereum was hacked (The DAO Hack). The developers decided to rewrite history to reverse the hack (creating today's ETH). Some people refused to rewrite history, staying on the original chain, which became ETC.
+
+### Ethereum-Based Layer 2 Chains
+
+Common popular chains are
+
+||Polygon|Solana|Base (Coinbase)|Arbitrum|
+|:---|:---|:---|:---|:---|
+|Chain ID|137|1101|8453|42161|
+|Best For|Corporate Partnerships & Gaming|High Speed & Memecoins|Retail Users (Coinbase App)|DeFi (Finance) Heavyweights|
+|Fees|Very Low ($0.01)|Lowest ($0.0002)|Low ($0.01 - $0.05)|Low ($0.10)|
+|Speed|Fast|Fastest|Fast|Fast|
+|Tech Status|Mature + Upgrading (AggLayer)|different language (Rust)|Rising Star (Optimistic Rollup)|Market Leader in TVL (Total Value Locked)|
+
+### Example: Polygon Blockchain
+
+Polygon is a "Layer 2" sidechain on top of Ethereum。
+One of the biggest applications is *polymarket*, which is a betting platform.
+Participants can deposit USDC cryptocurrency through the Polygon blockchain network and trade shares that represent the likelihood of specific future outcomes.
+
+In Jan 2026, polymarket logs below trending events for individuals to place bets.
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/polymarket_homepage.png" width="60%" height="40%" alt="polymarket_homepage" />
+</div>
+</br>
+
+Ethereum has high data traffic as a result the gas fee can be very high.
+Polygon Layer 2 blockchain can cuts the gas fee by below implementation. 
+
+* On Ethereum: Every single transaction (buying a coffee, swapping a token) is written permanently into the Ethereum ledger. This is why it is slow and expensive.
+* On Polygon: When you use Polygon, your transaction data stays on Polygon.
+    * Polygon processes thousands of transactions locally.
+    * Every so often (about every 30 minutes to an hour), Polygon takes a "snapshot" or checkpoint of all those thousands of transactions.
+    * If more than 2/3 of the active validators reach consensus on the checkpoint, the checkpoint is submitted to the Ethereum mainnet.
+
+#### Polygon Proof-of-Stake (PoS) Validator Join
+
+Reference: https://docs.polygon.technology/pos/get-started/becoming-a-validator/
+
+The Polygon network is capped at 105 active validators.
+To join the polygon validator group, new joiner computer must outbid the existing validator with the lowest stake.
+
+Currently need a total stake (Self Stake (in 2025 a minimum of 10,000 POL as stake) + Delegated Stake(dynamic)) 10,000+ POL to host a node.
+
+The current Polygon validator list is https://staking.polygon.technology/.
+
+## Decentralized Finance (DeFi) and Money Pool
+
+DeFi employs distributed computers executing transactions and logs data in distributed ledgers, therefore it avoids administration by centralized institutions.
+
+DeFi vs. Traditional Finance (TradFi)
+
+||Traditional Finance (Banks/Wall St)|DeFi (Blockchain)|
+|:---|:---|:---|
+|Intermediaries|Banks, Brokers, Clearing Houses|Distributed computers (Smart Contracts, Code)|
+|Access|Restricted (KYC, geography, credit score)|Permissionless (unknown human user with a wallet addr)|
+|Transparency|Opaque (Internal books are private)|Transparent (All transactions are on-chain)|
+|Custody|Custodial (Bank holds your money)|Non-Custodial (keys/money in individual users)|
+|Speed|T+2 days for settlement|Minutes/Seconds (depending on chain)|
+
+### Liquidity Money Pool
+
+Decentralized exchanges (abbreviated DEXs) is the payment ecosystem of DeFi.
+A DEX sets up a pool of tokenized assets and the prices of the assets are determined by maintaining a "stable constant" $k$.
+
+For example, a pool has $\$\text{POL }10^9$ (valued at $\$13$ per $\$100$) and $\$\text{USDC } 10^8$ (valued at $\$99.8$ per $\$100$) deposit.
+The two assets together form a stable mapping: $k=(10^9 \times 0.13)\times (10^8 \times 0.998)$.
+If there is a transaction moving out some assets, e.g., transferring $\$\text{USDC }5\times 10^6$ out to an external wallet, to maintain the $k$ constant, there should adjust the currency conversion rate $c_{\text{pol}}=0.13$ to $c_{\text{pol}}\approx 0.1368$:
+
+$$
+\begin{align*}
+(10^9 \times 0.13)\times (10^8 \times 0.998)&=(10^9 \times c_{\text{pol}})\times \big((10^8-5\times 10^6) \times 0.998\big) \\
+c_{\text{pol}} &\approx 0.1368
+\end{align*}
+$$
+
+Consequently, diff pools have diff currency conversion rates.
+
+Besides maintaining a large money pool for deal making, since in PoS more stake more voting (higher chances to find next block), computer nodes under admin of a large pool have higher chances of receiving block-discovery reward.
+
+This design encourages individual wallet holders to deposit money/tokenized assets to a large pool and individuals are paid with interest for the deposits.
+
+In Jan 2026, the individual deposit annualized rate is $2.4\%$.
+Likely the pool arranger collects a spread of $0.3\%$ as operation costs (e.g., electricity and computer hardware procurement and maintenance) + profit.

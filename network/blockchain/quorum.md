@@ -1,61 +1,57 @@
 # JP Morgan’s Quorum
 
-Quorum is forked from Ethereum focusing on enterprise private blockchain network.
-It has enhancements on transaction privacy.
+In 2016, J.P. Morgan open-sourced a private, permissioned blockchain protocol called Quorum, derived from the Ethereum blockchain with a focus on institutional-grade performance, privacy, and security requirements. 
 
-## Business Motivations
+## Business Motivations and Benefits
 
-In the financial world for two banks to settle a trade, there exist below pain points.
+Kinexys is a blockchain-based business unit focused on building and commercializing blockchain-based products, solutions, and infrastructure for J.P. Morgan’s clients. It consists of three in-production blockchain-based networks that provide solutions in the areas of payments, data sharing, and multi-asset settlements:
 
-### The "Single Source of Truth" vs. "Reconciliation Hell":
+* Kinexys Link, a network for payment-related data sharing between banks
+* Kinexys Digital Payments, a blockchain-based payment rail for institutional clients
+* Kinexys Digital Assets, an asset tokenization platform that has three applications: Digital Financing (settlement of repo (repurchase agreement) transactions), Tokenized Collateral Network (tokenizing assets to use as collateral), and Digital Debt Service (issuance, settlement, and life-cycle management of debt instruments)
+* Kinexys Labs, an incubator for new blockchain-based solutions
 
-In the traditional banking world (SWIFT/Correspondent Banking), money does not actually "move."
+Quorum is the customized blockchain forked from Ethereum.
+Quorum can run *solidity* smart contracts.
 
-Traditional Way:
+The Digital Financing (settlement of repo transactions) business currently processes approximately USD 2 billion on average in transaction volume on a daily basis in its repo markets and has surpassed USD 1.75 trillion in total volume since its launch in December 2020.
 
-1. Bank A debits its internal database (Leger A): "-10M".
-2. Bank A sends a secure message (SWIFT) to Bank B.
-3. Bank B receives the message and credits its internal database (Ledger B): "+10M".
-4. The Problem: What if Bank A’s database says sent, but Bank B’s system crashed? Or what if there is a typo? Or a dispute?
+### Benefits in REPO (Repurchase Agreement) Transactions
 
-Result: Banks employ thousands of operations staff just to do Reconciliation—checking if Spreadsheet A matches Spreadsheet B at the end of every day.
+REPO trade is characterized by a form of DVP (Delivery vs Payment) that one party lends securities and receives money, while the counterparty does the opposite (borrow securities and lend money).
+For the trade quantity is often large, e.g., millions of dollar, usually the settlement date is T+2 that when a trade is executed, it takes 2 days for both parties to exchange money vs securities/goods.
 
-Blockchain Way:
+The use of tokenization enables a unique combination of execution and settlement in the same venue and more broadly allows for further programmability.
 
-1. There is no "Database A" and "Database B." There is only The Ledger.
-2. When the transaction is confirmed on Quorum, both banks look at the exact same record. They share a "Golden Source" of truth.
+According to the firm’s own assessment, one of its participants using its Digital
+Financing platform experienced a reduction in its intraday financing costs of
+50%–60% compared with its traditional intraday credit funding solution.
 
-Benefit: Reconciliation is instant and automatic; the shared ledger is the proof it arrived.
+It has four major benefits.
 
-### The "Double Spend" Problem (Without a Central Bank)
+* No reconciliations between transaction parties
+* Reduced risks from collateral inventory mismanagement
+* Increased trade lifecycle transparency
+* Potential profits from precise timing on collateral trading
 
-If Bank A sends a digital file saying "Here is $10M" to Bank B via an API, what prevents Bank A from sending that same file to Bank C five minutes later?
+### Tokenization Process and Trade Life Cycle
 
-Traditional Way:
+1. Security Segregation/Transfer
+    * The triparty custodian moves the assets from the regular account of the broker/dealer to an account of the collateral token agent (A separate custodian serving as the subcustodian is linked to the Kinexys platform)
+2. Money Segregation/Transfer
+    * The party must fund its blockchain deposit account (BDA) via Kinexys Digital Payments through a transfer of cash from its demand deposit account (DDA). 
+3. REPO First Leg Trade Execution 
+    * The lender and buyer negotiate terms and cryptographically sign the terms of the trade, which includes encoding into the smart contact the agreed-upon settlement and maturity timing.
+    * The cash and entitlement to ownership of the collateral are **atomically settled** at the designated settlement time.
+4. Between REPO Legs
+    * The cash borrower withdraws its cash from the blockchain deposit account
+    * The lender maintains entitlement to the collateral in tokenized form
+5. REPO Second Leg Trade Execution 
+    * In anticipation of maturity, the platform initiates a transfer of the cash plus interest from the cash borrower’s demand deposit account to the blockchain deposit account, followed by the smart contract triggering the maturity of the trade.
+    * Digital Financing exchanges the principal plus interest for the collateral.
+    * The involved parties can choose to remove their assets or leave them on the platform.
 
-* There needs a trusted third party (an Admin), like a Central Bank or a Clearing House (e.g., The Fed, CHIPS, Euroclear). Both banks trust this Admin to track who owns what. This adds fees and delays (T+2 settlement days).
-
-* Blockchain Way:
-
-The Network (Bank C and D) acts as the notary.
-
-### Delivery vs. Payment (DvP) – The "Atomic Swap"
-
-Banks rarely just "send money" for no reason; they usually send money to buy something (like a Bond or Stock), i.e., to do DvP trade.
-
-Traditional Way:
-
-1. Bank A sends Cash to Bank B. (Wait 1 day).
-2. Bank B sends the Bond to Bank A.
-* Risk: What if Bank B goes bankrupt in that 1-day window? Bank A lost their cash and didn't get the bond. This is called Herstatt Risk (Settlement Risk).
-
-Blockchain Way (Smart Contracts):
-
-* Write smart contract: "Move Cash from A to B IF AND ONLY IF Bond moves from B to A."
-* This happens in the exact same millisecond (Atomic Settlement).
-* Benefit: Counterparty risk is effectively eliminated,  that this counterparty cannot just withdraw the trade for settlement happens in milliseconds.
-
-## The Solution: JP Morgan’s Quorum
+## The Tech of JP Morgan’s Quorum
 
 JP Morgan took the public Ethereum code (Geth) and modified it to fit private blockchain network needs: *Quorum*
 

@@ -10,7 +10,7 @@ contract DeployScript is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // Deploy Token
-        YuqiCoin token = new YuqiCoin(100);
+        YuqiCoin token = new YuqiCoin(1000_000_000);
         
         vm.stopBroadcast();
     }

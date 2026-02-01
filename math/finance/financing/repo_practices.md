@@ -147,7 +147,7 @@ At today spot the available internal inventory is 35mil.
 Take into account the above institution A and institution B offers, by dynamic programming, there is this optimal combination.
 
 <div style="display: flex; justify-content: center;">
-      <img src="imgs/repo_external_borrow.png" width="60%" height="40%" alt="repo_external_borrow" />
+    <img src="imgs/repo_external_borrow.png" width="60%" height="40%" alt="repo_external_borrow" />
 </div>
 </br>
 
@@ -249,3 +249,92 @@ $$
 =& 1 + (\text{LinearRate}_{14+412}-1) \times 360 / (14+412) \\
 \end{align*}
 $$
+
+## Benchmark: Interbank Rates
+
+* Overnight (ON) Rate
+
+Overnight rate is generally the interest rate that large banks use to borrow and lend from one another in the overnight market.
+
+Implications:
+Overnight rates are a measure of the liquidity prevailing in the economy. In tight liquidity conditions, overnight rates shoot up.
+Central banks can stipulate overnight rate to control money supply.
+
+There are many indecies/references of Overnight rates: LIBOR, EONIA, SOFR, SONIA, etc.
+
+* LIBOR
+
+The London Inter-Bank Offered Rate (LIBOR) is an interest-rate average calculated from estimates submitted by the leading banks in London.
+
+* EONIA
+
+Eonia (Euro Overnight Index Average) is computed as a weighted average of all overnight unsecured lending transactions in the interbank market, undertaken in the European Union and European Free Trade Association (EFTA) countries by the Panel Banks
+
+* Secured Overnight Financing Rate (SOFR)
+
+SOFR is published by the New York Federal Reserve every business day for the previous business day. 
+SOFR is a reference rate (that is, a rate used by parties in commercial contracts that is outside their direct control) established as an alternative to LIBOR.
+
+LIBOR is prone to error since it derives from calculations based on banks' survey, while SOFR reflects the real-time real world rates.
+
+* Hong Kong Interbank Offered Rate (HIBOR)
+
+the Hong Kong Interbank Offered Rate (HIBOR) is the benchmark interest rate that lenders and borrowers use for interbank lending in the Hong Kong market.
+
+* China/Shanghai Interbank Interest Rate (Shibor)
+
+Offered by (China/Shanghai) National Interbank Funding Center ((Shibor)).
+
+* SONIA (Sterling Overnight Index Average)
+
+SONIA is based on actual transactions and reflects the average of the interest rates that banks pay to borrow sterling overnight from other financial institutions and other institutional investors.
+
+It is administered by Bank of England.
+
+### Detailed Explanation of SHIBOR
+
+1. The calculation of the SHIBOR rate involves a collaborative effort among 18 commercial banks, each playing a crucial role in determining this key benchmark.
+    * ICBC
+    * Agricultural Bank of China
+    * Bank of China, China Construction Bank
+    * Bank of Communications
+    * China Merchants Bank
+    * CITIC Bank Corporation
+    * China Everbright Bank
+    * Industrial Bank
+    * Shanghai Pudong Development
+    * Bank of Beijing
+    * Bank of Shanghai
+    * HSBC Bank
+    * Hua Xia Bank
+    * China Guangfa Bank
+    * Postal Savings Bank of China
+    * China Development Bank
+    * China Minsheng Banking
+2. The four highest and four lowest offered rates from the contributing banks are excluded from the list.
+Subsequently, the remaining rates, now comprising 10 values, are subjected to a straightforward mathematical average.
+3. The China Foreign Exchange Trade System (CFETS) publishes Shibor rates.
+
+### The Underlying Motivation of Interbank Rates
+
+Interbank rates are concluded by market: volume-weighted median of billions of dollars in actual Repo transactions.
+Unless in a financial crisis, monetary policy has great impact on interbank rates.
+
+Take SOFR, FFR and US Treasury as example.
+
+* Federal Funds Rate (FFR)
+
+When a depository institution has surplus balances in its reserve account, it lends to other banks in need of larger balances.
+The rate that the borrowing institution pays to the lending institution is determined between the two banks; the weighted average rate for all of these types of negotiations is called the effective federal funds rate.
+
+The Federal Open Market Committee (FOMC) meets eight times a year to determine the federal funds target range. The Fed's primary tool for influencing the federal funds rate is the interest the Fed pays on the funds that banks hold as reserve balances at their Federal Reserve Bank, which is the **Interest on Reserves Balances (IORB)** rate.
+Because banks are unlikely to lend funds in the federal funds market for less than they get paid in their reserve balance account at the Federal Reserve, the Interest on Reserve Balances (IORB) is an effective tool for guiding the federal funds rate.
+
+* US Treasury
+
+When the US Treasury **issues** new bonds (e.g., selling $50 billion of 10-Year Notes), investors must pay for them.
+The Action: Investors withdraw cash from the banking system to pay the Treasury.
+The Impact: Suddenly, there is less cash in the system.
+SOFR Effect: Cash becomes scarce. In the Repo market (where SOFR is set), borrowers have to pay a higher rate to get cash. SOFR goes UP.
+
+Bond issuance has impact on SOFR, but not how bonds are traded on the secondary market.

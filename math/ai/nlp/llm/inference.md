@@ -106,6 +106,31 @@ The probability of a token $t_{i+1}$ being selected takes into consideration of 
 * Contextual Bias: If the model has seen similar patterns during training (e.g., repetitive phrases like "hello hello hello"), it may overestimate the probability of repeating certain tokens.
 * Overconfidence in Token Selection: The model might select the most probable token repeatedly, leading to a loop.
 
+### The Root Cause: Attention Sink
+
+Revisit the attention formula. At step $n$, the model generates a query $\bold{q}_{n}$. It compares this against all previous keys $\bold{k}_i$ for $1 \le i < n$.
+
+$$
+\text{score}(n,i)=\frac{\bold{q}_{n}^{\top}\bold{k}_i}{\sqrt{d}}
+$$
+
+Assumed RoPE as token embedding, then let $\bold{q}_{n}=R_{n}\bold{q}_1$ and $\bold{k}_i=R_{i}\bold{k}_1$ so that their position info is represented via rotation matrices $R_{n}$ and $R_{i}$, there is
+
+$$
+\max \text{score}(\bold{q}_{n}, \bold{k}_i) =
+(R_{n} \bold{q}_1)^{\top} (R_{i} \bold{k}_1) =
+\bold{q}_1^{\top} R_{n}^{\top} R_{i} \bold{k}_1 =
+\bold{q}_1^{\top} R_{n-i} \bold{k}_1
+$$
+
+$R_{n-i}$ represents the distance between the query token $\bold{q}_{n}$ vs history key token $\bold{k}_i$.
+The subscript $\space_{1}$ represents token sequence position if both query and key tokens are aligned to the same $1$-st position.
+Further decompose $R_{n-i}$ can see that within LLM embedding context length the smaller the $|n-i|$, the higher the $\text{score}(n,i)$.
+
+The above explanation shows one proof that recent tokens have much higher weights influencing next token output.
+
+Then, consider value matrix $V$ and residual mixing, where $\bold{v}^{(l)}_{i-1}$ is used to encode next layer token $\bold{v}^{(l+1)}_{i}$ with one position left-shift.
+
 ### Non-Training Mitigation Solutions
 
 Such options are helpful in mitigating the repeated token generation.

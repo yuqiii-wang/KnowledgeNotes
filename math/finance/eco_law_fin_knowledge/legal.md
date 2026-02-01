@@ -97,6 +97,10 @@ For example, a person convicted of sexual harassment might be ordered injunction
 
 An order issued by a court during the pendency of the litigation.
 
+* Remit
+
+As a noun, a remit refers to the scope of authority or responsibility, like a committee's duties.
+
 * No Waiver of Rights 弃权/非弃权条款
 
 This clause stipulates under what circumstances the behavior of a party can be considered giving up, or not giving up exercising rights or privileges.

@@ -413,6 +413,8 @@ Multi-signature wallets are a type of cryptocurrency wallet that requires **mult
 
 ### 33% Attack (for PoS)
 
+In Ethereum consensus design, if >66.6% validator computers vote "yes" to a block, the block is finalized.
+
 If a hacker controls >33.3% of the stake, they can simply refuse to vote.
 Since the network needs 66.6% to finalize anything, the network stops finalizing blocks. The chain can still grow, but nothing becomes "permanent."
 
@@ -426,9 +428,14 @@ For example, assume a hacker has >51% computation power.
 2. Because this hacker has more power (>51%), his/her chain grows faster than the honest chain reaching the block \#102.
 3. The remaining 49% nodes see two chains; both contain valid blocks. But the hacker's chain is longer (has more proof-of-work). By the rules of the Bitcoin software, the remaining node must switch to the hacker's chain.
 
+This >51% is guaranteed to allow a hacker eventually outgrow honest chain.
+If this hacker controls less nodes, e.g., 49%, he/she might still be able to win ahead the block by being lucky enough to consecutively find multiple blocks. In fact, three consecutive block discovery probability $11.76\%=0.49^3$ is already small.
+
+In PoW blockchain, in short-term there are always multiple parallel forks that some miners are ahead of a few blocks to other miners, so that one powerful hacker miner could win ahead in the short term, but in the long term the >51% chain win.
+
 ### 66% Attack (for PoS)
 
-If they control >66%, they can finalize a block, and then later finalize a conflicting block (rewriting history).
+If a hacker controls >66%, this hacker can finalize a block, and then later finalizes a conflicting block (rewriting history).
 However, the Ethereum protocol has a "slashing" mechanism. If the protocol detects this double-voting, it effectively burns (destroys) the attacker's entire stake.
 
 ## Proof of Truth: Consensus Mechanisms
@@ -510,18 +517,14 @@ The "Block Header" is exactly 80 bytes of data. It is a concatenation of 6 field
 
 ### Proof of Stake (PoS)
 
-* Instead of miners, there are Validators. To become a validator, user must lock up ("stake") a large amount of the cryptocurrency (e.g., 32 ETH) into a smart contract.
+* Instead of miners, there are Validators. To become a validator, a node addr must lock up ("stake") a large amount of the cryptocurrency (e.g., 32 ETH) into a smart contract.
 * The network randomly selects a validator to propose the next block. If the validator acts honestly, they get a reward. If they try to cheat (validate bad blocks, computer is service down), the network "slashes" (destroys) their staked money.
 * Pros: Energy efficient (99.9% less energy than PoW); lower barrier to entry (no hardware farms needed).
 * Cons: "Rich get richer" criticism; complex implementation (requires the Beacon Client).
 * Examples: Ethereum (current), Cardano, Solana.
 
-where, by 2025, for example, Ethereum needs Execution Client (e.g., Geth) and Beacon Client (e.g., Consensus).
-
-#### The Execution and Beacon Client
-
-* Execution Client (e.g., Geth): The worker. It deals with transactions, smart contracts, and balances. It is heavy on computation.
-* Beacon Client (e.g., Consensus): The manager. It deals with people (validators), time, and agreement. It is heavy on networking and rules.
+Technically speaking, if a node addr stakes more coins, it has higher probability of finding the next block (implementation detail may vary, e.g., in 2025, there is a cap of 2048 ETH for one node addr to prevent one node from having too much power).
+To have more voting power, human user needs to set up many computer nodes with each node addr deposited 2048 ETH. 
 
 ### Proof of Authority (PoA)
 
@@ -855,4 +858,4 @@ where
 Finally, miner user can visit the pool organizer `https://alephium.herominers.com/` to check submission history and payment.
 In Dec 2025, a hash rate of 6.07 GH/s for $6$ hours gives 0.0032 ALPH coins, which is worth $\$\text{ALPH } 0.0032 \times \$\text{USD } 0.000213 = \$\text{USD }6.816 \times 10^{-7}$.
 
-The pool organizer `https://alephium.herominers.com/` pays individual user miner by every 1 hr with an minimum of $\$\text{ALPH } 0.1$ coin.
+The pool organizer `https://alephium.herominers.com/` pays individual user miner by every 1 hr with a minimum of $\$\text{ALPH } 0.1$ coin.
