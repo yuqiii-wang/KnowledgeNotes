@@ -34,6 +34,7 @@ $$
 ### Orthogonality
 
 Orthogonality of two functions is defined as
+
 $$
 <f,g>=
 \int f(x) g(x) dx = 0
@@ -65,6 +66,7 @@ $$
 ##  Gauss–Hermite quadrature definition
 
 Gauss–Hermite quadrature is a form of Gaussian quadrature for approximating the value of integrals of the following kind (in contrast to Legendre polynomial that $e^{-x^2}$ is replaced with $1$):
+
 $$
 \int_{-\infty}^{+\infty} 
 e^{-x^2} f(x) dx
@@ -72,7 +74,9 @@ e^{-x^2} f(x) dx
 \sum_{i=1}^n 
 w_i f(x\_i)
 $$
+
 where, given $x\_i^*$ are the roots of physicist's Hermite polynomial $h_{n}(x)$, $w_i$ can be expressed as
+
 $$
 w_i =
 \frac{
@@ -102,6 +106,7 @@ w_0 f(\frac{1}{\sqrt{2}}) + w_1 f(-\frac{1}{\sqrt{2}})
 $$
 
 Set $n=2$, and $x_0^*=\frac{1}{\sqrt{2}}$ and $x_1^*=-\frac{1}{\sqrt{2}}$ to compute $w_i$
+
 $$
 w_i =
 \frac{
@@ -113,7 +118,8 @@ w_i =
 }
 $$
 
-There are 
+There are
+
 $$
 \begin{align*}
 w_0 &=
@@ -145,6 +151,7 @@ w_0 &=
 $$
 
 Finally,
+
 $$
 \begin{align*}
 \int_a^b w(x) f(x) dx&=
@@ -163,6 +170,7 @@ $$
 Consider a function $f(y)$, where the variable y is Normally distributed: $y \sim N(\mu, \sigma^2)$. $h$ can be linear or non-linear transformation of the normal distribution input $y$.
 
 Its expectation is
+
 $$
 E\big(f(y)\big)=
 \int_{-\infty}^{+\infty}
@@ -190,6 +198,7 @@ g(\phi(x))\phi'(x) dx
 $$
 
 Coupled with the integration by substitution,
+
 $$
 \begin{align*}
 

@@ -236,6 +236,7 @@ a[\phi_1, \phi_3] + b[\phi_2, \phi_3]
 $$
 
 Similarly, there is
+
 $$
 [\phi_3, a\phi_1 + b\phi_2] = 
 a[\phi_3, \phi_1] + b[\phi_3, \phi_2] 
@@ -244,6 +245,7 @@ $$
 ### Reflective
 
 Define $\phi \in \mathbb{R}^3$. Simply, there is
+
 $$
 [\phi, \phi] = [\Phi^\wedge\Phi^\wedge-\Phi^\wedge\Phi^\wedge]^\vee= 0
 $$
@@ -291,6 +293,7 @@ $$
 $$
 
 Sum them up, there is
+
 $$
 \big[\phi_1, [\phi_2, \phi_3]\big] + \big[\phi_2, [\phi_3, \phi_1]\big]  + \big[\phi_3, [\phi_1, \phi_2]\big] = 0
 $$
@@ -300,6 +303,7 @@ $$
 ### First, Show $R\mathbf{p}^\wedge R = (R\mathbf{p})^\wedge$
 
 $\forall \mathbf{r}_1, \mathbf{r}_2, \mathbf{r}_3 \in \mathbb{R}^3$, Define $R$ and $R^\text{T}$ such as
+
 $$
 R = \begin{bmatrix}
     \mathbf{r}_1^\text{T} \\\\
@@ -357,6 +361,7 @@ r_{i,x} (p_z - p_y)+r_{i,y} (p_x - p_y)+r_{i,z} (p_y - p_x)
 $$
 
 So that,
+
 $$
 \begin{align*}
   R\mathbf{p}^\wedge R &= R (\mathbf{p}^\wedge R)
@@ -387,11 +392,13 @@ $$
 $$
 
 Recall the definition of vector dot product and cross product: define $\mathbf{a},\mathbf{b},\mathbf{c} \in \mathbb{R}^3$ and set $M=[\mathbf{a},\mathbf{b},\mathbf{c}]$, there is
+
 $$
 det(M) = \mathbf{a}^\text{T}(\mathbf{b}\times\mathbf{c})= \mathbf{b}^\text{T}(\mathbf{c}\times\mathbf{a})= \mathbf{c}^\text{T}(\mathbf{a}\times\mathbf{b})
 $$
 
-So that, set $M=[\mathbf{r}\_i \quad \mathbf{p} \quad \mathbf{r}\_i]$. Since $\mathbf{r}\_i$ is perpendicular to $\mathbf{p}\times\mathbf{r}\_i$, the dot product should be zero. 
+So that, set $M=[\mathbf{r}\_i \quad \mathbf{p} \quad \mathbf{r}\_i]$. Since $\mathbf{r}\_i$ is perpendicular to $\mathbf{p}\times\mathbf{r}\_i$, the dot product should be zero.
+
 $$
 \begin{align*}
     det(M) &= 0 = \mathbf{r}_1^\text{T} (\mathbf{p} \times \mathbf{r}_1) \\\\

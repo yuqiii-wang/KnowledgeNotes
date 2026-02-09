@@ -11,6 +11,7 @@ or replace the current keyframe $K_i$ by minimizing photometric errors with appl
 ### Lie Algebra for 3D Rigid Body Transform
 
 A 3D rigid body transform $\mathbf{G} \in SE(3)$ (or $\mathbf{G} \in \mathbb{R}^{4 \times 4}$) is defined as
+
 $$
 \mathbf{G} = 
 \begin{bmatrix}
@@ -29,6 +30,7 @@ The transformation moving a point from
 frame $i$ to frame $j$ is written as $\mathbf{\xi}_{ij}$.
 
 Define the pose concatenation operator $\circ : se(3) \times se(3) \rightarrow se(3)$ as
+
 $$
 \mathbf{\xi}_{ki} := 
 \mathbf{\xi}_{kj} \circ \mathbf{\xi}_{ji} :=
@@ -68,6 +70,7 @@ $$
 $$
 
 A 3D similarity transform $\mathbf{S} \in Sim(3)$ denotes rotation, scaling and translation:
+
 $$
 \mathbf{S} = 
 \begin{bmatrix}
@@ -83,6 +86,7 @@ $$
 For associated Lie-algebra $\mathbf{\xi} \in sim(3)$, or $\mathbf{\xi} \in \mathbb{R}^7$, now has one additional DOF: scaling to rotation.
 
 Two images $I_A$ and $I_B$ are aligned by Gauss-Newton minimization of the photometric error:
+
 $$
 \underset{\mathbf{\xi} \in \mathbb{R}^7}{\min} \space E(\mathbf{\xi}) = 
 \sum_i 
@@ -98,9 +102,11 @@ $$
 \Delta\mathbf{\xi}^* = 
 \frac{J^\top \mathbf{r}(\mathbf{\xi}_0)}{J^\top J}
 $$
+
 where $\mathbf{r}(\mathbf{\xi}_0)$ is the initial residual for $\mathbf{\xi}_0$, and $J$ is the Jacobian.
 
 To apply weights on residuals to down-weight large error (Huber loss should have the same result), there is
+
 $$
 E(\mathbf{\xi}) = 
 \sum_i w_i(\mathbf{\xi}) r_i^2(\mathbf{\xi})
@@ -114,6 +120,7 @@ $$
 $$
 
 The inverse of the weighted Hessian $({J^\top W J})^{-1}$ is an estimate for the covariance $\Sigma_{\mathbf{\xi}}$ (only hold true when pose error $\epsilon$ follows Gaussian distribution) such that
+
 $$
 \mathbf{\xi}^* = 
 \mathbf{\epsilon} \circ \mathbf{\xi}
@@ -127,6 +134,7 @@ LSD's proposed normalized-variance that takes into account varying noise on the 
 
 Starting from an existing keyframe $K_i=(I_i, D_i, V_i)$, 
 the relative 3D pose $\mathbf{\xi}_{ij} \in se(3)$ of a new image $I_j$ is computed by minimizing the variance-Huber-normalized photometric error:
+
 $$
 \min_{\mathbf{\xi} \in se(3)} E_\mathbf{p}(\mathbf{\xi_{ij}})= 
 \sum_{\mathbf{p} \in \Omega_{D_i}}
@@ -136,6 +144,7 @@ $$
 $$
 
 where
+
 $$
 ||e||_\delta=
 \left\{
@@ -148,12 +157,14 @@ $$
 $$
 
 $r_p (\mathbf{p}, \mathbf{\xi}_{ij})$ is the Lucas-Kanade style photometric error
+
 $$
 r_p (\mathbf{p}, \mathbf{\xi}_{ij}) :=
 I_i(\mathbf{p}\_i)  - I_j \big(\omega(\mathbf{p}\_i, D_A(\mathbf{p}\_i), \mathbf{\xi}_{ij})\big)
 $$
 
 The residual’s variance $\sigma_{r_p (\mathbf{p}, \mathbf{\xi}_{ij})}$ is computed using covariance propagation $\Sigma_{r_p}=J_{r_p} \Sigma_{r_p} J^\top_{r_p}$, where $J^\top_{r_p}$ is the Jacobian of $r_p$, and utilizing the inverse depth variance $V_i$:
+
 $$
 \sigma^2_{r_p (\mathbf{p}, \mathbf{\xi}_{ij})} :=
 2\sigma_I^2 +
@@ -167,6 +178,7 @@ $$
 * Keyframe Selection
 
 Define the distance between two keyframes from $K_i$ to $K_j$ as
+
 $$
 dist(\mathbf{\xi}_{ij}) := 
 \mathbf{\xi}_{ij}^\top W \mathbf{\xi}_{ij}
@@ -217,6 +229,7 @@ r_d(\mathbf{p}, \mathbf{\xi}_{ij})
 $$
 
 Accordingly, the variance for $r_d$ talks about two parts: one for $D_j([\mathbf{p}']_{1,2})$ and $D_j(\mathbf{p]})$
+
 $$
 \sigma^2_{r_d(\mathbf{p}, \mathbf{\xi}_{ij})} := 
 V_j([\mathbf{p}']_{1,2})
@@ -257,6 +270,7 @@ $$
 
 For each keyframe $K_{i}$, independently forward and reverse track $\mathbf{\xi}_{ij}$ and $\mathbf{\xi}_{ji}$. The detected loop closure is good only if the
 two estimates are statistically similar (by $\mathcal{L}_2$ norm err):
+
 $$
 e(\mathbf{\xi}_{ij}, \mathbf{\xi}_{ji}) = 
 (\mathbf{\xi}_{ij} \circ \mathbf{\xi}_{ji})^\top

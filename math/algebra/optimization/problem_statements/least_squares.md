@@ -1,9 +1,11 @@
 # Least Squares Problem
 
 Given an objective function $f(\mathbf{x})$ to minimize:
+
 $$
 \underset{\mathbf{\phi}}{min} \space f(\mathbf{x})=\frac{1}{2}\sum^m_{j=1}{r}_j^2(\mathbf{x})
 $$
+
 where $r_j$ is a smooth function from $\mathbb{R}^n \rightarrow \mathbb{R}$ given $\mathbf{x} \in \mathbb{R}^n$. For least squares problem, there is $m \ge n$.
 
 Residual $r_j$ is the error between function $\phi_j(\mathbf{x})$ and ground truth observation $y_j$:
@@ -19,6 +21,7 @@ $$
 $$
 
 Rewrite $f$ to $f(\mathbf{x})=\frac{1}{2}||\mathbf{r}(\mathbf{x})||^2_2$, whose Jacobian is
+
 $$
 J(\mathbf{x})=
 \big[\frac{\partial r_j}{\partial x\_i}\big]
@@ -43,6 +46,7 @@ _{
 $$
 
 Hence,
+
 $$
 \begin{align*}
 \nabla f(\mathbf{x})&=
@@ -74,6 +78,7 @@ $$
 ### Over-determined vs under-determined
 
 We have a $m \times n$ linear system matrix $A$ and $m \times 1$ vector $\mathbf{b}$ such as
+
 $$
 A\mathbf{x}=\mathbf{b}
 $$
@@ -87,6 +92,7 @@ If $m < n$, there are less equations than unknown $\mathbf{x}$, solution to $\ma
 ### Residuals as linears
 
 Given residual expression $r_j(\mathbf{x}) = y_j - \phi_j(\mathbf{x})$, if $r_j$ is linear ($\phi_j(\mathbf{x})$ is represented in linear forms), the minimization becomes a *linear least squares problem*. Residual can be expressed as
+
 $$
 \mathbf{r}(\mathbf{x})=
 A\mathbf{x} - \mathbf{y}

@@ -37,8 +37,10 @@ M_{new}(x) = \text{clamp}\Big(
     \text{odds} \big( \text{odds}\big(M_{old}(x)\big) \cdot \text{odds}(p_{hit}) \big)}
 \Big)
 $$
+
 where $\text{odds}\big(M_{old}(x)\big) \cdot \text{odds}(p_{hit})$ is the update to the old grid point,
 and $\text{clamp}$ is a function that contains a value $x$ within an interval $[a,b]$
+
 $$
 \text{clamp}(x) = \text{max}
 \big( a, \text{min}(x, b) \big) \in [a, b]
@@ -69,10 +71,12 @@ Closing loop optimization:
 $$
 arg\space \underset{\Xi^m， \Xi^s}{min} \frac{1}{2} \underset{i,j}{\sum} \rho \big( E^2(\xi^m_i, \xi^s_j; \Sigma_{i,j}, \xi_{i,j}) \big)
 $$
+
 where constraints take the form of relative poses $\xi_{i,j}$ (describes where in the submap coordinate frame the scan was matched), 
 and associated covariance matrices $\Sigma_{i,j}$, for input pair $\xi^m_i, \xi^s_j$. The employed loss $\rho$ is *Huber Loss*.
 
 In detail,
+
 $$
 E^2(\xi^m_i, \xi^s_j; \Sigma_{i,j}, \xi_{i,j}) 
 \\\\ =
@@ -103,6 +107,7 @@ $\scriptsize{nearest}$ has its name for the search window $W$ does not deviate a
 $$
 \xi^* = \argmax_{\xi \in W} \sum_{k=1}^K M_{nearest}(T_{\xi}h_k)
 $$
+
 where $\xi \in W$ means employment of a discrete search window. Define resolution $r$ and $\delta_\theta$ for the pose search window boundary $W_x=7 m, W_y=7m, W_\theta=30^\circ$, the discrete search step is
 
 $$

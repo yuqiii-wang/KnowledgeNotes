@@ -82,6 +82,7 @@ $$
 ## Harris operator
 
 Define $H$ as below to rewrite $E_{ssd}$
+
 $$
 H=
 \sum_{(x,y)\in {W}_{m \times n}} 
@@ -92,6 +93,7 @@ H=
 $$
 
 So that
+
 $$
 E_{ssd}(u,v) \approx
 \begin{bmatrix}

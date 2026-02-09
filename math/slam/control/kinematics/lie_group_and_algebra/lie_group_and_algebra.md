@@ -83,6 +83,7 @@ $$
 $$
 
 * Bilinear composition
+
 $$
 \forall X,Y,Z \in \mathbb{V};
 a,b \in \mathbb{F}
@@ -121,6 +122,7 @@ Lie algebra derivative computation at a point $\mathbf{x}$ produces the the tang
 A trivial perturbation (such as consisted of rotation and translation in rigid motion) $\Delta \mathbf{\xi}$ can be added to this point $\mathbf{x}$. If the trivial perturbation $\Delta \mathbf{\xi}$ is small enough, the partial derivative of $\mathbf{x}$ can be approximated by taking the partial derivative on $\Delta \mathbf{\xi}$.
 
 Intuitively speaking, when $\Delta \mathbf{\xi}$ is small enough, the first-order gradient is almost the same as the perturbation's gradient at the point $\mathbf{x}$
+
 $$
 \begin{align*}
 \frac{\partial f(\mathbf{x})}{\partial \mathbf{x}}

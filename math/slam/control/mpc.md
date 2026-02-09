@@ -5,6 +5,7 @@ MPC optimizes/adjusts near future inputs $[u_{k+1}, u_{k+2}, u_{k+3}, ...]$ to m
 ![mpc_example](imgs/mpc_example.png "mpc_example")
 
 Given a linear system:
+
 $$
 \begin{align*}
 x(t+1)&=Ax(t)+Bu(t) \\\\
@@ -19,6 +20,7 @@ where
 * $e(t)$ is the error/gap given expected/goal state $y(t)$ and the current state $x(t)$
 
 Define an objective function $J$ to be minimized
+
 $$
 \underset{u}{\min} \space J=
 \sum_{i=1}^N w_{x\_i}e_i^2

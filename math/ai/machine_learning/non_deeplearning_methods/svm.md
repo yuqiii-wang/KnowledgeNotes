@@ -24,16 +24,19 @@ $$
 $$
 
 This can be rewritten as
+
 $$
 y_i(\mathbf{w}^Tx_i-b) \ge 1, \quad \forall x\_i \in \mathbf{x}, \space \forall y_i \in \mathbf{y}
 $$
 
 To achieve best separation, we want to maximize $\frac{2}{||\mathbf{w}||}$, which means
+
 $$
 \arg \space \underset{\mathbf{w}}{\text{min}} ||\mathbf{w}||
 $$
 
 subject to
+
 $$
 y_i(\mathbf{w}^Tx_i-b) \ge 1
 $$
@@ -50,6 +53,7 @@ $x\_i = (x_{i,1}, x_{i,2})$ is a two-dimensional sample. We want to maximize $\f
 ## Soft-Margin, $\lambda$ and $C$
 
 Consider a *Hinge Loss* $\xi_i$ applied to the above separation problem:
+
 $$
 \xi_i = 
 \max \big(0, 1 - y_i (\mathbf{w}^\top \mathbf{x}\_i) - b \big)
@@ -93,6 +97,7 @@ Choice of kernels depends on dataset distributions.
 Some typical kernels are
 
 * Polynomial
+
 $$
 \phi(\overrightarrow{x\_i}, \overrightarrow{x_j}) = (\overrightarrow{x\_i} \cdot \overrightarrow{x_j})^d
 $$
@@ -131,6 +136,7 @@ $$
 $$
 
 * Gaussian radial basis function
+
 $$
 \phi(\overrightarrow{x\_i}, \overrightarrow{x_j}) = e^{-\gamma||\overrightarrow{x\_i} - \overrightarrow{x_j}||^2}, \quad \gamma>0
 $$

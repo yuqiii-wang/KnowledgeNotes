@@ -33,6 +33,7 @@ Binocular camera uses triangulation from two physical camera positions to find o
 ![stereo_cam_depth](imgs/stereo_cam_depth.png "stereo_cam_depth")
 
 The distance vector from object point $X$ to baseline $B$ is $z$, such that
+
 $$
 Bf=z(x-x')
 $$

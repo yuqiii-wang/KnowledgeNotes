@@ -673,6 +673,7 @@ m_{01} &=
 $$
 
 The orientation is computed as
+
 $$
 \theta = 
 \arctan2(m_{01}, m_{10})
@@ -2144,6 +2145,7 @@ void Tracking::MonocularInitialization()
 
 `Initializer::Initialize(...)` computes in parallel threads a homography ${H}_{cr}$ and a
 fundamental matrix ${F}_{cr}$:
+
 $$
 \mathbf{x}_c = {H}_{cr} \mathbf{x}_r
 \quad\quad
@@ -2226,6 +2228,7 @@ $$
     \end{matrix}
 \right.
 $$
+
 where $d^2$ is the symmetric transfer error, $T_M$ is an outlier rejector based on $\mathcal{X}^2$ test. $T_H$ is the outlier rejector for the homography (planar) model.
 
 If the scene is planar, nearly planar or there is low
@@ -2276,6 +2279,7 @@ bool Initializer::Initialize(const Frame &CurrentFrame, const vector<int> &vMatc
 $Sim(3)$ adds scale information for monocular vision.
 
 Define a $3$-d point $\mathbf{p}=[X\quad Y\quad Z]^\top$ and its transformation result $\mathbf{p}'$
+
 $$
 \begin{align*}
     \mathbf{p}' &= \begin{bmatrix}
@@ -2390,15 +2394,19 @@ $$
 $$
 
 Rewrite the residual,
+
 $$
 \mathbf{e}\_i = \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}'
 $$
+
 where
+
 $$
 \mathbf{t}' =  \mathbf{t} - \overline{\mathbf{r}}_r + sR(\overline{\mathbf{r}}_l)
 $$
 
 So that the least squared problem becomes finding the optimal $\mathbf{t}'$
+
 $$
 \begin{align*}
 \min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &= 
@@ -2420,6 +2428,7 @@ $$
 $$
 
 Having said $\mathbf{t}' = \mathbf{0}$, the error can be expressed as
+
 $$
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 =
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2
@@ -2452,12 +2461,14 @@ S_r - 2sD + s^2 S_l
 $$
 
 The above quadratic term can have the optimal $s^*=\frac{D}{S_l}$ (derived by $\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2=0$ ):
+
 $$
 s^*=\frac{D}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)}
 {\sum_{i=1}^n \big|\big| R( \mathbf{r}_{l,i}') \big|\big|^2}
 $$ 
 
 Now, consider the inverse transform from the right coordinate system to the left one:
+
 $$
 s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}_{l,i}' \cdot R( \mathbf{r}_{r,i}')  \Big)}
 {\sum_{i=1}^n \big|\big| R( \mathbf{r}_{r,i}') \big|\big|^2}
@@ -2470,6 +2481,7 @@ This expression $s^{*\space -1} \ne \frac{1}{s}$ means that, the error computed 
 In other words, the inverse transform error $\mathbf{e}_{i, r \rightarrow l}$ would see asymmetrical $s^{-1}$.
 
 Unless the left-to-right transform has much more precision than the right-to-left's that $\mathbf{e}_{i, l \rightarrow r}=\mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}')$ becomes accurate, otherwise, to formulate the error with respect to the scale $s$, it is better use the below symmetrical error that balances between the left-to-right and right-to-left transforms:
+
 $$
 \mathbf{e}\_i = 
 \frac{1}{\sqrt{s}}\mathbf{r}'_{r,i} - \sqrt{s} R (\mathbf{r}_{l,i})
@@ -2487,6 +2499,7 @@ $$
 $$
 
 The optimal $s^*=\frac{S_r}{S_l}$ can be found when $\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2=0$:
+
 $$
 s^* = \sqrt{
     \frac{ \sum_{i=1}^n \big|\big| {\mathbf{r}'_{r,i}} \big|\big|^2 }
@@ -2502,12 +2515,14 @@ The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big
 * **Find the optimal rotation $R^*$**
 
 Denote $\mathring{\mathbf{r}}$ as the quaternion form of $\mathbf{r}$:
+
 $$
 \mathring{\mathbf{r}} = 
 r_0 + \overrightarrow{i}r_x + \overrightarrow{j}r_y + \overrightarrow{k}r_z
 $$
 
 Express $R$ in quaternion form: $\mathbf{r}$ rotation by quaternion $\mathring{\mathbf{q}}$ can be expressed as
+
 $$
 \mathring{\mathbf{r}}' = \mathring{\mathbf{q}} \mathring{\mathbf{r}} \mathring{\mathbf{q}}^{\dagger}
 $$
@@ -2531,6 +2546,7 @@ $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s}
 Rewrite $D$'s elements to that $\Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' \mathring{\mathbf{q}}^{\dagger} \Big) \cdot \mathring{\mathbf{r}}_{r,i}' =\Big( \mathring{\mathbf{q}}\mathbf{r}_{l,i}' \Big) \cdot \Big(  \mathring{\mathbf{r}}_{r,i}' \mathring{\mathbf{q}} \Big)$.
 
 Take $\mathbf{r}_{l,i}' \rightarrow \mathring{\mathbf{r'}}_{l,i}$, then by quaternion multiplication, there is
+
 $$
 \mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' = 
 \begin{bmatrix}
@@ -4901,6 +4917,7 @@ int ORBmatcher::SearchForTriangulation(KeyFrame *pKF1, KeyFrame *pKF2, cv::Mat F
 </br>
 
 Compute epipolar line $\mathbf{l}_r=[l_{ra}\quad l_{rb}\quad l_{rc}]$ in right image:
+
 $$
 \mathbf{l}_r =
 \mathbf{x}_l^{\top} F_{rl} =

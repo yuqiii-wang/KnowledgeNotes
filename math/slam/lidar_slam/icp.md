@@ -3,6 +3,7 @@
 Given some source points, with applied transformation (rotation and translation $[\mathbf{R}|\mathbf{t}]$), algorithm iteratively revises the transformation $[\mathbf{R}|\mathbf{t}]$ to minimize an error metric $\mathbf{e}$ (typically the sum of squared differences) between output (result of the transformation) point cloud and reference (observed) cloud.
 
 Suppose there are two sets of to-be-matched 3D points; the correspondences are shown as below
+
 $$
 \mathbf{P}=[\mathbf{p}_1, \mathbf{p}_2, ..., \mathbf{p}_n]
 ,\quad
@@ -20,6 +21,7 @@ $$
 $$
 
 The error $\mathbf{e}\_i$ can be defined the difference between the base point $\mathbf{p}\_i$ and the correspondence point $\mathbf{p}'_i$
+
 $$
 \mathbf{e}\_i = 
 \mathbf{p}\_i - (\mathbf{R}\mathbf{p}'_i + \mathbf{t})
@@ -51,6 +53,7 @@ arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
 $$
 
 Define the centroids $\mathbf{p}_c, \mathbf{p}'_c$ of the point clouds $\mathbf{P}$ and $\mathbf{P}'$, respectively, there are
+
 $$
 \mathbf{p}_c = \frac{1}{n} \sum_{i=1}^n \mathbf{p}\_i
 , \quad
@@ -120,6 +123,7 @@ $$
 $$
 
 The first term $\big|\big| \mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big|\big|^2_2$ only contains a rotation matrix $\mathbf{R}$, and the second term $\big|\big| \mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t} \big|\big|_2^2$ only has the centroids $\mathbf{p}_c$ and $\mathbf{p}'_c$. The $\mathbf{t}$ in the second term can be solved if $\mathbf{R}$ is known. The $\mathbf{R}$ can be solved in the first term by setting $\mathbf{q}\_i = \mathbf{p}\_i - \mathbf{p}_c$ and $\mathbf{q}'_i = \mathbf{p}'_i - \mathbf{p}'_c$, so that the optimal rotation matrix $\mathbf{R}^*$ can be computed as
+
 $$
 \mathbf{R}^*=
 arg \space \underset{\mathbf{R}}{min}
@@ -130,6 +134,7 @@ arg \space \underset{\mathbf{R}}{min}
 $$
 
 The least square problem for $\mathbf{R}^*$ can be rewritten as
+
 $$
 \frac{1}{2} \sum^n\_{i=1}
 \bigg|\bigg|
@@ -146,6 +151,7 @@ $$
 $$
 
 So that, finding $\mathbf{R}^*$ only needs to take care of this to-be-maximized term (here defines $\mathbf{q}^\text{T}\_i \mathbf{R} \mathbf{q}'_i$ as the diagonal entries of $\mathbf{Q}^\text{T} \mathbf{R} \mathbf{Q}'$). By introducing trace operation, here derives:
+
 $$
 \begin{align*}
     \frac{1}{2} \sum^n\_{i=1}
@@ -162,6 +168,7 @@ $$
 $$
 
 Take SVD decomposition of $\mathbf{Q}' \mathbf{Q}^\text{T}$, there is
+
 $$
 \mathbf{Q}' \mathbf{Q}^\text{T}=
 \mathbf{U} \mathbf{\Sigma} \mathbf{V}^\text{T}
@@ -243,6 +250,7 @@ $$
 $$
 
 With derived optimal rotation matrix $\mathbf{R}^*$, the optimal translation $\mathbf{t}^*$ can be computed as
+
 $$
 \mathbf{t}^* = \mathbf{p} - \mathbf{R}^*\mathbf{p}'
 $$
@@ -260,6 +268,7 @@ $$
     \mathbf{0} & \mathbf{0}
 \end{bmatrix} 
 $$
+
 where $\mathbf{\phi}^\wedge$ is the skew-symmetric matrix representation of rotation vector $\mathbf{\phi}$.
 
 $$

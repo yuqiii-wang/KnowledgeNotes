@@ -38,6 +38,7 @@ In detail, $\phi$ is the azimuth, $\theta$ is the elevation/altitude angle, and 
 Computing every pixel's depth in an image is extremely time-consuming. Often in real world is that pixel and its surrounding should see similar depth. By this assumption, multi-modal Gaussian distribution can be used to bulk estimate pixels' depth.
 
 Assume the depth $d$ of a certain pixel satisfy:
+
 $$
 P(d) = N(\mu, \sigma^2)
 $$
@@ -49,6 +50,7 @@ P(d_{obs}) = N(\mu_{obs}, \sigma_{obs}^2)
 $$
 
 The question is how to use the observed information to update the original distribution of $d$. Since the normalized product of two Gaussian distributions is still a Gaussian distribution, the distribution of $d$ after fusion $N(\mu_{fuse}, \sigma_{fuse})$ can be computed by
+
 $$
 \mu_{fuse} = \frac{\sigma_{obs}^2 \mu + \sigma^2 \mu_{obs}}{\sigma_{obs}^2 + \sigma^2}
 , \quad
@@ -87,12 +89,14 @@ $$
 $$
 
 With the above obtained $\beta'$ and $\gamma$, by the law of sine, $p'$ can be computed by
+
 $$
 ||p'|| = 
 ||t|| \frac{\sin \beta'}{\sin \gamma}
 $$
 
 Accordingly, the uncertainty of observation can be measured by
+
 $$
 \sigma_{obs} = ||p|| - ||p'||
 $$

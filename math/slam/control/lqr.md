@@ -1,6 +1,7 @@
 # LQR (Linear Quadratic Regulator)
 
 Consider this linear system:
+
 $$
 \begin{align*}
 \dot{\mathbf{x}}(t) &= A\mathbf{x}(t) + B \mathbf{u}(t) \\\\
@@ -24,6 +25,7 @@ $$
 $$
 
 subject to
+
 $$
 \dot{\mathbf{x}} = A\mathbf{x} + B \mathbf{u}
 ,\qquad
@@ -38,6 +40,7 @@ In other words, over the integrated period $[t_0, t_f]$, the total $R$-transform
 $R$ is positive definite; $Q$ and $S$ are semi-positive definite.
 
 Solution to this system can be found by *Riccati* equations:
+
 $$
 \dot{P}(t) = 
 -P(t)A -A^\top +P(t)BR^{-1}B^\top P(t) -Q
@@ -89,6 +92,7 @@ $$
 The output $\mathbf{y}=S$ is simply the horizontal positioning translation such that $\mathbf{y}=C\mathbf{x}$, where $C=\begin{bmatrix}  1 & 0 \\\\ 0 & 0 \end{bmatrix}$.
 
 The cost coefficient matrices can be defined as
+
 $$
 Q=\begin{bmatrix}
     1 & 0 \\\\

@@ -39,6 +39,7 @@ Assume $f$ is a polynomial of degree at most $2n + 1$, define $q(x)$ and $r(x)$ 
 $$
 f(x) = q(x)p(x)+r(x)
 $$
+
 where $r(x)$ is the remainder after $f(x)$ being approximated by $p(x) q(x)$. For example, By Legendre polynomial interpolation, there are $p(x)=L_n(x)$ and $q(x)=L_m(x)$.
 
 $r(x)$ can be interpolated via Lagrange polynomials $l_i(x)$ such as
@@ -63,7 +64,8 @@ f(x\_i^*) &= q(x\_i^*)p(x\_i^*)+r(x\_i^*)
 \end{align*}
 $$
 
-For the integral, by orthogonality $p(x\_i^*)q(x\_i^*)=0$ (such as by Legendre polynomials $\int L_n(x)L_m(x)=0$ for $m\ne m$) and $r(x)$ as the remainder polynomial of at most $n$ degree interpolated by Lagrange polynomial interpolation, there is 
+For the integral, by orthogonality $p(x\_i^*)q(x\_i^*)=0$ (such as by Legendre polynomials $\int L_n(x)L_m(x)=0$ for $m\ne m$) and $r(x)$ as the remainder polynomial of at most $n$ degree interpolated by Lagrange polynomial interpolation, there is
+
 $$
 \begin{align*}
 \int^b_a f(x)w(x)dx&=
@@ -93,6 +95,7 @@ $$
 For $n=2$ on the interval $[-1,1]$, approximate the integral of a function $f(x)$ such as $\int^1_{-1} f(x)dx$ to be a precision level of degree $3$. The approximation method is by Legendre polynomials.
 
 Given Legendre polynomial approximation, there is
+
 $$
 \int^1_{-1} 1 \cdot f(x)dx
 \approx
@@ -100,6 +103,7 @@ w_0 f(x_0^*) + w_1 f(x_1^*)
 $$
 
 Given the employment of Legendre polynomials, define $x_0^*$ and $x_1^*$ as the roots of $p_2(x) = \frac{1}{2}( x^2 - \frac{1}{3} ) = 0$, there are
+
 $$
 x_0^*=\frac{1}{\sqrt{3}} 
 \quad 

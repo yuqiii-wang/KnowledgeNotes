@@ -46,6 +46,7 @@ $$
 where $0$ or $1$ indicate the presence/absence of an attribute.
 
 Hence, image similarity between two images can be computed by
+
 $$
 s(\mathbf{a}_1, \mathbf{a}_2) = 
 1 - \frac{1}{n}|| \mathbf{a}_1 - \mathbf{a}_2 ||_1
@@ -69,6 +70,7 @@ These features/attributes should have higher importance in associating related i
 TF-IDF (Term Frequency-Inverse Document Frequency) is a BoWs weighting method for this purpose.
 
 Define the number of all features as $n$, and the number of the $i$-th feature is $n_i$ corresponding to the weight $w_i$. The feature distinguishing degree can be defined as
+
 $$
 \log \frac{n}{n_i}
 $$

@@ -9,6 +9,7 @@ If $(x,y)$ is a conjugate pair of variables, then
 $d(xy)=xdy+ydx$ relates the variation $dy$ in quantity $y$ to the variation $dx$ in quantity $x$.
 
 Consider a function of two independent variables, call it $f(x,y)$, whose differential is
+
 $$
 df=
 \bigg(\frac{\partial f}{\partial x}\bigg)_y dx
@@ -17,6 +18,7 @@ df=
 $$
 
 Define $u \equiv \bigg(\frac{\partial f}{\partial x}\bigg)_y$ and $w \equiv \bigg(\frac{\partial f}{\partial y}\bigg)_x$, so that the above equation can be rewritten as
+
 $$
 df= u\space dx + w\space dy 
 $$
@@ -26,11 +28,13 @@ Here $u$ and $x$ are called a conjugate pair of variables, and likewise $w$ and 
 * Define *Legendre Transformation*
 
 Use product rule for $d(wy)$, there is
+
 $$
 d(wy) = y\space dw + w\space dy
 $$
 
 Subtract $d(wy)$ from $df$ and derive $dg$
+
 $$
 dg := df - d(wy) =
 u\space dx - y\space dw
@@ -63,6 +67,7 @@ $$
 Potential energy $U$ is conservative, not a function of velocity but position $q$.
 
 By the definition of Legendre transform, there is
+
 $$
 g \equiv f - wy =
 L - p\dot{q}

@@ -3,11 +3,13 @@
 Define a sequence of $n$ intermediate robot poses $\mathbf{x}\_i=(x\_i, y_i, \theta_i) \in \mathbb{R}^2 \times S^1$ ($S^1$ denotes 1-d *Special Orthogonal Group*), where $(x\_i, y_i)$ represents 2-d Euclidean position and $\theta_i$ represents the robot's orientation.
 
 Define $Q$ as a set of $n$ intermediate robot poses $\mathbf{x}\_i$:
+
 $$
 Q=\{\mathbf{x}\_i\}_{i=0,1,2,...,n}
 $$
 
 Define $\tau$ as a set of $n-1$ time intervals $\Delta T_i$ between two consecutive poses $[\mathbf{x}\_i, \mathbf{x}_{i+1}]$
+
 $$
 \tau = \{ \Delta T_i \}_{i=0,1,2,...,n}
 $$
@@ -82,6 +84,7 @@ v_i &\simeq \frac{1}{\Delta T_i}
 $$
 
 Acceleration can be expressed as
+
 $$
 a_i=\frac{2(v_{i+1}-v_i)}{\Delta T_i + \Delta T_{i+1}}
 $$
@@ -125,6 +128,7 @@ $$
 $$
 
 Transformation $\mathbf{d}_{i,i+1}$ is
+
 $$
 \mathbf{d}_{i,i+1}=
 \left(

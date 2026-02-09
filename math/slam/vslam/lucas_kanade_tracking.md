@@ -1,6 +1,7 @@
 # Lucas-Kanade Tracking
 
 Lucas-Kanade in nature is a least squares problem that attempts to minimize the differences between two image $I_A$ and $I_B$ pixels (assumed image is of a size $n \times n$) by moving one image $I_B$ by $(dx, dy)$. By $\mathcal{L}_2$ norm error, there is
+
 $$
 \underset{dx, dy}{\min}
 \sum_{x,y} 
@@ -19,11 +20,13 @@ It can be used to find the offset between two chronologically sequential images,
 ### Least Squares Retrospect
 
 Given a residual function $\mathbf{r}(\mathbf{x})$ where $\mathbf{x} \in \mathbb{R}^n$ and output $\mathbf{r} \in \mathbb{R}^m$. Define an $\mathcal{L}_2$ norm cost function to be minimized:
+
 $$
 \underset{\mathbf{x}}{\min}\quad \mathbf{r}(\mathbf{x})^\top \mathbf{r}(\mathbf{x})
 $$
 
 By first order approximation, there is
+
 $$
 \mathbf{r}(\Delta \mathbf{x}) \approx
 J(\mathbf{x}_0) \Delta \mathbf{x} + \mathbf{r}(\mathbf{x}_0)
@@ -32,6 +35,7 @@ $$
 where $J$ is the Jacobian.
 
 Take shorthand notes and write down $J_0=J(\mathbf{x}_0)$ and $\mathbf{r}_0=\mathbf{r}(\mathbf{x}_0)$, and take the Jacobian approximation into the cost function, there is
+
 $$
 \underset{\mathbf{x}}{\min}\quad \mathbf{r}(\mathbf{x})^\top \mathbf{r}(\mathbf{x})=
 \Delta\mathbf{x}^\top J_0^\top J_0 \Delta\mathbf{x}+2 J_0^\top \mathbf{r}_0 \Delta\mathbf{x} +\mathbf{r}_0^\top \mathbf{r}_0
@@ -63,7 +67,9 @@ $$
 I_A(x,y) - I_B(x+dx,y+dy)
 \big|\big|^2
 $$
+
 whose residuals with respects to each pixel are
+
 $$
 \mathbf{r}(dx,dy) = 
 \begin{bmatrix}
@@ -157,6 +163,7 @@ $$
 $$
 
 Actually, the $\Delta=1$ approximation is exactly the operation of Sobel Derivatives:
+
 $$
 G_x=\begin{bmatrix}
     -1 & 0 & +1 \\\\

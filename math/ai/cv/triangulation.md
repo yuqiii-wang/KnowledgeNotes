@@ -75,6 +75,7 @@ $$
 $$
 
 Given two images' pixels denoted as $\mathbf{x}'=\mathbf{X}_{\text{L}}$ and $\mathbf{x}=\mathbf{X}_{\text{R}}$, there are
+
 $$
 \mathbf{x}'=\mathbf{P}'\mathbf{X}
 \qquad

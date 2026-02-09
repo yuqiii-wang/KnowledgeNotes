@@ -5,7 +5,8 @@
 Simply, the derivative of a scalar function $f$ over a matrix $X$ can be defined as $\frac{\partial f}{\partial X}=\big[ \frac{\partial f}{\partial x_{ij}} \big]$.
 However, such a definition is not handy since it requires computation of each $\partial x_{ij}$.
 
-The differential of a scalar function $df$ can be expressed as the sum of respective differential $d x\_i$. 
+The differential of a scalar function $df$ can be expressed as the sum of respective differential $d x\_i$.
+
 $$
 df = \sum^n\_{i=1} \frac{\partial f}{\partial x\_i} d x\_i= \big(\frac{\partial f}{\partial \mathbf{x}}\big)^\text{T} d\mathbf{x}
 $$
@@ -13,6 +14,7 @@ $$
 where, by vector representation, there is $\frac{\partial f}{\partial \mathbf{x}} \in \mathbb{R}^{n \times 1}$ and $d\mathbf{x} \in \mathbb{R}^{n \times 1}$. so that $df$ is the inner product of $\frac{\partial f}{\partial \mathbf{x}} \cdot d\mathbf{x}$.
 
 Given this inspiration, expand the vector to a matrix space, so that
+
 $$
 df = \sum^m_{i=1} \sum^n\_{j=1} \frac{\partial f}{\partial X_{ij}} d X_{ij}= tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)
 $$
@@ -68,6 +70,7 @@ This gives $\frac{\partial f}{\partial X}=A^\text{T} (\frac{\partial f}{\partial
 First, define element-wise multiplication operator $\odot$.
 There is $d\sigma(X)=\sigma'(X) \odot dX$.
 For example, given a matrix $X$ and compute $d \space sin(X)$, there is
+
 $$
 X = \begin{bmatrix}
     x_{11} & x_{12} \\\\
@@ -142,6 +145,7 @@ tr \begin{bmatrix}
 $$
 
 So that (notice here the subscripts of $a_{ij}$ and $b_{ji}$ are in a reverse order)
+
 $$
 \frac{\partial tr(AB)}{\partial a_{ij}}=
 b_{ji}

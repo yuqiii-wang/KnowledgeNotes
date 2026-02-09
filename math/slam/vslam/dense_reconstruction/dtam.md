@@ -5,6 +5,7 @@
 Direct method starts with the idea of using all the pixels from camera frame to camera frame to resolve the world around sensors, relying on principles from photogrammetry, different from feature-based methods that take interest in image features.
 
 Define the pose of a camera $c$ with respect to the world frame of reference $w$ as $T_{wc} \in SE(3)$:
+
 $$
 T_{wc} = 
 \begin{bmatrix}
@@ -40,6 +41,7 @@ summing the $\mathcal{L}_1$ norm of the individual photometric errors
 obtained:
 
 * Each photometric error to a keyframe $r$ given the movement $m$:
+
 $$
 \rho_r(I_m, \mathbf{u}, d) = 
 I_{r}(\mathbf{u}) - 
@@ -49,6 +51,7 @@ I_m\big(
 $$
 
 * Collectively, the normalized $\mathcal{L}_1$ norm error over a number for movements $m \in \mathcal{I}(r)$ is
+
 $$
 C_r(\mathbf{u}, d) = \frac{1}{|\mathcal{I}(r)|}
 \sum_{m \in \mathcal{I}(r)}
@@ -99,6 +102,7 @@ Here $\nabla \mathbf{\xi}(\mathbf{u})$ describes depth changes.
 As a result, if there is any sudden change in depth (for this pixel's projected depth lower than $\delta$ such as $\big|\mathbf{\xi}(\mathbf{u})\big|<\delta$), the depth changes are smoothed by $\mathcal{L}_2$; otherwise, smoothed by $\mathcal{L}_1$.
 
 Per pixel weight $g(\mathbf{u})$ is defined as
+
 $$
 g(\mathbf{u}) = 
 e^{-\alpha \big|\big| 
@@ -153,6 +157,7 @@ $T_{lv}$ is a correction to $T_{wv}$ to form the true pose ${T}_{wl}$, and $T_{l
 
 
 Pose estimation is to minimize this cost function
+
 $$
 F(\psi)=
 \frac{1}{2} \sum_{\mathbf{u}\in\Omega}

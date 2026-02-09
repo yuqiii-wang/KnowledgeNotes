@@ -9,6 +9,7 @@ or RGB-D visual odometry, PnP can be directly implemented to estimate camera mot
 ## Direct Linear Transformation
 
 Consider a 3D spatial point $\mathbf{p}$ , its homogeneous coordinates are $\mathbf{P} = (X, Y, Z, 1)^\text{T}$ . In image $I_1$ , it is projected to the feature point $\mathbf{x}_1=(u_1,v_1,1)^\text{T}$. Define a rotation plus translation matrix $[\mathbf{R}|\mathbf{t}]$. Given a scaling factor $s$ and camera intrinsic matrix $\mathbf{K}$ considered focal length $(f_x, f_y)$ and optical center $(c_x, c_y)$, there is
+
 $$
 s \begin{bmatrix}
     u_1 \\\\
@@ -36,6 +37,7 @@ s \begin{bmatrix}
 $$
 
 Set the optical center at the origin $(0,0)$ and focal point to $(1,1)$, such as
+
 $$
 \mathbf{K} = 
 \begin{bmatrix}
@@ -157,8 +159,8 @@ q = \frac{\overrightarrow{BC}^2}{\overrightarrow{AB}^2}=\frac{\overrightarrow{bc
 g = \frac{\overrightarrow{AC}^2}{\overrightarrow{AB}^2}=\frac{\overrightarrow{ac}^2}{\overrightarrow{ab}^2}, \quad \\\\
 q \cdot p = \frac{\overrightarrow{BC}^2}{\overrightarrow{OC}^2}=\frac{\overrightarrow{bc}^2}{\overrightarrow{Oc}^2}, \quad
 g \cdot p = \frac{\overrightarrow{AC}^2}{\overrightarrow{OC}^2}=\frac{\overrightarrow{ac}^2}{\overrightarrow{Oc}^2}, \quad
-
 $$
+
 where $x$ and $y$ are unknowns but $p,q, g$ are known since they are on the same projection lines.
 
 The result of the substitution is
@@ -246,6 +248,7 @@ $$
 \mathbf{e}(\big[\mathbf{R}|\mathbf{t} \big]+\Delta \big[\mathbf{R}|\mathbf{t} \big]) \approx
 \mathbf{e}(\big[\mathbf{R}|\mathbf{t} \big])+\mathbf{J}^{\text{T}} \Delta \big[\mathbf{R}|\mathbf{t} \big]
 $$
+
 where $\mathbf{e}$ can be the pixel coordinate error ($2$-d) and $\mathbf{x}$ is the camera pose ($6$-d), $\mathbf{J}^{\text{T}}$ is of a matrix size $2 \times 6$. 
 
 ![pnp_world2camera](imgs/pnp_world2camera.png "pnp_world2camera")
@@ -255,6 +258,7 @@ where $\mathbf{e}$ can be the pixel coordinate error ($2$-d) and $\mathbf{x}$ is
 
 Define the coordinates of the space point in the camera
 frame as $\mathbf{P}'$ transformed by $\big[\mathbf{R}|\mathbf{t} \big]$ from a world frame point $\mathbf{P}$, and take out the first 3 dimensions:
+
 $$
 \mathbf{P}' = \big(\big[\mathbf{R}|\mathbf{t} \big] \mathbf{P} \big)_{1:3}=
 [X', Y', Z']^\text{T}
@@ -407,6 +411,7 @@ $$
 $$
 
 where
+
 $$
 \mathbf{P}'=\big(\big[\mathbf{R}|\mathbf{t}\big] \mathbf{P}\big)_{1:3}= \mathbf{R}\mathbf{P}+\mathbf{t}
 $$

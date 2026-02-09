@@ -9,6 +9,7 @@ $$
 $$
 
 For $x \neq 0$, there is
+
 $$
 lim_{n \rightarrow \infty} \bigg| \frac{\frac{x^{n+1}}{(x+1)!}}{\frac{x^{n}}{x!}}\bigg| = \frac{|x|}{n+1} = 0
 $$
@@ -23,6 +24,7 @@ $$
 $$
 
 When $a=0$, the above expression is called Maclaurin series expansion:
+
 $$
 \sum_{n=0}^{\infty} \frac {f^{(n)}(0)x^n}{n!}
 $$
@@ -145,22 +147,26 @@ $$
 ### Derivatives
 
 For $x(t) \in \mathbb{R}$ being a linear function, $a \in \mathbb{R}$, the derivative of $x(t)$ can be expressed as
+
 $$
 x'(t) = ax(t)
 $$
 
 hence the integral:
+
 $$
 x(t) = e^{at}x_0
 $$
 
 Remember
+
 $$
 e^{at} = 
 \sum_{n=0}^{\infty} \frac{(at)^n}{n!} \\=1 + at + \frac{(at)^2}{2!} + \frac{(at)^3}{3!} + ...
 $$
 
 This holds true for matrix as well
+
 $$
 x'(t) = Ax(t)
 $$

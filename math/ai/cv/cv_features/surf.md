@@ -10,6 +10,7 @@ In computer vision, the integral image is used as a quick and effective way of c
 * Definition
 
 The value $I$ at any point $(x, y)$, together denoted as $I_{sum}(x,y)$ in the summed-area table is the sum of all the pixels above and to the left of $i(x, y)$, inclusive, such as
+
 $$
 I_{sum}(x,y) = 
 \sum_{
@@ -22,6 +23,7 @@ I_{sum}(x,y) =
 }
 i (x',y')
 $$
+
 where $i(x',y')$ is a pixel value.
 
 Once the summed-area table has been computed, evaluating the sum of intensities over any rectangular area requires exactly four array references regardless of the area size.
@@ -152,6 +154,7 @@ The box filter used in SURF is of $9 \times 9$ size. Illustrated as below, the t
 ![surf_box_filter_approx](imgs/surf_box_filter_approx.png "surf_box_filter_approx")
 
 Represent the determinant of the Hessian (approximated) as:
+
 $$
 det(H_{\approx}) = 
 D_{xx}D_{yy} - (\sigma_k D_{xy})^2
@@ -187,6 +190,7 @@ The first step consists of constructing a square region of radius $20$s centered
 
 "Horizontal" $d_x$ and "vertical" $d_y$
 here are defined in relation to the selected keypoint orientation. Then, the wavelet responses $d_x$ and $d_y$ are summed up over each $4 \times 4$ subregion and form a first set of entries to the feature vector $\mathbf{v}$ that
+
 $$
 \mathbf{v} = 
 \bigg(

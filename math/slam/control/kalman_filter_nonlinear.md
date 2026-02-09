@@ -16,7 +16,8 @@ $$
 
 where $f$ and $h$ denote the non-linear transformation.
 
-Redefine $\mathbf{F}_k$ and $\mathbf{H}_k$ to be the Jacobian matrices of $f$ and $h$, respectively. 
+Redefine $\mathbf{F}_k$ and $\mathbf{H}_k$ to be the Jacobian matrices of $f$ and $h$, respectively.
+
 $$
 \begin{align*}
 \mathbf{F}_k&=
@@ -103,6 +104,7 @@ where
 ### Transform Sigma Points
 
 The expectation of $\mathbf{y}$ can be approximated via Gauss-Hermite quadrature:
+
 $$
 \begin{align*}
 \mathbf{\overline{x}}
@@ -241,7 +243,8 @@ $$
 
 ### Computation
 
-Use Cholesky to solve $\mathbf{P}_0=\begin{bmatrix} 0.01 & 0 \\\\ 0 & 1.0 \end{bmatrix}$, there is 
+Use Cholesky to solve $\mathbf{P}_0=\begin{bmatrix} 0.01 & 0 \\\\ 0 & 1.0 \end{bmatrix}$, there is
+
 $$
 {\Sigma}_0 = 
 \begin{bmatrix}
@@ -251,6 +254,7 @@ $$
 $$
 
 Compute $2$-dimensional sigma points:
+
 $$
 \begin{align*}
 \sqrt{d+\lambda} &=
@@ -434,6 +438,7 @@ $$
 $$
 
 Compute the weight $W$
+
 $$
 \begin{align*}
 \frac{\lambda}{d+\lambda}&=
@@ -452,7 +457,8 @@ $$
 \end{align*}
 $$
 
-Compute the mean of motion update $x_1^-$ 
+Compute the mean of motion update $x_1^-$
+
 $$
 \begin{align*}
 \hat{x}^-_1 &=
@@ -876,6 +882,7 @@ W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
 $$
 
 Now compute the covariance between $\hat{x}_1$ and $\hat{y}_1$
+
 $$
 \begin{align*}
 \mathbf{\hat{P}}_{1,xy} &=
@@ -936,6 +943,7 @@ W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}
 $$
 
 Then we can know the Kalman Gain $\mathbf{K}_1$
+
 $$
 \begin{align*}
 \mathbf{K}_1 &= 

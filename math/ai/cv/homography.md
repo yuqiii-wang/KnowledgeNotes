@@ -29,11 +29,13 @@ A homography is an isomorphism of projective spaces, or the transformation betwe
 Define $\mathbf{x}_1=(x_1,y_1,w_1)$ as an image point on the first camera view and $\mathbf{x}_2=(x_2,y_2,w_2)$ on the second camera view. $\mathbf{x}_1$ corresponds to $\mathbf{x}_2$, describing the same real world object point.
 
 Define a transform matrix $H$ that maps this projective relationship, there is (in homogeneous coordinates)
+
 $$
 \mathbf{x}_2=H \mathbf{x}_1
 $$
 
 where
+
 $$
 H=
 \begin{bmatrix}
@@ -68,6 +70,7 @@ where $h_{33}$ is a scaling factor that does not impact the expressions of $x_2$
 The Degree of Freedom (DoF) is $8$ for homography matrix $H$.
 
 Set $w_1=1$ (easy for computation defining $w_1$ ) and ignore $w_2$ (do not need to compute $w_2$). $x_2'=\frac{x_2}{w_2}, y_2'=\frac{y_2}{w_2}$:
+
 $$
 x_2'=
 \frac{h_{11}x_1+h_{12}y_1+h_{13}}{h_{31}x_1+h_{32}y_1+h_{33}} \\\\
@@ -78,6 +81,7 @@ $$
 ### Least squares problem to search for $H$
 
 Given the above $x_2'$ and $y_2'$ expressions, we have
+
 $$
 \mathbf{a}_x^\text{T} \mathbf{h} = \mathbf{0} \\\\
 \mathbf{a}_y^\text{T} \mathbf{h} = \mathbf{0}
@@ -102,6 +106,7 @@ A \mathbf{h} = \mathbf{0}
 $$
 
 where
+
 $$
 A=
 \begin{bmatrix}
@@ -116,6 +121,7 @@ $$
 ### Least squares solutions
 
 * Solution 1: SVD
+
 $$
 A=U \Sigma V^\text{T}=\sum^9_{i=1}\sigma_i \mathbf{u}\_i\mathbf{v}\_i^\text{T}
 $$

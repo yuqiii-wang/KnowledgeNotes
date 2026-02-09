@@ -11,6 +11,7 @@ $$
 where $s=\sigma + i\omega$ in a complex plane. When $s=i\omega$, the aforementioned transform is a Fourier transform.
 
 Inverse Laplace transform:
+
 $$
 f(t) = \mathcal{L}^{-1}\big\{F\big\}(t)
 $$
@@ -26,6 +27,7 @@ The output of a linear time-invariant system can be calculated by convolving its
 Given the nature if electricity with defined input $v_{in}(t)=V_0 e^{jωt}$ (Real-valued sinusoids noting that $V_{in} = \mathcal{R}\big\{ V_0 e^{jωt} \big\} = V_0 cos (\omega t)$ as the observed voltage for $V_{in}$).
 
 Given the circuit following Kirchhoff’s voltage law (KVL):
+
 $$
 \begin{align*}
 V_{in} + V_R + V_C = 0
@@ -53,27 +55,33 @@ $$
 where $V_p$ is amplitude of a sinusoidal signal $e^{j \omega t}$ over the capacitor.
 
 With $s=j\omega$, here derived:
+
 $$
 Z_C = \frac{1}{sC}
 $$
 
 Here defines Capacitor Reactance $X_C=-\frac{1}{\omega C}$:
+
 $$
 V_{in}(s) = R + jX_C
 $$
 
 Inductor has property: $X_I = \omega L$, together with Capacitor Reactance $X_C$:
+
 $$
 X = X_C + X_I
 $$
+
 $$
 V_{in}(s) = R + jX
 $$
 
 A physical component with a finite reactance induces a phase shift $\theta$ between the voltage across it and the current through it. Magnitude and phase of impedance are
+
 $$
 |Z| = \sqrt[2]{R^2+X^2}
 $$
+
 $$
 \theta = arctan(\frac{X}{R})
 $$
@@ -91,6 +99,7 @@ $$
 e^{- \alpha t}sin(\omega t) u(t)
 $$
 with applied Laplace transform:
+
 $$
 \frac{\omega}{(s+\alpha)^2 + \omega^2}
 $$

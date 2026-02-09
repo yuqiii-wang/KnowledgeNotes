@@ -11,6 +11,7 @@ L_n (x) =
               \big)
 $$
 or recursively starting with $L_0(x)=1, L_1(x)=x$, there is
+
 $$
 (n+1)L\_{n+1}(x) = 
 (2n+1)x L_n (x) - n L\_{n-1}(x)
@@ -29,6 +30,7 @@ $$
 Solve the above equations by $L_n(x)=0$ with different degree $n$ and obtain roots $x\_i$ 
 
 For weights $w_i$, there is
+
 $$
 w_i=
 \frac{2}{(1-x\_i^2)\big(L_n'(x\_i)\big)^2}
@@ -47,6 +49,7 @@ Here is a table of result summary.
 ## Orthogonality
 
 Orthogonality of two functions is defined as
+
 $$
 <f,g>=
 \int f(x) g(x) dx = 0

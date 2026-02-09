@@ -24,7 +24,8 @@ Each bounding box has five predictions:
 * $(w, h)$ represents the width and height relative to the image size
 * $C$ represents the number of classes, in which each class probability is conditional on having a present object $p_i(c)=\text{Pr}(\text{Class}\_i|\text{Object})$
 
-The per-class per-bounding-box confidence score is 
+The per-class per-bounding-box confidence score is
+
 $$
 \text{Pr}(\text{Class}\_i|\text{Object}) \cdot
 \text{Pr(Object)} \cdot \text{IOU}^{\text{truth}}_{\text{pred}}

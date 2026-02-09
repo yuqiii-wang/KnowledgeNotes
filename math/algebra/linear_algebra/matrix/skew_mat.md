@@ -21,6 +21,7 @@ A=
 $$
 
 There is
+
 $$
 -A=
 \begin{bmatrix}
@@ -43,6 +44,7 @@ The space of $n \times n$ skew-symmetric matrices has dimensionality $\frac{1}{2
 Given $\mathbf{a}=(a_1, a_2, a_3)^\text{T}$ and $\mathbf{b}=(b_1, b_2, b_3)^\text{T}$
 
 Define $\mathbf{a}$'s skew matrix representation
+
 $$
 [\mathbf{a}]_{\times}=
 \begin{bmatrix}

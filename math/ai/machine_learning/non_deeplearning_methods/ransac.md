@@ -30,6 +30,7 @@ If a data point is viewed by the fitting model as a inlier point multiple times 
 Apparently, the threshold discriminating between inliers and outliers has significant impact on RANSAC accuracy.
 
 Define a threshold $t^2$, there is
+
 $$
 \left\{
     \begin{matrix}
@@ -38,6 +39,7 @@ $$
     \end{matrix}
 \right.
 $$
+
 where $t^2=\Gamma_m^{-1}(\alpha) \cdot \sigma^2$. 
 Here, $\alpha$ is the probability of inlier percentage, typically set $\alpha=0.95$ which indicates that there are $5\%$ of samples are outliers. 
 $\sigma^2$ is the variance.

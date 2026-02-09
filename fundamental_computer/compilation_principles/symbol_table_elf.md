@@ -158,6 +158,7 @@ Symbol table '.symtab' contains 65 entries:
 ```
 
 Inside this `.symtab`, the object `a`'s (Symbol Num $59$), `b`'s (Symbol Num $47$) and `c`'s (Symbol Num $58$) binary can be found by
+
 $$
 \mathtt{0x3048} + 59 \times \mathtt{0x18} = \mathtt{0x35d0} = 13776 \text{ bytes} \\\\
 \mathtt{0x3048} + 47 \times \mathtt{0x18} = \mathtt{0x34b0} = 13488 \text{ bytes} \\\\

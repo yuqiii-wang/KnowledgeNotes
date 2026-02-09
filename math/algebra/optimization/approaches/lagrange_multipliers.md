@@ -1,6 +1,7 @@
 # Lagrangian Multiplier
 
 In order to find the extreme values of a function $f:\mathbb{R}^n \rightarrow \mathbb{R}$, $f(\mathbf{x})$ subjected to an equality constraint function $g:\mathbb{R}^n \rightarrow \mathbb{R}^c$ with a constraint expression $g(\mathbf{x})=0$, given both $f, g \in C^1$ (indicating both having at least first-order derivative), here constructs Lagrangian function 
+
 $$
 L(\mathbf{x}, \lambda)=f(\mathbf{x})+\lambda g(\mathbf{x})
 $$
@@ -12,6 +13,7 @@ $\lambda$ is known as *Lagrangian multiplier*.
 ## Intuition
 
 $f$ and $g$ are continuous and stationary points $\mathbf{x}_{stationary}$ (local maxima/minima) can be found when the tangents of stationary points $\mathbf{x}_{stationary}$ for both $f$ and $g$ are parallel, which can be described as
+
 $$
 \nabla f = \lambda \nabla g
 $$
@@ -139,6 +141,7 @@ $$
 $$
 
 since $\triangledown L(x,y,\lambda)=0$, there is
+
 $$
 \left \{ \begin{array}{c}
     1+2\lambda x = 0 \\\\
@@ -147,7 +150,9 @@ $$
 \end{array}
 \right.
 $$
+
 whose solutions $(x,y,\lambda)$ are
+
 $$
 (\frac{\sqrt{2}}{2}, \frac{\sqrt{2}}{2}, -\frac{1}{\sqrt{2}}), 
 \quad 
@@ -155,6 +160,7 @@ $$
 $$
 
 The maxima and minima are
+
 $$
 f(\frac{\sqrt{2}}{2}, \frac{\sqrt{2}}{2})=\sqrt{2},
 \quad

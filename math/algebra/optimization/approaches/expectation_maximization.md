@@ -26,6 +26,7 @@ There are two alternative steps updating $\mathbf{\theta}$:
 1. Expectation step (E step):
 
 Define $Q(\theta | \theta^{(t)})$ as the expected value of the log likelihood function, in which $\theta^{(t)}$ is the current estimate of $\theta$:
+
 $$
 Q(\theta | \theta^{(t)})=
 E_{\mathbf{Z}|\mathbf{X}, \mathbf{\theta}^{(t)}}[log \space L(\mathbf{\theta}; \mathbf{X}, \mathbf{Z})]
@@ -34,6 +35,7 @@ $$
 2. Maximization step (M step):
 
 Find the parameters that maximize this quantity:
+
 $$
 \mathbf{\theta}^{(t+1)}=
 arg \space \underset{\mathbf{\theta}}{max} \space Q(\theta | \theta^{(t)})
@@ -46,20 +48,24 @@ Expected to use two Gaussian distributions $N_1(\mu_1, \sigma_1^2)$ and $N_2(\mu
 Define $\mathbf{\pi}=[\pi_1, \pi_2]$ which is the mixing probability for the two Gaussian distributions, subject to $1 = \sum_i \pi_i$.
 
 The model parameters $\mathbf{\theta}$ are
+
 $$
 \mathbf{\theta}=(\mathbf{\pi}, \mu_1, \sigma_1^2, \mu_2, \sigma_2^2)
 $$
 
 the probability density function (PDF) $p$ of the mixture model is
+
 $$
 p(\mathbf{x} | \mathbf{\theta})=
 \pi_1 \cdot g_1(\mathbf{x} | \mu_1, \sigma_1^2)
 +
 \pi_2 \cdot g_2(\mathbf{x} | \mu_2, \sigma_2^2)
 $$
+
 where $g_1, g_2$ are PDFs for the two aforementioned Gaussian distributions $N_1$ and $N_2$.
 
 The probability (likelihood) of observing our entire dataset of $n$ points is:
+
 $$
 L(\mathbf{\theta};\mathbf{x})=
 \prod_{i=1}^n p(x\_i; \mathbf{\theta})
@@ -105,6 +111,7 @@ $$
 $$
 
 subject to
+
 $$
 1 = \sum_k \pi_k
 $$

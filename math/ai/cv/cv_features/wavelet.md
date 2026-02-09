@@ -12,6 +12,7 @@ s_N =
 \frac{A_0}{2} +
 \sum_{n=1}^N A_n \cdot cos(\frac{2\pi}{P} n \omega_0 - \varphi_n)
 $$
+
 where
 * The $n$-th harmonic is $A_n \cdot cos(\frac{2\pi}{P} n \omega_0 - \varphi_n)$
 * $\omega_0=\frac{2\pi}{T}$ is the base frequency
@@ -19,6 +20,7 @@ where
 * $\varphi_n$ is the phase shift
 
 Since $\varphi_n$ is a phase shift constant, here defines the derivations of $a_n$ and $b_n$
+
 $$
 \begin{align*}
 sin(\varphi_n) &= \frac{b_n}{A_n} \\\\
@@ -27,6 +29,7 @@ cos(\varphi_n) &= \frac{a_n}{A_n}
 $$
 
 So that a Fourier series can be expressed with $a_n$ and $b_n$:
+
 $$
 s_N = 
 \frac{a_0}{2} +
@@ -53,6 +56,7 @@ $$
 where $*$ denotes complex conjugate.
 
 Substitute $a_n$ and $b_n$ into $\big(\frac{A_n}{2} e^{-i\varphi_n}\big)$, there is
+
 $$
 s_N = 
 \frac{a_0}{2} + \sum_{n=1}^N
@@ -103,7 +107,8 @@ A better approximation should be using bases with changeable amplitudes along wi
 
 ### Wave Representation and Inspiration
 
-Define a wavelet basis $\psi$ over a trivial time period window $\Delta t$ and the angular frequency $\Delta \omega$ within this window. 
+Define a wavelet basis $\psi$ over a trivial time period window $\Delta t$ and the angular frequency $\Delta \omega$ within this window.
+
 $$
 \Delta t \Delta \omega = \frac{1}{2}
 $$
@@ -123,15 +128,18 @@ In other words, the basis function $\psi$  can be regarded as an impulse respons
 ## Wavelet Definition
 
 $\psi_{s,\tau}(t)$ is an orthonormal wavelet such as
+
 $$
 \psi_{s,\tau}(t) = 
 \frac{1}{\sqrt{s}} \psi \big( \frac{t-\tau}{s} \big)
 $$
+
 where $s$ is positive and defines the frequency scale/frequency band， higher the $\psi$'s frequency, smaller the $s$ (or $s$ is the inverse of the frequency)
 
 $\tau$ defines the shift/translation version of the mother wavelet $\psi(t)$ (often centered at zero).
 
 $\psi$ can be in many different forms. A typical $sinc$ version wavelet function $\psi$ with $s=1, \tau=0$ is
+
 $$
 \psi(t) = 
 sinc(t) = \frac{sin(\pi t)}{\pi t}
@@ -152,7 +160,9 @@ $$
 \psi[s,\tau] = 
 \frac{1}{\sqrt{s}} \sum^{p-1}_{m=0} x(t_m) \psi \big( \frac{t_m - \tau}{s} \big)
 $$
+
 where $\forall \space k,j \in \mathbb{Z}$, there are
+
 $$
 s = 2^{-j}, \quad \tau = k 2^{-j} 
 $$
@@ -174,6 +184,7 @@ $$
 where $\psi(t)$ is a continuous function in both the time domain and the frequency domain called the mother wavelet and the overline represents operation of complex conjugate. Daughter wavelets are various translation and frequency scaling versions of the mother wavelet.
 
 The reverse transform that recovers the source signal $x(t)$ is
+
 $$
 x(t) = C^{-1}\_\psi 
 \int^{\infty}_{0} \int^{\infty}_{-\infty}
@@ -184,6 +195,7 @@ $$
 ## Haar Wavelet Image Processing Example
 
 The Haar wavelet's mother wavelet function $\psi(t)$ is
+
 $$
 \psi(t) =
 \left\{
@@ -195,6 +207,7 @@ $$
 \right.
 $$
 and its scaling function $s(t)$
+
 $$
 s(t) = 
 \left\{
@@ -216,6 +229,7 @@ $$
 $$
 
 where $\delta_{i,j}$ is *Kronecker delta* that
+
 $$
 \delta_{i,j} = \left\{ 
     \begin{array}{c}
@@ -266,6 +280,7 @@ h_4 =
 $$
 
 So that combine all $h_i$
+
 $$
 \mathbf{h} = 
 \begin{bmatrix}
@@ -277,6 +292,7 @@ $$
 $$
 
 Then normalize $\mathbf{h}$, the result is
+
 $$
 \mathbf{h}_{norm} = 
 \begin{bmatrix}
@@ -288,12 +304,14 @@ $$
 $$
 
 Compute the product of the signal $\mathbf{x}$ with $\mathbf{h}_{norm}$, and derives the frequency-deduced vector $\mathbf{c}$
+
 $$
 \mathbf{c} = 
 \mathbf{h}_{norm} \mathbf{x}^{\text{T}}
 $$
 
 To recover the signal, the recovered estimate is denoted as $\hat{\mathbf{x}}$, there is
+
 $$
 \hat{\mathbf{x}} = 
 \mathbf{h}_{norm}^{\text{T}} \mathbf{c}
@@ -310,6 +328,7 @@ If the 1d source signal $\mathbf{x}$ has the exact frequencies as in Haar's (suc
 Define a 2d signal $X \in \mathbb{R}^{4 \times 4}$.
 
 Define 2d orthogonal Haar bases $\mathbf{H}$, and each element $H_{ij} \in \mathbf{H}$ is the result of outer product (operator denoted as $\otimes$) from respective Haar bases $h_i$ and $h_j$, such as
+
 $$
 H_{ij} = h_i \otimes h_j
 $$
@@ -381,6 +400,7 @@ H_{24} &=
 $$
 
 The 2d signal $X$ can be decomposed as
+
 $$
 X = \sum_{i,j} c_{ij} H_{ij}
 $$

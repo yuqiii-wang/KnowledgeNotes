@@ -25,6 +25,7 @@ In other words, this law states that as more sampling is taken, the observed mea
 Bessel's correction is the use of $n − 1$ as the sample number instead of $n$ in the formula for the sample variance and sample standard deviation.
 
 A naive approach to variance is
+
 $$
 \sigma^2 = \overline{(x^2)} - (\overline{x})^2 =
 \frac{
@@ -32,11 +33,13 @@ $$
 $$
 
 By Bessel's correction, there is
+
 $$
 s^2 = \frac{n}{n-1} \Bigg( \frac{1}{n}\sum_{i=1}^n x\_i^2 - \Big( \frac{1}{n}\sum_{i=1}^n x\_i \Big)^2 \Bigg)
 $$
 
 One can understand Bessel's correction as the degrees of freedom in the residuals vector (residuals, not errors, because the population mean is unknown):
+
 $$
 \{ x_1-\overline{x}, x_2-\overline{x}, ..., x_n-\overline{x} \}
 $$

@@ -4,11 +4,14 @@
 
 Starting with key point detection, the image $I$ is convolved with Gaussian filters at different scales, and then the difference of successive Gaussian-blurred images are taken. 
 Keypoints are then taken as maxima/minima of the *Difference of Gaussians* (DoG) that occur at multiple scales. Specifically, a DoG image $D(x,y,\sigma)$ is given by
+
 $$
 D(x,y,\sigma) = 
 L(x,y,k_i \sigma) - L(x,y,k_j \sigma)
 $$
+
 where $L(x,y,k \sigma)$ is the convolution (operation denoted as $*$) of the input image $I(x,y)$ with the Gaussian blur $g(x,y, k\sigma)$ at the scale $k\sigma$ , i.e.,
+
 $$
 L(x,y,k \sigma) = 
 g(x,y, k\sigma) * I(x,y)
@@ -25,6 +28,7 @@ Keypoints are selected as local minima/maxima of the DoG images across scales, b
 Next is to perform a detailed fit to the nearby data (neighbor pixels of keypoints) for accurate location, scale, and ratio of principal curvatures.
 
 Using the quadratic Taylor expansion of the Difference-of-Gaussian (DoG) scale-space function, DoG can be expressed as
+
 $$
 D(\mathbf{x}) = D + 
 \frac{\partial D^\text{T}}{\partial \mathbf{x}} \mathbf{x} +

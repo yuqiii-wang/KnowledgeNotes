@@ -41,6 +41,7 @@ Define two vector field functions:
 $\mathbf{f}(x):R^n \rightarrow R^n$ and $\mathbf{g}(x):R^n \rightarrow R^n$. The Lie bracket $[\mathbf{f}, \mathbf{g}]$ is an operator that assigns to any two vector fields $\mathbf{f}$ and $\mathbf{g}$ on a smooth manifold $M$ a third vector field denoted $[X, Y]$.
 
 Formally, Lie Bracket in vector fields can be generalized with the below form
+
 $$
 [\mathbf{f},\mathbf{g}] = \nabla \mathbf{g} \mathbf{f} - \nabla \mathbf{f} \mathbf{g}=
 \frac{\partial \mathbf{g}}{\partial \mathbf{x}}\mathbf{f} - \frac{\partial \mathbf{f}}{\partial \mathbf{x}}\mathbf{g}
@@ -83,6 +84,7 @@ x \cdot \mathbf{e}_y
 $$
 
 Take the integral on the $x$-axis, there is
+
 $$
 x(\lambda) = \int \frac{dx}{d\lambda} d\lambda = \int 1 d\lambda = \lambda + c_x
 $$
@@ -90,6 +92,7 @@ $$
 where $c_x \in \mathbb{R}$ is a random constant after integral.
 
 Take the integral on the $y$-axis, there is
+
 $$
 y(\lambda) = \int \frac{dy}{d\lambda} d\lambda = \int x(\lambda) d\lambda = \int (\lambda+c_x) d\lambda = \frac{1}{2}\lambda^2 + c_x \lambda+ c_y
 $$
@@ -99,6 +102,7 @@ Obviously, the integral orange curve is a parabola on the $x$-$y$ plane.
 Compute $\nabla \mathbf{v} \mathbf{u}$ and $\nabla \mathbf{u} \mathbf{v}$:
 
 Find the change of $\mathbf{v}$ along $\mathbf{u}$
+
 $$
 \begin{align*}
       \frac{d (\mathbf{v})}{d \lambda}  \mathbf{u} &= 
@@ -242,6 +246,7 @@ Lie bracket is $[\tau_2, \tau_1]=\tau_2 \tau_1 - \tau_1 \tau_2$.
 Introduce $e^{\mathcal{E}\tau_3}$. Again by isomorphism, and with the aforementioned derived Lie bracket $[\tau_1, \tau_2]$, there is
 
 By taking the derivatives of the two terms,
+
 $$
 \begin{align*}
 \frac{d }{d \mathcal{E}}\bigg|_{\mathcal{E}=0}
@@ -270,6 +275,7 @@ $$
 
 To show Jacobi identity, recall the property of anti-symmetry such as $[X,Y]=-[Y,X]$,
  compute all the below three terms:
+
 $$
 \begin{align*}
       [\tau_1, [\tau_2, \tau_3]] &= 
@@ -376,6 +382,7 @@ $$
 ### BCH Formula in $so(3)$
 
 For a 3-d matrix $\mathbf{\Phi}$, here uses $\wedge$ to represent a vecto of an antisymmetric matrix., there is
+
 $$
 \mathbf{\Phi} = \phi^{\wedge}=
 \begin{bmatrix}
@@ -422,7 +429,8 @@ $$
 J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})\mathbf{v}\mathbf{v}^\text{T} + \frac{1-cos\theta}{\theta}\mathbf{v}^{\wedge}
 $$
 
-whose derivative is 
+whose derivative is
+
 $$
 J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})\mathbf{v}\mathbf{v}^\text{T} - \frac{\theta}{2}\mathbf{v}^{\wedge}
 $$

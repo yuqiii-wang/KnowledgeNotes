@@ -3,6 +3,7 @@
 $Sim(3)$ adds scale information for monocular vision.
 
 Define a $3$-d point $\mathbf{p}$ and its transformation result $\mathbf{p}'$
+
 $$
 \begin{align*}
     \mathbf{p}' &= \begin{bmatrix}
@@ -172,15 +173,19 @@ $$
 $$
 
 Rewrite the residual,
+
 $$
 \mathbf{e}\_i = \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}'
 $$
+
 where
+
 $$
 \mathbf{t}' =  \mathbf{t} - \overline{\mathbf{r}}_r + sR(\overline{\mathbf{r}}_l)
 $$
 
 So that the least squared problem becomes finding the optimal $\mathbf{t}'$
+
 $$
 \begin{align*}
 \min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &= 
@@ -203,6 +208,7 @@ $$
 $$
 
 Having said $\mathbf{t}' = \mathbf{0}$, the error can be expressed as
+
 $$
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 =
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2
@@ -235,12 +241,14 @@ S_r - 2sD + s^2 S_l
 $$
 
 The above quadratic term can have the optimal $s^*=\frac{D}{S_l}$ (derived by $\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2=0$ ):
+
 $$
 s^*=\frac{D}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)}
 {\sum_{i=1}^n \big|\big| R( \mathbf{r}_{l,i}') \big|\big|^2}
 $$ 
 
 Now, consider the inverse transform from the right coordinate system to the left one:
+
 $$
 s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}_{l,i}' \cdot R( \mathbf{r}_{r,i}')  \Big)}
 {\sum_{i=1}^n \big|\big| R( \mathbf{r}_{r,i}') \big|\big|^2}
@@ -253,6 +261,7 @@ This expression $s^{*\space -1} \ne \frac{1}{s}$ means that, the error computed 
 In other words, the inverse transform error $\mathbf{e}_{i, r \rightarrow l}$ would see asymmetrical $s^{-1}$.
 
 Unless the left-to-right transform has much more precision than the right-to-left's that $\mathbf{e}_{i, l \rightarrow r}=\mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}')$ becomes accurate, otherwise, to formulate the error with respect to the scale $s$, it is better use the below symmetrical error that balances between the left-to-right and right-to-left transforms:
+
 $$
 \mathbf{e}\_i = 
 \frac{1}{\sqrt{s}}\mathbf{r}'_{r,i} - \sqrt{s} R (\mathbf{r}_{l,i})
@@ -270,6 +279,7 @@ $$
 $$
 
 The optimal $s^*=\frac{S_r}{S_l}$ can be found when $\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2=0$:
+
 $$
 s^* = \sqrt{
     \frac{ \sum_{i=1}^n \big|\big| {\mathbf{r}'_{r,i}} \big|\big|^2 }
@@ -285,12 +295,14 @@ The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big
 * **Find the optimal rotation $R^*$**
 
 Denote $\mathring{\mathbf{r}}$ as the quaternion form of $\mathbf{r}$:
+
 $$
 \mathring{\mathbf{r}} = 
 r_0 + \overrightarrow{i}r_x + \overrightarrow{j}r_y + \overrightarrow{k}r_z
 $$
 
 Express $R$ in quaternion form: $\mathbf{r}$ rotation by quaternion $\mathring{\mathbf{q}}$ can be expressed as
+
 $$
 \mathring{\mathbf{r}}' = \mathring{\mathbf{q}} \mathring{\mathbf{r}} \mathring{\mathbf{q}}^{\dagger}
 $$
@@ -314,6 +326,7 @@ $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s}
 Rewrite $D$'s elements to that $\Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' \mathring{\mathbf{q}}^{\dagger} \Big) \cdot \mathring{\mathbf{r}}_{r,i}' =\Big( \mathring{\mathbf{q}}\mathbf{r}_{l,i}' \Big) \cdot \Big(  \mathring{\mathbf{r}}_{r,i}' \mathring{\mathbf{q}} \Big)$.
 
 Take $\mathbf{r}_{l,i}' \rightarrow \mathring{\mathbf{r'}}_{l,i}$, then by quaternion multiplication, there is
+
 $$
 \mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' = 
 \begin{bmatrix}
@@ -347,6 +360,7 @@ D &=
 $$
 
 The $N$ can be expressed as
+
 $$
 N = \begin{bmatrix}
     S_{xx}+S_{yy}+S_{zz} & S_{yz}-S{zy} & S_{zx}-S{xz} & S_{xy}-S{yx} \\\\
@@ -364,24 +378,28 @@ To maximize $\mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}}$ by adjusting 
 
 Given $\text{det}(N-\lambda I)=0$, compute all four eigenvalues and eigenvectors $N \mathbf{v}\_i = \lambda_i \mathbf{v}\_i$ for $i \in \{ 1,2,3,4 \}$.
 Then, an arbitrary quaternion $\mathring{\mathbf{q}}$ can be written as a linear combination in the form
+
 $$
 \mathring{\mathbf{q}} = 
 \alpha_1 \mathbf{v}_1 + \alpha_2 \mathbf{v}_2 + \alpha_3 \mathbf{v}_3 + \alpha_4 \mathbf{v}_4
 $$
 
 Since the eigenvectors are orthogonal, and for unit quaternion the norm should be $1$, there is
+
 $$
 \mathring{\mathbf{q}} \cdot \mathring{\mathbf{q}} =
 \alpha_1^2 + \alpha_2^2 + \alpha_3^2 + \alpha_4^2 = 1
 $$
 
 Then,
+
 $$
 N \mathring{\mathbf{q}} =
 \alpha_1 \lambda_1 \mathbf{v}_1 + \alpha_2 \lambda_2 \mathbf{v}_2 + \alpha_3 \lambda_3 \mathbf{v}_3 + \alpha_4 \lambda_4 \mathbf{v}_4
 $$
 
 and
+
 $$
 \mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}} =
 \mathring{\mathbf{q}}^{\top} \cdot \big( N \mathring{\mathbf{q}} \big) =

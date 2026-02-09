@@ -3,6 +3,7 @@
 The primal-dual algorithm is a method for solving linear programs inspired by the Ford–Fulkerson method.
 
 Define a primal-dual pair:
+
 $$
 (\mathbf{P}) = \left\{
     \begin{matrix}

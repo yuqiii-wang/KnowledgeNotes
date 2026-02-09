@@ -22,11 +22,14 @@ A = Vandermonde([x_0, x_1, . . . , x_n]) =
 $$
 
 $p_n(x)$ can be written as
+
 $$
 p_n(x)=
 \sum^n\_{j=0} y_i L\_{n,j}(x)
 $$
+
 where polynomials $\{L\_{n,j}\}$ for $j=0,1,2,...,n$ are called *Lagrange Polynomials* for the interpolation points $x_0, x_1, ..., x_n$
+
 $$
 L\_{n,j}(x) =
 \prod_{k=0, k \ne j}^n \frac{x-x_k}{x_j-x_k}

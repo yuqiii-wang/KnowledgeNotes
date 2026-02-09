@@ -29,6 +29,7 @@ $$
 ### Partial Derivative
 
 When input/output is $\mathbb{R}^1 \rightarrow \mathbb{R}^1$ such that $w=f\big(g(x)\big)$, there is a chian rule:
+
 $$
 \frac{dw}{dx}=\frac{df}{dg}\frac{dg}{dx}
 $$

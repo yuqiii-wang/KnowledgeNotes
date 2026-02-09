@@ -10,11 +10,13 @@ L_n(\mathbf{y};\theta)
 $$
 
 To best model the observations $\mathbf{y}$ by finding the optimal $\hat{\theta}$:
+
 $$
 \hat{\theta} = arg \space \underset{\theta \in \Theta}{max} \space L_n(\mathbf{y};\theta)
 $$
 
 In practice, it is often convenient to work with the natural logarithm of the likelihood function, called the log-likelihood:
+
 $$
 ln \space L_n(\mathbf{y};\theta)
 $$
@@ -31,6 +33,7 @@ $$
 ## MLE in Gaussian Distribution
 
 Given random variable $\mathbf{y} \in \mathbb{R}^n$ following Gaussian distribution $\mathbf{y} \sim N(\mu, \Sigma)$, the probability density function is
+
 $$
 P(\mathbf{y};\theta) = 
 \frac{1}{\sqrt{(2\pi)^ndet(\Sigma)}}
@@ -38,6 +41,7 @@ e^{-\frac{1}{2}(\mathbf{y}-\mu)^\text{T}\Sigma^{-1}(\mathbf{y}-\mu)}
 $$
 
 Take the negative logarithm of the equation:
+
 $$
 \begin{align*}
 -ln(P(\mathbf{y};\theta)) &=

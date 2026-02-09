@@ -14,6 +14,7 @@ reset the reference frame.
 
 Compute in parallel threads a homography ${H}_{cr}$ and a
 fundamental matrix ${F}_{cr}$:
+
 $$
 \mathbf{x}_c = {H}_{cr} \mathbf{x}_r
 \quad\quad
@@ -134,6 +135,7 @@ $$
     \end{matrix}
 \right.
 $$
+
 where $d^2$ is the symmetric transfer error, $T_M$ is an outlier rejector based on $\mathcal{X}^2$ test. $T_H$ is the outlier rejector for the homography (planar) model.
 
 If the scene is planar, nearly planar or there is low
@@ -292,6 +294,7 @@ $$
 where $\mathbf{X}_{K,i} \in \mathbb{R}^3$  is map point 3D location and $\mathbf{x}_{K,i}$ is a matched feature point. $\pi_K(\mathbf{S}_{K}, \mathbf{X}_{K,i})$ is the projection that takes a keyframe/camera's $sim(3)$ pose and transform the 3D point to by $sim(3)$ then maps this 3D point to a 2D pixel.
 
 For all $n$ matches, collectively define the below cost function
+
 $$
 \argmin_{\mathbf{S}_{K_1 K_2}}
 \sum_{i=1}^n \Big(

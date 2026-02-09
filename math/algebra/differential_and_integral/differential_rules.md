@@ -16,6 +16,7 @@ f'(x)=\big(g(h(x))\big)'=g'\big(h(x)\big) h'(x)
 $$
 
 For example,
+
 $$
 \begin{align*}
     && \frac{\partial y}{\partial x_1} &= 
@@ -109,6 +110,7 @@ $$
 Any vector space $V$ has a corresponding dual vector space (or just dual space for short) consisting of all linear forms on $V$.
 
 Define a  Jet: a Jet is a $n$-dimensional dual number: $\mathbf{\epsilon}=[\epsilon_1, \epsilon_2, ..., \epsilon_n]$ with the property $\forall i,j: \epsilon_i \epsilon_j=0$. Then a Jet consists of a real part $a$ and a $n$-dimensional infinitesimal part $\mathbf{v}$, i.e.,
+
 $$
 \begin{align*}
 x &= a+\sum_{i=1}^{n} v_i \epsilon_i
@@ -117,6 +119,7 @@ x &= a+\sum_{i=1}^{n} v_i \epsilon_i
 $$
 
 Then, using the same Taylor series expansion used above, there is
+
 $$
 f(a+\mathbf{v})=f(a)+kf(a)\mathbf{v}
 $$
@@ -133,6 +136,7 @@ f(a_1, a_2, ..., a_n) + \sum_{j=1}^{n} k_j f(a_1, a_2, ..., a_n)\mathbf{v}_j
 $$
 
 Set $\mathbf{v}_j=\mathbf{e}_j$ to be a unit vector, there is
+
 $$
 f(x_1, x_2, ..., x_n) =
 f(a_1, a_2, ..., a_n) + \sum_{j=1}^{n} k_j f(a_1, a_2, ..., a_n)\mathbf{\epsilon}_j

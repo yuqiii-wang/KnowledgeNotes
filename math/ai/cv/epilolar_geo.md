@@ -55,6 +55,7 @@ $$
 ### Essential matrix
 
 Since $(O_{\tiny{W,L}}-O_{\tiny{W,R}})\times$ is a vector cross product operation, it can be transformed into an anti-symmetric/skew matrix operation:
+
 $$
 (O_{\tiny{W,L}}-O_{\tiny{W,R}})\times=
 [O_{b}]_{\times}=
@@ -74,6 +75,7 @@ $$
 $$
 
 Similarly for the right camera view:
+
 $$
 \mathbf{x}_{\tiny{W,R}}-O_{\tiny{W,R}} = R^\text{T}_{R}\mathbf{x}_{\tiny{C,R}}
 $$
@@ -115,6 +117,7 @@ But due to the equivalence of scales $f$, $E$ actually has 5 degrees of freedom.
 ### Essential Matrix Computation
 
 For $\mathbf{x}_{\tiny{L}}$ and $\mathbf{x}_{\tiny{R}}$ such as
+
 $$
 \mathbf{x}_{\tiny{L}}=
 \begin{bmatrix}
@@ -187,6 +190,7 @@ $$
 $$
 
 For a camera with rectangular pixels of size $1/s_x \times 1/s_y$, optical center $(o_x, o_y)$ and focus length $f$, there is
+
 $$
 M_{in}=
 \begin{bmatrix}
@@ -197,6 +201,7 @@ M_{in}=
 $$
 
 Given an essential matrix $E$, the left and right camera instrinsics are $M_{L,in}, M_{R,in}$, here defines a fundamental matrix $F$
+
 $$
 F=
 (M_{L,in}^{-1})^\text{T} E M_{R,in}^{-1}
@@ -234,11 +239,13 @@ The below figure shows an example of such a rectification result.
 </br>
 
 A pair of parallel camera views give simple essential matrix performing one-dimension translation such that
+
 $$
 \mathbf{x}_{\tiny{R}}^\text{T} E \mathbf{x}_{\tiny{L}} = 0
 $$
 
 where
+
 $$
 E=
 T \times R=
@@ -320,6 +327,7 @@ $$
 
 other error formulas are
 * SAD (Sum of Absolute Difference):
+
 $$
 E_{sad}(u,v)=\sum_{(x,y)\in\mathbf{W}_{m \times n}} 
 \bigg|
@@ -328,6 +336,7 @@ E_{sad}(u,v)=\sum_{(x,y)\in\mathbf{W}_{m \times n}}
 $$
 
 * NCC (Normalized Cross Correlation):
+
 $$
 E_{ncc}(u,v)=
 \frac{
@@ -362,6 +371,7 @@ If features changes slowly, the drastic changing feature points are discarded.
 ## Fundamental Matrix Estimation by RANSAC
 
 For $\mathbf{x}_{\tiny{L}}$ and $\mathbf{x}_{\tiny{R}}$ such as
+
 $$
 \mathbf{x}_{\tiny{L}}=
 \begin{bmatrix}
@@ -388,6 +398,7 @@ $$
 *Eight-Point Algorithm* requires $8$ point pairs $\mathbf{x}_{\tiny{L}}$ and $\mathbf{x}_{\tiny{R}}$ to directly solve for the fundamental matrix $F_{\tiny{LR}}$ that denotes the transform $\mathbf{x}_{\tiny{L}}$ to the epipolar line to the left epipolar line $\mathbf{l}_l = O_L - X$.
 
 ### To solve for $F_{\tiny{LR}}$
+
 $$
 \begin{bmatrix}
     u_1'u_1 & u_1'v_1 & u_1' & v_1'v_1 & v_1'u_1 & v_1' & u_1 & v_1 & 1 \\\\
@@ -457,6 +468,7 @@ Recall that translation and rotation each have 3 degrees of freedom, $E$ has $6$
 But due to the equivalence of scales $f$, $E$ actually has 5 degrees of freedom, so that a minimal of 5 points can recover $E$.
 
 Derived from epipolar constraints, a real non-zero $3 \times 3$ matrix $E$ is an essential matrix if and only if it satisfies the equation:
+
 $$
 E E^\top E - \frac{1}{2} tr(E E^\top) E = 0
 $$

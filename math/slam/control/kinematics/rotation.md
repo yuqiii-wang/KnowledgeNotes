@@ -9,6 +9,7 @@ A spatial point $\mathbf{p}$ rotates about $\mathbf{u}$ by $\theta$, and the res
 For rotation about non-unit vector $\mathbf{r}$, should first normalize it: $\mathbf{u}=\frac{\mathbf{r}}{||\mathbf{r}||}$.
 
 Then, decompose $\mathbf{p}$ to two orthogonal vectors $\mathbf{a}$ (along the direction of $\mathbf{u}$) and $\mathbf{b}$ (perpendicular to $\mathbf{u}$):
+
 $$
 \begin{align*}
 \mathbf{a} &= \mathbf{u}\mathbf{u}^{\top}\mathbf{p} \\\\
@@ -113,10 +114,12 @@ $$
 $$
 
 Now, the rotation matrix can be written in terms of $\mathbf{K}$ as
+
 $$
 \mathbf{Q}=e^{\mathbf{K}\theta}=
 \mathbf{I}+\mathbf{K}sin(\theta)+\mathbf{K}^2\big(1-cos(\theta)\big)
 $$
+
 where $\mathbf{K}$ is rotation direction unit matrix while $\theta$ is the angle magnitude.
 
 * Vector Form
@@ -155,6 +158,7 @@ cos\theta \space tr(\mathbf{I})+(1-cos \theta) tr(\mathbf{k}\mathbf{k}^\text{T})
 $$
 
 Therefore,
+
 $$
 \theta = arccos \bigg(
       \frac{tr(\mathbf{Q})-1}{2}
@@ -228,6 +232,7 @@ Vector rotation rotating $\overrightarrow{\mathbf{r}}$ about the $Z$-th axis ove
 </br>
 
 Compute the trigonometry of rotation for $\Delta \theta$ to approximate the angular velocity as $\Delta t \rightarrow 0$
+
 $$
 \begin{align*}
     {\mathbf{\omega}} =
@@ -286,6 +291,7 @@ $$
 where $Z^{\wedge}=\begin{bmatrix} 0 & 0 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & -1 & 0 \end{bmatrix}$ is the skew matrix representation of $Z = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}$.
 
 To get the first order derivative of $\dot{R}(t)$, when $t \rightarrow 0$, there are $\sin(||\overrightarrow{\mathbf{\omega}}||t) \rightarrow ||\overrightarrow{\mathbf{\omega}}||$ and $\cos(||\overrightarrow{\mathbf{\omega}}||t) \rightarrow 1$, so that
+
 $$
 \dot{R}(t) = \frac{d \space R(t)}{dt} = \mathbf{I} + Z^{\wedge} ||\overrightarrow{\mathbf{\omega}}||
 $$
@@ -309,6 +315,7 @@ R_x(\theta) =
 $$
 
 By rotation property, $R_x^\top(\theta)=R_x^{-1}(\theta)$, there is
+
 $$
 R_x(\theta) R_x^\top(\theta) = I
 $$

@@ -26,6 +26,7 @@ $$
 where $P(\mathbf{z}, \mathbf{u}| \mathbf{x}, \mathbf{y})$ is the likelihood and $P(\mathbf{x}, \mathbf{y})$ is the prior.
 
 A Maximum Likelihood Estimation problem is defined as
+
 $$
 arg \space \underset{}{max} \space
 P(\mathbf{z}, \mathbf{u} | \mathbf{x}, \mathbf{y} )
@@ -58,6 +59,7 @@ where $\mathbf{Q}_{k,j}$ is also called the *information matrix*, which is exact
 
 It is usually assumed that the inputs
 and observations are independent of each other, so that the joint distribution can be factorized such as
+
 $$
 P(\mathbf{z}, \mathbf{u} | \mathbf{x}, \mathbf{y} )=
 \prod_k P(\mathbf{u}_k | \mathbf{x}_{k-1}, \mathbf{x}_k )
@@ -76,6 +78,7 @@ $$
 $$
 
 The problem of find the optimal state estimate $\hat{\mathbf{x}}_k$ can be transformed into a least square problem; the cost function is shown as below
+
 $$
 min \space J(\mathbf{x}, \mathbf{y}) = 
 \sum_k \mathbf{e}_{u,k}^\text{T} \mathbf{R}_k^{-1} \mathbf{e}_{u,k}
@@ -136,6 +139,7 @@ e_{z,k} &= z_k-x_k
 $$
 
 Here defines the objective function
+
 $$
 min \space J(\mathbf{x}) = 
 \sum_k^n \mathbf{e}_{u,k}^\text{T} \mathbf{R}_k^{-1} \mathbf{e}_{u,k}
@@ -149,7 +153,9 @@ $$
 \mathbf{y} - \mathbf{H}\mathbf{x}=
 \mathbf{e} \sim N(0,\Sigma)
 $$
+
 where $\mathbf{H}$ is
+
 $$
 \mathbf{H}=
 \begin{bmatrix}

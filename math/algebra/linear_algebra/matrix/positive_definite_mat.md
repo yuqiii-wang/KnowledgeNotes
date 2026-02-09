@@ -135,6 +135,7 @@ Assume $\lambda=a+bi$, so that $\lambda^2=a^2-b^2+2abi$. Since $\lambda^2$ is a 
 Define a real symmetric matrix $A$, whose eigenvectors are $\mathbf{x}\_i$ and the corresponding eigenvalues are $\lambda_i$. By inner product operation, there is $\langle A\mathbf{x}\_i, \mathbf{y}_j \rangle=\langle \mathbf{x}\_i, A^\text{T}\mathbf{y}_j \rangle$ for $i \ne j$.
 
 So that,
+
 $$
 \begin{align*}
 \lambda_i\langle \mathbf{x}\_i, \mathbf{x}_j \rangle&=
@@ -157,6 +158,7 @@ Therefore, there is $(\lambda_i-\lambda_j)\langle \mathbf{x}\_i, \mathbf{x}_j \r
 ### Principal Axis Theorem
 
 The *principal axis theorem* concerns quadratic forms in $\mathbb{R}^n$, which are homogeneous polynomials of degree $2$. Principal axis theorem provides a solution to represent the quadratic term by eigenvectors and eigenvalues:
+
 $$
 \begin{align*}
     Q(\mathbf{x}) &= \mathbf{x}^\text{T} A \mathbf{x}
@@ -173,6 +175,7 @@ $A$ has the below properties:
 * $A$ is diagonalizable, and the eigenspaces of $A$ are mutually orthogonal.
 
 Example:
+
 $$
 5x^2 + 8xy + 5y^2 =
 \begin{bmatrix}
@@ -188,10 +191,13 @@ $$
 $$
 
 To orthogonally diagonalize $A$, there are
+
 $$
 \lambda_1 = 1, \quad \lambda_2 = 9
 $$
+
 whose corresponding eigenvectors are
+
 $$
 \mathbf{v}_1 =
 \begin{bmatrix}
@@ -311,6 +317,7 @@ Directly from definition, since $U=[\mathbf{u}_1,\mathbf{u}_2,...,\mathbf{u}_n]$
 If $A$ is positive definite, so is each principal submatrix ${}^{(r)}A$ for $r = 1, 2, . . . , n$.
 
 Principal sub-matrices are defined such as illustrated by the example below:
+
 $$
 A = \begin{bmatrix}
     a_{11} & a_{12} & a_{13} \\\\
@@ -330,6 +337,7 @@ A = \begin{bmatrix}
 $$
 
 To prove principal sub-matrices are positive definite, write $A$ in block form
+
 $$
 A = \begin{bmatrix}
     {}^{(r)}A & P \\\\

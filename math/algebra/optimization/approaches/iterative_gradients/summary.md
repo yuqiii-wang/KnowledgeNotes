@@ -11,6 +11,7 @@ $$
 
 * Gradient descent
 
+
 $$
 \begin{align*}
 \mathbf{x}_{n+1}&=
@@ -25,6 +26,7 @@ $$
 where $\lambda$ can be set to $\lambda=\frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathbf{r}_k^T A \mathbf{r}_k}$ for steepest descent.
 
 * Gauss-Newton
+
 
 $$
 \mathbf{x}_{n+1}=

@@ -30,13 +30,16 @@ $$
 \end{array}
 \Bigg |
 $$
+
 where $\mathbf{n}$ is a unit vector perpendicular to the plane containing $\mathbf{u}$ and $\mathbf{v}$.
 
 hence,
+
 $$
 \mathbf{u} \times \mathbf{v} =
 \overrightarrow{i}|u_2v_3-u_3v_2| - \overrightarrow{j}|u_1v_3-u_3v1| + \overrightarrow{k}|u_1v_2-u_2v_1|
 $$
+
 where $\mathbf{u}$ and $\mathbf{v}$ are two vectors and $n=(\overrightarrow{i},\overrightarrow{j},\overrightarrow{k})$ is a unit vector (3-dimensional in this example) perpendicular to the plane containing $\mathbf{u}$ and $\mathbf{v}$. $\mathbf{u} \times \mathbf{v}$ itself represents the area of a parallelogram.
 
 Applications: Twisting a bolt with a spanner, Torque is cross product of force multiplying length $\overrightarrow{T} = \overrightarrow{F} \times \overrightarrow{L}$, that means the resultant force either pulling up or pushing down the bolt.

@@ -28,6 +28,7 @@ c=\frac{1}{|S|\cdot||\mathbf{X}^L\_{(k,i)}||}
 \sum_{j \in S, j\ne i} (\mathbf{X}^L\_{(k,i)}-\mathbf{X}^L\_{(k,j)})
 \big|\big|
 $$
+
 where large/max values of $c$ indicate edges, small/minimum values of $c$ indicate planes.
 
 In other words, point curvatures are computed to determine if this point is part of planar or edge. 
@@ -101,6 +102,7 @@ We want to do linear interpolation the pose transform within a sweep for the poi
 Let $T^L\_{k+1} = [t_x, t_y, t_z, \theta_x, \theta_y, \theta_z]^T$ be the lidar pose transform for 3-d translation $[t_x, t_y, t_z]^T$ and rotation $[\theta_x, \theta_y, \theta_z]^T$ bewteen the time range $[t_{k+1}, t_k]$
 
 For a point $i, i \in P_{k+1}$ that is received by lidar sensor machine by a fixed interval between neighbour points, there exists a linear mapping relationship for this point $i, i \in P_{k+1}$:
+
 $$
 T^L\_{(k+1, i)}=
 \frac{t_i-t_{k+1}}{t-t_{k+1}}T^L\_{k+1}
@@ -125,6 +127,7 @@ arg \space \underset{T^L\_{k+1}}{min} \space \mathbf{d}
 $$
 
 by Levenberg-Marquardt method
+
 $$
 T^L\_{k+1} \leftarrow
 T^L\_{k+1}-\big(\mathbf{J}^T \mathbf{J} + \lambda diag(\mathbf{J}^T \mathbf{J})\big)^{-1}\mathbf{J}^T \mathbf{d}

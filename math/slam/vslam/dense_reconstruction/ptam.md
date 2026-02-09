@@ -3,6 +3,7 @@
 ### Camera pose and projection
 
 The $j$-th point in the map can be defined as
+
 $$
 \mathbf{p}_{\mathcal{W}j} = 
 \begin{bmatrix}
@@ -16,10 +17,12 @@ $$
 where $\mathcal{W}$ means in "world frame". 
 
 The point in a camera-centred coordinate (denoted as $\mathcal{C}$) frame can be defined by
+
 $$
 \mathbf{p}_{\mathcal{C}j} = 
 T_{\mathcal{CW}} \mathbf{p}_{\mathcal{W}j} 
 $$
+
 where $T_{\mathcal{CW}}$ is the transform from $\mathcal{W}$ to $\mathcal{C}$. Also, $T_{\mathcal{CW}}$ is the a camera pose in $\mathcal{W}$.
 
 Define a camera projection function $CamProj$ that takes 3D points in a camera frame $\mathbf{p}_{\mathcal{C}j}$ map to image pixels $[u_j, v_j]$. The camera parameters for focal length $(f_u , f_v)$, principal point $(u_0 , v_0)$ and
@@ -61,6 +64,7 @@ $$
 
 *Patch search* is used to find correspondence features between two images.
 Define two images' pixel displacement $(u_s, v_s)$, and define a warping matrix $A$
+
 $$
 A = 
 \begin{bmatrix}
@@ -105,6 +109,7 @@ $$
     \end{matrix}
 \right.
 $$
+
 where it has a minimum at $x=-\frac{c}{\sqrt{5}}$ and a maximum at $x=\frac{c}{\sqrt{5}}$. In other words, $c$ is used to horizontally scale the Tukey's biweight loss function.
 
 <div style="display: flex; justify-content: center;">
@@ -157,6 +162,7 @@ Given a set $S$ of successful patch observations, a camera pose update can be co
 Each observation yields a found patch position $(\hat{u}, \hat{v})^\top$ and is assumed to have measurement noise of $\sigma^2$.
 
 The optimal pose $\mathbf{\xi}^*$ can be computed by
+
 $$
 \mathbf{\xi}^* =
 \argmin_{\mathbf{\xi} \in se(3)}
@@ -164,7 +170,9 @@ $$
    \frac{|\mathbf{e}_j|}{\sigma_j}, \mathbf{\sigma}_T
 \bigg) 
 $$
+
 where $\mathbf{e}_j$ is the reprojection error vector:
+
 $$
 \mathbf{e}_j = 
 \begin{bmatrix}

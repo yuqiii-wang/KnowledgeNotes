@@ -64,6 +64,7 @@ $$
 $$
 
 The optimization can be expressed as below
+
 $$
 arg \space \underset{W}{max} \space
 \mathbf{J}(W)=
@@ -81,6 +82,7 @@ The optimal $W^*$ where $\mathbf{J}$ reaches maximum can be computed by $\frac{\
 Before the derivative computation, should first perform normalization. Otherwise, there is an additional dimension to optimize: projection scaling (reference homography). However, projection scaling does not affect the result of $\mathbf{J}(W)$, since only projection direction is required.
 
 Here for normalization, set $\big|\big|\mathbf{w}^\text{T} S_w \mathbf{w}\big|\big|=1$. Introduce Lagrange multiplier, there is
+
 $$
 \mathcal{L}(\mathbf{w})=
 \mathbf{w}^\text{T} S_b \mathbf{w} - \lambda(\mathbf{w}^\text{T} S_w \mathbf{w}-1)
@@ -125,6 +127,7 @@ Finally, the optimal projection is $\mathbf{w}^*=S_w^{-1} (\mathbf{\mu_1}-\mathb
 and the prediction can be computed by $\hat{\mathbf{y}}\_i=\mathbf{w}^{*\text{T}}\mathbf{x}\_i$.
 
 To determine the label being $C_1$ or $C_2$, a threshold $t$ can be set up. The most common thresholding is taking the mean of the two classes' centroids $t=\frac{\mathbf{w}^{*\text{T}}\mathbf{\mu}_1 + \mathbf{w}^{*\text{T}}\mathbf{\mu}_2}{2}$. Then labelling can be expressed as
+
 $$
 \hat{\mathbf{y}}\_i = 
 \left\{

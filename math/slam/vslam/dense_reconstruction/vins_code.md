@@ -289,6 +289,7 @@ void Estimator::processImage(const map<int, vector<pair<int, Eigen::Matrix<doubl
 ## Optimization
 
 Recall in VINS that the objective constains three items:
+
 $$
 \min_{\mathbf{\mathcal{X}}}
 \underbrace{\big|\big|
@@ -1041,6 +1042,7 @@ $$
 $$
 
 The expression (by Schur trick) for $\Delta \mathbf{x}_{{\mathbf{x}_1 } \notin \mathbf{x}}$ should be as below, rewrite the coefficients to $A$ and bias to $\mathbf{b}$
+
 $$
 \underbrace{(A_{rr}- A_{rm}A_{mm}^{-1}A_{mr})}_{A}
 \Delta \mathbf{x}_{{\mathbf{x}_m } \notin \mathbf{x}}=
@@ -1422,6 +1424,7 @@ $$
 $$
 
 Accordingly, $\mathbf{F}$ can be computed as below
+
 $$
 \mathbf{F}_{15 \times 15} = \begin{bmatrix}
     \mathbf{I}_{3 \times 3} 
@@ -1592,6 +1595,7 @@ $$
 
 The residual `Eigen::Matrix<double, 15, 1> residuals;` $\mathbf{r} \in \mathbb{R}^{15}$ is defined as the differences between two preintegrated IMU results from two frames: the $i$-th and the $j$-th frame.
 The parameters to be optimized:
+
 $$
 \mathbf{p}\_i \in \mathbb{R}^3, \qquad
 \mathbf{\theta}\_i \in \mathbb{R}^4, \qquad

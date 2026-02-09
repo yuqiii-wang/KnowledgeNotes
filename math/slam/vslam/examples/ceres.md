@@ -210,6 +210,7 @@ ceres::Solve(options, &problem, &summary);
 
 Variable elimination ordering can boost computation speed. 
 For example, consider the below two equations:
+
 $$
 \begin{align*}
 x+y&=3 &\quad (1) \\\\

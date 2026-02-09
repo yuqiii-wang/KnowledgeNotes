@@ -8,6 +8,7 @@ Good quality image intensity (a.k.a brightness) typically ranges from $0$ to $25
 
 Consider a discrete grayscale image $\{\mathbf{x}\}$ and let $n_i$ be the number of occurrences of gray level $i$. 
 The probability of an occurrence of a pixel of level $i$ in the image is
+
 $$
 p_x(i) = p(x=i) = \frac{n_i}{n}
 , \qquad 0 \le i \le L
@@ -17,6 +18,7 @@ where $L$ is the total number of gray levels in the image (typically $255$), $n$
 and $p_x(i)$ being in fact the image's histogram for pixel value $i$, normalized to $[0,1]$.
 
 Define the cumulative distribution function corresponding to $i$ as
+
 $$
 c_x(i) = \sum_{j=0}^{i}  p(x=j)
 $$
@@ -90,6 +92,7 @@ For example, the left hand side is src image, the upper right hand side is dilat
 ### Erode
 
 Take $min$ operation on a pixel's neighbour peixls, such as
+
 $$
 p_{x,y}=
 min\bigg(
@@ -103,6 +106,7 @@ $$
 ### Dilate
 
 Take $max$ operation on a pixel's neighbour peixls, such as
+
 $$
 p_{x,y}=
 \max \bigg(

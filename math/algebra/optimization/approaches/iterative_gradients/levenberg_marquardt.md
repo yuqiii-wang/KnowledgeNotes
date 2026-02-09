@@ -11,6 +11,7 @@ $$
 Levenberg-Marquardt Method attempts to find solutions (minima/maxima) with an initial guess $\mathbf{\beta}_0$ not "far away" from the solution ("far away" means there is no more other stationary points in between the initial guess and the solution).
 
 On each iteration, there is $\mathbf{\beta} \leftarrow \mathbf{\beta}+\mathbf{\sigma}$, computed by linear approximation:
+
 $$
 f(\mathbf{x}\_i, \mathbf{\beta}+\mathbf{\sigma})
 \approx
@@ -18,6 +19,7 @@ f(\mathbf{x}\_i, \mathbf{\beta}) + \mathbf{J}\_i\mathbf{\sigma}\_i
 $$
 
 where $\mathbf{J}\_i$ is Jacobian matrix entry to partial derivative $\mathbf{\beta}$ such as
+
 $$
 \mathbf{J}\_i=\frac{\partial f(\mathbf{x}\_i, \mathbf{\beta})}{\partial \mathbf{\beta}}
 $$
@@ -77,6 +79,7 @@ $$
 Here comes the innovation of Levenberg-Marquardt's method derived from the above Gauss-Newton's method:
 
 * Introduce a damping parameter $\lambda$ to the diagnol matrix $\text{diag}(\mathbf{J}^T \mathbf{J})$ such that
+
 $$
 [\mathbf{J}^T \mathbf{J} + \lambda \space \text{diag}(\mathbf{J}^T \mathbf{J})] \mathbf{\sigma}=
 \mathbf{J}^T [\mathbf{y}-\mathbf{f}(\beta)]

@@ -212,6 +212,7 @@ $$
 \text{silu}(x) = 
 x \cdot \sigma(\beta x)
 $$
+
 where $\beta$ is a coefficient default to $\beta = 1$, and $\cdot$ is a element-wise dot multiplication.
 $\sigma(x)=\frac{e^{x}}{e^x+1}$ is a sigmoid function.
 

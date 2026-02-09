@@ -15,11 +15,13 @@ arg \space \underset{\mathbf{x}}{min} \space \frac{1}{2} \mathbf{x}^TQ\mathbf{x}
 $$
 
 subject to
+
 $$
 A\mathbf{x} \le \mathbf{b}
 $$
 
 Optionally, there might be feasible constriaints for $\mathbf{x}$ such as
+
 $$
 \mathbf{x}_L \le \mathbf{x} \le \mathbf{x}_U
 $$
@@ -31,7 +33,9 @@ When $Q$ is symmetric positive-definite, the cost function reduces to least squa
 $$
 arg \space \underset{\mathbf{x}}{min} \space \frac{1}{2} ||R\mathbf{x}-\mathbf{d}||^2
 $$
+
 subject to
+
 $$
 A\mathbf{x} \le \mathbf{b}
 $$
@@ -47,20 +51,25 @@ In other words, it is the precondition to establish a solution to be optimal in 
 ### Langrange Multipliers
 
 For a typical equality constraint optimization, there is
+
 $$
 \min \quad f(\mathbf{x})
 $$
+
 subject to
+
 $$
 g(\mathbf{x}) = 0
 $$
 
 Define Lagrangian function:
+
 $$
 L(\mathbf{x}, \lambda) = f(\mathbf{x}) + \lambda g(\mathbf{x})
 $$
 
 Stationary points $\mathbf{x}^*$ are computed on the conditions when derivatives are zeros:
+
 $$
 \begin{align*}
 \nabla_x L &= \frac{\partial L}{\partial \mathbf{x}} = \nabla f + \lambda \nabla g = \mathbf{0} \\\\
@@ -73,10 +82,13 @@ $$
 KKT condition generalizes the use of Langrage Multipliers to inequality constraints to $\mathbf{x}$.
 
 Here $g(\mathbf{x})$ has inequality constraints such as
+
 $$
 \min \quad f(\mathbf{x})
 $$
+
 subject to
+
 $$
 g_j(\mathbf{x}) = 0 \quad j=1,2,...,m \\\\
 h_k(\mathbf{x}) \le 0 \quad k=1,2,...,p
@@ -91,11 +103,13 @@ $g(\mathbf{x^*})$ serves no constraints so that $\mathbf{x}^*$ can be computed v
 * $g(\mathbf{x^*}) = 0$ or $h(\mathbf{x^*}) = 0$, $\mathbf{x^*}$ is named *boundary solution*, that $\mathbf{x^*}$ resides on the edge of feasible region $K$
 
 This draws similarity with Langrage Multipliers having equality constraints, so that
+
 $$
 \nabla f = -\lambda \nabla g
 $$
 
 Here defines Langrage function:
+
 $$
 L(\mathbf{x}, \{\lambda_j\}, \{\mu_k\})=
 f(\mathbf{x}) + \sum_{j=1}^m \lambda_j g_j(\mathbf{x}) + \sum_{k=1}^p \mu_k h_j(\mathbf{x})

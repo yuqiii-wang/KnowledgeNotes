@@ -7,6 +7,7 @@ f(x) = \frac{1}{\sigma \sqrt{2\pi}} \exp \Big( -\frac{1}{2} \big( \frac{x-\mu}{\
 $$
 
 Consider a standard normal distribution ($\mu=0$ and $\sigma=1$):
+
 $$
 f(x) = \frac{1}{\sqrt{2\pi}} \exp \Big( -\frac{1}{2} x^2 \Big)
 $$
@@ -70,6 +71,7 @@ $$
 ## Relationship between the Hessian and Covariance Matrix for Gaussian Random Variables
 
 Consider a Gaussian random vector $\mathbf{\theta}$ with mean $\mu_{\mathbf{\theta}}$ and covariance matrix $\Sigma_\mathbf{\theta}$ so its joint probability density function (PDF) is given by
+
 $$
 p(\mathbf{\theta}) = 
 \frac{1}{(\sqrt{2\pi})^{N_\theta} \cdot \sqrt{|\Sigma_\mathbf{\theta}|}}
@@ -78,6 +80,7 @@ $$
 
 Take negative logarithm of $p(\mathbf{\theta})$, 
 there is
+
 $$
 J(\mathbf{\theta}) \equiv
 -\ln p(\mathbf{\theta}) =
@@ -103,6 +106,7 @@ $$
 By taking partial differentiations with
 respect to $\theta_l$ and $\theta_{l'}$,
 the $(l, l')$ component of the Hessian matrix can be obtained:
+
 $$
 H^{(l, l')}(\mathbf{\theta}) =
 \frac{\partial^2 J(\mathbf{\theta})}{\partial \theta_l \space \partial \theta_{l'}}
@@ -115,6 +119,7 @@ $$
 Optimal $\mathbf{\theta}^*$ can be obtained via $J'(\mathbf{\theta}) = 0$ that asserts $\max J(\theta)$ from which deduce $\mathbf{\theta}^*=\mu_{\mathbf{\theta}}$.
 
 The Hessian matrix of $J(\mathbf{\theta})$ is equal to the inverse of the covariance matrix:
+
 $$
 H(\mathbf{\theta}) = \Sigma_{\mathbf{\theta}}^{-1}
 $$

@@ -105,11 +105,13 @@ $$
     \mathbf{e}_{ij} + \mathbf{F}_{ij}\Delta\mathbf{\xi}\_i + \mathbf{E}_{ij} \Delta \mathbf{p}_j
 \big|\big|
 $$
+
 where $\Delta\mathbf{x}$ is the correction increment that iteratively sets $\mathbf{e}$ to minimum. 
 $\mathbf{F}_{ij}$ is the partial derivative of the entire cost function to the $i$-th pose, and $\mathbf{E}_{ij}$ is the partial derivative of the function to the $j$-th landmark.
 $\mathbf{\xi}\_i$ denotes $[\mathbf{R}|\mathbf{t}]_i$.
 
 Collectively, represent poses and landmarks as $\mathbf{x}\_\mathbf{\xi}$ and $\mathbf{x}\_\mathbf{p}$
+
 $$
 \begin{align*}
     \mathbf{x}\_\mathbf{\xi} &= [
@@ -123,6 +125,7 @@ $$
 $$
 
 Take away the sum operations, the error approximation can be rewritten as
+
 $$
 \frac{1}{2} \big|\big|
     \mathbf{e}(\mathbf{x}+\Delta\mathbf{x})

@@ -113,6 +113,7 @@ Fisher information is a way of measuring the amount of information that an obser
 Let $f(X;\theta)$ be the probability density function for $\mathbf{x} \in X$ conditioned on $\theta$.
 
 Fisher information $\mathbf{I}(\theta)$ is defined to be the variance of score:
+
 $$
 \begin{align*}
 \mathbf{I}(\theta)&=
@@ -146,6 +147,7 @@ Thus, the Fisher information may be seen as the curvature of the support curve (
 ### Fisher information matrix
 
 For a multi-dimensional observation vector $x_k=(x_{k,1}, x_{k,2}, ..., x_{k,l})$ in the dataset $[x_1, x_2, ..., x_k, ..., x_n] \in \mathbf{x}$, a Fisher information matrix is the covariance of score, in which each entry is defined
+
 $$
 \mathbf{I}_{i,j}(\theta)=
 E\bigg[

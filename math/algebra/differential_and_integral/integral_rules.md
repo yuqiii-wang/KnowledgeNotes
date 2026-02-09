@@ -12,17 +12,18 @@ Line integral is used for vector field function. Intuitively, line integral work
 ### Example
 
 Define a vector field
+
 $$
 \overrightarrow{F}(x,y) = P(x,y)\overrightarrow{i} + Q(x,y)\overrightarrow{j}
 $$
 
 Define a curve
+
 $$
 \overrightarrow{r}(t) = x(t)\overrightarrow{i} + y(t)\overrightarrow{j}
 $$
 
-The line integral of 
-$\overrightarrow{F}$ along $C$ is
+The line integral of $\overrightarrow{F}$ along $C$ is
 
 $$
 \int_C \overrightarrow{F} \cdot d \overrightarrow{r}=
@@ -30,6 +31,7 @@ $$
 $$
 
 where
+
 $$
 \overrightarrow{F}(\overrightarrow{r}(t)) = \overrightarrow{F}(x(t), y(t))
 $$
@@ -39,11 +41,13 @@ $$
 Leibniz integral rule describes the derivative rule of an integral with respect to two diff variables.
 
 Given an integral form
+
 $$
 \int^{b(x)}_{a(x)} f(x,t) dt
 $$
 
 for $-\infty < a(x) < b(x) < +\infty$, its derivative is
+
 $$
 \frac{d}{dx} 
 \bigg(
@@ -57,6 +61,7 @@ f\big(x,a(x)\big)\cdot \frac{d \space a(x)}{dx}
 $$
 
 If $a(x)=c_a$ and $b(x)=c_b$, where $c_a, c_b$ are constant, $f\big(x,b(x)\big)\cdot \frac{d \space b(x)}{dx}$ and $f\big(x,a(x)\big)\cdot \frac{d \space a(x)}{dx}$ are zeros, there is
+
 $$
 \frac{d}{dx} 
 \bigg(

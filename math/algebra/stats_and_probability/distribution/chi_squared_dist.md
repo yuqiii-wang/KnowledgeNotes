@@ -170,6 +170,7 @@ $$
 
 The null hypothesis is that each person's neighborhood of residence is independent of the person's occupational classification.
 Under the null hypothesis, this sum has approximately a chi-squared distribution whose number of degrees of freedom $k$ is
+
 $$
 (\text{NumberOfRows}-1) \times (\text{NumberOfCols}-1) =
 (3-1)\times(4-1)=6

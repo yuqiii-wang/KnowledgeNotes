@@ -127,6 +127,7 @@ $$
 where $R$ and $\mathbf{t}$ are rotation and translation matrices that adjust a camera physical orientation and lateral position. Here we set $z=0$ to assume that both real world and camera frame are parallel to each other (no rotation but possible translation).
 
 The mapping relationship from world points to image pixels can be expressed as
+
 $$
 w
 \begin{bmatrix}
@@ -227,6 +228,7 @@ _{4 \times 3}
 $$
 
 where $(x_d, y_d)$ is the distortion mapping from the real world point $(x_w, y_w)$
+
 $$
 w\begin{bmatrix}
       x_d \\\\
@@ -247,6 +249,7 @@ where
 * $r=\sqrt{(x_d-c_x)^2+(y_d-c_y)^2}$ is the distance of a point from the image center
 
 Consider tangent distortion for tilted planes, $(x_d, y_d)$ can have the below expression:
+
 $$
 w\begin{bmatrix}
       x_d \\\\

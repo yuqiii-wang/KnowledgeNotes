@@ -21,6 +21,7 @@ The number samples $n$ is adaptive according to the error carried by observation
 ### KLD-sampling
 
 Kullback-Leibler distance/divergence (KL-distance/divergence, KLD) is a measure of the difference between two probability distributions $P$ and $Q$ defined on the same probability space, $X$, the relative entropy from $Q$ to $P$ is defined
+
 $$
 D_{KL}(P || Q) = \sum_{x \in X} P(x)log(\frac{P(x)}{Q(x)})
 $$

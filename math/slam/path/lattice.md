@@ -12,17 +12,20 @@ Basically, it is curve's tangent and normal, and their cross product formed 3-d 
 Let $\mathbf{r}(t)$ be a curve in Euclidean space, representing the position vector of a particle/point as a function of time. The Frenet–Serret formulas require $\mathbf{r}(t)$ can only have non-zero curvature. Besides, $\mathbf{r}'(t) \ne 0$
 
 Let $s(t)$ represent the arc length which the particle has moved along the curve in time $t$:
+
 $$
 s(t) = 
 \int^t_0 ||\mathbf{r}'(\sigma)|| d \sigma 
 $$ 
 
 Here defines the tangent unit vector $\mathbf{T}$:
+
 $$
 \mathbf{T}= \frac{d \mathbf{r}}{d s}
 $$
 
 Here defines the normal unit vector $\mathbf{N}$:
+
 $$
 \mathbf{N}= \frac
 {\frac{d \mathbf{T}}{d s}}
@@ -30,6 +33,7 @@ $$
 $$
 
 Here defines the binormal unit vector $\mathbf{B}:$
+
 $$
 \mathbf{B}= \mathbf{T} \times \mathbf{N}
 $$

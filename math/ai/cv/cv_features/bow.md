@@ -3,18 +3,21 @@
 The bag-of-words (BoW) model is a simplifying/compressing representation of a text (such as a sentence or a document) or visual features that are discarded of grammar and other semantics, but only keep some basic statistics such as the number of word occurrences.
 
 ### Example in text
+
 ```
 John likes to watch movies. Mary likes movies too.
 Mary also likes to watch football games.
 ```
 
 By just counting the word occurrences, here derives the BoW representation of the text.
+
 ```json
 BoW1 = {"John":1,"likes":2,"to":1,"watch":1,"movies":2,"Mary":1,"too":1};
 BoW2 = {"Mary":1,"also":1,"likes":1,"to":1,"watch":1,"football":1,"games":1};
 ```
 
 To further simplify the text representation, having removed the strings, `BoW1` and `BoW2` can be compressed into two simple vectors.
+
 ```
 BoW1 = [1, 2, 1, 1, 2, 1, 1, 0, 0, 0]
 BoW2 = [0, 1, 1, 1, 0, 1, 0, 1, 1, 1]

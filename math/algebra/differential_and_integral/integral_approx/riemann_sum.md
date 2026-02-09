@@ -3,6 +3,7 @@
 A Riemann sum is a certain kind of approximation of an integral by a finite sum.
 
 Let $f:[a,b] \rightarrow \mathbb{R}$ be a function defined on a closed interval $[a,b]$ on real number $\mathbb{R}$, and a set of partitions $P$
+
 $$
 \begin{align*}
 P &=\{
@@ -15,6 +16,7 @@ P &=\{
 $$
 
 A Riemann sum $S$ is defined as
+
 $$
 S=\sum^n\_{i=1} f(x\_i^*) \Delta x\_i
 $$

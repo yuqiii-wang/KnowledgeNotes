@@ -26,6 +26,7 @@ After locating keypoints orb now assign an orientation to each keypoint like lef
 The intensity centroid assumes that a corner’s intensity is offset from its center, and this vector may be used to impute an orientation.
 
 An image moment is a certain particular weighted average (moment) of the image pixels' intensities/brightness levels. Given a patch $B$ Rosin's image moment is
+
 $$
 m_{pq} = \sum_{x,y \in B} x^p y^q i(x,y), \quad p,q = \{0,1\}
 $$
@@ -43,6 +44,7 @@ m_{10} &=
 $$
 
 The centroid of the patch $B$ is
+
 $$
 C = \big(
     \frac{m_{10}}{m_{00}}, \frac{m_{01}}{m_{00}}
@@ -50,6 +52,7 @@ C = \big(
 $$
 
 The orientation is computed as
+
 $$
 \theta = 
 atan2(m_{01}, m_{10})
@@ -62,6 +65,7 @@ The BRIEF descriptor is a bit string description of an image patch constructed f
 First, images are smoothed by Gaussians (commonly $\sigma \in [1,3]$) since pixel-level process is prone to noises' interference.
 
 Randomly select two pixels denoted as $p$ and $q$ (pixel value represents intensity/brightness) around a keypoint, then do the test $t(p,q)$: if $p$ is greater than $q$, then take $1$, otherwise take $0$. Repeat $256$ tests for such $p, q$ pairs, and derive a $256$-dimensional vector consisting of $0$s and $1$s. This process can be summarized
+
 $$
 t(p,q) = 
 \left\{ 
@@ -120,11 +124,13 @@ Hamming distance is implemented to see how different/similar the two binary test
 Steered BRIEF makes keypoint features be invariant to in-plane rotation. 
 
 Using the patch orientation $\theta$ and the corresponding rotation matrix $R_{\theta}$, here constructs a “steered” version $S_{\theta}$
+
 $$
 S_{\theta} = R_{\theta} S
 $$
 
 where
+
 $$
 R_{\theta} = 
 \begin{bmatrix}

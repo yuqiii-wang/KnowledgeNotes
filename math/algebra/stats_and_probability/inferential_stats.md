@@ -243,7 +243,8 @@ $$
 n=\frac{z^2 \hat{p}(1-\hat{p})}{\epsilon^2}
 $$
 
-For example, given confidence level of $z=2.575$ for $99\%$ and accuracy level of $\epsilon=0.05$ (error tolerance), to attest a coin being a fair coin $p=0.5$, there is 
+For example, given confidence level of $z=2.575$ for $99\%$ and accuracy level of $\epsilon=0.05$ (error tolerance), to attest a coin being a fair coin $p=0.5$, there is
+
 $$
 n=\frac{z^2 \hat{p}(1-\hat{p})}{\epsilon^2}= \frac{2.575^2 \times 0.5 \times 0.5}{0.05^2}= 663.0625 \approx 667
 $$
@@ -276,6 +277,7 @@ It is quantitatively measured by *Cohen's d* such that $d=\frac{\text{mean diffe
 </br>
 
 For example, the mean IQ for college students is 105; the mean IQ of the general population is 100. Given a $\sigma_X = 15$ for the general population's, there is
+
 $$
 d = \frac{105-100}{15} = 0.33
 $$
@@ -334,6 +336,7 @@ A large p-value indicates that a test is NOT significant.
 Let $X$ be the a sample value to see whether it should be rejected/accepted. There is $X \sim N(\mu, \sigma^2)$.
 
 If the null hypothesis is true $H_0: \mu = \mu_0$, there is
+
 $$
 \overline{X} \sim N \Big(\mu_0, \frac{\sigma^2}{n} \Big)
 ,\qquad
@@ -350,6 +353,7 @@ $$
 $$
 
 The p-value is the probability that a standard Normal variable $Z$ takes a value at least $1.7789$ away from zero, which is
+
 $$
 P(Z \le -1.7789) + P(Z \ge 1.7789) = 2 \times  P(Z \ge 1.7789)
 \approx 0.0753
@@ -484,6 +488,7 @@ F = \frac{MSR_{contrast}}{MSE_{in-group}}
 $$
 
 By t test, there is
+
 $$
 t = \sqrt{F} = \sqrt{\frac{MSR_{contrast}}{MSE_{in-group}} }
     = \frac{\hat{\Psi}}{\sqrt{\Big(\sum_i^{k}(a_i^2/n_i)\Big)\Big( \frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}\_i)^2 \Big)}}

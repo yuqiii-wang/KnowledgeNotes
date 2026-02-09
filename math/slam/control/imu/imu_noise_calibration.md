@@ -168,6 +168,7 @@ Take the gyroscope for example, need to compute $\begin{bmatrix} W_{x0} \\\\ W_{
 and $\begin{bmatrix} K_{gxx} & S_{gxy} & S_{gxz} \\\\ S_{gyx} & K_{gyy} & S_{gyz} \\\\ S_{gzx} & S_{gzy} & K_{gzz} \end{bmatrix}$, a total of $12$ configurable parameters.
 
 First, flat the equations to a vector format:
+
 $$
 \underbrace{\begin{bmatrix}
     W_x \\\\
@@ -185,7 +186,8 @@ $$
 \end{bmatrix}}_{\mathbf{K}_g}
 $$
 
-$\mathbf{x}_{\omega}$ is 
+$\mathbf{x}_{\omega}$ is
+
 $$
 \mathbf{x}_{\omega} = \begin{bmatrix}
     {\omega}_x & {\omega}_x & {\omega}_x & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\\\
@@ -204,6 +206,7 @@ A typical high-precision calibration machine would give $\pm 0.3\%$ precision to
 
 Record many IMU positions $\mathbf{x}_{\omega, i}$.
 Form the least squares problem:
+
 $$
 \begin{align*}
     \mathbf{W} &= \begin{bmatrix}
@@ -216,6 +219,7 @@ $$
 $$
 
 The $\mathbf{K}_g$ can be solved by
+
 $$
 \mathbf{K}_g = (\mathbf{X}_{\omega}^{\top} \mathbf{X}_{\omega})^{-1} \mathbf{X}_{\omega}^{\top} \mathbf{W}^{\top}
 $$

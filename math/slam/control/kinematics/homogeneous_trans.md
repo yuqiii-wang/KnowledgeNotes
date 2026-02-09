@@ -3,6 +3,7 @@
 For rigid motion, there are rotations and translation.
 
 Given a three-dimensional space, there is unit orthogonal basis vector for a global coordinate $\mathbf{e}$
+
 $$
 \begin{bmatrix}
 e_1 , e_2, e_3
@@ -10,6 +11,7 @@ e_1 , e_2, e_3
 $$
 
 Given robot as origin, there exists another robot-based coordinate $\mathbf{e^{'}}$
+
 $$
 \begin{bmatrix}
 e^{'}_1, e^{'}_2, e^{'}_3
@@ -17,6 +19,7 @@ e^{'}_1, e^{'}_2, e^{'}_3
 $$
 
 To represent an object in the two aforementioned coordinates, there are $\mathbf{a}$ and $\mathbf{a^{'}}$
+
 $$
 \begin{bmatrix}
 a_1 \\\\

@@ -40,6 +40,7 @@ $$
 Gram-Schmidt process is a method for orthonormalizing a set of vectors in an inner product space.
 
 Denote a projection operator from vector $\mathbf{v}$ onto $\mathbf{u}$:
+
 $$
 proj_{\mathbf{u}}(\mathbf{v})=
 \frac{\langle\mathbf{u},\mathbf{v}\rangle}{\langle\mathbf{u},\mathbf{u}\rangle}\mathbf{u}

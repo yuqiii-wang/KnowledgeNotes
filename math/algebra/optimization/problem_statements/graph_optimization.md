@@ -326,6 +326,7 @@ $$
 $$
 
 where $\ominus$ is defined for $SE(2)$ motion:
+
 $$
 \mathbf{x}_t^s \ominus \Delta\mathbf{ x}_{t-1,t}^s=
 \bigg(\begin{array}{cc}
@@ -339,6 +340,7 @@ $$
 $\mathbf{h}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)$ shows an edge between the two robot states'/vertices.
 
 * Error Function for $\mathbf{h}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)$ is
+
 $$
 \mathbf{e}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)=
 \mathbf{z}_{t,t+1} \ominus \mathbf{h}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)

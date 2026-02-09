@@ -16,12 +16,14 @@ Denote frame-indexed feature vectors (intuitively speaking, a full video film) $
 The similarity between any two frames can be calculated using a distance measure $d(v_i, v_j)$ that gives a high value output if the two frames are similar. Here define two types of similarities $S$ and $C$.
 
 Self-similarity (compare $v_k$ with frames' feature vector in a segment $\mathbf{Q}$):
+
 $$
 S(v_k, \mathbf{Q}) = 
 \frac{1}{|\mathbf{Q}|} \sum_{v_k, v_i \in \mathbf{Q}} d(v_k, v_i)
 $$
 
 Cross-similarity (compare $v_k$ with frames' feature vector from other segments $\overline{\mathbf{Q}}$):
+
 $$
 C(v_k, \overline{\mathbf{Q}}) = 
 \frac{1}{| \overline{\mathbf{Q}}|} \sum_{v_k \in \mathbf{Q}, v_i \in \overline{\mathbf{Q}}} d(v_k, v_i)
@@ -228,12 +230,14 @@ ln([\mathbf{R}|\mathbf{t}]_{i}^{-1} [\mathbf{R}|\mathbf{t}]_{j})^\vee
 $$
 
 Similarly in $SE(3)$, there is
+
 $$
 [\mathbf{R}|\mathbf{t}]_{ij} = 
 [\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j
 $$
 
 The error $\mathbf{e}_{ij}$ that concerns the differences between the ideal pose transformation $[\mathbf{R}|\mathbf{t}]_{ij}$ and the two-pose-based computed transformation $[\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j$ is defined as
+
 $$
 \mathbf{e}_{ij} = 
 ln([\mathbf{R}|\mathbf{t}]_{ij}^{-1}[\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j)

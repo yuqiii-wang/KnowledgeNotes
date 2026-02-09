@@ -176,6 +176,7 @@ Q^{\top}Q=QQ^{\top}=I
 $$
 
 This leads to
+
 $$
 Q^{\top}=Q^{-1}
 $$

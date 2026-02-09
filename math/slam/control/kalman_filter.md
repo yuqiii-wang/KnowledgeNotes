@@ -48,6 +48,7 @@ $$
 ### Update phase
 
 Innovation or measurement pre-fit residual
+
 $$
 \mathbf{\hat{y}}_k=
 \mathbf{z}_k-\mathbf{H}_k \mathbf{\hat{x}}_{k|k-1}
@@ -78,6 +79,7 @@ $$
 $$
 
 Measurement post-fit residual
+
 $$
 \mathbf{\hat{y}}_{k|k}=
 \mathbf{z}_k - \mathbf{H}_k \mathbf{x}_{k|k}
@@ -88,6 +90,7 @@ $$
 ### Deriving the *posteriori* estimate covariance matrix
 
 Starting with invariant on the error covariance:
+
 $$
 \begin{align*}
 \mathbf{P}_{k|k}&=
@@ -148,6 +151,7 @@ $$
 ### Deriving Kalman gain
 
 Starting from the minimization problem
+
 $$
 arg \space \underset{\mathbf{K}}{min} \space 
 E \big(
@@ -158,7 +162,8 @@ $$
 For $k=0,1,2,...,n$, 
 given $\mathbf{x}_k \in \mathbb{R}^m$, 
 by vector dot product as the squared operation, 
-there is 
+there is
+
 $$
 \begin{align*}
 \sum^n\_{k=0}
@@ -201,7 +206,8 @@ x_{k,m}
 \end{align*}
 $$ 
 
-So that, the expected error is 
+So that, the expected error is
+
 $$
 E \big(
     ||\mathbf{x}_k-\mathbf{\hat{x}}_{k|k}||^2
@@ -234,6 +240,7 @@ $$
 where $tr$ denotes the trace of the covariance matrix.
 
 Consequently, the minimization problem becomes:
+
 $$
 arg \space \underset{\mathbf{K}}{min} \space
 tr \big(
@@ -280,6 +287,7 @@ tr
 $$
 
 The Kalman gain $\mathbf{K}_k$ can be computed:
+
 $$
 \mathbf{K}_k = 
 -(\mathbf{H}_k\mathbf{P}_{k|k-1})^\text{T} \mathbf{S}_k^{-1}
@@ -311,6 +319,7 @@ $$
 ## Example
 
 Distance $x$ and velocity $\dot{x}$ of a vehicle is given below
+
 $$
 \mathbf{x} = 
 \begin{bmatrix}
@@ -320,11 +329,13 @@ x \\\\
 $$
 
 Vehicle drives with a constant acceleration $a_k$ between two timesteps $k-1$ and $k$, following normal distribution with mean $0$ and standard deviation $\sigma_a$. Given Newton's laws of motion:
+
 $$
 \mathbf{x}_k = \mathbf{F} \mathbf{x}_{k-1} + \mathbf{B} a_k
 $$
 
 where
+
 $$
 \mathbf{F} = 
 \begin{bmatrix}
@@ -368,6 +379,7 @@ where $\mathbf{H}=[1 \quad 0]$, that only the traveled distance is measured.
 Here $\mathbf{R} = E[\mathbf{v}_k \mathbf{v}_k^T] = [\sigma_{z}^2]$, since $\mathbf{z}_k$ is one-dimensional only measuring traveled distance noises.
 
 $\mathbf{P}_{0|0}$ is the initial covariance matrix when $k=0$. In this case, assume we have high confidence of the initial vehicle state, so that $\sigma_x=0$ and $\sigma_{\dot{x}}=0$
+
 $$
 \mathbf{P}_{0|0} = 
 \begin{bmatrix}
@@ -381,6 +393,7 @@ $$
 $$
 
 Here assumes a vehicle starts from $0$ distance with a velocity $v_0$
+
 $$
 \mathbf{\hat{x}}_{0|0} = 
 \begin{bmatrix}
@@ -478,7 +491,8 @@ $$
 
 * Update
 
-Assume that observation is 
+Assume that observation is
+
 $$
 \mathbf{z}_1=
 \begin{bmatrix}

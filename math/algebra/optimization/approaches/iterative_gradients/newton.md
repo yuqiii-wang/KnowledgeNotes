@@ -3,6 +3,7 @@
 ## Newton's method in finding roots
 
 Given a first-order differentiable function $f$ whose derivative is denoted as $f'$, and an initial guess $x_0$ for a root of $f$, a more accurate root can be approximated by iteration:
+
 $$
 x_{k+1}=x_{k}-\frac{f(x_k)}{f'(x_k)}
 $$
@@ -17,6 +18,7 @@ arg \space \underset{x \in \mathbb{R}}{min} \space f(x)
 $$
 
 Newton's method attempts to solve this problem by constructing a sequence $\{x_k\}$ from an initial guess $x_0 \in \mathbb{R}$ that converges via the second-order of Talor expansion of $f$ around $x_k$:
+
 $$
 f(x_k+t)\approx f(x_k) + f'(x_k)t + \frac{1}{2}f''(x_k)t^2
 $$
@@ -30,6 +32,7 @@ f'(x_k)+f''(x_k)t
 $$
 
 Hence,
+
 $$
 t=-\frac{f'(x_k)}{f''(x_k)}
 $$
@@ -51,6 +54,7 @@ $$
 where $H$ is a Hessian matrix.
 
 So that
+
 $$
 x_{k+1}=x_k-H_{f}^{-1}(x) f'(x_k)
 $$

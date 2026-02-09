@@ -52,6 +52,7 @@ This $A=Q\Lambda Q^{-1}$ expression means that $A$ can be eigen-decomposed to re
 A Hermitian matrix (or self-adjoint matrix) is a complex square matrix that is equal to its own conjugate transpose.
 
 For example,
+
 $$
 \begin{bmatrix}
       0 & a-ib & c-id \\\\
@@ -130,11 +131,13 @@ When $m = n$, the Jacobian matrix is square, so its determinant is a well-define
 Hessian is a square matrix of second-order partial derivatives of a scalar-valued function, or scalar field. It describes the local curvature of a function of many variables.
 
 Define $f:\mathbb{R}^n \rightarrow \mathbb{R}$ whose input is a vector $\mathbf{x} \in \mathbb{R}^n$ with a scalar output $f(\mathbf{x}) \in \mathbb{R}$. $\mathbf{H}$ of $f$ is an $n \times n$ matrix such as
+
 $$
 (\mathbf{H}_f)_{i,j}=\frac{\partial^2 f}{\partial x\_i \partial x_j}
 $$
 
 or
+
 $$
 \mathbf{H}_f = 
 \begin{bmatrix}
@@ -213,6 +216,7 @@ $$
 ## Kronecker Product
 
 Given $A \in \mathbb{R}^{m \times n}$ and $B \in \mathbb{R}^{p \times q}$, the *Kronecker product* is defined as $C=A \otimes B$ whose result is $C \in \mathbb{R}^{pm \times qn}$, suhc as
+
 $$
 A \otimes B = 
 \begin{bmatrix}

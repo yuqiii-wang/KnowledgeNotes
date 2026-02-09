@@ -11,6 +11,7 @@ $$
 p(X_n=x_n | X_{n-1} = x_{n-1})=
 p(X_n=x_n | X_{0} = x_{0}, X_{1} = x_{1}, ..., X_{n-1} = x_{n-1})
 $$
+
 where $X_i$ is a static state in Markov chain, and $x\_i$ is the $i$-th input.
 
 ## Transition Probability Maxtrix

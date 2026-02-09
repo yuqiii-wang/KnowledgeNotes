@@ -1,6 +1,7 @@
 # Dynamic Window Approach to Collision Avoidance
 
 On a 2-d motion space, $[x, y, \theta]$ describes the kenimatic configuration of a robot. Define $v(t)$ as translational velocity and $\omega(t)$ as angular velocity, there is
+
 $$
 x(t) = \int ^{t_n}_{t_0} v(t) \cdot cos\theta(t) \space dt \\\\
 y(t) = \int ^{t_n}_{t_0} v(t) \cdot sin\theta(t) \space dt
@@ -24,7 +25,8 @@ Max possible curvature trajectories permitted by admissible velocities $[v, \ome
 
 ### Objective Function
 
-The objectuve function to be optimized is 
+The objectuve function to be optimized is
+
 $$
 \sigma
 \big(

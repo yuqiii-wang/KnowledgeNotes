@@ -7,6 +7,7 @@ Notations: subscript $\tiny{W}$ means being in a world frame; subscript $\tiny{B
 Subscript $\tiny{K}$ means keyframe index, while lower case $\tiny{k}$ means ordinary updating index, such as a shot by a camera $k_c$ or one IMU reading $k_i$.
 
 The transform between IMU frame $\tiny{B}$ and camera frame $\tiny{C}$ is $[\mathbf{\phi}_{\tiny{BC}}|\mathbf{p}_{\tiny{BC}}]$:
+
 $$
 \begin{align*}
     \mathbf{\phi}_{\tiny{CBk_c}} &= 
@@ -144,6 +145,7 @@ $$
 $$
 
 The optimization attempts to reduce the noise by updating $\mathbf{\mathcal{X}_V}$
+
 $$
 \min_{\mathbf{\mathcal{X}_V}}
 \sum_{k_i \in \mathbf{\mathcal{B}}}
@@ -158,6 +160,7 @@ $$
 Proceed with a sliding window-based tightly-coupled monocular VIO for high-accuracy and robust state estimation.
 
 The full state vector in the sliding window having $n$  is defined as:
+
 $$
 \begin{align*}
     \mathbf{\mathcal{X}} &= [
@@ -192,7 +195,8 @@ $$
 \text{Visual measurement residuals}}
 $$
 
-where $\rho(e)$ is a Huber norm. 
+where $\rho(e)$ is a Huber norm.
+
 $$
 \rho(e) = \left\{
     \begin{align*}
@@ -270,6 +274,7 @@ $$
 where $\mathbf{T}_{\tiny{BC}}\mathbf{T}_{\tiny{WBi}}$ describes the transform first from camera frame to body frame, then from body frame to world frame.
 
 For non-perfect reprojection, the residual of one shared-observed feature can be defined as
+
 $$
 \mathbf{r}_{\mathcal{C}\tiny{ijl}} = 
 \begin{bmatrix}
@@ -339,6 +344,7 @@ The relocalization process effectively aligns the current sliding window maintai
 
 IMU introduces accumulated drifts to the system.
 To counter this issue, define another error term that accounts for loop closure frames ${o}$:
+
 $$
 \sum_{l,o \in \mathcal{L}} \rho \big(
 || \mathbf{r}_{\mathbf{\mathcal{C}}}(

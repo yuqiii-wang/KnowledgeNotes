@@ -8,6 +8,7 @@ The direction of the previous update is retained to a certain extent during the 
 
 Update $\Delta W$ at the $n$-th iteration is defined as
 
+
 $$
 \Delta W_{n+1} = \alpha \Delta W_{n} + \eta \frac{\partial\space Loss}{\partial\space W_{n}}
 $$

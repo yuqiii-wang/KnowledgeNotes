@@ -53,7 +53,8 @@ $SO(3)$ and $SE(3)$ are Lie group, whose Lie algebra are denoted as $so(3)$ and 
 
 ## Lie Bracket in Rotation
 
-Given a rotation matrix $R$ that changes with time $t$, denoted as $R(t)$, for $R(t) \in SO(3)$, there is 
+Given a rotation matrix $R$ that changes with time $t$, denoted as $R(t)$, for $R(t) \in SO(3)$, there is
+
 $$
 \begin{align*}
 R(t)R(t)^T=I \\\\
@@ -62,6 +63,7 @@ R(t)R(t)^{-1}=I
 $$
 
 By differential, there are
+
 $$
 \dot{R(t)}R(t)^T + R(t)\dot{R(t)^T} = 0 \\\\
 \dot{R(t)}R(t)^T = -(\dot{R(t)}R(t)^T)^T
@@ -85,11 +87,13 @@ $$
 Here uses $\wedge$ to represent a vector space of a skew-symmetric matrix.
 
 Reversely, here defines a vector representation of a skew-symmetric matrix with $\vee$
+
 $$
 A = \mathbf{a}^\vee
 $$
 
 Since $\dot{R(t)}R(t)^T$ is a skew-symmetric matrix, here uses $\phi^{\wedge}$ to represent the multiplication result of $\dot{R(t)}R(t)^T$
+
 $$
 \phi^{\wedge} = \dot{R(t)}R(t)^T
 $$
@@ -189,6 +193,7 @@ $$
 Conversely, there is $so(3) \mapsto SO(3)$, and here derives the logarithmic mapping via Taylor series expansion.
 
 Remember $\phi^{\wedge} = \theta \mathbf{v}^{\wedge}$, and $\mathbf{v}^{\wedge} \mathbf{v}^{\wedge} = \mathbf{v}\mathbf{v}^\text{T}-I$, $\mathbf{v}^{\wedge}  \mathbf{v}^{\wedge} \mathbf{v}^{\wedge} = -\mathbf{v}^{\wedge}$
+
 $$
 \begin{align*}
     \phi &= ln(R)^\vee 
@@ -304,6 +309,7 @@ $$
 $$
 
 Given the definition of derivative such that
+
 $$
 \frac{\partial R}{\partial \Delta R}=
 lim_{\Delta R \rightarrow 0}
@@ -358,7 +364,8 @@ $$
 J_l = \frac{sin\theta}{\theta} I + (1 - \frac{sin\theta}{\theta})\mathbf{v}\mathbf{v}^\text{T} + \frac{1-cos\theta}{\theta}\mathbf{v}^{\wedge}
 $$
 
-whose derivative is 
+whose derivative is
+
 $$
 J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\theta}{2})\mathbf{v}\mathbf{v}^\text{T} - \frac{\theta}{2}\mathbf{v}^{\wedge}
 $$
@@ -371,6 +378,7 @@ $$
 ### Derivative Model
 
 Now a point $p$ is rotated by $R$, hence the new position is $Rp$. To calculate $\frac{\partial Rp}{\partial R}$:
+
 $$
 \begin{align*}
 \frac{\partial R\mathbf{p}}{\partial R}
@@ -396,6 +404,7 @@ $$
 ### Perturbation Model
 
 Apply a trivial perturbation $\Delta R$ and take partial derivative over this perturbation to avoid computing the Jacobian $J_l$:
+
 $$
 \begin{align*}
 \frac{\partial R \mathbf{p}}{\partial \Delta R}

@@ -32,6 +32,7 @@ Any vector parallel to $u$ or $v$ is conjugate to $u$ or $v$.
 ### Example
 
 Given $u=[1,1]^T, v=[1,-1]^T$, and an identity matrix $I=\begin{bmatrix}1 & 0 \\\\ 0 & 1\end{bmatrix}$, there is
+
 $$
 u^T A v=
 \begin{bmatrix}

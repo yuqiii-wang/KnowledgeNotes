@@ -13,6 +13,7 @@ otherwise (bad convergence), shrinks the trust region and re-compute the local m
 </br>
 
 Consider the step at $\mathbf{x}_k$ for the $k$-th convergence iteration. Take $\mathbf{x}_k$ as the centroid drawing a circle $\Delta_k$ regarded as the trust region. Compute the second-order approximation denoted as $\mathbf{m}_k$:
+
 $$
 \mathbf{m}_k(\mathbf{p})=
 \mathbf{f}_k + \nabla \mathbf{f}_k^\text{T} \mathbf{p} + 
@@ -24,6 +25,7 @@ where $H_k$ is a Hessian matrix of the objective function $\mathbf{f}_k$, and $\
 The gray area shows good approximation by $\mathbf{m}_k$ (the smaller the gray area, the better the approximation), where within the trust region, the contours of $\mathbf{f}$ and $\mathbf{m}_k$ are similar to each other having similar contour curvatures. However, outside the trust region, the contours of $\mathbf{f}$ and $\mathbf{m}_k$ are quite different, rendering bad approximation of $\mathbf{f}$ by $\mathbf{m}_k$. The line search method such as Newton's method would perform badly in this scenario.
 
 The computation of trust region radius is shown as below
+
 $$
 \mathbf{\rho}_k = \frac{\mathbf{f}(\mathbf{x}_k)-\mathbf{f}(\mathbf{x}_k+\mathbf{p}_k)}{\mathbf{m}_k(0)-\mathbf{m}_k(\mathbf{p}_k)}
 $$
@@ -41,12 +43,14 @@ As a result, within the trust region $\Delta_k$, choosing $\mathbf{p}_k^*$ as th
 Cauchy point is a simple implementation of trust region to find $\mathbf{p}_k^*$ within a trust region radius $\Delta_k$.
 
 Cauchy point step $\mathbf{p}_k^C$ is computed by a scaled step following the direction $-\nabla \mathbf{f}_k$ within $\Delta_k$:
+
 $$
 \mathbf{p}_k^C = 
 -\tau_k \frac{\Delta_k}{\big|\big| \nabla \mathbf{f}_k \big|\big|} \nabla \mathbf{f}_k
 $$
 
 where
+
 $$
 \tau_k = \left\{
       \begin{matrix}
@@ -63,6 +67,7 @@ $$
 $$
 
 The explanation of $\tau_k$ can be illustrated by replacing $\mathbf{p}_k^C$ with its expression with $\tau_k$ into the second order approximation $\mathbf{m}_k$:
+
 $$
 \begin{align*}
 \mathbf{m}_k \big(

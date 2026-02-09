@@ -3,9 +3,11 @@
 Gradient descent (also often called steepest descent) is a first-order iterative optimization algorithm for finding a local minimum of a differentiable function. 
 
 Define a multi-variable function ${f}(\mathbf{x})$ being differentiable in a neighbourhood of a point $\mathbf{x}_k$, then ${f}(\mathbf{x})$ decreases fastest updating $\mathbf{x}_k$ to its local minimum following
+
 $$
 \mathbf{x}_{k+1}=\mathbf{x}_k+\gamma \triangledown {f}(\mathbf{x})
 $$
+
 where $\gamma$ is learning rate.
 
 Gradient descent refers to any class of algorithms that calculate the gradient $\triangledown {f}(\mathbf{x})$ of the objective function, then move "downhill" in the indicated direction;
@@ -21,6 +23,7 @@ Steepest descent finds every step $\mathbf{x}_k$ 's gradient $A\mathbf{x}_k + \m
 $\mathbf{r}_k$ is the residual to optimal solution $\mathbf{x}^*$ given by $\mathbf{r}_k = \mathbf{b} - A \mathbf{x}_k$. Ideally, $A\mathbf{x}^* + \mathbf{b} = 0$.
 
 The distance $\lambda = \frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathbf{r}_k^T A \mathbf{r}_k}$ is computed by 
+
 $$
 \frac{d f(\mathbf{x_k})}{d\lambda} = 
 \frac{d f(\mathbf{x_{k-1}+\Delta \mathbf{x}})}{d\lambda} =
@@ -41,12 +44,14 @@ Every step $\lambda_k$ reaches the point $\mathbf{x}_k$ where $\lambda_k$ goes l
 ### Formulation
 
 Given an objective function ($A$ being positive definite, $f(\mathbf{x})$ must have at least first-order derivative):
+
 $$
 f(\mathbf{x})=
 \frac{1}{2} \mathbf{x}^T A \mathbf{x} + \mathbf{b}^T \mathbf{x} + \mathbf{c}
 $$
 
 The first-order derivative is
+
 $$
 \frac{\partial f(\mathbf{x})}{\partial \mathbf{x}}=
 A \mathbf{x} + \mathbf{b}
@@ -89,6 +94,7 @@ f'(\mathbf{x}_k)\mathbf{r}_{k-1}
 $$
 
 So that we have
+
 $$
 \lambda = \frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathbf{r}_k^T A \mathbf{r}_k}
 $$

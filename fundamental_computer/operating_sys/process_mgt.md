@@ -253,11 +253,13 @@ Goto step (3); otherwise, $P_i$ must wait, since the resources are not available
 follows: 
 
 $$
-Available = Available – Request_i 
+Available = Available – Request_i
 $$
+
 $$
-Allocation_i = Allocation_i + Request_i 
+Allocation_i = Allocation_i + Request_i
 $$
+
 $$
 Need_i = Need_i– Request_i
 $$

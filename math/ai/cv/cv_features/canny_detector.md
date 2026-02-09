@@ -43,6 +43,7 @@ G_y=
 $$
 
 ### Find the gradient strength and direction
+
 $$
 G = \sqrt{G_x^2 + G_y^2} \\\\
 \Theta = atan(\frac{G_x}{G_y})

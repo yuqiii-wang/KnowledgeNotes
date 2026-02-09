@@ -39,22 +39,25 @@ $$
 A\mathbf{x}=\mathbf{b}
 $$
 
-By LU decomposition, there is 
+By LU decomposition, there is
 $$
 PA=LU
 $$
 
 So that
+
 $$
 LU\mathbf{x}=P\mathbf{b}
 $$
 
 Given the nature of triangular matrix, by forward and backward substitution, define a temp vector $\mathbf{y}$, there is
+
 $$
 L\mathbf{y}=P\mathbf{b}
 $$
 
 Then, solve $\mathbf{y}$, and use $\mathbf{y}$ to solve $\mathbf{x}$ by
+
 $$
 U\mathbf{x} = \mathbf{y}
 $$
@@ -149,6 +152,7 @@ L_2^{-1} B L_2^{-\text{T}} &=
 $$
 
 Summarize the above equations, there is
+
 $$
 L_2^{-1} B L_2^{-\text{T}} =
 (L_2^{-1}L_1^{-1}) A (L_1^{-\text{T}}L_2^{-\text{T}})
@@ -273,6 +277,7 @@ It is useful to solve Linear least squares (LLS) approximation problems.
 Define a square matrix $A=[\mathbf{a}_1, \mathbf{a}_2, ...,\mathbf{a}_n]$, where $\mathbf{a}_k$ represent a column vector of $A$.
 
 Denote a projection operator from vector $\mathbf{a}$ onto $\mathbf{u}$:
+
 $$
 proj_{\mathbf{u}}(\mathbf{a})=
 \frac{\langle \mathbf{u},\mathbf{a} \rangle}
@@ -314,6 +319,7 @@ The figure below describes the above projection with this notation substitution 
 </br>
 
 Express $\mathbf{a}\_i$ over our newly computed orthonormal basis:
+
 $$
 \begin{align*}
       \mathbf{a}_1 &= \langle\mathbf{e}_1,\mathbf{a}_1\rangle \mathbf{e}_1
@@ -385,6 +391,7 @@ The $\mathbf{x}$'s reflection based on the hyperplane $\mathbf{z}$ is $(I-2\math
 Easy to observe that
 
 Any vector $\mathbf{z}$ that is perpendicular to $\mathbf{u}$ is left unchanged:
+
 $$
 \begin{align*}
 (I-2\mathbf{u}\mathbf{u}^\text{H})\mathbf{z} &=
@@ -452,6 +459,7 @@ Define $A=[\mathbf{a}_1, \mathbf{a}_2, ..., \mathbf{a}_n]$. Start computation at
 Since $H_1$ is orthogonal having $det(H_1)=\pm 1$, there is $||H_1\mathbf{a}_1||=||\mathbf{a}_1||$. Then define $\mathbf{e}_1=[1 \quad 0 \quad ... \quad 0]^\text{T} \in \mathbb{R}^n$ as a unit orthogonal vector such that $||\mathbf{e}_1||=1$. There is $H_1\mathbf{a}_1=\pm ||\mathbf{a}_1||\mathbf{e}_1$.
 
 Recall Householder transformation:
+
 $$
 \left\{
       \begin{align*}
@@ -463,6 +471,7 @@ $$
 $$
 
 So that
+
 $$
 H_1 \mathbf{a}_1 =
 ( I-2\mathbf{u}_1\mathbf{u}_1^\text{H} ) \mathbf{a}_1 = 

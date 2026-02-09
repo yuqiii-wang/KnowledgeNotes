@@ -20,6 +20,7 @@ $$
 $$
 
 satisfied
+
 $$
 f(tx_1 + (1-t)x_2) \le t f(x_1) + (1-t)f(x_2)
 $$
@@ -29,6 +30,7 @@ This difenition makes a convex function **monotonic**.
 ### Example
 
 A graph of the bivariate convex function
+
 $$
 z=x^2+xy+y^2
 $$

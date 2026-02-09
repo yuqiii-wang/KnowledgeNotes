@@ -21,11 +21,13 @@ Quaternion uses four elements to represent rotation that avoids Gimbal lock issu
 ## Quaternion Definition
 
 A rotation of angle $\theta$ in the three dimensional space given three bases $u_x\overrightarrow{i}, u_y\overrightarrow{j}, u_z\overrightarrow{k}$ are defined by the unit vector
+
 $$
 \overrightarrow{u}=(u_x, u_y, u_z)=u_x \overrightarrow{i} + u_y \overrightarrow{j} + u_z \overrightarrow{k}
 $$
 
 can be represented by a quaternion using an extension of Euler's formula:
+
 $$
 \begin{align*}
 \mathbf{q}&=
@@ -58,6 +60,7 @@ $$
 * Multiplication: 
 
 Given the relationship of the respective imaginary parts (derived from cross product that sees $a \times b$ being perpendicular to the $<a , b>$ plane),
+
 $$
 \left\{\begin{array}{cc}
     \overrightarrow{i}^2 = \overrightarrow{j}^2 = \overrightarrow{k}^2 = -1 \\\\
@@ -71,6 +74,7 @@ $$
 $$
 
 define multiplication $\mathbb{R}^3 \rightarrow \mathbb{R}^3$:
+
 $$
 \begin{align*}
 \mathbf{q}_a  \mathbf{q}_b &=
@@ -158,6 +162,7 @@ $$
 $$
 
 Define the skew-symmetric of $\mathbf{\omega}$, such that
+
 $$
 \Omega(\mathbf{\omega}) = 
 \begin{bmatrix}
@@ -233,6 +238,7 @@ $$
 $$
 
 Similarly, there is
+
 $$
 \mathbf{q}_a \mathbf{q}_b=
 \mathbf{q}_a^+ \mathbf{q}_b=
@@ -272,6 +278,7 @@ $$
 $$
 
 Since $\mathbf{q}$ is defined as purely imaginary, so that the *quaternion-to-rotation matrix* can be defined as
+
 $$
 R =
 \mathbf{v}\mathbf{v}^\text{T}+s^2I+ 2s\mathbf{v}^{\wedge}+(\mathbf{v}^{\wedge})^2

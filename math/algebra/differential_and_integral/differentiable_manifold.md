@@ -9,6 +9,7 @@ Given a tangent vector field on a differentiable manifold $M$ then its flow is t
 ### Definition
 
 Let $M$ be a differentiable manifold, $T_p M$ denotes the tangent space of $p \in M$, $TM$ is the corresponding tangent bundle $TM = \sqcup_{p \in M} T_p M$, now define a smooth mapping
+
 $$
 f: \mathbf{R} \times M \rightarrow TM
 $$

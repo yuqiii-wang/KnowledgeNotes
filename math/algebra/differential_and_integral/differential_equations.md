@@ -83,6 +83,7 @@ $$
 $$
 
 as the representation for this set of differential equations:
+
 $$
 \begin{align*}
 x'(t) = -y(t) \\\\
@@ -157,6 +158,7 @@ e^{
 $$
 
 Expand and calculate:
+
 $$
 e^{
 \begin{bmatrix}
@@ -207,6 +209,7 @@ e^{
 $$
 
 Final solution:
+
 $$
 \begin{bmatrix}
       x(t) \\\\
@@ -223,8 +226,10 @@ $$
 $$
 
 or expressed as
+
 $$
 x(t) = cos(t)x_0 -sin(t)y_0 \\\\
 y(t) = sin(t)x_0 + cos(t)y_0
 $$
+
 which matches the rotation nature of the aforementioned matrix $A_{2 \times 2}$.

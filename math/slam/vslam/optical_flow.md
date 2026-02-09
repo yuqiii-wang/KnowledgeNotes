@@ -48,6 +48,7 @@ $$
 In a real world scenario, this constant gray scale assumption is false since ambient light has significant impacts on the brightness of an object, even casting a shadow over the object resulting in sharp reduction of pixel value. 
 
 However, in most cases, ambient light environment changes slowly, and approximation can be made by first-order Taylor expansion, such as
+
 $$
 \mathbf{I}(x+ dx, y+ dy, t+ dt)
 \approx
@@ -98,6 +99,7 @@ $$
 Consider a window of size $w \times w$ that totally covers $w^2$ pixels. $(u,v)^*$ can be computed via least square optimization over a large window of pixels.
 
 For $k=1,2,...,w^2$, stack each pixel's optical flow, there is
+
 $$
 \mathbf{A} = 
 \begin{bmatrix}
@@ -123,6 +125,7 @@ $$
 $$
 
 The whole equation is
+
 $$
 \mathbf{A} \begin{bmatrix}
     u \\\\
@@ -191,6 +194,7 @@ e = \mathbf{I}_1(\mathbf{p}_1) - \mathbf{I}_2(\mathbf{p}_2)
 $$
 
 The $\mathcal{L}_2$-norm error to be minimized can be defined as below $\forall e_i = \mathbf{I}_1(\mathbf{p}_{1,i}) - \mathbf{I}_2(\mathbf{p}_{2,i})$
+
 $$
 \begin{align*}
 arg \space \underset{[\mathbf{R}|\mathbf{t}]}{min} \space
@@ -202,12 +206,14 @@ arg \space \underset{[\mathbf{R}|\mathbf{t}]}{min} \space
 $$
 
 Denote a pixel $\mathbf{u}=(x,y)$ on the second camera frame, there is
+
 $$
 \mathbf{u} = 
 \frac{1}{Z_2} \mathbf{K} [\mathbf{R}|\mathbf{t}]
 $$
 
 Since $\mathbf{e}$ is a function of the camera frame transformation such as $\mathbf{e}([\mathbf{R}|\mathbf{t}])$, the derivative expression by the perturbation ($\Delta \mathbf{\xi}$ is a trivial perturbation to $[\mathbf{R}|\mathbf{t}]$) is
+
 $$
 \frac{\partial\space \mathbf{e}}{\partial\space [\mathbf{R}|\mathbf{t}]}
 \approx
@@ -219,6 +225,7 @@ $$
 The three terms can be computed separately:
 * $\frac{\partial \mathbf{I}_2}{\partial \mathbf{u}}$: the gray scale gradient at pixel $\mathbf{u}$
 * $\frac{\partial \mathbf{u}}{\partial [\mathbf{R}|\mathbf{t}]}$: the derivative of the projection equation with respect to the three-dimensional point in the camera frame. Set $\frac{\partial \mathbf{u}}{\partial [\mathbf{R}|\mathbf{t}]} = [X,Y,Z]^\text{T}$
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{u}}{\partial [\mathbf{R}|\mathbf{t}]} &=

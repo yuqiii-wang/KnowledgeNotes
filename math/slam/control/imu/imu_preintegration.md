@@ -23,11 +23,13 @@ $$
 ## Preliminaries and Some Notations
 
 Lie algebra to Lie group mapping is an exponential mapping $so(3) \rightarrow SO(3)$:
+
 $$
 e^{\mathbf{\phi}^\wedge} = \exp(\mathbf{\phi}^\wedge) = \text{Exp}(\mathbf{\phi}) = \mathbf{R}
 $$
 
 and its inverse is
+
 $$
 \mathbf{\phi} = \ln(\mathbf{R}^\vee) = \text{Log}(\mathbf{R})
 $$
@@ -148,6 +150,7 @@ $$
 ## Definition
 
 Typically, there are five variables to consider in an IMU system: rotation $\mathbf{R}$, translation $\mathbf{p}$, angular velocity $\mathbf{\omega}$, linear velocity $\mathbf{v}$ and acceleration $\mathbf{a}$:
+
 $$
 \begin{align*}
     \dot{\mathbf{R}} &= \mathbf{R} \mathbf{\omega}^\wedge \\\\
@@ -157,6 +160,7 @@ $$
 $$
 
 Take integral starting from $t_0$ to $t_0+\Delta t$:
+
 $$
 \begin{align*}
     {\mathbf{R}}(t_0+\Delta t) &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0) \Delta t} \\\\
@@ -410,6 +414,7 @@ The right hand side expressions are direct computation on the "gap" between two 
 ## Pre-integration Zero Drift Noise Modelling
 
 Recall the noise definition for rotation:
+
 $$
 \text{Exp} \big( \delta\mathbf{\phi}_{ij} \big)=
 \prod^{j-1}_{k=i} 
@@ -472,6 +477,7 @@ Given $\mathbf{\eta}_{\mathbf{\omega},k}$ being a Gaussian type of noise, the su
 Then, compute the covariances:
 
 Set the covariance of ${ \delta \mathbf{\phi}_{i,j-1} }$ to $\mathbf{\Sigma}_{j-1}$, and $\mathbf{\eta}_{\mathbf{\omega},j-1}$ to $\mathbf{\Sigma}_{\mathbf{\eta}_{\mathbf{\omega},j-1}}$, there is
+
 $$
 \mathbf{\Sigma}_j = 
 \Delta\hat{\mathbf{R}}_{j-1,j}^\top \mathbf{\Sigma}_{j-1} \Delta\hat{\mathbf{R}}_{j-1,j}+
@@ -516,6 +522,7 @@ $$
 $$ 
 
 To summarize, define an accumulated noise vector $\mathbf{\eta}_{ik}$ and the $j$-th step noise vector $\mathbf{\eta}_{j}$:
+
 $$
 \mathbf{\eta}_{ik} = 
 \begin{bmatrix}
@@ -532,6 +539,7 @@ $$
 $$
 
 The noise propagation model that linearly adds on the next timestamp noise $\mathbf{\eta}_{j}$ to form the total noise between the $i$-th timestamp and $j$-th timestamp is
+
 $$
 \mathbf{\eta}_{ij} = 
 A_j\space \mathbf{\eta}_{ik} + B_j\space \mathbf{\eta}_{j}
@@ -565,6 +573,7 @@ Previously, zero offset is assumed to be constant, however, it is a naive assump
 In this discussion, zero offset noises are **approximated by linear increment**, so that $\mathbf{b}_{\mathbf{\omega},k} \rightarrow \mathbf{b}_{\mathbf{\omega},k} + \delta\mathbf{b}_{\mathbf{\omega},k}$ and $\mathbf{b}_{\mathbf{a},k} \rightarrow \mathbf{b}_{\mathbf{a},k} + \delta\mathbf{b}_{\mathbf{a},k}$, where $\delta\mathbf{b}_{\mathbf{\omega},k}$ and $\delta\mathbf{b}_{\mathbf{a},k}$ are the white noises.
 
 Then formulate $\Delta\hat{\mathbf{R}}_{ij}$, $\Delta\hat{\mathbf{v}}_{ij}$ and $\Delta\hat{\mathbf{p}}_{ij}$ as functions of the arguments $(\mathbf{b}_{\mathbf{\omega},k} + \delta\mathbf{b}_{\mathbf{\omega},k})$ and $(\mathbf{b}_{\mathbf{a},k} + \delta\mathbf{b}_{\mathbf{a},k})$
+
 $$
 \begin{align*}
     \Delta\hat{\mathbf{R}}_{ij} (\mathbf{b}_{\mathbf{\omega},i} + \delta\mathbf{b}_{\mathbf{\omega},i}) &= 
@@ -648,6 +657,7 @@ $$
     \mathbf{J}_{r,k} \delta\mathbf{b}_{\mathbf{\omega},k} \Delta t
 \Big)
 $$
+
 where the Jacobian is $\frac{\partial\space \Delta\hat{\mathbf{R}}_{ij}}{\partial\space \mathbf{b}_{\mathbf{\omega},i}}=-\sum^{j-1}_{k=i} \Delta \hat{\mathbf{R}}_{k,k+1}^\top \mathbf{J}_{r,k} \Delta t$.
 
 Similarly, the Jacobians for $\Delta\hat{\mathbf{v}}_{ij} (\mathbf{b}_{\mathbf{\omega},i} + \delta\mathbf{b}_{\mathbf{\omega},i}, \mathbf{b}_{\mathbf{a},k} + \delta\mathbf{b}_{\mathbf{a},k})$ and $\Delta\hat{\mathbf{p}}_{ij} (\mathbf{b}_{\mathbf{\omega},i} + \delta\mathbf{b}_{\mathbf{\omega},i}, \mathbf{b}_{\mathbf{a},k} + \delta\mathbf{b}_{\mathbf{a},k})$ can be computed.

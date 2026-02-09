@@ -162,6 +162,7 @@ where $\space^{\wedge}$ represents the skew-symmetric representation of a vector
 4. Compute $\space^{g}R_{c}$
 
 Set $\space^{g}\mathbf{u}_{c}$ as the normalized rotation vector $\space^{g}\mathbf{u}_{c}=\frac{2 \space^{g}\hat{\mathbf{r}}_{c}}{\sqrt{1+|\space^{g}\hat{\mathbf{r}}_{c}|^2}}$, by Rodrigues' formula $I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top} + \mathbf{u}^{\wedge}\sin\theta$ , the rotation matrix rotating about $\mathbf{u}$ by $\theta$ can be expressed as
+
 $$
 \space^{g}R_{c} = \Big( 1 - \frac{|\space^{g}\mathbf{u}_{c}|^2}{2} \Big) I +\frac{1}{2}\big( \space^{g}\mathbf{u}_{c} \space^{g}\mathbf{u}_{c}^{\top} + \sqrt{4-|\space^{g}\mathbf{u}_{c}|^2}\space^{g}\mathbf{u}_{c}^{\wedge} \big)
 $$

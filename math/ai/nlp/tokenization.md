@@ -94,6 +94,7 @@ First do normalization and pre-tokenization
 
 Count the letter pair combinations, merge letter pairs with occurrences more than once,
 until all combinations are unique, or having covered the whole pre-token length:
+
 $$
 \begin{matrix}
       \text{1st round counting} & \text{2nd round counting} & \text{3rd round counting} \\\\
