@@ -9,7 +9,7 @@
 Yield to maturity (YTM) is the rate when bond is purchased on the secondary market, expected annualized return rate.
 
 $$
-\text{BondPrice}=\sum^n\_{t=1}\frac{\text{CouponRate}}{(1+r)^t}+\frac{\text{FaceValue}}{(1+r)^n}
+\text{BondPrice}=\sum^n_{t=1}\frac{\text{CouponRate}}{(1+r)^t}+\frac{\text{FaceValue}}{(1+r)^n}
 $$
 
 For example, a two-year maturity, 6% coupon rate bond with a face value of 100 priced at 98 on the market, there is
@@ -280,7 +280,7 @@ where $h$ is the step span.
 Given four control points $P_i,P_{i+1},P_{i+2},P_{i+3}$
 
 $$
-S(t)=\sum^n\_{i=0} P_i \cdot N_{i,3}(t)
+S(t)=\sum^n_{i=0} P_i \cdot N_{i,3}(t)
 $$
 
 where
@@ -319,7 +319,7 @@ Add $\lambda$ as smooth control hyper-parameter.
 Optimize $f$ by
 
 $$
-\min_{f}\quad \underbrace{\sum^n\_{i=1}\big(P_i-f(t_i)\big)^2}_{\text{deviation penalty}} +
+\min_{f}\quad \underbrace{\sum^n_{i=1}\big(P_i-f(t_i)\big)^2}_{\text{deviation penalty}} +
 \lambda \underbrace{\int\Big(\frac{d^2}{dx^2}f_i(t_n)\Big)^2 dx}_{\text{sharp penalty}}
 $$
 

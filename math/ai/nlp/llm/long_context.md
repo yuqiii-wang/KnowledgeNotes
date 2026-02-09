@@ -58,7 +58,7 @@ $$
 \mathbf{q}_1^{\top} R_{n-m} \mathbf{k}_1
 $$
 
-The rotation angle can be represented by $\mathbf{w}\_i = 10000^{-\frac{2i}{D}}$.
+The rotation angle can be represented by $\mathbf{w}_i = 10000^{-\frac{2i}{D}}$.
 
 ### Why RoPE Sees Limitation in Long Context
 
@@ -147,7 +147,7 @@ This means as sample point distance got scaled by $s'_i$ per dimension, the NTK 
 ### NTK-Aware Scaled RoPE Intuition
 
 Consider $\sum_{i=0}^{D/2-1}\big(\alpha_{\cos}\cos(\Delta\theta_i)+\alpha_{\sin}\sin(\Delta\theta_i)\big)$,
-where $\mathbf{w}\_i = 10000^{-\frac{2i}{D}}$.
+where $\mathbf{w}_i = 10000^{-\frac{2i}{D}}$.
 Let $b=10000^{2/D}$ be the base, list the rotation angles
 
 $$
@@ -313,11 +313,11 @@ therefore they have larger sum that will be "flattened" severely by temperature.
 $$
 \begin{align*}
     && a_{nm}=\mathbf{q}^{\top}_m\mathbf{k}_n &=
-    \sum^{D_{\text{low}}}_{i=0} {q}^{\top}\_i {k}\_i +
-    \sum^{D_{\text{high}}}_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i \\\\
+    \sum^{D_{\text{low}}}_{i=0} {q}^{\top}_i {k}_i +
+    \sum^{D_{\text{high}}}_{i=D_{\text{low}}} {q}^{\top}_i {k}_i \\\\
 \Rightarrow && a'_{nm}=\mathbf{q}'^{\top}_m\mathbf{k}'_n &=
-    \sum^{D_{\text{low}}}_{i=0} {q}^{\top}\_i {k}\_i +
-    \underbrace{\sum^{D'_{\text{high}}}_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i}_{\begin{matrix}
+    \sum^{D_{\text{low}}}_{i=0} {q}^{\top}_i {k}_i +
+    \underbrace{\sum^{D'_{\text{high}}}_{i=D_{\text{low}}} {q}^{\top}_i {k}_i}_{\begin{matrix}
         \text{larger sum} \\\\
         \text{for more} \\\\
         \text{interpolations}
@@ -325,7 +325,7 @@ $$
 \end{align*}
 $$
 
-where ${q}^{\top}\_i$ means that $i$ indexing takes transpose row vs col to match that of ${k}\_i$.
+where ${q}^{\top}_i$ means that $i$ indexing takes transpose row vs col to match that of ${k}_i$.
 
 #### Evaluation by Perplexity
 
@@ -344,7 +344,7 @@ For example, below results show that as the prediction uncertainty increases, pe
 |Scenario 1|$p_{x_1}=1.0$|$1.0=2^{-1.0\log_2 1.0}$|$1.0\approx 1/1.0$|
 |Scenario 2|$p_{x_1}=0.1$, $p_{x_2}=0.9$|$1.38\approx 2^{-0.1\log_2 0.1 - 0.9\log_2 0.9}$|$0.72\approx 1/1.38$|
 |Scenario 3|$p_{x_1}=p_{x_2}=0.5$|$1.617\approx 2^{-2\times 0.5\log_2 0.5}$|$0.618\approx 1/1.617$|
-|Scenario 4|$p_{x_1}=p_{x_2}=p_{x_3}=0.333, \sum_{x\_i\notin\{x_1, x_2, x_3\}}p_{x\_i}=0.001$|$3.137\approx 2^{-3\times 0.333\log_2 0.333-0.001\times\log_2 0.001}$|$0.319\approx 1/3.137$|
+|Scenario 4|$p_{x_1}=p_{x_2}=p_{x_3}=0.333, \sum_{x_i\notin\{x_1, x_2, x_3\}}p_{x_i}=0.001$|$3.137\approx 2^{-3\times 0.333\log_2 0.333-0.001\times\log_2 0.001}$|$0.319\approx 1/3.137$|
 
 In model performance evaluation, sliding window perplexity can be written as
 

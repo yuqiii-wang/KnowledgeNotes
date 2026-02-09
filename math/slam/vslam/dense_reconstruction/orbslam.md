@@ -92,7 +92,8 @@ $$
 \end{align*}
 $$
 
-Given $n$ points to compute 
+Given $n$ points to compute
+
 $$
 A \mathbf{h} = \mathbf{0}
 $$
@@ -186,7 +187,7 @@ found in the frame.
 ### Co-Visibility and Essential Graph
 
 In co-visibility graph, each node/vertex represents a pose/keyframe, and each edge if built between nodes indicates that the two poses observe some same visual features. 
-If an edge exists, when performing pose optimization, the pose transform $T_{ij}$ between the two poses $\mathbf{\xi}\_i$ and $\mathbf{\xi}_j$ should be computed, otherwise, ignored.
+If an edge exists, when performing pose optimization, the pose transform $T_{ij}$ between the two poses $\mathbf{\xi}_i$ and $\mathbf{\xi}_j$ should be computed, otherwise, ignored.
 
 Given the example of 11 poses below, the co-visibility graph can be represented by a matrix where each entry is an edge (numbers in the grey cells are the counts of shared observed features). 
 The $10$-th and $11$-th poses see some same features as observed by the $1$-st and $2$-nd poses, indicating a loop closure.

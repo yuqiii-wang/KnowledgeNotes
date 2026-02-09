@@ -85,13 +85,13 @@ If internet traffic is bad
 
 * Problem Three: There should be fast re-transmission
 
-Retransmission sends data by ACK/SACK $\text{next\_tcp\_seq\_no} = \text{this\_ack\_no} + \text{next\_tcp\_length}$ that indicate possible packet loss.
+Retransmission sends data by ACK/SACK $\text{next_tcp_seq_no} = \text{this_ack_no} + \text{next_tcp_length}$ that indicate possible packet loss.
 
 A normal retransmission happens after timeout not receiving expected ACK in time.
 
 When the sender receives 3rd duplicate ACKs, fast retransmission assumes that the packet is lost and retransmits that packet without waiting for a retransmission timer to expire.
 
-Recall that ACK only acknowledges previous TCP packets, repeated same ACK indicates that $\text{next\_tcp\_seq\_no} = \text{this\_ack\_no} + \text{next\_tcp\_length}$ is lost.
+Recall that ACK only acknowledges previous TCP packets, repeated same ACK indicates that $\text{next_tcp_seq_no} = \text{this_ack_no} + \text{next_tcp_length}$ is lost.
 
 Linux by default triggers fast retransmission after three duplicate ACKs.
 However, there is no fast retransmission triggered as observed in the above screenshot.

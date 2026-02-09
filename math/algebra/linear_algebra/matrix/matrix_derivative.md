@@ -5,10 +5,10 @@
 Simply, the derivative of a scalar function $f$ over a matrix $X$ can be defined as $\frac{\partial f}{\partial X}=\big[ \frac{\partial f}{\partial x_{ij}} \big]$.
 However, such a definition is not handy since it requires computation of each $\partial x_{ij}$.
 
-The differential of a scalar function $df$ can be expressed as the sum of respective differential $d x\_i$.
+The differential of a scalar function $df$ can be expressed as the sum of respective differential $d x_i$.
 
 $$
-df = \sum^n\_{i=1} \frac{\partial f}{\partial x\_i} d x\_i= \big(\frac{\partial f}{\partial \mathbf{x}}\big)^\text{T} d\mathbf{x}
+df = \sum^n_{i=1} \frac{\partial f}{\partial x_i} d x_i= \big(\frac{\partial f}{\partial \mathbf{x}}\big)^\text{T} d\mathbf{x}
 $$
 
 where, by vector representation, there is $\frac{\partial f}{\partial \mathbf{x}} \in \mathbb{R}^{n \times 1}$ and $d\mathbf{x} \in \mathbb{R}^{n \times 1}$. so that $df$ is the inner product of $\frac{\partial f}{\partial \mathbf{x}} \cdot d\mathbf{x}$.
@@ -16,7 +16,7 @@ where, by vector representation, there is $\frac{\partial f}{\partial \mathbf{x}
 Given this inspiration, expand the vector to a matrix space, so that
 
 $$
-df = \sum^m_{i=1} \sum^n\_{j=1} \frac{\partial f}{\partial X_{ij}} d X_{ij}= tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)
+df = \sum^m_{i=1} \sum^n_{j=1} \frac{\partial f}{\partial X_{ij}} d X_{ij}= tr\bigg(\big(\frac{\partial f}{\partial X}\big)^\text{T} dX \bigg)
 $$
 
 As a result $df$ is the trace of inner product between $\frac{\partial f}{\partial X} d X$.

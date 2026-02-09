@@ -7,7 +7,7 @@ and the negatives are all other $s_j^+$ in the batch for $j\ne i$,
 the loss for a single pair $(s_i, s_i^+)$ is
 
 $$
-\mathcal{L}\_i=-\log\frac{\exp\big(\frac{1}{\tau}\text{sim}(s_i, s_i^+)\big)}{\sum^N_{j=1}\exp\big(\frac{1}{\tau}\text{sim}(s_i, s_j^+)\big)}
+\mathcal{L}_i=-\log\frac{\exp\big(\frac{1}{\tau}\text{sim}(s_i, s_i^+)\big)}{\sum^N_{j=1}\exp\big(\frac{1}{\tau}\text{sim}(s_i, s_j^+)\big)}
 $$
 
 where $\tau$ is a temperature hyperparameter to scale similarity.
@@ -22,7 +22,7 @@ $$
 The total loss over the batch is:
 
 $$
-\mathcal{L}=\frac{1}{N}\sum^N_{i=1}\mathcal{L}\_i
+\mathcal{L}=\frac{1}{N}\sum^N_{i=1}\mathcal{L}_i
 $$
 
 ## Obtain Sentence/Document Embedding from Token Embeddings
@@ -71,7 +71,7 @@ $$
 
 During pretraining, BERT includes the Next Sentence Prediction (NSP) and classification tasks that train the model to encode meaningful information in the `[CLS]` token.
 
-Let $\mathbf{h}^{(l)}\_i$ be the $i$-th hidden state at the $l$-th layer, together there is
+Let $\mathbf{h}^{(l)}_i$ be the $i$-th hidden state at the $l$-th layer, together there is
 
 $$
 \mathbf{h}^{(l)}=[\mathbf{h}^{(l)}_{\text{[CLS]}}, \mathbf{h}^{(l)}_{1}, \mathbf{h}^{(l)}_{2}, ...,  \mathbf{h}^{(l)}_{n}]
@@ -81,8 +81,8 @@ Take self-attention as an example, a naive transformer is
 
 $$
 \begin{align*}
-    \mathbf{h}^{(l+1)}_{i} &=\text{FFN}\big(\text{SelfAttention}(\mathbf{h}^{(l)}, \mathbf{h}^{(l)}\_i)\big) \\\\
-    &=\text{FFN}\big(\text{Softmax}\big(\frac{\mathbf{q}_iK^{\top}}{\sqrt{d}}\big)\mathbf{v}\_i\big)
+    \mathbf{h}^{(l+1)}_{i} &=\text{FFN}\big(\text{SelfAttention}(\mathbf{h}^{(l)}, \mathbf{h}^{(l)}_i)\big) \\\\
+    &=\text{FFN}\big(\text{Softmax}\big(\frac{\mathbf{q}_iK^{\top}}{\sqrt{d}}\big)\mathbf{v}_i\big)
 \end{align*}
 $$
 

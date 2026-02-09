@@ -174,15 +174,15 @@ Key advantage is that DML does not require a pre-trained, fixed teacher model, b
 Given two models $\Theta_1$ and $\Theta_2$ for multi-class prediction $y_i\in\{1,2,3,...,M\}$ for a set of sample labels $Y=\{y_i\}^N_{i=1}$, suppose the prediction is by softmax such that
 
 $$
-p_1^m(\mathbf{x}\_i)=\frac{\exp(z_1^m)}{\sum^M_{m=1} \exp(z_1^m)} \qquad
-p_2^m(\mathbf{x}\_i)=\frac{\exp(z_2^m)}{\sum^M_{m=1} \exp(z_2^m)}
+p_1^m(\mathbf{x}_i)=\frac{\exp(z_1^m)}{\sum^M_{m=1} \exp(z_1^m)} \qquad
+p_2^m(\mathbf{x}_i)=\frac{\exp(z_2^m)}{\sum^M_{m=1} \exp(z_2^m)}
 $$
 
 For prediction vs truth labels, cross entropy error is used.
 
 $$
-L\_{C_1} = -\sum_{i=1}^N \sum_{m=1}^M t_i(y_i,m) \log\big(p_1^m(\mathbf{x}\_i)\big) \qquad
-L\_{C_2} = -\sum_{i=1}^N \sum_{m=1}^M t_i(y_i,m) \log\big(p_2^m(\mathbf{x}\_i)\big)
+L_{C_1} = -\sum_{i=1}^N \sum_{m=1}^M t_i(y_i,m) \log\big(p_1^m(\mathbf{x}_i)\big) \qquad
+L_{C_2} = -\sum_{i=1}^N \sum_{m=1}^M t_i(y_i,m) \log\big(p_2^m(\mathbf{x}_i)\big)
 $$
 
 where $t_i(y_i,m)=\begin{cases} 1 & y_i=m \\\\ 0 & y_i\ne m \end{cases}$ is an indicator function.
@@ -192,22 +192,22 @@ To align two models, Kullback Leibler (KL) Divergence ($D_{KL}(P || Q)$ says how
 $$
 \begin{align*}
     \text{From } \mathbf{p}_1 \text{ to } \mathbf{p}_2 \qquad
-    D_{KL}(\mathbf{p}_2||\mathbf{p}_1)=\sum_{i=1}^N \sum_{m=1}^M p_2^m(\mathbf{x}\_i) \log\frac{p_2^m(\mathbf{x}\_i)}{p_1^m(\mathbf{x}\_i)} \\\\
+    D_{KL}(\mathbf{p}_2||\mathbf{p}_1)=\sum_{i=1}^N \sum_{m=1}^M p_2^m(\mathbf{x}_i) \log\frac{p_2^m(\mathbf{x}_i)}{p_1^m(\mathbf{x}_i)} \\\\
     \text{From } \mathbf{p}_2 \text{ to } \mathbf{p}_1 \qquad
-    D_{KL}(\mathbf{p}_1||\mathbf{p}_2)=\sum_{i=1}^N \sum_{m=1}^M p_1^m(\mathbf{x}\_i) \log\frac{p_1^m(\mathbf{x}\_i)}{p_2^m(\mathbf{x}\_i)}
+    D_{KL}(\mathbf{p}_1||\mathbf{p}_2)=\sum_{i=1}^N \sum_{m=1}^M p_1^m(\mathbf{x}_i) \log\frac{p_1^m(\mathbf{x}_i)}{p_2^m(\mathbf{x}_i)}
 \end{align*}
 $$
 
 The loss is defined as **predictions vs truth labels** plus **two model prediction divergence**.
 The key novelty lies on
 
-* $D_{KL}(\mathbf{p}\_i||\mathbf{p}_j)$ that it is about the two model prediction probabilities instead of model prediction against the truth label probability distribution.
+* $D_{KL}(\mathbf{p}_i||\mathbf{p}_j)$ that it is about the two model prediction probabilities instead of model prediction against the truth label probability distribution.
 * In traditional model distillation, there is a fixed teacher model and a student model that only the student model sees parameter updates/learning, while the teacher model is static; in contrast to mutual learning that both models see parameter updates learning from each other.
 
 $$
 \begin{align*}
-    L\_{\Theta_1} &= L\_{C_1} + D_{KL}(\mathbf{p}_2||\mathbf{p}_1) \\\\
-    L\_{\Theta_2} &= L\_{C_2} + D_{KL}(\mathbf{p}_1||\mathbf{p}_2)
+    L_{\Theta_1} &= L_{C_1} + D_{KL}(\mathbf{p}_2||\mathbf{p}_1) \\\\
+    L_{\Theta_2} &= L_{C_2} + D_{KL}(\mathbf{p}_1||\mathbf{p}_2)
 \end{align*}
 $$
 
@@ -418,9 +418,9 @@ CTC is used to train models for sequence-to-sequence tasks where the input lengt
 
 Assume there are $T$ text truth labels,
 
-* $\mathbf{x}^{1:T}=(\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_{T})$: Input vector sequence of length $T$ (e.g., features extracted from an image), in which $\mathbf{x}\_i\in\mathbb{R}^{D}$ is a $D$-dimensional feature vector that corresponds to a local region of an image through its corresponding receptive field.
+* $\mathbf{x}^{1:T}=(\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_{T})$: Input vector sequence of length $T$ (e.g., features extracted from an image), in which $\mathbf{x}_i\in\mathbb{R}^{D}$ is a $D$-dimensional feature vector that corresponds to a local region of an image through its corresponding receptive field.
 * $\mathbf{y}=(y_1, y_2, ..., y_{L})$: Ground truth sequence of length $L$ (e.g., text labels), $y_i$ is the char label at the $i$ position.
-* $\hat{\mathbf{y}}=(\hat{y}_1, \hat{y}_2, ..., \hat{y}_{T})$ is the corresponding prediction form $\mathbf{x}\_i$ to a label in $\mathbf{y}$
+* $\hat{\mathbf{y}}=(\hat{y}_1, \hat{y}_2, ..., \hat{y}_{T})$ is the corresponding prediction form $\mathbf{x}_i$ to a label in $\mathbf{y}$
 * $\hat{\mathbf{y}}_p$ is one probability distribution/one alignment path for a truth sequence $\mathbf{y}$
 * $\hat{Y}$: Set of all possible alignments (paths) for $\mathbf{y}$, including repetitions and blanks.
 
@@ -434,7 +434,7 @@ where $P(\hat{\mathbf{y}}_p|\mathbf{x}^{1:T})=\prod_{t=1}^{T}p(\hat{y}_t|\mathbf
 
 #### Alignment Ambiguity
 
-For the number of feature vectors not likely equal to the number of truth labels $T \ne L$ as $\mathbf{x}\_i$ only covers partial vision feature of a character $y_i$, so that for one truth label $y_i$ there might be multiple $\mathbf{x}\_i$.
+For the number of feature vectors not likely equal to the number of truth labels $T \ne L$ as $\mathbf{x}_i$ only covers partial vision feature of a character $y_i$, so that for one truth label $y_i$ there might be multiple $\mathbf{x}_i$.
 As a result CTC has alignment problems.
 
 Besides, CTC introduces a blank token (denoted as $\emptyset$) to handle cases where input frames (e.g., image or audio features) outnumber the target sequence length.
@@ -454,7 +454,7 @@ in other words, $["M", "O", "O", "N"]$ is truth path $\mathbf{y}$, while others 
 
 ### Attention Guidance
 
-Attention guidance aims to mitigate the misalignment problem by *alignment attention* (what feature $\mathbf{x}\_i$ likely corresponds to what label $y_i$) applied on Gated Recurrent Unit (GRU) for $y_k$ prediction dependent on previous label $y_{k-1}$.
+Attention guidance aims to mitigate the misalignment problem by *alignment attention* (what feature $\mathbf{x}_i$ likely corresponds to what label $y_i$) applied on Gated Recurrent Unit (GRU) for $y_k$ prediction dependent on previous label $y_{k-1}$.
 
 Here $y_i$ is a truth label at the $i$-th position of a text sequence, while $\hat{y}_k$ means recurrent sequence prediction at the time-step $k$.
 
@@ -465,11 +465,11 @@ Reference:
 * https://openaccess.thecvf.com/content_CVPR_2019/papers/Zhang_Sequence-To-Sequence_Domain_Adaptation_Network_for_Robust_Text_Image_Recognition_CVPR_2019_paper.pdf
 
 Let $\mathbf{s}_k$ be the hidden state of a Gated Recurrent Cell (GRU).
-Given $\mathbf{x}\_i$ as the $i$-th feature vector, the alignment attention score $\tilde{h}_{k,i}\in\mathbb{R}$ (not the LLM attention) is computed as follows:
+Given $\mathbf{x}_i$ as the $i$-th feature vector, the alignment attention score $\tilde{h}_{k,i}\in\mathbb{R}$ (not the LLM attention) is computed as follows:
 
 $$
 \begin{align*}
-    \tilde{\mathbf{h}}_{k,i} &= \tanh(W_c [\mathbf{s}_{k-1}; \mathbf{x}\_i]) \\\\
+    \tilde{\mathbf{h}}_{k,i} &= \tanh(W_c [\mathbf{s}_{k-1}; \mathbf{x}_i]) \\\\
     \tilde{h}_{k,i} &= W_h \tilde{\mathbf{h}}_{k,i}
 \end{align*}
 $$
@@ -492,7 +492,7 @@ $$
 Context vector $\mathbf{c}_k$ is alignment attention weighted vector
 
 $$
-\mathbf{c}_k=\sum^T_{i=1} a_{k,i}\mathbf{x}\_i
+\mathbf{c}_k=\sum^T_{i=1} a_{k,i}\mathbf{x}_i
 $$
 
 The $\mathbf{c}_k$ is also termed *Glimpse vector* in computer vision that it learns to focus on specific parts of an input, often by "gathering glimpses" from different regions of an image or sequence.
@@ -545,10 +545,10 @@ where
 Given the feature map $\mathbf{x}^{1:T}$ from ResNet CNN, the adjacency matrix is learned by computing pairwise similarity between every two sequence slices:
 
 $$
-A_S(i,j)=\frac{\mathbf{c}\_i \cdot \mathbf{c}_j}{||\mathbf{c}\_i|| \space || \mathbf{c}_j ||}
+A_S(i,j)=\frac{\mathbf{c}_i \cdot \mathbf{c}_j}{||\mathbf{c}_i|| \space || \mathbf{c}_j ||}
 $$
 
-where $\mathbf{c}\_i$ is a linear transformation result of $\mathbf{x}\_i$.
+where $\mathbf{c}_i$ is a linear transformation result of $\mathbf{x}_i$.
 
 In addition, a distance matrix is also used to constrain the similarity to focus on neighboring features.
 
@@ -564,7 +564,7 @@ $$
 \hat{\mathbf{x}}^{1:T}=(A_S * A_D) \mathbf{x}^{1:T} W_g
 $$
 
-The convolution gives that for a feature vector $\mathbf{x}\_i$, $A_{S,ij} * A_{D,ij}$ is large when the another feature vector $\mathbf{x}_j$ is both spatially-adjacent and embedding-similar.
+The convolution gives that for a feature vector $\mathbf{x}_i$, $A_{S,ij} * A_{D,ij}$ is large when the another feature vector $\mathbf{x}_j$ is both spatially-adjacent and embedding-similar.
 
 The $\hat{\mathbf{x}}^{1:T}$ is then passed to the BiLSTM for sequence modelling.
 

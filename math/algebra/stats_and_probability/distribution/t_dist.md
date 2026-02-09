@@ -12,7 +12,7 @@ In particular for $v\in\mathbb{Z}^{+}$, there is $\Gamma(v)=(v-1)!$.
 Assume samples drawn from a normal population $X_1,X_2, ..., X_n \sim \mathcal{N}(\mu, \sigma^2)$,
 
 * Sample Mean: $\overline{X}\sim \mathcal{N}(\mu, \frac{\sigma^2}{n})$
-* Sample Variance: $s^2=\frac{1}{n-1}\sum^n\_{i=1}(X_i-\overline{X})^2$
+* Sample Variance: $s^2=\frac{1}{n-1}\sum^n_{i=1}(X_i-\overline{X})^2$
 * Standard normal distribution: $Z=\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\sim\mathcal{N}(0,1)$
 * Chi-squared distribution: $V=\frac{(n-1)s^2}{\sigma^2}\sim\mathcal{X}^2(v),\qquad v=n-1$
 

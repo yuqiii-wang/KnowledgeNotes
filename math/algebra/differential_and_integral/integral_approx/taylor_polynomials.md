@@ -4,7 +4,7 @@ Define $n$-th order Taylor polynomial $T_n$ of $f(x) \in \mathbb{R}^n$ at a poin
 
 $$
 T_n(f)(x)=
-\sum^n\_{k=1} \frac{f^{(k)}(c)}{k!} (x-c)^k
+\sum^n_{k=1} \frac{f^{(k)}(c)}{k!} (x-c)^k
 $$
 
 When $x$ is very near to $c$, there is $T_n(f)(x) \approx f(x)$.

@@ -66,7 +66,7 @@ $$
 Define follows for $i\ne j$
 
 $$
-A^{\top}A\mathbf{v}\_i=\sigma_i^2\mathbf{v}\_i \qquad
+A^{\top}A\mathbf{v}_i=\sigma_i^2\mathbf{v}_i \qquad
 A^{\top}A\mathbf{v}_j=\sigma_j^2\mathbf{v}_j
 $$
 
@@ -74,16 +74,16 @@ then multiply by $\mathbf{v}_j^{\top}$, there is
 
 $$
 \begin{align*}
-    && \mathbf{v}_j^{\top}A^{\top}A\mathbf{v}\_i &=
-  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \\\\
-  \Rightarrow && (A^{\top}A\mathbf{v}_j)^{\top}\mathbf{v}\_i &=
-  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\\\
-  \Rightarrow && \sigma_j^2\mathbf{v}_j^{\top}\mathbf{v}\_i &=
-  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}\_i \\\\
+    && \mathbf{v}_j^{\top}A^{\top}A\mathbf{v}_i &=
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}_i \\\\
+  \Rightarrow && (A^{\top}A\mathbf{v}_j)^{\top}\mathbf{v}_i &=
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\\\
+  \Rightarrow && \sigma_j^2\mathbf{v}_j^{\top}\mathbf{v}_i &=
+  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}_i \\\\
 \end{align*}
 $$
 
-For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\mathbf{v}_j^{\top}\mathbf{v}\_i=0$, hence orthogonal.
+For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\mathbf{v}_j^{\top}\mathbf{v}_i=0$, hence orthogonal.
 
 For $\{\mathbf{v}_1, \mathbf{v}_2, ..., \mathbf{v}_n\}$ are defined as eigenvectors of $A$ such that $V=\begin{bmatrix} \vdots & & \vdots \\\\ \mathbf{v}_1 & ... & \mathbf{v}_n \\\\ \vdots & & \vdots \end{bmatrix}$, $V$ is orthogonal.
 
@@ -113,11 +113,11 @@ This is for that
 
 * During reflection/rotation, the linear space angle is preserved.
 
-Given two input vectors $\mathbf{x}\_i$ and $\mathbf{x}_j$, the angle between them satisfies $\cos(\theta)=\frac{\mathbf{x}\_i^{\top}\mathbf{x}_j}{||\mathbf{x}\_i||\space||\mathbf{x}\_i||}$. Apply the orthonormal matrix $V$, there is
+Given two input vectors $\mathbf{x}_i$ and $\mathbf{x}_j$, the angle between them satisfies $\cos(\theta)=\frac{\mathbf{x}_i^{\top}\mathbf{x}_j}{||\mathbf{x}_i||\space||\mathbf{x}_i||}$. Apply the orthonormal matrix $V$, there is
 
 $$
-\cos(\theta')=\frac{(V\mathbf{x}\_i)^{\top}V\mathbf{x}_j}{||V\mathbf{x}\_i||\space||V\mathbf{x}\_i||}=
-\frac{\mathbf{x}\_i^{\top}\mathbf{x}_j}{||\mathbf{x}\_i||\space||\mathbf{x}\_i||}=
+\cos(\theta')=\frac{(V\mathbf{x}_i)^{\top}V\mathbf{x}_j}{||V\mathbf{x}_i||\space||V\mathbf{x}_i||}=
+\frac{\mathbf{x}_i^{\top}\mathbf{x}_j}{||\mathbf{x}_i||\space||\mathbf{x}_i||}=
 \cos(\theta)
 $$
 
@@ -131,7 +131,7 @@ $\Sigma$ is a diagonal matrix, hence its non-zero entries act as pure scaling.
 
 #### SVD Explanation by Geometry
 
-Let $\mathbf{x}\_i=[3, 3]$ and $\mathbf{x}\_i=[3, 1]$ that are transformed by $A=\begin{bmatrix} -1 & 1 \\\\ 0 & 1 \end{bmatrix}$.
+Let $\mathbf{x}_i=[3, 3]$ and $\mathbf{x}_i=[3, 1]$ that are transformed by $A=\begin{bmatrix} -1 & 1 \\\\ 0 & 1 \end{bmatrix}$.
 Below process shows how $A\mathbf{x}=U \Sigma V^{\top}\mathbf{x}$ is computed.
 
 * For $\text{det}(V)=-1$, the $V^{\top}\mathbf{x}$ is a reflection operation.
@@ -192,7 +192,7 @@ $$
 \end{bmatrix}
 \mathbf{y} - \mathbf{z}
 \Bigg|\Bigg|^2\\\\ =&
-\sum^{n}_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2
+\sum^{n}_{i=1} \big( \sigma_i {y}_i - \mathbf{u}^{\top}_i \mathbf{b} \big)^2+\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}_i \mathbf{b} \big)^2
 \end{align*}
 $$
 
@@ -202,7 +202,7 @@ $$
 y_i=
 \left\{
     \begin{array}{cc}
-        \frac{\mathbf{u}^{\top}\_i \mathbf{b}}{\sigma_i} &\quad \sigma_i \ne 0 \text{ same as } i \le n
+        \frac{\mathbf{u}^{\top}_i \mathbf{b}}{\sigma_i} &\quad \sigma_i \ne 0 \text{ same as } i \le n
         \\\\
         \text{any value} &\quad \sigma_i = 0 \text{ same as } i > n
     \end{array}
@@ -211,14 +211,14 @@ $$
 
 Then, it is easy to find $\mathbf{x}$ by $\mathbf{x} = V\mathbf{y}$.
 
-The residual is $\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$.
+The residual is $\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}_i \mathbf{b} \big)^2$.
 
 ### Proof of SVD as Solution for Least Squares Problem
 
-In the above obtained $||A \mathbf{x} - \mathbf{b}||^2=\sum^{n}_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$,
-the second residual term $\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$ does not depend on $\mathbf{y}$, so it is simply the irreducible residual.
+In the above obtained $||A \mathbf{x} - \mathbf{b}||^2=\sum^{n}_{i=1} \big( \sigma_i {y}_i - \mathbf{u}^{\top}_i \mathbf{b} \big)^2+\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}_i \mathbf{b} \big)^2$,
+the second residual term $\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}_i \mathbf{b} \big)^2$ does not depend on $\mathbf{y}$, so it is simply the irreducible residual.
 
-The first sum reaches its minimum $0=\sum^{n}_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$ with $y_i=\frac{\mathbf{u}^{\top}\_i \mathbf{b}}{\sigma_i}$.
+The first sum reaches its minimum $0=\sum^{n}_{i=1} \big( \sigma_i {y}_i - \mathbf{u}^{\top}_i \mathbf{b} \big)^2$ with $y_i=\frac{\mathbf{u}^{\top}_i \mathbf{b}}{\sigma_i}$.
 
 ## SVD vs Eigen Decomposition
 

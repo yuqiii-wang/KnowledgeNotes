@@ -2362,7 +2362,7 @@ The residual of the least squared problem to find the optimal $\mathbf{t}^*$ is 
 
 $$
 \begin{align*}
-\mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}\_i &= 
+\mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}_i &= 
 \mathbf{r}_{r,i} - \hat{\mathbf{r}}_{r,i} 
 \\\\ &= 
 \mathbf{r}_{r,i} - s R( \mathbf{r}_{l,i}) - \mathbf{t}    
@@ -2396,7 +2396,7 @@ $$
 Rewrite the residual,
 
 $$
-\mathbf{e}\_i = \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}'
+\mathbf{e}_i = \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}'
 $$
 
 where
@@ -2409,7 +2409,7 @@ So that the least squared problem becomes finding the optimal $\mathbf{t}'$
 
 $$
 \begin{align*}
-\min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &= 
+\min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 &= 
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}' \big|\big|^2
 \\\\ &=
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2 - nd{align*}
@@ -2418,7 +2418,7 @@ $$
 The sum in the middle of this expression is zero since the measurements are referred to the centroid. 
 
 The first term does not depend on $\mathbf{t}'$, and the last term cannot be negative. 
-So that $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2$ reaches its minimum when $\mathbf{t}'=\mathbf{0}$.
+So that $\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2$ reaches its minimum when $\mathbf{t}'=\mathbf{0}$.
 
 Rewrite $\mathbf{t}' = \mathbf{0} = \mathbf{t} - \overline{\mathbf{r}}_r + sR(\overline{\mathbf{r}}_l)$, so that the optimal translation $\mathbf{t}^*$ in $Sim(3)$ is just the difference between $\overline{\mathbf{r}}_r$ and scaled rotation $sR(\overline{\mathbf{r}}_l)$.
 In other words, if $sR(\overline{\mathbf{r}}_l)$ is known, the $\mathbf{t}^*$ can easily computed.
@@ -2430,7 +2430,7 @@ $$
 Having said $\mathbf{t}' = \mathbf{0}$, the error can be expressed as
 
 $$
-\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 =
+\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 =
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2
 $$
 
@@ -2441,7 +2441,7 @@ Expand the error term
 $$
 \begin{align*}
 &&
-\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
+\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 &=
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2
 \\\\ && &=
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' \big|\big|^2 
@@ -2483,7 +2483,7 @@ In other words, the inverse transform error $\mathbf{e}_{i, r \rightarrow l}$ wo
 Unless the left-to-right transform has much more precision than the right-to-left's that $\mathbf{e}_{i, l \rightarrow r}=\mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}')$ becomes accurate, otherwise, to formulate the error with respect to the scale $s$, it is better use the below symmetrical error that balances between the left-to-right and right-to-left transforms:
 
 $$
-\mathbf{e}\_i = 
+\mathbf{e}_i = 
 \frac{1}{\sqrt{s}}\mathbf{r}'_{r,i} - \sqrt{s} R (\mathbf{r}_{l,i})
 $$
 
@@ -2491,7 +2491,7 @@ The least squared problem becomes
 
 $$
 \begin{align*}
-\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
+\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
 \\\\ &= 
 \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}+2(S_l S_r -D)
@@ -2509,7 +2509,7 @@ $$
 
 which has a great form where rotation $R$ is removed, that the optimal scale computation only concerns the vectors/map points ${\mathbf{r}'_{l}}$ and ${\mathbf{r}'_{r}}$ in the left and right coordinate systems.
 
-The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)$ grows to maximum.
+The error $\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)$ grows to maximum.
 
 
 * **Find the optimal rotation $R^*$**
@@ -2542,7 +2542,7 @@ $$
 where, for example, $S_{xx}=\sum_{i=1}^{n} x'_{l,i} x'_{r,i}, S_{xy}=\sum_{i=1}^{n} x'_{l,i} y'_{r,i}$.
 
 Recall that $D=\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)$  needs to grow to maximum for 
-$\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaching its minimum.
+$\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaching its minimum.
 Rewrite $D$'s elements to that $\Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' \mathring{\mathbf{q}}^{\dagger} \Big) \cdot \mathring{\mathbf{r}}_{r,i}' =\Big( \mathring{\mathbf{q}}\mathbf{r}_{l,i}' \Big) \cdot \Big(  \mathring{\mathbf{r}}_{r,i}' \mathring{\mathbf{q}} \Big)$.
 
 Take $\mathbf{r}_{l,i}' \rightarrow \mathring{\mathbf{r'}}_{l,i}$, then by quaternion multiplication, there is
@@ -3692,7 +3692,7 @@ void Optimizer::GlobalBundleAdjustemnt(Map* pMap, int nIterations, bool* pbStopF
 ```
 
 From keyframes `vpKFs` extract poses $\mathbf{\xi}_j$ and add them to G2O optimizer `optimizer.addVertex(vSE3);`;
-from world map 3d points `vpMP` extract points $\mathbf{p}\_i$ and add them to G2O optimizer `optimizer.addVertex(vPoint);`.
+from world map 3d points `vpMP` extract points $\mathbf{p}_i$ and add them to G2O optimizer `optimizer.addVertex(vPoint);`.
 The edge/error is defined in `g2o::EdgeSE3ProjectXYZ* e` which is a binary edge linking a keyframe camera pose `vSE3->setId(pKF->mnId);` and a map point `const int id = pMP->mnId+maxKFid+1; vPoint->setId(id);`.
 Only keyframes' observed map points are added (map points are extracted from `const map<KeyFrame*,size_t> observations = pMP->GetObservations();` that maps between keyframes and observed map points).
 
@@ -3704,14 +3704,14 @@ In short, bundle adjustment only adjusts camera poses and the map points are com
 $$
 \mathbf{x}=\big[
     \underbrace{[\mathbf{R}|\mathbf{t}]_1, [\mathbf{R}|\mathbf{t}]_2, ..., [\mathbf{R}|\mathbf{t}]_n, }_{\text{camera transform }\mathbf{\xi}_{j}}
-    \underbrace{\mathbf{p}_{1}, \mathbf{p}_{2}, ..., \mathbf{p}_{m} }_{\text{map point }\mathbf{p}\_i}
+    \underbrace{\mathbf{p}_{1}, \mathbf{p}_{2}, ..., \mathbf{p}_{m} }_{\text{map point }\mathbf{p}_i}
 \big]
 $$
 
 An error/edge can be defined as below, where $\mathbf{z}_{ij}$ is the observation (image pixel/feature point) and $\pi$ is the projection mapping that transform the world points to the corresponding camera image pixel coordinates.
 
 $$
-\mathbf{e}_{ij} = \mathbf{z}_{ij} - \pi(\mathbf{\xi}_j \mathbf{p}\_i)
+\mathbf{e}_{ij} = \mathbf{z}_{ij} - \pi(\mathbf{\xi}_j \mathbf{p}_i)
 $$
 
 The total error $\mathbf{e}$ to be minimized can be approximated by first-order derivative.
@@ -3722,9 +3722,9 @@ $$
     \mathbf{e}(\mathbf{x}+\Delta\mathbf{x})
 \big|\big|^2
 &\approx
-\frac{1}{2} \sum^n\_{i=1} \sum^m_{j=1} 
+\frac{1}{2} \sum^n_{i=1} \sum^m_{j=1} 
 \big|\big|
-    \mathbf{e}_{ij} + \mathbf{F}_{ij}\Delta\mathbf{\xi}\_i + \mathbf{E}_{ij} \Delta \mathbf{p}_j
+    \mathbf{e}_{ij} + \mathbf{F}_{ij}\Delta\mathbf{\xi}_i + \mathbf{E}_{ij} \Delta \mathbf{p}_j
 \big|\big|
 \\\\ &\approx
 \frac{1}{2} \big|\big|
@@ -3749,7 +3749,7 @@ $$
 \end{bmatrix}
 \qquad \text{rewrite variable notation }\mathbf{E}:=\mathbf{F}^\text{T} \mathbf{E}
 \\\\ &=
-\sum^n\_{i=1} \sum^m_{j=1} 
+\sum^n_{i=1} \sum^m_{j=1} 
 \mathbf{J}^\text{T}_{ij} \mathbf{J}_{ij}
 \end{align*}
 $$
@@ -4000,7 +4000,8 @@ $$
 \end{align*}
 $$
 
-where 
+where
+
 $$
 \begin{align*}
 \mathbf{p}^{\wedge}&=
@@ -4114,7 +4115,7 @@ void EdgeSE3ProjectXYZ::linearizeOplus() {
 
 After setting a map point pose `pMP->SetWorldPos(...)`, should then update the normal and depth of the map point.
 
-The normal vector is the mean vector of one map point's all observations by different keyframes aligned to individual keyframe's camera pose, that is $\mathbf{n}=\frac{1}{n} \sum^n_i \frac{\mathbf{n}\_i}{\big|\mathbf{n}\_i\big|}$, where $\mathbf{n}\_i$ is computed by `cv::Mat normali = mWorldPos - Owi;`.
+The normal vector is the mean vector of one map point's all observations by different keyframes aligned to individual keyframe's camera pose, that is $\mathbf{n}=\frac{1}{n} \sum^n_i \frac{\mathbf{n}_i}{\big|\mathbf{n}_i\big|}$, where $\mathbf{n}_i$ is computed by `cv::Mat normali = mWorldPos - Owi;`.
 
 For map point depth, compute by `cv::Mat PC = Pos - pRefKF->GetCameraCenter();` then taking the length by `const float dist = cv::norm(PC);`.
 The depth's max and min estimate is scaled by keyframe's scale factor.

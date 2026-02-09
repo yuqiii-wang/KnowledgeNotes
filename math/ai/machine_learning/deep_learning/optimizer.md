@@ -170,7 +170,7 @@ E[g_n] (1-\beta_1^n) + \xi
 \end{align*}
 $$
 
-where $(1)$ is derived by taking out $E[g_n]$ from the summation and the remaining term is $\xi$, which represents the difference between sum of $\beta_1^{n-i} g_i$ and that of just applying $E[g_n]\beta_1^{n-i}$. $(2)$ is just the result of finite geometric sequence sum $\sum^n\_{i=1}r^i = \frac{a_1(1-r^n)}{1-r}$ for $r \ne 1$.
+where $(1)$ is derived by taking out $E[g_n]$ from the summation and the remaining term is $\xi$, which represents the difference between sum of $\beta_1^{n-i} g_i$ and that of just applying $E[g_n]\beta_1^{n-i}$. $(2)$ is just the result of finite geometric sequence sum $\sum^n_{i=1}r^i = \frac{a_1(1-r^n)}{1-r}$ for $r \ne 1$.
 
 As a result, bias correction is done by cancelling the term $1-\beta_1^n$ with $\hat{m}_{n} = \frac{m_{n}}{1-\beta_1^n}$.
 

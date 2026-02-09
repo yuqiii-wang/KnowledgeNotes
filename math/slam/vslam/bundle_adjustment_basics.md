@@ -72,9 +72,9 @@ Rewrite indices that $i$ represents the $i$-th camera and $j$ represents the $j$
 Here, landmark $\mathbf{p}_j$ does not discriminate between landmark estimations at different camera $i$. In other words, $\mathbf{p} \in \mathbb{R}^{m \times 3}$.
 
 $$
-\frac{1}{2} \sum^m_{i=1} \sum^n\_{j=1} 
+\frac{1}{2} \sum^m_{i=1} \sum^n_{j=1} 
 \big|\big| \mathbf{e}_{ij} \big|\big|^2=
-\frac{1}{2} \sum^m_{i=1} \sum^n\_{j=1} 
+\frac{1}{2} \sum^m_{i=1} \sum^n_{j=1} 
 \big|\big| 
     \mathbf{z}_{ij} -
     h([\mathbf{R}|\mathbf{t}]_i, \mathbf{p}_{j})
@@ -85,7 +85,8 @@ Solving this least-squares is equivalent to adjusting the pose and road signs/la
 
 ## Solving Bundle Adjustment
 
-Let $\mathbf{x}$ represent the whole optimization set such as 
+Let $\mathbf{x}$ represent the whole optimization set such as
+
 $$
 \mathbf{x}=\big[
     [\mathbf{R}|\mathbf{t}]_1, [\mathbf{R}|\mathbf{t}]_2, ..., [\mathbf{R}|\mathbf{t}]_n, 
@@ -100,25 +101,25 @@ $$
     \mathbf{e}(\mathbf{x}+\Delta\mathbf{x})
 \big|\big|^2
 \approx
-\frac{1}{2} \sum^n\_{i=1} \sum^m_{j=1} 
+\frac{1}{2} \sum^n_{i=1} \sum^m_{j=1} 
 \big|\big|
-    \mathbf{e}_{ij} + \mathbf{F}_{ij}\Delta\mathbf{\xi}\_i + \mathbf{E}_{ij} \Delta \mathbf{p}_j
+    \mathbf{e}_{ij} + \mathbf{F}_{ij}\Delta\mathbf{\xi}_i + \mathbf{E}_{ij} \Delta \mathbf{p}_j
 \big|\big|
 $$
 
 where $\Delta\mathbf{x}$ is the correction increment that iteratively sets $\mathbf{e}$ to minimum. 
 $\mathbf{F}_{ij}$ is the partial derivative of the entire cost function to the $i$-th pose, and $\mathbf{E}_{ij}$ is the partial derivative of the function to the $j$-th landmark.
-$\mathbf{\xi}\_i$ denotes $[\mathbf{R}|\mathbf{t}]_i$.
+$\mathbf{\xi}_i$ denotes $[\mathbf{R}|\mathbf{t}]_i$.
 
-Collectively, represent poses and landmarks as $\mathbf{x}\_\mathbf{\xi}$ and $\mathbf{x}\_\mathbf{p}$
+Collectively, represent poses and landmarks as $\mathbf{x}_\mathbf{\xi}$ and $\mathbf{x}_\mathbf{p}$
 
 $$
 \begin{align*}
-    \mathbf{x}\_\mathbf{\xi} &= [
+    \mathbf{x}_\mathbf{\xi} &= [
         \mathbf{\xi}_1, \mathbf{\xi}_2, ..., \mathbf{\xi}_n
     ]^\text{T}
     \\\\
-    \mathbf{x}\_\mathbf{p} &= [
+    \mathbf{x}_\mathbf{p} &= [
         \mathbf{p}_1, \mathbf{p}_2, ..., \mathbf{p}_m
     ]^\text{T}
 \end{align*}
@@ -138,7 +139,8 @@ $$
 
 where $\mathbf{F} \in \mathbb{R}^{2 \times 6 \times (n \times m) \times n}$ and $\mathbf{E} \in \mathbb{R}^{2 \times 3 \times (n \times m) \times m}$ are sparse Jacobian matrices with many non-zero elements crowded along the diagonal line. $2$ represents derivatives with respect to $x$- and $y$- axis.
 
-To employ Gauss-Newton method, this term $(\mathbf{J}^\text{T} \mathbf{J})^{-1} \mathbf{J}^\text{T}$ needs to be computed. here define 
+To employ Gauss-Newton method, this term $(\mathbf{J}^\text{T} \mathbf{J})^{-1} \mathbf{J}^\text{T}$ needs to be computed. here define
+
 $$
 \begin{align*}
  \mathbf{J} &=
@@ -349,7 +351,7 @@ $$
     \mathbf{E}^\text{T} \mathbf{F} & \mathbf{E}^\text{T} \mathbf{E} \\\\
 \end{bmatrix}
 \\\\ &=
-\sum^n\_{i=1} \sum^m_{j=1} 
+\sum^n_{i=1} \sum^m_{j=1} 
 \mathbf{J}^\text{T}_{ij} \mathbf{J}_{ij}
 \end{align*}
 $$
@@ -469,7 +471,7 @@ This is attributed to optimization attempting to reduce overall $||\mathbf{e}||^
 Solution to address this issue is by employing a robust kernel error, such as Huber loss, that constraints $\mathcal{L}_2$-norm error when error is small $|e|\le \delta$, and linear otherwise.
 
 $$
-L\_{\delta}(e)=
+L_{\delta}(e)=
 \left\{
     \begin{array}{c}
         \frac{1}{2}e^2 &\quad \text{for} |e|\le \delta

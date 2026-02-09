@@ -102,15 +102,15 @@ To achieve this shared understanding, CLIP employs a dual-encoder architecture:
 
 For training:
 
-define a batch of $N$ image-text pairs, let $\mathbf{v}\_i$ be the embedding for the $i$-th image and $\mathbf{u}\_i$ be the embedding for its corresponding text description. The loss function is defined as:
+define a batch of $N$ image-text pairs, let $\mathbf{v}_i$ be the embedding for the $i$-th image and $\mathbf{u}_i$ be the embedding for its corresponding text description. The loss function is defined as:
 
 $$
-L = - \frac{1}{N} \sum_{i=1}^{N} \left[ \log\frac{\exp(\mathbf{v}\_i \cdot \mathbf{u}\_i / \tau)}{\sum_{j=1}^{N} \exp(\mathbf{v}\_i \cdot \mathbf{w}_j / \tau)} \right] - \frac{1}{N} \sum_{i=1}^{N} \left[ \log\frac{\exp(\mathbf{v}\_i \cdot \mathbf{u}\_i / \tau)}{\sum_{j=1}^{N} \exp(\mathbf{v}_j \cdot \mathbf{u}\_i / \tau)} \right]
+L = - \frac{1}{N} \sum_{i=1}^{N} \left[ \log\frac{\exp(\mathbf{v}_i \cdot \mathbf{u}_i / \tau)}{\sum_{j=1}^{N} \exp(\mathbf{v}_i \cdot \mathbf{w}_j / \tau)} \right] - \frac{1}{N} \sum_{i=1}^{N} \left[ \log\frac{\exp(\mathbf{v}_i \cdot \mathbf{u}_i / \tau)}{\sum_{j=1}^{N} \exp(\mathbf{v}_j \cdot \mathbf{u}_i / \tau)} \right]
 $$
 
 where
 
-* $\mathbf{v}\_i \cdot \mathbf{u}\_i$ is the dot product between the embedding of the i-th image and the j-th text description, representing their cosine similarity.
+* $\mathbf{v}_i \cdot \mathbf{u}_i$ is the dot product between the embedding of the i-th image and the j-th text description, representing their cosine similarity.
 * $\tau$ is a learnable temperature parameter that scales the similarity scores.
 
 ### Cross-Attention Module Insertion

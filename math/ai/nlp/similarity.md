@@ -6,10 +6,10 @@
 
 Vocab semantics can be represented by embeddings derived by training language model.
 
-*Cosine similarity* between two vector $\mathbf{v}\_i, \mathbf{v}_j$ is define as
+*Cosine similarity* between two vector $\mathbf{v}_i, \mathbf{v}_j$ is define as
 
 $$
-\text{similarity}_{\cos}(\mathbf{v}\_i, \mathbf{v}_j) = \cos(\theta) = \frac{\mathbf{v}\_i \cdot \mathbf{v}_j}{||\mathbf{v}\_i || \space || \mathbf{v}_j ||}
+\text{similarity}_{\cos}(\mathbf{v}_i, \mathbf{v}_j) = \cos(\theta) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j}{||\mathbf{v}_i || \space || \mathbf{v}_j ||}
 $$
 
 There is $\cos(\theta) \in [-1, 1]$, where $-1$ means being exactly opposite, $-1$ means being exactly the same, $0$ means orthogonality (being totally different).
@@ -80,7 +80,7 @@ Given a query $Q$ composed of a sequence of tokens $\{q_1, q_2, ..., q_n\}$, the
 
 $$
 \text{score}(D,Q) =
-\sum^n\_{i=1} \text{IDF}(q_i)
+\sum^n_{i=1} \text{IDF}(q_i)
 \frac{(k+1) \cdot f(q_i, D)}{f(q_i, D)+k\big(1-b+\frac{|D|}{\mu(\mathbf{D})}b\big)}
 $$
 

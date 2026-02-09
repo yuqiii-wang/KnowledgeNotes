@@ -38,7 +38,7 @@ NTK major conclusions are
 
 ## NTK Intuition
 
-For a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\mathbf{\theta}\in\mathbb{R}^d$ given input $\{\mathbf{x}\_i\}_{i=1}^n$,
+For a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\mathbf{\theta}\in\mathbb{R}^d$ given input $\{\mathbf{x}_i\}_{i=1}^n$,
 at any iteration, $f_{\mathbf{\theta}_t}(\mathbf{x})$ can be modeled as
 
 $$
@@ -90,7 +90,7 @@ However, if set Gaussian distribution initialization by $\mathbf{\theta}_0\sim\m
 Abstract: the eigenvalues of the NTK matrix determine the effectiveness of the learning rate setup.
 By studying the max eigenvalue $\lambda_{\max}$ of the NTK matrix, the convergence behavior can be determined.
 
-Consider a simple network: $f(\mathbf{x})=\frac{1}{\sqrt{d}} \mathbf{w}\_i^{\top} \mathbf{w}_j \mathbf{x}$ (a very wide network is essentially a linear model, hence this simple network is representative of a typical neural network).
+Consider a simple network: $f(\mathbf{x})=\frac{1}{\sqrt{d}} \mathbf{w}_i^{\top} \mathbf{w}_j \mathbf{x}$ (a very wide network is essentially a linear model, hence this simple network is representative of a typical neural network).
 
 For the parameter initialization follow Gaussian distribution $\mathbf{\theta}_0\sim\mathcal{N}(0, \frac{1}{\sqrt{d}})$, to simplify the network, to a $1$-d linear model $f(x)=\frac{1}{\sqrt{d}} w_i^{\top} w_j x$, there should be $w_i, w_j \sim\mathcal{N}(0, 1)$.
 Here sets $w_i=w_j=w$ for simplicity.
@@ -187,10 +187,10 @@ To prove the NTK theorem, the steps are
 
 Here shows how NTK is derived.
 
-Consider a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\mathbf{\theta}\in\mathbb{R}^d$ trained on a dataset $\mathcal{D}=\{(\mathbf{x}\_i, y_i)\}_{i=1}^n$ with mean squared error (MSE) loss:
+Consider a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\mathbf{\theta}\in\mathbb{R}^d$ trained on a dataset $\mathcal{D}=\{(\mathbf{x}_i, y_i)\}_{i=1}^n$ with mean squared error (MSE) loss:
 
 $$
-\mathcal{L}(\mathbf{\theta}) = \frac{1}{n} \sum_{i=1}^n \frac{1}{2}\big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)^2
+\mathcal{L}(\mathbf{\theta}) = \frac{1}{n} \sum_{i=1}^n \frac{1}{2}\big(y_i - f_{\mathbf{\theta}}(\mathbf{x}_i)\big)^2
 $$
 
 At an arbitrary step of training, define the change rate of the parameter $\mathbf{\theta}$ as
@@ -207,14 +207,14 @@ $$
     \frac{d f_{\mathbf{\theta}}(\mathbf{x})}{dt} &=
     \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \frac{d\mathbf{\theta}}{dt} \\\\
     &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\mathcal{L}(\mathbf{\theta}) \\\\
-    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)^2\Big) && \text{Expand and compute the gradient} \\\\
-    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)\Big) \\\\
-    &= - \frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big) \underbrace{\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)}_{\text{NTK }\kappa(\mathbf{x}, \mathbf{x}')} && \text{Defined } \kappa(\mathbf{x}, \mathbf{x}') \\\\
+    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}_i)\big)^2\Big) && \text{Expand and compute the gradient} \\\\
+    &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}_i)\big)\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}_i)\big)\Big) \\\\
+    &= - \frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}_i)\big) \underbrace{\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}_i)\big)}_{\text{NTK }\kappa(\mathbf{x}, \mathbf{x}')} && \text{Defined } \kappa(\mathbf{x}, \mathbf{x}') \\\\
 \end{align*}
 $$
 
-Inside $\kappa(\mathbf{x}, \mathbf{x}\_i)$, the $\mathbf{x}$ is a continuous input derived from $\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})$, the $\mathbf{x}\_i$ is a training point.
-In computation, $\mathbf{x}\_i$ is often denoted as $\mathbf{x}'$ to refer any arbitrary sample point.
+Inside $\kappa(\mathbf{x}, \mathbf{x}_i)$, the $\mathbf{x}$ is a continuous input derived from $\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})$, the $\mathbf{x}_i$ is a training point.
+In computation, $\mathbf{x}_i$ is often denoted as $\mathbf{x}'$ to refer any arbitrary sample point.
 So is $\mathbf{x}$ that $\mathbf{x}, \mathbf{x}'\in X$ can take any actual value from the input space, even let $\mathbf{x}=\mathbf{x}'$ be equal in computation.
 
 $\kappa(\mathbf{x}, \mathbf{x}')$ can be thought of as the covariance of the gradient of the network output with respect to the weights.
@@ -241,7 +241,7 @@ The first layer has with $d_1$ neurons has NTK
 
 $$
 \begin{align*}
-    \kappa^{(1)}(\mathbf{x}, \mathbf{x}') &= \frac{1}{d_1}\sum^{d_1}_{i=1}\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}, \mathbf{\theta})}{\partial{\theta}\_i}\cdot\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}', \mathbf{\theta})}{\partial{\theta}\_i} \\\\
+    \kappa^{(1)}(\mathbf{x}, \mathbf{x}') &= \frac{1}{d_1}\sum^{d_1}_{i=1}\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}, \mathbf{\theta})}{\partial{\theta}_i}\cdot\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}', \mathbf{\theta})}{\partial{\theta}_i} \\\\
     &= E\big(\big(\nabla_{\mathbf{\theta}}f^{(1)}_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f^{(1)}_{\mathbf{\theta}}(\mathbf{x}')\big)\big)
 \end{align*}
 $$

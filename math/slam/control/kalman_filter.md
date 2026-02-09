@@ -166,13 +166,13 @@ there is
 
 $$
 \begin{align*}
-\sum^n\_{k=0}
+\sum^n_{k=0}
 ||\mathbf{x}_k-\mathbf{\hat{x}}_{k|k}||^2&=
-\sum^n\_{k=0}
+\sum^n_{k=0}
 (\mathbf{x}_k-\mathbf{\hat{x}}_{k|k})^\text{T}
 (\mathbf{x}_k-\mathbf{\hat{x}}_{k|k})
 \\\\ &=
-\sum^n\_{k=0}
+\sum^n_{k=0}
 \bigg(
 \begin{bmatrix}
 x_{k,1} \\\\
@@ -212,12 +212,13 @@ $$
 E \big(
     ||\mathbf{x}_k-\mathbf{\hat{x}}_{k|k}||^2
     \big)=
-\frac{\sum^n\_{k=0}
+\frac{\sum^n_{k=0}
 ||\mathbf{x}_k-\mathbf{\hat{x}}_{k|k}||^2}
 {n}
 $$
 
-$cov(\mathbf{x}_k - \mathbf{\hat{x}}_{k|k})$ (the formal writing should be $cov(\mathbf{x}_k - \mathbf{\hat{x}}_{k|k}, \mathbf{x}_k - \mathbf{\hat{x}}_{k|k})$, here is a shorthand note) describes a covariance of a vector $\mathbf{x}_k - \mathbf{\hat{x}}_{k|k}$ with the vector itself, so that 
+$cov(\mathbf{x}_k - \mathbf{\hat{x}}_{k|k})$ (the formal writing should be $cov(\mathbf{x}_k - \mathbf{\hat{x}}_{k|k}, \mathbf{x}_k - \mathbf{\hat{x}}_{k|k})$, here is a shorthand note) describes a covariance of a vector $\mathbf{x}_k - \mathbf{\hat{x}}_{k|k}$ with the vector itself, so that
+
 $$
 cov(\mathbf{x}_k - \mathbf{\hat{x}}_{k|k},)=
 \begin{bmatrix}
@@ -369,7 +370,8 @@ $$
 Since $\mathbf{B}\mathbf{B}^\text{T}$ is not full ranked ($R_1 = [\frac{1}{4}\Delta t^4, \frac{1}{2}\Delta t^3] = \frac{1}{2}\Delta t^3 R_2$) hence 
 $\mathbf{w}_k \sim \mathbf{B} \cdot N(0, \mathbf{Q}) \sigma_{a_k}^2 \sim \mathbf{B} \cdot N (0, \sigma_{a_k}^2)$
 
-Here defines observation 
+Here defines observation
+
 $$
 \mathbf{z}_k = \mathbf{H} \mathbf{x}_k + \mathbf{v}_k
 $$

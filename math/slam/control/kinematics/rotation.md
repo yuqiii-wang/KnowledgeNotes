@@ -374,7 +374,8 @@ S([1\quad 0\quad 0]) &= \begin{bmatrix}
 $$
 
 In conclusion, the derivative of a rotation matrix with respects to the $x$-th, $y$-th and $z$-th axis is some signs' changes to their respective cells, 
-such as 
+such as
+
 $$
 \begin{align*}
     \frac{d}{d\theta} R_x(\theta) &= S([1\quad 0\quad 0]) R_x(\theta) 

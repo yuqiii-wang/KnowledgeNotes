@@ -76,7 +76,8 @@ Each Lie group has a Lie algebra
 corresponding to it. Lie algebra describes the local structure of the Lie group around
 its origin point, or in other words, is the tangent space.
 
-* Closure 
+* Closure
+
 $$
 \forall X, Y \in \mathbb{V};
 [X,Y] \in \mathbb{V}

@@ -29,12 +29,12 @@ Semantically similar words should have high similarity score.
 Typically cosine similarity is used.
 
 $$
-\text{similarity}_{\cos}(\mathbf{v}\_i, \mathbf{v}_j) = \cos(\theta) = \frac{\mathbf{v}\_i \cdot \mathbf{v}_j}{||\mathbf{v}\_i || \space || \mathbf{v}_j ||}
+\text{similarity}_{\cos}(\mathbf{v}_i, \mathbf{v}_j) = \cos(\theta) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j}{||\mathbf{v}_i || \space || \mathbf{v}_j ||}
 $$
 
 * Concept Categorization
 
-Words belonged to the same concept category should be similar (measured by $\text{similarity}_{\cos}(\mathbf{v}\_i, \mathbf{v}_j)$).
+Words belonged to the same concept category should be similar (measured by $\text{similarity}_{\cos}(\mathbf{v}_i, \mathbf{v}_j)$).
 
 For example, "mountain", "river", "plain" should be more similar than "cat", "dog", "rabbit", etc.
 

@@ -10,7 +10,7 @@ Point clouds are first transformed with IMU's motion estimation before any furth
 
 Define every scan sweep as $k, k \in Z^+$.
 
-Define Lidar coordinate system in which each point $i, i \in P_k$ is part of point cloud $P_k$, $i$ in this coordinate is denoted as $\mathbf{X}^L\_{(k,i)}$
+Define Lidar coordinate system in which each point $i, i \in P_k$ is part of point cloud $P_k$, $i$ in this coordinate is denoted as $\mathbf{X}^L_{(k,i)}$
 
 Accordingly, in the world coordinate, $i$ is denoted as $\mathbf{X}^W_{(k,i)}$
 
@@ -23,9 +23,9 @@ This step is to find planes and edges of scanned obstacles.
 
 Define a term $c$ to evaluate the smoothness of local surface
 $$
-c=\frac{1}{|S|\cdot||\mathbf{X}^L\_{(k,i)}||}
+c=\frac{1}{|S|\cdot||\mathbf{X}^L_{(k,i)}||}
 \big|\big|
-\sum_{j \in S, j\ne i} (\mathbf{X}^L\_{(k,i)}-\mathbf{X}^L\_{(k,j)})
+\sum_{j \in S, j\ne i} (\mathbf{X}^L_{(k,i)}-\mathbf{X}^L_{(k,j)})
 \big|\big|
 $$
 
@@ -54,12 +54,12 @@ The distance of $i$ to its two neighbour points are computed by
 $$
 d_{i, E} = \frac
 {\big|
-    (\tilde{\mathbf{X}}^L\_{(k+1, i)} - \overline{\mathbf{X}}^L\_{(k, j)}) 
+    (\tilde{\mathbf{X}}^L_{(k+1, i)} - \overline{\mathbf{X}}^L_{(k, j)}) 
         \times
-    (\tilde{\mathbf{X}}^L\_{(k+1, i)} - \overline{\mathbf{X}}^L\_{(k, l)})
+    (\tilde{\mathbf{X}}^L_{(k+1, i)} - \overline{\mathbf{X}}^L_{(k, l)})
 \big|}
 {\big|
-    \tilde{\mathbf{X}}^L\_{(k, j)} - \overline{\mathbf{X}}^L\_{(k, l)}
+    \tilde{\mathbf{X}}^L_{(k, j)} - \overline{\mathbf{X}}^L_{(k, l)}
 \big|}
 $$
 
@@ -75,19 +75,19 @@ $$
 d_{i, H} = \frac
 {\bigg|
     \begin{array}{c}
-    (\tilde{\mathbf{X}}^L\_{(k+1, i)} - \overline{\mathbf{X}}^L\_{(k, j)}) 
+    (\tilde{\mathbf{X}}^L_{(k+1, i)} - \overline{\mathbf{X}}^L_{(k, j)}) 
     \\\\
     \big(
-        (\tilde{\mathbf{X}}^L\_{(k, j)} - \overline{\mathbf{X}}^L\_{(k, l)}) 
+        (\tilde{\mathbf{X}}^L_{(k, j)} - \overline{\mathbf{X}}^L_{(k, l)}) 
         \times
-        (\tilde{\mathbf{X}}^L\_{(k, j)} - \overline{\mathbf{X}}^L\_{(k, m)})
+        (\tilde{\mathbf{X}}^L_{(k, j)} - \overline{\mathbf{X}}^L_{(k, m)})
     \big)
     \end{array}
 \bigg|}
 {\big|
-    (\tilde{\mathbf{X}}^L\_{(k, j)} - \overline{\mathbf{X}}^L\_{(k, l)}) 
+    (\tilde{\mathbf{X}}^L_{(k, j)} - \overline{\mathbf{X}}^L_{(k, l)}) 
         \times
-        (\tilde{\mathbf{X}}^L\_{(k, j)} - \overline{\mathbf{X}}^L\_{(k, m)})
+        (\tilde{\mathbf{X}}^L_{(k, j)} - \overline{\mathbf{X}}^L_{(k, m)})
 \big|}
 $$
 
@@ -99,45 +99,46 @@ Notice here $i$ is chosen from the $k+1$ sweep's point cloud $P_{k+1}$, $t_i \in
 
 We want to do linear interpolation the pose transform within a sweep for the points that are received at different times by minimizing $d_E$ and $d_H$.
 
-Let $T^L\_{k+1} = [t_x, t_y, t_z, \theta_x, \theta_y, \theta_z]^T$ be the lidar pose transform for 3-d translation $[t_x, t_y, t_z]^T$ and rotation $[\theta_x, \theta_y, \theta_z]^T$ bewteen the time range $[t_{k+1}, t_k]$
+Let $T^L_{k+1} = [t_x, t_y, t_z, \theta_x, \theta_y, \theta_z]^T$ be the lidar pose transform for 3-d translation $[t_x, t_y, t_z]^T$ and rotation $[\theta_x, \theta_y, \theta_z]^T$ bewteen the time range $[t_{k+1}, t_k]$
 
 For a point $i, i \in P_{k+1}$ that is received by lidar sensor machine by a fixed interval between neighbour points, there exists a linear mapping relationship for this point $i, i \in P_{k+1}$:
 
 $$
-T^L\_{(k+1, i)}=
-\frac{t_i-t_{k+1}}{t-t_{k+1}}T^L\_{k+1}
+T^L_{(k+1, i)}=
+\frac{t_i-t_{k+1}}{t-t_{k+1}}T^L_{k+1}
 $$
 
 Define an objective function $\mathbf{f}$ to minimize distances
 $$
-\mathbf{f}(T^L\_{k+1})=\mathbf{d}
+\mathbf{f}(T^L_{k+1})=\mathbf{d}
 $$
 
 where each row of $\mathbf{f}$ corresponds to a feature point either $i \in H_{k+1}$ or $i \in E_{k+1}$ with respect to distance $d_i$.
 
-Jacobian $\mathbf{J}$ is computed for $\mathbf{f}$, where 
+Jacobian $\mathbf{J}$ is computed for $\mathbf{f}$, where
+
 $$
-\mathbf{J}=\frac{\partial \mathbf{f}}{\partial T^L\_{k+1}}
+\mathbf{J}=\frac{\partial \mathbf{f}}{\partial T^L_{k+1}}
 $$
 
 We want to minimize $\mathbf{d}$:
 
 $$
-arg \space \underset{T^L\_{k+1}}{min} \space \mathbf{d}
+arg \space \underset{T^L_{k+1}}{min} \space \mathbf{d}
 $$
 
 by Levenberg-Marquardt method
 
 $$
-T^L\_{k+1} \leftarrow
-T^L\_{k+1}-\big(\mathbf{J}^T \mathbf{J} + \lambda diag(\mathbf{J}^T \mathbf{J})\big)^{-1}\mathbf{J}^T \mathbf{d}
+T^L_{k+1} \leftarrow
+T^L_{k+1}-\big(\mathbf{J}^T \mathbf{J} + \lambda diag(\mathbf{J}^T \mathbf{J})\big)^{-1}\mathbf{J}^T \mathbf{d}
 $$
 
 ## Lidar Mapping
 
 Define $T^W_k$ (indicated as the blue curve) as the transformation from origin to robot's pose at the time $t_{k+1}$, $Q_k$ is the point cloud over the history path. till $t_{k+1}$.
 
-After the applied transformation $T^L\_{k+1}$, $\overline{Q}_{k+1}$ (indicated as blue lines) is the mapped point cloud.
+After the applied transformation $T^L_{k+1}$, $\overline{Q}_{k+1}$ (indicated as blue lines) is the mapped point cloud.
 
 The goal if to best fit $\overline{Q}_{k+1}$ to $Q_k$ by feature points (edge and planar points) rendering minimized distances $d_E$ and $d_H$ by optimizing $T^W_{k+1}$ with again Levenberg-Marquardt method.
 

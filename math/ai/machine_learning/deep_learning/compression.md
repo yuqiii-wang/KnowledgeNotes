@@ -81,7 +81,7 @@ Figure below shows that comprehensive pruning (width + depth) is better rather t
 The key idea is that, norm of a matrix $||W||_p$ describes the average info contained in one neuron.
 Insignificant neurons should see low activation energy (low input value), hence the weights should have small $|w_i|_p$.
 
-A small $|w_i|_p$ multiplied with input $x\_i$ gives a small value, that when passed to activation function, the activation outputs are almost certain for its input is almost always zeros.
+A small $|w_i|_p$ multiplied with input $x_i$ gives a small value, that when passed to activation function, the activation outputs are almost certain for its input is almost always zeros.
 
 For example, illustrated in the figure below, for a pruning rate of $50\%$ (remove half of parameters) and by $\mathcal{J}_1$ norm of $|W|$, the lowest $|w_i|$ are set to zeros.
 

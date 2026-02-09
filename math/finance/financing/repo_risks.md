@@ -102,7 +102,7 @@ where
 * $n$: grid point of period with $n \in \{ 0, 1, 2, 5, 7, ..., 10950 \}$
 * $r_n$ interest rate of instrument for period $n$
 
-Set $t$ as the remaining days to maturity, $t_{\text{lower}}$ and $t_{\text{upper}}$ as the lower nearest tenor and upper nearest tenor, e.g., $t=10$ sees $t_{\text{lower}}=n\_{\text{1week}}$ and $t_{\text{upper}}=n\_{\text{2week}}$.
+Set $t$ as the remaining days to maturity, $t_{\text{lower}}$ and $t_{\text{upper}}$ as the lower nearest tenor and upper nearest tenor, e.g., $t=10$ sees $t_{\text{lower}}=n_{\text{1week}}$ and $t_{\text{upper}}=n_{\text{2week}}$.
 
 Define a ratio $\gamma_{\text{lower}}$ and $\gamma_{\text{upper}}=1-\gamma_{\text{lower}}$ that splits NPV as risk to 
 

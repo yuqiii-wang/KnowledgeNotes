@@ -11,8 +11,8 @@ $$
 \prod^{n}_{i=1} \pi_i^{y_i} (1-\pi_i)^{1-y_i}
 $$
 
-Usually, likelihood is maximized at $\hat{p}=\frac{1}{n} \sum^n\_{i=1} y_i$ (just count the $y_i$ events).
-However, if it is known that the result $y_i$ is dependent on conditions/inputs, e.g., ${x}\_i \rightarrow y_i$, the likelihood $\pi_i$ can be better approached by taking consideration the conditions/inputs ${x}\_i$.
+Usually, likelihood is maximized at $\hat{p}=\frac{1}{n} \sum^n_{i=1} y_i$ (just count the $y_i$ events).
+However, if it is known that the result $y_i$ is dependent on conditions/inputs, e.g., ${x}_i \rightarrow y_i$, the likelihood $\pi_i$ can be better approached by taking consideration the conditions/inputs ${x}_i$.
 
 Now, the problem is to map real inputs to a probability such that ${x} \in \mathbb{R} \rightarrow y \in \{0, 1\} \rightarrow \pi \in [0,1]$.
 
@@ -45,7 +45,7 @@ Interestingly, $\pi'(x)$ is exactly a step of a sequence of Bernoulli trials $\p
 
 ## Function Form
 
-Suppose there are a number of input/output pairs with the mapping ${x}\_i \in \mathbb{R} \rightarrow y_i \in \{0 ,1\} \rightarrow \pi(y_i) \in [0,1]$,
+Suppose there are a number of input/output pairs with the mapping ${x}_i \in \mathbb{R} \rightarrow y_i \in \{0 ,1\} \rightarrow \pi(y_i) \in [0,1]$,
 The expression $x=\ln\frac{\pi}{1-\pi} \Rightarrow \pi(x)=\frac{e^x}{1+e^x}$ says that the probability of the event $y=1$ can be best described by the sigmoid curve.
 
 <div style="display: flex; justify-content: center;">

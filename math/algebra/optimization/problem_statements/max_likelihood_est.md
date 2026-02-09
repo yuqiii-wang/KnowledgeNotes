@@ -4,7 +4,8 @@ Maximum likelihood estimation (MLE) is a method of estimating the parameters of 
 
 We model a set of observations $\mathbf{y}=(y_1, y_2, ..., y_n)$ as a random sample from an unknown joint probability distribution which is expressed in terms of a set of parameters $\theta=[\theta_1, \theta_2, ..., \theta_k]^T$. Thsi distribution falls within a parameteric family $f(\space \cdot \space; \theta | \theta \in \Theta)$, where $\Theta$ is called parameter space.
 
-Likelihood function is expressed as 
+Likelihood function is expressed as
+
 $$
 L_n(\mathbf{y};\theta)
 $$

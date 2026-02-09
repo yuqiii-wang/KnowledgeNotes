@@ -42,8 +42,8 @@ where heads are
 
 |Output Head|Input|Output|Purpose|Formula|Loss Function|
 |-|-|-|-|-|-|
-|Classification Head|RoI-aligned or pooled features|Probabilities for each class + background|Predicts object class labels.|$p_c=\text{softmax}(z_c)$, where $z_c$ is the logits for class $c$|Cross-Entropy Loss:  $L\_{cls}=-\frac{1}{N}\sum_i y_i \log(p_i)$, where $y_i$ is truth label|
-|Bounding Box Head|RoI-aligned or pooled features|Refined box coordinates $[dx,dy,dw,dh]$|Refines bounding boxes for better localization.|anchor box offset $\mathbf{t}=[t_x,t_y,t_w,t_h]$|Smooth $L_1$ that $L\_{box}=\frac{1}{N}\sum_i \text{Smooth}_{L_1}(\hat{\mathbf{t}}\_i-\mathbf{t}\_i)$|
+|Classification Head|RoI-aligned or pooled features|Probabilities for each class + background|Predicts object class labels.|$p_c=\text{softmax}(z_c)$, where $z_c$ is the logits for class $c$|Cross-Entropy Loss:  $L_{cls}=-\frac{1}{N}\sum_i y_i \log(p_i)$, where $y_i$ is truth label|
+|Bounding Box Head|RoI-aligned or pooled features|Refined box coordinates $[dx,dy,dw,dh]$|Refines bounding boxes for better localization.|anchor box offset $\mathbf{t}=[t_x,t_y,t_w,t_h]$|Smooth $L_1$ that $L_{box}=\frac{1}{N}\sum_i \text{Smooth}_{L_1}(\hat{\mathbf{t}}_i-\mathbf{t}_i)$|
 
 where
 
@@ -81,8 +81,8 @@ where the detection head is same as that of Fast R-CNN, the novel heads are for 
 
 |Output Head|Input|Output|Purpose|Formula|Loss Function|
 |-|-|-|-|-|-|
-|Classification Head|Feature map from backbone|Object/background probability|Identifies anchors likely to contain objects.|$p_{obj}=\text{softmax}(z_{obj})$, where $z_o$ is the logits for object presence|Binary Cross-Entropy Loss: $L\_{obj}=-\frac{1}{N}\sum_{i}\Big(y_{i}\log(\hat{y}_{i})+\big(1-y_{i}\log(1-\hat{y}_{i})\big)\Big)$|
-|RPN Box Regression Head|Feature map from backbone|Anchor box adjustments coordinates $[dx,dy,dw,dh]$|Refines bounding boxes for better proposals.|anchor box offset $\mathbf{t}=[t_x,t_y,t_w,t_h]$|Smooth $L_1$ that $L\_{box}=\frac{1}{N}\sum_i \text{Smooth}_{L_1}(\hat{\mathbf{t}}\_i-\mathbf{t}\_i)$|
+|Classification Head|Feature map from backbone|Object/background probability|Identifies anchors likely to contain objects.|$p_{obj}=\text{softmax}(z_{obj})$, where $z_o$ is the logits for object presence|Binary Cross-Entropy Loss: $L_{obj}=-\frac{1}{N}\sum_{i}\Big(y_{i}\log(\hat{y}_{i})+\big(1-y_{i}\log(1-\hat{y}_{i})\big)\Big)$|
+|RPN Box Regression Head|Feature map from backbone|Anchor box adjustments coordinates $[dx,dy,dw,dh]$|Refines bounding boxes for better proposals.|anchor box offset $\mathbf{t}=[t_x,t_y,t_w,t_h]$|Smooth $L_1$ that $L_{box}=\frac{1}{N}\sum_i \text{Smooth}_{L_1}(\hat{\mathbf{t}}_i-\mathbf{t}_i)$|
 
 
 ## Mask R-CNN
@@ -97,10 +97,10 @@ Mask R-CNN adopts the same two-stage procedure:
 * Loss Definition
 
 $$
-L = \underbrace{L\_{cls} + L\_{box}}_{\text{same as Fast R-CNN}} + L\_{mask}
+L = \underbrace{L_{cls} + L_{box}}_{\text{same as Fast R-CNN}} + L_{mask}
 $$
 
-where the mask branch $L\_{mask}$ has $K m^2$ dimensional output for each RoI, which encodes $K$ binary masks of resolution $m \times m$, one for each of the $K$ classes.
+where the mask branch $L_{mask}$ has $K m^2$ dimensional output for each RoI, which encodes $K$ binary masks of resolution $m \times m$, one for each of the $K$ classes.
 
 ### RoIAlign Pooling
 
@@ -183,4 +183,4 @@ where the detection head is same as that of Faster R-CNN, and Mask Head is
 
 |Output Head|Input|Output|Purpose|Formula|Loss Function|
 |-|-|-|-|-|-|
-|Mask Head|RoI-aligned features (Mask R-CNN)|Binary masks $H \times W$|Predicts pixel-wise masks for instance segmentation.|$\hat{y}_{i,j}=\sigma(z_{i,j})$, where $z_{i,j}$ is the mask logits for pixel $(i,j)$|Binary Cross-Entropy Loss: $L\_{mask}=-\frac{1}{N}\sum_{i,j}\Big(y_{i,j}\log(\hat{y}_{i,j})+\big(1-y_{i,j}\log(1-\hat{y}_{i,j})\big)\Big)$|
+|Mask Head|RoI-aligned features (Mask R-CNN)|Binary masks $H \times W$|Predicts pixel-wise masks for instance segmentation.|$\hat{y}_{i,j}=\sigma(z_{i,j})$, where $z_{i,j}$ is the mask logits for pixel $(i,j)$|Binary Cross-Entropy Loss: $L_{mask}=-\frac{1}{N}\sum_{i,j}\Big(y_{i,j}\log(\hat{y}_{i,j})+\big(1-y_{i,j}\log(1-\hat{y}_{i,j})\big)\Big)$|

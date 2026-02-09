@@ -110,7 +110,7 @@ $$
 \mathbf{\overline{x}}
 &\approx
 \sum^{2d}_{i=0}
-W^{(m)} x\_i \\\\
+W^{(m)} x_i \\\\
 \mathbf{\overline{y}} 
 &\approx
 \sum^{2d}_{i=0}
@@ -118,7 +118,7 @@ W^{(m)} y_i \\\\
 \mathbf{P_x} 
 &\approx
 \sum^{2d}_{i=0}
-W^{(c)} (x\_i-\mathbf{\overline{x}}) (x\_i-\mathbf{\overline{x}})^\text{T} \\\\
+W^{(c)} (x_i-\mathbf{\overline{x}}) (x_i-\mathbf{\overline{x}})^\text{T} \\\\
 \mathbf{P_y} 
 &\approx
 \sum^{2d}_{i=0}
@@ -126,7 +126,7 @@ W^{(c)} (y_i-\mathbf{\overline{y}}) (y_i-\mathbf{\overline{y}})^\text{T} \\\\
 \mathbf{P_{xy}} 
 &\approx
 \sum^{2d}_{i=0}
-W^{(c)} (x\_i-\mathbf{\overline{x}}) (y_i-\mathbf{\overline{y}})^\text{T}
+W^{(c)} (x_i-\mathbf{\overline{x}}) (y_i-\mathbf{\overline{y}})^\text{T}
 \end{align*}
 $$ 
 
@@ -747,7 +747,7 @@ Computed the mean of observation. It is the same as directly measuring ${x}_1^-$
 $$
 \begin{align*}
 \hat{y}^-_1&= \sum^{2d}_{i=0}
-W^{(m)}\_i \hat{y}^{(i)}_1\\\\ &=
+W^{(m)}_i \hat{y}^{(i)}_1\\\\ &=
 \frac{1}{3} 
 \begin{bmatrix}
 2.5 \\\\

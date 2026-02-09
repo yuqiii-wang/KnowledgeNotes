@@ -868,7 +868,8 @@ void ProbabilityGrid::SetProbability(const Eigen::Array2i& cell_index,
 ```
 
 
-The probability update is in accordance to 
+The probability update is in accordance to
+
 $$
 M_{new}(x) = \text{clamp}\Big(
     \frac{1}{

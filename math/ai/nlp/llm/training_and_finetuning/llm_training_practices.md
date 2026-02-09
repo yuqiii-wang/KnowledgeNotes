@@ -186,20 +186,20 @@ The tensors are cache-friendly stored for they can be bulk processed.
 
 #### Batch Size Explained
 
-For a batch of inputs $\mathbf{x}_B \in \mathbb{R}^{B \times d}$, where $B$ is the number of samples in one batch; $d$ is the dimension of each sample such that $\mathbf{x}\_i=\{ {x}\_i^{(1)}, {x}\_i^{(2)}, ..., {x}\_i^{(d)} \}$.
+For a batch of inputs $\mathbf{x}_B \in \mathbb{R}^{B \times d}$, where $B$ is the number of samples in one batch; $d$ is the dimension of each sample such that $\mathbf{x}_i=\{ {x}_i^{(1)}, {x}_i^{(2)}, ..., {x}_i^{(d)} \}$.
 The mean and standard deviation are
 
 $$
-\mathbf{\mu}_B = \frac{1}{B} \sum^B_{i=1} \mathbf{x}\_i
+\mathbf{\mu}_B = \frac{1}{B} \sum^B_{i=1} \mathbf{x}_i
 \qquad
-\mathbf{\sigma}_B = \frac{1}{B} \sum^B_{i=1} (\mathbf{x}\_i - \mathbf{\mu}_B)^2
+\mathbf{\sigma}_B = \frac{1}{B} \sum^B_{i=1} (\mathbf{x}_i - \mathbf{\mu}_B)^2
 $$
 
-Normalization of ${x}^{(k)}\_i$ against the mean and standard deviation is 
-$\hat{{x}}\_i^{(k)} = \frac{{x}^{(k)}\_i - {\mu}^{(k)}_B}{\sqrt{\big({\sigma}^{(k)}_B\big)^2+\epsilon}}$,
+Normalization of ${x}^{(k)}_i$ against the mean and standard deviation is 
+$\hat{{x}}_i^{(k)} = \frac{{x}^{(k)}_i - {\mu}^{(k)}_B}{\sqrt{\big({\sigma}^{(k)}_B\big)^2+\epsilon}}$,
 where $\epsilon=10^{-8}$ is a small value preventing zero-division error.
 
-To use the "offsets" $\hat{\mathbf{x}}_B$ to the mean as the inputs, the previous non-batch transform $y_i^{(k)} = w^{(k)} x\_i^{(k)} + b^{(k)}$ becomes $y_i^{(k)} = w^{(k)}_{\gamma} \hat{x}\_i^{(k)} + b_{\beta}^{(k)}$.
+To use the "offsets" $\hat{\mathbf{x}}_B$ to the mean as the inputs, the previous non-batch transform $y_i^{(k)} = w^{(k)} x_i^{(k)} + b^{(k)}$ becomes $y_i^{(k)} = w^{(k)}_{\gamma} \hat{x}_i^{(k)} + b_{\beta}^{(k)}$.
 Here defines *Batch Normalization* $BN_{w_{\gamma}^{(k)}, b_{\beta}^{(k)}}: x_{1...B}^{(k)} \rightarrow y_{1...B}^{(k)}$,
 or written in function expression $\mathbf{y}_B^{(k)}=BN_{w_{\gamma}^{(k)}, b_{\beta}^{(k)}}(\mathbf{x}_B^{(k)})$
 
@@ -207,7 +207,7 @@ The back-propagation of the $BN_{w_{\gamma}^{(k)}, b_{\beta}^{(k)}}$ needs to co
 The gradients are accumulated for all $B$ samples with respects to the $k$-th dimension.
 
 $$
-\frac{\partial \mathcal{L}}{\partial w_{\gamma}^{(k)}} = \sum^B_{i=1} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}\_i^{(k)}
+\frac{\partial \mathcal{L}}{\partial w_{\gamma}^{(k)}} = \sum^B_{i=1} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}_i^{(k)}
 \qquad
 \frac{\partial \mathcal{L}}{\partial b_{\beta}^{(k)}} = \sum^B_{i=1} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}}
 $$
@@ -217,14 +217,14 @@ $$
 
 For limited memory that large batch size is not applicable, use gradient accumulation that sums up mini batches' gradients.
 
-For example, given $\frac{\partial \mathcal{L}}{\partial w_{\gamma}^{(k)}} = \sum^B_{i=1} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}\_i^{(k)}$, 
+For example, given $\frac{\partial \mathcal{L}}{\partial w_{\gamma}^{(k)}} = \sum^B_{i=1} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}_i^{(k)}$, 
 if $B$ is too large (a batch contains too many samples) to fit as input to model, set mini batch size to $m_j$ that they should sum up to $m_1 + m_2 + ... + m_b = B$ (mini batch sizes should be identical $m_1 = m_2 = ... = m_b$), 
 then each mini batch's gradients get summed up and they are equal to the gradients by a large batch size $B$.
 
 $$
 \frac{\partial \mathcal{L}}{\partial w_{\gamma}^{(k)}} = 
-\sum^{B}_{m_j=m_1} \underbrace{\Big(\sum^{m_{j+1}}_{i={m_j}} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}\_i^{(k)} \Big)}_{\text{mini batch}} \approx
-\sum^B_{i=1} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}\_i^{(k)}
+\sum^{B}_{m_j=m_1} \underbrace{\Big(\sum^{m_{j+1}}_{i={m_j}} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}_i^{(k)} \Big)}_{\text{mini batch}} \approx
+\sum^B_{i=1} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}_i^{(k)}
 $$
 
 Gradient accumulation can slow computation by a small degree for it includes 

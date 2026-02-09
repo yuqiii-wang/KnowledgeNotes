@@ -17,7 +17,7 @@ Second, it passively receives notification about data arrival at `fd` via mainta
 
 ## Performance
 
-* Upon ready IO, select/poll are $O(n)$, epoll is $O(n\_{ready})$, where $n$ is the total number of all `fd`s, $n\_{ready}$ is the number of `fd` with buffers arrived of data.
+* Upon ready IO, select/poll are $O(n)$, epoll is $O(n_{ready})$, where $n$ is the total number of all `fd`s, $n_{ready}$ is the number of `fd` with buffers arrived of data.
 
 * `epoll` has the best performance results since it passively received data notification then run data retrieval, rather than the other two scanning through all registered `fd`
 

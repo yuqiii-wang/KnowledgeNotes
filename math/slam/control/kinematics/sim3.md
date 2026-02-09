@@ -141,7 +141,7 @@ The residual of the least squared problem to find the optimal $\mathbf{t}^*$ is 
 
 $$
 \begin{align*}
-\mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}\_i &= 
+\mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}_i &= 
 \mathbf{r}_{r,i} - \hat{\mathbf{r}}_{r,i} 
 \\\\ &= 
 \mathbf{r}_{r,i} - s R( \mathbf{r}_{l,i}) - \mathbf{t}    
@@ -175,7 +175,7 @@ $$
 Rewrite the residual,
 
 $$
-\mathbf{e}\_i = \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}'
+\mathbf{e}_i = \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}'
 $$
 
 where
@@ -188,7 +188,7 @@ So that the least squared problem becomes finding the optimal $\mathbf{t}'$
 
 $$
 \begin{align*}
-\min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &= 
+\min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 &= 
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}' \big|\big|^2
 \\\\ &=
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2- \underbrace{2 \mathbf{t}' \cdot \sum_{i=1}^n \Big( \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \Big)}_{=\mathbf{0}}+n \big|\big| \mathbf{t}' \big|\big|^2
@@ -198,7 +198,7 @@ $$
 The sum in the middle of this expression is zero since the measurements are referred to the centroid. 
 
 The first term does not depend on $\mathbf{t}'$, and the last term cannot be negative. 
-So that $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2$ reaches its minimum when $\mathbf{t}'=\mathbf{0}$.
+So that $\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2$ reaches its minimum when $\mathbf{t}'=\mathbf{0}$.
 
 Rewrite $\mathbf{t}' = \mathbf{0} = \mathbf{t} - \overline{\mathbf{r}}_r + sR(\overline{\mathbf{r}}_l)$, so that the optimal translation $\mathbf{t}^*$ in $Sim(3)$ is just the difference between $\overline{\mathbf{r}}_r$ and scaled rotation $sR(\overline{\mathbf{r}}_l)$.
 In other words, if $sR(\overline{\mathbf{r}}_l)$ is known, the $\mathbf{t}^*$ can easily computed.
@@ -210,7 +210,7 @@ $$
 Having said $\mathbf{t}' = \mathbf{0}$, the error can be expressed as
 
 $$
-\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 =
+\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 =
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2
 $$
 
@@ -221,7 +221,7 @@ Expand the error term
 $$
 \begin{align*}
 &&
-\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
+\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 &=
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2
 \\\\ && &=
 \sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' \big|\big|^2 
@@ -263,7 +263,7 @@ In other words, the inverse transform error $\mathbf{e}_{i, r \rightarrow l}$ wo
 Unless the left-to-right transform has much more precision than the right-to-left's that $\mathbf{e}_{i, l \rightarrow r}=\mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}')$ becomes accurate, otherwise, to formulate the error with respect to the scale $s$, it is better use the below symmetrical error that balances between the left-to-right and right-to-left transforms:
 
 $$
-\mathbf{e}\_i = 
+\mathbf{e}_i = 
 \frac{1}{\sqrt{s}}\mathbf{r}'_{r,i} - \sqrt{s} R (\mathbf{r}_{l,i})
 $$
 
@@ -271,7 +271,7 @@ The least squared problem becomes
 
 $$
 \begin{align*}
-\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
+\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
 \\\\ &= 
 \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}+2(S_l S_r -D)
@@ -289,7 +289,7 @@ $$
 
 which has a great form where rotation $R$ is removed, that the optimal scale computation only concerns the vectors/map points ${\mathbf{r}'_{l}}$ and ${\mathbf{r}'_{r}}$ in the left and right coordinate systems.
 
-The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)$ grows to maximum.
+The error $\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)$ grows to maximum.
 
 
 * **Find the optimal rotation $R^*$**
@@ -322,7 +322,7 @@ $$
 where, for example, $S_{xx}=\sum_{i=1}^{n} x'_{l,i} x'_{r,i}, S_{xy}=\sum_{i=1}^{n} x'_{l,i} y'_{r,i}$.
 
 Recall that $D=\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)$  needs to grow to maximum for 
-$\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaching its minimum.
+$\sum_{i=1}^n \big|\big| \mathbf{e}_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaching its minimum.
 Rewrite $D$'s elements to that $\Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' \mathring{\mathbf{q}}^{\dagger} \Big) \cdot \mathring{\mathbf{r}}_{r,i}' =\Big( \mathring{\mathbf{q}}\mathbf{r}_{l,i}' \Big) \cdot \Big(  \mathring{\mathbf{r}}_{r,i}' \mathring{\mathbf{q}} \Big)$.
 
 Take $\mathbf{r}_{l,i}' \rightarrow \mathring{\mathbf{r'}}_{l,i}$, then by quaternion multiplication, there is
@@ -376,7 +376,7 @@ In other words, the trace $tr(N)=0$ takes care of the $10$-th degree of freedom.
 
 To maximize $\mathring{\mathbf{q}}^{\top} N \mathring{\mathbf{q}}$ by adjusting rotation $\mathring{\mathbf{q}}$, here computes $\text{det}(N-\lambda I)=0$, where the largest eigenvalue $\lambda_{max}$ corresponding eigenvector $\mathbf{v}$ is the optimal quaternion $\mathring{\mathbf{q}}^*$.
 
-Given $\text{det}(N-\lambda I)=0$, compute all four eigenvalues and eigenvectors $N \mathbf{v}\_i = \lambda_i \mathbf{v}\_i$ for $i \in \{ 1,2,3,4 \}$.
+Given $\text{det}(N-\lambda I)=0$, compute all four eigenvalues and eigenvectors $N \mathbf{v}_i = \lambda_i \mathbf{v}_i$ for $i \in \{ 1,2,3,4 \}$.
 Then, an arbitrary quaternion $\mathring{\mathbf{q}}$ can be written as a linear combination in the form
 
 $$

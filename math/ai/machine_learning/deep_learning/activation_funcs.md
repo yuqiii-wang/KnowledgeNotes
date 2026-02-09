@@ -41,7 +41,7 @@ Defien a standard (unit) softmax function $\sigma: \mathbb{R}^n \rightarrow (0,1
 
 $$
 \sigma(\mathbf{z})_i=
-\frac{e^{z_i}}{\sum^n\_{j=1}e^{z_j}}
+\frac{e^{z_i}}{\sum^n_{j=1}e^{z_j}}
 $$
 
 for $i=1,2,...,n$ and $\mathbf{z}=(z_1, z_2, ..., z_n)\in \mathbb{R}^n$
@@ -91,7 +91,7 @@ $$
 For each row $i$:
 
 $$
-\text{softmax}(z_i)=\frac{e^{z_i}}{\sum^n\_{j=1}e^{z_{ij}}}
+\text{softmax}(z_i)=\frac{e^{z_i}}{\sum^n_{j=1}e^{z_{ij}}}
 $$
 
 that gives
@@ -109,7 +109,7 @@ The uniform output example (all results are identical as $[0.0900, 0.2447, 0.665
 Consider
 
 $$
-z_i=z_i, \quad\text{and}\quad \tilde{z}\_i=z_i+c
+z_i=z_i, \quad\text{and}\quad \tilde{z}_i=z_i+c
 $$
 
 then
@@ -122,12 +122,12 @@ $$
 
 ### Softmax Output Range vs Input Distribution and Vector Similarity
 
-Consider the softmax expression for $\mathbf{x}\_i, \mathbf{y}\_i \in \mathbb{R}^{1 \times d}$ for a total of $n$ samples, and study the $\mathbf{x}\_i, \mathbf{y}\_i$ distribution for the resulted $s_i$.
-Here proves that, let $z_i=\mathbf{x}\_i^{\top}\mathbf{y}_j$, the optimal result of $\min\text{softmax}(z_i)$ is the uniform input $z_1=z_2=...=z_n=c$.
+Consider the softmax expression for $\mathbf{x}_i, \mathbf{y}_i \in \mathbb{R}^{1 \times d}$ for a total of $n$ samples, and study the $\mathbf{x}_i, \mathbf{y}_i$ distribution for the resulted $s_i$.
+Here proves that, let $z_i=\mathbf{x}_i^{\top}\mathbf{y}_j$, the optimal result of $\min\text{softmax}(z_i)$ is the uniform input $z_1=z_2=...=z_n=c$.
 
 $$
-s_i=\text{softmax}(\mathbf{x}\_i^{\top}\mathbf{y}_j)=
-\frac{\exp(\mathbf{x}\_i^{\top}\mathbf{y}_j)}{\sum_k \exp(\mathbf{x}\_i^{\top}\mathbf{y}_k)}
+s_i=\text{softmax}(\mathbf{x}_i^{\top}\mathbf{y}_j)=
+\frac{\exp(\mathbf{x}_i^{\top}\mathbf{y}_j)}{\sum_k \exp(\mathbf{x}_i^{\top}\mathbf{y}_k)}
 $$
 
 #### Result of Uniform Scores
@@ -168,12 +168,12 @@ $$
 $$
 
 In conclusion, the uneven score has higher softmax values,
-and the optimal result of $\min\text{softmax}(\mathbf{x}\_i^{\top}\mathbf{y}_j)$ is the uniform input $z_1=z_2=...=z_n=c$.
+and the optimal result of $\min\text{softmax}(\mathbf{x}_i^{\top}\mathbf{y}_j)$ is the uniform input $z_1=z_2=...=z_n=c$.
 
 #### About Vector Similarity
 
-Recall the property of softmax translation invariance, $\mathbf{x}\_i$ and $\mathbf{y}\_i$ can be different (have a small $z_i$) or similar (have a large $z_i$), the softmax value remains unchanged.
-This means, regardless of $\mathbf{x}\_i$ and $\mathbf{y}\_i$ being similar or different, the important focus is that the distance $\mathbf{x}\_i^{\top}\mathbf{y}_j$ should keep the same to reach $z_1=z_2=...=z_n$.
+Recall the property of softmax translation invariance, $\mathbf{x}_i$ and $\mathbf{y}_i$ can be different (have a small $z_i$) or similar (have a large $z_i$), the softmax value remains unchanged.
+This means, regardless of $\mathbf{x}_i$ and $\mathbf{y}_i$ being similar or different, the important focus is that the distance $\mathbf{x}_i^{\top}\mathbf{y}_j$ should keep the same to reach $z_1=z_2=...=z_n$.
 
 ## ReLU
 

@@ -115,7 +115,7 @@ Large variance features contain richer info than small ones.
 
 ### Eigenvalues of A Real Symmetric Matrix Are Real
 
-Denote the complex number inner product operator as $\langle \mathbf{x}, \mathbf{y} \rangle=\sum_i \overline{x}\_i y_i$; denote $A^{\dagger}$ as the conjugate transpose of $A$, there is $A=A^{\dagger}=A^\text{T}$. Besides, $\lambda$ is the corresponding eigenvalue.
+Denote the complex number inner product operator as $\langle \mathbf{x}, \mathbf{y} \rangle=\sum_i \overline{x}_i y_i$; denote $A^{\dagger}$ as the conjugate transpose of $A$, there is $A=A^{\dagger}=A^\text{T}$. Besides, $\lambda$ is the corresponding eigenvalue.
 
 By $A\mathbf{x}=\lambda\mathbf{x}$, there is $A^2 \mathbf{x}=A(A\mathbf{x})=A\lambda \mathbf{x}=\lambda A\mathbf{x}=\lambda^2\mathbf{x}$.
 
@@ -132,28 +132,28 @@ Assume $\lambda=a+bi$, so that $\lambda^2=a^2-b^2+2abi$. Since $\lambda^2$ is a 
 
 ### Eigenvectors of Real Symmetric Matrices Are Orthogonal
 
-Define a real symmetric matrix $A$, whose eigenvectors are $\mathbf{x}\_i$ and the corresponding eigenvalues are $\lambda_i$. By inner product operation, there is $\langle A\mathbf{x}\_i, \mathbf{y}_j \rangle=\langle \mathbf{x}\_i, A^\text{T}\mathbf{y}_j \rangle$ for $i \ne j$.
+Define a real symmetric matrix $A$, whose eigenvectors are $\mathbf{x}_i$ and the corresponding eigenvalues are $\lambda_i$. By inner product operation, there is $\langle A\mathbf{x}_i, \mathbf{y}_j \rangle=\langle \mathbf{x}_i, A^\text{T}\mathbf{y}_j \rangle$ for $i \ne j$.
 
 So that,
 
 $$
 \begin{align*}
-\lambda_i\langle \mathbf{x}\_i, \mathbf{x}_j \rangle&=
-\langle \lambda_i\mathbf{x}\_i, \mathbf{x}_j \rangle
+\lambda_i\langle \mathbf{x}_i, \mathbf{x}_j \rangle&=
+\langle \lambda_i\mathbf{x}_i, \mathbf{x}_j \rangle
 \\\\ &=
-\langle A\mathbf{x}\_i, \mathbf{x}_j \rangle
+\langle A\mathbf{x}_i, \mathbf{x}_j \rangle
 \\\\ &=
-\langle \mathbf{x}\_i, A^\text{T}\mathbf{x}_j \rangle
+\langle \mathbf{x}_i, A^\text{T}\mathbf{x}_j \rangle
 \\\\ &=
-\langle \mathbf{x}\_i, A\mathbf{x}_j \rangle
+\langle \mathbf{x}_i, A\mathbf{x}_j \rangle
 \\\\ &=
-\langle \mathbf{x}\_i, \lambda_j\mathbf{x}_j \rangle
+\langle \mathbf{x}_i, \lambda_j\mathbf{x}_j \rangle
 \\\\ &=
-\lambda_j\langle \mathbf{x}\_i, \mathbf{x}_j \rangle
+\lambda_j\langle \mathbf{x}_i, \mathbf{x}_j \rangle
 \end{align*}
 $$
 
-Therefore, there is $(\lambda_i-\lambda_j)\langle \mathbf{x}\_i, \mathbf{x}_j \rangle=0$. Since $\lambda_i-\lambda_j \ne 0$, the other term must be zero $\langle \mathbf{x}\_i, \mathbf{x}_j \rangle=0$, hereby proved $\mathbf{x}\_i \perp \mathbf{x}_j$.
+Therefore, there is $(\lambda_i-\lambda_j)\langle \mathbf{x}_i, \mathbf{x}_j \rangle=0$. Since $\lambda_i-\lambda_j \ne 0$, the other term must be zero $\langle \mathbf{x}_i, \mathbf{x}_j \rangle=0$, hereby proved $\mathbf{x}_i \perp \mathbf{x}_j$.
 
 ### Principal Axis Theorem
 
@@ -167,7 +167,7 @@ $$
 \end{align*}
 $$
 
-where $A$ is a symmetric matrix, and $\lambda_i$ are eigenvalues of $A$. Define $\mathbf{v}\_i$ as the corresponding eigenvectors, the $c_i$ is defined by $c_i=\mathbf{v}\_i\mathbf{x}$. $Q(\mathbf{x})$ which is a scalar number.
+where $A$ is a symmetric matrix, and $\lambda_i$ are eigenvalues of $A$. Define $\mathbf{v}_i$ as the corresponding eigenvectors, the $c_i$ is defined by $c_i=\mathbf{v}_i\mathbf{x}$. $Q(\mathbf{x})$ which is a scalar number.
 
 $A$ has the below properties:
 

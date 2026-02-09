@@ -82,7 +82,7 @@ $$
 Given a set of vectors $\{\mathbf{a}_1, \mathbf{a}_2, ... \mathbf{a}_n\}$, the Gram matrix $G\in\mathbb{R}^{n \times n}$ has its entries as the inner products of these vectors.
 
 $$
-G_{ij}=\langle \mathbf{a}\_i, \mathbf{a}_j \rangle
+G_{ij}=\langle \mathbf{a}_i, \mathbf{a}_j \rangle
 $$
 
 If $\{\mathbf{a}_1, \mathbf{a}_2, ... \mathbf{a}_n\}$ are arranged as the columns of a matrix $A$, then
@@ -114,7 +114,7 @@ $$
 Define follows for $i\ne j$
 
 $$
-A^{\top}A\mathbf{v}\_i=\sigma_i^2\mathbf{v}\_i \qquad
+A^{\top}A\mathbf{v}_i=\sigma_i^2\mathbf{v}_i \qquad
 A^{\top}A\mathbf{v}_j=\sigma_j^2\mathbf{v}_j
 $$
 
@@ -122,16 +122,16 @@ then multiply by $\mathbf{v}_j^{\top}$, there is
 
 $$
 \begin{align*}
-    && \mathbf{v}_j^{\top}A^{\top}A\mathbf{v}\_i &=
-  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \\\\
-  \Rightarrow && (A^{\top}A\mathbf{v}_j)^{\top}\mathbf{v}\_i &=
-  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}\_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\\\
-  \Rightarrow && \sigma_j^2\mathbf{v}_j^{\top}\mathbf{v}\_i &=
-  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}\_i \\\\
+    && \mathbf{v}_j^{\top}A^{\top}A\mathbf{v}_i &=
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}_i \\\\
+  \Rightarrow && (A^{\top}A\mathbf{v}_j)^{\top}\mathbf{v}_i &=
+  \mathbf{v}_j^{\top}\sigma_i^2\mathbf{v}_i \qquad\text{ for symmetry } \big(A^{\top}A\big)^{\top}=A^{\top}A  \\\\
+  \Rightarrow && \sigma_j^2\mathbf{v}_j^{\top}\mathbf{v}_i &=
+  \sigma_i^2\mathbf{v}_j^{\top}\mathbf{v}_i \\\\
 \end{align*}
 $$
 
-For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\mathbf{v}_j^{\top}\mathbf{v}\_i=0$, hence orthogonal.
+For by eigen-decomposition, there is $\sigma_i^2 \ne \sigma_j^2 \ne 0$, there could be only $\mathbf{v}_j^{\top}\mathbf{v}_i=0$, hence orthogonal.
 
 ##### Spectral Theorem
 
@@ -381,7 +381,7 @@ A\mathbf{x}_3=\begin{bmatrix}
 \end{bmatrix}
 $$
 
-All $\mathbf{x}\_i$ are collapsed into the line $0=x_2-x_1$.
+All $\mathbf{x}_i$ are collapsed into the line $0=x_2-x_1$.
 
 ### Derivation
 
@@ -469,7 +469,7 @@ $$
 \text{det}(A)
 & =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_1)⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n) \\\\
 & =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\big(\mathbf{e}_1⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n)\big) \\\\
-& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \mathbf{a}_n)−\sum_{i=2}^n (-1)^i \mathbf{a}_{1,i}(a_1 ∧ ⋯ ∧ \hat{\mathbf{a}}\_i ∧ ⋯ ∧ \mathbf{a}_n) \bigg)
+& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \mathbf{a}_n)−\sum_{i=2}^n (-1)^i \mathbf{a}_{1,i}(a_1 ∧ ⋯ ∧ \hat{\mathbf{a}}_i ∧ ⋯ ∧ \mathbf{a}_n) \bigg)
 \end{align*}
 $$
 

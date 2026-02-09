@@ -21,9 +21,9 @@ For multivariate case, and assume the dimensions are independent, there is
 
 $$
 \begin{align*}
-    p(\mathbf{x}) &=p(x_1, x_2, ..., x_n)=\prod_{i=1}^n p(x\_i) = \\\\
+    p(\mathbf{x}) &=p(x_1, x_2, ..., x_n)=\prod_{i=1}^n p(x_i) = \\\\
     &= \frac{1}{\sqrt{(2\pi)^n\sigma^2_1\sigma^2_2...\sigma^2_n}}\exp\bigg(-\frac{1}{2}\Big(\big(\frac{x_1-\mu_1}{\sigma_1}\big)^2+\big(\frac{x_2-\mu_2}{\sigma_2}\big)^2+...+\big(\frac{x_n-\mu_n}{\sigma_n}\big)^2\Big)\bigg) \\\\
-    &= \frac{1}{\sqrt{(2\pi)^n\prod_{i=1}^n\sigma^2_i}}\exp\bigg(-\frac{1}{2}\sum_{i=1}^n\big(\frac{x\_i-\mu_i}{\sigma_i}\big)^2\bigg)
+    &= \frac{1}{\sqrt{(2\pi)^n\prod_{i=1}^n\sigma^2_i}}\exp\bigg(-\frac{1}{2}\sum_{i=1}^n\big(\frac{x_i-\mu_i}{\sigma_i}\big)^2\bigg)
 \end{align*}
 $$
 
@@ -62,7 +62,7 @@ The above expression can be noted as $\mathbf{x}\sim\mathcal{N}(\mathbf{\mu}, \S
 
 ### Gaussian Process Definition
 
-Define sampling $f(\mathbf{x})$, that one sample is measured in $n$ dimensions $\mathbf{x}\_i=[x_{i1}, x_{i2}, ..., x_{in}]^{\top}$, and this once sampling result is $f(\mathbf{x}\_i)=[f(x_{i1}), f(x_{i2}), ..., f(x_{in})]^{\top}$.
+Define sampling $f(\mathbf{x})$, that one sample is measured in $n$ dimensions $\mathbf{x}_i=[x_{i1}, x_{i2}, ..., x_{in}]^{\top}$, and this once sampling result is $f(\mathbf{x}_i)=[f(x_{i1}), f(x_{i2}), ..., f(x_{in})]^{\top}$.
 There are multiple $n$-dimensional samples $\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_m$, and the sequence of sampling results are $f(\mathbf{x}_1), f(\mathbf{x}_2), ..., f(\mathbf{x}_m)$.
 
 This process $f(\mathbf{x}_1), f(\mathbf{x}_2), ..., f(\mathbf{x}_m)$ is termed Gaussian process.
@@ -73,7 +73,7 @@ Kernel function determines how Gaussian process is defined, and it
 RBF (Radial Basis Function) kernel function is a popular kernel function used a covariance matrix to measure the similarity between two samples., and it is defined as
 
 $$
-\kappa(\mathbf{x}\_i, \mathbf{x}_j) = \sigma^2\exp\big(-\frac{1}{2l^2}||\mathbf{x}-\mathbf{x}'||^2\big)
+\kappa(\mathbf{x}_i, \mathbf{x}_j) = \sigma^2\exp\big(-\frac{1}{2l^2}||\mathbf{x}-\mathbf{x}'||^2\big)
 $$
 
 where $l$ is the distance between two samples, and $\sigma^2$ is the variance.

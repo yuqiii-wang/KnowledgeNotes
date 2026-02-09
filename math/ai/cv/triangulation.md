@@ -186,7 +186,7 @@ $$
 \begin{align*}
 &&
     \min \big|\big| A\mathbf{X} \big|\big|^2
-    &= \sum_i (\mathbf{a}\_i \mathbf{X})^2
+    &= \sum_i (\mathbf{a}_i \mathbf{X})^2
 \\\\ \text{subject to } &&
 \big|\big| \mathbf{X} \big|\big|^2 &= 1
 \end{align*}

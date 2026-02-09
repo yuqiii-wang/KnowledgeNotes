@@ -14,17 +14,17 @@ There should be extrinsics (rotation and translation) that corresponds the two s
 
 $$
 \begin{align*}
-\forall i, \mathbf{p}\_i &= \mathbf{R}\mathbf{p}'_i+\mathbf{t}
+\forall i, \mathbf{p}_i &= \mathbf{R}\mathbf{p}'_i+\mathbf{t}
 \\\\ &=
 [\mathbf{R}|\mathbf{t}] \mathbf{p}'_i
 \end{align*}
 $$
 
-The error $\mathbf{e}\_i$ can be defined the difference between the base point $\mathbf{p}\_i$ and the correspondence point $\mathbf{p}'_i$
+The error $\mathbf{e}_i$ can be defined the difference between the base point $\mathbf{p}_i$ and the correspondence point $\mathbf{p}'_i$
 
 $$
-\mathbf{e}\_i = 
-\mathbf{p}\_i - (\mathbf{R}\mathbf{p}'_i + \mathbf{t})
+\mathbf{e}_i = 
+\mathbf{p}_i - (\mathbf{R}\mathbf{p}'_i + \mathbf{t})
 $$
 
 Accordingly, the least-square problem to find the optimal $[\mathbf{R}|\mathbf{t}]^*$ with minimized error $\mathbf{e}$ can be defined as
@@ -33,21 +33,21 @@ $$
 \begin{align*}
 \big[\mathbf{R}|\mathbf{t} \big]^* &= 
 arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
-\frac{1}{2} \sum^n\_{i=1}
+\frac{1}{2} \sum^n_{i=1}
 \big|\big|
-    \mathbf{e}\_i
+    \mathbf{e}_i
 \big|\big|^2_2
 \\\\ &=
 arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
-\frac{1}{2} \sum^n\_{i=1}
+\frac{1}{2} \sum^n_{i=1}
 \bigg|\bigg|
-  \mathbf{p}\_i -  \big[\mathbf{R}|\mathbf{t} \big] \mathbf{p}'_i
+  \mathbf{p}_i -  \big[\mathbf{R}|\mathbf{t} \big] \mathbf{p}'_i
 \bigg|\bigg|^2_2
 \\\\ &=
 arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
-\frac{1}{2} \sum^n\_{i=1}
+\frac{1}{2} \sum^n_{i=1}
 \bigg|\bigg|
-  \mathbf{p}\_i -  (\mathbf{R} \mathbf{p}'_i + \mathbf{t})
+  \mathbf{p}_i -  (\mathbf{R} \mathbf{p}'_i + \mathbf{t})
 \bigg|\bigg|^2_2
 \end{align*}
 $$
@@ -55,7 +55,7 @@ $$
 Define the centroids $\mathbf{p}_c, \mathbf{p}'_c$ of the point clouds $\mathbf{P}$ and $\mathbf{P}'$, respectively, there are
 
 $$
-\mathbf{p}_c = \frac{1}{n} \sum_{i=1}^n \mathbf{p}\_i
+\mathbf{p}_c = \frac{1}{n} \sum_{i=1}^n \mathbf{p}_i
 , \quad
 \mathbf{p}'_c = \frac{1}{n} \sum_{i=1}^n \mathbf{p}'_i
 $$
@@ -64,34 +64,34 @@ Compute the least square function with the centroids such as
 
 $$
 \begin{align*}
-    \frac{1}{2} \sum^n\_{i=1}
+    \frac{1}{2} \sum^n_{i=1}
     \bigg|\bigg|
-        \mathbf{p}\_i -  \big[\mathbf{R}|\mathbf{t} \big] \mathbf{p}'_i
+        \mathbf{p}_i -  \big[\mathbf{R}|\mathbf{t} \big] \mathbf{p}'_i
     \bigg|\bigg|^2_2
     &=
-    \frac{1}{2} \sum^n\_{i=1}
+    \frac{1}{2} \sum^n_{i=1}
     \bigg|\bigg|
-        \mathbf{p}\_i - (\mathbf{R} \mathbf{p}'_i + \mathbf{t})
+        \mathbf{p}_i - (\mathbf{R} \mathbf{p}'_i + \mathbf{t})
     \bigg|\bigg|^2_2
     \\\\ &=
-    \frac{1}{2} \sum^n\_{i=1}
+    \frac{1}{2} \sum^n_{i=1}
     \bigg|\bigg|
-        \mathbf{p}\_i - \mathbf{R} \mathbf{p}'_i - \mathbf{t} 
+        \mathbf{p}_i - \mathbf{R} \mathbf{p}'_i - \mathbf{t} 
         - \mathbf{p}_c + \mathbf{p}_c
         - \mathbf{R}\mathbf{p}'_c + \mathbf{R}\mathbf{p}'_c
     \bigg|\bigg|^2_2
     \\\\ &=
-    \frac{1}{2} \sum^n\_{i=1}
+    \frac{1}{2} \sum^n_{i=1}
     \bigg|\bigg|
-        \big(\mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big)
+        \big(\mathbf{p}_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big)
         +
         (\mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t})
     \bigg|\bigg|^2_2
     \\\\ &=
-    \frac{1}{2} \sum^n\_{i=1}
+    \frac{1}{2} \sum^n_{i=1}
     \bigg(
         \big|\big| 
-            \mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)
+            \mathbf{p}_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)
         \big|\big|^2_2
         \\\\ &\quad\quad\quad +
         \big|\big| 
@@ -99,20 +99,20 @@ $$
         \big|\big|_2^2
         \\\\ &\quad\quad\quad +
         \underbrace{        
-            2\big(\mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big)^\text{T} (\mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t})
+            2\big(\mathbf{p}_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big)^\text{T} (\mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t})
         }_{\begin{matrix}
             =0 \\\\
-            \text{because} \sum^n\_{i=1}\mathbf{p}_c-\sum^n\_{i=1}\mathbf{p}\_i=0
+            \text{because} \sum^n_{i=1}\mathbf{p}_c-\sum^n_{i=1}\mathbf{p}_i=0
             \\\\ \text{ and }
-            \sum^n\_{i=1}\mathbf{p}'_c-\sum^n\_{i=1}\mathbf{p}'_i=0
+            \sum^n_{i=1}\mathbf{p}'_c-\sum^n_{i=1}\mathbf{p}'_i=0
         \end{matrix}
         }
     \bigg)
     \\\\ &=
-    \frac{1}{2} \sum^n\_{i=1}
+    \frac{1}{2} \sum^n_{i=1}
     \bigg(
         \big|\big| 
-            \mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)
+            \mathbf{p}_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)
         \big|\big|^2_2
         \\\\ &\quad\quad\quad +
         \big|\big| 
@@ -122,40 +122,40 @@ $$
 \end{align*}
 $$
 
-The first term $\big|\big| \mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big|\big|^2_2$ only contains a rotation matrix $\mathbf{R}$, and the second term $\big|\big| \mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t} \big|\big|_2^2$ only has the centroids $\mathbf{p}_c$ and $\mathbf{p}'_c$. The $\mathbf{t}$ in the second term can be solved if $\mathbf{R}$ is known. The $\mathbf{R}$ can be solved in the first term by setting $\mathbf{q}\_i = \mathbf{p}\_i - \mathbf{p}_c$ and $\mathbf{q}'_i = \mathbf{p}'_i - \mathbf{p}'_c$, so that the optimal rotation matrix $\mathbf{R}^*$ can be computed as
+The first term $\big|\big| \mathbf{p}_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big|\big|^2_2$ only contains a rotation matrix $\mathbf{R}$, and the second term $\big|\big| \mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t} \big|\big|_2^2$ only has the centroids $\mathbf{p}_c$ and $\mathbf{p}'_c$. The $\mathbf{t}$ in the second term can be solved if $\mathbf{R}$ is known. The $\mathbf{R}$ can be solved in the first term by setting $\mathbf{q}_i = \mathbf{p}_i - \mathbf{p}_c$ and $\mathbf{q}'_i = \mathbf{p}'_i - \mathbf{p}'_c$, so that the optimal rotation matrix $\mathbf{R}^*$ can be computed as
 
 $$
 \mathbf{R}^*=
 arg \space \underset{\mathbf{R}}{min}
-\frac{1}{2} \sum^n\_{i=1}
+\frac{1}{2} \sum^n_{i=1}
 \bigg|\bigg|
-  \mathbf{q}\_i - \mathbf{R} \mathbf{q}'_i
+  \mathbf{q}_i - \mathbf{R} \mathbf{q}'_i
 \bigg|\bigg|^2_2
 $$
 
 The least square problem for $\mathbf{R}^*$ can be rewritten as
 
 $$
-\frac{1}{2} \sum^n\_{i=1}
+\frac{1}{2} \sum^n_{i=1}
 \bigg|\bigg|
-  \mathbf{q}\_i - \mathbf{R} \mathbf{q}'_i
+  \mathbf{q}_i - \mathbf{R} \mathbf{q}'_i
 \bigg|\bigg|^2_2=
-\frac{1}{2} \sum^n\_{i=1}
+\frac{1}{2} \sum^n_{i=1}
 \bigg(
-    \underbrace{\mathbf{q}^\text{T}\_i \mathbf{q}\_i}_{\frac{\partial \mathbf{q}^\text{T}\_i \mathbf{q}\_i}{\partial \mathbf{R}}=0}
+    \underbrace{\mathbf{q}^\text{T}_i \mathbf{q}_i}_{\frac{\partial \mathbf{q}^\text{T}_i \mathbf{q}_i}{\partial \mathbf{R}}=0}
     +
-    \mathbf{q}^\text{T}\_i \underbrace{\mathbf{R}^\text{T}\mathbf{R}}_{=\mathbf{I}} \mathbf{q}'_i
+    \mathbf{q}^\text{T}_i \underbrace{\mathbf{R}^\text{T}\mathbf{R}}_{=\mathbf{I}} \mathbf{q}'_i
     -
-    \underbrace{2\mathbf{q}^\text{T}\_i \mathbf{R} \mathbf{q}'_i}_{\text{To be maximized}}
+    \underbrace{2\mathbf{q}^\text{T}_i \mathbf{R} \mathbf{q}'_i}_{\text{To be maximized}}
 \bigg)
 $$
 
-So that, finding $\mathbf{R}^*$ only needs to take care of this to-be-maximized term (here defines $\mathbf{q}^\text{T}\_i \mathbf{R} \mathbf{q}'_i$ as the diagonal entries of $\mathbf{Q}^\text{T} \mathbf{R} \mathbf{Q}'$). By introducing trace operation, here derives:
+So that, finding $\mathbf{R}^*$ only needs to take care of this to-be-maximized term (here defines $\mathbf{q}^\text{T}_i \mathbf{R} \mathbf{q}'_i$ as the diagonal entries of $\mathbf{Q}^\text{T} \mathbf{R} \mathbf{Q}'$). By introducing trace operation, here derives:
 
 $$
 \begin{align*}
-    \frac{1}{2} \sum^n\_{i=1}
-    2\mathbf{q}^\text{T}\_i \mathbf{R} \mathbf{q}'_i
+    \frac{1}{2} \sum^n_{i=1}
+    2\mathbf{q}^\text{T}_i \mathbf{R} \mathbf{q}'_i
     &=
     tr \big(
         \mathbf{Q}^\text{T} \mathbf{R} \mathbf{Q}'
@@ -231,7 +231,7 @@ tr\big(\mathbf{\Sigma M}\big)&=
 \end{align*}
 $$
 
-Given this inequality, in order to maximize $\frac{1}{2} \sum^n\_{i=1} 2\mathbf{q}^\text{T}\_i \mathbf{R} \mathbf{q}'_i$ (this is same as maximizing the trace result), there should be $m_{ii}=1$. Note that $\mathbf{M}$ itself is orthogonal rendering $\sum^d_{i=1} m_{ij}^2 = 1$, so that other terms must be zero such as $m^2_{ij}=0,\forall i \ne j$, hence, $\mathbf{M}$ is exactly the identity matrix $\mathbf{M}=\mathbf{I}$.
+Given this inequality, in order to maximize $\frac{1}{2} \sum^n_{i=1} 2\mathbf{q}^\text{T}_i \mathbf{R} \mathbf{q}'_i$ (this is same as maximizing the trace result), there should be $m_{ii}=1$. Note that $\mathbf{M}$ itself is orthogonal rendering $\sum^d_{i=1} m_{ij}^2 = 1$, so that other terms must be zero such as $m^2_{ij}=0,\forall i \ne j$, hence, $\mathbf{M}$ is exactly the identity matrix $\mathbf{M}=\mathbf{I}$.
 
 The optimal $\mathbf{R}^*$ can be derived by
 
@@ -273,16 +273,16 @@ where $\mathbf{\phi}^\wedge$ is the skew-symmetric matrix representation of rota
 
 $$
 arg \space \underset{\mathbf{\xi}}{min} \space
-\frac{1}{2} \sum^n\_{i=1} 
+\frac{1}{2} \sum^n_{i=1} 
 \big|\big|
-    \mathbf{p}\_i - e^{\mathbf{\xi}^\wedge} \mathbf{p}'_i
+    \mathbf{p}_i - e^{\mathbf{\xi}^\wedge} \mathbf{p}'_i
 \big|\big|^2_2
 $$
 
 By introducing a trivial perturbation $\Delta \mathbf{\xi}$, 
 $$
 \begin{align*}
-\frac{\partial \mathbf{e}\_i}{\partial \mathbf{\Delta \mathbf{\xi}}}&=
+\frac{\partial \mathbf{e}_i}{\partial \mathbf{\Delta \mathbf{\xi}}}&=
 \underset{\Delta \mathbf{\xi} \rightarrow 0}{lim}
     \frac
     {e^{\Delta \mathbf{\xi}^{\wedge}}e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}'_i-e^{ \mathbf{\xi}^{\wedge}}\mathbf{p}'_i}
@@ -303,14 +303,14 @@ Point-to-Plane ICP is useful if the to-be-detected objects have plane surface th
 
 Point-to-Plane ICP instead of measuring two clouds' centroids, it measures normals.
 
-For a correspondence point pair $(\mathbf{d}\_i, \mathbf{s}\_i)$, the normal of $\mathbf{d}\_i$ can be computed by, for example, collectively compute $\mathbf{d}\_i$'s 5 neighbor points as a plane, then finding the normal $\mathbf{n}\_i$.
+For a correspondence point pair $(\mathbf{d}_i, \mathbf{s}_i)$, the normal of $\mathbf{d}_i$ can be computed by, for example, collectively compute $\mathbf{d}_i$'s 5 neighbor points as a plane, then finding the normal $\mathbf{n}_i$.
 
 $$
-\min_{\mathbf{s_i}} \sum_i \big( (\mathbf{d}\_i - {\mathbf{s}}\_i) \cdot \mathbf{n}_d \big)^2
+\min_{\mathbf{s_i}} \sum_i \big( (\mathbf{d}_i - {\mathbf{s}}_i) \cdot \mathbf{n}_d \big)^2
 $$
 
-If $(\mathbf{d}\_i - {\mathbf{s}}\_i)$ and $\mathbf{n}_d$ are perpendicular, the $\mathbf{d}\_i$ are ${\mathbf{s}}\_i$ parallel to each other (there is $(\mathbf{d}\_i - {\mathbf{s}}\_i) \rightarrow \infty$).
-The distance $|\mathbf{d}\_i - {\mathbf{s}}\_i|$ is minimized when $\big( (\mathbf{d}\_i - {\mathbf{s}}\_i) \cdot \mathbf{n}_d \big)^2$ is minimized.
+If $(\mathbf{d}_i - {\mathbf{s}}_i)$ and $\mathbf{n}_d$ are perpendicular, the $\mathbf{d}_i$ are ${\mathbf{s}}_i$ parallel to each other (there is $(\mathbf{d}_i - {\mathbf{s}}_i) \rightarrow \infty$).
+The distance $|\mathbf{d}_i - {\mathbf{s}}_i|$ is minimized when $\big( (\mathbf{d}_i - {\mathbf{s}}_i) \cdot \mathbf{n}_d \big)^2$ is minimized.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/point_to_plain_icp.png" width="40%" height="40%" alt="point_to_plain_icp" />

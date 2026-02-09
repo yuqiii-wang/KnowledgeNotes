@@ -201,7 +201,7 @@ arg \space \underset{[\mathbf{R}|\mathbf{t}]}{min} \space
 \mathbf{J}([\mathbf{R}|\mathbf{t}]) &= 
 ||\mathbf{e}||^2
 \\\\ & =
-\sum^n\_{i=1} e_i^\text{T} e_i
+\sum^n_{i=1} e_i^\text{T} e_i
 \end{align*}
 $$
 

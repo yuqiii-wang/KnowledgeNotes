@@ -218,8 +218,8 @@ A &= LD L^{-1} = LD L^{\text{T}}
 \\\\ &=
 \begin{bmatrix}
       1 & 0 & 0 \\\\
-      L\_{21} & 1 & 0 \\\\
-      L\_{31} & L\_{32} & 1
+      L_{21} & 1 & 0 \\\\
+      L_{31} & L_{32} & 1
 \end{bmatrix}
 \begin{bmatrix}
       D_1 & 0 & 0 \\\\
@@ -227,15 +227,15 @@ A &= LD L^{-1} = LD L^{\text{T}}
       0 & 0 & D_3
 \end{bmatrix}
 \begin{bmatrix}
-      1 & L\_{21} & L\_{31} \\\\
-      0 & 1 & L\_{32} \\\\
+      1 & L_{21} & L_{31} \\\\
+      0 & 1 & L_{32} \\\\
       0 & 0 & 1
 \end{bmatrix}
 \\\\ &=
 \begin{bmatrix}
       D_1 &  & (\text{symmetric}) \\\\
-      L\_{21}D_1 & L^2_{21}D_1+D_2 &  \\\\
-      L\_{31}D_1 & L\_{31}L\_{21}D_1+L\_{32}D_2 & L^2_{31}D_1+L^2_{32}D_2+D_3
+      L_{21}D_1 & L^2_{21}D_1+D_2 &  \\\\
+      L_{31}D_1 & L_{31}L_{21}D_1+L_{32}D_2 & L^2_{31}D_1+L^2_{32}D_2+D_3
 \end{bmatrix}
 \end{align*}
 $$
@@ -245,8 +245,8 @@ where
 $$
 \begin{align*}
 D_j &= A_{jj} - \sum^{j-1}_{k=1} L^2_{jk} D_k \\\\
-L\_{ij} &= \frac{1}{D_j} \bigg( 
-      A_{ij} - \sum^{j-1}_{k=1} L\_{ik} L\_{jk} D_{k}
+L_{ij} &= \frac{1}{D_j} \bigg( 
+      A_{ij} - \sum^{j-1}_{k=1} L_{ik} L_{jk} D_{k}
 \bigg) \quad i>j 
 \end{align*}
 $$
@@ -318,7 +318,7 @@ The figure below describes the above projection with this notation substitution 
 </div>
 </br>
 
-Express $\mathbf{a}\_i$ over our newly computed orthonormal basis:
+Express $\mathbf{a}_i$ over our newly computed orthonormal basis:
 
 $$
 \begin{align*}
@@ -594,7 +594,7 @@ $$
 
 ### Gram-Schmidt Process vs Householder
 
-Given that Householder transformation $\~{H}\_i$ is orthogonal having $det(\~{H}\_i)=\pm 1$, and there is $\~{H}\_i \~{\mathbf{a}}\_i=\pm ||\~{\mathbf{a}}\_i||\~{\mathbf{e}}\_i$, Householder transformation $\~{H}\_i$ maintains the length of each $\~{\mathbf{a}}\_i$ at to each orthogonal basis vector $\~{\mathbf{e}}\_i$.
+Given that Householder transformation $\~{H}_i$ is orthogonal having $det(\~{H}_i)=\pm 1$, and there is $\~{H}_i \~{\mathbf{a}}_i=\pm ||\~{\mathbf{a}}_i||\~{\mathbf{e}}_i$, Householder transformation $\~{H}_i$ maintains the length of each $\~{\mathbf{a}}_i$ at to each orthogonal basis vector $\~{\mathbf{e}}_i$.
 
 This is in stark contrast to the transformation by Gram-Schmidt process that $\mathbf{e}_k=\frac{\mathbf{u}_k}{||\mathbf{u}_k||}$ sees worsening loss of precision as dimensions grow for $\mathbf{u}_k$. As a result, $\langle\mathbf{e}_k,\mathbf{a}_n\rangle$ in $R$ might not retain full information.
 

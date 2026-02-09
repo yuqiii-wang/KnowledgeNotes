@@ -15,7 +15,7 @@ where $\sigma(\mathbf{z})$ is an activation function, that for example, by sigmo
 
 ### Back Propagation
 
-Define Mean Squared Error (MSE) as the loss function (as an example) $L=\frac{1}{2}||\hat{\mathbf{y}}-\mathbf{y}||^2=\frac{1}{n} \frac{1}{2}\sum^n_i ({y}\_i-\hat{y}\_i)^2$
+Define Mean Squared Error (MSE) as the loss function (as an example) $L=\frac{1}{2}||\hat{\mathbf{y}}-\mathbf{y}||^2=\frac{1}{n} \frac{1}{2}\sum^n_i ({y}_i-\hat{y}_i)^2$
 
 * Gradient of Loss w.r.t Activation:
 
@@ -130,7 +130,7 @@ $$
 
 ### Example Batch Normalization (BN) vs Layer Normalization (LN)
 
-For example, there are $N$ images each of the size $\mathbf{x}\_i \in \mathbb{R}^{C \times H \times W}$, for $C$ channels/features of a window size $H \times W$.
+For example, there are $N$ images each of the size $\mathbf{x}_i \in \mathbb{R}^{C \times H \times W}$, for $C$ channels/features of a window size $H \times W$.
 
 * Batch Normalization (BN)
 
@@ -156,8 +156,8 @@ In batch normalization, instead by $X_{\max}$ and $X_{\min}$, mean $\mu_B$ and v
 
 $$
 \begin{align*}
-\text{Normalization } && \hat{x}\_i &= \frac{x\_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}} \\\\
-\text{Scaling and Shifting } && {x}\_i' &= \gamma \hat{x}\_i + \beta
+\text{Normalization } && \hat{x}_i &= \frac{x_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}} \\\\
+\text{Scaling and Shifting } && {x}_i' &= \gamma \hat{x}_i + \beta
 \end{align*}
 $$
 
@@ -188,7 +188,7 @@ During inference, batch normalization uses the moving averages of the mean and v
 
 * Scaling and Shifting
 
-The normalized values (by $\hat{x}\_i = \frac{x\_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}}$) have zero mean (for assumed batch size of $m$, there is $\frac{1}{m}\sum^m_i \hat{x}\_i-\mu_B=0$) and unit variance (for $\frac{1}{\sigma_B^2}\sum^m_i \frac{1}{m}(\hat{x}\_i-\mu_B)^2=1$).
+The normalized values (by $\hat{x}_i = \frac{x_i-\mu_B}{\sqrt{\sigma^2_B + \epsilon}}$) have zero mean (for assumed batch size of $m$, there is $\frac{1}{m}\sum^m_i \hat{x}_i-\mu_B=0$) and unit variance (for $\frac{1}{\sigma_B^2}\sum^m_i \frac{1}{m}(\hat{x}_i-\mu_B)^2=1$).
 This is not good as zero mean and unit variance have removed scaling and shifting information.
 
 The introduced learnable parameters $\gamma$ and $\beta$ restore the power of raw data feature representation.
@@ -200,12 +200,12 @@ By constraining inputs/outputs to about the range $[-1, 1]$ (even having scaled 
 
 ### Layer Normalization (LN)
 
-Normalization works on a layer of $d$ neurons that $\mu_L=\frac{1}{d}\sum_i^d x\_i$ and $\sigma_L^2=\frac{1}{d}\sum_i^d (x\_i-\mu_L)^2$.
+Normalization works on a layer of $d$ neurons that $\mu_L=\frac{1}{d}\sum_i^d x_i$ and $\sigma_L^2=\frac{1}{d}\sum_i^d (x_i-\mu_L)^2$.
 
 $$
 \begin{align*}
-\text{Normalization } && \hat{x}\_i &= \frac{x\_i-\mu_L}{\sqrt{\sigma^2_L + \epsilon}} \\\\
-\text{Scaling and Shifting } && {x}\_i' &= \gamma \hat{x}\_i + \beta
+\text{Normalization } && \hat{x}_i &= \frac{x_i-\mu_L}{\sqrt{\sigma^2_L + \epsilon}} \\\\
+\text{Scaling and Shifting } && {x}_i' &= \gamma \hat{x}_i + \beta
 \end{align*}
 $$
 

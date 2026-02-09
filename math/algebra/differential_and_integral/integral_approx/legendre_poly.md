@@ -13,8 +13,8 @@ $$
 or recursively starting with $L_0(x)=1, L_1(x)=x$, there is
 
 $$
-(n+1)L\_{n+1}(x) = 
-(2n+1)x L_n (x) - n L\_{n-1}(x)
+(n+1)L_{n+1}(x) = 
+(2n+1)x L_n (x) - n L_{n-1}(x)
 $$
 
 For example, for $n=1$, there is
@@ -27,13 +27,13 @@ L_2(x) &= \frac{3}{2}x^2 - \frac{1}{2}
 \end{align*}
 $$ 
 
-Solve the above equations by $L_n(x)=0$ with different degree $n$ and obtain roots $x\_i$ 
+Solve the above equations by $L_n(x)=0$ with different degree $n$ and obtain roots $x_i$ 
 
 For weights $w_i$, there is
 
 $$
 w_i=
-\frac{2}{(1-x\_i^2)\big(L_n'(x\_i)\big)^2}
+\frac{2}{(1-x_i^2)\big(L_n'(x_i)\big)^2}
 $$ 
 
 Here is a table of result summary.

@@ -22,12 +22,12 @@ Each bounding box has five predictions:
 
 * $(x,y)$ represents the center of an object bounding box relative to the bounds of a grid cell
 * $(w, h)$ represents the width and height relative to the image size
-* $C$ represents the number of classes, in which each class probability is conditional on having a present object $p_i(c)=\text{Pr}(\text{Class}\_i|\text{Object})$
+* $C$ represents the number of classes, in which each class probability is conditional on having a present object $p_i(c)=\text{Pr}(\text{Class}_i|\text{Object})$
 
 The per-class per-bounding-box confidence score is
 
 $$
-\text{Pr}(\text{Class}\_i|\text{Object}) \cdot
+\text{Pr}(\text{Class}_i|\text{Object}) \cdot
 \text{Pr(Object)} \cdot \text{IOU}^{\text{truth}}_{\text{pred}}
 $$
 
@@ -78,47 +78,47 @@ and similarly there is $\mathbb{1}^{noobj}_{ij} \in \{0,1\}$, set zero when cont
 
 The total loss function is the sum of the below five loss functions
 $$
-L = L\_{coord}  + L\_{size} + L\_{C-obj} + L\_{C-noobj} + L\_{c}
+L = L_{coord}  + L_{size} + L_{C-obj} + L_{C-noobj} + L_{c}
 $$
 
-* Object coordinate relative to grid cell loss $L\_{coord}$ per-grid-cell per-bounding-box
+* Object coordinate relative to grid cell loss $L_{coord}$ per-grid-cell per-bounding-box
 
 $$
-L\_{coord} = 
+L_{coord} = 
 \lambda_{coord} \sum^{S^2}_{i=0} \sum^{B}_{j=0}
-\mathbb{1}^{obj}_{ij} \Big( (x\_i-\hat{x}\_i)^2 + (y_i-\hat{y}\_i)^2 \Big)
+\mathbb{1}^{obj}_{ij} \Big( (x_i-\hat{x}_i)^2 + (y_i-\hat{y}_i)^2 \Big)
 $$
 
-* Object rectangle/bounding box size loss $L\_{size}$ per-grid-cell per-bounding-box
+* Object rectangle/bounding box size loss $L_{size}$ per-grid-cell per-bounding-box
 
 $$
-L\_{size} =
+L_{size} =
 \lambda_{coord} \sum^{S^2}_{i=0} \sum^{B}_{j=0}
-\mathbb{1}^{obj}_{ij} \Big( \big(\sqrt{w}\_i-\sqrt{\hat{w}\_i} \big)^2 + \big(\sqrt{h}\_i-\sqrt{\hat{h}\_i} \big)^2 \Big)
+\mathbb{1}^{obj}_{ij} \Big( \big(\sqrt{w}_i-\sqrt{\hat{w}_i} \big)^2 + \big(\sqrt{h}_i-\sqrt{\hat{h}_i} \big)^2 \Big)
 $$
 
-* Contained object prediction class loss $L\_{C-obj}$ (loss is zero when having predicted the correct class) per-grid-cell per-bounding-box
+* Contained object prediction class loss $L_{C-obj}$ (loss is zero when having predicted the correct class) per-grid-cell per-bounding-box
 
 $$
-L\_{C-obj} =
+L_{C-obj} =
 \sum^{S^2}_{i=0} \sum^{B}_{j=0}
-\mathbb{1}^{obj}_{ij} \big( C_i-\hat{C}\_i \big)^2
+\mathbb{1}^{obj}_{ij} \big( C_i-\hat{C}_i \big)^2
 $$
 
-* Non-contained object prediction class loss $L\_{C-noobj}$ (loss is zero when having predicted the correct class) per-grid-cell per-bounding-box
+* Non-contained object prediction class loss $L_{C-noobj}$ (loss is zero when having predicted the correct class) per-grid-cell per-bounding-box
 
 $$
-L\_{C-noobj} = 
+L_{C-noobj} = 
 \lambda_{noord}
 \sum^{S^2}_{i=0} \sum^{B}_{j=0}
-\mathbb{1}^{noobj}_{ij} \big( C_i-\hat{C}\_i \big)^2
+\mathbb{1}^{noobj}_{ij} \big( C_i-\hat{C}_i \big)^2
 $$
 
 * All grid cells predicting all correct classes loss $L_c$ (one grid cell can contain many different objects)
 
 $$
-L\_{c} = \sum^{S^2}_{i=0} \mathbb{1}^{obj}_{ij}
-\sum_{c \in \text{classes}} \big( p_i(c) - \hat{p}\_i(c) \big)^2
+L_{c} = \sum^{S^2}_{i=0} \mathbb{1}^{obj}_{ij}
+\sum_{c \in \text{classes}} \big( p_i(c) - \hat{p}_i(c) \big)^2
 $$
 
 ## YOLOv3 Improvements

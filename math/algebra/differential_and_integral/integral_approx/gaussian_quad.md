@@ -1,8 +1,8 @@
 # Gaussian quadrature
 
-A quadrature rule is an approximation of the definite integral of a function, usually stated as a weighted sum of function values $\sum^n\_{i=1} w_i f(x\_i)$ at specified points $x\_i$ within the domain of integration $[a,b]$. 
+A quadrature rule is an approximation of the definite integral of a function, usually stated as a weighted sum of function values $\sum^n_{i=1} w_i f(x_i)$ at specified points $x_i$ within the domain of integration $[a,b]$. 
 
-Gaussian quadrature rule can yield an exact result for polynomials of degree $2n+1$ or less by a suitable choice of the nodes $x\_i$ and weights $w_i$ for $i=0,1,...,n$.
+Gaussian quadrature rule can yield an exact result for polynomials of degree $2n+1$ or less by a suitable choice of the nodes $x_i$ and weights $w_i$ for $i=0,1,...,n$.
 
 * Intuition
 
@@ -47,24 +47,24 @@ $r(x)$ can be interpolated via Lagrange polynomials $l_i(x)$ such as
 $$
 \begin{align*}
 r(x) &=
-\sum_{i=1}^n l_i(x) r(x\_i)
+\sum_{i=1}^n l_i(x) r(x_i)
 \\\\ &=
 \sum_{i-1}^n
-  \prod_{i \ne j} \frac{x-x_j}{x\_i-x_j}
-  r(x\_i)
+  \prod_{i \ne j} \frac{x-x_j}{x_i-x_j}
+  r(x_i)
 \end{align*}
 $$  
 
-Take $x\_i^*$ as the zeros of $p(x)$, then $p(x\_i^*)q(x\_i^*)=0$ for $i=0,1,...,n$, hence
+Take $x_i^*$ as the zeros of $p(x)$, then $p(x_i^*)q(x_i^*)=0$ for $i=0,1,...,n$, hence
 
 $$
 \begin{align*}
-f(x\_i^*) &= q(x\_i^*)p(x\_i^*)+r(x\_i^*)
-\\\\ &=r(x\_i^*)
+f(x_i^*) &= q(x_i^*)p(x_i^*)+r(x_i^*)
+\\\\ &=r(x_i^*)
 \end{align*}
 $$
 
-For the integral, by orthogonality $p(x\_i^*)q(x\_i^*)=0$ (such as by Legendre polynomials $\int L_n(x)L_m(x)=0$ for $m\ne m$) and $r(x)$ as the remainder polynomial of at most $n$ degree interpolated by Lagrange polynomial interpolation, there is
+For the integral, by orthogonality $p(x_i^*)q(x_i^*)=0$ (such as by Legendre polynomials $\int L_n(x)L_m(x)=0$ for $m\ne m$) and $r(x)$ as the remainder polynomial of at most $n$ degree interpolated by Lagrange polynomial interpolation, there is
 
 $$
 \begin{align*}
@@ -78,15 +78,15 @@ $$
 \\\\ &=
 \int^b_a r(x)w(x) dx
 \\\\ &=
-\int^b_a w(x) \sum_{i-1}^n l_i(x) r(x\_i^*)
+\int^b_a w(x) \sum_{i-1}^n l_i(x) r(x_i^*)
  dx
 \\\\ &=
-\int^b_a r(x\_i^*)
+\int^b_a r(x_i^*)
 \sum_{i-1}^n l_i(x) w(x)
 \\\\ &=
-\sum^n\_{i=0} w_i r(x\_i^*)
+\sum^n_{i=0} w_i r(x_i^*)
 \\\\ &=
-\sum^n\_{i=0} w_i f(x\_i^*)
+\sum^n_{i=0} w_i f(x_i^*)
 \end{align*}
 $$
 

@@ -94,7 +94,8 @@ $$
 
 3. For an energy-gained sinusoidal signal $s = \alpha + j \omega$, in which when $\alpha > 0$ indicates an energy-amplifying system response; when $\alpha < 0$ indicates an energy-decaying system response.
 
-For example, given a decaying energy sinusoidal system response 
+For example, given a decaying energy sinusoidal system response
+
 $$
 e^{- \alpha t}sin(\omega t) u(t)
 $$

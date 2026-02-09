@@ -14,17 +14,17 @@ https://zhuanlan.zhihu.com/p/662790439
 Positional embeddings represent the position of a word in a sentence/document.
 The order of how vocabularies are arranged in a sentence/document provides rich information in NLP.
 
-Transformer uses the below formulas to compute positional embeddings (PE) by a rotation matrix $R(\mathbf{\theta}\_i)$ where each token position is represented/offset by $\mathbf{\theta}\_i$ with respect to dimension $\mathbf{i}$.
+Transformer uses the below formulas to compute positional embeddings (PE) by a rotation matrix $R(\mathbf{\theta}_i)$ where each token position is represented/offset by $\mathbf{\theta}_i$ with respect to dimension $\mathbf{i}$.
 
 $$
 \begin{align*}
-\text{PE}(i) &= R (\mathbf{\theta}\_i)
+\text{PE}(i) &= R (\mathbf{\theta}_i)
 \qquad
-\text{where } \mathbf{\theta}\_i = 10000^{-\frac{2i}{\mathbf{D}}}
+\text{where } \mathbf{\theta}_i = 10000^{-\frac{2i}{\mathbf{D}}}
 \end{align*}
 $$
 
-where $\mathbf{i}=\{ 1,2,...,D \} \in \mathbb{Z}^{+}$ is a vector of dimension indices, then define $\mathbf{\theta}\_i=10000^{-\frac{2i}{\mathbf{D}}}$.
+where $\mathbf{i}=\{ 1,2,...,D \} \in \mathbb{Z}^{+}$ is a vector of dimension indices, then define $\mathbf{\theta}_i=10000^{-\frac{2i}{\mathbf{D}}}$.
 
 ### Intuition of Embedding Design Philosophy: Semantics Indicated By Dimensionality Encapsulated Token Distance Info
 
@@ -64,8 +64,8 @@ In summary, pets play an indispensable role in enriching our lives through their
 
 Let $\mathbf{q}_{\text{dogs}}$ be a query to see the latent relationship with a local concept $\mathbf{k}_{\text{cats}}$ and a global one $\mathbf{k}_{\text{pets}}$.
 
-Let $|n\_{\text{dogs}}-m_{\text{cats}}|=\Delta_{50}=50$ represent "dogs" sees "cats" with a token distance of $50$,
-and let $|n\_{\text{dogs}}-m_{\text{pets}}|=\Delta_{300}=300$ represent "dogs" sees "pets" with a token distance of $300$.
+Let $|n_{\text{dogs}}-m_{\text{cats}}|=\Delta_{50}=50$ represent "dogs" sees "cats" with a token distance of $50$,
+and let $|n_{\text{dogs}}-m_{\text{pets}}|=\Delta_{300}=300$ represent "dogs" sees "pets" with a token distance of $300$.
 
 Let $\mathbf{freqDimTrans}(\Delta)\in\mathbb{R}^{1\times 1000}$ be the transform that maps a token embedding to distance-aware ones so that each dimension represents certain distance (this transform as an example covers $1k$ token length).
 It takes positional gap $\Delta$ as argument.

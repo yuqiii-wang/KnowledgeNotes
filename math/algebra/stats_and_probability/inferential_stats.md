@@ -44,8 +44,8 @@ Given variability of sample distribution, there are
 
 Variance is a specific measure of variability.
 
-* for a sample: $\sigma = {\frac{\sum_n (x\_i - \overline{x})^2}{n-1}}$
-* for population: $\sigma = {\frac{\sum_n (x\_i - \overline{x})^2}{N}}$
+* for a sample: $\sigma = {\frac{\sum_n (x_i - \overline{x})^2}{n-1}}$
+* for population: $\sigma = {\frac{\sum_n (x_i - \overline{x})^2}{N}}$
 
 where
 
@@ -64,7 +64,7 @@ Simply, there is $\text{Standard Deviation}=\sqrt{\text{Variance}}$.
 It represents the gap between a sample vs sample mean.
 It can be either positive or negative.
 
-Simply, there is $\text{Deviation}=x\_i - \overline{x}$.
+Simply, there is $\text{Deviation}=x_i - \overline{x}$.
 
 ## Tests in Inferential Statistics
 
@@ -238,7 +238,8 @@ By simple linear transformations there are $E(\frac{X}{n})=n$ and $V(\frac{X}{n}
 
 ### Sample Size and Confidence Intervals
 
-Required sample size satisfying confidence interval $z$ and accuracy $\epsilon$ can found by 
+Required sample size satisfying confidence interval $z$ and accuracy $\epsilon$ can found by
+
 $$
 n=\frac{z^2 \hat{p}(1-\hat{p})}{\epsilon^2}
 $$
@@ -361,16 +362,16 @@ $$
 
 ## Analysis of Variance (ANOVA) 
 
-Let $X_{ij}$ represent the $j$-th observation in the $i$-th population (there are a total of $k$ population groups) having a normal distribution with mean $\overline{X}\_i$ and variance $\sigma_i^2$ (by equal variance (homogeneity of variance) assumption, there is $\sigma^2=\sigma^2_1=\sigma^2_2=...=\sigma^2_i...=\sigma^2_k$).
+Let $X_{ij}$ represent the $j$-th observation in the $i$-th population (there are a total of $k$ population groups) having a normal distribution with mean $\overline{X}_i$ and variance $\sigma_i^2$ (by equal variance (homogeneity of variance) assumption, there is $\sigma^2=\sigma^2_1=\sigma^2_2=...=\sigma^2_i...=\sigma^2_k$).
 
 $$
-X_{ij} \sim N (\overline{X}\_i, \sigma^2)
+X_{ij} \sim N (\overline{X}_i, \sigma^2)
 $$
 
 One-Way ANOVA says
 
 * $H_0$: $\overline{X}_1=\overline{X}_2=...=\mu_k=\mu$
-* $H_1$: $\overline{X}\_i$ are not all equal 
+* $H_1$: $\overline{X}_i$ are not all equal 
 
 ### Assumptions
 
@@ -392,14 +393,14 @@ $$
     \frac{\text{treatment effect} + \text{sampling error}}{\text{sampling error}}
     =\frac{\text{between-group variability}}{\text{in-group variability}}
     \\\\ &=
-    \frac{\frac{1}{k-1}\sum^k_{i=1} n_i (\hat{X}\_i-\overline{X})^2}
-        {\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\hat{X}\_i)^2}
+    \frac{\frac{1}{k-1}\sum^k_{i=1} n_i (\hat{X}_i-\overline{X})^2}
+        {\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\hat{X}_i)^2}
 \end{align*}
 $$
 
 where $k-1$ and $n-k$ are degree of freedom reflecting Bessel's correction.
 
-There is definition $\hat{X}\_i := \overline{X}\_i$ in the case of predicting $\overline{X}\_i$ comparing means of different groups.
+There is definition $\hat{X}_i := \overline{X}_i$ in the case of predicting $\overline{X}_i$ comparing means of different groups.
 
 Large $F$ means test is significant.
 * $H_0$: $F \approx 1$
@@ -433,8 +434,8 @@ They have different shapes such as below.
 
 where
 
-* $SSR$: regression sum of squares $\sum^k_{i=1} n_i (\overline{X}\_i-\overline{X})^2$
-* $SSE$: error sum of squares $\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}\_i)^2$
+* $SSR$: regression sum of squares $\sum^k_{i=1} n_i (\overline{X}_i-\overline{X})^2$
+* $SSE$: error sum of squares $\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}_i)^2$
 * $SST$: total sum of squares ($SST = SSR + SSE$)
 * $df_r$: regression degrees of freedom ($df_r = k-1$)
 * $df_e$: error degrees of freedom ($df_e = n-k$)
@@ -451,7 +452,7 @@ Post hoc in Latin means "after this" (after source data finished collection, ana
 A post-hoc test is to identify which groups differ from each other. 
 Therefore, such tests are also called *multiple comparison tests*.
 
-Tukey's HSD test compares all possible pairs of means $\overline{X}\_i - \overline{X}_j$, and identifies any difference between two means that is greater than the expected standard error.  
+Tukey's HSD test compares all possible pairs of means $\overline{X}_i - \overline{X}_j$, and identifies any difference between two means that is greater than the expected standard error.  
 
 ### Linear Contrast
 
@@ -460,7 +461,7 @@ A linear contrast is a linear combination of variables whose coefficients add up
 Let $\mathbf{\theta}= \{ \theta_1, \theta_2, ..., \theta_k \}$ be a set of variables, either parameters or statistics, and $\mathbf{a} = \{ a_1, a_2, ..., a_k \}$ be known coefficients/constants.
 It is called *contrast* if $\sum^k_{i=1} a_i = 0$.
 
-A very typical use is test against means: $\theta_i := \overline{X}\_i$, and $a_i$ is used to control "weights" of each $\theta_i$.
+A very typical use is test against means: $\theta_i := \overline{X}_i$, and $a_i$ is used to control "weights" of each $\theta_i$.
 There is a base reference that sees $a_t=1$ (treatment group), while others $a_{i \ne t} < 0$ (control groups).
 
 Example:
@@ -483,7 +484,7 @@ Null hypothesis of linear contrast is
 Test statistic is (always take $df_r=1$)
 $$
 F = \frac{MSR_{contrast}}{MSE_{in-group}} 
-    = \frac{{\hat{\Psi}^2}/ \big({\sum_i^{k}(a_i^2/n_i)}\big)}{\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}\_i)^2}
+    = \frac{{\hat{\Psi}^2}/ \big({\sum_i^{k}(a_i^2/n_i)}\big)}{\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}_i)^2}
     \sim F(1, n-k)
 $$
 
@@ -491,5 +492,5 @@ By t test, there is
 
 $$
 t = \sqrt{F} = \sqrt{\frac{MSR_{contrast}}{MSE_{in-group}} }
-    = \frac{\hat{\Psi}}{\sqrt{\Big(\sum_i^{k}(a_i^2/n_i)\Big)\Big( \frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}\_i)^2 \Big)}}
+    = \frac{\hat{\Psi}}{\sqrt{\Big(\sum_i^{k}(a_i^2/n_i)\Big)\Big( \frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}_i)^2 \Big)}}
 $$

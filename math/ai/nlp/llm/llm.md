@@ -120,7 +120,7 @@ Other BERT models for different tasks may have different structures, such as no 
 `pooler_output` contains a "representation" of each sequence in the batch, and is of size `(batch_size, hidden_size)`
 
 The pooler_layer is a $\text{tanh}$-applied activation on the output from the last hidden layer (the last layer of encoder): $\mathbf{y}_{p}=\text{tanh}(W_p\mathbf{x}_h+\mathbf{b}_p)$.
-The pooler layer's output $\mathbf{y}_{p} \in \mathbb{R}^{1 \times 768}$ can be considered as a "compressed" representation of the sequence of the last encoder's tokens $\mathbf{x}_{h} \in \mathbb{R}^{n\_{seq} \times 768}$, where $n\_{seq}$ is `sql_len`.
+The pooler layer's output $\mathbf{y}_{p} \in \mathbb{R}^{1 \times 768}$ can be considered as a "compressed" representation of the sequence of the last encoder's tokens $\mathbf{x}_{h} \in \mathbb{R}^{n_{seq} \times 768}$, where $n_{seq}$ is `sql_len`.
 
 $\mathbf{y}_{p}$ can be further used in tasks such as classification, while $\mathbf{x}_{h}$ can be used for token representation.
 

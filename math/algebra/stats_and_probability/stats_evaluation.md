@@ -206,18 +206,18 @@ If values are negative, correlation is in a reverse order.
 
 ### Spearman Correlation
 
-Pearson correlation assesses how strong the linear relationship is between samples, such that for $x\_i \in X$ and $y_i \in Y$, Pearson correlation of $1$ should see equal value increase such that $x\_i + \Delta x = y_i + \Delta x$.
+Pearson correlation assesses how strong the linear relationship is between samples, such that for $x_i \in X$ and $y_i \in Y$, Pearson correlation of $1$ should see equal value increase such that $x_i + \Delta x = y_i + \Delta x$.
 
-Spearman's correlation $r_s \in [-1, 1]$ assesses monotonic (linear or non-linear) relationships that there is always  $x_{i+1} > x\_i \in X$ and $y_{i+1} > y_i \in Y$.
+Spearman's correlation $r_s \in [-1, 1]$ assesses monotonic (linear or non-linear) relationships that there is always  $x_{i+1} > x_i \in X$ and $y_{i+1} > y_i \in Y$.
 
-For example, the non-linear monotonic increase sigmoid gives a Pearson correlation of $0.88$, but Spearman correlation of $1$, as each $\{ x\_i, y_i \}$ pair sees for each $x_{i+1} > x\_i$, the corresponding sample point should see $y_{i+1} > y_i$.
+For example, the non-linear monotonic increase sigmoid gives a Pearson correlation of $0.88$, but Spearman correlation of $1$, as each $\{ x_i, y_i \}$ pair sees for each $x_{i+1} > x_i$, the corresponding sample point should see $y_{i+1} > y_i$.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/spearman_vs_pearson.svg.png" width="25%" height="25%" alt="spearman_vs_pearson.svg" />
 </div>
 </br>
 
-By definition, the Spearman correlation coefficient $r_s$ is defined as the Pearson correlation coefficient between the rank variables (rank variables refer to for variables with index $i=1,2,...$, there exists either $x_{i+1}>x\_i$ or $x_{i+1}<x\_i$ for all $i=1,2,...$).
+By definition, the Spearman correlation coefficient $r_s$ is defined as the Pearson correlation coefficient between the rank variables (rank variables refer to for variables with index $i=1,2,...$, there exists either $x_{i+1}>x_i$ or $x_{i+1}<x_i$ for all $i=1,2,...$).
 
 For a sample of size $n$, the n$ $raw scores $X, Y$ are converted to ranks $R(X)$ and $R(Y)$, so that $r_s$ is
 
@@ -230,18 +230,18 @@ $$
 
 *Matthews correlation* (*Phi coefficient*) $r_{\phi}$ is a measure of association for two binary variables.
 
-Define $n\_{xy}$ as the count of binary records with respect to $X$ and $Y$ such that
+Define $n_{xy}$ as the count of binary records with respect to $X$ and $Y$ such that
 
 ||y=1|y=0|total|
 |-|-|-|-|
-|x=1|$n\_{11}$|$n\_{10}$|$n\_{1y}$|
-|x=0|$n\_{01}$|$n\_{00}$|$n\_{0y}$|
-|total|$n\_{x1}$|$n\_{x0}$|$n$|
+|x=1|$n_{11}$|$n_{10}$|$n_{1y}$|
+|x=0|$n_{01}$|$n_{00}$|$n_{0y}$|
+|total|$n_{x1}$|$n_{x0}$|$n$|
 
 So that $r_{\phi}$ is defined as
 
 $$
-r_{\phi}= \frac{n\_{11} n\_{00} - n\_{10} n\_{01}}{\sqrt{n\_{1y}n\_{0y}n\_{x1}n\_{x0}}}
+r_{\phi}= \frac{n_{11} n_{00} - n_{10} n_{01}}{\sqrt{n_{1y}n_{0y}n_{x1}n_{x0}}}
 $$
 
 In machine learning, it can be used to measure confusion matrix

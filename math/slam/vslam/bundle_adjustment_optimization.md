@@ -233,20 +233,20 @@ Similarly in $SE(3)$, there is
 
 $$
 [\mathbf{R}|\mathbf{t}]_{ij} = 
-[\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j
+[\mathbf{R}|\mathbf{t}]^{-1}_i [\mathbf{R}|\mathbf{t}]_j
 $$
 
-The error $\mathbf{e}_{ij}$ that concerns the differences between the ideal pose transformation $[\mathbf{R}|\mathbf{t}]_{ij}$ and the two-pose-based computed transformation $[\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j$ is defined as
+The error $\mathbf{e}_{ij}$ that concerns the differences between the ideal pose transformation $[\mathbf{R}|\mathbf{t}]_{ij}$ and the two-pose-based computed transformation $[\mathbf{R}|\mathbf{t}]^{-1}_i [\mathbf{R}|\mathbf{t}]_j$ is defined as
 
 $$
 \mathbf{e}_{ij} = 
-ln([\mathbf{R}|\mathbf{t}]_{ij}^{-1}[\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j)
+ln([\mathbf{R}|\mathbf{t}]_{ij}^{-1}[\mathbf{R}|\mathbf{t}]^{-1}_i [\mathbf{R}|\mathbf{t}]_j)
 $$
 
 Apply Lie algebra perturbation $\Delta \mathbf{\xi}$ for finding the Jacobian of $\mathbf{e}$.
-Since there are $\mathbf{\xi}\_i$ and $\mathbf{\xi}_j$, the Jacobian should respect these two variables. Define two trivial disturbance terms $\Delta \mathbf{\xi}\_i$ and $\Delta \mathbf{\xi}_j$ to the above error expression.
+Since there are $\mathbf{\xi}_i$ and $\mathbf{\xi}_j$, the Jacobian should respect these two variables. Define two trivial disturbance terms $\Delta \mathbf{\xi}_i$ and $\Delta \mathbf{\xi}_j$ to the above error expression.
 
 $$
 \hat{\mathbf{e}}_{ij} = 
-ln([\mathbf{R}|\mathbf{t}]_{ij}^{-1}[\mathbf{R}|\mathbf{t}]^{-1}\_i e^{(-\Delta \mathbf{\xi}\_i)^\wedge} e^{(\Delta \mathbf{\xi}_j)^\wedge} [\mathbf{R}|\mathbf{t}]_j)^\vee
+ln([\mathbf{R}|\mathbf{t}]_{ij}^{-1}[\mathbf{R}|\mathbf{t}]^{-1}_i e^{(-\Delta \mathbf{\xi}_i)^\wedge} e^{(\Delta \mathbf{\xi}_j)^\wedge} [\mathbf{R}|\mathbf{t}]_j)^\vee
 $$

@@ -76,7 +76,7 @@ and $\mathbf{n}_{\tiny{Bb_\omega}} \sim N(\mathbf{0}, \mathbf{\Sigma}_{\tiny{Bb_
 
 The difference vectors $\Delta\hat{\mathbf{p}}_{\tiny{{K+1}}}, \Delta\hat{\mathbf{v}}_{\tiny{{K+1}}}, \Delta\hat{\mathbf{\phi}}_{\tiny{{K+1}}}$ has no subscript $\tiny{W}$, since they only describe two keyframes' transform differences.
 
-The estimates are inclusive of gyroscope bias $\mathbf{b}\_\omega$ and acceleration bias $\mathbf{b}_a$.
+The estimates are inclusive of gyroscope bias $\mathbf{b}_\omega$ and acceleration bias $\mathbf{b}_a$.
 
 ## Estimator Preprocessing
 
@@ -97,11 +97,11 @@ a global full bundle adjustment is applied to minimize the total reprojection er
 
 * Gyroscope Bias Calibration
 
-For frames in a sliding window containing some camera frames $k_c \in \mathcal{B}$, attempt to update gyroscope bias $\mathbf{b}\_\omega$, 
+For frames in a sliding window containing some camera frames $k_c \in \mathcal{B}$, attempt to update gyroscope bias $\mathbf{b}_\omega$, 
 so that IMU orientation reading difference $\Delta\hat{\mathbf{\phi}}_{\tiny{K}}$ can align to camera estimated orientation transform $\mathbf{\phi}^{-1}_{\tiny{C{K+1}}} \otimes \mathbf{\phi}_{\tiny{CK}}$.
 
 $$
-\argmin_{\delta \mathbf{b}\_\omega}
+\argmin_{\delta \mathbf{b}_\omega}
 \sum_{k_c \in \mathcal{B}}
 \Big|\Big|
 \big( \mathbf{\phi}^{-1}_{\tiny{C{k+1}}} \otimes
@@ -185,12 +185,12 @@ $$
 \text{Marginalization residuals}}+
 \underbrace{\sum_{k_i \in \mathcal{B}} 
 \Big|\Big|
-    \mathbf{r}\_\mathcal{B} ( \hat{\mathbf{z}}_{\tiny{BK}} ,\mathbf{\mathcal{X}} )
+    \mathbf{r}_\mathcal{B} ( \hat{\mathbf{z}}_{\tiny{BK}} ,\mathbf{\mathcal{X}} )
 \Big|\Big|^2}_{
 \text{IMU measurement residuals}}+  
 \underbrace{\sum_{(j,l) \in \mathcal{C}} 
 \rho\Big( \big|\big|
-    \mathbf{r}\_\mathcal{C} ( \hat{\mathbf{z}}_{\tiny{C_jl}},\mathbf{\mathcal{X}} )
+    \mathbf{r}_\mathcal{C} ( \hat{\mathbf{z}}_{\tiny{C_jl}},\mathbf{\mathcal{X}} )
 \big|\big|^2 \Big)}_{
 \text{Visual measurement residuals}}
 $$
@@ -215,7 +215,7 @@ Consider the IMU measurements within two consecutive
 frames $k_i$ and $k_{i+1}$
 
 $$
-\mathbf{r}\_\mathcal{B} ( \hat{\mathbf{z}}_{\tiny{Bk_i+1}} ,\mathbf{\mathcal{X}} )=
+\mathbf{r}_\mathcal{B} ( \hat{\mathbf{z}}_{\tiny{Bk_i+1}} ,\mathbf{\mathcal{X}} )=
 \begin{bmatrix}
     \delta \Delta \mathbf{p}_{\tiny{Bk_i+1}} \\\\
     \delta \Delta \mathbf{v}_{\tiny{Bk_i+1}} \\\\

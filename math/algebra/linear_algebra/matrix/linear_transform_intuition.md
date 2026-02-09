@@ -70,7 +70,7 @@ $$
 
 Geometrically speaking, the transformation matrix $A$ can be explained as scaling with a multiple of $1$ on $\mathbf{v}_{\lambda_1}$ and $3$ on $\mathbf{v}_{\lambda_2}$ basis.
 
-For example, there exist points by transform $A\mathbf{x}\_i$:
+For example, there exist points by transform $A\mathbf{x}_i$:
 
 * $\mathbf{x}_1=(1,3)$, there is $A\mathbf{x}_1=(7,5)$
 * $\mathbf{x}_2=(1,2)$, there is $A\mathbf{x}_2=(5,4)$
@@ -455,20 +455,20 @@ A\mathbf{x}_3=\begin{bmatrix}
 \end{bmatrix}
 $$
 
-All $\mathbf{x}\_i$ are collapsed into the line $0=x_2-x_1$.
+All $\mathbf{x}_i$ are collapsed into the line $0=x_2-x_1$.
 
 ### Trace
 
 Trace of a matrix is defined as
 
 $$
-\text{tr}(A) = \sum^n\_{i=1} a_{ii}
+\text{tr}(A) = \sum^n_{i=1} a_{ii}
 $$
 
 A matrix trace equals the dum of its diagonal entries and the sum of Its eigenvalues.
 
 $$
-\sum^n\_{i=1}\lambda_i=\text{tr}(A)
+\sum^n_{i=1}\lambda_i=\text{tr}(A)
 $$
 
 Since matrix trace is the sum of eigenvalues, it shows a vague overview of eigenvalue "energy".

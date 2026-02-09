@@ -108,22 +108,22 @@ The probability of a token $t_{i+1}$ being selected takes into consideration of 
 
 ### The Root Cause: Attention Sink
 
-Revisit the attention formula. At step $n$, the model generates a query $\mathbf{q}_{n}$. It compares this against all previous keys $\mathbf{k}\_i$ for $1 \le i < n$.
+Revisit the attention formula. At step $n$, the model generates a query $\mathbf{q}_{n}$. It compares this against all previous keys $\mathbf{k}_i$ for $1 \le i < n$.
 
 $$
-\text{score}(n,i)=\frac{\mathbf{q}_{n}^{\top}\mathbf{k}\_i}{\sqrt{d}}
+\text{score}(n,i)=\frac{\mathbf{q}_{n}^{\top}\mathbf{k}_i}{\sqrt{d}}
 $$
 
-Assumed RoPE as token embedding, then let $\mathbf{q}_{n}=R_{n}\mathbf{q}_1$ and $\mathbf{k}\_i=R_{i}\mathbf{k}_1$ so that their position info is represented via rotation matrices $R_{n}$ and $R_{i}$, there is
+Assumed RoPE as token embedding, then let $\mathbf{q}_{n}=R_{n}\mathbf{q}_1$ and $\mathbf{k}_i=R_{i}\mathbf{k}_1$ so that their position info is represented via rotation matrices $R_{n}$ and $R_{i}$, there is
 
 $$
-\max \text{score}(\mathbf{q}_{n}, \mathbf{k}\_i) =
+\max \text{score}(\mathbf{q}_{n}, \mathbf{k}_i) =
 (R_{n} \mathbf{q}_1)^{\top} (R_{i} \mathbf{k}_1) =
 \mathbf{q}_1^{\top} R_{n}^{\top} R_{i} \mathbf{k}_1 =
 \mathbf{q}_1^{\top} R_{n-i} \mathbf{k}_1
 $$
 
-$R_{n-i}$ represents the distance between the query token $\mathbf{q}_{n}$ vs history key token $\mathbf{k}\_i$.
+$R_{n-i}$ represents the distance between the query token $\mathbf{q}_{n}$ vs history key token $\mathbf{k}_i$.
 The subscript $\space_{1}$ represents token sequence position if both query and key tokens are aligned to the same $1$-st position.
 Further decompose $R_{n-i}$ can see that within LLM embedding context length the smaller the $|n-i|$, the higher the $\text{score}(n,i)$.
 
@@ -155,13 +155,13 @@ Temperature scaling is a common method for controlling randomness in predictions
 Given temperature $T$, for token prediction by softmax, there is
 
 $$
-t_i=\frac{\exp(\frac{\text{logit}\_i}{T})}{\sum_{j=1}^n\exp(\frac{\text{logit}_j}{T})}
+t_i=\frac{\exp(\frac{\text{logit}_i}{T})}{\sum_{j=1}^n\exp(\frac{\text{logit}_j}{T})}
 $$
 
 * High Temperature $T > 1$: Increases randomness by flattening the distribution. The logits are scaled down, causing the difference between the probabilities of different tokens to become smaller. The results are more diverse.
 * Low Temperature $T < 1$: Increases determinism by sharpening the distribution. The logits are amplified, causing higher-probability tokens to become more dominant. This results in more predictable, conservative outputs.
 * Temperature $T = 1$: The distribution remains unchanged, as it represents the default probability scale from the model.
-* Temperature $T = 0$: $\frac{\text{logit}\_i}{T}$ becomes extremely large for the highest logit, and the other logits become negligible. The model will produce the same output every time for a given input, as it always selects the most probable token.
+* Temperature $T = 0$: $\frac{\text{logit}_i}{T}$ becomes extremely large for the highest logit, and the other logits become negligible. The model will produce the same output every time for a given input, as it always selects the most probable token.
 
 #### Penalty for Repetition
 
@@ -184,7 +184,7 @@ Top-k sampling restricts the selection of the next token to the top $k$ tokens w
 
 $$
 P_{\text{top-k}}(t_{i+1}|t_1,t_2,...,t_i)=\begin{cases}
-    \frac{\exp(\frac{\text{logit}\_i}{T})}{\sum_{j=1}^n\exp(\frac{\text{logit}_j}{T})} & \text{if } t_{i+1} \in \text{top-k} \\\\
+    \frac{\exp(\frac{\text{logit}_i}{T})}{\sum_{j=1}^n\exp(\frac{\text{logit}_j}{T})} & \text{if } t_{i+1} \in \text{top-k} \\\\
     0 & \text{otherwise}
 \end{cases}
 $$

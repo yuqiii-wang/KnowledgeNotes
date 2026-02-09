@@ -18,7 +18,7 @@ Define softmax: for $i=1,2,...,n$ and $\mathbf{z}=(z_1, z_2, ..., z_n)\in \mathb
 
 $$
 \sigma(\mathbf{z})_i=
-\frac{e^{z_i}}{\sum^n\_{j=1}e^{z_j}}
+\frac{e^{z_i}}{\sum^n_{j=1}e^{z_j}}
 $$
 
 For $e^{z_i}$ grows exponentially, large inputs $z_i$ has significant influence over the activation energy.
@@ -161,7 +161,7 @@ The standard deviation $\sqrt{d}$ describes the mean variance that $\frac{1}{\sq
 
 ### Multi-Head Attention
 
-Define an attention head $\text{head}\_i=\text{Attention}(Q_i,K_i,V_i)$, for multi-head, there is
+Define an attention head $\text{head}_i=\text{Attention}(Q_i,K_i,V_i)$, for multi-head, there is
 
 $$
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \text{head}_2, ..., \text{head}_n) W^O
@@ -186,7 +186,7 @@ Basically, the multi-head transform is a linear transform by $W^O$.
 
 The linear projection by $W^O$ should yield a result matrix same size of input, i.e., `[batch_size, seq_length, d_model]`.
 
-For example for BERT-base with $d_{\text{model}}=768$ and $n\_{\text{head}}=12$ heads, there is $d_k=d_v=768/12=64$.
+For example for BERT-base with $d_{\text{model}}=768$ and $n_{\text{head}}=12$ heads, there is $d_k=d_v=768/12=64$.
 Each attention head gives `[batch_size, seq_length, 64]`.
 
 To retain the shape to `[batch_size, seq_length, d_model]`, there is $W^O \in \mathbb{R}^{768 \times 768}$ derived from `[n_head * d_v, d_model]`
@@ -296,19 +296,19 @@ $$ \mathbf{q}_n = W_Q^{(l)} \mathbf{t}_n^{(l-1)} $$
 
 2. The Key (Historical Context at position $i$):
 
-Because of previous-token head, the vector at historical position $i$, $\mathbf{t}\_i^{(l-1)}$, contains a copy of its predecessor $\mathbf{t}_{i-1}$.
+Because of previous-token head, the vector at historical position $i$, $\mathbf{t}_i^{(l-1)}$, contains a copy of its predecessor $\mathbf{t}_{i-1}$.
 
-$$ \mathbf{k}\_i = W_K^{(l)} \mathbf{t}\_i^{(l-1)} \qquad \text{Contains info about } \mathbf{t}_{i-1} \text{} $$
+$$ \mathbf{k}_i = W_K^{(l)} \mathbf{t}_i^{(l-1)} \qquad \text{Contains info about } \mathbf{t}_{i-1} \text{} $$
 
 3. The Attention Score (Pattern Matching):
 The score peaks when the current token matches the historical predecessor ($\mathbf{t}_n \approx \mathbf{t}_{i-1}$).
 
-$$ \alpha_{n,i} = \text{softmax}\left( \frac{(\mathbf{t}_n^{(l-1)})^\top (W_Q^{(l)})^\top W_K^{(l)} \mathbf{t}\_i^{(l-1)}}{\sqrt{d}} \right) $$
+$$ \alpha_{n,i} = \text{softmax}\left( \frac{(\mathbf{t}_n^{(l-1)})^\top (W_Q^{(l)})^\top W_K^{(l)} \mathbf{t}_i^{(l-1)}}{\sqrt{d}} \right) $$
 
 4. The Update (Copying Next Token):
-The head copies the content of $\mathbf{t}\_i$ (which is $B$) into the residual stream of $\mathbf{t}_n$.
+The head copies the content of $\mathbf{t}_i$ (which is $B$) into the residual stream of $\mathbf{t}_n$.
 
-$$ \mathbf{t}_n^{(l)} = \mathbf{t}_n^{(l-1)} + \sum_{i < n} \alpha_{n,i} \cdot \left( W_O^{(l)} W_V^{(l)} \mathbf{t}\_i^{(l-1)} \right) $$
+$$ \mathbf{t}_n^{(l)} = \mathbf{t}_n^{(l-1)} + \sum_{i < n} \alpha_{n,i} \cdot \left( W_O^{(l)} W_V^{(l)} \mathbf{t}_i^{(l-1)} \right) $$
 
 ## Encoder and Decoder
 

@@ -29,7 +29,8 @@ I(x,y) +
 \end{align*}
 $$
 
-So that $E_{ssd}(u,v)$ can be expressed as 
+So that $E_{ssd}(u,v)$ can be expressed as
+
 $$
 \begin{align*}
 E_{ssd}(u,v)&=
@@ -108,8 +109,8 @@ $$
 
 Since $rank(H)=2$, there are two eigenvalues corresponding to two eigenvectors
 $$
-H \mathbf{x}\_+ = \lambda_+\mathbf{x}\_+ \\\\
-H \mathbf{x}\_- = \lambda_-\mathbf{x}\_-
+H \mathbf{x}_+ = \lambda_+\mathbf{x}_+ \\\\
+H \mathbf{x}_- = \lambda_-\mathbf{x}_-
 $$
 
 ![eigen_feat_detection](imgs/eigen_feat_detection.png "eigen_feat_detection")

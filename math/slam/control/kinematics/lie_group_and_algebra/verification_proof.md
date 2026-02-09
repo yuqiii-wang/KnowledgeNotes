@@ -337,11 +337,11 @@ R\mathbf{p} &= \begin{bmatrix}
 \end{align*}
 $$
 
-Compute $\mathbf{p}^\wedge \mathbf{r}\_i$, there is
+Compute $\mathbf{p}^\wedge \mathbf{r}_i$, there is
 
 $$
 \begin{align*}
-\mathbf{p}^\wedge \mathbf{r}\_i &= 
+\mathbf{p}^\wedge \mathbf{r}_i &= 
 \begin{bmatrix}
     0 & -p_z & p_y \\\\
     p_z & 0 & -p_x \\\\
@@ -356,7 +356,7 @@ $$
 \\\\ &=
 r_{i,x} (p_z - p_y)+r_{i,y} (p_x - p_y)+r_{i,z} (p_y - p_x)
 \\\\ &=
-\mathbf{p} \times \mathbf{r}\_i
+\mathbf{p} \times \mathbf{r}_i
 \end{align*}
 $$
 
@@ -397,7 +397,7 @@ $$
 det(M) = \mathbf{a}^\text{T}(\mathbf{b}\times\mathbf{c})= \mathbf{b}^\text{T}(\mathbf{c}\times\mathbf{a})= \mathbf{c}^\text{T}(\mathbf{a}\times\mathbf{b})
 $$
 
-So that, set $M=[\mathbf{r}\_i \quad \mathbf{p} \quad \mathbf{r}\_i]$. Since $\mathbf{r}\_i$ is perpendicular to $\mathbf{p}\times\mathbf{r}\_i$, the dot product should be zero.
+So that, set $M=[\mathbf{r}_i \quad \mathbf{p} \quad \mathbf{r}_i]$. Since $\mathbf{r}_i$ is perpendicular to $\mathbf{p}\times\mathbf{r}_i$, the dot product should be zero.
 
 $$
 \begin{align*}
@@ -409,7 +409,7 @@ $$
 
 Recall that a rotation matrix $R$ is orthogonal that $\mathbf{r}_1, \mathbf{r}_2, \mathbf{r}_3 \in \mathbb{R}^3$ are perpendicular to each other, hence, by vector cross product  right-hand rule, there are $\mathbf{r}_1 \times \mathbf{r}_3 = \mathbf{r}_2,\space\space \mathbf{r}_1 \times \mathbf{r}_2 = -\mathbf{r}_3,\space\space \mathbf{r}_2 \times \mathbf{r}_3 = -\mathbf{r}_1$.
 
-This time, set $M=[\mathbf{r}\_i \quad \mathbf{p} \quad \mathbf{r}_j], \quad \forall i \ne j$, there are
+This time, set $M=[\mathbf{r}_i \quad \mathbf{p} \quad \mathbf{r}_j], \quad \forall i \ne j$, there are
 
 $$
 \begin{align*}

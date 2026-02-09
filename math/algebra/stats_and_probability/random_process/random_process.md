@@ -29,13 +29,13 @@ A naive approach to variance is
 $$
 \sigma^2 = \overline{(x^2)} - (\overline{x})^2 =
 \frac{
-    \sum_{i=1}^n x\_i^2 - \frac{1}{n}\Big(\sum_{i=1}^n x\_i \Big)^2}{ n }
+    \sum_{i=1}^n x_i^2 - \frac{1}{n}\Big(\sum_{i=1}^n x_i \Big)^2}{ n }
 $$
 
 By Bessel's correction, there is
 
 $$
-s^2 = \frac{n}{n-1} \Bigg( \frac{1}{n}\sum_{i=1}^n x\_i^2 - \Big( \frac{1}{n}\sum_{i=1}^n x\_i \Big)^2 \Bigg)
+s^2 = \frac{n}{n-1} \Bigg( \frac{1}{n}\sum_{i=1}^n x_i^2 - \Big( \frac{1}{n}\sum_{i=1}^n x_i \Big)^2 \Bigg)
 $$
 
 One can understand Bessel's correction as the degrees of freedom in the residuals vector (residuals, not errors, because the population mean is unknown):

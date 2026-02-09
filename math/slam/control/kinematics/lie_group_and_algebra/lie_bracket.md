@@ -317,7 +317,8 @@ $$
 
 ## Baker-Campbell-Hausdorff Formula
 
-BCH is used to transform Lie Algebra exponential mapping summation $e^A e^B = e^C$ into a pure Lie Bracket computation, such that 
+BCH is used to transform Lie Algebra exponential mapping summation $e^A e^B = e^C$ into a pure Lie Bracket computation, such that
+
 $$
 \begin{align*}
 C = ln(e^A e^B)= A + B + \frac{1}{2}[A, B] + \frac{1}{12}[A,[A, B]] + \frac{1}{12}[B,[B, A]] + ...

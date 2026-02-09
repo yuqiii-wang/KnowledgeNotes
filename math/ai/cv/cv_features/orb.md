@@ -89,7 +89,7 @@ $(p,q)$ pair sampling can follows *Gaussian distribution* or *Coarse Polar Grid*
 * $(p, q)$ being evenly distributed in polar coordinates
 * in polar coordinates, set $p=(0,0)$, while $q$ is sampled randomly
 
-The $256$-dimensional test vector is represented in a $2 \times n$ matrix $S$ such as $(x\_i, y_i), i=1,2,...,256$.
+The $256$-dimensional test vector is represented in a $2 \times n$ matrix $S$ such as $(x_i, y_i), i=1,2,...,256$.
 
 $$
 S = 

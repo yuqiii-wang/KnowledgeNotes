@@ -94,7 +94,7 @@ $$
 \end{bmatrix}
 $$
 
-For a particular pixel $p(x\_i,y_j)$, the residual can be approximated by Jacobian
+For a particular pixel $p(x_i,y_j)$, the residual can be approximated by Jacobian
 
 $$
 \begin{align*}
@@ -106,8 +106,8 @@ $$
     r_{x=i, y=j}(\Delta dx,\Delta dy)
     &= 
     \underbrace{\begin{bmatrix}
-        \frac{\partial r_{x=i, y=j} p(x\_i,y_j)}{\partial dx} &
-        \frac{\partial r_{x=i, y=j} p(x\_i,y_j)}{\partial dy}
+        \frac{\partial r_{x=i, y=j} p(x_i,y_j)}{\partial dx} &
+        \frac{\partial r_{x=i, y=j} p(x_i,y_j)}{\partial dy}
     \end{bmatrix}}_{\text{Jacobian}}
     \begin{bmatrix}
         \Delta dx \\\\

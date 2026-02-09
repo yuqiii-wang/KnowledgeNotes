@@ -9,11 +9,11 @@ $$
 \int_a^b w(x) f(x) dx&=
 \int_{-\infty}^{+\infty} e^{-x^2} f(x) dx
 \\\\ &\approx
-\sum_{i=1}^n w_i f(x\_i)
+\sum_{i=1}^n w_i f(x_i)
 \end{align*}
 $$
 
-An $n$-point ($x\_i$ for $i=0,1,...,n$) Gaussian quadrature rule measures polynomials of degree $2n-1$ or less.
+An $n$-point ($x_i$ for $i=0,1,...,n$) Gaussian quadrature rule measures polynomials of degree $2n-1$ or less.
 
 * Benefits and intuition
 
@@ -72,10 +72,10 @@ $$
 e^{-x^2} f(x) dx
 \approx
 \sum_{i=1}^n 
-w_i f(x\_i)
+w_i f(x_i)
 $$
 
-where, given $x\_i^*$ are the roots of physicist's Hermite polynomial $h_{n}(x)$, $w_i$ can be expressed as
+where, given $x_i^*$ are the roots of physicist's Hermite polynomial $h_{n}(x)$, $w_i$ can be expressed as
 
 $$
 w_i =
@@ -90,14 +90,14 @@ $$
 
 ## Example: two point approximation
 
-Define $x\_i^*$ as the roots of Hermite polynomials. For $n=2$, there is $h_2(x) = 4x^2-2$, whose zeros are $x_0^*=\frac{1}{\sqrt{2}}$ and $x_1^*=-\frac{1}{\sqrt{2}}$
+Define $x_i^*$ as the roots of Hermite polynomials. For $n=2$, there is $h_2(x) = 4x^2-2$, whose zeros are $x_0^*=\frac{1}{\sqrt{2}}$ and $x_1^*=-\frac{1}{\sqrt{2}}$
 
 $$
 \begin{align*}
 \int_a^b w(x) f(x) dx&=
 \int_{-\infty}^{+\infty} e^{-x^2} f(x) dx
 \\\\ &\approx
-\sum_{i=1}^n w_i f(x\_i^*)
+\sum_{i=1}^n w_i f(x_i^*)
 \\\\ &=
 w_0 f(x_0^*) + w_1 f(x_1^*)
 \\\\ &=
@@ -215,7 +215,7 @@ f(\sqrt{2} \sigma x + \mu)
 dx
 \\\\ &\approx
 \frac{1}{\sqrt{\pi}}
-\sum_{i=1}^n w_i f(\sqrt{2} \sigma x\_i + \mu)
+\sum_{i=1}^n w_i f(\sqrt{2} \sigma x_i + \mu)
 
 \end{align*}
 $$

@@ -28,7 +28,7 @@ where L2 normalization is the most used for vector similarity computation, e.g.,
 
 Layer normalization is applied over the feature dimensions of a single training example rather than over the batch.
 
-Given $\mu=\frac{1}{d}\sum^{d}_{i=1}d_i$ and $\sigma^2=\frac{1}{d}\sum^d_{i=1}(x\_i-\mu)^2$,
+Given $\mu=\frac{1}{d}\sum^{d}_{i=1}d_i$ and $\sigma^2=\frac{1}{d}\sum^d_{i=1}(x_i-\mu)^2$,
 the layer norm is defined as
 
 $$
@@ -64,7 +64,7 @@ print("LayerNorm output:\n", output_layernorm)
 RMSNorm normalizes using the root mean square value only (i.e. without centering by the mean).
 
 $$
-\text{RMSNorm}(\mathbf{x})=\mathbf{\gamma}\odot\frac{\mathbf{x}}{\sqrt{\frac{1}{d}\sum^d_{i=1}x\_i^2+\epsilon}}
+\text{RMSNorm}(\mathbf{x})=\mathbf{\gamma}\odot\frac{\mathbf{x}}{\sqrt{\frac{1}{d}\sum^d_{i=1}x_i^2+\epsilon}}
 $$
 
 ```py

@@ -6,7 +6,7 @@
 
 $$
 \mathbf{v}_{\text{norm}} = \frac{\mathbf{v}}{||\mathbf{v}||_1}
-\qquad \text{where } ||\mathbf{v}||_1=\sum^n\_{i=1} |v_i|
+\qquad \text{where } ||\mathbf{v}||_1=\sum^n_{i=1} |v_i|
 $$
 
 ### L2 Norm (Euclidean Norm) Normalization
@@ -16,7 +16,7 @@ Used to transform vectors to unit vector (length of 1.).
 
 $$
 \mathbf{v}_{\text{norm}} = \frac{\mathbf{v}}{||\mathbf{v}||_2}
-\qquad \text{where } ||\mathbf{v}||_2=\sqrt{\sum^n\_{i=1} v_i^2}
+\qquad \text{where } ||\mathbf{v}||_2=\sqrt{\sum^n_{i=1} v_i^2}
 $$
 
 ### Min-Max Normalization
@@ -24,7 +24,7 @@ $$
 Used when features need to be compared on a common scale.
 
 $$
-{v}_{\text{norm}, i} = \frac{{v}\_i-\min(\mathbf{v})}{\max(\mathbf{v})-\min(\mathbf{v})}
+{v}_{\text{norm}, i} = \frac{{v}_i-\min(\mathbf{v})}{\max(\mathbf{v})-\min(\mathbf{v})}
 $$
 
 ### Z-score Normalization (Standardization)
@@ -32,7 +32,7 @@ $$
 Used when the data follows a Gaussian distribution of a mean $\mu(\mathbf{v})$ and standard deviation $\sigma(\mathbf{v})$, that the normalized vectors $\mathbf{v}_{\text{norm}}$ have a mean of 0 and a standard deviation of 1.
 
 $$
-{v}_{\text{norm}, i} = \frac{{v}\_i-\mu(\mathbf{v})}{\sigma(\mathbf{v})}
+{v}_{\text{norm}, i} = \frac{{v}_i-\mu(\mathbf{v})}{\sigma(\mathbf{v})}
 $$
 
 ## Gram-Schmidt process

@@ -211,8 +211,8 @@ In SLAM, the usual approach is to first estimate the camera pose using P3P/EPnP 
 
 ## Solve PnP by Minimizing the Reprojection Error (a.k.a Bundle Adjustment)
 
-Suppose there are $n$ known 3D space points $\mathbf{P}$ (denote the element as $\mathbf{P}\_i=(X_i, Y_i, Z_i)^\text{T}$) on the world frame, 
-and their projection (projected pixel coordinates denoted as $\mathbf{x}\_i=[u_i, v_i]^\text{T}$) on an image, we want to calculate the transform from the world coordinates to camera coordinates $\mathbf{P}'=\big[\mathbf{R}|\mathbf{t} \big]\mathbf{P}$.
+Suppose there are $n$ known 3D space points $\mathbf{P}$ (denote the element as $\mathbf{P}_i=(X_i, Y_i, Z_i)^\text{T}$) on the world frame, 
+and their projection (projected pixel coordinates denoted as $\mathbf{x}_i=[u_i, v_i]^\text{T}$) on an image, we want to calculate the transform from the world coordinates to camera coordinates $\mathbf{P}'=\big[\mathbf{R}|\mathbf{t} \big]\mathbf{P}$.
 
 $$
 s_i \begin{bmatrix}
@@ -231,14 +231,14 @@ $$
 
 ### Reprojection Error
 
-Here defines a least-squared optimization problem, where $\mathbf{e}\_i=\mathbf{x}\_i - \frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big] \mathbf{P}\_i$ refers to the discrepancy between the observed pixel location and the projected object point on the camera image via the transformation $\frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big]$.
+Here defines a least-squared optimization problem, where $\mathbf{e}_i=\mathbf{x}_i - \frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big] \mathbf{P}_i$ refers to the discrepancy between the observed pixel location and the projected object point on the camera image via the transformation $\frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big]$.
 
 $$
 \big[\mathbf{R}|\mathbf{t} \big]^* = 
 arg \space \underset{\big[\mathbf{R}|\mathbf{t} \big]}{min}
-\frac{1}{2} \sum^n\_{i=1}
+\frac{1}{2} \sum^n_{i=1}
 \bigg|\bigg|
-  \mathbf{x}\_i - \frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big] \mathbf{P}\_i
+  \mathbf{x}_i - \frac{1}{s_i} \mathbf{K} \big[\mathbf{R}|\mathbf{t} \big] \mathbf{P}_i
 \bigg|\bigg|^2_2
 $$
 
@@ -354,7 +354,8 @@ $$
 \end{align*}
 $$
 
-where 
+where
+
 $$
 \begin{align*}
 \mathbf{P}'^{\wedge}&=

@@ -68,7 +68,7 @@ The probability (likelihood) of observing our entire dataset of $n$ points is:
 
 $$
 L(\mathbf{\theta};\mathbf{x})=
-\prod_{i=1}^n p(x\_i; \mathbf{\theta})
+\prod_{i=1}^n p(x_i; \mathbf{\theta})
 $$
 
 The log representation is
@@ -76,7 +76,7 @@ The log representation is
 $$
 \begin{align*}
 log \space L(\mathbf{\theta};\mathbf{x})&=
-\sum_{i=1}^n log \space p(x\_i; \mathbf{\theta})
+\sum_{i=1}^n log \space p(x_i; \mathbf{\theta})
 \\\\ &=
 \sum_{i=1}^n log \space 
 [
@@ -87,7 +87,7 @@ log \space L(\mathbf{\theta};\mathbf{x})&=
 \end{align*}
 $$
 
-Define $\mathbf{\gamma} = [\gamma_{1,i}, \gamma_{2,i}]$ as the $x\_i$ 's label probability, and $x\_i$ 's label can be determined by $max(\gamma_{1,i}, \gamma_{2,i})$.
+Define $\mathbf{\gamma} = [\gamma_{1,i}, \gamma_{2,i}]$ as the $x_i$ 's label probability, and $x_i$ 's label can be determined by $max(\gamma_{1,i}, \gamma_{2,i})$.
 
 Alternatively run Expectation and Maximization:
 
@@ -96,15 +96,15 @@ Alternatively run Expectation and Maximization:
 $$
 \gamma_{1,i} = 
 \frac
-{\pi_1 \cdot g_1(x\_i | \mu_1, \sigma_1^2)}
-{\pi_1 \cdot g_1(x\_i | \mu_1, \sigma_1^2) +
-\pi_2 \cdot g_2(x\_i | \mu_2, \sigma_2^2)} \\\\
+{\pi_1 \cdot g_1(x_i | \mu_1, \sigma_1^2)}
+{\pi_1 \cdot g_1(x_i | \mu_1, \sigma_1^2) +
+\pi_2 \cdot g_2(x_i | \mu_2, \sigma_2^2)} \\\\
 \space \\\\
 \gamma_{2,i} = 
 \frac
-{\pi_2 \cdot g_2(x\_i | \mu_2, \sigma_2^2)}
-{\pi_1 \cdot g_1(x\_i | \mu_1, \sigma_1^2) +
-\pi_2 \cdot g_2(x\_i | \mu_2, \sigma_2^2)}
+{\pi_2 \cdot g_2(x_i | \mu_2, \sigma_2^2)}
+{\pi_1 \cdot g_1(x_i | \mu_1, \sigma_1^2) +
+\pi_2 \cdot g_2(x_i | \mu_2, \sigma_2^2)}
 $$
 
 subject to
@@ -116,13 +116,13 @@ $$
 * Maximization
 
 $$
-\mu_1=\frac{\sum_i \gamma_{1,i} x\_i}{\sum_i \gamma_{1,i}}
+\mu_1=\frac{\sum_i \gamma_{1,i} x_i}{\sum_i \gamma_{1,i}}
 \quad
-\mu_2=\frac{\sum_i \gamma_{2,i} x\_i}{\sum_i \gamma_{2,i}}\\\\
+\mu_2=\frac{\sum_i \gamma_{2,i} x_i}{\sum_i \gamma_{2,i}}\\\\
 \space \\\\
-\sigma_1 = \frac{\sum_i \gamma_{1,i} (x\_i-\mu_1)^2}{\sum_i \gamma_{1,i} }
+\sigma_1 = \frac{\sum_i \gamma_{1,i} (x_i-\mu_1)^2}{\sum_i \gamma_{1,i} }
 \quad
-\sigma_2 = \frac{\sum_i \gamma_{2,i} (x\_i-\mu_2)^2}{\sum_i \gamma_{2,i} }\\\\
+\sigma_2 = \frac{\sum_i \gamma_{2,i} (x_i-\mu_2)^2}{\sum_i \gamma_{2,i} }\\\\
 \quad \\\\
 \pi_1 = \frac{1}{n} \sum_i \gamma_{1,i}
 \quad

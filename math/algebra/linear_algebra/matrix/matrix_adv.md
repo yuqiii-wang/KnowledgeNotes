@@ -133,7 +133,7 @@ Hessian is a square matrix of second-order partial derivatives of a scalar-value
 Define $f:\mathbb{R}^n \rightarrow \mathbb{R}$ whose input is a vector $\mathbf{x} \in \mathbb{R}^n$ with a scalar output $f(\mathbf{x}) \in \mathbb{R}$. $\mathbf{H}$ of $f$ is an $n \times n$ matrix such as
 
 $$
-(\mathbf{H}_f)_{i,j}=\frac{\partial^2 f}{\partial x\_i \partial x_j}
+(\mathbf{H}_f)_{i,j}=\frac{\partial^2 f}{\partial x_i \partial x_j}
 $$
 
 or
@@ -160,7 +160,7 @@ The trace of a square matrix $A\in\mathbb{C}^{n \times n}$, denoted $tr(A)$,is d
 The trace is only defined for a square matrix ($n × n$).
 
 $$
-\text{tr}(A) = \sum^n\_{i=1} a_{ii}
+\text{tr}(A) = \sum^n_{i=1} a_{ii}
 $$
 
 For example, given $A$
@@ -206,7 +206,7 @@ By Vieta's formulas, the sum of the roots (eigenvalues) is
 
 $$
 \begin{align*}
-\sum^n\_{i=1}\lambda_i&=
+\sum^n_{i=1}\lambda_i&=
    \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\\\
    &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\\\
    &= \text{tr}(A)

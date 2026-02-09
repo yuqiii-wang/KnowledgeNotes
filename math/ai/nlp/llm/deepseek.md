@@ -177,29 +177,29 @@ DeepSeek sets
 ### DeepSeekMoE Architecture
 
 In comparison to traditional MoEs,
-DeepSeek employs two types of experts: shared $\text{FNN}\_i^{(s)}$ and routed experts $\text{FNN}\_i^{(r)}$,
-where the routed experts are chosen by $g_{i,t}$ that is decided by top-K most-similar input $\mathbf{u}_t$ to the expert representative vector/centroid $\mathbf{e}\_i$.
+DeepSeek employs two types of experts: shared $\text{FNN}_i^{(s)}$ and routed experts $\text{FNN}_i^{(r)}$,
+where the routed experts are chosen by $g_{i,t}$ that is decided by top-K most-similar input $\mathbf{u}_t$ to the expert representative vector/centroid $\mathbf{e}_i$.
 
 Let $\mathbf{u}_t$ be the $L$-th layer input, the next layer output $\mathbf{h}_t^{(L+1)}$ is computed by below:
 residual + $N_s$ shared experts and $N_r$ routed experts.
 
 $$
 \begin{align*}
-    \mathbf{h}_t^{(L+1)} &= \mathbf{u}_t+\sum^{N_s}_{i=1} \text{FNN}\_i^{(s)}(\mathbf{u}_t)+\sum^{N_r}_ig_{i,t} \text{FNN}\_i^{(r)}(\mathbf{u}_t) \\\\
+    \mathbf{h}_t^{(L+1)} &= \mathbf{u}_t+\sum^{N_s}_{i=1} \text{FNN}_i^{(s)}(\mathbf{u}_t)+\sum^{N_r}_ig_{i,t} \text{FNN}_i^{(r)}(\mathbf{u}_t) \\\\
     g_{i,t} &= \begin{cases}
         s_{i,t} & s_{i,t} \in \text{TopK}\big(\{s_{j,t} | 1 \le j \le N_r\}, K_r \big) \\\\
         0 & \text{otherwise}
     \end{cases} \\\\
-    s_{i,t} &= \text{Softmax}\_i(\mathbf{u}_t^{\top} \mathbf{e}\_i)
+    s_{i,t} &= \text{Softmax}_i(\mathbf{u}_t^{\top} \mathbf{e}_i)
 \end{align*}
 $$
 
-where $K_r$ is the number of activated routed experts that $s_{i,t}$ could retain non-zero values only if they are top $K_r$ by $\text{Softmax}\_i(\mathbf{u}_t^{\top} \mathbf{e}\_i)$.
-$\mathbf{e}\_i$ is the learned centroid of the $i$-th routed expert in this $L$ layer.
+where $K_r$ is the number of activated routed experts that $s_{i,t}$ could retain non-zero values only if they are top $K_r$ by $\text{Softmax}_i(\mathbf{u}_t^{\top} \mathbf{e}_i)$.
+$\mathbf{e}_i$ is the learned centroid of the $i$-th routed expert in this $L$ layer.
 
 DeepSeek V2 sets
 
-* $\text{FFN}\_i$ has a hidden dimension of $1536$.
+* $\text{FFN}_i$ has a hidden dimension of $1536$.
 * each MoE layer consisted of $2$ shared experts and $160$ routed experts
 
 #### Device-Limited Routing
@@ -212,10 +212,10 @@ There are $D=8$ devices/groups $\{\mathcal{E}_1, \mathcal{E}_2, ..., \mathcal{E}
 
 #### Auxiliary Loss for Expert/Device Load Balance
 
-DeepSeek V2 proposes three kinds of auxiliary loss to learn routing strategies (how expert $\mathbf{e}\_i$ be learned):
+DeepSeek V2 proposes three kinds of auxiliary loss to learn routing strategies (how expert $\mathbf{e}_i$ be learned):
 
 $$
-\min_{\mathbf{e}\_i} \big(
+\min_{\mathbf{e}_i} \big(
 \mathcal{L}_{\text{expert-balance}}+\mathcal{L}_{\text{device-balance}}+\mathcal{L}_{\text{communication-balance}} \big)
 $$
 
@@ -227,7 +227,7 @@ DeepSeek-V2 sets $\alpha_1=0.003, \alpha_2=0.05, \alpha_3=0.02$.
 In traditional MoE models, homogeneous expert sizes can lead to skewed routing, where popular experts are overloaded.
 
 A general remediation solution is penalizing experts overly received the routed tokens.
-Recall Cauchy-Schwarz inequality that $\mathcal{L}_{\text{balance}}$ reaches it minimum when the two random variables $f_i$ and $p_i$ are equally distributed, indicating that each expert $\mathbf{e}\_i$ has the same probability receiving the same number of tokens.
+Recall Cauchy-Schwarz inequality that $\mathcal{L}_{\text{balance}}$ reaches it minimum when the two random variables $f_i$ and $p_i$ are equally distributed, indicating that each expert $\mathbf{e}_i$ has the same probability receiving the same number of tokens.
 
 $$
 \mathcal{L}_{\text{balance}}=\alpha\sum_{i=1}^{N_r} \big(f_i \cdot p_i \big)
@@ -235,57 +235,57 @@ $$
 
 where
 
-* $f_i$ Fraction of tokens routed to expert $\mathbf{e}\_i$
-* $p_i$ Average router probability for expert $\mathbf{e}\_i$
+* $f_i$ Fraction of tokens routed to expert $\mathbf{e}_i$
+* $p_i$ Average router probability for expert $\mathbf{e}_i$
 * $\alpha$ Hyperparameter controlling the penalty strength
 
 DeepSeek V2 applies/extends this concept to expert, device and communication levels.
 
 ##### Expert-Level Balance Loss
 
-$\mathcal{L}_{\text{expert-balance}}$ ensures that each expert $\mathbf{e}\_i$ receives the same amount of tokens.
+$\mathcal{L}_{\text{expert-balance}}$ ensures that each expert $\mathbf{e}_i$ receives the same amount of tokens.
 
 $$
 \mathcal{L}_{\text{expert-balance}}=
 \alpha_1\sum_{i=1}^{N_r}\Big(
-    \underbrace{\frac{N_r}{K_r T} \sum_{t=1}^{T}\mathcal{1}(t\text{ if selected expert } \mathbf{e}\_i)}_{f_i}\Big) \cdot \Big(
+    \underbrace{\frac{N_r}{K_r T} \sum_{t=1}^{T}\mathcal{1}(t\text{ if selected expert } \mathbf{e}_i)}_{f_i}\Big) \cdot \Big(
     \underbrace{\frac{1}{T}\sum_{t=1}^{T}s_{i,t}}_{p_i} \Big)
 $$
 
 where $\mathcal{1}(\text{condition})=\begin{cases} 1 & \text{condition is true} \\\\ 0 & \text{condition is false} \end{cases}$ denotes the indicator function.
 
-$\mathcal{1}(t\text{ if selected expert } \mathbf{e}\_i)$ means that for an expert $\mathbf{e}\_i$,
+$\mathcal{1}(t\text{ if selected expert } \mathbf{e}_i)$ means that for an expert $\mathbf{e}_i$,
 if it has equal opportunity as other experts to be selected, given the select action is from $N_r$ to pick up top $K_r$ experts,
-this expert $\mathbf{e}\_i$ as well as other experts have an even pick-up probability of
-$\mu\big(\mathcal{1}(t\text{ if selected expert } \mathbf{e}\_i)\big)\approx\frac{K_r}{N_r}$, where $\mu(...)$ is the mean of the argument.
+this expert $\mathbf{e}_i$ as well as other experts have an even pick-up probability of
+$\mu\big(\mathcal{1}(t\text{ if selected expert } \mathbf{e}_i)\big)\approx\frac{K_r}{N_r}$, where $\mu(...)$ is the mean of the argument.
 
 Over a $T$ sequence of tokens, for each token there is $1\approx f_i=\frac{K_r}{N_r}\mathcal{1}(...)$.
 If each expert has different opportunities of receiving tokens, then $f_i<1$.
 
-$p_i$ is the mean attention score of input $\mathbf{u}\_i$ vs expert $\mathbf{e}\_i$.
+$p_i$ is the mean attention score of input $\mathbf{u}_i$ vs expert $\mathbf{e}_i$.
 
 ##### Device-Level Balance Loss
 
 $\mathcal{L}_{\text{device-balance}}$ ensures balanced computation across different devices.
 
 To reach the goal, DeepSeek V2 partitions all routed experts into $D$ groups $\{\mathcal{E}_1, \mathcal{E}_2, ..., \mathcal{E}_D\}$, and each group is assigned a computation device.
-$\frac{1}{|\mathcal{E}\_i|}\sum_{j\in\mathcal{E}\_i} (.)$ is the average group/device load.
+$\frac{1}{|\mathcal{E}_i|}\sum_{j\in\mathcal{E}_i} (.)$ is the average group/device load.
 
 $$
 \mathcal{L}_{\text{device-balance}}=
-\alpha_2\sum_{i=1}^{D}\Big(\frac{1}{|\mathcal{E}\_i|}\sum_{j\in\mathcal{E}\_i}f_i \Big)
-\cdot \Big( \frac{1}{|\mathcal{E}\_i|}\sum_{j\in\mathcal{E}\_i} p_i \Big)
+\alpha_2\sum_{i=1}^{D}\Big(\frac{1}{|\mathcal{E}_i|}\sum_{j\in\mathcal{E}_i}f_i \Big)
+\cdot \Big( \frac{1}{|\mathcal{E}_i|}\sum_{j\in\mathcal{E}_i} p_i \Big)
 $$
 
 ##### Communication Balance Loss
 
-$\mathcal{L}_{\text{communication-balance}}$ added $\mathcal{1}(t\text{ if selected device }\mathcal{E}\_i)$ that encourages equally-spread computation across different devices $\mathcal{E}\_i$.
+$\mathcal{L}_{\text{communication-balance}}$ added $\mathcal{1}(t\text{ if selected device }\mathcal{E}_i)$ that encourages equally-spread computation across different devices $\mathcal{E}_i$.
 
 $$
 \mathcal{L}_{\text{communication-balance}}=
 \alpha_3\sum_{i=1}^{D}\Big(
-    \frac{D}{M T} \sum_{t=1}^{T}\mathcal{1}(t\text{ if selected device }\mathcal{E}\_i)\Big) \cdot \Big(
-    \sum_{j\in\mathcal{E}\_i} p_i \Big)
+    \frac{D}{M T} \sum_{t=1}^{T}\mathcal{1}(t\text{ if selected device }\mathcal{E}_i)\Big) \cdot \Big(
+    \sum_{j\in\mathcal{E}_i} p_i \Big)
 $$
 
 ### Training Aggrangment
@@ -492,10 +492,10 @@ DeepSeek-V3 attempts to reduce such influence while preserving comparable balanc
 
 To achieve a better trade-off between load balance and model performance, DeepSeek-V3 pioneered an auxiliary-loss-free load balancing strategy by simply including a bias term $b_i$.
 
-Same as in DeepSeek-V2, given input token $\mathbf{u}_t$ and an expert $\mathbf{e}\_i$, the inner product $s_{i,t}$ represents the attention score of $\mathbf{u}_t$ vs $\mathbf{e}\_i$.
+Same as in DeepSeek-V2, given input token $\mathbf{u}_t$ and an expert $\mathbf{e}_i$, the inner product $s_{i,t}$ represents the attention score of $\mathbf{u}_t$ vs $\mathbf{e}_i$.
 
 $$
-s_{i,t} = \text{Softmax}\_i(\mathbf{u}_t^{\top} \mathbf{e}\_i)
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{\top} \mathbf{e}_i)
 $$
 
 The attention score $s_{i,t}$ is gated by $g'_{i,t}$ to turn on only if it is high enough to be in $\text{TopK}\big(\{s_{j,t}+b_i\}\big)$.
@@ -530,9 +530,9 @@ where $\mathcal{1}(\text{condition})=\begin{cases} 1 & \text{condition is true} 
 
 Same as in DeepSeek-V2, $K_r$ is the number of activated routed experts that $s_{i,t}$ could retain non-zero values only if they are top $K_r$ selects.
 $f_i$ represents the fraction of tokens an expert can receive,
-and $p_i$ is the mean attention score of input $\mathbf{u}\_i$ vs expert $\mathbf{e}\_i$.
+and $p_i$ is the mean attention score of input $\mathbf{u}_i$ vs expert $\mathbf{e}_i$.
 
-Recall Cauchy-Schwarz inequality that $\mathcal{L}_{\text{compl-bal}}$ reaches it minimum when the two random variables $f_i$ and $p_i$ are equally distributed, indicating that each expert $\mathbf{e}\_i$ has the same probability receiving the same number of tokens.
+Recall Cauchy-Schwarz inequality that $\mathcal{L}_{\text{compl-bal}}$ reaches it minimum when the two random variables $f_i$ and $p_i$ are equally distributed, indicating that each expert $\mathbf{e}_i$ has the same probability receiving the same number of tokens.
 
 ### DeepSeek-V3 Multi-Token Prediction in Training
 
@@ -547,7 +547,7 @@ Let $i$ be the token index and $k$ be the MTP module index, the previous module 
 For both two inputs are $\in\mathbb{R}^{d}$, the merge matrix is $M_k\in\mathbb{d\times 2d}$.
 
 $$
-\mathbf{h}\_i'^{k}=M_k[\text{RMSNorm}(\mathbf{h}_{i}^{k-1});\text{RMSNorm}\big(\text{Emb}(t_{i+k})\big)]
+\mathbf{h}_i'^{k}=M_k[\text{RMSNorm}(\mathbf{h}_{i}^{k-1});\text{RMSNorm}\big(\text{Emb}(t_{i+k})\big)]
 $$
 
 where $[.;.]$ is vector concatenation.
@@ -561,8 +561,8 @@ $$
 Then, the output head $\text{OutHead}(.)$ linearly maps the representation to logits and subsequently applies the $\text{softmax}(.)$ function to compute the prediction probabilities of the $k$-th additional token.
 
 $$
-P^{k}_{i+k+1}=\text{OutHead}(\mathbf{h}\_i^k)=
-\frac{\exp({W_h\mathbf{h}\_i^k})}{\sum^V_{v=1}\exp({W_h\mathbf{h}\_i^k})}
+P^{k}_{i+k+1}=\text{OutHead}(\mathbf{h}_i^k)=
+\frac{\exp({W_h\mathbf{h}_i^k})}{\sum^V_{v=1}\exp({W_h\mathbf{h}_i^k})}
 $$
 
 where $P^{k}_{i+k+1}\in\mathbb{R}^V$ is the prediction token given a vocabulary size $V$.

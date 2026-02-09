@@ -132,7 +132,7 @@ However, if provided original image $\mathbf{x}_{0}$, the learning can fast conv
 
 $$
 q(\mathbf{x}_{t-1}|\mathbf{x}_{t},\mathbf{x}_{0})=
-\mathcal{N}\big(\mathbf{x}_{t-1};\tilde{\mu}\_\theta(\mathbf{x}_{t},\mathbf{x}_{0}),\tilde{\beta}_t I\big)
+\mathcal{N}\big(\mathbf{x}_{t-1};\tilde{\mu}_\theta(\mathbf{x}_{t},\mathbf{x}_{0}),\tilde{\beta}_t I\big)
 $$
 
 Below proves how to leverage $\mathbf{x}_{0}$ and $\mathbf{x}_{t}$ to compute $\mathbf{x}_{t-1}$ by Bayes' rule to make the reverse process a forward one.
@@ -307,8 +307,8 @@ Here convert the expression back to using $\mathbf{z}_{\theta}$.
 $$
 \begin{align*}
 \mathcal{L}_{\text{t}} &= E_q \left[ \frac{1}{2||\Sigma_\theta(\mathbf{x}_t,t)||_2^2} \Big|\Big| \tilde{\mu}_t(\mathbf{x}_t, x_0) - \mu_\theta(\mathbf{x}_t, t) \Big|\Big|^2 \right] \\\\
-&= \mathbb{E}_{\mathbf{x}_0, \mathbf{z}} \left[ \frac{1}{2 \| \Sigma_\theta \|_2^2} \left\| \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \mathbf{z}_t \right) - \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \mathbf{z}\_\theta(\mathbf{x}_t, t) \right) \right\|^2 \right] \\\\
-&= \mathbb{E}_{\mathbf{x}_0, \mathbf{z}} \left[ \frac{(1 - \alpha_t)^2}{2 \alpha_t (1 - \bar{\alpha}_t) \| \Sigma_\theta \|_2^2} \| \mathbf{z}_t - \mathbf{z}\_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\mathbf{z}_t, t) \|^2 \right]
+&= \mathbb{E}_{\mathbf{x}_0, \mathbf{z}} \left[ \frac{1}{2 \| \Sigma_\theta \|_2^2} \left\| \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \mathbf{z}_t \right) - \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \mathbf{z}_\theta(\mathbf{x}_t, t) \right) \right\|^2 \right] \\\\
+&= \mathbb{E}_{\mathbf{x}_0, \mathbf{z}} \left[ \frac{(1 - \alpha_t)^2}{2 \alpha_t (1 - \bar{\alpha}_t) \| \Sigma_\theta \|_2^2} \| \mathbf{z}_t - \mathbf{z}_\theta(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\mathbf{z}_t, t) \|^2 \right]
 \end{align*}
 $$
 

@@ -6,10 +6,10 @@
 
 Given a function $f(\mathbf{x})$ where $\mathbf{x}\in\mathbb{R}^D$ is an input vector.
 
-* Derivative: the change rate of an dimension $x\_i$ to the function $f(x\_i)$.
+* Derivative: the change rate of an dimension $x_i$ to the function $f(x_i)$.
 
 $$
-f'(x\_i)=\lim_{h \rightarrow 0} \frac{f(x\_i+h)-f(x\_i)}{h}
+f'(x_i)=\lim_{h \rightarrow 0} \frac{f(x_i+h)-f(x_i)}{h}
 $$
 
 * Differential: find trivial function change $df$ (often) by first order derivative approximation
@@ -43,7 +43,7 @@ $$
 \frac{\partial w}{\partial c}\frac{d c}{d x}
 $$
 
-In this expression, $\frac{\partial w}{\partial x\_i}dx_i$ are called *partial differentials*.
+In this expression, $\frac{\partial w}{\partial x_i}dx_i$ are called *partial differentials*.
 
 ### Directional Derivative
 

@@ -89,10 +89,10 @@ $$
 
 ### M-estimator
 
-M-estimators are a generalization of maximum likelihood estimators (MLEs) to maximize $\prod^n\_{i=1} f(x\_i)$, or equivalently, minimize $\sum^n\_{i=1}- \log f(x\_i)$ .
-This can be generalized to minimize $\sum^n\_{i=1} \rho(x\_i)$, where $\rho$ is some function.
+M-estimators are a generalization of maximum likelihood estimators (MLEs) to maximize $\prod^n_{i=1} f(x_i)$, or equivalently, minimize $\sum^n_{i=1}- \log f(x_i)$ .
+This can be generalized to minimize $\sum^n_{i=1} \rho(x_i)$, where $\rho$ is some function.
 
-The optimization problem $\min_{\mathbf{x}} \sum^n\_{i=1} \rho(x\_i)$ can often be done by differentiating $\rho$ such that $\sum_{i=1}^n \frac{d \rho(x\_i)}{d x\_i} = 0$. 
+The optimization problem $\min_{\mathbf{x}} \sum^n_{i=1} \rho(x_i)$ can often be done by differentiating $\rho$ such that $\sum_{i=1}^n \frac{d \rho(x_i)}{d x_i} = 0$. 
 
 Common $\rho$ are squared error $\mathcal{L}_2$, Huber loss $\mathcal{L}_{1.5}$ and absolute error $\mathcal{L}_1$.
 

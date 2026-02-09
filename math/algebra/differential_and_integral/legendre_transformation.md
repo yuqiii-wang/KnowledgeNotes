@@ -73,7 +73,8 @@ g \equiv f - wy =
 L - p\dot{q}
 $$
 
-Add a negative sign to the above expression, so that 
+Add a negative sign to the above expression, so that
+
 $$
 p\dot{q} - L = (mv) v - (\frac{1}{2}mv^2 - U)= K + U = H
 $$

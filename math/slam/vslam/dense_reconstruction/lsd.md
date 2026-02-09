@@ -91,8 +91,8 @@ $$
 \underset{\mathbf{\xi} \in \mathbb{R}^7}{\min} \space E(\mathbf{\xi}) = 
 \sum_i 
     \underbrace{\bigg(
-    I_A(\mathbf{p}\_i) 
-    - I_B \big(\omega(\mathbf{p}\_i, D_A(\mathbf{p}\_i), \mathbf{\xi}) \big)
+    I_A(\mathbf{p}_i) 
+    - I_B \big(\omega(\mathbf{p}_i, D_A(\mathbf{p}_i), \mathbf{\xi}) \big)
 \bigg)^2}_{:= r_i^2(\mathbf{\xi})}
 $$
 
@@ -160,7 +160,7 @@ $r_p (\mathbf{p}, \mathbf{\xi}_{ij})$ is the Lucas-Kanade style photometric erro
 
 $$
 r_p (\mathbf{p}, \mathbf{\xi}_{ij}) :=
-I_i(\mathbf{p}\_i)  - I_j \big(\omega(\mathbf{p}\_i, D_A(\mathbf{p}\_i), \mathbf{\xi}_{ij})\big)
+I_i(\mathbf{p}_i)  - I_j \big(\omega(\mathbf{p}_i, D_A(\mathbf{p}_i), \mathbf{\xi}_{ij})\big)
 $$
 
 The residual’s variance $\sigma_{r_p (\mathbf{p}, \mathbf{\xi}_{ij})}$ is computed using covariance propagation $\Sigma_{r_p}=J_{r_p} \Sigma_{r_p} J^\top_{r_p}$, where $J^\top_{r_p}$ is the Jacobian of $r_p$, and utilizing the inverse depth variance $V_i$:
@@ -286,7 +286,8 @@ Use a small amount of known keyframes to constrain $\mathbf{\xi} \in se(3)$ for 
 
 * Efficient Second Order Minimization
 
-A sum-of-squared-difference (SSD) problem attempts to 
+A sum-of-squared-difference (SSD) problem attempts to
+
 $$
 \min_{\mathbf{\xi} \in se(3)} 
 \frac{1}{2} \big|\big|

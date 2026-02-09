@@ -47,8 +47,8 @@ To solve this, Flash Attention keeps running statistics for:
 * $z_i$ The sum of exponentials in each row (to normalize the softmax).
 
 $$
-\text{softmax}(x\_i)=\frac{\exp(x\_i)}{\sum_j \exp(x_j)}
-\Rightarrow \frac{\exp(x\_i)}{z_i}
+\text{softmax}(x_i)=\frac{\exp(x_i)}{\sum_j \exp(x_j)}
+\Rightarrow \frac{\exp(x_i)}{z_i}
 $$
 
 In other words, the softmax computation is approximated with the help of $m_i$ and $z_i$ without mandating an entire row be joined at once.
@@ -68,12 +68,12 @@ $$
 &\mathbf{for}\space 1 \le j \le T_c \space\mathbf{do} \\\\
 &\qquad \text{Load } K_j, V_j \text{ from HBM to on-chip SRAM} \\\\
 &\qquad \mathbf{for}\space 1 \le i \le T_r \space\mathbf{do} \\\\
-&\qquad\qquad \text{Load } Q_i, A_i, \mathbf{m}\_i, \mathbf{z}\_i \text{ from HBM to on-chip SRAM} \\\\
+&\qquad\qquad \text{Load } Q_i, A_i, \mathbf{m}_i, \mathbf{z}_i \text{ from HBM to on-chip SRAM} \\\\
 &\qquad\qquad \text{On chip, compute } S_{ij}=Q_iK^{\top}_j \in \mathbb{R}^{b_r \times b_c} \\\\
 &\qquad\qquad \text{On chip, compute } \tilde{\mathbf{m}}_{ij}=\text{rowmax}(S_{ij})\in\mathbb{R}^{b_r}, \tilde{P}_{ij}=\exp(S_{ij}-\tilde{\mathbf{m}}_{ij}) \in \mathbb{R}^{b_r \times b_c}, \tilde{\mathbf{z}}_{ij}=\text{rowsum}(\tilde{P}_{ij}) \in\mathbb{R}^{b_r} \\\\
-&\qquad\qquad \text{On chip, update } \mathbf{m}\_i^{(\text{new})}=\max(\mathbf{m}\_i, \tilde{\mathbf{m}}_{ij})\in\mathbb{R}^{b_r}, \mathbf{z}\_i^{(\text{new})}=e^{\mathbf{m}\_i-\mathbf{m}\_i^{(\text{new})}}\mathbf{z}\_i+e^{\tilde{\mathbf{m}}\_i-\mathbf{m}\_i^{(\text{new})}}\tilde{\mathbf{z}}\_i\in\mathbb{R}^{b_r} \\\\
-&\qquad\qquad \text{Write back to HBM: } A_i \leftarrow \text{diag}(\mathbf{z}\_i^{(\text{new})})^{-1}\big(\text{diag}(\mathbf{z}\_i)e^{\mathbf{m}\_i-\mathbf{m}\_i^{(\text{new})}}A_i+e^{\tilde{\mathbf{m}}\_i-\mathbf{m}\_i^{(\text{new})}}\tilde{P}_{ij}V_{j}\big) \\\\
-&\qquad\qquad \text{Write back to HBM: } \mathbf{z}\_i \leftarrow \mathbf{z}\_i^{(\text{new})}, \mathbf{m}\_i \leftarrow \mathbf{m}\_i^{(\text{new})} \\\\
+&\qquad\qquad \text{On chip, update } \mathbf{m}_i^{(\text{new})}=\max(\mathbf{m}_i, \tilde{\mathbf{m}}_{ij})\in\mathbb{R}^{b_r}, \mathbf{z}_i^{(\text{new})}=e^{\mathbf{m}_i-\mathbf{m}_i^{(\text{new})}}\mathbf{z}_i+e^{\tilde{\mathbf{m}}_i-\mathbf{m}_i^{(\text{new})}}\tilde{\mathbf{z}}_i\in\mathbb{R}^{b_r} \\\\
+&\qquad\qquad \text{Write back to HBM: } A_i \leftarrow \text{diag}(\mathbf{z}_i^{(\text{new})})^{-1}\big(\text{diag}(\mathbf{z}_i)e^{\mathbf{m}_i-\mathbf{m}_i^{(\text{new})}}A_i+e^{\tilde{\mathbf{m}}_i-\mathbf{m}_i^{(\text{new})}}\tilde{P}_{ij}V_{j}\big) \\\\
+&\qquad\qquad \text{Write back to HBM: } \mathbf{z}_i \leftarrow \mathbf{z}_i^{(\text{new})}, \mathbf{m}_i \leftarrow \mathbf{m}_i^{(\text{new})} \\\\
 &\qquad \mathbf{end} \space \mathbf{for} \\\\
 & \mathbf{end} \space \mathbf{for} \\\\
 \end{align*}
@@ -83,14 +83,14 @@ $$
 
 $S_{ij}=Q_iK^{\top}_j \in \mathbb{R}^{b_r \times b_c}$ only accounts for $b_r$ dims, however, to approximate the full $\text{Softmax}(S_i)$, need full row all elements $n=b_c \times T_c$ included.
 
-To aggregate the $S_{ij}$ for $1 \le i \le T_r$ without storing all elements, max element $\tilde{\mathbf{m}}_{ij}$ is computed and iteratively updated $\mathbf{m}\_i^{(\text{new})}=\max(\mathbf{m}\_i, \tilde{\mathbf{m}}_{ij})$.
-The max element $\mathbf{m}\_i$ of $S_{ij}$ is a normalization method to prevent overflow such as $\exp(S_{ij}-\tilde{\mathbf{m}}_{ij})\le\mathbf{1}$, and the ensued $\exp(\mathbf{m}\_i-\mathbf{m}\_i^{(\text{new})})\le\mathbf{1}$.
+To aggregate the $S_{ij}$ for $1 \le i \le T_r$ without storing all elements, max element $\tilde{\mathbf{m}}_{ij}$ is computed and iteratively updated $\mathbf{m}_i^{(\text{new})}=\max(\mathbf{m}_i, \tilde{\mathbf{m}}_{ij})$.
+The max element $\mathbf{m}_i$ of $S_{ij}$ is a normalization method to prevent overflow such as $\exp(S_{ij}-\tilde{\mathbf{m}}_{ij})\le\mathbf{1}$, and the ensued $\exp(\mathbf{m}_i-\mathbf{m}_i^{(\text{new})})\le\mathbf{1}$.
 
-$\text{diag}(\mathbf{z}\_i^{(\text{new})})^{-1}$ is the normalization approximated as denominator of $\text{softmax}$.
+$\text{diag}(\mathbf{z}_i^{(\text{new})})^{-1}$ is the normalization approximated as denominator of $\text{softmax}$.
 $A_i$ is added with the iterative increment $\tilde{P}_{ij}V_{j}$.
 
-At this iterative step $i=t$ to write back to HBM to derive $A_i$, the normalization term $\text{diag}(\mathbf{z}\_i^{(\text{new})})^{-1}$ accounts for the accumulated $t$ steps of attention output $A_{1:t}=\sum_{i=1}^{t}e^{\tilde{\mathbf{m}}\_i-\mathbf{m}\_i^{(\text{new})}}\tilde{P}_{ij}V_{j}$;
-$\text{diag}(\mathbf{z}\_i)e^{\mathbf{m}\_i-\mathbf{m}\_i^{(\text{new})}}$ accounts for previous $t-1$ steps $A_{1:t-1}$, and $e^{\tilde{\mathbf{m}}\_i-\mathbf{m}\_i^{(\text{new})}}$ is the scale for this $t$-th step $A_t$.
+At this iterative step $i=t$ to write back to HBM to derive $A_i$, the normalization term $\text{diag}(\mathbf{z}_i^{(\text{new})})^{-1}$ accounts for the accumulated $t$ steps of attention output $A_{1:t}=\sum_{i=1}^{t}e^{\tilde{\mathbf{m}}_i-\mathbf{m}_i^{(\text{new})}}\tilde{P}_{ij}V_{j}$;
+$\text{diag}(\mathbf{z}_i)e^{\mathbf{m}_i-\mathbf{m}_i^{(\text{new})}}$ accounts for previous $t-1$ steps $A_{1:t-1}$, and $e^{\tilde{\mathbf{m}}_i-\mathbf{m}_i^{(\text{new})}}$ is the scale for this $t$-th step $A_t$.
 
 ### Memory Efficiency Discussions
 

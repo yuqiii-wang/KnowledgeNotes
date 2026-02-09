@@ -73,8 +73,8 @@ H\big(i(x,y)\big) &=
 \end{bmatrix}
 \\\\ &=
 \begin{bmatrix}
-    L\_{xx} & L\_{xy} \\\\
-    L\_{yx} & L\_{yy}
+    L_{xx} & L_{xy} \\\\
+    L_{yx} & L_{yy}
 \end{bmatrix}
 \end{align*}
 $$
@@ -106,10 +106,10 @@ $$
 \begin{align*}
 det(H) &= 
 \sigma_k^2 \big(
-    L\_{xx} L\_{yy} - L\_{xy}^2
+    L_{xx} L_{yy} - L_{xy}^2
 \big) \\\\
 tr(H) &=
-\sigma_k (L\_{xx}+L\_{yy})
+\sigma_k (L_{xx}+L_{yy})
 \end{align*}
 $$
 

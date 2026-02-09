@@ -53,8 +53,8 @@ It trains tokenization by word pair combination probability
 For example, `playing` by letter tokenization there is `p`, `l`, `a`, `y`, `i`, `n`, `g`;  after training on texts should see tokenization results `play` and `#ing` that are most likely observed letter combinations in corpus.
 
 $$
-\max_{\text{letter\_pair}} \text{score} =
-\frac{\text{frequency\_of\_pair}}{\text{frequency\_of\_first\_letter} \times \text{frequency\_of\_second\_letter}}
+\max_{\text{letter_pair}} \text{score} =
+\frac{\text{frequency_of_pair}}{\text{frequency_of_first_letter} \times \text{frequency_of_second_letter}}
 $$
 
 Wordpiece has special symbols (defined in Hugging Face's `transformers.BertTokenizer`):

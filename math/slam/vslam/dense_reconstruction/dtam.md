@@ -84,7 +84,7 @@ In other words, depth changes at the point $a$ should be smooth.
 Huber loss can be used to contain large error terms by $\mathcal{L}_1$ norm and amplify small error terms by $\mathcal{L}_2$.
 
 $$
-L\_{\delta}(e)=
+L_{\delta}(e)=
 \left\{
     \begin{array}{c}
         \frac{1}{2}e^2 &\quad \text{for} |e|\le \delta
@@ -96,7 +96,7 @@ $$
 
 The regularizer comprises a weighted Huber norm over the gradient of the inverse depth map $g(\mathbf{u}) \cdot \big|\big|\nabla \mathbf{\xi}(\mathbf{u})\big|\big|_\delta$.
 
-Replace Huber loss error term $L\_{\delta}(e)$ with the gradient of the inverse depth map such as $L\_{\delta}\big(\nabla \mathbf{\xi}(\mathbf{u})\big)=\big|\big|\nabla \mathbf{\xi}(\mathbf{u})\big|\big|_\delta$. 
+Replace Huber loss error term $L_{\delta}(e)$ with the gradient of the inverse depth map such as $L_{\delta}\big(\nabla \mathbf{\xi}(\mathbf{u})\big)=\big|\big|\nabla \mathbf{\xi}(\mathbf{u})\big|\big|_\delta$. 
 Here $\nabla \mathbf{\xi}(\mathbf{u})$ describes depth changes.
 
 As a result, if there is any sudden change in depth (for this pixel's projected depth lower than $\delta$ such as $\big|\mathbf{\xi}(\mathbf{u})\big|<\delta$), the depth changes are smoothed by $\mathcal{L}_2$; otherwise, smoothed by $\mathcal{L}_1$.

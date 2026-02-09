@@ -20,7 +20,7 @@ The adjacency matrix $A$ is defined as
 
 $$
 A[i][j]\begin{cases}
-    1 & \text{if edge } (\mathbf{v}\_i, \mathbf{v}_j) \text{ exists} \\\\
+    1 & \text{if edge } (\mathbf{v}_i, \mathbf{v}_j) \text{ exists} \\\\
     0 & \text{otherwise}
 \end{cases}
 $$
@@ -68,11 +68,11 @@ $$
 ### Incidence matrix
 
 An incidence matrix $M$ is a logical ($M_{ij}\in\{0,1\}$) matrix that shows the relationship between two classes of objects, usually called an *incidence relation*.
-In other words, incidence means a vertex $\mathbf{v}\_i$ is in edge $e_j$. As a result, each edge $e_j$ col only has two "$1$" elements (for non-hyper graph).
+In other words, incidence means a vertex $\mathbf{v}_i$ is in edge $e_j$. As a result, each edge $e_j$ col only has two "$1$" elements (for non-hyper graph).
 
 $$
 M[i][j]\begin{cases}
-    1 & \text{if vertex } \mathbf{v}\_i \text{ is incident to edge } e_j\\\\
+    1 & \text{if vertex } \mathbf{v}_i \text{ is incident to edge } e_j\\\\
     0 & \text{otherwise}
 \end{cases}
 $$
@@ -136,7 +136,7 @@ $$
 
 where
 
-* $\mathbf{x}$ is a vector of parameters, in which $\mathbf{x}\_i$ represents a generic parameter block
+* $\mathbf{x}$ is a vector of parameters, in which $\mathbf{x}_i$ represents a generic parameter block
 * $\mathbf{x}_k$ represents the set of parameters given the $k$-th constraints, such as the state of a robot at the $k$-th time
 * $\mathbf{z}_k$ is the measurements/observations.
 * $\Omega_k$ is the information matrix relating to $\mathbf{x}_k$, usually defined as inversed covariance matrix about $\mathbf{x}$ (do not confuse with Fisher information, just some config/constraint parameters to $\mathbf{x}_k$)
@@ -161,11 +161,11 @@ In graph terms, the Laplacian measures how much a node's feature differs from it
 
 ### Intuition Behind the Graph Laplacian
 
-Graph Laplacian describes the rate of how nodes change at a vertex $\mathbf{v}\_i$
+Graph Laplacian describes the rate of how nodes change at a vertex $\mathbf{v}_i$
 
-For example, a type of graph Laplacian is termed *combinatorial Laplacian*, defined as $L\_{comb}=D-A$.
+For example, a type of graph Laplacian is termed *combinatorial Laplacian*, defined as $L_{comb}=D-A$.
 
-The adjacency matrix $A$ can be thought as first-order derivative for $A$ shows if $\mathbf{v}\_i$ to $\mathbf{v}_j$ edge exists (rate of node change).
+The adjacency matrix $A$ can be thought as first-order derivative for $A$ shows if $\mathbf{v}_i$ to $\mathbf{v}_j$ edge exists (rate of node change).
 
 The degree matrix $D$ is the summarized info about node neighbors, hence $D-A$ can be thought as second-order derivative (change of edge).
 
@@ -186,7 +186,7 @@ D = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-then $D-A$ is for a vertex $\mathbf{v}\_i$, how many nodes flow/aggregate to this vertex, and what combination of neighbor nodes sees opposite flow (deduction from the $\mathbf{v}\_i$).
+then $D-A$ is for a vertex $\mathbf{v}_i$, how many nodes flow/aggregate to this vertex, and what combination of neighbor nodes sees opposite flow (deduction from the $\mathbf{v}_i$).
 
 $$
 D-A=\begin{bmatrix}
@@ -199,11 +199,11 @@ $$
 
 ### Types of Graph Laplacians
 
-* Combinatorial Laplacian: $L\_{comb}=D-A$
+* Combinatorial Laplacian: $L_{comb}=D-A$
 
 Not scale-invariant, meaning it depends on the degree of nodes.
 
-* Normalized Laplacian: $L\_{norm}=I-D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$
+* Normalized Laplacian: $L_{norm}=I-D^{-\frac{1}{2}}AD^{-\frac{1}{2}}$
 
 This version is scale-invariant, meaning it adjusts for differences in node degrees.
 
@@ -295,7 +295,7 @@ For matrix multiplication is NOT commutative, it is easy to say $D^{-1}A\ne AD^{
 Recall the definition of Frobenius norm that $||A||_F=\sqrt{\sum_i \sum_j |A_{ij}|^2}$.
 It is a way to measure the size (or magnitude) of the matrix.
 
-However, in adjacency matrix normalization, the norm term is the degree matrix $D$ that measure the total num of edges associated with a vertex $\mathbf{v}\_i$.
+However, in adjacency matrix normalization, the norm term is the degree matrix $D$ that measure the total num of edges associated with a vertex $\mathbf{v}_i$.
 In other words, it is scaled relative to the node degrees.
 
 ## G2O implementation example
@@ -310,7 +310,7 @@ $\mathbf{x}_t^s=(x_t^s, y_t^s, \theta_t^s) \in SE(2)$
 
 * The $i$-th landmark position: 
 
-$\mathbf{x}^l_i=(x\_i^l, y_i^l) \in \mathbb{R}^2$
+$\mathbf{x}^l_i=(x_i^l, y_i^l) \in \mathbb{R}^2$
 
 * Motion measurement between $\mathbf{x}_{t}^s$ and $\mathbf{x}_{t+1}^s$: 
 
@@ -471,7 +471,7 @@ public:
 
 * Vertex Type definition
 
-Landmarks $\mathbf{x}^l_i=(x\_i^l, y_i^l)$ is defined as `Eigen::Vector2d`. 
+Landmarks $\mathbf{x}^l_i=(x_i^l, y_i^l)$ is defined as `Eigen::Vector2d`. 
 
 `SE2` is defined for $\mathbf{x}^s$. `operator`s are customized and used to compute errors, transoformations, etc.
 ```cpp

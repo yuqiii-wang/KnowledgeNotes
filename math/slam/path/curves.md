@@ -72,7 +72,7 @@ n-1
 (1-t) t^{n-1} \mathbf{P}_{n-1}
 +
 t^n \mathbf{P}_n\\\\ &=
-\sum^n\_{k=0} 
+\sum^n_{k=0} 
 \bigg(\begin{array}{c}
 n \\\\
 k

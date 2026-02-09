@@ -279,7 +279,7 @@ P.S., ARMv7 provides the *Cycle Counter Register* (`CCNT` instruction) to read a
 
 ## Compute $n$ Points' Pair Distances
 
-There are $n=10^9$ 3d points $\mathbf{p}\_i \in \mathbb{R}^3$, compute the distances of point pairs.
+There are $n=10^9$ 3d points $\mathbf{p}_i \in \mathbb{R}^3$, compute the distances of point pairs.
 
 $$
 d_{i,j} = \sqrt{(\mathbf{p}_{i} - \mathbf{p}_{j})^2}

@@ -725,7 +725,8 @@ lower_bound(const key_type& __x) const
 An image can be represented by a BoW vector $\mathbf{v}=\{w_1 v_1, w_2 v_2, ..., w_m v_m \}$.
 Define two BoW vectors $\mathbf{v}_1$ and $\mathbf{v}_2$ to represent two images.
 
-The two image similarity can be computed via 
+The two image similarity can be computed via
+
 $$
 \text{s}(\mathbf{v}_1, \mathbf{v}_2) =
 1 - \frac{1}{2}

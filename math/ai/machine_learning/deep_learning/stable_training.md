@@ -173,21 +173,21 @@ If a complex number's conjugate is equal to the complex number itself, this comp
 $$
 \begin{align*}
     \mathbf{v}^{H} W\mathbf{v} &=
-    \sum_{i}\sum_{j} \overline{v}\_i w_{ij} v_j \\\\
-    &= \sum_{i=j} \overline{v}\_i w_{ii} v_i + \sum_{i\ne j} \overline{v}\_i w_{ij} v_j \\\\
+    \sum_{i}\sum_{j} \overline{v}_i w_{ij} v_j \\\\
+    &= \sum_{i=j} \overline{v}_i w_{ii} v_i + \sum_{i\ne j} \overline{v}_i w_{ij} v_j \\\\
 \end{align*}
 $$
 
-Decompose $\sum_{i\ne j}^{n} \overline{v}\_i w_{ij} v_j \Rightarrow \sum_{i\ne j}^{\frac{n}{2}} \overline{v}\_i w_{ij} v_j + \overline{v}_j w_{ji} v_i$, and for $\mathbf{v}^H$ is the hermitian transpose of $\mathbf{v}$ and $W$ is symmetric, denote $(.)^*$ as conjugate operator, there is
+Decompose $\sum_{i\ne j}^{n} \overline{v}_i w_{ij} v_j \Rightarrow \sum_{i\ne j}^{\frac{n}{2}} \overline{v}_i w_{ij} v_j + \overline{v}_j w_{ji} v_i$, and for $\mathbf{v}^H$ is the hermitian transpose of $\mathbf{v}$ and $W$ is symmetric, denote $(.)^*$ as conjugate operator, there is
 
 $$
-(\overline{v}\_i w_{ij} v_j + \overline{v}_j w_{ji} v_i)^* =
-\overline{v}_j w_{ji} v_i + \overline{v}\_i w_{ij} v_j
+(\overline{v}_i w_{ij} v_j + \overline{v}_j w_{ji} v_i)^* =
+\overline{v}_j w_{ji} v_i + \overline{v}_i w_{ij} v_j
 $$
 
 For a complex number's conjugate is itself, this complex number must be real.
 
-$\overline{v}\_i w_{ii} v_i$ is real for $\overline{v}\_i v_i \ge 0$ and $w_{ii}$ is real for $W$ by definition is a real matrix.
+$\overline{v}_i w_{ii} v_i$ is real for $\overline{v}_i v_i \ge 0$ and $w_{ii}$ is real for $W$ by definition is a real matrix.
 
 For $\mathbf{v}^{H}\mathbf{v}$ and $\mathbf{v}^{H} W\mathbf{v}$ are real, the eigenvalues $\lambda$ are real as well in $\mathbf{v}^{H} W\mathbf{v}=\lambda\mathbf{v}^{H}\mathbf{v}$.
 

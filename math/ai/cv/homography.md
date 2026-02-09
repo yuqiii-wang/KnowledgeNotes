@@ -100,7 +100,8 @@ $$
 \end{align*}
 $$
 
-Given $n$ points to compute 
+Given $n$ points to compute
+
 $$
 A \mathbf{h} = \mathbf{0}
 $$
@@ -123,7 +124,7 @@ $$
 * Solution 1: SVD
 
 $$
-A=U \Sigma V^\text{T}=\sum^9_{i=1}\sigma_i \mathbf{u}\_i\mathbf{v}\_i^\text{T}
+A=U \Sigma V^\text{T}=\sum^9_{i=1}\sigma_i \mathbf{u}_i\mathbf{v}_i^\text{T}
 $$
 
 Since solution $\mathbf{h}$ is over-determined and Dof for $H$ is $8$, the smallest $\sigma_i$ represents the residual. The other 8 homography entries $h_{ij}$ are equal to their corresponding $\sigma_i$.
@@ -310,7 +311,8 @@ $$
 \end{bmatrix}= \mathbf{0}
 $$
 
-where 
+where
+
 $$
 \begin{align*}
 \mathbf{a}_x &=
@@ -393,7 +395,7 @@ Symmetric Transfer Error measures how accurate is two matches transferring from 
 $$
 H^* = 
 \min_{H} \sum_{i}
-d(\mathbf{x}\_i, H^{-1}\mathbf{x}')^2
+d(\mathbf{x}_i, H^{-1}\mathbf{x}')^2
 +
 d(\mathbf{x}'_i, H\mathbf{x})^2
 $$
@@ -408,7 +410,7 @@ then after applying homography $H$, the error of the correspondence point $\math
 $$
 H^* = 
 \min_{H} \sum_{i}
-d(\mathbf{x}\_i, \hat{\mathbf{x}}\_i)^2
+d(\mathbf{x}_i, \hat{\mathbf{x}}_i)^2
 +
 d(\mathbf{x}'_i, \hat{\mathbf{x}}'_i)^2
 $$

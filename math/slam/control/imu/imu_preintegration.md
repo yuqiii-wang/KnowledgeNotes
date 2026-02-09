@@ -64,18 +64,18 @@ $$
     {\mathbf{R}}(t_0+\Delta t) 
     &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0)\Delta t} \\\\
     &= \mathbf{R}(t_0)
-    e^{ \big(\hat{\mathbf{\omega}}(t_0)- \mathbf{b}\_\mathbf{\omega} - \mathbf{\eta}\_\mathbf{\omega} \big)^\wedge \Delta t} 
+    e^{ \big(\hat{\mathbf{\omega}}(t_0)- \mathbf{b}_\mathbf{\omega} - \mathbf{\eta}_\mathbf{\omega} \big)^\wedge \Delta t} 
     \\\\
-    {\mathbf{v}}(t_0+\Delta t) &= \mathbf{v}(t_0) + \mathbf{g}\_\text{earth} \Delta t
+    {\mathbf{v}}(t_0+\Delta t) &= \mathbf{v}(t_0) + \mathbf{g}_\text{earth} \Delta t
     + \mathbf{a}\Delta t \\\\
-    &= \mathbf{v}(t_0) + \mathbf{g}\_\text{earth} \Delta t
-    + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \mathbf{b}\_\mathbf{a}(t_0) - \mathbf{\eta}\_\mathbf{a}(t_0) \big) \Delta t
+    &= \mathbf{v}(t_0) + \mathbf{g}_\text{earth} \Delta t
+    + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \mathbf{b}_\mathbf{a}(t_0) - \mathbf{\eta}_\mathbf{a}(t_0) \big) \Delta t
     \\\\
     {\mathbf{p}}(t_0+\Delta t) 
     &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t + \frac{1}{2} \mathbf{a}(t_0) \Delta t^2 \\\\
     &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t +
     \frac{1}{2} \mathbf{g}_{\text{earth}} \Delta t^2
-    + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \frac{1}{2} \mathbf{b}\_\mathbf{a}(t_0) - \mathbf{\eta}\_\mathbf{a}(t_0) \big) \Delta t^2
+    + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \frac{1}{2} \mathbf{b}_\mathbf{a}(t_0) - \mathbf{\eta}_\mathbf{a}(t_0) \big) \Delta t^2
 \end{align*}
 $$
 
@@ -140,11 +140,11 @@ Then, compute the corrected $\Delta\mathbf{R}, \Delta\mathbf{v}, \Delta\mathbf{p
 In other words, $\delta\mathbf{b}_{\mathbf{\omega},k}$ and $\delta\mathbf{b}_{\mathbf{a},k}$ are approximated by first order derivative increment.
 
 $$
-\Delta\hat{\mathbf{R}}  = \Delta\mathbf{R} \frac{\partial \mathbf{R}}{\partial \mathbf{b}\_\omega} \Delta\mathbf{b}\_\omega
+\Delta\hat{\mathbf{R}}  = \Delta\mathbf{R} \frac{\partial \mathbf{R}}{\partial \mathbf{b}_\omega} \Delta\mathbf{b}_\omega
 ,\qquad
-\Delta\hat{\mathbf{v}} = \Delta\mathbf{v} + \frac{\partial \mathbf{v}}{\partial \mathbf{b}_a} \Delta\mathbf{b}_a + \frac{\partial \mathbf{v}}{\partial \mathbf{b}\_\omega} \Delta\mathbf{b}\_\omega
+\Delta\hat{\mathbf{v}} = \Delta\mathbf{v} + \frac{\partial \mathbf{v}}{\partial \mathbf{b}_a} \Delta\mathbf{b}_a + \frac{\partial \mathbf{v}}{\partial \mathbf{b}_\omega} \Delta\mathbf{b}_\omega
 , \qquad
-\Delta\hat{\mathbf{p}} = \Delta\mathbf{p} + \frac{\partial \mathbf{p}}{\partial \mathbf{b}_a} \Delta\mathbf{b}_a + \frac{\partial \mathbf{p}}{\partial \mathbf{b}\_\omega} \Delta\mathbf{b}\_\omega
+\Delta\hat{\mathbf{p}} = \Delta\mathbf{p} + \frac{\partial \mathbf{p}}{\partial \mathbf{b}_a} \Delta\mathbf{b}_a + \frac{\partial \mathbf{p}}{\partial \mathbf{b}_\omega} \Delta\mathbf{b}_\omega
 $$
 
 ## Definition
@@ -170,14 +170,14 @@ $$
 $$
 
 The estimate of angular velocity $\hat{\mathbf{\omega}}$ and acceleration $\hat{\mathbf{a}}$ can be affected by earth's gravity $\mathbf{g}_{\text{earth}}$ 
-and Gaussian noises $\mathbf{\eta}\_\mathbf{a}, \mathbf{\eta}\_\mathbf{\omega}$. Consider IMU calibration zero offset $\mathbf{b}\_\mathbf{\omega}, \mathbf{b}\_\mathbf{a}$, there are
+and Gaussian noises $\mathbf{\eta}_\mathbf{a}, \mathbf{\eta}_\mathbf{\omega}$. Consider IMU calibration zero offset $\mathbf{b}_\mathbf{\omega}, \mathbf{b}_\mathbf{a}$, there are
 
 $$
 \begin{align*}
 \hat{\mathbf{\omega}}(t) &= 
-\mathbf{\omega}(t) + \mathbf{b}\_\mathbf{\omega}(t) + \mathbf{\eta}\_\mathbf{\omega}(t) \\\\
+\mathbf{\omega}(t) + \mathbf{b}_\mathbf{\omega}(t) + \mathbf{\eta}_\mathbf{\omega}(t) \\\\
 \hat{\mathbf{a}}(t) &= 
-\mathbf{R}(t) \cdot \big( \mathbf{a}(t) - \mathbf{g}_{\text{earth}} \big) + \mathbf{b}\_\mathbf{a}(t) + \mathbf{\eta}\_\mathbf{a}(t) \\\\
+\mathbf{R}(t) \cdot \big( \mathbf{a}(t) - \mathbf{g}_{\text{earth}} \big) + \mathbf{b}_\mathbf{a}(t) + \mathbf{\eta}_\mathbf{a}(t) \\\\
 \end{align*}
 $$
 
@@ -188,18 +188,18 @@ $$
     {\mathbf{R}}(t_0+\Delta t) 
     &= \mathbf{R}(t_0) e^{\mathbf{\omega}^\wedge(t_0)\Delta t} \\\\
     &= \mathbf{R}(t_0)
-    e^{ \big(\hat{\mathbf{\omega}}(t_0)- \mathbf{b}\_\mathbf{\omega} - \mathbf{\eta}\_\mathbf{\omega} \big)^\wedge \Delta t} 
+    e^{ \big(\hat{\mathbf{\omega}}(t_0)- \mathbf{b}_\mathbf{\omega} - \mathbf{\eta}_\mathbf{\omega} \big)^\wedge \Delta t} 
     \\\\
-    {\mathbf{v}}(t_0+\Delta t) &= \mathbf{v}(t_0) + \mathbf{g}\_\text{earth} \Delta t
+    {\mathbf{v}}(t_0+\Delta t) &= \mathbf{v}(t_0) + \mathbf{g}_\text{earth} \Delta t
     + \mathbf{a}\Delta t \\\\
-    &= \mathbf{v}(t_0) + \mathbf{g}\_\text{earth} \Delta t
-    + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \mathbf{b}\_\mathbf{a}(t_0) - \mathbf{\eta}\_\mathbf{a}(t_0) \big) \Delta t
+    &= \mathbf{v}(t_0) + \mathbf{g}_\text{earth} \Delta t
+    + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \mathbf{b}_\mathbf{a}(t_0) - \mathbf{\eta}_\mathbf{a}(t_0) \big) \Delta t
     \\\\
     {\mathbf{p}}(t_0+\Delta t) 
     &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t + \frac{1}{2} \mathbf{a}(t_0) \Delta t^2 \\\\
     &= \mathbf{p}(t_0) + \mathbf{v}(t_0)\Delta t +
     \frac{1}{2} \mathbf{g}_{\text{earth}} \Delta t^2
-    + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \frac{1}{2} \mathbf{b}\_\mathbf{a}(t_0) - \mathbf{\eta}\_\mathbf{a}(t_0) \big) \Delta t^2
+    + \mathbf{R}(t_0) \cdot \big( \hat{\mathbf{a}}(t_0) - \frac{1}{2} \mathbf{b}_\mathbf{a}(t_0) - \mathbf{\eta}_\mathbf{a}(t_0) \big) \Delta t^2
 \end{align*}
 $$
 
@@ -210,12 +210,12 @@ where $\mathbf{g}_{\text{earth}}$ is a constant only having non-zero value at th
 $$
 \begin{align*}
 \mathbf{R}_j &= 
-\mathbf{R}\_i \prod^{j-1}_{k=i}
+\mathbf{R}_i \prod^{j-1}_{k=i}
 e^{ \big(\hat{\mathbf{\omega}}_k- \mathbf{b}_{\mathbf{\omega},k} - \mathbf{\eta}_{\mathbf{\omega},k} \big)^\wedge \Delta t} \\\\
-\mathbf{v}_j &= \mathbf{v}\_i + \mathbf{g}\_\text{earth} \Delta t_{ij} + 
+\mathbf{v}_j &= \mathbf{v}_i + \mathbf{g}_\text{earth} \Delta t_{ij} + 
 \sum_{k=i}^{j-1} \mathbf{R}_{k} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}_{\mathbf{a},k} - \mathbf{\eta}_{\mathbf{a},k} \big) \Delta t \\\\
-\mathbf{p}_j &= \mathbf{p}\_i + \sum_{k=i}^{j-1} \mathbf{v}_k \Delta t + 
-\frac{1}{2} \mathbf{g}\_\text{earth} \Delta t_{ij}^2 + 
+\mathbf{p}_j &= \mathbf{p}_i + \sum_{k=i}^{j-1} \mathbf{v}_k \Delta t + 
+\frac{1}{2} \mathbf{g}_\text{earth} \Delta t_{ij}^2 + 
 \frac{1}{2} \sum_{k=i}^{j-1} \mathbf{R}_{k} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}_{\mathbf{a},k} - \mathbf{\eta}_{\mathbf{a},k} \big) \Delta t^2
 \end{align*}
 $$
@@ -224,16 +224,16 @@ $$
 
 $$
 \begin{align*}
-\Delta\mathbf{R}_{ij} & \overset{\Delta}{=} \mathbf{R}\_i^\top \mathbf{R}_j =
+\Delta\mathbf{R}_{ij} & \overset{\Delta}{=} \mathbf{R}_i^\top \mathbf{R}_j =
 \prod^{j-1}_{k=i}
 e^{ \big(\hat{\mathbf{\omega}}_k- \mathbf{b}_{\mathbf{\omega},k} - \mathbf{\eta}_{\mathbf{\omega},k} \big)^\wedge \Delta t} \\\\
 \Delta \mathbf{v}_{ij} &\overset{\Delta}{=}
-\mathbf{R}\_i^\top( \mathbf{v}_{j} - \mathbf{v}_{i} + \mathbf{g}\_\text{earth} \Delta t_{ij}) &=
+\mathbf{R}_i^\top( \mathbf{v}_{j} - \mathbf{v}_{i} + \mathbf{g}_\text{earth} \Delta t_{ij}) &=
 \sum_{k=i}^{j-1} \Delta\mathbf{R}_{ik} \cdot \big( \hat{\mathbf{a}}_k - \mathbf{b}_{\mathbf{a},k} - \mathbf{\eta}_{\mathbf{a},k} \big) \Delta t \\\\
 \Delta\mathbf{p}_{ij} & \overset{\Delta}{=}
-\mathbf{R}\_i^\top \big( \mathbf{p}_j - \mathbf{p}\_i - \mathbf{v}_{i} \Delta t_{ij} - 
-\frac{1}{2} \mathbf{g}\_\text{earth} \Delta t_{ij}^2 \big)&=
-\mathbf{p}\_i + \sum_{k=i}^{j-1} 
+\mathbf{R}_i^\top \big( \mathbf{p}_j - \mathbf{p}_i - \mathbf{v}_{i} \Delta t_{ij} - 
+\frac{1}{2} \mathbf{g}_\text{earth} \Delta t_{ij}^2 \big)&=
+\mathbf{p}_i + \sum_{k=i}^{j-1} 
 \bigg(
 \mathbf{v}_k \Delta t + 
 \frac{1}{2} \Delta\mathbf{R}_{ik} \cdot \big( \hat{\mathbf{a}} - \mathbf{b}_{\mathbf{a},k} - \mathbf{\eta}_{\mathbf{a},k} \big) \Delta t^2
@@ -399,12 +399,12 @@ Rearrange the expressions of the original definitions with the obtained noises:
 $$
 \begin{align*}
     \Delta\hat{\mathbf{R}}_{ij} &= 
-    \mathbf{R}\_i^\top \mathbf{R}_j \text{Exp} \big( -\delta\mathbf{\phi}_{ij} \big) \\\\
+    \mathbf{R}_i^\top \mathbf{R}_j \text{Exp} \big( -\delta\mathbf{\phi}_{ij} \big) \\\\
     \Delta\hat{\mathbf{v}}_{ij} &= 
-    \mathbf{R}\_i^\top( \mathbf{v}_{j} - \mathbf{v}_{i} + \mathbf{g}\_\text{earth} \Delta t_{ij}) + \delta \mathbf{v}_{ij} \\\\
+    \mathbf{R}_i^\top( \mathbf{v}_{j} - \mathbf{v}_{i} + \mathbf{g}_\text{earth} \Delta t_{ij}) + \delta \mathbf{v}_{ij} \\\\
     \Delta\hat{\mathbf{p}}_{ij} &= 
-    \mathbf{R}\_i^\top \big( \mathbf{p}_j - \mathbf{p}\_i - \mathbf{v}_{i} \Delta t_{ij} - 
-    \frac{1}{2} \mathbf{g}\_\text{earth} \Delta t_{ij}^2 \big) + \delta {\mathbf{p}}_{ij}
+    \mathbf{R}_i^\top \big( \mathbf{p}_j - \mathbf{p}_i - \mathbf{v}_{i} \Delta t_{ij} - 
+    \frac{1}{2} \mathbf{g}_\text{earth} \Delta t_{ij}^2 \big) + \delta {\mathbf{p}}_{ij}
 \end{align*}
 $$
 
@@ -603,7 +603,7 @@ $$
     { \mathbf{b}_{\mathbf{\omega},k} } \big)
     \Delta t \Big) }
     \text{Exp} \Big(-\mathbf{J}_{r,k} \delta\mathbf{b}_{\mathbf{\omega},k} \Delta t \Big)&=
-    \underbrace{ \text{Exp}{ \Big( \big( \hat{\mathbf{\omega}}\_i - 
+    \underbrace{ \text{Exp}{ \Big( \big( \hat{\mathbf{\omega}}_i - 
     { \mathbf{b}_{\mathbf{\omega},i} } \big)
     \Delta t \Big) }}_{\Delta \hat{\mathbf{R}}_{i,i+1}}
     \text{Exp} \Big(-\mathbf{J}_{r,i} \delta\mathbf{b}_{\mathbf{\omega},i} \Delta t \Big)
@@ -648,7 +648,8 @@ $$
 \end{align*}
 $$
 
-So that 
+So that
+
 $$
 \text{Exp} \frac{\partial\space \Delta\hat{\mathbf{R}}_{ij}}{\partial\space \mathbf{b}_{\mathbf{\omega},i}} \delta\mathbf{b}_{\mathbf{\omega},i} =
 \text{Exp} \Big(
@@ -695,7 +696,7 @@ $$
 ## Pre-integration in Graph Optimization
 
 Define the IMU pre-integration graph optimization problem:
-a one-time IMU reading should contain such information $\mathbf{x}_k=[\mathbf{R} \quad \mathbf{p} \quad \mathbf{v} \quad \mathbf{b}\_\mathbf{a} \quad \mathbf{b}_{\mathbf{\omega}}]_k$.
+a one-time IMU reading should contain such information $\mathbf{x}_k=[\mathbf{R} \quad \mathbf{p} \quad \mathbf{v} \quad \mathbf{b}_\mathbf{a} \quad \mathbf{b}_{\mathbf{\omega}}]_k$.
 Such information can help compute, or by direct IMU reading $\Delta\hat{\mathbf{R}}_{ij},  \Delta\hat{\mathbf{v}}_{ij}, \Delta\hat{\mathbf{p}}_{ij}$, whose expressions are inclusive of zero offset noises $\delta\mathbf{b}_{\mathbf{a},k}$ and $\delta\mathbf{b}_{\mathbf{\omega},k}$.
 
 In other words, IMU reading $\Delta\hat{\mathbf{R}}_{ij},  \Delta\hat{\mathbf{v}}_{ij}, \Delta\hat{\mathbf{p}}_{ij}$ have true reading plus noises.
@@ -707,21 +708,21 @@ $$
 \mathbf{r}_{\Delta \mathbf{R}_{ij}} &=
     \text{Log}\Big(
     \Delta\hat{\mathbf{R}}^\top_{ij}
-    (\mathbf{R}\_i^\top \mathbf{R}_j)\Big)
+    (\mathbf{R}_i^\top \mathbf{R}_j)\Big)
 \\\\ \mathbf{r}_{\Delta \mathbf{v}_{ij}} &=
-    \mathbf{R}\_i^\top( \mathbf{v}_{j} - \mathbf{v}_{i} + \mathbf{g}\_\text{earth} \Delta t_{ij}) - 
+    \mathbf{R}_i^\top( \mathbf{v}_{j} - \mathbf{v}_{i} + \mathbf{g}_\text{earth} \Delta t_{ij}) - 
     \Delta \hat{\mathbf{v}}_{ij}
 \\\\ \mathbf{r}_{\Delta \mathbf{p}_{ij}} &=
-    \mathbf{R}\_i^\top \big( \mathbf{p}_j - \mathbf{p}\_i - \mathbf{v}_{i} \Delta t_{ij} - 
-    \frac{1}{2} \mathbf{g}\_\text{earth} \Delta t_{ij}^2 \big) -
+    \mathbf{R}_i^\top \big( \mathbf{p}_j - \mathbf{p}_i - \mathbf{v}_{i} \Delta t_{ij} - 
+    \frac{1}{2} \mathbf{g}_\text{earth} \Delta t_{ij}^2 \big) -
     \Delta \hat{\mathbf{p}}_{ij}
 \end{align*}
 $$
 
-where $\mathbf{R}\_i, \mathbf{v}\_i, \mathbf{p}\_i$ are observations (inclusive of measurement errors $\mathbf{\eta}_{ij}$) that should be adjusted to reduce residuals.
+where $\mathbf{R}_i, \mathbf{v}_i, \mathbf{p}_i$ are observations (inclusive of measurement errors $\mathbf{\eta}_{ij}$) that should be adjusted to reduce residuals.
 
 In conclusion, the residual $[\mathbf{r}_{\Delta \mathbf{R}_{ij}}  \quad \mathbf{r}_{\Delta \mathbf{v}_{ij}} \quad \mathbf{r}_{\Delta \mathbf{p}_{ij}}]^\top$ contain measurement errors $\mathbf{\eta}_{ij}$ and zero offset noises $\delta\mathbf{b}_{\mathbf{a},k}$ and $\delta\mathbf{b}_{\mathbf{\omega},k}$,
-and these errors are collectively optimized by graph optimization by updating $\mathbf{R}\_i, \mathbf{v}\_i, \mathbf{p}\_i$.
+and these errors are collectively optimized by graph optimization by updating $\mathbf{R}_i, \mathbf{v}_i, \mathbf{p}_i$.
 
 To make the graph optimization better converge, need to compute the Jacobians of the residual $[\mathbf{r}_{\Delta \mathbf{R}_{ij}}  \quad \mathbf{r}_{\Delta \mathbf{v}_{ij}} \quad \mathbf{r}_{\Delta \mathbf{p}_{ij}}]^\top$. The Jacobian can be computed by Lie algebra perturbation model.
 

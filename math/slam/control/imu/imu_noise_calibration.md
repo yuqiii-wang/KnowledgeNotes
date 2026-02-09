@@ -224,7 +224,8 @@ $$
 \mathbf{K}_g = (\mathbf{X}_{\omega}^{\top} \mathbf{X}_{\omega})^{-1} \mathbf{X}_{\omega}^{\top} \mathbf{W}^{\top}
 $$
 
-Similarly, the configuration for acceleration $\mathbf{K}_a$ can be computed by 
+Similarly, the configuration for acceleration $\mathbf{K}_a$ can be computed by
+
 $$
 \mathbf{K}_a = (\mathbf{X}_{a}^{\top} \mathbf{X}_{a})^{-1} \mathbf{X}_{a}^{\top} \mathbf{A}^{\top}
 $$

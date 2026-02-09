@@ -132,7 +132,7 @@ $$
     v_1 \\\\ v_2 \\\\ \vdots \\\\ v_n
 \end{bmatrix} \Bigg\rangle =
 \mathbf{u}^{\top} \mathbf{v} =
-\sum^n\_{i=1} u_1 v_1 + u_2 v_2 + ... u_n v_n
+\sum^n_{i=1} u_1 v_1 + u_2 v_2 + ... u_n v_n
 $$
 
 The definition (Euclidean vector space) holds if and only if there exists a symmetric positive-definite matrix $M$ such that (set $n=2$ as an example for illustration).

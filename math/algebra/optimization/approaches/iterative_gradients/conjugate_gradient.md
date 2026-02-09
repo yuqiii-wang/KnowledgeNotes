@@ -22,7 +22,7 @@ $$
 A \mathbf{x} + \mathbf{b}
 $$
 
-Define $n$ mutually conjugate vectors $P$ with respect to $A$, such as $\mathbf{p}_j^\text{T} A \mathbf{p}\_i = 0, i \ne j$:
+Define $n$ mutually conjugate vectors $P$ with respect to $A$, such as $\mathbf{p}_j^\text{T} A \mathbf{p}_i = 0, i \ne j$:
 
 $$
 P=\{ \mathbf{p}_1, \mathbf{p}_2, ..., \mathbf{p}_n \}
@@ -31,9 +31,9 @@ $$
 Set $\mathbf{x}^*$ to denote the solution to $A \mathbf{x} + \mathbf{b} = 0$.
 
 $$
-\mathbf{x}^* = \sum_{i=1}^{n} \lambda_i \mathbf{p}\_i 
+\mathbf{x}^* = \sum_{i=1}^{n} \lambda_i \mathbf{p}_i 
 \Rightarrow
-A \mathbf{x}^* = \sum_{i=1}^{n} \lambda_i A \mathbf{p}\_i
+A \mathbf{x}^* = \sum_{i=1}^{n} \lambda_i A \mathbf{p}_i
 $$
 
 Multiplying by $\mathbf{p}_k^\text{T}$ yields
@@ -43,9 +43,9 @@ $$
 \mathbf{p}_k^\text{T} \mathbf{b}&=
 \mathbf{p}_k^\text{T} A \mathbf{x}^*
 \\\\ &=
-\sum_{i=1}^{n} \lambda_i \mathbf{p}_k^\text{T} A \mathbf{p}\_i
+\sum_{i=1}^{n} \lambda_i \mathbf{p}_k^\text{T} A \mathbf{p}_i
 \\\\ &=
-\sum_{i=1}^{n} \lambda_i {\langle \mathbf{p}_k, \mathbf{p}\_i \rangle}_A
+\sum_{i=1}^{n} \lambda_i {\langle \mathbf{p}_k, \mathbf{p}_i \rangle}_A
 \\\\ &=
 \lambda_i {\langle\mathbf{p}_k, \mathbf{p}_k\rangle}_A
 \end{align*}
@@ -53,9 +53,9 @@ $$
 
 where ${\langle\space\cdot\space\rangle}_A$ denotes inner product operation with or without respect to $A$: 
 
-* ${\langle\mathbf{p}_j, \mathbf{p}\_i\rangle}_A=\mathbf{p}_j^\text{T} A \mathbf{p}\_i$
+* ${\langle\mathbf{p}_j, \mathbf{p}_i\rangle}_A=\mathbf{p}_j^\text{T} A \mathbf{p}_i$
 
-* ${\langle\mathbf{p}_j, \mathbf{p}\_i\rangle}=\mathbf{p}_j^\text{T} \mathbf{p}\_i$.
+* ${\langle\mathbf{p}_j, \mathbf{p}_i\rangle}=\mathbf{p}_j^\text{T} \mathbf{p}_i$.
 
 Finally,
 
@@ -76,7 +76,7 @@ Gram-Schmidt orthonormalization gives update for the $k$-th step conjugate vecto
 
 $$
 \mathbf{p}_k = 
-\mathbf{r}_k - \sum_{i < k} \frac{{\langle\mathbf{p}\_i, \mathbf{r}_k\rangle}_A}{{\langle\mathbf{p}\_i, \mathbf{p}\_i\rangle}_A} \mathbf{p}\_i
+\mathbf{r}_k - \sum_{i < k} \frac{{\langle\mathbf{p}_i, \mathbf{r}_k\rangle}_A}{{\langle\mathbf{p}_i, \mathbf{p}_i\rangle}_A} \mathbf{p}_i
 $$
 
 The $k$-th update is
@@ -94,7 +94,7 @@ To find $\mathbf{x}^*$ (optimal solution to $f(\mathbf{x})$), first find the $k$
 $\mathbf{p}_k$ computation takes into consideration that, $\mathbf{x}^* - \mathbf{x}_k$ can be decomposed into a set of orthogonal vector additions.
 
 $$
-\mathbf{r}_k = \mathbf{p}_k + \sum_{i < k} \frac{{\langle\mathbf{p}\_i, \mathbf{r}_k\rangle}_A}{{\langle\mathbf{p}\_i, \mathbf{p}\_i\rangle}_A} \mathbf{p}\_i
+\mathbf{r}_k = \mathbf{p}_k + \sum_{i < k} \frac{{\langle\mathbf{p}_i, \mathbf{r}_k\rangle}_A}{{\langle\mathbf{p}_i, \mathbf{p}_i\rangle}_A} \mathbf{p}_i
 $$
 
 ## Conjugate Gradient vs Steepest Descent

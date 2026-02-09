@@ -54,7 +54,8 @@ $$
 \end{bmatrix}
 $$
 
-Cross product can be computed by its matrix multiplication 
+Cross product can be computed by its matrix multiplication
+
 $$
 \mathbf{a} \times \mathbf{b}=
 [\mathbf{a}]_{\times} \mathbf{b}

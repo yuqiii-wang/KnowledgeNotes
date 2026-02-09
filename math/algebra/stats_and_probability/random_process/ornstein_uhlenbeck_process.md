@@ -73,18 +73,18 @@ E\left[\Big(\int^T_{0} g(t)dW_t\Big)^2 \right]=
 E\left[\int^T_{0} g(t)^2 dt \right]
 $$
 
-Assume $g(t)$ be a step function such that $g(t)=\sum^n\_{i=1} g_i \cdot I_{(t_{i-1},t_i]}(t)$, where $I$ is a identity matrix.
+Assume $g(t)$ be a step function such that $g(t)=\sum^n_{i=1} g_i \cdot I_{(t_{i-1},t_i]}(t)$, where $I$ is a identity matrix.
 
 $$
-\int^T_0 g(t) dW_t = \sum^n\_{i=1} g_i (W_{t_i}-W_{t_{i-1}})
+\int^T_0 g(t) dW_t = \sum^n_{i=1} g_i (W_{t_i}-W_{t_{i-1}})
 $$
 
 The expectation is
 
 $$
-E\left[\Big(\sum^n\_{i=1} g_i \cdot \Delta W_i \Big)^2\right]=
-\sum^n\_{i=1} g_i^2 \cdot E\left[\Big(\Delta W_i \Big)^2\right]=
-\sum^n\_{i=1} g_i^2 \cdot \Delta t_i
+E\left[\Big(\sum^n_{i=1} g_i \cdot \Delta W_i \Big)^2\right]=
+\sum^n_{i=1} g_i^2 \cdot E\left[\Big(\Delta W_i \Big)^2\right]=
+\sum^n_{i=1} g_i^2 \cdot \Delta t_i
 $$
 
 ## Ornstein-Uhlenbeck Process Derivation

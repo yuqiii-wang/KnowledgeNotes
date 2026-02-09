@@ -36,7 +36,7 @@ $$
 
 where the numerator and denominator follow
 
-* $\mathbf{g}\cdot\mathbf{h}=\sum^n\_{i=1}g_i h_i$. Since $g_i, h_i\sim\mathcal{N}(0,1)$, and the product of two standard normal distribution random variables also follows a standard normal distribution, i.e., $g_i h_i\sim\mathcal{N}(0,1)$, by the Central Limit Theorem (CLT) (Let $X_i$ be a random variable; as sample size $n$ gets larger, there is ${\sqrt{n}}({\overline{X}}_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)$), there is $\mathbf{g}\cdot\mathbf{h}\sim\mathcal{N}(0,n)$
+* $\mathbf{g}\cdot\mathbf{h}=\sum^n_{i=1}g_i h_i$. Since $g_i, h_i\sim\mathcal{N}(0,1)$, and the product of two standard normal distribution random variables also follows a standard normal distribution, i.e., $g_i h_i\sim\mathcal{N}(0,1)$, by the Central Limit Theorem (CLT) (Let $X_i$ be a random variable; as sample size $n$ gets larger, there is ${\sqrt{n}}({\overline{X}}_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)$), there is $\mathbf{g}\cdot\mathbf{h}\sim\mathcal{N}(0,n)$
 * The Law of Large Numbers states that $||\mathbf{g}||$ and $||\mathbf{h}||$ approach their truth means as $n\rightarrow\infty$; the truth means are $||\mathbf{g}||\approx \sqrt{n}$ and $||\mathbf{h}||\approx \sqrt{n}$
 
 As a result for a very large $n\rightarrow\infty$,
@@ -97,8 +97,8 @@ $\mathbf{x}_{i}$ would pick $\mathbf{x}_{j}$ as its neighbor if neighbors were p
 This can be expressed (for $i\ne j$)
 
 $$
-p_{j|i} = \frac{\exp\big(-\frac{1}{2\sigma^2}||\mathbf{x}\_i-\mathbf{x}_j||^2\big)
-    }{\sum_{k\ne i}\exp\big(-\frac{1}{2\sigma^2}||\mathbf{x}\_i-\mathbf{x}_k||^2\big)}
+p_{j|i} = \frac{\exp\big(-\frac{1}{2\sigma^2}||\mathbf{x}_i-\mathbf{x}_j||^2\big)
+    }{\sum_{k\ne i}\exp\big(-\frac{1}{2\sigma^2}||\mathbf{x}_i-\mathbf{x}_k||^2\big)}
 $$
 
 that the similarity probability $p_{j|i}$ is defined as vector distance mapped normal distribution ratio.
@@ -126,7 +126,7 @@ $$
 
 ##### Intrinsic Dimensionality Estimation for Normal Distribution Bandwdith
 
-The scalar $\frac{1}{2\sigma^2}$ adjusts the gap $\mathbf{x}\_i-\mathbf{x}_j$ that a large $\frac{1}{2\sigma^2}$ tunes the gap to small, and vice versa.
+The scalar $\frac{1}{2\sigma^2}$ adjusts the gap $\mathbf{x}_i-\mathbf{x}_j$ that a large $\frac{1}{2\sigma^2}$ tunes the gap to small, and vice versa.
 
 Ideally, $\frac{1}{2\sigma^2}$ should be set such that distinctly different groups of sample points remain distant, spatially close ones are grouped together.
 
@@ -164,16 +164,16 @@ The t statistic is $t=\frac{Z}{\sqrt{Z^2_1/1}}=\frac{Z}{|Z_1|}$.
 The entry of $Q$ is
 
 $$
-q_{ij}=\frac{\big(1+||\mathbf{y}\_i-\mathbf{y}_j||^2\big)^{-1}}{\sum_{k \ne l}\big(1+||\mathbf{y}_k-\mathbf{y}_l||^2\big)^{-1}}
+q_{ij}=\frac{\big(1+||\mathbf{y}_i-\mathbf{y}_j||^2\big)^{-1}}{\sum_{k \ne l}\big(1+||\mathbf{y}_k-\mathbf{y}_l||^2\big)^{-1}}
 $$
 
-Recall that the t statistic in Gaussian distribution is defined as $t=\frac{\overline{X}-\mu}{s/\sqrt{n}}$, that in comparison to the $q_{ij}$, the $\overline{X}-\mu$ is analogously the gap $\mathbf{y}\_i-\mathbf{y}_j$.
+Recall that the t statistic in Gaussian distribution is defined as $t=\frac{\overline{X}-\mu}{s/\sqrt{n}}$, that in comparison to the $q_{ij}$, the $\overline{X}-\mu$ is analogously the gap $\mathbf{y}_i-\mathbf{y}_j$.
 
 The $\sum_{k \ne l}(...)$ is the normalization term.
 
 ##### Benefits of Implementing Cauchy Distribution for $Q$
 
-The "heavy tail" property of Cauchy distribution indicates that the gap $\mathbf{y}\_i-\mathbf{y}_j$ is more tolerant against outlier sample points compared to a typical Gaussian distribution.
+The "heavy tail" property of Cauchy distribution indicates that the gap $\mathbf{y}_i-\mathbf{y}_j$ is more tolerant against outlier sample points compared to a typical Gaussian distribution.
 
 #### Training and Cost Function (Kullback-Leibler Divergence)
 
@@ -186,7 +186,7 @@ $$
 
 #### Perplexity Setup and Desired Probability Distribution Distance
 
-Intuitively speaking, perplexity is the num of neighbors of $x\_i$ to include in t-SNE computation for desired probability distribution distance.
+Intuitively speaking, perplexity is the num of neighbors of $x_i$ to include in t-SNE computation for desired probability distribution distance.
 The normal distribution bandwdith $\frac{1}{2\sigma^2}$ is dynamically computed to keep perplexity at constant per **manually** defined usually set between $5$ to $50$.
 
 Perplexity in its nature is defined as exponentiation of summed Shannon entropy.
@@ -203,8 +203,8 @@ For example, below results show that as the prediction uncertainty increases, pe
 |Scenario 1|$p_{x_1}=1.0$|$1.0=2^{-1.0\log_2 1.0}$|$1.0\approx 1/1.0$|
 |Scenario 2|$p_{x_1}=0.1$, $p_{x_2}=0.9$|$1.38\approx 2^{-0.1\log_2 0.1 - 0.9\log_2 0.9}$|$0.72\approx 1/1.38$|
 |Scenario 3|$p_{x_1}=p_{x_2}=0.5$|$1.617\approx 2^{-2\times 0.5\log_2 0.5}$|$0.618\approx 1/1.617$|
-|Scenario 4|$p_{x_1}=p_{x_2}=p_{x_3}=0.333, \sum_{x\_i\notin\{x_1, x_2, x_3\}}p_{x\_i}=0.001$|$3.137\approx 2^{-3\times 0.333\log_2 0.333-0.001\times\log_2 0.001}$|$0.319\approx 1/3.137$|
+|Scenario 4|$p_{x_1}=p_{x_2}=p_{x_3}=0.333, \sum_{x_i\notin\{x_1, x_2, x_3\}}p_{x_i}=0.001$|$3.137\approx 2^{-3\times 0.333\log_2 0.333-0.001\times\log_2 0.001}$|$0.319\approx 1/3.137$|
 
 In t-SNE, it is defined ${H(p_i)}=2^{-\sum_{j}p_{j|i}\log_2 p_{j|i}}$.
 Perplexity can be interpreted as a smooth measure of the effective number of neighbors.
-For example in the scenario 4, the insignificant neighbors of $x\_i$ represented by $\sum_{x_j\notin\{x_1, x_2, x_3\}}p_{x_j}=0.001$ see $0\approx{-0.001\times\log_2 0.001}$, and $\{x_1, x_2, x_3\}$ are mostly related to the three nearest neighbors indicative by $3.137$.
+For example in the scenario 4, the insignificant neighbors of $x_i$ represented by $\sum_{x_j\notin\{x_1, x_2, x_3\}}p_{x_j}=0.001$ see $0\approx{-0.001\times\log_2 0.001}$, and $\{x_1, x_2, x_3\}$ are mostly related to the three nearest neighbors indicative by $3.137$.

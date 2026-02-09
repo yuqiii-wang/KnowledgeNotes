@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
 
 # 1) Define two vectors
-x\_i = np.array([3, 3])
+x_i = np.array([3, 3])
 x_j = np.array([3, 1])
 
 # 2) Define matrix A, compute its SVD, get V, and build rotation matrix R
@@ -29,11 +29,11 @@ change_ang_v = compute_vec_change_ang(Vt)
 change_ang_u = compute_vec_change_ang(U)
 
 # 3) Transform by SVD
-x_i_v = Vt @ x\_i
+x_i_v = Vt @ x_i
 x_j_v = Vt @ x_j
-x_i_s = S @ Vt @ x\_i
+x_i_s = S @ Vt @ x_i
 x_j_s = S @ Vt @ x_j
-x_i_u = U @ S @ Vt @ x\_i
+x_i_u = U @ S @ Vt @ x_i
 x_j_u = U @ S @ Vt @ x_j
 
 
@@ -49,7 +49,7 @@ y_min -= padding
 y_max += padding
 
 # 4) Compute absolute angles for drawing arcs
-ang_i = np.degrees(np.arctan2(x\_i[1], x\_i[0]))
+ang_i = np.degrees(np.arctan2(x_i[1], x_i[0]))
 ang_j = np.degrees(np.arctan2(x_j[1], x_j[0]))
 ang_i_v = np.degrees(np.arctan2(x_i_v[1], x_i_v[0]))
 ang_j_v = np.degrees(np.arctan2(x_j_v[1], x_j_v[0]))
@@ -60,8 +60,8 @@ ang_j_u = np.degrees(np.arctan2(x_j_u[1], x_j_u[0]))
 
 # 5) Compute preserved angle θ' (should equal θ)
 theta_original = np.arccos(
-    np.dot(x\_i, x_j) /
-    (np.linalg.norm(x\_i) * np.linalg.norm(x_j))
+    np.dot(x_i, x_j) /
+    (np.linalg.norm(x_i) * np.linalg.norm(x_j))
 )
 theta_v = np.arccos(
     np.dot(x_i_v, x_j_v) /
@@ -79,13 +79,13 @@ theta_u = np.arccos(
 # 6) Plot
 fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(9, 3))
 
-def plot_ax(ax, x\_i, x_j, x_i_new, x_j_new,
+def plot_ax(ax, x_i, x_j, x_i_new, x_j_new,
             ang_i, ang_j, ang_i_new, ang_j_new,
             change_ang,
             flag='v'):
 
     # Original vectors (dashed gray)
-    ax.arrow(0, 0, *x\_i, head_width=0.1, linestyle='--', color='gray', alpha=0.7)
+    ax.arrow(0, 0, *x_i, head_width=0.1, linestyle='--', color='gray', alpha=0.7)
     ax.arrow(0, 0, *x_j, head_width=0.1, linestyle='--', color='gray', alpha=0.7)
 
     # Rotated vectors x' (solid dark gray)
@@ -93,9 +93,9 @@ def plot_ax(ax, x\_i, x_j, x_i_new, x_j_new,
     ax.arrow(0, 0, *x_j_new, head_width=0.1, color='dimgray', alpha=1.0)
 
     # Labels
-    ax.text(x\_i[0]+0.1, x\_i[1]+0.1, '$x\_i$', fontsize=12)
+    ax.text(x_i[0]+0.1, x_i[1]+0.1, '$x_i$', fontsize=12)
     ax.text(x_j[0]+0.1, x_j[1]+0.1, '$x_j$', fontsize=12)
-    ax.text(x_i_new[0]+0.1, x_i_new[1]+0.1, "$x\_i$'", fontsize=12)
+    ax.text(x_i_new[0]+0.1, x_i_new[1]+0.1, "$x_i$'", fontsize=12)
     ax.text(x_j_new[0]+0.1, x_j_new[1]+0.1, "$x_j$'", fontsize=12)
 
     if flag == 'v' or flag == 'u':
@@ -205,40 +205,40 @@ def plot_ax(ax, x\_i, x_j, x_i_new, x_j_new,
         sigma_x = S[0, 0]
         sigma_y = S[1, 1]
 
-        x_i_0_sig = sigma_x * x\_i[0]
-        x_i_1_sig = sigma_y * x\_i[1]
+        x_i_0_sig = sigma_x * x_i[0]
+        x_i_1_sig = sigma_y * x_i[1]
         x_j_0_sig = sigma_x * x_j[0]
         x_j_1_sig = sigma_y * x_j[1]
 
         # X-axis line (red)
-        ax.plot([x\_i[0], x_i_0_sig], [0, 0], color='red', linewidth=3, alpha=0.5, zorder=2)
+        ax.plot([x_i[0], x_i_0_sig], [0, 0], color='red', linewidth=3, alpha=0.5, zorder=2)
         ax.plot([x_j[0], x_j_0_sig], [0, 0], color='red', linewidth=3, alpha=0.5, zorder=2)
-        ax.plot([0, x\_i[0]], [0, 0], color='red', linewidth=1, alpha=0.5, zorder=2)
+        ax.plot([0, x_i[0]], [0, 0], color='red', linewidth=1, alpha=0.5, zorder=2)
         ax.plot([0, x_j[0]], [0, 0], color='red', linewidth=1, alpha=0.5, zorder=2)
         # Y-axis line (blue)
-        ax.plot([0, 0], [x\_i[1], x_i_1_sig], color='blue', linewidth=3, alpha=0.5, zorder=2)
+        ax.plot([0, 0], [x_i[1], x_i_1_sig], color='blue', linewidth=3, alpha=0.5, zorder=2)
         ax.plot([0, 0], [x_j[1], x_j_1_sig], color='blue', linewidth=3, alpha=0.5, zorder=2)
-        ax.plot([0, 0], [0, x\_i[1]], color='blue', linewidth=1, alpha=0.5, zorder=2)
+        ax.plot([0, 0], [0, x_i[1]], color='blue', linewidth=1, alpha=0.5, zorder=2)
         ax.plot([0, 0], [0, x_j[1]], color='blue', linewidth=1, alpha=0.5, zorder=2)
         # Align Y-axis line (blue)
-        ax.plot([x\_i[0], 0], [x\_i[1], x\_i[1]], color='blue', linewidth=1, alpha=0.2, zorder=2)
+        ax.plot([x_i[0], 0], [x_i[1], x_i[1]], color='blue', linewidth=1, alpha=0.2, zorder=2)
         ax.plot([x_i_new[0], 0], [x_i_new[1], x_i_new[1]], color='blue', linewidth=1, alpha=0.2, zorder=2)
         ax.plot([x_j[0], 0], [x_j[1], x_j[1]], color='blue', linewidth=1, alpha=0.2, zorder=2)
         ax.plot([x_j_new[0], 0], [x_j_new[1], x_j_new[1]], color='blue', linewidth=1, alpha=0.2, zorder=2)
         # Align X-axis line (red)
-        ax.plot([x\_i[0], x\_i[0]], [0, x\_i[1]], color='red', linewidth=1, alpha=0.2, zorder=2)
+        ax.plot([x_i[0], x_i[0]], [0, x_i[1]], color='red', linewidth=1, alpha=0.2, zorder=2)
         ax.plot([x_i_new[0], x_i_new[0]], [0, x_i_new[1]], color='red', linewidth=1, alpha=0.2, zorder=2)
         ax.plot([x_j[0], x_j[0]], [0, x_j[1]], color='red', linewidth=1, alpha=0.2, zorder=2)
         ax.plot([x_j_new[0], x_j_new[0]], [0, x_j_new[1]], color='red', linewidth=1, alpha=0.2, zorder=2)
 
         # Labels for sigma values
-        ax.text((x\_i[0]+x_i_0_sig)/2-1.0, -0.2, f'$σ^1={sigma_x:.2f}$', color='red', ha='center', va='top', fontsize=12, zorder=4)
-        ax.text(-0.3, (x\_i[1]+x_i_1_sig)/2, f'$σ^2={sigma_y:.2f}$', color='blue', ha='right', va='center', fontsize=12, zorder=4)
+        ax.text((x_i[0]+x_i_0_sig)/2-1.0, -0.2, f'$σ^1={sigma_x:.2f}$', color='red', ha='center', va='top', fontsize=12, zorder=4)
+        ax.text(-0.3, (x_i[1]+x_i_1_sig)/2, f'$σ^2={sigma_y:.2f}$', color='blue', ha='right', va='center', fontsize=12, zorder=4)
 
     ax.set_aspect('equal')
     ax.grid(True)
 
-plot_ax(axs[0], x\_i, x_j, x_i_v, x_j_v,
+plot_ax(axs[0], x_i, x_j, x_i_v, x_j_v,
         ang_i, ang_j, ang_i_v, ang_j_v,
         change_ang_v,
         flag='v')
@@ -257,7 +257,7 @@ for ax in [axs[0], axs[1], axs[2]]:
     ax.set_ylim(y_min, y_max)
 
 axs[0].text(0.0, -0.2, 
-            f"$\\mathbf{{x}}\_i = [{x\_i[0]}, {x\_i[1]}]$", 
+            f"$\\mathbf{{x}}_i = [{x_i[0]}, {x_i[1]}]$", 
             ha='left', va='top', transform=axs[0].transAxes)
 axs[0].text(0.0, -0.3, 
             f"$\\mathbf{{x}}_j = [{x_j[0]}, {x_j[1]}]$", 
@@ -270,7 +270,7 @@ axs[0].text(0.5, -0.3,
             ha='left', va='top', transform=axs[0].transAxes)
 
 axs[2].text(2.4, -0.2, 
-            f"$\\mathbf{{x}}'_i=A\\mathbf{{x}}\_i = [{x_i_u[0]:.2f}, {x_i_u[1]:.2f}]$", 
+            f"$\\mathbf{{x}}'_i=A\\mathbf{{x}}_i = [{x_i_u[0]:.2f}, {x_i_u[1]:.2f}]$", 
             ha='left', va='top', transform=axs[0].transAxes)
 axs[2].text(2.4, -0.3, 
             f"$\\mathbf{{x}}'_j=A\\mathbf{{x}}_j = [{x_j_u[0]:.2f}, {x_j_u[1]:.2f}]]$", 

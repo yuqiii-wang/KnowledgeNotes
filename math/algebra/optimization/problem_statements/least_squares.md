@@ -24,7 +24,7 @@ Rewrite $f$ to $f(\mathbf{x})=\frac{1}{2}||\mathbf{r}(\mathbf{x})||^2_2$, whose 
 
 $$
 J(\mathbf{x})=
-\big[\frac{\partial r_j}{\partial x\_i}\big]
+\big[\frac{\partial r_j}{\partial x_i}\big]
 _{
     \begin{array}{c}
     \footnotesize{j=1,2,3,...,m}
@@ -104,7 +104,8 @@ For convenience, replace $\mathbf{y}$ with $\mathbf{b}$, so that $\mathbf{r}(\ma
 
 Since $A\mathbf{x}=\mathbf{b}$ is over-determined, it cannot be solved directly. Define $\hat{\mathbf{x}}$ as the solution when $\mathbf{e}=\mathbf{b}-A\mathbf{x}$ is small enough.
 
-Given 
+Given
+
 $$
 \begin{align*}
 \mathbf{r}^2(\mathbf{x}) &= 

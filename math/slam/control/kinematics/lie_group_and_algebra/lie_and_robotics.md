@@ -321,7 +321,8 @@ There is neither addition nor subtraction for $R$. Lie algebra can help instanti
 
 There are two solutions to this problem.
 
-* Derivative Model: $R$-corresponding Lie algebra $\phi$ adds a $\Delta \phi$, then compute the change rate on the $\Delta \phi$, so that 
+* Derivative Model: $R$-corresponding Lie algebra $\phi$ adds a $\Delta \phi$, then compute the change rate on the $\Delta \phi$, so that
+
 $$
 \frac{\partial R\mathbf{p}}{\partial R}=
 lim_{\Delta \phi \rightarrow 0} \frac{e^{(\Delta \phi + \phi)^{\wedge}}\mathbf{p} - e^{\phi^{\wedge}}\mathbf{p}}{\Delta \phi}

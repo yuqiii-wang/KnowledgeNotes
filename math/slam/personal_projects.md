@@ -64,7 +64,7 @@ cv::calibrateHandEye(R_gripper2base, t_gripper2base, R_target2cam, t_target2cam,
 ### The $AX=XB$ System
 
 As in the figure below, $X$ that represents $\space^{g}T_{c}$ is the extrinsic to be computed.
-Given at least two transforms $i \ne j$, for known target to camera transforms $\space^{c}T_{t}^{(i)}$ there is $A= A_i A_j^{-1}$, and for known robot state transforms $\space^{b}T_{g}^{(i)}$ there is $B = B^{-1}\_i B_j$.
+Given at least two transforms $i \ne j$, for known target to camera transforms $\space^{c}T_{t}^{(i)}$ there is $A= A_i A_j^{-1}$, and for known robot state transforms $\space^{b}T_{g}^{(i)}$ there is $B = B^{-1}_i B_j$.
 Constrained by the geometry, finally there is $AX=XB$.
 
 <div style="display: flex; justify-content: center;">
@@ -79,7 +79,7 @@ $$
 &&&
 AX=XB
 \\\\ \Rightarrow &&&
-A_i A_j^{-1} X=X B^{-1}\_i B_j
+A_i A_j^{-1} X=X B^{-1}_i B_j
 \\\\ \Rightarrow &&&
 \space^{c}T_{t}^{(i)} \Big(\space^{c}T_{t}^{(j)}\Big)^{-1} X=X \Big(\space^{b}T_{g}^{(i)}\Big)^{-1} \space^{b}T_{g}^{(j)}
 \\\\ \Rightarrow &&&

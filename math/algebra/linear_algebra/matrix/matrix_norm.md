@@ -7,7 +7,7 @@ Let $p \ge 1$ be a real number.
 The p-norm (a.k.a. $\mathcal{L}^p$ norm) of a vector $\mathbf{x} \in \mathbb{R}^n$ is
 
 $$
-||\mathbf{x}||_p := \Bigg( \sum^n\_{i=1} |x\_i|^p \Bigg)^{{\frac{1}{p}}}
+||\mathbf{x}||_p := \Bigg( \sum^n_{i=1} |x_i|^p \Bigg)^{{\frac{1}{p}}}
 $$
 
 ## Matrix p-norm
@@ -43,7 +43,7 @@ $||A||_p$ is interesting for it can be considered the "degree" of how much $\mat
 
 ### p=0 Matrix Norm
 
-The $\mathcal{L}_0$  measures how many zero-elements are in a tensor $\mathbf{x}$, or the element is either zero or one $x\_i \in \{ 0, 1 \}$:
+The $\mathcal{L}_0$  measures how many zero-elements are in a tensor $\mathbf{x}$, or the element is either zero or one $x_i \in \{ 0, 1 \}$:
 
 $$
 ||\mathbf{x}||_0 = |x_1|^0 + |x_2|^0 + ... + |x_n|^0
@@ -104,7 +104,7 @@ By Vieta's formulas, the sum of the roots (eigenvalues) is
 
 $$
 \begin{align*}
-\sum^n\_{i=1}\lambda_i&=
+\sum^n_{i=1}\lambda_i&=
    \frac{\text{Coefficient of }\lambda^{n-1}}{\text{Coefficient of }\lambda^{n}}(-1)^{n-1} \\\\
    &= -\frac{(-1)^{n-1}\text{tr}(A)}{(-1)^n} \\\\
    &= \text{tr}(A)

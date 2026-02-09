@@ -296,7 +296,7 @@ ExactOBS achieves $\mathcal{O}\big(n \cdot m^3\big)$ without approximation by av
 ExactOBS rewrites the above Frobenius error term as the sum of the squared errors for each row in the weight matrix $W\in\mathbb{R}^{n\times m}$ such that
 
 $$
-\min_{\hat{W}} \sum^n\_{i=1}||W_{i,:}X-\hat{W}_{i,:}X||^2_2
+\min_{\hat{W}} \sum^n_{i=1}||W_{i,:}X-\hat{W}_{i,:}X||^2_2
 $$
 
 where $W_{i,:}\in\mathbb{R}^{1\times m}$, and accordingly its Hessian is $H_{i,:}\in\mathbb{R}^{m\times m}$.
@@ -332,7 +332,7 @@ $$
 
 The removal (or "zero out") of the $p$-th weight from a weight row is equivalent to adding a rank-one modification to the system $H^{-1}$.
 
-Substitute $\mathbf{u}=-\frac{\mathbf{e}\_ p}{\sqrt{H^{-1}_{pp}}}$ and $\mathbf{v}=\frac{\mathbf{e}\_ p}{\sqrt{H^{-1}_{pp}}}$ into the Sherman-Morrison Formula,
+Substitute $\mathbf{u}=-\frac{\mathbf{e}_ p}{\sqrt{H^{-1}_{pp}}}$ and $\mathbf{v}=\frac{\mathbf{e}_ p}{\sqrt{H^{-1}_{pp}}}$ into the Sherman-Morrison Formula,
 
 $$
 \tilde{H}_{i,:}^{-1}=

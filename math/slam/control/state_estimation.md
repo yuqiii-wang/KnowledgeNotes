@@ -115,8 +115,8 @@ arg \space \underset{}{max} \mathbf{P} (\mathbf{x}|\mathbf{u},\mathbf{z})
 \\\\ &=
 arg \space \underset{}{max} \mathbf{P} (\mathbf{u},\mathbf{z}|\mathbf{x})
 \\\\ &=
-\prod^n\_{k=1} P(u_k|x_{k-1},x_k)
-\prod^n\_{k=1} P(z_k|x_k)
+\prod^n_{k=1} P(u_k|x_{k-1},x_k)
+\prod^n_{k=1} P(z_k|x_k)
 \end{align*}
 $$
 

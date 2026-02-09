@@ -155,7 +155,8 @@ Other common wavelet examples are
 * Mexican hat wavelet
 * Haar wavelet
 
-The discrete version describes sampled points $x(t_m)$ from signal convolved with $\psi[s,\tau]$ where 
+The discrete version describes sampled points $x(t_m)$ from signal convolved with $\psi[s,\tau]$ where
+
 $$
 \psi[s,\tau] = 
 \frac{1}{\sqrt{s}} \sum^{p-1}_{m=0} x(t_m) \psi \big( \frac{t_m - \tau}{s} \big)
@@ -186,7 +187,7 @@ where $\psi(t)$ is a continuous function in both the time domain and the frequen
 The reverse transform that recovers the source signal $x(t)$ is
 
 $$
-x(t) = C^{-1}\_\psi 
+x(t) = C^{-1}_\psi 
 \int^{\infty}_{0} \int^{\infty}_{-\infty}
 \mathbf{C}(s,\tau) \frac{1}{\sqrt{s}}
 \~{\psi}(\frac{t - \tau}{s}) \frac{dsd\tau}{s^2}
