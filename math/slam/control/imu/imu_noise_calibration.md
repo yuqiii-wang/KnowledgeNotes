@@ -20,19 +20,19 @@ This can be measured by Gaussian noise.
 
 ### Formulations
 
-Between two keyframes $K_i$ and $K_j$, define IMU measurement noises (Gaussian noise) $\mathbf{\eta}\_{ij}$ and zero offset/drift biases (Wiener process) to angular and linear movements $\mathbf{b}\_{ij} = \{ \mathbf{b}\_{a, ij}, \mathbf{b}\_{\omega, ij} \}$.
+Between two keyframes $K_i$ and $K_j$, define IMU measurement noises (Gaussian noise) $\mathbf{\eta}_{ij}$ and zero offset/drift biases (Wiener process) to angular and linear movements $\mathbf{b}_{ij} = \{ \mathbf{b}_{a, ij}, \mathbf{b}_{\omega, ij} \}$.
 
 $$
 \begin{align*}
-\mathbf{\eta}\_{ij} &= \frac{1}{\Delta t_{ij}} \int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(\tau) dt \\\\
-\mathbf{b}\_{ij} &= \mathbf{b}\_{i} + \int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(t) dt
+\mathbf{\eta}_{ij} &= \frac{1}{\Delta t_{ij}} \int^{t_i+\Delta t_{ij}}_{t_i} \mathbf{n}(\tau) dt \\\\
+\mathbf{b}_{ij} &= \mathbf{b}_{i} + \int^{t_i+\Delta t_{ij}}_{t_i} \mathbf{n}(t) dt
 \end{align*}
 $$
 
 where $\mathbf{n}(\tau)$ is Gaussian noise.
 In the time interval $\Delta t_{ij}$, the Gaussian noise $\mathbf{n}(\tau)$ does not grow proportional to the length of time interval $\Delta t_{ij}$.
-The argument $\tau$ means the noise does not relate to $\Delta t$, so that $\int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(\tau) dt = 0$ as $\Delta t_{ij} \rightarrow +\infty$.
-This is different from Wiener process where noises accumulate as time extends $\int^{t_i+\Delta t_{ij}}\_{t_i} \mathbf{n}(t) dt \propto \Delta t_{ij}$.
+The argument $\tau$ means the noise does not relate to $\Delta t$, so that $\int^{t_i+\Delta t_{ij}}_{t_i} \mathbf{n}(\tau) dt = 0$ as $\Delta t_{ij} \rightarrow +\infty$.
+This is different from Wiener process where noises accumulate as time extends $\int^{t_i+\Delta t_{ij}}_{t_i} \mathbf{n}(t) dt \propto \Delta t_{ij}$.
 
 The covariances of the two types of errors are: 
 $E(\mathbf{\eta}^2_{ij})$ is just the mean of the $\sigma_{\mathbf{\eta}}^2$ over the time interval $\Delta t_{ij}$;
@@ -173,8 +173,8 @@ $$
     W_x \\\\
     W_y \\\\
     W_z
-\end{bmatrix}}\_{{W}}=
-\mathbf{x}\_{\omega}
+\end{bmatrix}}_{{W}}=
+\mathbf{x}_{\omega}
 \underbrace{\begin{bmatrix}
     K_{gxx} \\\\ S_{gxy} \\\\ S_{gxz} \\\\
     S_{gyx} \\\\ K_{gyy} \\\\ S_{gyz} \\\\
@@ -182,12 +182,12 @@ $$
     W_{x0} \\\\
     W_{y0} \\\\
     W_{z0}
-\end{bmatrix}}\_{\mathbf{K}_g}
+\end{bmatrix}}_{\mathbf{K}_g}
 $$
 
-$\mathbf{x}\_{\omega}$ is 
+$\mathbf{x}_{\omega}$ is 
 $$
-\mathbf{x}\_{\omega} = \begin{bmatrix}
+\mathbf{x}_{\omega} = \begin{bmatrix}
     {\omega}_x & {\omega}_x & {\omega}_x & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\\\
     0 & 0 & 0 & {\omega}_y & {\omega}_y & {\omega}_y & 0 & 0 & 0 & 0 & 1 & 0 \\\\
     0 & 0 & 0 & 0 & 0 & 0 & {\omega}_z & {\omega}_z & {\omega}_z & 0 & 0 & 1 \\\\
@@ -202,27 +202,27 @@ A typical high-precision calibration machine would give $\pm 0.3\%$ precision to
 </div>
 </br>
 
-Record many IMU positions $\mathbf{x}\_{\omega, i}$.
+Record many IMU positions $\mathbf{x}_{\omega, i}$.
 Form the least squares problem:
 $$
 \begin{align*}
     \mathbf{W} &= \begin{bmatrix}
         W_1^{\top} & W_2^{\top} & ... & W_n^{\top}
     \end{bmatrix}^{\top} \\\\
-    \mathbf{X}\_{\omega} &= \begin{bmatrix}
-        \mathbf{x}\_{\omega,1}^{\top} & \mathbf{x}\_{\omega,2}^{\top} & ... & \mathbf{x}\_{\omega,n}^{\top}
+    \mathbf{X}_{\omega} &= \begin{bmatrix}
+        \mathbf{x}_{\omega,1}^{\top} & \mathbf{x}_{\omega,2}^{\top} & ... & \mathbf{x}_{\omega,n}^{\top}
     \end{bmatrix}^{\top}
 \end{align*}
 $$
 
 The $\mathbf{K}_g$ can be solved by
 $$
-\mathbf{K}_g = (\mathbf{X}\_{\omega}^{\top} \mathbf{X}\_{\omega})^{-1} \mathbf{X}\_{\omega}^{\top} \mathbf{W}^{\top}
+\mathbf{K}_g = (\mathbf{X}_{\omega}^{\top} \mathbf{X}_{\omega})^{-1} \mathbf{X}_{\omega}^{\top} \mathbf{W}^{\top}
 $$
 
 Similarly, the configuration for acceleration $\mathbf{K}_a$ can be computed by 
 $$
-\mathbf{K}_a = (\mathbf{X}\_{a}^{\top} \mathbf{X}\_{a})^{-1} \mathbf{X}\_{a}^{\top} \mathbf{A}^{\top}
+\mathbf{K}_a = (\mathbf{X}_{a}^{\top} \mathbf{X}_{a})^{-1} \mathbf{X}_{a}^{\top} \mathbf{A}^{\top}
 $$
 
 ### Other Considerations

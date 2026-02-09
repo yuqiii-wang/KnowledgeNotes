@@ -31,7 +31,7 @@ It is quadratic for smaller errors and is linear otherwise (and similarly for it
 It is identified by its delta parameter $\delta$:
 
 $$
-L\_{\delta}(e)=
+L_{\delta}(e)=
 \left\{
     \begin{array}{c}
         \frac{1}{2}e^2 &\quad \text{for} |e|\le \delta
@@ -96,7 +96,7 @@ Here $c$ is the constraint to prevent $w_i$ get too large.
 
 $$
 \begin{align*}
-L\_{CE}&=
+L_{CE}&=
 -\sum_i^C t_i \space \log(s_i) \\\\ &=
 -\sum_i^C t_i \space \log(\frac{e^{z_i}}{\sum^C_{j=1}e^{z_j}})
 \end{align*}
@@ -159,8 +159,8 @@ The longest common substring is the longest consecutive char sequence.
 
 $$
 \begin{align*}
-& \underbrace{A,\underbrace{B,C,D,E,F,G}\_{\text{Longest Comm Sub-Str}},H,\underbrace{I,J,K},L,M,N}\_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K} \\\\ \space \\\\
-& \underbrace{X,\underbrace{B,C,D,E,F,G}\_{\text{Longest Comm Sub-Str}},X,X,Y,Y,\underbrace{I,J,K},X,X,Y,Y}\_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K}
+& \underbrace{A,\underbrace{B,C,D,E,F,G}_{\text{Longest Comm Sub-Str}},H,\underbrace{I,J,K},L,M,N}_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K} \\\\ \space \\\\
+& \underbrace{X,\underbrace{B,C,D,E,F,G}_{\text{Longest Comm Sub-Str}},X,X,Y,Y,\underbrace{I,J,K},X,X,Y,Y}_{\text{Longest Comm Sub-Seq: }B,C,D,E,F,G,I,J,K}
 \end{align*}
 $$
 
@@ -311,8 +311,8 @@ A general form of $D_{JS}$ is by replacing $\frac{Q+P}{2}$ with weighs $\mathbf{
 
 ### Root mean Square Deviation (RMSD)
 
-For $n$ samples of pairs $\{ y_i, x\_i \}$ for a system $f(.)$, RMSD can be computed by
+For $n$ samples of pairs $\{ y_i, x_i \}$ for a system $f(.)$, RMSD can be computed by
 
 $$
-L = \sqrt{\frac{1}{n} \sum_{i=1}^n \big( y_i - f(x\_i) \big)}
+L = \sqrt{\frac{1}{n} \sum_{i=1}^n \big( y_i - f(x_i) \big)}
 $$

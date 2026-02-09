@@ -468,7 +468,7 @@ $$
 \text{det}(A)
 & =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_1)⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n) \\\\
 & =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\big(\mathbf{e}_1⋅(a_1 ∧ ⋯ ∧ \mathbf{a}_n)\big) \\\\
-& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \mathbf{a}_n)−\sum_{i=2}^n (-1)^i \mathbf{a}\_{1,i}(a_1 ∧ ⋯ ∧ \hat{\mathbf{a}}\_i ∧ ⋯ ∧ \mathbf{a}_n) \bigg)
+& =(\mathbf{e}_n ∧ ⋯ ∧ \mathbf{e}_2)⋅\bigg(a_{1,1}(a_2 ∧ ⋯ ∧ \mathbf{a}_n)−\sum_{i=2}^n (-1)^i \mathbf{a}_{1,i}(a_1 ∧ ⋯ ∧ \hat{\mathbf{a}}\_i ∧ ⋯ ∧ \mathbf{a}_n) \bigg)
 \end{align*}
 $$
 

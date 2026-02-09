@@ -78,7 +78,7 @@ May return a copy or a `view` of the original tensor.
 
 Returns a `contiguous` in memory tensor containing the same data as self tensor.
 
-Define a dimension index $d=1,2,...,k,...,D$ and cell entry index $i_d$ for the $d$-th dimension tensor, a `contiguous` should see cell retrieval of the $i_d$-th value on the $d=k$-th dimension by $\text{cell}(d=k, i_d) = \sum^{k-1}\_{d=1} \text{stride}_d + i_d \prod_{d=D}^{k+1} \text{stride}_d$, where $\text{stride}\_{k}=\prod_{d=D}^{k+1} \text{stride}_d$.
+Define a dimension index $d=1,2,...,k,...,D$ and cell entry index $i_d$ for the $d$-th dimension tensor, a `contiguous` should see cell retrieval of the $i_d$-th value on the $d=k$-th dimension by $\text{cell}(d=k, i_d) = \sum^{k-1}_{d=1} \text{stride}_d + i_d \prod_{d=D}^{k+1} \text{stride}_d$, where $\text{stride}_{k}=\prod_{d=D}^{k+1} \text{stride}_d$.
 
 In other words, a `contiguous` tensor's cell can be accessed orderly with respect to its dimension index.
 

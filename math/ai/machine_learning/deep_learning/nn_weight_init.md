@@ -79,7 +79,7 @@ $$
 \begin{align*}
 Var(X) &= E(X^2) - \big(E(X)\big)^2 \\\\
 &= \int_{-a}^{a} x^2 \frac{1}{2a} dx - 0 \\\\
-&= \frac{1}{2a} \frac{x^3}{3}\bigg|^{a}\_{-a} - 0 \\\\
+&= \frac{1}{2a} \frac{x^3}{3}\bigg|^{a}_{-a} - 0 \\\\
 &= \frac{1}{2a} \frac{2a^3}{3} - 0 \\\\
 &= \frac{a^2}{3} \\\\
 \end{align*}

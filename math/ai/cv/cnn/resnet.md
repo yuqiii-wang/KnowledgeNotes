@@ -6,7 +6,7 @@
 
 $$
 \begin{align*}
-H(\mathbf{x}) &= \mathbf{w}_2 {\sigma(\underbrace{\mathbf{w}_1 \mathbf{x} + \mathbf{b}_1}\_{\mathbf{z}_1})} + \mathbf{b}_2 \\\\
+H(\mathbf{x}) &= \mathbf{w}_2 {\sigma(\underbrace{\mathbf{w}_1 \mathbf{x} + \mathbf{b}_1}_{\mathbf{z}_1})} + \mathbf{b}_2 \\\\
 \hat{\mathbf{y}} &= H(\mathbf{x}) + \mathbf{x}
 \end{align*}
 $$
@@ -39,7 +39,7 @@ $$
 = (\hat{\mathbf{y}}-\mathbf{y}) \frac{\partial \hat{\mathbf{y}}}{\partial \mathbf{x}} && \text{Suppose loss by MSE} \\\\
 &= (\hat{\mathbf{y}}-\mathbf{y}) (\frac{\partial H}{\partial \mathbf{x}} + \mathbf{1}) && \text{The } +\mathbf{1} \text{ is the derivative of the additional } +\mathbf{x} \text{ in feed forward} \\\\
 &= (\hat{\mathbf{y}}-\mathbf{y}) \mathbf{w}_2 \mathbf{a}_1(1-\mathbf{a}_1)\mathbf{w}_1 +
-\underbrace{(\hat{\mathbf{y}}-\mathbf{y})}\_{\text{Original error}} &&
+\underbrace{(\hat{\mathbf{y}}-\mathbf{y})}_{\text{Original error}} &&
 \end{align*}
 $$
 
@@ -61,8 +61,8 @@ Used in smaller ResNet models (ResNet-18, ResNet-34)
 * Shortcut (residual) connections to mitigate the vanishing gradient problem.
 
 $$
-F(x, W) = \underbrace{\text{ReLU}(\text{BN}(\text{Cov}\_{3 \times 3}}\_{\text{the }l_{+1}\text{-th layer output}}(
-    \underbrace{\text{ReLU}(\text{BN}(\text{Cov}\_{3 \times 3}(x)))}\_{\text{the }l\text{-th layer output}}))) + x
+F(x, W) = \underbrace{\text{ReLU}(\text{BN}(\text{Cov}_{3 \times 3}}_{\text{the }l_{+1}\text{-th layer output}}(
+    \underbrace{\text{ReLU}(\text{BN}(\text{Cov}_{3 \times 3}(x)))}_{\text{the }l\text{-th layer output}}))) + x
 $$
 
 ### Bottleneck Block
@@ -74,6 +74,6 @@ Used in deeper ResNet models (e.g., ResNet-50, ResNet-101, ResNet-152)
 * $1 \times 1$ convolution for restoring channel dimensions (dimensionality expansion).
 
 $$
-F(x, W) = \text{Cov}\_{1 \times 1}(\text{BN}(\text{Cov}\_{3 \times 3}(
-    \text{BN}(\text{Cov}\_{1 \times 1}(x))))) + x
+F(x, W) = \text{Cov}_{1 \times 1}(\text{BN}(\text{Cov}_{3 \times 3}(
+    \text{BN}(\text{Cov}_{1 \times 1}(x))))) + x
 $$

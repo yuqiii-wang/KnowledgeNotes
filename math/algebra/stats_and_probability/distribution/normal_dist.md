@@ -59,11 +59,11 @@ Studentized range distribution (q-distribution) selectively seeks extreme differ
 Let $X_{ij}$ represent the $j$-th observation in the $i$-th population (there are a total of $k$ population groups) having a normal distribution with mean $\mu_i$ and variance $\sigma_i^2$ (by equal variance assumption, there is $\sigma^2=\sigma^2_1=\sigma^2_2=...=\sigma^2_i...=\sigma^2_k$). 
 There is $X_{ij} \sim N (\mu_i, \sigma^2)$.
 
-Rather than randomly selecting samples from populations, q-distribution find the largest sample mean $\overline{X}\_{max}$ and smallest sample mean $\overline{X}\_{min}$.
+Rather than randomly selecting samples from populations, q-distribution find the largest sample mean $\overline{X}_{max}$ and smallest sample mean $\overline{X}_{min}$.
 Set $s^2$ is the pooled sample variance from these samples.
 
 $$
-q = \frac{\overline{X}\_{max}-\overline{X}\_{min}}{\frac{s}{\sqrt{n}}}
+q = \frac{\overline{X}_{max}-\overline{X}_{min}}{\frac{s}{\sqrt{n}}}
 $$
 
 

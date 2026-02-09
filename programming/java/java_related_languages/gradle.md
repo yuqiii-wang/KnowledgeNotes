@@ -3,6 +3,13 @@
 Gradle is an advanced build automation tool.
 Gradle is the successor of Maven, and can be used in c++, python, javascript projects.
 
+## Idea IntelliJ Gradle Config
+
+<div style="display: flex; justify-content: center;">
+      <img src="imgs/idea_gradle_config.png" width="50%" height="45%" alt="idea_gradle_config" />
+</div>
+</br>
+
 ## Core Concepts: Gradle vs. Maven
 
 |Concept|Gradle|Maven Equivalent|

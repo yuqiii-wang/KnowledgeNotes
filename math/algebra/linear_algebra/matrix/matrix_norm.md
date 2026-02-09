@@ -61,7 +61,7 @@ $$
 p=1 matrix norm is simply the maximum absolute column sum of the matrix.
 
 $$
-||A||_1 = \max_{1 \le j \le n} \sum^{m}\_{i=1} |a_{ij}|
+||A||_1 = \max_{1 \le j \le n} \sum^{m}_{i=1} |a_{ij}|
 $$
 
 ## p=2 Matrix (Frobenius) Norm (Spectral Radius)

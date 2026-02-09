@@ -40,29 +40,29 @@ Leibniz integral rule describes the derivative rule of an integral with respect 
 
 Given an integral form
 $$
-\int^{b(x)}\_{a(x)} f(x,t) dt
+\int^{b(x)}_{a(x)} f(x,t) dt
 $$
 
 for $-\infty < a(x) < b(x) < +\infty$, its derivative is
 $$
 \frac{d}{dx} 
 \bigg(
-    \int^{b(x)}\_{a(x)} f(x,t) dt
+    \int^{b(x)}_{a(x)} f(x,t) dt
 \bigg)= \\\\
 f\big(x,b(x)\big)\cdot \frac{d \space b(x)}{dx}
 -
 f\big(x,a(x)\big)\cdot \frac{d \space a(x)}{dx}
 +
-\int^{b(x)}\_{a(x)} \frac{\partial}{\partial x} f(x,t) dt
+\int^{b(x)}_{a(x)} \frac{\partial}{\partial x} f(x,t) dt
 $$
 
 If $a(x)=c_a$ and $b(x)=c_b$, where $c_a, c_b$ are constant, $f\big(x,b(x)\big)\cdot \frac{d \space b(x)}{dx}$ and $f\big(x,a(x)\big)\cdot \frac{d \space a(x)}{dx}$ are zeros, there is
 $$
 \frac{d}{dx} 
 \bigg(
-    \int^{c_b}\_{c_a} f(x,t) dt
+    \int^{c_b}_{c_a} f(x,t) dt
 \bigg)=
-\int^{c_b}\_{c_a} \frac{\partial}{\partial x} f(x,t) dt
+\int^{c_b}_{c_a} \frac{\partial}{\partial x} f(x,t) dt
 $$
 
 ## Integral Over A Random Variable
@@ -71,7 +71,7 @@ Assume there is a random variable $Z$ that is governed by a probability distribu
 To find the average value (or expected value) of some function of that variable, $g(Z)$, calculate the following integral:
 
 $$
-\mathbb{E}\_{P(z)}\left[g(z)\right] = \int g(z) P(z) dz
+\mathbb{E}_{P(z)}\left[g(z)\right] = \int g(z) P(z) dz
 $$
 
 This formula tells that the expectation is a weighted average. For every possible value $z$ calculate $g(z)$ and weight it by its probability density $P(z)$.

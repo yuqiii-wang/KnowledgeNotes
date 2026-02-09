@@ -76,7 +76,7 @@ $$
 Or
 
 $$
-{\sqrt{n}}({\overline{X}}\_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)
+{\sqrt{n}}({\overline{X}}_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)
 $$
 
 ### Example: Sampling From A Uniform Distribution

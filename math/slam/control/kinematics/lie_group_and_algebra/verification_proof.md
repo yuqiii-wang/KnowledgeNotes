@@ -472,17 +472,17 @@ Expand $R e^{\mathbf{p}^\wedge} R^\text{T}$ by Taylor series, and recall that $R
 $$
 \begin{align*}
 R e^{\mathbf{p}^\wedge} R^\text{T} &= 
-R \sum^{+\infty}\_{i=n} \bigg( \frac{(\mathbf{p}^\wedge)^n}{n!}\bigg) R^\text{T}
+R \sum^{+\infty}_{i=n} \bigg( \frac{(\mathbf{p}^\wedge)^n}{n!}\bigg) R^\text{T}
 \\\\ &=
-R \sum^{+\infty}\_{i=n} \bigg( \frac{\mathbf{p}^\wedge\mathbf{p}^\wedge\mathbf{p}^\wedge ... \mathbf{p}^\wedge}{n!}\bigg) R^\text{T}
+R \sum^{+\infty}_{i=n} \bigg( \frac{\mathbf{p}^\wedge\mathbf{p}^\wedge\mathbf{p}^\wedge ... \mathbf{p}^\wedge}{n!}\bigg) R^\text{T}
 \\\\ &=
-R \sum^{+\infty}\_{i=n} \bigg( \frac{(\mathbf{p}^\wedge R^\text{T})(R\mathbf{p}^\wedge R^\text{T}) (R\mathbf{p}^\wedge R^\text{T}) ... (R\mathbf{p}^\wedge)}{n!}\bigg) R^\text{T}
+R \sum^{+\infty}_{i=n} \bigg( \frac{(\mathbf{p}^\wedge R^\text{T})(R\mathbf{p}^\wedge R^\text{T}) (R\mathbf{p}^\wedge R^\text{T}) ... (R\mathbf{p}^\wedge)}{n!}\bigg) R^\text{T}
 \\\\ &=
-\sum^{+\infty}\_{i=n} \bigg( \frac{(R\mathbf{p}^\wedge R^\text{T})(R\mathbf{p}^\wedge R^\text{T}) (R\mathbf{p}^\wedge R^\text{T}) ... (R\mathbf{p}^\wedge R^\text{T})}{n!}\bigg)
+\sum^{+\infty}_{i=n} \bigg( \frac{(R\mathbf{p}^\wedge R^\text{T})(R\mathbf{p}^\wedge R^\text{T}) (R\mathbf{p}^\wedge R^\text{T}) ... (R\mathbf{p}^\wedge R^\text{T})}{n!}\bigg)
 \\\\ &=
-\sum^{+\infty}\_{i=n} \frac{(R\mathbf{p}^\wedge R^\text{T})^n}{n!}
+\sum^{+\infty}_{i=n} \frac{(R\mathbf{p}^\wedge R^\text{T})^n}{n!}
 \\\\ &=
-\sum^{+\infty}\_{i=n} \frac{((R\mathbf{p})^\wedge)^n}{n!}
+\sum^{+\infty}_{i=n} \frac{((R\mathbf{p})^\wedge)^n}{n!}
 \\\\ &=
 e^{(R\mathbf{p})^\wedge}
 \end{align*}

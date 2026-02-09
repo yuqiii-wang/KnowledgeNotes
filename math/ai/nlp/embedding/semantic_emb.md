@@ -8,9 +8,9 @@ For example, the word "restaurants" has the below attributes:
 * antonyms: $\emptyset$
 * frequent occurrences under what topics: $\{ 1203, 5358, 1276 \}$ (vocabulary index) for $\{ \text{eating}, \text{outing}, \text{gathering} \}$
 * Term frequency-inverse document frequency (TF-IDF): $\{ 0.016, 0.01, 0.0, 0.005 \}$ , formula:
-  * $\text{TF-IDF}_j = \text{Term Frequency}\_{i,j} \times \text{Inverse Document Frequency}\_{i}$, where
-  * $\text{Term Frequency}\_{i,j} = \frac{\text{Term i frequency in document j}}{\text{Total no. of terms in document j}}$
-  * $\text{Inverse Document Frequency}\_{i} = \log \frac{\text{Total no. of documents}}{\text{No. of documents containing term i}}$
+  * $\text{TF-IDF}_j = \text{Term Frequency}_{i,j} \times \text{Inverse Document Frequency}_{i}$, where
+  * $\text{Term Frequency}_{i,j} = \frac{\text{Term i frequency in document j}}{\text{Total no. of terms in document j}}$
+  * $\text{Inverse Document Frequency}_{i} = \log \frac{\text{Total no. of documents}}{\text{No. of documents containing term i}}$
 
 Given the four sentences/documents,
 

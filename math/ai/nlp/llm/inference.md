@@ -83,7 +83,7 @@ $$
 * Weighted Sum over Values
 
 $$
-O_h = \sum^{128}\_{i=1}a_{h,i}V_{h,i} \in\mathbb{R}^{64}
+O_h = \sum^{128}_{i=1}a_{h,i}V_{h,i} \in\mathbb{R}^{64}
 $$
 
 * Output Concatenation for all $12$ heads
@@ -108,28 +108,28 @@ The probability of a token $t_{i+1}$ being selected takes into consideration of 
 
 ### The Root Cause: Attention Sink
 
-Revisit the attention formula. At step $n$, the model generates a query $\mathbf{q}\_{n}$. It compares this against all previous keys $\mathbf{k}\_i$ for $1 \le i < n$.
+Revisit the attention formula. At step $n$, the model generates a query $\mathbf{q}_{n}$. It compares this against all previous keys $\mathbf{k}\_i$ for $1 \le i < n$.
 
 $$
-\text{score}(n,i)=\frac{\mathbf{q}\_{n}^{\top}\mathbf{k}\_i}{\sqrt{d}}
+\text{score}(n,i)=\frac{\mathbf{q}_{n}^{\top}\mathbf{k}\_i}{\sqrt{d}}
 $$
 
-Assumed RoPE as token embedding, then let $\mathbf{q}\_{n}=R_{n}\mathbf{q}_1$ and $\mathbf{k}\_i=R_{i}\mathbf{k}_1$ so that their position info is represented via rotation matrices $R_{n}$ and $R_{i}$, there is
+Assumed RoPE as token embedding, then let $\mathbf{q}_{n}=R_{n}\mathbf{q}_1$ and $\mathbf{k}\_i=R_{i}\mathbf{k}_1$ so that their position info is represented via rotation matrices $R_{n}$ and $R_{i}$, there is
 
 $$
-\max \text{score}(\mathbf{q}\_{n}, \mathbf{k}\_i) =
+\max \text{score}(\mathbf{q}_{n}, \mathbf{k}\_i) =
 (R_{n} \mathbf{q}_1)^{\top} (R_{i} \mathbf{k}_1) =
 \mathbf{q}_1^{\top} R_{n}^{\top} R_{i} \mathbf{k}_1 =
 \mathbf{q}_1^{\top} R_{n-i} \mathbf{k}_1
 $$
 
-$R_{n-i}$ represents the distance between the query token $\mathbf{q}\_{n}$ vs history key token $\mathbf{k}\_i$.
+$R_{n-i}$ represents the distance between the query token $\mathbf{q}_{n}$ vs history key token $\mathbf{k}\_i$.
 The subscript $\space_{1}$ represents token sequence position if both query and key tokens are aligned to the same $1$-st position.
 Further decompose $R_{n-i}$ can see that within LLM embedding context length the smaller the $|n-i|$, the higher the $\text{score}(n,i)$.
 
 The above explanation shows one proof that recent tokens have much higher weights influencing next token output.
 
-Then, consider value matrix $V$ and residual mixing, where $\mathbf{v}^{(l)}\_{i-1}$ is used to encode next layer token $\mathbf{v}^{(l+1)}\_{i}$ with one position left-shift.
+Then, consider value matrix $V$ and residual mixing, where $\mathbf{v}^{(l)}_{i-1}$ is used to encode next layer token $\mathbf{v}^{(l+1)}_{i}$ with one position left-shift.
 
 ### Non-Training Mitigation Solutions
 
@@ -167,11 +167,11 @@ $$
 
 Introduce a hyperparameter $\lambda$ that controls the strength of the penalty to adjust logit.
 
-For next token $t_{i+1}$ prediction, let $\hat{t}\_{i+1}$ be the $\text{logit}\_{i+1}$ supposed corresponding prediction by softmax.
-After having adjusted as per $\hat{\text{logit}}\_{i+1}$, this new logit might predict a new token different from the old one.
+For next token $t_{i+1}$ prediction, let $\hat{t}_{i+1}$ be the $\text{logit}_{i+1}$ supposed corresponding prediction by softmax.
+After having adjusted as per $\hat{\text{logit}}_{i+1}$, this new logit might predict a new token different from the old one.
 
 $$
-\hat{\text{logit}}\_{i+1}=\text{logit}\_{i+1}(\hat{t}\_{i+1})-\lambda\cdot 1(\hat{t}\_{i+1}=t_{1}, \hat{t}\_{i+1}=t_{2}, ..., \hat{t}\_{i+1}=t_{i})
+\hat{\text{logit}}_{i+1}=\text{logit}_{i+1}(\hat{t}_{i+1})-\lambda\cdot 1(\hat{t}_{i+1}=t_{1}, \hat{t}_{i+1}=t_{2}, ..., \hat{t}_{i+1}=t_{i})
 $$
 
 where

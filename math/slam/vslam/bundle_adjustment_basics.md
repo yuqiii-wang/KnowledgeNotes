@@ -65,19 +65,19 @@ $\mathbf{z}\overset{\Delta}{=}(u_s, v_s)$ describes the pixel coordinate.
 
 6. Optimization
 
-Take $(0,0,0)$ as the origin ($\mathbf{x}_0=(0,0,0)$), to find $\mathbf{x}_k$ for the $k$-th camera is same as finding a transformation such that $\mathbf{x}_k=[\mathbf{R}|\mathbf{t}]_k$. In addition, denote $\mathbf{p}_k=[\mathbf{p}\_{k1},\mathbf{p}\_{k2},...,\mathbf{p}\_{km}]$ as the observed landmarks $\mathbf{y}$ by the pose $\mathbf{x}_k=[\mathbf{R}|\mathbf{t}]_k$ for the camera $k$. $m$ is the total number of landmarks.
+Take $(0,0,0)$ as the origin ($\mathbf{x}_0=(0,0,0)$), to find $\mathbf{x}_k$ for the $k$-th camera is same as finding a transformation such that $\mathbf{x}_k=[\mathbf{R}|\mathbf{t}]_k$. In addition, denote $\mathbf{p}_k=[\mathbf{p}_{k1},\mathbf{p}_{k2},...,\mathbf{p}_{km}]$ as the observed landmarks $\mathbf{y}$ by the pose $\mathbf{x}_k=[\mathbf{R}|\mathbf{t}]_k$ for the camera $k$. $m$ is the total number of landmarks.
 
-Rewrite indices that $i$ represents the $i$-th camera and $j$ represents the $j$-th landmark. Error $\mathbf{e}$ can be defined as discrepancy between the computed $h([\mathbf{R}|\mathbf{t}]_i, \mathbf{p}\_{j})$ and $\mathbf{z}\_{ij}$. 
+Rewrite indices that $i$ represents the $i$-th camera and $j$ represents the $j$-th landmark. Error $\mathbf{e}$ can be defined as discrepancy between the computed $h([\mathbf{R}|\mathbf{t}]_i, \mathbf{p}_{j})$ and $\mathbf{z}_{ij}$. 
 
 Here, landmark $\mathbf{p}_j$ does not discriminate between landmark estimations at different camera $i$. In other words, $\mathbf{p} \in \mathbb{R}^{m \times 3}$.
 
 $$
 \frac{1}{2} \sum^m_{i=1} \sum^n\_{j=1} 
-\big|\big| \mathbf{e}\_{ij} \big|\big|^2=
+\big|\big| \mathbf{e}_{ij} \big|\big|^2=
 \frac{1}{2} \sum^m_{i=1} \sum^n\_{j=1} 
 \big|\big| 
-    \mathbf{z}\_{ij} -
-    h([\mathbf{R}|\mathbf{t}]_i, \mathbf{p}\_{j})
+    \mathbf{z}_{ij} -
+    h([\mathbf{R}|\mathbf{t}]_i, \mathbf{p}_{j})
 \big|\big|^2
 $$
 
@@ -89,7 +89,7 @@ Let $\mathbf{x}$ represent the whole optimization set such as
 $$
 \mathbf{x}=\big[
     [\mathbf{R}|\mathbf{t}]_1, [\mathbf{R}|\mathbf{t}]_2, ..., [\mathbf{R}|\mathbf{t}]_n, 
-    \mathbf{p}\_{1}, \mathbf{p}\_{2}, ..., \mathbf{p}\_{m}
+    \mathbf{p}_{1}, \mathbf{p}_{2}, ..., \mathbf{p}_{m}
 \big]
 $$
 
@@ -102,11 +102,11 @@ $$
 \approx
 \frac{1}{2} \sum^n\_{i=1} \sum^m_{j=1} 
 \big|\big|
-    \mathbf{e}\_{ij} + \mathbf{F}\_{ij}\Delta\mathbf{\xi}\_i + \mathbf{E}\_{ij} \Delta \mathbf{p}_j
+    \mathbf{e}_{ij} + \mathbf{F}_{ij}\Delta\mathbf{\xi}\_i + \mathbf{E}_{ij} \Delta \mathbf{p}_j
 \big|\big|
 $$
 where $\Delta\mathbf{x}$ is the correction increment that iteratively sets $\mathbf{e}$ to minimum. 
-$\mathbf{F}\_{ij}$ is the partial derivative of the entire cost function to the $i$-th pose, and $\mathbf{E}\_{ij}$ is the partial derivative of the function to the $j$-th landmark.
+$\mathbf{F}_{ij}$ is the partial derivative of the entire cost function to the $i$-th pose, and $\mathbf{E}_{ij}$ is the partial derivative of the function to the $j$-th landmark.
 $\mathbf{\xi}\_i$ denotes $[\mathbf{R}|\mathbf{t}]_i$.
 
 Collectively, represent poses and landmarks as $\mathbf{x}\_\mathbf{\xi}$ and $\mathbf{x}\_\mathbf{p}$
@@ -129,7 +129,7 @@ $$
 \big|\big|^2
 \approx
 \frac{1}{2} \big|\big|
-    \mathbf{e} + \mathbf{F}\Delta\mathbf{x}\_{\mathbf{\xi}} + \mathbf{E}\Delta\mathbf{x}\_{\mathbf{p}}
+    \mathbf{e} + \mathbf{F}\Delta\mathbf{x}_{\mathbf{\xi}} + \mathbf{E}\Delta\mathbf{x}_{\mathbf{p}}
 \big|\big|^2
 $$
 
@@ -147,187 +147,187 @@ $$
 \\\\ &=
 \left[
 \begin{array}{ccccc|ccccc}
-    \frac{\partial \mathbf{e}\_{11}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    & \mathbf{0}\_{2 \times 6} & 
-    \frac{\partial \mathbf{e}\_{11}}{\partial \mathbf{p}_1} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{11}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    & \mathbf{0}_{2 \times 6} & 
+    \frac{\partial \mathbf{e}_{11}}{\partial \mathbf{p}_1} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{21}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
-    \mathbf{0}\_{2 \times 6} &
-    & \mathbf{0}\_{2 \times 6} &
-     \frac{\partial \mathbf{e}\_{21}}{\partial \mathbf{p}_1} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{21}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
+    \mathbf{0}_{2 \times 6} &
+    & \mathbf{0}_{2 \times 6} &
+     \frac{\partial \mathbf{e}_{21}}{\partial \mathbf{p}_1} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{31}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
-    & \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{31}}{\partial \mathbf{p}_1} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{31}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
+    & \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{31}}{\partial \mathbf{p}_1} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
     & & & \ddots & &
     & & & \ddots & &
     \\\\
-    \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 6} & &
-    \frac{\partial \mathbf{e}\_{n1}}{\partial [\mathbf{R}|\mathbf{t}]_n} &
-    \frac{\partial \mathbf{e}\_{n1}}{\partial \mathbf{p}_1} &
-    \mathbf{0}\_{2 \times 3} & 
-    \mathbf{0}\_{2 \times 3} & 
-    & \mathbf{0}\_{2 \times 3} & 
+    \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 6} & &
+    \frac{\partial \mathbf{e}_{n1}}{\partial [\mathbf{R}|\mathbf{t}]_n} &
+    \frac{\partial \mathbf{e}_{n1}}{\partial \mathbf{p}_1} &
+    \mathbf{0}_{2 \times 3} & 
+    \mathbf{0}_{2 \times 3} & 
+    & \mathbf{0}_{2 \times 3} & 
 
     \\\\
-    \frac{\partial \mathbf{e}\_{12}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    & \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 3} &
-    \frac{\partial \mathbf{e}\_{12}}{\partial \mathbf{p}_2} &
-    \mathbf{0}\_{2 \times 3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{12}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    & \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{12}}{\partial \mathbf{p}_2} &
+    \mathbf{0}_{2 \times 3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{22}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
-    \mathbf{0}\_{2 \times 6} &
-    & \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 3} &
-    \frac{\partial \mathbf{e}\_{22}}{\partial \mathbf{p}_2} &
-    \mathbf{0}\_{2 \times 3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{22}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
+    \mathbf{0}_{2 \times 6} &
+    & \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{22}}{\partial \mathbf{p}_2} &
+    \mathbf{0}_{2 \times 3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{32}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
-    & \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 3} &
-    \frac{\partial \mathbf{e}\_{32}}{\partial \mathbf{p}_2} &
-    \mathbf{0}\_{2 \times 3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{32}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
+    & \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{32}}{\partial \mathbf{p}_2} &
+    \mathbf{0}_{2 \times 3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
     & & & \ddots & &
     & & & \ddots & &
     \\\\
-    \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 6} & &
-    \frac{\partial \mathbf{e}\_{n2}}{\partial [\mathbf{R}|\mathbf{t}]_n} &
-    \mathbf{0}\_{2 \times 3} & 
-    \frac{\partial \mathbf{e}\_{n2}}{\partial \mathbf{p}_2} &
-    \mathbf{0}\_{2 \times 3} & 
-    & \mathbf{0}\_{2 \times 3} & 
+    \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 6} & &
+    \frac{\partial \mathbf{e}_{n2}}{\partial [\mathbf{R}|\mathbf{t}]_n} &
+    \mathbf{0}_{2 \times 3} & 
+    \frac{\partial \mathbf{e}_{n2}}{\partial \mathbf{p}_2} &
+    \mathbf{0}_{2 \times 3} & 
+    & \mathbf{0}_{2 \times 3} & 
 
     \\\\
-    \frac{\partial \mathbf{e}\_{13}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    & \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    \frac{\partial \mathbf{e}\_{13}}{\partial \mathbf{p}_3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{13}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    & \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{13}}{\partial \mathbf{p}_3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{23}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
-    \mathbf{0}\_{2 \times 6} &
-    & \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    \frac{\partial \mathbf{e}\_{23}}{\partial \mathbf{p}_3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{23}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
+    \mathbf{0}_{2 \times 6} &
+    & \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{23}}{\partial \mathbf{p}_3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{33}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
-    & \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    \frac{\partial \mathbf{e}\_{33}}{\partial \mathbf{p}_3} &
-    & \mathbf{0}\_{2 \times 3} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{33}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
+    & \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{33}}{\partial \mathbf{p}_3} &
+    & \mathbf{0}_{2 \times 3} &
     \\\\
     & & & \ddots & &
     & & & \ddots & &
     \\\\
-    \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 6} & &
-    \frac{\partial \mathbf{e}\_{n3}}{\partial [\mathbf{R}|\mathbf{t}]_n} &
-    \mathbf{0}\_{2 \times 3} & 
-    \mathbf{0}\_{2 \times 3} & 
-    \frac{\partial \mathbf{e}\_{n3}}{\partial \mathbf{p}_3} &
-    & \mathbf{0}\_{2 \times 3} & 
+    \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 6} & &
+    \frac{\partial \mathbf{e}_{n3}}{\partial [\mathbf{R}|\mathbf{t}]_n} &
+    \mathbf{0}_{2 \times 3} & 
+    \mathbf{0}_{2 \times 3} & 
+    \frac{\partial \mathbf{e}_{n3}}{\partial \mathbf{p}_3} &
+    & \mathbf{0}_{2 \times 3} & 
 
     \\\\
     & & \vdots & &
     & & \vdots & &
 
     \\\\
-    \frac{\partial \mathbf{e}\_{1m}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    & \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    & \frac{\partial \mathbf{e}\_{1m}}{\partial \mathbf{p}_m} &
+    \frac{\partial \mathbf{e}_{1m}}{\partial [\mathbf{R}|\mathbf{t}]_1} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    & \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    & \frac{\partial \mathbf{e}_{1m}}{\partial \mathbf{p}_m} &
     \\\\
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{2m}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
-    \mathbf{0}\_{2 \times 6} &
-    & \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    & \frac{\partial \mathbf{e}\_{2m}}{\partial \mathbf{p}_m} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{2m}}{\partial [\mathbf{R}|\mathbf{t}]_2} &
+    \mathbf{0}_{2 \times 6} &
+    & \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    & \frac{\partial \mathbf{e}_{2m}}{\partial \mathbf{p}_m} &
     \\\\
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{3m}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
-    & \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    & \frac{\partial \mathbf{e}\_{3m}}{\partial \mathbf{p}_m} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{3m}}{\partial [\mathbf{R}|\mathbf{t}]_3} &
+    & \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    & \frac{\partial \mathbf{e}_{3m}}{\partial \mathbf{p}_m} &
     \\\\
     & & & \ddots & &
     & & & \ddots & &
     \\\\
-    \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 6} & 
-    \mathbf{0}\_{2 \times 6} & &
-    \frac{\partial \mathbf{e}\_{nm}}{\partial [\mathbf{R}|\mathbf{t}]_n} &
-    \mathbf{0}\_{2 \times 3} & 
-    \mathbf{0}\_{2 \times 3} & 
-    \mathbf{0}\_{2 \times 3} & 
-    & \frac{\partial \mathbf{e}\_{nm}}{\partial \mathbf{p}_m} &
+    \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 6} & 
+    \mathbf{0}_{2 \times 6} & &
+    \frac{\partial \mathbf{e}_{nm}}{\partial [\mathbf{R}|\mathbf{t}]_n} &
+    \mathbf{0}_{2 \times 3} & 
+    \mathbf{0}_{2 \times 3} & 
+    \mathbf{0}_{2 \times 3} & 
+    & \frac{\partial \mathbf{e}_{nm}}{\partial \mathbf{p}_m} &
 \end{array}
 \right]
 \end{align*}
 $$
 
-where each row $\mathbf{J}\_{ij}$ can be expressed as below. Inside, $\frac{\partial \mathbf{e}\_{ij}}{\partial [\mathbf{R}|\mathbf{t}]_i}$ is of a size $2 \times 6$ and $\frac{\partial \mathbf{e}\_{ij}}{\partial \mathbf{p}_j}$ is of a size $2 \times 3$.
+where each row $\mathbf{J}_{ij}$ can be expressed as below. Inside, $\frac{\partial \mathbf{e}_{ij}}{\partial [\mathbf{R}|\mathbf{t}]_i}$ is of a size $2 \times 6$ and $\frac{\partial \mathbf{e}_{ij}}{\partial \mathbf{p}_j}$ is of a size $2 \times 3$.
 
 $$
-\mathbf{J}\_{ij} =
+\mathbf{J}_{ij} =
 \begin{bmatrix}
-    \mathbf{0}\_{2 \times 6} &
-    \mathbf{0}\_{2 \times 6} &
-    \frac{\partial \mathbf{e}\_{ij}}{\partial [\mathbf{R}|\mathbf{t}]_i}
-    & \mathbf{0}\_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    \mathbf{0}_{2 \times 6} &
+    \frac{\partial \mathbf{e}_{ij}}{\partial [\mathbf{R}|\mathbf{t}]_i}
+    & \mathbf{0}_{2 \times 6} &
     ... &
-    \mathbf{0}\_{2 \times 3} &
-    \mathbf{0}\_{2 \times 3} &
-    \frac{\partial \mathbf{e}\_{ij}}{\partial \mathbf{p}_j}
-    & \mathbf{0}\_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    \mathbf{0}_{2 \times 3} &
+    \frac{\partial \mathbf{e}_{ij}}{\partial \mathbf{p}_j}
+    & \mathbf{0}_{2 \times 3} &
     ... &
 \end{bmatrix}
 $$
@@ -347,7 +347,7 @@ $$
 \end{bmatrix}
 \\\\ &=
 \sum^n\_{i=1} \sum^m_{j=1} 
-\mathbf{J}^\text{T}\_{ij} \mathbf{J}\_{ij}
+\mathbf{J}^\text{T}_{ij} \mathbf{J}_{ij}
 \end{align*}
 $$
 
@@ -394,8 +394,8 @@ $$
         \mathbf{E}^\text{T} & \mathbf{C}
     \end{bmatrix}
     \begin{bmatrix}
-        \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
-        \Delta \mathbf{x}\_{\mathbf{p}}
+        \Delta \mathbf{x}_{\mathbf{\xi}} \\\\
+        \Delta \mathbf{x}_{\mathbf{p}}
     \end{bmatrix}
     &=
     \begin{bmatrix}
@@ -412,8 +412,8 @@ $$
         \mathbf{E}^\text{T} & \mathbf{C}
     \end{bmatrix}
     \begin{bmatrix}
-        \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
-        \Delta \mathbf{x}\_{\mathbf{p}}
+        \Delta \mathbf{x}_{\mathbf{\xi}} \\\\
+        \Delta \mathbf{x}_{\mathbf{p}}
     \end{bmatrix}
     &=
     \begin{bmatrix}
@@ -431,8 +431,8 @@ $$
         \mathbf{E}^\text{T} & \mathbf{C}
     \end{bmatrix}
     \begin{bmatrix}
-        \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
-        \Delta \mathbf{x}\_{\mathbf{p}}
+        \Delta \mathbf{x}_{\mathbf{\xi}} \\\\
+        \Delta \mathbf{x}_{\mathbf{p}}
     \end{bmatrix}
     &=
     \begin{bmatrix}
@@ -448,20 +448,20 @@ First, it looks at this equation.
 
 $$
 (\mathbf{B}-\mathbf{E}\mathbf{C}^{-1}\mathbf{E}^\text{T})
-\Delta \mathbf{x}\_{\mathbf{\xi}}=
+\Delta \mathbf{x}_{\mathbf{\xi}}=
 \mathbf{v} - \mathbf{E}\mathbf{C}^{-1} \mathbf{w}
 $$
 
 * The linear equation is of the size of $\mathbf{B}$
 * $\mathbf{C}$ is a diagonal matrix, hence $\mathbf{C}^{-1}$ is easy to compute
 
-Second, with the derived $\Delta\mathbf{x}\_{\mathbf{\xi}}$,
-compute $\Delta \mathbf{x}\_{\mathbf{p}}=\mathbf{C}^{-1}(\mathbf{w}-\mathbf{E}^\text{T}\Delta\mathbf{x}\_{\mathbf{\xi}})$. This should be easy since $\mathbf{C}^{-1}$ and $\mathbf{E}^\text{T}\Delta\mathbf{x}\_{\mathbf{\xi}}$ are known.
+Second, with the derived $\Delta\mathbf{x}_{\mathbf{\xi}}$,
+compute $\Delta \mathbf{x}_{\mathbf{p}}=\mathbf{C}^{-1}(\mathbf{w}-\mathbf{E}^\text{T}\Delta\mathbf{x}_{\mathbf{\xi}})$. This should be easy since $\mathbf{C}^{-1}$ and $\mathbf{E}^\text{T}\Delta\mathbf{x}_{\mathbf{\xi}}$ are known.
 
 ### Robust Kernels
 
-The assumed total $\mathcal{L}_2$ norm error $||\mathbf{e}||^2$ in the above equations can grow fast if any particular error term $||\mathbf{e}\_{ij}||^2 = \big|\big|    \mathbf{z}\_{ij} - h([\mathbf{R}|\mathbf{t}]_i, \mathbf{p}\_{j})\big|\big|^2$ is absurdly wrong. 
-This is attributed to optimization attempting to reduce overall $||\mathbf{e}||^2$ and the large error term $||\mathbf{e}\_{ij}||^2$ has a significant weight that causes optimization focusing too much on this particular error, rather than taking care of all error terms $||\mathbf{e}\_{ij}||^2, \forall i \in [1,n], \forall j \in [1,m]$.
+The assumed total $\mathcal{L}_2$ norm error $||\mathbf{e}||^2$ in the above equations can grow fast if any particular error term $||\mathbf{e}_{ij}||^2 = \big|\big|    \mathbf{z}_{ij} - h([\mathbf{R}|\mathbf{t}]_i, \mathbf{p}_{j})\big|\big|^2$ is absurdly wrong. 
+This is attributed to optimization attempting to reduce overall $||\mathbf{e}||^2$ and the large error term $||\mathbf{e}_{ij}||^2$ has a significant weight that causes optimization focusing too much on this particular error, rather than taking care of all error terms $||\mathbf{e}_{ij}||^2, \forall i \in [1,n], \forall j \in [1,m]$.
 
 Solution to address this issue is by employing a robust kernel error, such as Huber loss, that constraints $\mathcal{L}_2$-norm error when error is small $|e|\le \delta$, and linear otherwise.
 

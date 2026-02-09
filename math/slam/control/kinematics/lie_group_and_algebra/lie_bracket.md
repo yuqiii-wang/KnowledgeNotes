@@ -71,8 +71,8 @@ The expression of $\frac{d \overrightarrow{R}}{d \lambda}$ is
 $$
 \begin{align*}
 \frac{d \overrightarrow{R}}{d \lambda} &=
-\underbrace{\frac{\partial \overrightarrow{R}}{\partial x}}\_{\mathbf{e_x}} \frac{dx}{d \lambda} + 
-\underbrace{\frac{\partial \overrightarrow{R}}{\partial y}}\_{\mathbf{e_y}} \frac{dy}{d \lambda}
+\underbrace{\frac{\partial \overrightarrow{R}}{\partial x}}_{\mathbf{e_x}} \frac{dx}{d \lambda} + 
+\underbrace{\frac{\partial \overrightarrow{R}}{\partial y}}_{\mathbf{e_y}} \frac{dy}{d \lambda}
 \\\\ &=
 \frac{dx}{d \lambda} \mathbf{e}_x +
 \frac{dy}{d \lambda} \mathbf{e}_y
@@ -127,7 +127,7 @@ $$
             \mathbf{e}_x & \mathbf{e}_y
       \end{bmatrix} } {
             d \lambda
-      }}\_{=\mathbf{0}}
+      }}_{=\mathbf{0}}
       \bigg) \mathbf{u}
       \\\\ &=
       \bigg( \begin{bmatrix}

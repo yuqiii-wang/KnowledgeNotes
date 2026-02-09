@@ -40,7 +40,7 @@ tr \big(
 \big)
 \\\\ &=
 tr \bigg(
-    (\frac{\partial f}{\partial Y})^\text{T} \space \big( \underbrace{(d A) X B}\_{=\mathbf{0}\text{, for }dA=\mathbf{0}} + A (d X) B +  \underbrace{A X (dB)}\_{=\mathbf{0}\text{, for }dB=\mathbf{0}} \big)
+    (\frac{\partial f}{\partial Y})^\text{T} \space \big( \underbrace{(d A) X B}_{=\mathbf{0}\text{, for }dA=\mathbf{0}} + A (d X) B +  \underbrace{A X (dB)}_{=\mathbf{0}\text{, for }dB=\mathbf{0}} \big)
 \bigg)
 \\\\ &=
 tr \big(

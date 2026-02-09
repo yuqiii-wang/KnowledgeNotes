@@ -143,7 +143,7 @@ and their corresponding labels $\mathbf{y}\_i \in \mathbf{C}=[C_1, C_2, ..., C_k
 
 ![lda_multiDims](imgs/lda_multiDims.png "lda_multiDims")
 
-* $S_w$'s computation first finds $\mathbf{\mu}_j=\frac{1}{N_j}\sum^{N_j}\_{\mathbf{x}\_i \in X_j} \mathbf{x}\_i$, then computes $S_w$ by summing up all classes' variances.
+* $S_w$'s computation first finds $\mathbf{\mu}_j=\frac{1}{N_j}\sum^{N_j}_{\mathbf{x}\_i \in X_j} \mathbf{x}\_i$, then computes $S_w$ by summing up all classes' variances.
 
 $$
 S_w = \sum_{j=1}^{C_k} \sum_{\mathbf{x}\_i \in X_j}

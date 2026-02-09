@@ -102,7 +102,7 @@ $$
     \underbrace{\begin{bmatrix}
         \frac{\partial r_{x=i, y=j} p(x\_i,y_j)}{\partial dx} &
         \frac{\partial r_{x=i, y=j} p(x\_i,y_j)}{\partial dy}
-    \end{bmatrix}}\_{\text{Jacobian}}
+    \end{bmatrix}}_{\text{Jacobian}}
     \begin{bmatrix}
         \Delta dx \\\\
         \Delta dy

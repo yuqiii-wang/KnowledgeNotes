@@ -120,7 +120,7 @@ This method is coined *Compressed Sparse Row* (CSR).
 
 Graph in representation by matrix often results in sparse matrices, since often is that not many graph topoloies see every node in connection to the rest of all nodes. 
 
-This holds truth for many SLAM problems that given a robot's state $\mathbf{x}_k$ and its constraints $\mathbf{z}_k$ at the $k$-th timestamp, previous state $\mathbf{x}\_{k-1}$ and earliers' does not necessarily account for future state $\mathbf{x}\_{k+1}$.
+This holds truth for many SLAM problems that given a robot's state $\mathbf{x}_k$ and its constraints $\mathbf{z}_k$ at the $k$-th timestamp, previous state $\mathbf{x}_{k-1}$ and earliers' does not necessarily account for future state $\mathbf{x}_{k+1}$.
 
 ## Hyper-Graph Optimization
 
@@ -312,22 +312,22 @@ $\mathbf{x}_t^s=(x_t^s, y_t^s, \theta_t^s) \in SE(2)$
 
 $\mathbf{x}^l_i=(x\_i^l, y_i^l) \in \mathbb{R}^2$
 
-* Motion measurement between $\mathbf{x}\_{t}^s$ and $\mathbf{x}\_{t+1}^s$: 
+* Motion measurement between $\mathbf{x}_{t}^s$ and $\mathbf{x}_{t+1}^s$: 
 
-$\mathbf{z}\_{t,t+1}^s$ is sensor measured robot state, such as by IMU.
+$\mathbf{z}_{t,t+1}^s$ is sensor measured robot state, such as by IMU.
 
 * Inverse covariance of motion measurements: $\Omega^s_{t,t+1} \in \mathbb{R}^{3 \times 3}$
 
-* Motion prediction between $\mathbf{x}\_{t}^s$ and $\mathbf{x}\_{t+1}^s$: 
+* Motion prediction between $\mathbf{x}_{t}^s$ and $\mathbf{x}_{t+1}^s$: 
 
 $$
-\mathbf{h}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)=
-\mathbf{x}\_{t+1}^s \ominus \mathbf{x}\_{t}^s
+\mathbf{h}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)=
+\mathbf{x}_{t+1}^s \ominus \mathbf{x}_{t}^s
 $$
 
 where $\ominus$ is defined for $SE(2)$ motion:
 $$
-\mathbf{x}_t^s \ominus \Delta\mathbf{ x}\_{t-1,t}^s=
+\mathbf{x}_t^s \ominus \Delta\mathbf{ x}_{t-1,t}^s=
 \bigg(\begin{array}{cc}
     x - \Delta x cos\theta + \Delta y sin\theta\\\\\
     y - \Delta x sin\theta - \Delta y cos\theta \\\\
@@ -336,12 +336,12 @@ $$
 \bigg)
 $$
 
-$\mathbf{h}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)$ shows an edge between the two robot states'/vertices.
+$\mathbf{h}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)$ shows an edge between the two robot states'/vertices.
 
-* Error Function for $\mathbf{h}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)$ is
+* Error Function for $\mathbf{h}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)$ is
 $$
-\mathbf{e}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)=
-\mathbf{z}\_{t,t+1} \ominus \mathbf{h}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)
+\mathbf{e}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)=
+\mathbf{z}_{t,t+1} \ominus \mathbf{h}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)
 $$
 
 Intuition: we want to minimize the gap between self-sensored state and computed motion $\Delta \mathbf{x}$.
@@ -358,20 +358,20 @@ landmark position relative to the current state of a robot, computed by last ste
 
 $$
 \begin{align*}
-\mathbf{x}\_{i,t}^l &= 
-\mathbf{x}\_{i,t-1}^l + (\mathbf{x}\_{t}^s \ominus \mathbf{x}\_{t-1}^s) \\\\
-\mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)&=
-\mathbf{x}\_{i,t}^l - \mathbf{x}\_{t}^s
+\mathbf{x}_{i,t}^l &= 
+\mathbf{x}_{i,t-1}^l + (\mathbf{x}_{t}^s \ominus \mathbf{x}_{t-1}^s) \\\\
+\mathbf{h}^l_{t,i}(\mathbf{x}_{t}^s, \mathbf{x}_{i}^l)&=
+\mathbf{x}_{i,t}^l - \mathbf{x}_{t}^s
 \end{align*}
 $$
 
-$\mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)$ shows an edge between a robot state and the $i$-th landmark.
+$\mathbf{h}^l_{t,i}(\mathbf{x}_{t}^s, \mathbf{x}_{i}^l)$ shows an edge between a robot state and the $i$-th landmark.
 
-* Error Function for $\mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)$ is
+* Error Function for $\mathbf{h}^l_{t,i}(\mathbf{x}_{t}^s, \mathbf{x}_{i}^l)$ is
 
 $$
-\mathbf{e}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)=
-\mathbf{z}\_{t,i} - \mathbf{h}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)
+\mathbf{e}^l_{t,i}(\mathbf{x}_{t}^s, \mathbf{x}_{i}^l)=
+\mathbf{z}_{t,i} - \mathbf{h}^l_{t,i}(\mathbf{x}_{t}^s, \mathbf{x}_{i}^l)
 $$
 
 Intuition: we want to minimize the error/gap between measured landmark distance and motion-based computed distance.
@@ -394,7 +394,7 @@ virtual void setToOriginImpl();
 
 `setToOriginImpl`: to init `_estimate` served as the initial value for start.
 
-`oplusImpl`: to do update $\mathbf{x}\_{t+1}=\mathbf{x}_t \oplus \Delta\mathbf{x}_t$.
+`oplusImpl`: to do update $\mathbf{x}_{t+1}=\mathbf{x}_t \oplus \Delta\mathbf{x}_t$.
 
 * `BaseBinaryEdge`
 
@@ -556,7 +556,7 @@ class VertexPointXY
 
 * Edge definitions
 
-$\mathbf{e}^s_{t,t+1}(\mathbf{x}\_{t}^s, \mathbf{x}\_{t+1}^s)$ can be defined in `EdgeSE2PointSE2`
+$\mathbf{e}^s_{t,t+1}(\mathbf{x}_{t}^s, \mathbf{x}_{t+1}^s)$ can be defined in `EdgeSE2PointSE2`
 ```cpp
 class EdgeSE2PointSE2
     : public BaseBinaryEdge<3, SE2, VertexPointSE2, VertexPointSE2> {
@@ -572,7 +572,7 @@ class EdgeSE2PointSE2
 };
 ```
 
-$\mathbf{e}^l_{t,i}(\mathbf{x}\_{t}^s, \mathbf{x}\_{i}^l)$ is defined `EdgeSE2PointXY`.
+$\mathbf{e}^l_{t,i}(\mathbf{x}_{t}^s, \mathbf{x}_{i}^l)$ is defined `EdgeSE2PointXY`.
 ```cpp
 class EdgeSE2PointXY
     : public BaseBinaryEdge<2, Eigen::Vector2d, VertexPointSE2, VertexPointXY> {

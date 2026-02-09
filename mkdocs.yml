@@ -1,6 +1,6 @@
-site_name: Yuqi Knowledge Blogs
+site_name: Yuqi's Knowledge Blogs
 site_description: Personal Knowledge Base and Notes
-site_author: Wiki
+site_author: Yuqi
 
 # Build from the prepared clean directory
 docs_dir: docs_collection

@@ -282,11 +282,11 @@ P.S., ARMv7 provides the *Cycle Counter Register* (`CCNT` instruction) to read a
 There are $n=10^9$ 3d points $\mathbf{p}\_i \in \mathbb{R}^3$, compute the distances of point pairs.
 
 $$
-d_{i,j} = \sqrt{(\mathbf{p}\_{i} - \mathbf{p}\_{j})^2}
+d_{i,j} = \sqrt{(\mathbf{p}_{i} - \mathbf{p}_{j})^2}
 $$
 
-First, do decomposition: ${(\mathbf{p}\_{i} - \mathbf{p}\_{j})^2} = \mathbf{p}\_{i}^2 + \mathbf{p}\_{j}^2 - 2\mathbf{p}\_{i}\mathbf{p}\_{j}$.
-Here $\mathbf{p}\_{i}$ and $\mathbf{p}\_{j}$ share different memory, so that rather than $\mathbf{p}\_{i} - \mathbf{p}\_{j}$, performing $\mathbf{p}\_{i}^2$ and $\mathbf{p}\_{j}^2$ can better exploit memory locality.
+First, do decomposition: ${(\mathbf{p}_{i} - \mathbf{p}_{j})^2} = \mathbf{p}_{i}^2 + \mathbf{p}_{j}^2 - 2\mathbf{p}_{i}\mathbf{p}_{j}$.
+Here $\mathbf{p}_{i}$ and $\mathbf{p}_{j}$ share different memory, so that rather than $\mathbf{p}_{i} - \mathbf{p}_{j}$, performing $\mathbf{p}_{i}^2$ and $\mathbf{p}_{j}^2$ can better exploit memory locality.
 
 ```python
 import numpy as np

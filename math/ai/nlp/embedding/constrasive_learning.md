@@ -2,7 +2,7 @@
 
 Contrastive learning is a technique where a model learns to distinguish between similar and dissimilar examples by comparing them in pairs or triplets.
 
-Provided a batch of $N$ positive sentence/document pairs $\{(s_i, s_i^+)\}^{N}\_{i=1}$, where for each anchor $s_i$, the positives are $s_i^+$ (the one another sentence/document most similar to the anchor),
+Provided a batch of $N$ positive sentence/document pairs $\{(s_i, s_i^+)\}^{N}_{i=1}$, where for each anchor $s_i$, the positives are $s_i^+$ (the one another sentence/document most similar to the anchor),
 and the negatives are all other $s_j^+$ in the batch for $j\ne i$,
 the loss for a single pair $(s_i, s_i^+)$ is
 
@@ -40,7 +40,7 @@ The pooling is per-DIMENSION/normalized by sequence length $n$, i.e., $\mathbb{R
 #### Max-Pooling Embedding Aggregation
 
 $$
-\text{emb}\_{\max}(s)=\max\text{emb}(\mathbf{t})=
+\text{emb}_{\max}(s)=\max\text{emb}(\mathbf{t})=
 \begin{bmatrix}
     \max(t_{1,1}, t_{2,1}, ..., t_{n,1}) \\\\
     \max(t_{1,2}, t_{2,2}, ..., t_{n,2}) \\\\
@@ -52,7 +52,7 @@ $$
 #### Mean-Pooling Embedding Aggregation
 
 $$
-\text{emb}\_{\mu}(s)=\frac{1}{n}\sum_{i=1}^n\text{emb}(\mathbf{t})=
+\text{emb}_{\mu}(s)=\frac{1}{n}\sum_{i=1}^n\text{emb}(\mathbf{t})=
 \frac{1}{n}\begin{bmatrix}
     t_{1,1} + t_{2,1} + ... + t_{n,1} \\\\
     t_{1,2} + t_{2,2} + ... + t_{n,2} \\\\
@@ -74,14 +74,14 @@ During pretraining, BERT includes the Next Sentence Prediction (NSP) and classif
 Let $\mathbf{h}^{(l)}\_i$ be the $i$-th hidden state at the $l$-th layer, together there is
 
 $$
-\mathbf{h}^{(l)}=[\mathbf{h}^{(l)}\_{\text{[CLS]}}, \mathbf{h}^{(l)}\_{1}, \mathbf{h}^{(l)}\_{2}, ...,  \mathbf{h}^{(l)}\_{n}]
+\mathbf{h}^{(l)}=[\mathbf{h}^{(l)}_{\text{[CLS]}}, \mathbf{h}^{(l)}_{1}, \mathbf{h}^{(l)}_{2}, ...,  \mathbf{h}^{(l)}_{n}]
 $$
 
 Take self-attention as an example, a naive transformer is
 
 $$
 \begin{align*}
-    \mathbf{h}^{(l+1)}\_{i} &=\text{FFN}\big(\text{SelfAttention}(\mathbf{h}^{(l)}, \mathbf{h}^{(l)}\_i)\big) \\\\
+    \mathbf{h}^{(l+1)}_{i} &=\text{FFN}\big(\text{SelfAttention}(\mathbf{h}^{(l)}, \mathbf{h}^{(l)}\_i)\big) \\\\
     &=\text{FFN}\big(\text{Softmax}\big(\frac{\mathbf{q}_iK^{\top}}{\sqrt{d}}\big)\mathbf{v}\_i\big)
 \end{align*}
 $$

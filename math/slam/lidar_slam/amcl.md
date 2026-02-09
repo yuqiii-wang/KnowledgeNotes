@@ -12,13 +12,13 @@ measurements.
 ### Prediction
 
 $$
-p(\mathbf{x}_k | Z^{k-1}) = \int p(\mathbf{x_k}|\mathbf{x}\_{k-1}, \mathbf{u}\_{k-1}) p(\mathbf{x}\_{k-1}|Z^{k-1}) d{\mathbf{x}\_{k-1}}
+p(\mathbf{x}_k | Z^{k-1}) = \int p(\mathbf{x_k}|\mathbf{x}_{k-1}, \mathbf{u}_{k-1}) p(\mathbf{x}_{k-1}|Z^{k-1}) d{\mathbf{x}_{k-1}}
 $$
 
 where
-$p(\mathbf{x_k}|\mathbf{x}\_{k-1}, \mathbf{u}\_{k-1})$ is motion/transformation model Probability Density Function (PDF) for $\mathbf{x}_k$, that takes control input $\mathbf{u}\_{k-1}$ on previous state $\mathbf{x}\_{k-1}$. 
+$p(\mathbf{x_k}|\mathbf{x}_{k-1}, \mathbf{u}_{k-1})$ is motion/transformation model Probability Density Function (PDF) for $\mathbf{x}_k$, that takes control input $\mathbf{u}_{k-1}$ on previous state $\mathbf{x}_{k-1}$. 
 
-$p(\mathbf{x}\_{k-1}|Z^{k-1})$ is the previous state PDF. $p(\mathbf{x_k}|\mathbf{x}\_{k-1}, \mathbf{u}\_{k-1}) p(\mathbf{x}\_{k-1}|Z^{k-1})$ is a two dimensional distribution over $\mathbf{x}_k$ and $\mathbf{x}\_{k-1}$, $\int$ is to sum up the marginalized distribution to only one dimension distribution $\mathbf{x}_k$.
+$p(\mathbf{x}_{k-1}|Z^{k-1})$ is the previous state PDF. $p(\mathbf{x_k}|\mathbf{x}_{k-1}, \mathbf{u}_{k-1}) p(\mathbf{x}_{k-1}|Z^{k-1})$ is a two dimensional distribution over $\mathbf{x}_k$ and $\mathbf{x}_{k-1}$, $\int$ is to sum up the marginalized distribution to only one dimension distribution $\mathbf{x}_k$.
 
 ### Update
 
@@ -38,7 +38,7 @@ In sampling-based methods one represents the density $p ( \mathbf{x}_k | Z^k )$ 
 
 * A
 
-The previous state $p(\mathbf{x}\_{k-1}|Z^{k-1})$ is recorded in PDF represented as a black continuous dot, and by Monte Carlo it is discretized to $N$ blue samples $S_{k-1}$.
+The previous state $p(\mathbf{x}_{k-1}|Z^{k-1})$ is recorded in PDF represented as a black continuous dot, and by Monte Carlo it is discretized to $N$ blue samples $S_{k-1}$.
 
 * B
 

@@ -11,7 +11,7 @@ $\lambda$ is known as *Lagrangian multiplier*.
 
 ## Intuition
 
-$f$ and $g$ are continuous and stationary points $\mathbf{x}\_{stationary}$ (local maxima/minima) can be found when the tangents of stationary points $\mathbf{x}\_{stationary}$ for both $f$ and $g$ are parallel, which can be described as
+$f$ and $g$ are continuous and stationary points $\mathbf{x}_{stationary}$ (local maxima/minima) can be found when the tangents of stationary points $\mathbf{x}_{stationary}$ for both $f$ and $g$ are parallel, which can be described as
 $$
 \nabla f = \lambda \nabla g
 $$

@@ -6,7 +6,7 @@ It attempts to find conditions with large value uncertainty/entropy and splits i
 
 ||Gini Impurity|Information Gain (Entropy)|
 |-|-|-|
-|Formula|$G=1-\sum^{C}\_{i=1}p^2_i$|$H=-\sum^{C}\_{i=1}p_i\log_2 p_i$|
+|Formula|$G=1-\sum^{C}_{i=1}p^2_i$|$H=-\sum^{C}_{i=1}p_i\log_2 p_i$|
 |Computational Cost|Faster (no logarithms)|Slower (requires logarithms)|
 |Sensitivity|Less sensitive to class probabilities|More sensitive (penalizes mixed nodes more)|
 
@@ -17,7 +17,7 @@ Gini Impurity is a measure of how often a randomly chosen element from the set w
 Given $C$ classes, Gini Impurity is defined as
 
 $$
-G=1-\sum^{C}\_{i=1}p^2_i
+G=1-\sum^{C}_{i=1}p^2_i
 $$
 
 ## Information Gain
@@ -34,5 +34,5 @@ where $N_j$ is samples in child node $j$, and $N$ is total samples.
 Entropy $H$ is defined as below
 
 $$
-H=-\sum^{C}\_{i=1}p_i\log_2 p_i
+H=-\sum^{C}_{i=1}p_i\log_2 p_i
 $$

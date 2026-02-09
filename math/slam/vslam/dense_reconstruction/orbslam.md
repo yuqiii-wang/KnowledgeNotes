@@ -12,12 +12,12 @@ Extract ORB features (only at the finest scale) in the current keyframe $\mathbf
 If not enough matches are found,
 reset the reference frame.
 
-Compute in parallel threads a homography ${H}\_{cr}$ and a
-fundamental matrix ${F}\_{cr}$:
+Compute in parallel threads a homography ${H}_{cr}$ and a
+fundamental matrix ${F}_{cr}$:
 $$
-\mathbf{x}_c = {H}\_{cr} \mathbf{x}_r
+\mathbf{x}_c = {H}_{cr} \mathbf{x}_r
 \quad\quad
-\mathbf{x}_c {F}\_{cr} \mathbf{x}_r = 0
+\mathbf{x}_c {F}_{cr} \mathbf{x}_r = 0
 $$
 
 Matches $\mathbf{x}_c$ and $\mathbf{x}_r$ are shown as below, and $\mathbf{E}$ denotes the essential matrix (fundamental matrix $\mathbf{F}$ is computed from $\mathbf{E}$ with camera pin-hole model parameters)
@@ -78,7 +78,7 @@ $$
 
 ### To Compute $H$
 
-Similarly, to compute $\mathbf{H}\_{cr}$, there are
+Similarly, to compute $\mathbf{H}_{cr}$, there are
 
 $$
 \begin{align*}
@@ -101,11 +101,11 @@ where
 $$
 A=
 \begin{bmatrix}
-    \mathbf{a}\_{x_1}^\text{T} &
-    \mathbf{a}\_{y_1}^\text{T} &
+    \mathbf{a}_{x_1}^\text{T} &
+    \mathbf{a}_{y_1}^\text{T} &
     ... &
-    \mathbf{a}\_{x_n}^\text{T} &
-    \mathbf{a}\_{x_n}^\text{T}
+    \mathbf{a}_{x_n}^\text{T} &
+    \mathbf{a}_{x_n}^\text{T}
 \end{bmatrix}^\top
 $$
 
@@ -117,9 +117,9 @@ $$
 S_M = 
 \sum_i \bigg(
 \rho_M \big(
-    d^2_{cr}(\mathbf{x}\_{ri}, \mathbf{x}\_{ci}) \big) +
+    d^2_{cr}(\mathbf{x}_{ri}, \mathbf{x}_{ci}) \big) +
 \rho_M \big(
-    d^2_{rc}(\mathbf{x}\_{ri}, \mathbf{x}\_{ci}) \big)
+    d^2_{rc}(\mathbf{x}_{ri}, \mathbf{x}_{ci}) \big)
 \bigg)
 $$
 
@@ -276,27 +276,27 @@ Finally, perform a pose graph
 optimization over the global essential graph. It is a $sim(3)$ optimization:
 
 Given a set of $n$ matches $i \Rightarrow j$ keypoints and their associated 3D map points between keyframe $K_1$ and
-keyframe $K_2$ that are transformed in between by $\mathbf{S}\_{K_1 K_2}$.
+keyframe $K_2$ that are transformed in between by $\mathbf{S}_{K_1 K_2}$.
 
 The reprojection error in both images is
 
 $$
 \begin{align*}
     \mathbf{e}_1 &= 
-    \mathbf{x}\_{1,i} - \pi_1(\mathbf{S}\_{K_1 K_2}, \mathbf{X}\_{K_2,j}) \\\\
+    \mathbf{x}_{1,i} - \pi_1(\mathbf{S}_{K_1 K_2}, \mathbf{X}_{K_2,j}) \\\\
     \mathbf{e}_2 &= 
-    \mathbf{x}\_{2,j} - \pi_2(\mathbf{S}^{-1}\_{K_1 K_2}, \mathbf{X}\_{K_1,j})
+    \mathbf{x}_{2,j} - \pi_2(\mathbf{S}^{-1}_{K_1 K_2}, \mathbf{X}_{K_1,j})
 \end{align*}
 $$
 
-where $\mathbf{X}\_{K,i} \in \mathbb{R}^3$  is map point 3D location and $\mathbf{x}\_{K,i}$ is a matched feature point. $\pi_K(\mathbf{S}\_{K}, \mathbf{X}\_{K,i})$ is the projection that takes a keyframe/camera's $sim(3)$ pose and transform the 3D point to by $sim(3)$ then maps this 3D point to a 2D pixel.
+where $\mathbf{X}_{K,i} \in \mathbb{R}^3$  is map point 3D location and $\mathbf{x}_{K,i}$ is a matched feature point. $\pi_K(\mathbf{S}_{K}, \mathbf{X}_{K,i})$ is the projection that takes a keyframe/camera's $sim(3)$ pose and transform the 3D point to by $sim(3)$ then maps this 3D point to a 2D pixel.
 
 For all $n$ matches, collectively define the below cost function
 $$
-\argmin_{\mathbf{S}\_{K_1 K_2}}
+\argmin_{\mathbf{S}_{K_1 K_2}}
 \sum_{i=1}^n \Big(
-    \rho_h (\mathbf{e}_1^\top \mathbf{\Omega}^{-1}\_{i,K_1} \mathbf{e}_1)
-    + \rho_h (\mathbf{e}_2^\top \mathbf{\Omega}^{-1}\_{j,K_2} \mathbf{e}_2)
+    \rho_h (\mathbf{e}_1^\top \mathbf{\Omega}^{-1}_{i,K_1} \mathbf{e}_1)
+    + \rho_h (\mathbf{e}_2^\top \mathbf{\Omega}^{-1}_{j,K_2} \mathbf{e}_2)
 \Big)
 $$
 

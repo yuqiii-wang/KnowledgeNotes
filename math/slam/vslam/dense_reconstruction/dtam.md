@@ -8,7 +8,7 @@ Define the pose of a camera $c$ with respect to the world frame of reference $w$
 $$
 T_{wc} = 
 \begin{bmatrix}
-    R_{wc} & \mathbf{c}\_{w} \\\\
+    R_{wc} & \mathbf{c}_{w} \\\\
     \mathbf{0}^\top & 1
 \end{bmatrix}
 $$
@@ -145,11 +145,11 @@ $g(\mathbf{u}) \cdot \big|\big|\nabla \mathbf{\xi}(\mathbf{u})\big|\big|_\delta 
 DTAM proposes the pose of a live camera estimation by finding the parameters of motion 
 which generate a synthetic view which best matches the live video image.
 
-The live camera pose estimation is essentially finding a camera pose transform ${T}\_{wl}$ in the world frame. 
+The live camera pose estimation is essentially finding a camera pose transform ${T}_{wl}$ in the world frame. 
 The subscript $l$ means "live" and $w$ means "world". 
-Set ${T}\_{wl}=T_{wv}T_{vl}$, where the subscript $v$ means "virtual", basically as if a virtual camera taking a shot at this pose $T_{wv}$ to represent any camera pose near to the true pose ${T}\_{wl}$. 
+Set ${T}_{wl}=T_{wv}T_{vl}$, where the subscript $v$ means "virtual", basically as if a virtual camera taking a shot at this pose $T_{wv}$ to represent any camera pose near to the true pose ${T}_{wl}$. 
 
-$T_{lv}$ is a correction to $T_{wv}$ to form the true pose ${T}\_{wl}$, and $T_{lv}$ is function of $\psi \in \mathbb{R}^6$  belonging to the Lie algebra $se3$.
+$T_{lv}$ is a correction to $T_{wv}$ to form the true pose ${T}_{wl}$, and $T_{lv}$ is function of $\psi \in \mathbb{R}^6$  belonging to the Lie algebra $se3$.
 
 
 Pose estimation is to minimize this cost function

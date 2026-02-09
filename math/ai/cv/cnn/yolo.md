@@ -8,7 +8,7 @@ Each grid cell predicts $B$ bounding boxes and confidence scores for those boxes
 The confidence score represents the IOU-weighted probability of having an object present in a bounding box, and is computed by
 
 $$
-\text{Pr(Object)} \cdot \text{IOU}^{\text{truth}}\_{\text{pred}}
+\text{Pr(Object)} \cdot \text{IOU}^{\text{truth}}_{\text{pred}}
 $$
 
 IOU (Intersection Over Union) is simply computed by taking the overlapping area percentage of the total union area.
@@ -27,7 +27,7 @@ Each bounding box has five predictions:
 The per-class per-bounding-box confidence score is 
 $$
 \text{Pr}(\text{Class}\_i|\text{Object}) \cdot
-\text{Pr(Object)} \cdot \text{IOU}^{\text{truth}}\_{\text{pred}}
+\text{Pr(Object)} \cdot \text{IOU}^{\text{truth}}_{\text{pred}}
 $$
 
 Hence, predictions/outputs from the final dense layer are encoded in an $S \times S \times (5 \times B + C)$ tensor.
@@ -72,8 +72,8 @@ Otherwise, since most grid cells do not contain objects (data imbalance between 
 
 ### Loss Function
 
-Define $\mathbb{1}^{obj}\_{ij} \in \{0,1\}$ representing if an object exists in the $i$-th grid cell predicted $j$-th bounding boxes (set to zero when contained no object),
-and similarly there is $\mathbb{1}^{noobj}\_{ij} \in \{0,1\}$, set zero when contained an object.
+Define $\mathbb{1}^{obj}_{ij} \in \{0,1\}$ representing if an object exists in the $i$-th grid cell predicted $j$-th bounding boxes (set to zero when contained no object),
+and similarly there is $\mathbb{1}^{noobj}_{ij} \in \{0,1\}$, set zero when contained an object.
 
 The total loss function is the sum of the below five loss functions
 $$
@@ -84,24 +84,24 @@ $$
 
 $$
 L\_{coord} = 
-\lambda_{coord} \sum^{S^2}\_{i=0} \sum^{B}\_{j=0}
-\mathbb{1}^{obj}\_{ij} \Big( (x\_i-\hat{x}\_i)^2 + (y_i-\hat{y}\_i)^2 \Big)
+\lambda_{coord} \sum^{S^2}_{i=0} \sum^{B}_{j=0}
+\mathbb{1}^{obj}_{ij} \Big( (x\_i-\hat{x}\_i)^2 + (y_i-\hat{y}\_i)^2 \Big)
 $$
 
 * Object rectangle/bounding box size loss $L\_{size}$ per-grid-cell per-bounding-box
 
 $$
 L\_{size} =
-\lambda_{coord} \sum^{S^2}\_{i=0} \sum^{B}\_{j=0}
-\mathbb{1}^{obj}\_{ij} \Big( \big(\sqrt{w}\_i-\sqrt{\hat{w}\_i} \big)^2 + \big(\sqrt{h}\_i-\sqrt{\hat{h}\_i} \big)^2 \Big)
+\lambda_{coord} \sum^{S^2}_{i=0} \sum^{B}_{j=0}
+\mathbb{1}^{obj}_{ij} \Big( \big(\sqrt{w}\_i-\sqrt{\hat{w}\_i} \big)^2 + \big(\sqrt{h}\_i-\sqrt{\hat{h}\_i} \big)^2 \Big)
 $$
 
 * Contained object prediction class loss $L\_{C-obj}$ (loss is zero when having predicted the correct class) per-grid-cell per-bounding-box
 
 $$
 L\_{C-obj} =
-\sum^{S^2}\_{i=0} \sum^{B}\_{j=0}
-\mathbb{1}^{obj}\_{ij} \big( C_i-\hat{C}\_i \big)^2
+\sum^{S^2}_{i=0} \sum^{B}_{j=0}
+\mathbb{1}^{obj}_{ij} \big( C_i-\hat{C}\_i \big)^2
 $$
 
 * Non-contained object prediction class loss $L\_{C-noobj}$ (loss is zero when having predicted the correct class) per-grid-cell per-bounding-box
@@ -109,14 +109,14 @@ $$
 $$
 L\_{C-noobj} = 
 \lambda_{noord}
-\sum^{S^2}\_{i=0} \sum^{B}\_{j=0}
-\mathbb{1}^{noobj}\_{ij} \big( C_i-\hat{C}\_i \big)^2
+\sum^{S^2}_{i=0} \sum^{B}_{j=0}
+\mathbb{1}^{noobj}_{ij} \big( C_i-\hat{C}\_i \big)^2
 $$
 
 * All grid cells predicting all correct classes loss $L_c$ (one grid cell can contain many different objects)
 
 $$
-L\_{c} = \sum^{S^2}\_{i=0} \mathbb{1}^{obj}\_{ij}
+L\_{c} = \sum^{S^2}_{i=0} \mathbb{1}^{obj}_{ij}
 \sum_{c \in \text{classes}} \big( p_i(c) - \hat{p}\_i(c) \big)^2
 $$
 

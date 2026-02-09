@@ -16,9 +16,9 @@ $$
 f_{\mathbf{\theta}}(\mathbf{x})=
 \underbrace{\sigma_{l}\big(\qquad\qquad...\qquad\qquad
 \underbrace{\sigma_{2}(W_{2}
-\underbrace{\sigma_{1}(W_{1}\mathbf{x}+\mathbf{b}\_{1})}\_{\text{layer }1}
-+\mathbf{b}\_{2})}\_{\text{layer }2}
-\big)}\_{\text{layer }l}
+\underbrace{\sigma_{1}(W_{1}\mathbf{x}+\mathbf{b}_{1})}_{\text{layer }1}
++\mathbf{b}_{2})}_{\text{layer }2}
+\big)}_{\text{layer }l}
 $$
 
 The NTK kernel is defined as
@@ -38,7 +38,7 @@ NTK major conclusions are
 
 ## NTK Intuition
 
-For a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\mathbf{\theta}\in\mathbb{R}^d$ given input $\{\mathbf{x}\_i\}\_{i=1}^n$,
+For a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\mathbf{\theta}\in\mathbb{R}^d$ given input $\{\mathbf{x}\_i\}_{i=1}^n$,
 at any iteration, $f_{\mathbf{\theta}_t}(\mathbf{x})$ can be modeled as
 
 $$
@@ -187,7 +187,7 @@ To prove the NTK theorem, the steps are
 
 Here shows how NTK is derived.
 
-Consider a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\mathbf{\theta}\in\mathbb{R}^d$ trained on a dataset $\mathcal{D}=\{(\mathbf{x}\_i, y_i)\}\_{i=1}^n$ with mean squared error (MSE) loss:
+Consider a neural network $f_{\mathbf{\theta}}(\mathbf{x})$ parameterized by $\mathbf{\theta}\in\mathbb{R}^d$ trained on a dataset $\mathcal{D}=\{(\mathbf{x}\_i, y_i)\}_{i=1}^n$ with mean squared error (MSE) loss:
 
 $$
 \mathcal{L}(\mathbf{\theta}) = \frac{1}{n} \sum_{i=1}^n \frac{1}{2}\big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)^2
@@ -209,7 +209,7 @@ $$
     &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\mathcal{L}(\mathbf{\theta}) \\\\
     &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \nabla_{\mathbf{\theta}}\Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)^2\Big) && \text{Expand and compute the gradient} \\\\
     &= - \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top \Big(\frac{1}{n} \sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)\Big) \\\\
-    &= - \frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big) \underbrace{\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)}\_{\text{NTK }\kappa(\mathbf{x}, \mathbf{x}')} && \text{Defined } \kappa(\mathbf{x}, \mathbf{x}') \\\\
+    &= - \frac{1}{n}\sum_{i=1}^n \big(y_i - f_{\mathbf{\theta}}(\mathbf{x}\_i)\big) \underbrace{\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}}(\mathbf{x}\_i)\big)}_{\text{NTK }\kappa(\mathbf{x}, \mathbf{x}')} && \text{Defined } \kappa(\mathbf{x}, \mathbf{x}') \\\\
 \end{align*}
 $$
 
@@ -241,8 +241,8 @@ The first layer has with $d_1$ neurons has NTK
 
 $$
 \begin{align*}
-    \kappa^{(1)}(\mathbf{x}, \mathbf{x}') &= \frac{1}{d_1}\sum^{d_1}\_{i=1}\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}, \mathbf{\theta})}{\partial{\theta}\_i}\cdot\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}', \mathbf{\theta})}{\partial{\theta}\_i} \\\\
-    &= E\big(\big(\nabla_{\mathbf{\theta}}f^{(1)}\_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f^{(1)}\_{\mathbf{\theta}}(\mathbf{x}')\big)\big)
+    \kappa^{(1)}(\mathbf{x}, \mathbf{x}') &= \frac{1}{d_1}\sum^{d_1}_{i=1}\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}, \mathbf{\theta})}{\partial{\theta}\_i}\cdot\frac{\partial f_{\theta_i}^{(1)}(\mathbf{x}', \mathbf{\theta})}{\partial{\theta}\_i} \\\\
+    &= E\big(\big(\nabla_{\mathbf{\theta}}f^{(1)}_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f^{(1)}_{\mathbf{\theta}}(\mathbf{x}')\big)\big)
 \end{align*}
 $$
 
@@ -254,7 +254,7 @@ By chain rule, the NTK kernel $\kappa^{(l)}(\mathbf{x}, \mathbf{x}')$ of the $l$
 $$
 \begin{align*}
     \kappa^{(l)}(\mathbf{x}, \mathbf{x}') &= \dot{\Sigma}^{(l)}(\mathbf{x}, \mathbf{x}') \cdot
-    \underbrace{E\Big(\big(\nabla_{\mathbf{\theta}}f^{(l-1)}\_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f^{(l-1)}\_{\mathbf{\theta}}(\mathbf{x}')\big)\Big)}\_{\text{NTK }\kappa^{(l-1)}(\mathbf{x}, \mathbf{x}')} +
+    \underbrace{E\Big(\big(\nabla_{\mathbf{\theta}}f^{(l-1)}_{\mathbf{\theta}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{\theta}}f^{(l-1)}_{\mathbf{\theta}}(\mathbf{x}')\big)\Big)}_{\text{NTK }\kappa^{(l-1)}(\mathbf{x}, \mathbf{x}')} +
     \Sigma^{(l)}(\mathbf{x}, \mathbf{x}')
 \end{align*}
 $$
@@ -278,17 +278,17 @@ Compute the covariance matrices $\Sigma^{(l)}(\mathbf{x}, \mathbf{x}')$ for $\ma
 
 $$
 \begin{align*}
-    \Sigma^{(l)}\_{\mathbf{z}}(\mathbf{x}, \mathbf{x}') &=
-    \sigma_w^2 \Sigma^{(l-1)}\_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') + \sigma_{\mathbf{b}}^2 \\\\
-    \Sigma^{(l)}\_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') &=
+    \Sigma^{(l)}_{\mathbf{z}}(\mathbf{x}, \mathbf{x}') &=
+    \sigma_w^2 \Sigma^{(l-1)}_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') + \sigma_{\mathbf{b}}^2 \\\\
+    \Sigma^{(l)}_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') &=
     E\Big(\big(\sigma(\mathbf{z}^{(l)}(\mathbf{x}, \mathbf{\theta}))\big)^{\top}\big(\sigma(\mathbf{z}^{(l)}(\mathbf{x}', \mathbf{\theta}))\big)\Big)
 \end{align*}
 $$
 
-where for $\Sigma^{(l)}\_{\mathbf{a}}(\mathbf{x}, \mathbf{x}')$, assume the input $\mathbf{z}^{(l)}(\mathbf{x}, \mathbf{\theta})$ and $\mathbf{z}^{(l)}(\mathbf{x}', \mathbf{\theta})$ follow joint Gaussian distribution where mean is $\mathbf{0}$ and covariance is $\Sigma_{\mathbf{x}}^{(l)}(\mathbf{x}, \mathbf{x}')$, i.e.,
+where for $\Sigma^{(l)}_{\mathbf{a}}(\mathbf{x}, \mathbf{x}')$, assume the input $\mathbf{z}^{(l)}(\mathbf{x}, \mathbf{\theta})$ and $\mathbf{z}^{(l)}(\mathbf{x}', \mathbf{\theta})$ follow joint Gaussian distribution where mean is $\mathbf{0}$ and covariance is $\Sigma_{\mathbf{x}}^{(l)}(\mathbf{x}, \mathbf{x}')$, i.e.,
 
 $$
-\Sigma^{(l)}\_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') =
+\Sigma^{(l)}_{\mathbf{a}}(\mathbf{x}, \mathbf{x}') =
 \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \sigma(\mathbf{u}) \sigma(\mathbf{v})
 \cdot \mathcal{N}\Big(
     \begin{bmatrix} \mathbf{u} \\\\ \mathbf{v}
@@ -309,7 +309,7 @@ $$
 f_{\mathbf{\theta}_t}(\mathbf{x}) \approx f_{\mathbf{\theta}_0}(\mathbf{x}) + \big(\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}_0}(\mathbf{x})\big)^{\top} (\mathbf{\theta}_t - \mathbf{\theta}_0)
 $$
 
-Let $\mathbf{\theta}\_{t+1}-\mathbf{\theta}\_{t} = -\eta\nabla_{\mathbf{\theta}}\mathcal{L}(\mathbf{\theta}_t)$ be a parameter update step,
+Let $\mathbf{\theta}_{t+1}-\mathbf{\theta}_{t} = -\eta\nabla_{\mathbf{\theta}}\mathcal{L}(\mathbf{\theta}_t)$ be a parameter update step,
 then here shows proof of Jacobian stability, that at an iteration step, for Jacobian is governed by Hessian matrix, that $||\text{Hessian}(.)||\rightarrow 0$ as $d\rightarrow\infty$, and thus the Jacobian is stable, i.e.,
 
 $$
@@ -340,7 +340,7 @@ where $\kappa^{(l)}(\mathbf{x}, \mathbf{x}') = \dot{\Sigma}^{(l)}(\mathbf{x}, \m
 Remember that weights are initialized from Gaussian distribution with a total variance of $1$ as well as in training process, i.e.,
 
 $$
-E\big(W^{(l)}\_{ij}W^{(l)}\_{ik}\big) = \frac{\sigma_w^2}{d_{l-1}}\delta_{jk}, \quad
+E\big(W^{(l)}_{ij}W^{(l)}_{ik}\big) = \frac{\sigma_w^2}{d_{l-1}}\delta_{jk}, \quad
 \sigma_w^2 = \mathcal{O}(1)
 $$
 
@@ -350,7 +350,7 @@ that specifies each element of the weight matrix multiplcation has the $\mathcal
 Proof: the sum of $d$ random variables with individual variance $\sigma_i^2$ has a variance of $\sum_{i=1}^d\sigma_i^2$.
 To contain the total variance $1=\sum_{i=1}^d\sigma_i^2$, each random variable variance should be $\sigma_i^2=\frac{1}{d}$, i.e., be initialized as $\sigma_i=\frac{1}{\sqrt{d}}$.
 
-Key insight is here: as a network goes very wide $d\rightarrow\infty$, each individual weight update $\delta_{ij} W^{(l)}\_{ij}$ is $\mathcal{O}(\frac{1}{\sqrt{d_{l-1}}})$ that is already very small, let alone $\kappa^2(\mathbf{x}, \mathbf{x}')$ is the squared operation with respect to $\Sigma^{(l)}(\mathbf{x}, \mathbf{x}')$ and $\dot{\Sigma}^{(l)}(\mathbf{x}, \mathbf{x}')$.
+Key insight is here: as a network goes very wide $d\rightarrow\infty$, each individual weight update $\delta_{ij} W^{(l)}_{ij}$ is $\mathcal{O}(\frac{1}{\sqrt{d_{l-1}}})$ that is already very small, let alone $\kappa^2(\mathbf{x}, \mathbf{x}')$ is the squared operation with respect to $\Sigma^{(l)}(\mathbf{x}, \mathbf{x}')$ and $\dot{\Sigma}^{(l)}(\mathbf{x}, \mathbf{x}')$.
 As a result, the Hessian matrix is dominated by $\kappa^2(\mathbf{x}, \mathbf{x}')$ and is infinitesimal, i.e., $\frac{d^2 f_{\mathbf{\theta}}(\mathbf{x})}{dt^2}\rightarrow 0$.
 
 For the Hessian matrix is infinitesimal, the Jacobian is stable/invariant,
@@ -370,9 +370,9 @@ Now consider training a purely linear model and expand it by Taylor series (the 
 Start from any arbitrary iteration, there is
 
 $$
-g^{\text{linear}}_t(\mathbf{x}) \equiv g^{\text{linear}}\_{\mathbf{\theta}_0}(\mathbf{x}) + \big(\nabla_{\mathbf{\theta}}g^{\text{linear}}\_{\mathbf{\theta}_0}(\mathbf{x})\big)^{\top} (\mathbf{\theta}_t - \mathbf{\theta}_0)
+g^{\text{linear}}_t(\mathbf{x}) \equiv g^{\text{linear}}_{\mathbf{\theta}_0}(\mathbf{x}) + \big(\nabla_{\mathbf{\theta}}g^{\text{linear}}_{\mathbf{\theta}_0}(\mathbf{x})\big)^{\top} (\mathbf{\theta}_t - \mathbf{\theta}_0)
 $$
 
-If $f_{\mathbf{\theta}_t}(\mathbf{x})$ and $g^{\text{linear}}_t(\mathbf{x})$ see identical outputs given same input $\mathbf{x}$, and the initializations are the same, the update gradient vector must be the same, i.e., $\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}_0}(\mathbf{x})=\nabla_{\mathbf{\theta}}g^{\text{linear}}\_{\mathbf{\theta}_0}(\mathbf{x})$.
+If $f_{\mathbf{\theta}_t}(\mathbf{x})$ and $g^{\text{linear}}_t(\mathbf{x})$ see identical outputs given same input $\mathbf{x}$, and the initializations are the same, the update gradient vector must be the same, i.e., $\nabla_{\mathbf{\theta}}f_{\mathbf{\theta}_0}(\mathbf{x})=\nabla_{\mathbf{\theta}}g^{\text{linear}}_{\mathbf{\theta}_0}(\mathbf{x})$.
 
 It can be said that when $d\rightarrow\infty$, $f_{\mathbf{\theta}_t}(\mathbf{x})$ is equivalent to $g^{\text{linear}}_t(\mathbf{x})$.

@@ -119,10 +119,10 @@ Other BERT models for different tasks may have different structures, such as no 
 
 `pooler_output` contains a "representation" of each sequence in the batch, and is of size `(batch_size, hidden_size)`
 
-The pooler_layer is a $\text{tanh}$-applied activation on the output from the last hidden layer (the last layer of encoder): $\mathbf{y}\_{p}=\text{tanh}(W_p\mathbf{x}_h+\mathbf{b}_p)$.
-The pooler layer's output $\mathbf{y}\_{p} \in \mathbb{R}^{1 \times 768}$ can be considered as a "compressed" representation of the sequence of the last encoder's tokens $\mathbf{x}\_{h} \in \mathbb{R}^{n\_{seq} \times 768}$, where $n\_{seq}$ is `sql_len`.
+The pooler_layer is a $\text{tanh}$-applied activation on the output from the last hidden layer (the last layer of encoder): $\mathbf{y}_{p}=\text{tanh}(W_p\mathbf{x}_h+\mathbf{b}_p)$.
+The pooler layer's output $\mathbf{y}_{p} \in \mathbb{R}^{1 \times 768}$ can be considered as a "compressed" representation of the sequence of the last encoder's tokens $\mathbf{x}_{h} \in \mathbb{R}^{n\_{seq} \times 768}$, where $n\_{seq}$ is `sql_len`.
 
-$\mathbf{y}\_{p}$ can be further used in tasks such as classification, while $\mathbf{x}\_{h}$ can be used for token representation.
+$\mathbf{y}_{p}$ can be further used in tasks such as classification, while $\mathbf{x}_{h}$ can be used for token representation.
 
 #### Decoder
 
@@ -370,7 +370,7 @@ This design separates $\text{MLP}$ and $\text{Attention}$ that allows for parall
 
 * Parallelism in key $K$ and value $V$ matrices
 
-Recall multi-head attention $\text{concat}\_{i=1}^{h}\bigg(\text{softmax} \Big( \frac{Q_i K_i^{\top}}{\sqrt{d_k}} \Big) V_i\bigg)$, where $h$ is the number of heads, and each head has $d_k$ dimensions ($Q_i, K_i, V_i \in \mathbb{R}^{d_k \times d_{model}}$).
+Recall multi-head attention $\text{concat}_{i=1}^{h}\bigg(\text{softmax} \Big( \frac{Q_i K_i^{\top}}{\sqrt{d_k}} \Big) V_i\bigg)$, where $h$ is the number of heads, and each head has $d_k$ dimensions ($Q_i, K_i, V_i \in \mathbb{R}^{d_k \times d_{model}}$).
 In decoder, key $K$ and value $V$ are grouped as a pair as previous input to cross attention with query $Q$.
 
 * Embedding Sharing

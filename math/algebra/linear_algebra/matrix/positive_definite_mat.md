@@ -53,7 +53,7 @@ Newton's Method updates the parameter $\mathbf{x}$ iteratively to find the local
 Each step is defined by the Hessian matrix of $f(\mathbf{x})$.
 
 $$
-\mathbf{x}\_{k+1} = \mathbf{x}_k - H^{-1} \nabla f(\mathbf{x}_k)
+\mathbf{x}_{k+1} = \mathbf{x}_k - H^{-1} \nabla f(\mathbf{x}_k)
 $$
 
 where
@@ -75,7 +75,7 @@ Also for the second derivative, there is $\nabla^2 f(\mathbf{x}) = H = Q$.
 As a result, the iterative update can be written as
 
 $$
-\mathbf{x}\_{k+1} = \mathbf{x}_k - Q^{-1} \nabla f(\mathbf{x}_k)
+\mathbf{x}_{k+1} = \mathbf{x}_k - Q^{-1} \nabla f(\mathbf{x}_k)
 $$
 
 ### Use Example in PCA (Principle Component Analysis)
@@ -287,8 +287,8 @@ $$
       \frac{x+y}{\sqrt{2}} 
   \end{bmatrix}
   \\\\ &=
-  1 \cdot \big(\underbrace{\frac{x-y}{\sqrt{2}}}\_{c_1} \big)^2 + 
-  9 \cdot \big(\underbrace{\frac{x+y}{\sqrt{2}}}\_{c_2} \big)^2
+  1 \cdot \big(\underbrace{\frac{x-y}{\sqrt{2}}}_{c_1} \big)^2 + 
+  9 \cdot \big(\underbrace{\frac{x+y}{\sqrt{2}}}_{c_2} \big)^2
   \\\\ &=
   \lambda_1 c_1^2 + \lambda_2 c_2^2
 \end{align*}

@@ -108,14 +108,14 @@ A parameter is a number describing a whole population (e.g., population mean), w
 *Paired-samples t tests* compare scores on two different variables but for the same group of cases.
 
 For example,
-graduates had higher average salaries 10 years after graduation than they (same group of people) had 5 years after graduation($\overline{X}\_{10-year-grad} > \overline{X}\_{5-year-grad}$);
-people will listen longer to a female telephone marketer than the very SAME people will listen to a male telephone marketer ($\overline{X}\_{listen-to-female} > \overline{X}\_{listen-to-male}$).
+graduates had higher average salaries 10 years after graduation than they (same group of people) had 5 years after graduation($\overline{X}_{10-year-grad} > \overline{X}_{5-year-grad}$);
+people will listen longer to a female telephone marketer than the very SAME people will listen to a male telephone marketer ($\overline{X}_{listen-to-female} > \overline{X}_{listen-to-male}$).
 
 *Independent-samples t tests* compare scores on the same variable but for two different groups of cases
 
 For example,
-length of life, on average, is shorter for never-married persons than for ever-married persons ($\overline{X}\_{not-married} > \overline{X}\_{married}$);
-the mean years of schooling of city students are different than the mean years of schooling of country students ($\overline{X}\_{city-student} \ne \overline{X}\_{country-student}$).
+length of life, on average, is shorter for never-married persons than for ever-married persons ($\overline{X}_{not-married} > \overline{X}_{married}$);
+the mean years of schooling of city students are different than the mean years of schooling of country students ($\overline{X}_{city-student} \ne \overline{X}_{country-student}$).
 
 * T Test vs F Test
 
@@ -209,7 +209,7 @@ The probability of 9 or all 10 students failing the program is $0.0001436$.
 
 $$
 P( N \ge 9) = 
-C^{9}\_{10}(0.3)^9(0.7)^1 + C^{10}\_{10}(0.3)^{10}(0.7)^0 = 0.0001436
+C^{9}_{10}(0.3)^9(0.7)^1 + C^{10}_{10}(0.3)^{10}(0.7)^0 = 0.0001436
 $$
 
 ||Student1|Student2|Student3|Student4|Student5|Student6|Student7|Student8|Student9|Student10|
@@ -389,7 +389,7 @@ $$
     =\frac{\text{between-group variability}}{\text{in-group variability}}
     \\\\ &=
     \frac{\frac{1}{k-1}\sum^k_{i=1} n_i (\hat{X}\_i-\overline{X})^2}
-        {\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}\_{j=1} (X_{ij}-\hat{X}\_i)^2}
+        {\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\hat{X}\_i)^2}
 \end{align*}
 $$
 
@@ -430,7 +430,7 @@ They have different shapes such as below.
 where
 
 * $SSR$: regression sum of squares $\sum^k_{i=1} n_i (\overline{X}\_i-\overline{X})^2$
-* $SSE$: error sum of squares $\sum^k_{i=1}\sum^{n_i}\_{j=1} (X_{ij}-\overline{X}\_i)^2$
+* $SSE$: error sum of squares $\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}\_i)^2$
 * $SST$: total sum of squares ($SST = SSR + SSE$)
 * $df_r$: regression degrees of freedom ($df_r = k-1$)
 * $df_e$: error degrees of freedom ($df_e = n-k$)
@@ -479,12 +479,12 @@ Null hypothesis of linear contrast is
 Test statistic is (always take $df_r=1$)
 $$
 F = \frac{MSR_{contrast}}{MSE_{in-group}} 
-    = \frac{{\hat{\Psi}^2}/ \big({\sum_i^{k}(a_i^2/n_i)}\big)}{\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}\_{j=1} (X_{ij}-\overline{X}\_i)^2}
+    = \frac{{\hat{\Psi}^2}/ \big({\sum_i^{k}(a_i^2/n_i)}\big)}{\frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}\_i)^2}
     \sim F(1, n-k)
 $$
 
 By t test, there is
 $$
 t = \sqrt{F} = \sqrt{\frac{MSR_{contrast}}{MSE_{in-group}} }
-    = \frac{\hat{\Psi}}{\sqrt{\Big(\sum_i^{k}(a_i^2/n_i)\Big)\Big( \frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}\_{j=1} (X_{ij}-\overline{X}\_i)^2 \Big)}}
+    = \frac{\hat{\Psi}}{\sqrt{\Big(\sum_i^{k}(a_i^2/n_i)\Big)\Big( \frac{1}{n-k}\sum^k_{i=1}\sum^{n_i}_{j=1} (X_{ij}-\overline{X}\_i)^2 \Big)}}
 $$

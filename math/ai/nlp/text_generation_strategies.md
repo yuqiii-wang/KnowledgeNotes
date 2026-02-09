@@ -3,7 +3,7 @@
 Auto-regressive language generation is based on the assumption that the probability distribution of a word sequence $w_{1:T}$ can be decomposed into the product of conditional next word distributions:
 
 $$
-P(w_{1:T} | W_0) = \prod^{T}\_{t=1} P(w_t | w_{1:t-1}, W_0)
+P(w_{1:T} | W_0) = \prod^{T}_{t=1} P(w_t | w_{1:t-1}, W_0)
 $$
 
 where one word prediction $w_t$ is conditioned on all previous word choices $w_{1:t-1}$ and an initial context word sequence $W_0$.
@@ -118,9 +118,9 @@ sample_output = model.generate(**model_inputs, max_new_tokens=40,
 
 Similar to Top-K sampling, but the threshold is set to top tokens' accumulated probability, that only top probability tokens whose accumulated probability slightly greater than the threshold are selected.
 
-For example, set a threshold of $0.92$, assume probability of "house" is $0.03$, and assume $V_{\text{top-P}\_{1, K=8}}=\{ \text{nice}, \text{dog}, \text{car}, \text{woman}, \text{guy}, \text{man}, \text{people}, \text{big} \}$, and $\sum_{w\in V_{\text{top-P}\_{1, K=8}}}P(w_1|\text{The})=0.91<0.92$.
+For example, set a threshold of $0.92$, assume probability of "house" is $0.03$, and assume $V_{\text{top-P}_{1, K=8}}=\{ \text{nice}, \text{dog}, \text{car}, \text{woman}, \text{guy}, \text{man}, \text{people}, \text{big} \}$, and $\sum_{w\in V_{\text{top-P}_{1, K=8}}}P(w_1|\text{The})=0.91<0.92$.
 Hence, should consider next token to see if the accumulated probability exceeds the threshold of $0.92$.
-Having included the new token "house" $V_{\text{top-P}\_{1, K=9}}=\{ V_{\text{top-P}\_{1, K=8}}, \text{house} \}$, the new accumulated probability is $\sum_{w\in V_{\text{top-P}\_{1, K=9}}}P(w_1|\text{The})=0.94>0.92$, hence only the top 9 words are picked.
+Having included the new token "house" $V_{\text{top-P}_{1, K=9}}=\{ V_{\text{top-P}_{1, K=8}}, \text{house} \}$, the new accumulated probability is $\sum_{w\in V_{\text{top-P}_{1, K=9}}}P(w_1|\text{The})=0.94>0.92$, hence only the top 9 words are picked.
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/text_gen_top_p_sampling.png" width="50%" height="50%" alt="text_gen_top_p_sampling" />

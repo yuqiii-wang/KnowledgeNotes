@@ -75,7 +75,7 @@ $$
 
 The $k$-th update is
 $$
-\mathbf{x}\_{k+1} = \mathbf{x}_k + \lambda_k \mathbf{p}_k
+\mathbf{x}_{k+1} = \mathbf{x}_k + \lambda_k \mathbf{p}_k
 $$
 
 ## Intuition

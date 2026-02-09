@@ -85,9 +85,9 @@ Assume input of size `[batch_size, n_head, sequence_length, dim]`,
 a general formula for memory consumption of inputs and forward activations is:
 
 $$
-\underbrace{3 \times (B \times N \times S \times D)}\_{\text{Inputs: } Q, K, V} + 
-\underbrace{B \times N \times S \times S}\_{\text{softmax} \Big( \frac{Q K^{\top}}{\sqrt{d_k}} \Big)} + 
-\underbrace{4 \times B \times N \times S \times D}\_{\text{Feed Forward}}
+\underbrace{3 \times (B \times N \times S \times D)}_{\text{Inputs: } Q, K, V} + 
+\underbrace{B \times N \times S \times S}_{\text{softmax} \Big( \frac{Q K^{\top}}{\sqrt{d_k}} \Big)} + 
+\underbrace{4 \times B \times N \times S \times D}_{\text{Feed Forward}}
 $$
 
 * Multi-headed Attention
@@ -199,7 +199,7 @@ Normalization of ${x}^{(k)}\_i$ against the mean and standard deviation is
 $\hat{{x}}\_i^{(k)} = \frac{{x}^{(k)}\_i - {\mu}^{(k)}_B}{\sqrt{\big({\sigma}^{(k)}_B\big)^2+\epsilon}}$,
 where $\epsilon=10^{-8}$ is a small value preventing zero-division error.
 
-To use the "offsets" $\hat{\mathbf{x}}_B$ to the mean as the inputs, the previous non-batch transform $y_i^{(k)} = w^{(k)} x\_i^{(k)} + b^{(k)}$ becomes $y_i^{(k)} = w^{(k)}\_{\gamma} \hat{x}\_i^{(k)} + b_{\beta}^{(k)}$.
+To use the "offsets" $\hat{\mathbf{x}}_B$ to the mean as the inputs, the previous non-batch transform $y_i^{(k)} = w^{(k)} x\_i^{(k)} + b^{(k)}$ becomes $y_i^{(k)} = w^{(k)}_{\gamma} \hat{x}\_i^{(k)} + b_{\beta}^{(k)}$.
 Here defines *Batch Normalization* $BN_{w_{\gamma}^{(k)}, b_{\beta}^{(k)}}: x_{1...B}^{(k)} \rightarrow y_{1...B}^{(k)}$,
 or written in function expression $\mathbf{y}_B^{(k)}=BN_{w_{\gamma}^{(k)}, b_{\beta}^{(k)}}(\mathbf{x}_B^{(k)})$
 
@@ -223,7 +223,7 @@ then each mini batch's gradients get summed up and they are equal to the gradien
 
 $$
 \frac{\partial \mathcal{L}}{\partial w_{\gamma}^{(k)}} = 
-\sum^{B}\_{m_j=m_1} \underbrace{\Big(\sum^{m_{j+1}}\_{i={m_j}} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}\_i^{(k)} \Big)}\_{\text{mini batch}} \approx
+\sum^{B}_{m_j=m_1} \underbrace{\Big(\sum^{m_{j+1}}_{i={m_j}} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}\_i^{(k)} \Big)}_{\text{mini batch}} \approx
 \sum^B_{i=1} \frac{\partial \mathcal{L}}{\partial y_i^{(k)}} \hat{x}\_i^{(k)}
 $$
 

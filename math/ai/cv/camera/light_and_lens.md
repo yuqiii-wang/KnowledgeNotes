@@ -102,7 +102,7 @@ $$
 \begin{bmatrix}
       \mathbf{R} \\\\
       \mathbf{t}
-\end{bmatrix}\_{4 \times 4}
+\end{bmatrix}_{4 \times 4}
 & =
 \begin{bmatrix}
       r_{11} & r_{12} & r_{13} & t_{1} \\\\
@@ -113,7 +113,7 @@ $$
 \begin{bmatrix}
       \mathbf{R} \\\\
       \mathbf{t}
-\end{bmatrix}\_{4 \times 3}
+\end{bmatrix}_{4 \times 3}
 & =
 \begin{bmatrix}
       r_{11} & r_{12} & t_{1} \\\\

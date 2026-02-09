@@ -124,7 +124,7 @@ where $\mathbf{K}$ is rotation direction unit matrix while $\theta$ is the angle
 Define $\mathbf{v}$ is a vector $\mathbf{v} \in \mathbb{R}^3$, $\mathbf{k}$ is a unit vector describing an axis of rotation about which $\mathbf{v}$ rotates by an angle $\theta$
 
 $$
-\mathbf{v}\_{rot}=
+\mathbf{v}_{rot}=
 \mathbf{v} cos\theta + (\mathbf{k} \times \mathbf{v})sin\theta + \mathbf{k}(\mathbf{k} \cdot \mathbf{v})(1-cos\theta)
 $$
 
@@ -255,7 +255,7 @@ $$
     \Big|\Big| \overrightarrow{\mathbf{r}} \Big|\Big| \frac{d \theta}{dt} 
     \cdot \frac{1}{||\overrightarrow{\mathbf{r}}||} \big( Z \times \overrightarrow{\mathbf{r}} \big)
     \\\\ &= 
-    \underbrace{\frac{d \theta}{dt} Z}\_{=\overrightarrow{\mathbf{\omega}}=\frac{d \theta}{dt} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}} 
+    \underbrace{\frac{d \theta}{dt} Z}_{=\overrightarrow{\mathbf{\omega}}=\frac{d \theta}{dt} \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}} 
     \times \overrightarrow{\mathbf{r}}  
 \end{align*}
 $$
@@ -321,9 +321,9 @@ $$
     \Big(\frac{d}{d\theta} R_x(\theta) \Big) R_x^\top(\theta)
     + R_x(\theta) \Big(\frac{d}{d\theta} R^\top_x(\theta) \Big) &= \mathbf{0}
 \\\\ \Rightarrow &&
-    \underbrace{\Big(\frac{d}{d\theta} R_x(\theta) \Big) R_x^\top(\theta)}\_{S_x}
+    \underbrace{\Big(\frac{d}{d\theta} R_x(\theta) \Big) R_x^\top(\theta)}_{S_x}
     + 
-    \underbrace{\Bigg(\Big(\frac{d}{d\theta} R_x(\theta) \Big) R^\top_x(\theta)\Bigg)^\top}\_{S_x^\top} 
+    \underbrace{\Bigg(\Big(\frac{d}{d\theta} R_x(\theta) \Big) R^\top_x(\theta)\Bigg)^\top}_{S_x^\top} 
     &= \mathbf{0}
 \\\\ \Rightarrow &&
     S_x + S_x^\top &= \mathbf{0}

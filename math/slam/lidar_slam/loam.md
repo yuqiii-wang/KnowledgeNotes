@@ -134,9 +134,9 @@ $$
 
 Define $T^W_k$ (indicated as the blue curve) as the transformation from origin to robot's pose at the time $t_{k+1}$, $Q_k$ is the point cloud over the history path. till $t_{k+1}$.
 
-After the applied transformation $T^L\_{k+1}$, $\overline{Q}\_{k+1}$ (indicated as blue lines) is the mapped point cloud.
+After the applied transformation $T^L\_{k+1}$, $\overline{Q}_{k+1}$ (indicated as blue lines) is the mapped point cloud.
 
-The goal if to best fit $\overline{Q}\_{k+1}$ to $Q_k$ by feature points (edge and planar points) rendering minimized distances $d_E$ and $d_H$ by optimizing $T^W_{k+1}$ with again Levenberg-Marquardt method.
+The goal if to best fit $\overline{Q}_{k+1}$ to $Q_k$ by feature points (edge and planar points) rendering minimized distances $d_E$ and $d_H$ by optimizing $T^W_{k+1}$ with again Levenberg-Marquardt method.
 
 Mapping uses ten times of the number of points that are selected when dealing with odometry computation.
 

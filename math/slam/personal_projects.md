@@ -34,7 +34,7 @@ void cv::calibrateHandEye	(
 
 To estimate $\space^{g}T_{c}$, the robot gripper is moved to some distance in order to acquire several poses.
 Gripper poses $\space^{b}T_{g}^{(i)}$ should be recorded (in AGV, they are fused robot state from sensors such as IMU and odometry),
-and target to camera transform $\space^{c}T_{t}^{(i)}$ should be estimated as well (such as posting some chessboards around environment walls, and by `cv::calibrateCamera(...)` that returns the estimated $\space^{c}\hat{T}\_{t}^{(i)}$, which is of course very corse ..., would be lucky if precision error is below 10 cm (measured by re-projection error)).
+and target to camera transform $\space^{c}T_{t}^{(i)}$ should be estimated as well (such as posting some chessboards around environment walls, and by `cv::calibrateCamera(...)` that returns the estimated $\space^{c}\hat{T}_{t}^{(i)}$, which is of course very corse ..., would be lucky if precision error is below 10 cm (measured by re-projection error)).
 
 ```cpp
 std::vector<cv::Mat> R_gripper2base, t_gripper2base;
@@ -84,19 +84,19 @@ A_i A_j^{-1} X=X B^{-1}\_i B_j
 \space^{c}T_{t}^{(i)} \Big(\space^{c}T_{t}^{(j)}\Big)^{-1} X=X \Big(\space^{b}T_{g}^{(i)}\Big)^{-1} \space^{b}T_{g}^{(j)}
 \\\\ \Rightarrow &&&
 \begin{bmatrix}
-    \space^{c}R_{t}^{(ij)} & \space^{c}\mathbf{t}\_{t}^{(ij)} \\\\
+    \space^{c}R_{t}^{(ij)} & \space^{c}\mathbf{t}_{t}^{(ij)} \\\\
     \mathbf{0} & 1
 \end{bmatrix}   
 \begin{bmatrix}
-    \space^{g}R_{c} & \space^{g}\mathbf{t}\_{c} \\\\
+    \space^{g}R_{c} & \space^{g}\mathbf{t}_{c} \\\\
     \mathbf{0} & 1
 \end{bmatrix}=
 \begin{bmatrix}
-    \space^{g}R_{c} & \space^{g}\mathbf{t}\_{c} \\\\
+    \space^{g}R_{c} & \space^{g}\mathbf{t}_{c} \\\\
     \mathbf{0} & 1
 \end{bmatrix}
 \begin{bmatrix}
-    \space^{b}R_{g}^{(ij)} & \space^{b}\mathbf{t}\_{g}^{(ij)} \\\\
+    \space^{b}R_{g}^{(ij)} & \space^{b}\mathbf{t}_{g}^{(ij)} \\\\
     \mathbf{0} & 1
 \end{bmatrix}
 \\\\ \Rightarrow &&&
@@ -104,8 +104,8 @@ A_i A_j^{-1} X=X B^{-1}\_i B_j
     \begin{align*}
       \space^{c}R_{t}^{(ij)} \space^{g}R_{c} &= \space^{g}R_{c} \space^{b}R_{g}^{(ij)}
       \\\\
-      \space^{c}R_{t}^{(ij)} \space^{g}\mathbf{t}\_{c} + \space^{c}\mathbf{t}\_{t}^{(ij)} &=
-        \space^{g}R_{c} \space^{b}\mathbf{t}\_{g}^{(ij)} + \space^{g}\mathbf{t}\_{c}
+      \space^{c}R_{t}^{(ij)} \space^{g}\mathbf{t}_{c} + \space^{c}\mathbf{t}_{t}^{(ij)} &=
+        \space^{g}R_{c} \space^{b}\mathbf{t}_{g}^{(ij)} + \space^{g}\mathbf{t}_{c}
     \end{align*}
 \right.
 \\\\ \Rightarrow &&&
@@ -113,8 +113,8 @@ A_i A_j^{-1} X=X B^{-1}\_i B_j
     \begin{align*}
       \space^{c}R_{t}^{(ij)} \space^{g}R_{c} &= \space^{g}R_{c} \space^{b}R_{g}^{(ij)}
       \\\\
-      (\space^{c}R_{t}^{(ij)} - I) \space^{g}\mathbf{t}\_{c} &=
-        \space^{g}R_{c} \space^{b}\mathbf{t}\_{g}^{(ij)} - \space^{c}\mathbf{t}\_{t}^{(ij)} 
+      (\space^{c}R_{t}^{(ij)} - I) \space^{g}\mathbf{t}_{c} &=
+        \space^{g}R_{c} \space^{b}\mathbf{t}_{g}^{(ij)} - \space^{c}\mathbf{t}_{t}^{(ij)} 
     \end{align*}
 \right.
 \end{align*}
@@ -122,48 +122,48 @@ $$
 
 ### The Sai-Lenz Method
 
-The Sai-Lenz method is used to compute the above $AX=XB$ equation for $\space^{g}R_{c}$ and $\space^{g}\mathbf{t}\_{c}$.
+The Sai-Lenz method is used to compute the above $AX=XB$ equation for $\space^{g}R_{c}$ and $\space^{g}\mathbf{t}_{c}$.
 
 1. By Rodrigues to convert matrix to rotation vector:
 
 $$
 \left\{
     \begin{align*}
-       \space^{c}\mathbf{r}\_{t}^{(ij)} = \text{rodrigues}(\space^{c}R_{t}^{(ij)}) \\\\
-       \space^{b}\mathbf{r}\_{g}^{(ij)} = \text{rodrigues}(\space^{b}R_{g}^{(ij)})    
+       \space^{c}\mathbf{r}_{t}^{(ij)} = \text{rodrigues}(\space^{c}R_{t}^{(ij)}) \\\\
+       \space^{b}\mathbf{r}_{g}^{(ij)} = \text{rodrigues}(\space^{b}R_{g}^{(ij)})    
     \end{align*}
 \right.
 $$
 
-2. Rodrigues Corrections for $\space^{c}\mathbf{r}\_{t}^{*(ij)}$ and $\space^{b}\mathbf{r}\_{g}^{*(ij)}$ by normalized vector $\space^{c}\mathbf{n}\_{t}^{(ij)}$ and $\space^{b}\mathbf{n}\_{g}^{(ij)}$ converting from matrix to vector format
+2. Rodrigues Corrections for $\space^{c}\mathbf{r}_{t}^{*(ij)}$ and $\space^{b}\mathbf{r}_{g}^{*(ij)}$ by normalized vector $\space^{c}\mathbf{n}_{t}^{(ij)}$ and $\space^{b}\mathbf{n}_{g}^{(ij)}$ converting from matrix to vector format
 
 $$
 \left\{
     \begin{align*}
-        \space^{c}\mathbf{r}\_{t}^{*(ij)} = 2 \sin \Big( \frac{\big|\big|\space^{c}\mathbf{r}\_{t}^{(ij)}\big|\big|_2}{2} \Big) \space^{c}\mathbf{n}\_{t}^{(ij)}
+        \space^{c}\mathbf{r}_{t}^{*(ij)} = 2 \sin \Big( \frac{\big|\big|\space^{c}\mathbf{r}_{t}^{(ij)}\big|\big|_2}{2} \Big) \space^{c}\mathbf{n}_{t}^{(ij)}
         , \qquad \text{where }
-        \space^{c}\mathbf{n}\_{t}^{(ij)} = \frac{\space^{c}\mathbf{r}\_{t}^{(ij)}}{\big|\big|\space^{c}\mathbf{r}\_{t}^{(ij)}\big|\big|_2}
+        \space^{c}\mathbf{n}_{t}^{(ij)} = \frac{\space^{c}\mathbf{r}_{t}^{(ij)}}{\big|\big|\space^{c}\mathbf{r}_{t}^{(ij)}\big|\big|_2}
         \\\\ 
-        \space^{b}\mathbf{r}\_{g}^{*(ij)} = 2 \sin \Big( \frac{\big|\big|\space^{b}\mathbf{r}\_{g}^{(ij)}\big|\big|_2}{2} \Big) \space^{b}\mathbf{n}\_{g}^{(ij)}
+        \space^{b}\mathbf{r}_{g}^{*(ij)} = 2 \sin \Big( \frac{\big|\big|\space^{b}\mathbf{r}_{g}^{(ij)}\big|\big|_2}{2} \Big) \space^{b}\mathbf{n}_{g}^{(ij)}
         , \qquad \text{where }
-        \space^{b}\mathbf{n}\_{g}^{(ij)} = \frac{\space^{b}\mathbf{r}\_{g}^{(ij)}}{\big|\big|\space^{b}\mathbf{r}\_{g}^{(ij)}\big|\big|_2}
+        \space^{b}\mathbf{n}_{g}^{(ij)} = \frac{\space^{b}\mathbf{r}_{g}^{(ij)}}{\big|\big|\space^{b}\mathbf{r}_{g}^{(ij)}\big|\big|_2}
     \end{align*}
 \right.
 $$
 
-3. Construct the linear equation $A\mathbf{x}=\mathbf{b}$ to compute the initial estimate of rotation $\space^{g}\hat{\mathbf{r}}\_{c}$
+3. Construct the linear equation $A\mathbf{x}=\mathbf{b}$ to compute the initial estimate of rotation $\space^{g}\hat{\mathbf{r}}_{c}$
 
 $$
-\big( \space^{c}\mathbf{r}\_{t}^{*(ij)} + \space^{b}\mathbf{r}\_{g}^{*(ij)} \big)^{\wedge} \space^{g}\hat{\mathbf{r}}\_{c} = \space^{b}\mathbf{r}\_{g}^{*(ij)} - \space^{c}\mathbf{r}\_{t}^{*(ij)}
+\big( \space^{c}\mathbf{r}_{t}^{*(ij)} + \space^{b}\mathbf{r}_{g}^{*(ij)} \big)^{\wedge} \space^{g}\hat{\mathbf{r}}_{c} = \space^{b}\mathbf{r}_{g}^{*(ij)} - \space^{c}\mathbf{r}_{t}^{*(ij)}
 $$
 
 where $\space^{\wedge}$ represents the skew-symmetric representation of a vector.
 
 4. Compute $\space^{g}R_{c}$
 
-Set $\space^{g}\mathbf{u}\_{c}$ as the normalized rotation vector $\space^{g}\mathbf{u}\_{c}=\frac{2 \space^{g}\hat{\mathbf{r}}\_{c}}{\sqrt{1+|\space^{g}\hat{\mathbf{r}}\_{c}|^2}}$, by Rodrigues' formula $I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top} + \mathbf{u}^{\wedge}\sin\theta$ , the rotation matrix rotating about $\mathbf{u}$ by $\theta$ can be expressed as
+Set $\space^{g}\mathbf{u}_{c}$ as the normalized rotation vector $\space^{g}\mathbf{u}_{c}=\frac{2 \space^{g}\hat{\mathbf{r}}_{c}}{\sqrt{1+|\space^{g}\hat{\mathbf{r}}_{c}|^2}}$, by Rodrigues' formula $I\cos\theta + (1-\cos\theta)\mathbf{u}\mathbf{u}^{\top} + \mathbf{u}^{\wedge}\sin\theta$ , the rotation matrix rotating about $\mathbf{u}$ by $\theta$ can be expressed as
 $$
-\space^{g}R_{c} = \Big( 1 - \frac{|\space^{g}\mathbf{u}\_{c}|^2}{2} \Big) I +\frac{1}{2}\big( \space^{g}\mathbf{u}\_{c} \space^{g}\mathbf{u}\_{c}^{\top} + \sqrt{4-|\space^{g}\mathbf{u}\_{c}|^2}\space^{g}\mathbf{u}\_{c}^{\wedge} \big)
+\space^{g}R_{c} = \Big( 1 - \frac{|\space^{g}\mathbf{u}_{c}|^2}{2} \Big) I +\frac{1}{2}\big( \space^{g}\mathbf{u}_{c} \space^{g}\mathbf{u}_{c}^{\top} + \sqrt{4-|\space^{g}\mathbf{u}_{c}|^2}\space^{g}\mathbf{u}_{c}^{\wedge} \big)
 $$
 
 ```cpp
@@ -197,11 +197,11 @@ Rcg = (1 - cv::norm(Pcg) * cv::norm(Pcg) / 2) * eyeM + \
     0.5 * (Pcg * PcgTrs + sqrt(4 - cv::norm(Pcg)*cv::norm(Pcg))*cv::skew(Pcg));
 ```
 
-5. translation $\space^{g}\mathbf{t}\_{c}$ should be easy to compute simply by solving the below over-determined linear system
+5. translation $\space^{g}\mathbf{t}_{c}$ should be easy to compute simply by solving the below over-determined linear system
 
 $$
-(\space^{c}R_{t}^{(ij)} - I) \space^{g}\mathbf{t}\_{c} =
-\space^{g}R_{c} \space^{b}\mathbf{t}\_{g}^{(ij)} - \space^{c}\mathbf{t}\_{t}^{(ij)} 
+(\space^{c}R_{t}^{(ij)} - I) \space^{g}\mathbf{t}_{c} =
+\space^{g}R_{c} \space^{b}\mathbf{t}_{g}^{(ij)} - \space^{c}\mathbf{t}_{t}^{(ij)} 
 $$
 
 ```cpp

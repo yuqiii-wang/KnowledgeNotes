@@ -27,10 +27,10 @@ Compared to variance $\frac{1}{n}\sum^n\_{i=1}(x\_i-\overline{x})^2$ that gives 
 
 If $\overline{x}_n$ is the sample mean, then $Z=\lim_{n \rightarrow \infty} \Big( \frac{\overline{x}_n - \mu}{\frac{1}{\sqrt{n}} \sigma} \Big)$ is a standard normal distribution (having $\mu_{Z}=0$).
 
-In other words, it states that as $n$ gets larger, the distribution of the normalized mean ${\sqrt{n}}({\overline {\mathbf{x}}}\_{n}-\mu )$, i.e. the difference between the sample average $\overline{\mathbf{x}}_n$ and its limit $\mu$ scaled by the factor ${\sqrt {n}}$, approaches the normal distribution with mean $0$ and variance $\sigma^{2}$.
+In other words, it states that as $n$ gets larger, the distribution of the normalized mean ${\sqrt{n}}({\overline {\mathbf{x}}}_{n}-\mu )$, i.e. the difference between the sample average $\overline{\mathbf{x}}_n$ and its limit $\mu$ scaled by the factor ${\sqrt {n}}$, approaches the normal distribution with mean $0$ and variance $\sigma^{2}$.
 
 $$
-{\sqrt{n}}({\overline {\mathbf{x}}}\_{n}-\mu ) \sim \mathcal{N}(0, \sigma^2)
+{\sqrt{n}}({\overline {\mathbf{x}}}_{n}-\mu ) \sim \mathcal{N}(0, \sigma^2)
 $$
 
 ### Chi-Squared Distribution Definition

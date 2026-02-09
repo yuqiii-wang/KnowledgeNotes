@@ -4,12 +4,12 @@ Define a sequence of $n$ intermediate robot poses $\mathbf{x}\_i=(x\_i, y_i, \th
 
 Define $Q$ as a set of $n$ intermediate robot poses $\mathbf{x}\_i$:
 $$
-Q=\{\mathbf{x}\_i\}\_{i=0,1,2,...,n}
+Q=\{\mathbf{x}\_i\}_{i=0,1,2,...,n}
 $$
 
-Define $\tau$ as a set of $n-1$ time intervals $\Delta T_i$ between two consecutive poses $[\mathbf{x}\_i, \mathbf{x}\_{i+1}]$
+Define $\tau$ as a set of $n-1$ time intervals $\Delta T_i$ between two consecutive poses $[\mathbf{x}\_i, \mathbf{x}_{i+1}]$
 $$
-\tau = \{ \Delta T_i \}\_{i=0,1,2,...,n}
+\tau = \{ \Delta T_i \}_{i=0,1,2,...,n}
 $$
 
 TEB is defined as a tuple of both sequences
@@ -98,7 +98,7 @@ $$
 
 ### Trajectory Arc Considerations
 
-It is assumed that a robot's transition from $\mathbf{x}\_i$ to $\mathbf{x}\_{i+1}$ is continuous on an arc of the same circle. Given the property of circle that any two points on a circle share the same curvature, we can say $\vartheta_i = \vartheta_{i+1}$, so that
+It is assumed that a robot's transition from $\mathbf{x}\_i$ to $\mathbf{x}_{i+1}$ is continuous on an arc of the same circle. Given the property of circle that any two points on a circle share the same curvature, we can say $\vartheta_i = \vartheta_{i+1}$, so that
 
 $$
 \begin{align*}
@@ -111,8 +111,8 @@ $$
 \end{array}
 \right) 
 \times
-\mathbf{d}\_{i,i+1}&=
-\mathbf{d}\_{i,i+1}
+\mathbf{d}_{i,i+1}&=
+\mathbf{d}_{i,i+1}
 \times
 \left(
 \begin{array}{c}
@@ -124,9 +124,9 @@ $$
 \end{align*}
 $$
 
-Transformation $\mathbf{d}\_{i,i+1}$ is
+Transformation $\mathbf{d}_{i,i+1}$ is
 $$
-\mathbf{d}\_{i,i+1}=
+\mathbf{d}_{i,i+1}=
 \left(
 \begin{array}{c}
     x_{i+1} - x\_i \\\\
@@ -141,7 +141,7 @@ $$
 Hence, the objective function with respect to arc is
 
 $$
-f_{arc}(\mathbf{x}\_i, \mathbf{x}\_{i+1})=
+f_{arc}(\mathbf{x}\_i, \mathbf{x}_{i+1})=
 \bigg|\bigg|
     \bigg[
         \left(
@@ -161,7 +161,7 @@ f_{arc}(\mathbf{x}\_i, \mathbf{x}\_{i+1})=
         \right)
     \bigg]
     \times
-    \mathbf{d}\_{i, i+1}
+    \mathbf{d}_{i, i+1}
 \bigg|\bigg|
 ^2
 $$

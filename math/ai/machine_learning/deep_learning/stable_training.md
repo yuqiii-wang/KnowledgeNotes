@@ -15,7 +15,7 @@ Large learning rate renders instability as iteration grows.
 
 * ADAM Failed for large iteration $n$
 
-For ADAM optimizer $\Delta W_{n+1} = \eta \frac{\hat{m}\_{n+1}}{\sqrt{\hat{v}\_{n+1}}+\epsilon}$ that takes into account the momentum, whose controlling parameters approach to zeros $\lim_{n \rightarrow +\infty} \beta_1^n = 0$ and $\lim_{n \rightarrow +\infty} \beta_2^n = 0$ when the iteration num $n$ goes very large.
+For ADAM optimizer $\Delta W_{n+1} = \eta \frac{\hat{m}_{n+1}}{\sqrt{\hat{v}_{n+1}}+\epsilon}$ that takes into account the momentum, whose controlling parameters approach to zeros $\lim_{n \rightarrow +\infty} \beta_1^n = 0$ and $\lim_{n \rightarrow +\infty} \beta_2^n = 0$ when the iteration num $n$ goes very large.
 
 * Instability of Gradients
 
@@ -28,7 +28,7 @@ This causes instability of the produced weights (totally large meaningless value
 
 * Gradient Vanishing
 
-By chain rule $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}=\frac{\partial \mathcal{L}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial \mathbf{h}_l}\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}\_{l-1}}...\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}\_{k}} \frac{\partial \mathbf{h}\_{k}}{\partial \mathbf{\theta}_k}$,
+By chain rule $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}=\frac{\partial \mathcal{L}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial \mathbf{h}_l}\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}_{l-1}}...\frac{\partial \mathbf{h}_{k+1}}{\partial \mathbf{h}_{k}} \frac{\partial \mathbf{h}_{k}}{\partial \mathbf{\theta}_k}$,
 when a neural network is very deep, the gradient can be very small, and the weight/parameter/update $\mathbf{\theta}_k \leftarrow \eta\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k} + \mathbf{\theta}_k$ is almost unchanged for $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k} \approx \mathbf{0}$.
 Here, $\eta$ is learning rate.
 
@@ -36,7 +36,7 @@ A typical observation is that $\frac{\partial \mathcal{L}}{\partial \mathbf{h}_l
 
 * Gradient Exploding
 
-The parameter update $\mathbf{\theta}_k \leftarrow \eta\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}\_{k}} + \mathbf{\theta}_k$ keeps increasing fast/is too large for `float32`/`double64` to hold full value that leads to overflow to `nan`.
+The parameter update $\mathbf{\theta}_k \leftarrow \eta\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_{k}} + \mathbf{\theta}_k$ keeps increasing fast/is too large for `float32`/`double64` to hold full value that leads to overflow to `nan`.
 
 There are many reasons.
 It can be $\mathcal{L}(\mathbf{\theta})$ space being to mountainous containing abrupt cliffs that lead to sudden increase of derivatives.
@@ -59,8 +59,8 @@ Take $f(x)$'s output as another $f(x)$'s input, and keep stacking them, it can s
 
 ### Measurement
 
-For a typical forward pass $\mathbf{h}\_{k+1}=\sigma(W_k \mathbf{h}_k + \mathbf{b}_k )$,
-there exists derivative $\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}_k}=\frac{\partial }{\partial \mathbf{h}_k} \Big(\sigma(W_k \mathbf{h}_k + \mathbf{b}_k )\Big)=W_k \space \sigma'(W_k \mathbf{h}_k + \mathbf{b}_k )$.
+For a typical forward pass $\mathbf{h}_{k+1}=\sigma(W_k \mathbf{h}_k + \mathbf{b}_k )$,
+there exists derivative $\frac{\partial \mathbf{h}_{k+1}}{\partial \mathbf{h}_k}=\frac{\partial }{\partial \mathbf{h}_k} \Big(\sigma(W_k \mathbf{h}_k + \mathbf{b}_k )\Big)=W_k \space \sigma'(W_k \mathbf{h}_k + \mathbf{b}_k )$.
 
 Diagonalizing a matrix $A$ is also equivalent to finding the matrix's eigenvalues $\lambda_i$, that comprise the diagonal values of $\Lambda$, whose rank is $\text{rank}(\Lambda)=r$.
 Here, $P$ is the eigenvector-composed matrix.
@@ -71,7 +71,7 @@ AP = PD =
 \underbrace{
 \begin{bmatrix}
   \mathbf{v}_1 & \mathbf{v}_2 & ... & \mathbf{v}_r
-\end{bmatrix}}\_{P}
+\end{bmatrix}}_{P}
 \underbrace{
 \begin{bmatrix}
   \lambda_1 & 0 & 0&  & 0\\\\
@@ -79,12 +79,12 @@ AP = PD =
   0 & 0 & \lambda_3 &  & 0 \\\\
    &  &  & \ddots &  \\\\
   0 & 0 & 0 &  & \lambda_r
-\end{bmatrix}}\_{\Lambda}
+\end{bmatrix}}_{\Lambda}
 $$
 
-For spectral radius $||A\mathbf{x}|| \le \lambda_{max}||\mathbf{x}||$ that states that the max length stretching by $A$ is the max eigenvalue $\lambda_{max}$, here sets $A=\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}_k}$.
+For spectral radius $||A\mathbf{x}|| \le \lambda_{max}||\mathbf{x}||$ that states that the max length stretching by $A$ is the max eigenvalue $\lambda_{max}$, here sets $A=\frac{\partial \mathbf{h}_{k+1}}{\partial \mathbf{h}_k}$.
 $||A||$ describes the overall length/volume of a transform.
-$||\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}\_{l-1}}||...||\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}\_{k}}|| \space ||\frac{\partial \mathbf{h}\_{k}}{\partial \mathbf{\theta}_k}||$ can quantitatively describe the volume of change down to which layer of transform.
+$||\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}_{l-1}}||...||\frac{\partial \mathbf{h}_{k+1}}{\partial \mathbf{h}_{k}}|| \space ||\frac{\partial \mathbf{h}_{k}}{\partial \mathbf{\theta}_k}||$ can quantitatively describe the volume of change down to which layer of transform.
 
 ### Remediation for Both Vanishing and Exploding Gradient
 
@@ -104,7 +104,7 @@ ADAM updates any parameter with an individual learning rate.
 
 * Do not go too deep
 
-By chain rule $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}=\frac{\partial \mathcal{L}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial \mathbf{h}_l}\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}\_{l-1}}...\frac{\partial \mathbf{h}\_{k+1}}{\partial \mathbf{h}\_{k}} \frac{\partial \mathbf{h}\_{k}}{\partial \mathbf{\theta}_k}$, 
+By chain rule $\frac{\partial \mathcal{L}}{\partial \mathbf{\theta}_k}=\frac{\partial \mathcal{L}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial \mathbf{h}_l}\frac{\partial \mathbf{h}_l}{\partial \mathbf{h}_{l-1}}...\frac{\partial \mathbf{h}_{k+1}}{\partial \mathbf{h}_{k}} \frac{\partial \mathbf{h}_{k}}{\partial \mathbf{\theta}_k}$, 
 when a neural network is very deep, the gradient can be very small.
 
 * Weight Init
@@ -237,8 +237,8 @@ Cost with added regularization can be defined as below.
 $$
 \min_{\mathbf{\theta}}
 \mathcal{J}(\mathbf{\theta}) = 
-\underbrace{\big( \mathbf{y} - \hat{\mathbf{y}} \big)^2}\_{\text{traditional loss}} +
-\underbrace{\lambda \sum_{i=1}^d \theta^p_i}\_{\text{regularization}}
+\underbrace{\big( \mathbf{y} - \hat{\mathbf{y}} \big)^2}_{\text{traditional loss}} +
+\underbrace{\lambda \sum_{i=1}^d \theta^p_i}_{\text{regularization}}
 $$
 
 where $\mathcal{L}_1$ penalty is $\lambda \sum^d_{i=1} |\theta_i|$ and $\mathcal{L}_2$ penalty is $\lambda \sum^d_{i=1} \theta^2_i$.

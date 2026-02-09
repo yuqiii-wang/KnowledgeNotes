@@ -36,7 +36,7 @@ $$
 
 where the numerator and denominator follow
 
-* $\mathbf{g}\cdot\mathbf{h}=\sum^n\_{i=1}g_i h_i$. Since $g_i, h_i\sim\mathcal{N}(0,1)$, and the product of two standard normal distribution random variables also follows a standard normal distribution, i.e., $g_i h_i\sim\mathcal{N}(0,1)$, by the Central Limit Theorem (CLT) (Let $X_i$ be a random variable; as sample size $n$ gets larger, there is ${\sqrt{n}}({\overline{X}}\_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)$), there is $\mathbf{g}\cdot\mathbf{h}\sim\mathcal{N}(0,n)$
+* $\mathbf{g}\cdot\mathbf{h}=\sum^n\_{i=1}g_i h_i$. Since $g_i, h_i\sim\mathcal{N}(0,1)$, and the product of two standard normal distribution random variables also follows a standard normal distribution, i.e., $g_i h_i\sim\mathcal{N}(0,1)$, by the Central Limit Theorem (CLT) (Let $X_i$ be a random variable; as sample size $n$ gets larger, there is ${\sqrt{n}}({\overline{X}}_{n}-\mu) \rightarrow \mathcal{N}(0, \sigma^2)$), there is $\mathbf{g}\cdot\mathbf{h}\sim\mathcal{N}(0,n)$
 * The Law of Large Numbers states that $||\mathbf{g}||$ and $||\mathbf{h}||$ approach their truth means as $n\rightarrow\infty$; the truth means are $||\mathbf{g}||\approx \sqrt{n}$ and $||\mathbf{h}||\approx \sqrt{n}$
 
 As a result for a very large $n\rightarrow\infty$,
@@ -91,8 +91,8 @@ In other words, for high-dimensional input $\mathbf{x}\in\mathbb{R}^{d}$ (usuall
 
 #### The P Matrix by Exponentiated Vector Distance
 
-The similarity of datapoint $\mathbf{x}\_{j}$ to datapoint $\mathbf{x}\_{i}$ is the conditional probability $\mathbf{x}\_{j|i}$ that
-$\mathbf{x}\_{i}$ would pick $\mathbf{x}\_{j}$ as its neighbor if neighbors were picked in proportion to their probability density under a Gaussian centered at $\mathbf{x}\_{i}$.
+The similarity of datapoint $\mathbf{x}_{j}$ to datapoint $\mathbf{x}_{i}$ is the conditional probability $\mathbf{x}_{j|i}$ that
+$\mathbf{x}_{i}$ would pick $\mathbf{x}_{j}$ as its neighbor if neighbors were picked in proportion to their probability density under a Gaussian centered at $\mathbf{x}_{i}$.
 
 This can be expressed (for $i\ne j$)
 

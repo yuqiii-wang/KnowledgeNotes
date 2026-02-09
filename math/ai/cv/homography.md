@@ -105,11 +105,11 @@ where
 $$
 A=
 \begin{bmatrix}
-    \mathbf{a}\_{x_1}^\text{T} \\\\
-    \mathbf{a}\_{y_1}^\text{T} \\\\
+    \mathbf{a}_{x_1}^\text{T} \\\\
+    \mathbf{a}_{y_1}^\text{T} \\\\
     \vdots \\\\
-    \mathbf{a}\_{x_n}^\text{T} \\\\
-    \mathbf{a}\_{x_n}^\text{T}
+    \mathbf{a}_{x_n}^\text{T} \\\\
+    \mathbf{a}_{x_n}^\text{T}
 \end{bmatrix}
 $$
 
@@ -194,7 +194,7 @@ $$
     u_8'u_8 & u_8'v_8 & u_8' & v_8'v_8 & v_8'u_8 & v_8' & u_8 & v_8 & 1 \\\\
     \vdots & \vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\\\
     u_n'u_n & u_n'v_n & u_n' & v_n'v_n & v_n'u_n & v_n' & u_n & v_n & 1 \\\\
-\end{bmatrix}}\_{:= A}
+\end{bmatrix}}_{:= A}
 \begin{bmatrix}
     f_1 \\\\
     f_2 \\\\
@@ -293,11 +293,11 @@ Given $n$ points to compute
 
 $$
 \begin{bmatrix}
-    \mathbf{a}\_{x_1}^\text{T} \\\\
-    \mathbf{a}\_{y_1}^\text{T} \\\\
+    \mathbf{a}_{x_1}^\text{T} \\\\
+    \mathbf{a}_{y_1}^\text{T} \\\\
     \vdots \\\\
-    \mathbf{a}\_{x_n}^\text{T} \\\\
-    \mathbf{a}\_{x_n}^\text{T}
+    \mathbf{a}_{x_n}^\text{T} \\\\
+    \mathbf{a}_{x_n}^\text{T}
 \end{bmatrix}
 \begin{bmatrix}
     h_{11} \\\\ h_{12} \\\\ h_{13} \\\\ h_{21} \\\\ h_{22} \\\\ h_{23} \\\\ h_{31} \\\\ h_{32} \\\\ h_{33}

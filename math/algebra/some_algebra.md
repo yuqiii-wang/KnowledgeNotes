@@ -216,7 +216,7 @@ Reference $(a^2+b^2)(c^2+d^2)\ge (ac+bd)^2$, in which equality holds when $ad=bc
 Let $x=a, y=d$ there is
 
 $$
-x\underbrace{\sqrt{1-y^2}}\_{=c}+y\underbrace{\sqrt{1-x^2}}\_{=b}\ge
+x\underbrace{\sqrt{1-y^2}}_{=c}+y\underbrace{\sqrt{1-x^2}}_{=b}\ge
 (x^2+1-x^2)(y^2+1-y^2)=1
 $$
 

@@ -8,7 +8,7 @@ s \underbrace{\begin{bmatrix}
     u \\\\
     v \\\\
     1
-\end{bmatrix}}\_{\mathbf{x}} =
+\end{bmatrix}}_{\mathbf{x}} =
 \underbrace{
 \begin{bmatrix}
     f_x & 0 & c_x \\\\
@@ -21,8 +21,8 @@ s \underbrace{\begin{bmatrix}
         t_5 & t_6 & t_7 & t_8 \\\\
         t_9 & t_{10} & t_{11} & t_{12} \\\\
     \end{bmatrix}
-}\_{[\mathbf{R}|\mathbf{t}]}
-}\_{\mathbf{P}=\begin{bmatrix}
+}_{[\mathbf{R}|\mathbf{t}]}
+}_{\mathbf{P}=\begin{bmatrix}
         p_1 & p_2 & p_3 & p_4 \\\\
         p_5 & p_6 & p_7 & p_8 \\\\
         p_9 & p_{10} & p_{11} & p_{12} \\\\
@@ -37,7 +37,7 @@ s \underbrace{\begin{bmatrix}
     Y \\\\
     Z \\\\
     1
-\end{bmatrix}}\_{\mathbf{X}}
+\end{bmatrix}}_{\mathbf{X}}
 $$
 
 where $\mathbf{p}_1^\top=[p_1\quad p_2\quad p_3\quad p_4],\qquad \mathbf{p}_2^\top=[p_5\quad p_6\quad p_7\quad p_8], \qquad \mathbf{p}_3^\top=[p_9\quad p_{10}\quad p_{11}\quad p_{12}]$.
@@ -74,7 +74,7 @@ $$
 \mathbf{X}
 $$
 
-Given two images' pixels denoted as $\mathbf{x}'=\mathbf{X}\_{\text{L}}$ and $\mathbf{x}=\mathbf{X}\_{\text{R}}$, there are
+Given two images' pixels denoted as $\mathbf{x}'=\mathbf{X}_{\text{L}}$ and $\mathbf{x}=\mathbf{X}_{\text{R}}$, there are
 $$
 \mathbf{x}'=\mathbf{P}'\mathbf{X}
 \qquad
@@ -144,7 +144,7 @@ $$
     \mathbf{p}_1^\top - u\mathbf{p}_3^\top \\\\
     v'\mathbf{p'}_3^\top - \mathbf{p'}_1^\top \\\\
     \mathbf{p'}_1^\top - u'\mathbf{p'}_3^\top
-\end{bmatrix}}\_{A}
+\end{bmatrix}}_{A}
 \mathbf{X} =
 \begin{bmatrix}
     0 \\\\
@@ -165,7 +165,7 @@ $$
     v''\mathbf{p''}_3^\top - \mathbf{p''}_1^\top \\\\
     \mathbf{p''}_1^\top - u''\mathbf{p''}_3^\top \\\\
     \vdots
-\end{bmatrix}}\_{A}
+\end{bmatrix}}_{A}
 \mathbf{X} =
 \begin{bmatrix}
     0 \\\\
@@ -203,10 +203,10 @@ $$
 \frac{\mathbf{X}^\top A^\top A \mathbf{X}}{\mathbf{X}^\top \mathbf{X}}
 $$
 
-Rayleigh quotient states that, the quotient reaches its minimum when $\mathbf{X}=\mathbf{v}\_{min}$, where $\mathbf{v}\_{min}$ is the eigenvector corresponding to the smallest eigenvalue $\sigma_{min}$ of $A^\top A$.
-Similarly, it reaches maximum when $\mathbf{X}=\mathbf{v}\_{max}$ corresponding to $\sigma_{max}$.
+Rayleigh quotient states that, the quotient reaches its minimum when $\mathbf{X}=\mathbf{v}_{min}$, where $\mathbf{v}_{min}$ is the eigenvector corresponding to the smallest eigenvalue $\sigma_{min}$ of $A^\top A$.
+Similarly, it reaches maximum when $\mathbf{X}=\mathbf{v}_{max}$ corresponding to $\sigma_{max}$.
 
-For the minimization problem, the optimum is $\mathbf{X}^*=\mathbf{v}\_{min}$ computed from $A^\top A$.
+For the minimization problem, the optimum is $\mathbf{X}^*=\mathbf{v}_{min}$ computed from $A^\top A$.
 
-$\mathbf{v}\_{min} = [v_1\quad v_2\quad v_3\quad v_4]$ has four elements, and the fourth element relates to the scaling factor $s$. 
+$\mathbf{v}_{min} = [v_1\quad v_2\quad v_3\quad v_4]$ has four elements, and the fourth element relates to the scaling factor $s$. 
 To take the scaling into account, the actual position of a 3d world point $(X, Y, Z)$ should be scaled by $s$, such that for depth, there is $Z=\frac{v_3}{v_4}$.

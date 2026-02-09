@@ -55,7 +55,7 @@ $$
 thus derived
 
 $$
-\mathbf{v}\_{\lambda_1} = \begin{bmatrix}
+\mathbf{v}_{\lambda_1} = \begin{bmatrix}
 -1 \\\\ 1
 \end{bmatrix}
 $$
@@ -63,12 +63,12 @@ $$
 same calculation applied when $\lambda = 3$
 
 $$
-\mathbf{v}\_{\lambda_2} = \begin{bmatrix}
+\mathbf{v}_{\lambda_2} = \begin{bmatrix}
 1 \\\\ 1
 \end{bmatrix}
 $$
 
-Geometrically speaking, the transformation matrix $A$ can be explained as scaling with a multiple of $1$ on $\mathbf{v}\_{\lambda_1}$ and $3$ on $\mathbf{v}\_{\lambda_2}$ basis.
+Geometrically speaking, the transformation matrix $A$ can be explained as scaling with a multiple of $1$ on $\mathbf{v}_{\lambda_1}$ and $3$ on $\mathbf{v}_{\lambda_2}$ basis.
 
 For example, there exist points by transform $A\mathbf{x}\_i$:
 

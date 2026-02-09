@@ -109,27 +109,27 @@ $$
 f_{\mathbf{w}}(\mathbf{x})=
 \underbrace{\sigma_{l}\big(...
 \underbrace{\sigma_{2}(W_{2}
-\underbrace{\sigma_{1}(W_{1}\mathbf{x}+\mathbf{b}\_{1})}\_{\text{layer }1}
-+\mathbf{b}\_{2})}\_{\text{layer }2}
-\big)}\_{\text{layer }l}
+\underbrace{\sigma_{1}(W_{1}\mathbf{x}+\mathbf{b}_{1})}_{\text{layer }1}
++\mathbf{b}_{2})}_{\text{layer }2}
+\big)}_{\text{layer }l}
 $$
 
 The NTK kernel is defined as
 
 $$
-\kappa(\mathbf{x}, \mathbf{x}\_{\Delta}) = \big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x}\_{\Delta})\big)
+\kappa(\mathbf{x}, \mathbf{x}_{\Delta}) = \big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x}_{\Delta})\big)
 $$
 
-where $\mathbf{x}, \mathbf{x}\_{\Delta}\in\mathbb{R}^D$ are the input vectors, and $\mathbf{w}\in\mathbb{R}^D$ is the parameter vector for the neural network $f_{\mathbf{w}}(.)$.
-$\mathbf{x}\_{\Delta}$ is the sample point that sees a positional gap of $\Delta=|n-m|$ from $\mathbf{x}$ (assumed $\mathbf{x}$ positioned at $m$ and $\mathbf{x}\_{\Delta}$ at n).
+where $\mathbf{x}, \mathbf{x}_{\Delta}\in\mathbb{R}^D$ are the input vectors, and $\mathbf{w}\in\mathbb{R}^D$ is the parameter vector for the neural network $f_{\mathbf{w}}(.)$.
+$\mathbf{x}_{\Delta}$ is the sample point that sees a positional gap of $\Delta=|n-m|$ from $\mathbf{x}$ (assumed $\mathbf{x}$ positioned at $m$ and $\mathbf{x}_{\Delta}$ at n).
 
 NTK kernel progresses by covariance matrix multiplication.
 
 $$
 \begin{align*}
-    \kappa^{(l)}(\mathbf{x}, \mathbf{x}\_{\Delta}) &= \dot{\Sigma}^{(l)}(\mathbf{x}, \mathbf{x}\_{\Delta}) \cdot
-    \underbrace{E\Big(\big(\nabla_{\mathbf{w}}f^{(l-1)}\_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f^{(l-1)}\_{\mathbf{w}}(\mathbf{x}\_{\Delta})\big)\Big)}\_{\text{NTK }\kappa^{(l-1)}(\mathbf{x}, \mathbf{x}\_{\Delta})} +
-    \Sigma^{(l)}(\mathbf{x}, \mathbf{x}\_{\Delta})
+    \kappa^{(l)}(\mathbf{x}, \mathbf{x}_{\Delta}) &= \dot{\Sigma}^{(l)}(\mathbf{x}, \mathbf{x}_{\Delta}) \cdot
+    \underbrace{E\Big(\big(\nabla_{\mathbf{w}}f^{(l-1)}_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f^{(l-1)}_{\mathbf{w}}(\mathbf{x}_{\Delta})\big)\Big)}_{\text{NTK }\kappa^{(l-1)}(\mathbf{x}, \mathbf{x}_{\Delta})} +
+    \Sigma^{(l)}(\mathbf{x}, \mathbf{x}_{\Delta})
 \end{align*}
 $$
 
@@ -137,7 +137,7 @@ $$
 
 Rather than uniformly applying the scaling factor to all frequencies such that $\frac{1}{s}\Delta\theta_i$, the NTK-aware method **extrapolates high-frequency components** and conducts **interpolations in low-frequency components**.
 
-Here proves that NTK kernel scaling: for two sample points $\mathbf{x},\mathbf{x}\_{\Delta}$ where $\Delta$ is the position gap of how faraway these two sample points are,
+Here proves that NTK kernel scaling: for two sample points $\mathbf{x},\mathbf{x}_{\Delta}$ where $\Delta$ is the position gap of how faraway these two sample points are,
 NTK-Aware methods make sure the NTK kernel is scaled accordingly by $s'_i$ per dimension.
 
 Denote $\mathbf{x}'$ as the input vector scaled by $s'_i=s^{-2i/(D-2)}$ from $\mathbf{x}$ per dimension.
@@ -221,9 +221,9 @@ Consider NTK kernel definition
 
 $$
 \begin{align*}
-    && \kappa(\mathbf{x}, \mathbf{x}\_{\Delta}) &= \big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x}\_{\Delta})\big) \\\\
+    && \kappa(\mathbf{x}, \mathbf{x}_{\Delta}) &= \big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x})\big)^\top\big(\nabla_{\mathbf{w}}f_{\mathbf{w}}(\mathbf{x}_{\Delta})\big) \\\\
 \Rightarrow && \kappa(\mathbf{x}', \mathbf{x}'_{\Delta}) &= \big(J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})\big)^\top\big(J_{s'}(\nabla_{\mathbf{w}}f_{\mathbf{w}})\big) \\\\
-    && &= J_{s'}^{\top}J_{s'} \kappa(\mathbf{x}, \mathbf{x}\_{\Delta})
+    && &= J_{s'}^{\top}J_{s'} \kappa(\mathbf{x}, \mathbf{x}_{\Delta})
 \end{align*}
 $$
 
@@ -235,7 +235,7 @@ The scaling $J_{s'}^{\top}J_{s'}$ on the other hand, shows that it cannot be ver
 In more detail, $J_{s'}^{\top}J_{s'}=\text{diag}(s^{4i/(D-2)})$ illustrates that when for lower frequency, dimension approaches to $i\rightarrow \frac{D-2}{2}$ that leads to large $s^{4i/(D-2)}\rightarrow s^2$.
 This indicates that learning is more prominent on high dimensions/lower frequency components than on low dimensions/higher frequency components where $i\rightarrow 0$ that leads to $s^{4i/(D-2)}\rightarrow 1$.
 
-In particular, when there is no scaling such that $s^{4i/(D-2)}\big|_{i=0}=1$, the NTK kernel is kept unchanged $\kappa(\mathbf{x}', \mathbf{x}'_{\Delta})=\kappa(\mathbf{x}, \mathbf{x}\_{\Delta})$, indicating no scaling reflected on NTK learning dynamics.
+In particular, when there is no scaling such that $s^{4i/(D-2)}\big|_{i=0}=1$, the NTK kernel is kept unchanged $\kappa(\mathbf{x}', \mathbf{x}'_{\Delta})=\kappa(\mathbf{x}, \mathbf{x}_{\Delta})$, indicating no scaling reflected on NTK learning dynamics.
 
 In conclusion, NTK kernel scaling by $J_{s'}^{\top}J_{s'}=\text{diag}(s^{4i/(D-2)})$ reveals the learning dynamics are scaled in correlation per frequency component,
 and it fits the original context length extension philosophy: higher frequency components should keep unchanged while more adaptations/learnings are motivated on lower frequency components.
@@ -313,11 +313,11 @@ therefore they have larger sum that will be "flattened" severely by temperature.
 $$
 \begin{align*}
     && a_{nm}=\mathbf{q}^{\top}_m\mathbf{k}_n &=
-    \sum^{D_{\text{low}}}\_{i=0} {q}^{\top}\_i {k}\_i +
-    \sum^{D_{\text{high}}}\_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i \\\\
+    \sum^{D_{\text{low}}}_{i=0} {q}^{\top}\_i {k}\_i +
+    \sum^{D_{\text{high}}}_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i \\\\
 \Rightarrow && a'_{nm}=\mathbf{q}'^{\top}_m\mathbf{k}'_n &=
-    \sum^{D_{\text{low}}}\_{i=0} {q}^{\top}\_i {k}\_i +
-    \underbrace{\sum^{D'_{\text{high}}}\_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i}\_{\begin{matrix}
+    \sum^{D_{\text{low}}}_{i=0} {q}^{\top}\_i {k}\_i +
+    \underbrace{\sum^{D'_{\text{high}}}_{i=D_{\text{low}}} {q}^{\top}\_i {k}\_i}_{\begin{matrix}
         \text{larger sum} \\\\
         \text{for more} \\\\
         \text{interpolations}
@@ -350,7 +350,7 @@ In model performance evaluation, sliding window perplexity can be written as
 
 $$
 \text{Perplexity}(P)=
-\exp\bigg(-\frac{1}{T-S}\sum_{t=S+1}^T P(\text{token}_t|\text{token}\_{t-S}, \text{token}\_{t-S+1}, ..., \text{token}\_{t-1} )\bigg)
+\exp\bigg(-\frac{1}{T-S}\sum_{t=S+1}^T P(\text{token}_t|\text{token}_{t-S}, \text{token}_{t-S+1}, ..., \text{token}_{t-1} )\bigg)
 $$
 
 where $T$ is the total sequence length and $S$ is the sliding window length.
@@ -373,7 +373,7 @@ $$
 0.1 \times \sqrt{\frac{1}{2}} \approx 0.0707
 $$
 
-Recall that in DeepSeek-V2, the RoPE for query and key $\mathbf{q}\_{t,i}^{\text{Ro}},\mathbf{k}\_{t,i}^{\text{Ro}}$ is only applied in half of the total attention head embedding, hence used $\sqrt{\frac{1}{2}}$ for YaRN.
+Recall that in DeepSeek-V2, the RoPE for query and key $\mathbf{q}_{t,i}^{\text{Ro}},\mathbf{k}_{t,i}^{\text{Ro}}$ is only applied in half of the total attention head embedding, hence used $\sqrt{\frac{1}{2}}$ for YaRN.
 
 * per-head dimension $D_h=128$
-* decoupled query and key per-head dimension $\mathbf{q}\_{t,i}^{\text{Ro}},\mathbf{k}\_{t,i}^{\text{Ro}}\in\mathbb{R}^{64}$, or $D^{\text{Ro}}_h=\frac{1}{2}D_h$
+* decoupled query and key per-head dimension $\mathbf{q}_{t,i}^{\text{Ro}},\mathbf{k}_{t,i}^{\text{Ro}}\in\mathbb{R}^{64}$, or $D^{\text{Ro}}_h=\frac{1}{2}D_h$

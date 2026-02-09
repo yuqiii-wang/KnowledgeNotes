@@ -70,7 +70,7 @@ The conjugate transpose (or Hermitian transpose) of $A_{n \times m}$ is
 Denotation:
 
 $$
-(A^H)_{ij}=\overline{A}\_{ji}
+(A^H)_{ij}=\overline{A}_{ji}
 $$
 
 This definition can also be written as

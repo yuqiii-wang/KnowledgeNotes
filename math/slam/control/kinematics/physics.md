@@ -43,7 +43,7 @@ $$
 The magnitude of $\mathbf{\tau}$ describes a scalar value of how strong force $\mathbf{F}$ is applied to rotation
 
 $$
-|\mathbf{\tau}| = |\mathbf{r}||\mathbf{F}\_{\perp}| = |\mathbf{r}||\mathbf{F}| \sin\theta
+|\mathbf{\tau}| = |\mathbf{r}||\mathbf{F}_{\perp}| = |\mathbf{r}||\mathbf{F}| \sin\theta
 $$
 
 * Angular Momentum 角动量

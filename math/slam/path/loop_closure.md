@@ -75,6 +75,6 @@ $$
 
 ### Similarity Score Processing
 
-Vehicles should see similar scenes within a short time of movement $t-\Delta t$, or identified between two chronological sequential keyframes $\mathbf{v}_t, \mathbf{v}\_{t+\Delta t}$.
+Vehicles should see similar scenes within a short time of movement $t-\Delta t$, or identified between two chronological sequential keyframes $\mathbf{v}_t, \mathbf{v}_{t+\Delta t}$.
 
-BoWs in $\mathbf{v}_t, \mathbf{v}\_{t+\Delta t}$ are more likely to be related/similar than non-chronological related keyframes, hence, they should likely form a loop.
+BoWs in $\mathbf{v}_t, \mathbf{v}_{t+\Delta t}$ are more likely to be related/similar than non-chronological related keyframes, hence, they should likely form a loop.

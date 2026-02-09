@@ -152,7 +152,7 @@ The student model is then trained to mimic these soft targets, rather than the a
 
 ### Formulation
 
-The learning to mimic the soft targets means that, for example, to learn from BERT-large, there should see $p_{\theta_{\text{BERT-distilled}}}(w_t | \mathbf{w}\_{1:t-1}) = p_{\theta_{\text{BERT-large}}}(w_t | \mathbf{w}\_{1:t-1})$ (for shorthand notations, denote $p_{\theta_{t}}$ as the teacher model output probability distribution, $p_{\theta_{s}}$ as the student model's, in which $\theta_t$ and $\theta_s$ are models' parameters), where $p_{\theta_s}(w_t)$ is a discrete probability distribution of $30522$ tokens, rather than producing the exactly the same token such that $p_{\theta_s}\big(w_t = \argmax(p_{\theta_{t}}(w_t))\big)=1$.
+The learning to mimic the soft targets means that, for example, to learn from BERT-large, there should see $p_{\theta_{\text{BERT-distilled}}}(w_t | \mathbf{w}_{1:t-1}) = p_{\theta_{\text{BERT-large}}}(w_t | \mathbf{w}_{1:t-1})$ (for shorthand notations, denote $p_{\theta_{t}}$ as the teacher model output probability distribution, $p_{\theta_{s}}$ as the student model's, in which $\theta_t$ and $\theta_s$ are models' parameters), where $p_{\theta_s}(w_t)$ is a discrete probability distribution of $30522$ tokens, rather than producing the exactly the same token such that $p_{\theta_s}\big(w_t = \argmax(p_{\theta_{t}}(w_t))\big)=1$.
 
 Since the knowledge transfer result is evaluated based on two probability distributions, here introduces *Kullback-Leibler divergence* $D_{KL}(P || Q)$, that it measures how a student model output probability distribution $Q$ is different from teacher model output probability distribution $P$. 
 
@@ -173,7 +173,7 @@ The expectation is applied with weights by $Q_{\theta_s}(\mathbf{w} | \mathbf{x}
 
 $$
 \begin{align*}
-\theta_s^* &= \argmin_{\theta_s} Q_{\theta_s}(\mathbf{w} | \mathbf{x}) \log \frac{Q_{\theta_s}(\mathbf{w} | \mathbf{x})}{P_{\theta_t}(\mathbf{w} | \mathbf{x})} \\&= \argmin_{\theta_s} \mathbb{E}\_{\mathbf{w} \sim Q} \log \frac{Q_{\theta_s}(\mathbf{w} | \mathbf{x})}{P_{\theta_t}(\mathbf{w} | \mathbf{x})} \\\\
+\theta_s^* &= \argmin_{\theta_s} Q_{\theta_s}(\mathbf{w} | \mathbf{x}) \log \frac{Q_{\theta_s}(\mathbf{w} | \mathbf{x})}{P_{\theta_t}(\mathbf{w} | \mathbf{x})} \\&= \argmin_{\theta_s} \mathbb{E}_{\mathbf{w} \sim Q} \log \frac{Q_{\theta_s}(\mathbf{w} | \mathbf{x})}{P_{\theta_t}(\mathbf{w} | \mathbf{x})} \\\\
 \end{align*}
 $$
 
@@ -183,14 +183,14 @@ By logarithm's property, one might use this equivalent notation $-\log \frac{P_{
 
 *Policy gradient*: conditioned on $\mathbf{w} \sim Q(\cdot | \mathbf{x})$ that indicates that predicted tokens are drawn from the probability distributions $Q$ given the prompts $\mathbf{x}$, included a learning rate $\eta$ such that $\eta \nabla \mathcal{J}(\theta_s)$, parameter update by gradient descent $\theta_s \leftarrow \theta_s - \eta \nabla \mathcal{J}(\theta_s)$ can get $\nabla \mathcal{J}(\theta_s)$ converged.
 
-$r_t=\log \frac{Q_{\theta_s}(w_k | \mathbf{w}\_{1:k}, \mathbf{x})}{P_{\theta_t}(w_k | \mathbf{w}\_{1:k}, \mathbf{x})}$ is single-step reward,
+$r_t=\log \frac{Q_{\theta_s}(w_k | \mathbf{w}_{1:k}, \mathbf{x})}{P_{\theta_t}(w_k | \mathbf{w}_{1:k}, \mathbf{x})}$ is single-step reward,
 that consider all possible tokens, there is $\sum_{w_t \in W} r_t \ge 0$.
 
 A *regularization* term is added taking on the expectation of "mean" of $r_t$ over $T$ steps.
 This is for error accumulation given first few tokens having significant impact on the succeeding token predictions,
-that each prediction $p(w_k | \mathbf{w}\_{1:k}, \mathbf{x})$ needs to go through its preceding tokens $\mathbf{w}\_{1:k}$, and erroneous preceding tokens $\mathbf{w}\_{1:k}$ result in accumulated errors for next token prediction.
+that each prediction $p(w_k | \mathbf{w}_{1:k}, \mathbf{x})$ needs to go through its preceding tokens $\mathbf{w}_{1:k}$, and erroneous preceding tokens $\mathbf{w}_{1:k}$ result in accumulated errors for next token prediction.
 
-This term $\mathbb{E}\_{w_t \sim Q(t)} \big(r_t\big)$ refers to reward expectation at each step $t$ disregarded of preceding tokens $\mathbf{w}\_{1:k}$, thereby having remediated the issue where preceding tokens $\mathbf{w}\_{1:k}$ hold strong sway on the objective $\mathcal{J}(\theta_s)$.
+This term $\mathbb{E}_{w_t \sim Q(t)} \big(r_t\big)$ refers to reward expectation at each step $t$ disregarded of preceding tokens $\mathbf{w}_{1:k}$, thereby having remediated the issue where preceding tokens $\mathbf{w}_{1:k}$ hold strong sway on the objective $\mathcal{J}(\theta_s)$.
 
 $\sum_{k=t}^T r_t$ grows as token sequence gets long ($T$ is large).
 To $\min_{\theta} \mathcal{J}(\theta_s)$, optimization tends to converge to predict short token sequence ($T$ is small).
@@ -199,11 +199,11 @@ To prevent this problem from happening, a normalization term is added $\frac{1}{
 $$
 \nabla \mathcal{J}(\theta_s) =
 \underbrace{
-\mathbb{E}\_{\mathbf{w} \sim Q(\cdot | \mathbf{x})} \Bigg(
-\sum_{t=1}^T \bigg( \frac{1}{T-t-1} \sum_{k=t}^T \underbrace{\log \frac{Q_{\theta_s}(w_k | \mathbf{w}\_{1:k}, \mathbf{x})}{P_{\theta_t}(w_k | \mathbf{w}\_{1:k}, \mathbf{x})}}\_{:= r_t} \bigg)
-\nabla Q_{\theta_s}(w_k | \mathbf{w}\_{1:k}, \mathbf{x}) \Bigg)}\_{\text{Policy Gradient}}+\underbrace{\mathbb{E}\_{\mathbf{w} \sim Q(\cdot | \mathbf{x})} \bigg(
-    \sum_{t=1}^T \nabla \mathbb{E}\_{w_t \sim Q(t)} \big(r_t\big)
-\bigg)}\_{\text{Regularization}}
+\mathbb{E}_{\mathbf{w} \sim Q(\cdot | \mathbf{x})} \Bigg(
+\sum_{t=1}^T \bigg( \frac{1}{T-t-1} \sum_{k=t}^T \underbrace{\log \frac{Q_{\theta_s}(w_k | \mathbf{w}_{1:k}, \mathbf{x})}{P_{\theta_t}(w_k | \mathbf{w}_{1:k}, \mathbf{x})}}_{:= r_t} \bigg)
+\nabla Q_{\theta_s}(w_k | \mathbf{w}_{1:k}, \mathbf{x}) \Bigg)}_{\text{Policy Gradient}}+\underbrace{\mathbb{E}_{\mathbf{w} \sim Q(\cdot | \mathbf{x})} \bigg(
+    \sum_{t=1}^T \nabla \mathbb{E}_{w_t \sim Q(t)} \big(r_t\big)
+\bigg)}_{\text{Regularization}}
 $$
 
 ### Practices

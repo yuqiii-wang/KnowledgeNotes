@@ -112,14 +112,14 @@ $$
 
 ## Solve $Sim(3)$ by Closed-form Solution of Absolute Orientation Using Unit Quaternions
 
-Take three map points from the left hand side camera $\{\mathbf{r}\_{l,1}, \mathbf{r}\_{l,2}, \mathbf{r}\_{l,3}\}$; 
-three map points from the right hand side camera $\{\mathbf{r}\_{r,1}, \mathbf{r}\_{r,2}, \mathbf{r}\_{r,3}\}$; 
+Take three map points from the left hand side camera $\{\mathbf{r}_{l,1}, \mathbf{r}_{l,2}, \mathbf{r}_{l,3}\}$; 
+three map points from the right hand side camera $\{\mathbf{r}_{r,1}, \mathbf{r}_{r,2}, \mathbf{r}_{r,3}\}$; 
 
-Take $\mathbf{r}\_{l,1}$ as the origin for the left hand side coordinate, then define the estimates for three dimensions:
-* $\hat{\mathbf{x}}_l = {\mathbf{x}_l}/{||\mathbf{x}_l||},\qquad \mathbf{x}_l = \mathbf{r}\_{l,2}-\mathbf{r}\_{l,1}$
-* $\hat{\mathbf{y}}_l = {\mathbf{y}_l}/{||\mathbf{y}_l||},\qquad \mathbf{y}_l = (\mathbf{r}\_{l,3}-\mathbf{r}\_{l,1}) - \big( (\mathbf{r}\_{l,3}-\mathbf{r}\_{l,1}) \cdot \hat{\mathbf{x}}_l \big)\hat{\mathbf{x}}_l$
+Take $\mathbf{r}_{l,1}$ as the origin for the left hand side coordinate, then define the estimates for three dimensions:
+* $\hat{\mathbf{x}}_l = {\mathbf{x}_l}/{||\mathbf{x}_l||},\qquad \mathbf{x}_l = \mathbf{r}_{l,2}-\mathbf{r}_{l,1}$
+* $\hat{\mathbf{y}}_l = {\mathbf{y}_l}/{||\mathbf{y}_l||},\qquad \mathbf{y}_l = (\mathbf{r}_{l,3}-\mathbf{r}_{l,1}) - \big( (\mathbf{r}_{l,3}-\mathbf{r}_{l,1}) \cdot \hat{\mathbf{x}}_l \big)\hat{\mathbf{x}}_l$
 * $\hat{\mathbf{z}}_l = {\mathbf{z}_l}/{||\mathbf{z}_l||},\qquad \mathbf{z}_l = \hat{\mathbf{x}}_l \times \hat{\mathbf{y}}_l$
-where $\big( (\mathbf{r}\_{l,3}-\mathbf{r}\_{l,1}) \cdot \hat{\mathbf{x}}_l \big)\hat{\mathbf{x}}_l$ is the projection on the $\hat{\mathbf{x}}_l$ axis.
+where $\big( (\mathbf{r}_{l,3}-\mathbf{r}_{l,1}) \cdot \hat{\mathbf{x}}_l \big)\hat{\mathbf{x}}_l$ is the projection on the $\hat{\mathbf{x}}_l$ axis.
 
 Set $M_l = [\hat{\mathbf{x}}_l, \hat{\mathbf{y}}_l, \hat{\mathbf{z}}_l]$ and $M_r = [\hat{\mathbf{x}}_r, \hat{\mathbf{y}}_r, \hat{\mathbf{z}}_r]$
 
@@ -133,34 +133,34 @@ The algorithm below attempts to find the optimal $s^*$, $R^*$ and $\mathbf{t}^*$
 
 * **Find the optimal translation $\mathbf{t}^*$**
 
-For any vector $\mathbf{r}\_{l,i}$, attempt to find $\hat{\mathbf{r}}\_{r,i} = s R( \mathbf{r}\_{l,i}) + \mathbf{t}$, where $\mathbf{t}$ is the translation offset from the left to right coordinate system.
-Here $s$ is a scale factor to rotation matrix $R( \mathbf{r}\_{l,i})$ that has $\big|\big| R(\mathbf{r}\_{l,i}) \big|\big|^2 = \big|\big| \mathbf{r}\_{l,i} \big|\big|^2$ preserving the length during rotation operation ($\big|\big| \mathbf{r}\_{l,i} \big|\big|^2=\mathbf{r}\_{l,i} \cdot \mathbf{r}\_{l,i}$).
+For any vector $\mathbf{r}_{l,i}$, attempt to find $\hat{\mathbf{r}}_{r,i} = s R( \mathbf{r}_{l,i}) + \mathbf{t}$, where $\mathbf{t}$ is the translation offset from the left to right coordinate system.
+Here $s$ is a scale factor to rotation matrix $R( \mathbf{r}_{l,i})$ that has $\big|\big| R(\mathbf{r}_{l,i}) \big|\big|^2 = \big|\big| \mathbf{r}_{l,i} \big|\big|^2$ preserving the length during rotation operation ($\big|\big| \mathbf{r}_{l,i} \big|\big|^2=\mathbf{r}_{l,i} \cdot \mathbf{r}_{l,i}$).
 
 The residual of the least squared problem to find the optimal $\mathbf{t}^*$ is defined as below.
 
 $$
 \begin{align*}
 \mathbf{t}^* = \argmin_{\mathbf{t}} \mathbf{e}\_i &= 
-\mathbf{r}\_{r,i} - \hat{\mathbf{r}}\_{r,i} 
+\mathbf{r}_{r,i} - \hat{\mathbf{r}}_{r,i} 
 \\\\ &= 
-\mathbf{r}\_{r,i} - s R( \mathbf{r}\_{l,i}) - \mathbf{t}    
+\mathbf{r}_{r,i} - s R( \mathbf{r}_{l,i}) - \mathbf{t}    
 \end{align*}
 $$
 
 Now, compute centroids served as offsets.
 
 $$
-\overline{\mathbf{r}}_l = \frac{1}{n} \sum_{i=1}^n \mathbf{r}\_{l,i}
+\overline{\mathbf{r}}_l = \frac{1}{n} \sum_{i=1}^n \mathbf{r}_{l,i}
 \qquad
-\overline{\mathbf{r}}_r = \frac{1}{n} \sum_{i=1}^n \mathbf{r}\_{r,i}
+\overline{\mathbf{r}}_r = \frac{1}{n} \sum_{i=1}^n \mathbf{r}_{r,i}
 $$
 
-For any vector $\mathbf{r}\_{l,i}$ or $\mathbf{r}\_{r,i}$, move/offset their coordinates from the origin reference $\mathbf{r}\_{l,1}$ and $\mathbf{r}\_{r,1}$ to the above computed centroid, denote the new origin's vectors as $\mathbf{r}'_{l,i}$ and $\mathbf{r}'_{r,i}$.
+For any vector $\mathbf{r}_{l,i}$ or $\mathbf{r}_{r,i}$, move/offset their coordinates from the origin reference $\mathbf{r}_{l,1}$ and $\mathbf{r}_{r,1}$ to the above computed centroid, denote the new origin's vectors as $\mathbf{r}'_{l,i}$ and $\mathbf{r}'_{r,i}$.
 
 $$
-\mathbf{r}'_{l,i} = \mathbf{r}\_{l,i} - \overline{\mathbf{r}}_l
+\mathbf{r}'_{l,i} = \mathbf{r}_{l,i} - \overline{\mathbf{r}}_l
 \qquad
-\mathbf{r}'_{r,i} = \mathbf{r}\_{r,i} - \overline{\mathbf{r}}_r
+\mathbf{r}'_{r,i} = \mathbf{r}_{r,i} - \overline{\mathbf{r}}_r
 $$
 
 Apparently, the new centroid reference's vectors' sums should be zeros.
@@ -173,7 +173,7 @@ $$
 
 Rewrite the residual,
 $$
-\mathbf{e}\_i = \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') - \mathbf{t}'
+\mathbf{e}\_i = \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}'
 $$
 where
 $$
@@ -184,9 +184,9 @@ So that the least squared problem becomes finding the optimal $\mathbf{t}'$
 $$
 \begin{align*}
 \min_{\mathbf{t}'} \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &= 
-\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') - \mathbf{t}' \big|\big|^2
+\sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') - \mathbf{t}' \big|\big|^2
 \\\\ &=
-\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2- \underbrace{2 \mathbf{t}' \cdot \sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \Big)}\_{=\mathbf{0}}+n \big|\big| \mathbf{t}' \big|\big|^2
+\sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2- \underbrace{2 \mathbf{t}' \cdot \sum_{i=1}^n \Big( \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \Big)}_{=\mathbf{0}}+n \big|\big| \mathbf{t}' \big|\big|^2
 \end{align*}
 $$
 
@@ -205,7 +205,7 @@ $$
 Having said $\mathbf{t}' = \mathbf{0}$, the error can be expressed as
 $$
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 =
-\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2
+\sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2
 $$
 
 * **Find the optimal scale $s^*$**
@@ -216,12 +216,12 @@ $$
 \begin{align*}
 &&
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
-\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}') \big|\big|^2
+\sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}') \big|\big|^2
 \\\\ && &=
-\sum_{i=1}^n \big|\big| \mathbf{r}\_{r,i}' \big|\big|^2 
--2s \sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)+\sum_{i=1}^n \underbrace{ \big|\big| R( \mathbf{r}\_{l,i}') \big|\big|^2}\_{
+\sum_{i=1}^n \big|\big| \mathbf{r}_{r,i}' \big|\big|^2 
+-2s \sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)+\sum_{i=1}^n \underbrace{ \big|\big| R( \mathbf{r}_{l,i}') \big|\big|^2}_{
     \begin{matrix}
-        =\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2  \\\\
+        =\big|\big| \mathbf{r}_{l,i}' \big|\big|^2  \\\\
         \text{ for they have} \\\\
         \text{the same length}
     \end{matrix}
@@ -230,32 +230,32 @@ $$
 && &=
 S_r - 2sD + s^2 S_l
 \\\\ && &=
-\underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}\_{\ge 0}+\frac{S_r S_l - D^2}{S_l}
+\underbrace{\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2}_{\ge 0}+\frac{S_r S_l - D^2}{S_l}
 \end{align*}
 $$
 
 The above quadratic term can have the optimal $s^*=\frac{D}{S_l}$ (derived by $\Big( s\sqrt{S_l} - \frac{S}{\sqrt{S_l}} \Big)^2=0$ ):
 $$
-s^*=\frac{D}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)}
-{\sum_{i=1}^n \big|\big| R( \mathbf{r}\_{l,i}') \big|\big|^2}
+s^*=\frac{D}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)}
+{\sum_{i=1}^n \big|\big| R( \mathbf{r}_{l,i}') \big|\big|^2}
 $$ 
 
 Now, consider the inverse transform from the right coordinate system to the left one:
 $$
-s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}\_{l,i}' \cdot R( \mathbf{r}\_{r,i}')  \Big)}
-{\sum_{i=1}^n \big|\big| R( \mathbf{r}\_{r,i}') \big|\big|^2}
+s^{-1}=\frac{D^{-1}}{S_l}=\frac{\sum_{i=1}^n \Big( \mathbf{r}_{l,i}' \cdot R( \mathbf{r}_{r,i}')  \Big)}
+{\sum_{i=1}^n \big|\big| R( \mathbf{r}_{r,i}') \big|\big|^2}
 \ne \frac{1}{s} \text{ likely for the most of the time}
 $$
 
-where $\big|\big| R( \mathbf{r}\_{r,i}') \big|\big|^2=\big|\big| \mathbf{r}\_{l,i}' \big|\big|^2$ is constant.
+where $\big|\big| R( \mathbf{r}_{r,i}') \big|\big|^2=\big|\big| \mathbf{r}_{l,i}' \big|\big|^2$ is constant.
 
-This expression $s^{*\space -1} \ne \frac{1}{s}$ means that, the error computed with respect to scale $s$ according to transform from the left's to the right's $\mathbf{e}\_{i, l \rightarrow r}=\mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}')$ does not have the inverse scale $\frac{1}{s}$ when transformed from the right's to the left's.
-In other words, the inverse transform error $\mathbf{e}\_{i, r \rightarrow l}$ would see asymmetrical $s^{-1}$.
+This expression $s^{*\space -1} \ne \frac{1}{s}$ means that, the error computed with respect to scale $s$ according to transform from the left's to the right's $\mathbf{e}_{i, l \rightarrow r}=\mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}')$ does not have the inverse scale $\frac{1}{s}$ when transformed from the right's to the left's.
+In other words, the inverse transform error $\mathbf{e}_{i, r \rightarrow l}$ would see asymmetrical $s^{-1}$.
 
-Unless the left-to-right transform has much more precision than the right-to-left's that $\mathbf{e}\_{i, l \rightarrow r}=\mathbf{r}\_{r,i}' - s R( \mathbf{r}\_{l,i}')$ becomes accurate, otherwise, to formulate the error with respect to the scale $s$, it is better use the below symmetrical error that balances between the left-to-right and right-to-left transforms:
+Unless the left-to-right transform has much more precision than the right-to-left's that $\mathbf{e}_{i, l \rightarrow r}=\mathbf{r}_{r,i}' - s R( \mathbf{r}_{l,i}')$ becomes accurate, otherwise, to formulate the error with respect to the scale $s$, it is better use the below symmetrical error that balances between the left-to-right and right-to-left transforms:
 $$
 \mathbf{e}\_i = 
-\frac{1}{\sqrt{s}}\mathbf{r}'_{r,i} - \sqrt{s} R (\mathbf{r}\_{l,i})
+\frac{1}{\sqrt{s}}\mathbf{r}'_{r,i} - \sqrt{s} R (\mathbf{r}_{l,i})
 $$
 
 The least squared problem becomes
@@ -265,7 +265,7 @@ $$
 \sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 &=
 \frac{1}{s}S_r - 2D + s S_l
 \\\\ &= 
-\underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0}+2(S_l S_r -D)
+\underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0}+2(S_l S_r -D)
 \end{align*}
 $$
 
@@ -279,7 +279,7 @@ $$
 
 which has a great form where rotation $R$ is removed, that the optimal scale computation only concerns the vectors/map points ${\mathbf{r}'_{l}}$ and ${\mathbf{r}'_{r}}$ in the left and right coordinate systems.
 
-The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)$ grows to maximum.
+The error $\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaches its minimum when $D=\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)$ grows to maximum.
 
 
 * **Find the optimal rotation $R^*$**
@@ -300,7 +300,7 @@ Here $\mathring{\mathbf{q}}^{\dagger}$ is the normalization term.
 
 Then, 
 $$
-M= \sum_{i=1}^{n} \mathbf{r}'_{l,i} \mathbf{r'}\_{l,i}^{\top}= \begin{bmatrix}
+M= \sum_{i=1}^{n} \mathbf{r}'_{l,i} \mathbf{r'}_{l,i}^{\top}= \begin{bmatrix}
     S_{xx} & S_{xy} & S_{xz} \\\\
     S_{yx} & S_{yy} & S_{yz} \\\\
     S_{zx} & S_{zy} & S_{zz} \\\\
@@ -309,35 +309,35 @@ $$
 
 where, for example, $S_{xx}=\sum_{i=1}^{n} x'_{l,i} x'_{r,i}, S_{xy}=\sum_{i=1}^{n} x'_{l,i} y'_{r,i}$.
 
-Recall that $D=\sum_{i=1}^n \Big( \mathbf{r}\_{r,i}' \cdot R( \mathbf{r}\_{l,i}')  \Big)$  needs to grow to maximum for 
-$\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}\_{\ge 0} + 2(S_l S_r -D)$ reaching its minimum.
-Rewrite $D$'s elements to that $\Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' \mathring{\mathbf{q}}^{\dagger} \Big) \cdot \mathring{\mathbf{r}}\_{r,i}' =\Big( \mathring{\mathbf{q}}\mathbf{r}\_{l,i}' \Big) \cdot \Big(  \mathring{\mathbf{r}}\_{r,i}' \mathring{\mathbf{q}} \Big)$.
+Recall that $D=\sum_{i=1}^n \Big( \mathbf{r}_{r,i}' \cdot R( \mathbf{r}_{l,i}')  \Big)$  needs to grow to maximum for 
+$\sum_{i=1}^n \big|\big| \mathbf{e}\_i \big|\big|^2 = \underbrace{\Big( \sqrt{s} {S_l} - \frac{1}{\sqrt{s}} S_r \Big)^2}_{\ge 0} + 2(S_l S_r -D)$ reaching its minimum.
+Rewrite $D$'s elements to that $\Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' \mathring{\mathbf{q}}^{\dagger} \Big) \cdot \mathring{\mathbf{r}}_{r,i}' =\Big( \mathring{\mathbf{q}}\mathbf{r}_{l,i}' \Big) \cdot \Big(  \mathring{\mathbf{r}}_{r,i}' \mathring{\mathbf{q}} \Big)$.
 
-Take $\mathbf{r}\_{l,i}' \rightarrow \mathring{\mathbf{r'}}\_{l,i}$, then by quaternion multiplication, there is
+Take $\mathbf{r}_{l,i}' \rightarrow \mathring{\mathbf{r'}}_{l,i}$, then by quaternion multiplication, there is
 $$
-\mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' = 
+\mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' = 
 \begin{bmatrix}
     0 & -x'_{l,i} & -y'_{l,i} & -z'_{l,i} \\\\
     x'_{l,i} & 0 & z'_{l,i} & -y'_{l,i} \\\\
     y'_{l,i} & -z'_{l,i} & 0 & x'_{l,i} \\\\
     z'_{l,i} & y'_{l,i} & -x'_{l,i} & 0 \\\\
 \end{bmatrix}
-\mathring{\mathbf{q}}=\overline{\mathcal{R}}\_{l,i} \mathring{\mathbf{q}}
+\mathring{\mathbf{q}}=\overline{\mathcal{R}}_{l,i} \mathring{\mathbf{q}}
 $$
 
-Similarly, there is $\mathring{\mathbf{r}}\_{r,i}' \mathring{\mathbf{q}} = \mathcal{R}\_{r,i} \mathring{\mathbf{q}}$.
+Similarly, there is $\mathring{\mathbf{r}}_{r,i}' \mathring{\mathbf{q}} = \mathcal{R}_{r,i} \mathring{\mathbf{q}}$.
 
 So that, $D$ can be expressed as
 
 $$
 \begin{align*}
 D &=
-\sum_{i=1}^{n} \Big( \mathring{\mathbf{q}}\mathbf{r}\_{r,i}' \Big) \cdot \Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}\_{l,i}' \Big)
+\sum_{i=1}^{n} \Big( \mathring{\mathbf{q}}\mathbf{r}_{r,i}' \Big) \cdot \Big( \mathring{\mathbf{q}} \mathring{\mathbf{r}}_{l,i}' \Big)
 \\\\ &=
-\sum_{i=1}^{n} \Big( \overline{\mathcal{R}}\_{l,i} \mathring{\mathbf{q}} \Big) \cdot \Big( {\mathcal{R}}\_{r,i} \mathring{\mathbf{q}}  \Big)
+\sum_{i=1}^{n} \Big( \overline{\mathcal{R}}_{l,i} \mathring{\mathbf{q}} \Big) \cdot \Big( {\mathcal{R}}_{r,i} \mathring{\mathbf{q}}  \Big)
 \\\\ &=
 \sum_{i=1}^{n} \mathring{\mathbf{q}}^{\top} 
-\underbrace{\overline{\mathcal{R}}\_{l,i}^{\top} {\mathcal{R}}\_{r,i} }\_{=N_i}
+\underbrace{\overline{\mathcal{R}}_{l,i}^{\top} {\mathcal{R}}_{r,i} }_{=N_i}
 \mathring{\mathbf{q}}
 \\\\ &=
 \mathring{\mathbf{q}}^{\top} \Big( \sum_{i=1}^{n} N_i \Big) \mathring{\mathbf{q}}

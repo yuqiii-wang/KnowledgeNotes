@@ -124,7 +124,7 @@ By definition, there is
 
 $$
 \begin{align*}
-\text{Var}(s) = \sum_{i=1}^d \big( q_i k_i - \underbrace{E[q_i k_i]}\_{=0} \big)^2
+\text{Var}(s) = \sum_{i=1}^d \big( q_i k_i - \underbrace{E[q_i k_i]}_{=0} \big)^2
 = E[s^2]
 \end{align*}
 $$
@@ -284,7 +284,7 @@ Assume the circuit operates across two different layers: a **Previous-Token Head
 
 *Goal:* Write the information from position $n-1$ into the vector at position $n$, a.k.a., *Query-Key Circuit (QK)*:
 
-$$ \mathbf{t}_n^{(u)} \leftarrow \mathbf{t}_n^{(u-1)} + \underbrace{W_O^{(u)} W_V^{(u)} \mathbf{t}\_{n-1}^{(u-1)}}\_{\text{Copying previous token}} $$
+$$ \mathbf{t}_n^{(u)} \leftarrow \mathbf{t}_n^{(u-1)} + \underbrace{W_O^{(u)} W_V^{(u)} \mathbf{t}_{n-1}^{(u-1)}}_{\text{Copying previous token}} $$
 
 2. **Induction Head (Layer $l$)**
 
@@ -296,12 +296,12 @@ $$ \mathbf{q}_n = W_Q^{(l)} \mathbf{t}_n^{(l-1)} $$
 
 2. The Key (Historical Context at position $i$):
 
-Because of previous-token head, the vector at historical position $i$, $\mathbf{t}\_i^{(l-1)}$, contains a copy of its predecessor $\mathbf{t}\_{i-1}$.
+Because of previous-token head, the vector at historical position $i$, $\mathbf{t}\_i^{(l-1)}$, contains a copy of its predecessor $\mathbf{t}_{i-1}$.
 
-$$ \mathbf{k}\_i = W_K^{(l)} \mathbf{t}\_i^{(l-1)} \qquad \text{Contains info about } \mathbf{t}\_{i-1} \text{} $$
+$$ \mathbf{k}\_i = W_K^{(l)} \mathbf{t}\_i^{(l-1)} \qquad \text{Contains info about } \mathbf{t}_{i-1} \text{} $$
 
 3. The Attention Score (Pattern Matching):
-The score peaks when the current token matches the historical predecessor ($\mathbf{t}_n \approx \mathbf{t}\_{i-1}$).
+The score peaks when the current token matches the historical predecessor ($\mathbf{t}_n \approx \mathbf{t}_{i-1}$).
 
 $$ \alpha_{n,i} = \text{softmax}\left( \frac{(\mathbf{t}_n^{(l-1)})^\top (W_Q^{(l)})^\top W_K^{(l)} \mathbf{t}\_i^{(l-1)}}{\sqrt{d}} \right) $$
 
@@ -429,7 +429,7 @@ $$
 -> Normalization Transform
 
 $$
-\hat{x}\_{ij} = \frac{x_{ij-\mu_i}}{\sigma_i+\epsilon}
+\hat{x}_{ij} = \frac{x_{ij-\mu_i}}{\sigma_i+\epsilon}
 $$
 
 where $\epsilon=10^{-6}$ is a trivial value to prevent division by zero error.
@@ -440,7 +440,7 @@ $\gamma$: To allow the model to reintroduce scales
 $\beta$: To shift the normalized activations.
 
 $$
-\text{LayerNorm}(x_{ij}) = \gamma_j \hat{x}\_{ij} + \beta_j
+\text{LayerNorm}(x_{ij}) = \gamma_j \hat{x}_{ij} + \beta_j
 $$
 
 ### Masking in Decoder

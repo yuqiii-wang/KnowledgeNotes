@@ -29,12 +29,12 @@ Semantically similar words should have high similarity score.
 Typically cosine similarity is used.
 
 $$
-\text{similarity}\_{\cos}(\mathbf{v}\_i, \mathbf{v}_j) = \cos(\theta) = \frac{\mathbf{v}\_i \cdot \mathbf{v}_j}{||\mathbf{v}\_i || \space || \mathbf{v}_j ||}
+\text{similarity}_{\cos}(\mathbf{v}\_i, \mathbf{v}_j) = \cos(\theta) = \frac{\mathbf{v}\_i \cdot \mathbf{v}_j}{||\mathbf{v}\_i || \space || \mathbf{v}_j ||}
 $$
 
 * Concept Categorization
 
-Words belonged to the same concept category should be similar (measured by $\text{similarity}\_{\cos}(\mathbf{v}\_i, \mathbf{v}_j)$).
+Words belonged to the same concept category should be similar (measured by $\text{similarity}_{\cos}(\mathbf{v}\_i, \mathbf{v}_j)$).
 
 For example, "mountain", "river", "plain" should be more similar than "cat", "dog", "rabbit", etc.
 
@@ -50,13 +50,13 @@ Aim to compare if two sentences are the same in terms of token sequences by exac
 
 $$
 p_n =
-\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}\_{clip}(\text{n-gram})}
+\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}_{clip}(\text{n-gram})}
 {\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} \text{Count}(\text{n-gram}')}
 $$
 
 where n-gram refers to n-sequence tokens present both in two texts.
 The $\text{Count}(\text{n-gram})$ is the count of the contained tokens,
-and $\text{Count}\_{clip}(\text{n-gram})=\max\big(\text{Count}(\text{n-gram}), \text{maxCount} \big)$ simply clips the count by setting a max threshold, that if an n-gram repeats for too many times, 
+and $\text{Count}_{clip}(\text{n-gram})=\max\big(\text{Count}(\text{n-gram}), \text{maxCount} \big)$ simply clips the count by setting a max threshold, that if an n-gram repeats for too many times, 
 
 For example, there are $37$ words in the candidate prediction, and by setting $\text{maxCount}=2$, for 2-gram, there are "It is a guide to action" x 1, "ensures that the military" x 1, "the party" x 3, "absolute control" x 1, "the military" x 1.
 The 2-gram token count is $20$. However, having set the threshold $\text{maxCount}=2$, the "the party" is only counted twice instead of three times.
@@ -91,7 +91,7 @@ For a sequence $\mathbf{x}$ of $T$ tokens, the perplexity is computed as
 
 $$
 \text{Perplexity}(\mathbf{x}) =
-\exp \bigg( -\frac{1}{T} \sum_{t=1}^T \log p_{\theta} (x_t | \mathbf{x}\_{1:t-1}) \bigg)
+\exp \bigg( -\frac{1}{T} \sum_{t=1}^T \log p_{\theta} (x_t | \mathbf{x}_{1:t-1}) \bigg)
 $$
 
 where $p_{\theta}(...) \in [0,1]$. Negative log likelihood $-\log p_{\theta}(...) \in [0, +\infty)$ sees $-\log p_{\theta}(1) = 0$.
@@ -143,7 +143,7 @@ It proposes clipped *n-grams* percentage $p_n$:
 
 $$
 p_n =
-\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}\_{clip}(\text{n-gram})}
+\frac{\sum_{C \in \text{Candidates}} \sum_{\text{n-gram} \in C} \text{Count}_{clip}(\text{n-gram})}
 {\sum_{C' \in \text{Candidates}} \sum_{\text{n-gram}' \in C'} \text{Count}(\text{n-gram}')}
 $$
 
@@ -329,7 +329,7 @@ Conciseness is a writing principle of removing redundant information in text.
 Conciseness can be considered a variant of summarization, that LLM input by such as `Summarize the text '[INPUT_TEXTS]'` can be simply replaced to `Rewrite to more concise for the text '[INPUT_TEXTS]'`, and LLM output can be measured by equivalence test against labelled summarized texts.
 
 Info density can be measured by
-$\text{Inverse Document Frequency}\_{i} = \log \frac{\text{Total no. of documents}}{\text{No. of documents containing term i}}$.
+$\text{Inverse Document Frequency}_{i} = \log \frac{\text{Total no. of documents}}{\text{No. of documents containing term i}}$.
 
 ### Bias and Fairness
 

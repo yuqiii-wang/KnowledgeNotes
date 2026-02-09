@@ -165,8 +165,8 @@ $$
 L_3 L_3^\text{T} 
 \\\\ \Rightarrow && 
 A&=
-\underbrace{L_1 L_2 L_3}\_{:= L} 
-\underbrace{L_3^\text{T} L_2^\text{T} L_1^\text{T}}\_{:= L^\text{T}}
+\underbrace{L_1 L_2 L_3}_{:= L} 
+\underbrace{L_3^\text{T} L_2^\text{T} L_1^\text{T}}_{:= L^\text{T}}
 \\\\ && &=
 L L^\text{T}
 \end{align*}
@@ -240,9 +240,9 @@ where
 
 $$
 \begin{align*}
-D_j &= A_{jj} - \sum^{j-1}\_{k=1} L^2_{jk} D_k \\\\
+D_j &= A_{jj} - \sum^{j-1}_{k=1} L^2_{jk} D_k \\\\
 L\_{ij} &= \frac{1}{D_j} \bigg( 
-      A_{ij} - \sum^{j-1}\_{k=1} L\_{ik} L\_{jk} D_{k}
+      A_{ij} - \sum^{j-1}_{k=1} L\_{ik} L\_{jk} D_{k}
 \bigg) \quad i>j 
 \end{align*}
 $$
@@ -301,7 +301,7 @@ $$
     \\\\
     \space
     \\\\
-    \mathbf{u}_k = \mathbf{a}_k - \sum^{k-1}\_{j}proj_{\mathbf{u}_j}(\mathbf{a}_k) &
+    \mathbf{u}_k = \mathbf{a}_k - \sum^{k-1}_{j}proj_{\mathbf{u}_j}(\mathbf{a}_k) &
     \mathbf{e}_k=\frac{\mathbf{u}_k}{||\mathbf{u}_k||}
 \end{array}
 $$
@@ -359,7 +359,7 @@ R &= \begin{bmatrix}
 \end{align*}
 $$
 
-The Gram-Schmidt algorithms can inherently fall victim to this: column $\mathbf{u}_j$ is successively reduced in length as components in the directions of $\{ \mathbf{e}_1, \mathbf{e}_2, ..., \mathbf{e}\_{j-1} \}$ are subtracted,
+The Gram-Schmidt algorithms can inherently fall victim to this: column $\mathbf{u}_j$ is successively reduced in length as components in the directions of $\{ \mathbf{e}_1, \mathbf{e}_2, ..., \mathbf{e}_{j-1} \}$ are subtracted,
 leaving a small vector if $\mathbf{u}_j$ was almost in the span of the first $j$ columns of $A$. 
 This is known as *catastrophic cancellation* (loss of precision when the number of projection subtraction grows for $\mathbf{u}_j$ computation).
 
@@ -388,7 +388,7 @@ Any vector $\mathbf{z}$ that is perpendicular to $\mathbf{u}$ is left unchanged:
 $$
 \begin{align*}
 (I-2\mathbf{u}\mathbf{u}^\text{H})\mathbf{z} &=
-\mathbf{z} - 2\mathbf{u} \underbrace{\mathbf{u}^\text{H}\mathbf{z}}\_{=0}
+\mathbf{z} - 2\mathbf{u} \underbrace{\mathbf{u}^\text{H}\mathbf{z}}_{=0}
 \\\\ &= \mathbf{z}
 \end{align*}
 $$
@@ -401,11 +401,11 @@ $$
 (I-2\mathbf{u}\mathbf{u}^\text{H}) (\mathbf{z}+\mathbf{u}^\text{H} \mathbf{x} \mathbf{u})
 \\\\ &=
 \mathbf{z} + \mathbf{u}^\text{H} \mathbf{x} \mathbf{u} 
--2\mathbf{u} \underbrace{\mathbf{u}^\text{H}\mathbf{z}}\_{=0} -2\mathbf{u}\mathbf{u}^\text{H} \mathbf{u}^\text{H} \mathbf{x} \mathbf{u}
+-2\mathbf{u} \underbrace{\mathbf{u}^\text{H}\mathbf{z}}_{=0} -2\mathbf{u}\mathbf{u}^\text{H} \mathbf{u}^\text{H} \mathbf{x} \mathbf{u}
 \\\\ &=
 \mathbf{z} + \mathbf{u}^\text{H} \mathbf{x} \mathbf{u} - \underbrace{
-      2\mathbf{u}\mathbf{u}^\text{H} \mathbf{u}^\text{H} \mathbf{x} \mathbf{u}}\_{= 2 \mathbf{u}^\text{H}\mathbf{x} \underbrace{
-            \mathbf{u}^\text{H} \mathbf{u}}\_{=1} \mathbf{u}}
+      2\mathbf{u}\mathbf{u}^\text{H} \mathbf{u}^\text{H} \mathbf{x} \mathbf{u}}_{= 2 \mathbf{u}^\text{H}\mathbf{x} \underbrace{
+            \mathbf{u}^\text{H} \mathbf{u}}_{=1} \mathbf{u}}
 \\\\ &=
 \mathbf{z} + \mathbf{u}^\text{H} \mathbf{x} \mathbf{u} 
 -2\mathbf{u}^\text{H} \mathbf{x} \mathbf{u} 
@@ -434,8 +434,8 @@ HH^\text{H} &=
 (I-2\mathbf{u}\mathbf{u}^\text{H})
 (I-2\mathbf{u}^\text{H}\mathbf{u})
 \\\\ &=
-I - 2 \underbrace{\mathbf{u}^\text{H}\mathbf{u}}\_{=\mathbf{u}\mathbf{u}^\text{H}}
--2\mathbf{u}\mathbf{u}^\text{H}+4\mathbf{u}\mathbf{u}^\text{H} \underbrace{\mathbf{u}^\text{H}\mathbf{u}}\_{=1}
+I - 2 \underbrace{\mathbf{u}^\text{H}\mathbf{u}}_{=\mathbf{u}\mathbf{u}^\text{H}}
+-2\mathbf{u}\mathbf{u}^\text{H}+4\mathbf{u}\mathbf{u}^\text{H} \underbrace{\mathbf{u}^\text{H}\mathbf{u}}_{=1}
 \\\\ &=
 I
 \end{align*}
@@ -575,7 +575,7 @@ The sequence of operations goes on, hence, the Householder QR decomposition is
 $$
 \begin{align*}
 &&
-\underbrace{H_n H_{n-1} ... H_2 H_1}\_{=Q^\text{H}} A &= R
+\underbrace{H_n H_{n-1} ... H_2 H_1}_{=Q^\text{H}} A &= R
 \\\\ \Rightarrow && 
 Q^\text{H}A &= R
 \\\\ \Rightarrow &&

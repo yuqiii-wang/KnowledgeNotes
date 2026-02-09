@@ -62,7 +62,7 @@ Advances in veterinary care, pet nutrition, and animal welfare are shaping a fut
 In summary, pets play an indispensable role in enriching our lives through their companionship and unique traits. 
 ```
 
-Let $\mathbf{q}\_{\text{dogs}}$ be a query to see the latent relationship with a local concept $\mathbf{k}\_{\text{cats}}$ and a global one $\mathbf{k}\_{\text{pets}}$.
+Let $\mathbf{q}_{\text{dogs}}$ be a query to see the latent relationship with a local concept $\mathbf{k}_{\text{cats}}$ and a global one $\mathbf{k}_{\text{pets}}$.
 
 Let $|n\_{\text{dogs}}-m_{\text{cats}}|=\Delta_{50}=50$ represent "dogs" sees "cats" with a token distance of $50$,
 and let $|n\_{\text{dogs}}-m_{\text{pets}}|=\Delta_{300}=300$ represent "dogs" sees "pets" with a token distance of $300$.
@@ -120,7 +120,7 @@ $$
 The similarity (inverse correlation to distance) is measured by below.
 
 $$
-\text{similarity}\_{\cos}(\mathbf{q}\_{i,i+1}, \mathbf{k}\_{i,i+1}) = \cos(\Delta\theta_i) = \frac{\mathbf{q}\_{i,i+1} \cdot \mathbf{k}\_{i,i+1}}{||\mathbf{q}\_{i,i+1} || \space || \mathbf{k}\_{i,i+1} ||}
+\text{similarity}_{\cos}(\mathbf{q}_{i,i+1}, \mathbf{k}_{i,i+1}) = \cos(\Delta\theta_i) = \frac{\mathbf{q}_{i,i+1} \cdot \mathbf{k}_{i,i+1}}{||\mathbf{q}_{i,i+1} || \space || \mathbf{k}_{i,i+1} ||}
 $$
 
 When they are overlapping each other on particular dimensions, e.g., $\max_{\Delta\theta_i=0}=\cos(\Delta\theta_i)=1$ they resonate on the $i$-th dimension mapped token distance/frequency.
@@ -134,18 +134,18 @@ The $i$ and $j$ individually represent the positions of query and key in a sente
 
 $$
 \max \text{score}(\mathbf{q}_m, \mathbf{k}_n) =
-(\mathbf{q}_m + \mathbf{p}\_{n-m})^{\top} (\mathbf{k}_n + \mathbf{p}\_{n-m}) - \mathbf{p}^{\top}\_{n-m} \mathbf{p}\_{n-m}
+(\mathbf{q}_m + \mathbf{p}_{n-m})^{\top} (\mathbf{k}_n + \mathbf{p}_{n-m}) - \mathbf{p}^{\top}_{n-m} \mathbf{p}_{n-m}
 $$
 
-where $\mathbf{p}\_{n-m}$ serves as a linear relative position gap.
+where $\mathbf{p}_{n-m}$ serves as a linear relative position gap.
 
 This design's motivation is that in NLP, if a query word is adjacent to a key word, they should be highly semantically related.
 Their multiplication value should be large (this $\text{score}(\mathbf{q}_m, \mathbf{k}_n)$ is named *attention score* in transformer), otherwise small, so that attention mechanism can easily produce differences during matrix multiplication in this regard.
 
 #### Position Embedding by Rotation Matrix
 
-Here uses sinusoid to represent the relative position gap by a rotation matrix $R_{n-m}$ to replace the above linear position gap $\mathbf{p}\_{n-m}$.
-Sinusoid not only decreases fast in $\text{score}(\mathbf{q}_m, \mathbf{k}_n)$ as positional gap grows against linear decrease by $\mathbf{p}\_{n-m}$, but also has sinusoidal patterns that recursively see highs and lows in different relative position gaps $|n-m|$ with respects to different dimensions $d$.
+Here uses sinusoid to represent the relative position gap by a rotation matrix $R_{n-m}$ to replace the above linear position gap $\mathbf{p}_{n-m}$.
+Sinusoid not only decreases fast in $\text{score}(\mathbf{q}_m, \mathbf{k}_n)$ as positional gap grows against linear decrease by $\mathbf{p}_{n-m}$, but also has sinusoidal patterns that recursively see highs and lows in different relative position gaps $|n-m|$ with respects to different dimensions $d$.
 
 Set $\mathbf{q}_m=R_{n}\mathbf{q}_1$ and $\mathbf{k}_n=R_{m}\mathbf{k}_1$ so that their position info is represented via rotation matrices $R_{n}$ and $R_{m}$, there is
 
@@ -204,7 +204,7 @@ $$
 
 where $\odot$ is element-wise multiplication operator.
 
-The attention score is computed by $\text{score}(\mathbf{q}_m, \mathbf{k}_n)=\text{score}(\mathbf{q}_m, \mathbf{k}_n)=\sum^{D/2}\_{i=1} \mathbf{q}\_{1_{i}}^{\top} R_{(1-m)_{i}} \mathbf{k}\_{1_{i}}$.
+The attention score is computed by $\text{score}(\mathbf{q}_m, \mathbf{k}_n)=\text{score}(\mathbf{q}_m, \mathbf{k}_n)=\sum^{D/2}_{i=1} \mathbf{q}_{1_{i}}^{\top} R_{(1-m)_{i}} \mathbf{k}_{1_{i}}$.
 
 The individual dimensions' scores for $i=1$ vs $j$ are shown as below.
 
@@ -213,7 +213,7 @@ The individual dimensions' scores for $i=1$ vs $j$ are shown as below.
 
 By this design, each position embedding dimension learns about info regarding different $|n-m|$.
 
-For summed score over all dimensions $\text{score}(\mathbf{q}_m, \mathbf{k}_n)=\sum^{D/2}\_{i=1} \mathbf{q}\_{1_{i}}^{\top} R_{(1-m)_{i}} \mathbf{k}\_{1_{i}}$,
+For summed score over all dimensions $\text{score}(\mathbf{q}_m, \mathbf{k}_n)=\sum^{D/2}_{i=1} \mathbf{q}_{1_{i}}^{\top} R_{(1-m)_{i}} \mathbf{k}_{1_{i}}$,
 
 * when they are close (small values of $|n-m|$), score is high;
 * when they are far away (large values of $|n-m|$), score is low.
@@ -224,7 +224,7 @@ For summed score over all dimensions $\text{score}(\mathbf{q}_m, \mathbf{k}_n)=\
 * Frequency base $10,000$
 * Rotation angle for for dim $i$: $\theta_i = 10000^{-\frac{2i}{D}}$
 
-For easy comparison, both query and key token are set to $\mathbf{1}$ such that $\mathbf{q}_m=\{ \underbrace{1,1,1, ..., 1 }\_{D=256} \}$ and $\mathbf{k}_n=\{ \underbrace{1,1,1, ..., 1 }\_{D=256} \}$, so that the scores' differences only reflect the rotational positional distance ($\mathbf{q}_1^{\top} R_{1-m} \mathbf{k}_n$).
+For easy comparison, both query and key token are set to $\mathbf{1}$ such that $\mathbf{q}_m=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$ and $\mathbf{k}_n=\{ \underbrace{1,1,1, ..., 1 }_{D=256} \}$, so that the scores' differences only reflect the rotational positional distance ($\mathbf{q}_1^{\top} R_{1-m} \mathbf{k}_n$).
 
 <div style="display: flex; justify-content: center;">
       <img src="imgs/rope_query0_keyj.png" width="80%" height="50%" alt="rope_query0_keyj" />
@@ -271,8 +271,8 @@ at $n=m+\Delta$ (relative position distance is $\Delta$), compute the score by r
 $$
 \begin{align*}
 \langle \mathbf{q}_m, \mathbf{k}_n \rangle = \sum_{i=0}^{127} \Big(
-    & \underbrace{\big(q_{2i}^m k_{2i}^{m+\Delta} + q_{2i+1}^m k_{2i+1}^{m+\Delta}\big)}\_{\alpha_{\cos}} \cos(\Delta\theta_i) + \\\\
-    & \underbrace{\big(q_{2i+1}^m k_{2i}^{m+\Delta} - q_{2i}^m k_{2i+1}^{m+\Delta}\big)}\_{\alpha_{\sin}} \sin(\Delta\theta_i) \Big)
+    & \underbrace{\big(q_{2i}^m k_{2i}^{m+\Delta} + q_{2i+1}^m k_{2i+1}^{m+\Delta}\big)}_{\alpha_{\cos}} \cos(\Delta\theta_i) + \\\\
+    & \underbrace{\big(q_{2i+1}^m k_{2i}^{m+\Delta} - q_{2i}^m k_{2i+1}^{m+\Delta}\big)}_{\alpha_{\sin}} \sin(\Delta\theta_i) \Big)
 \end{align*}
 $$
 
@@ -366,7 +366,7 @@ $$
 Recall the rotation property that counter-clockwise + clockwise same angle rotation is equivalent to no rotation, i.e., $R(-\theta_a)R(\theta_a)=R(\theta_a-\theta_a)=R(0)=I$, hence
 
 $$
-\mathbf{v}=R(-\theta_a)R(\theta_b)\mathbf{v}=\underbrace{R(-\theta_a+\theta_b)}\_{=R(0)=I}\mathbf{v}
+\mathbf{v}=R(-\theta_a)R(\theta_b)\mathbf{v}=\underbrace{R(-\theta_a+\theta_b)}_{=R(0)=I}\mathbf{v}
 $$
 
 For $\mathbf{v}=R(-\theta_a+\theta_b)\mathbf{v}$ to hold, there should be $R(-\theta_a+\theta_b)=R(0)=I$ hence $\theta_a=\theta_b$.

@@ -104,7 +104,7 @@ $$
 As sample size grows, the posterior distribution of the Gaussian process can be calculated by
 
 $$
-f\sim\mathcal{N}(\Sigma^{\top}\_{fy}\Sigma_{ff}^{-1}\mathbf{y}+\mathbf{\mu}_f, \Sigma_{ff}-\Sigma^{\top}\_{fy}\Sigma_{y}^{-1}\Sigma_{fy})
+f\sim\mathcal{N}(\Sigma^{\top}_{fy}\Sigma_{ff}^{-1}\mathbf{y}+\mathbf{\mu}_f, \Sigma_{ff}-\Sigma^{\top}_{fy}\Sigma_{y}^{-1}\Sigma_{fy})
 $$
 
 where $\Sigma_{ff}=\kappa(\mathbf{x}, \mathbf{x})$, $\Sigma_{fy}=\kappa(\mathbf{x}, \mathbf{x}^*)$, $\Sigma_{yy}=\kappa(\mathbf{x}^*, \mathbf{x}^*)$.
@@ -124,7 +124,7 @@ The uncertainty is measured by the shaded area, which is the variance ($95\%$ co
 Here plots five possible $f(.)$s that follow the Gaussian process passing through the observation points.
 
 $$
-f\sim\mathcal{N}(\Sigma^{\top}\_{fy}\Sigma_{ff}^{-1}\mathbf{y}+\mathbf{\mu}_f, \Sigma_{ff}-\Sigma^{\top}\_{fy}\Sigma_{y}^{-1}\Sigma_{fy})
+f\sim\mathcal{N}(\Sigma^{\top}_{fy}\Sigma_{ff}^{-1}\mathbf{y}+\mathbf{\mu}_f, \Sigma_{ff}-\Sigma^{\top}_{fy}\Sigma_{y}^{-1}\Sigma_{fy})
 $$
 
 <div style="display: flex; justify-content: center;">

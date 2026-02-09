@@ -65,9 +65,9 @@ Each GPU splits its gradients into $N$ chunks.
 
 2. Initial Send/Receive:
 
-$\text{GPU}\_i$ sends its chunk to $\text{GPU}\_{i+1} \mod N$
+$\text{GPU}\_i$ sends its chunk to $\text{GPU}_{i+1} \mod N$
 
-$\text{GPU}\_i$ receives a chunk from $\text{GPU}\_{i-1} \mod N$
+$\text{GPU}\_i$ receives a chunk from $\text{GPU}_{i-1} \mod N$
 
 The received chunk is added to the GPU's existing gradient chunk.
 

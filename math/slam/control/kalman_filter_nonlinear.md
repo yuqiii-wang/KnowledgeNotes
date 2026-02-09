@@ -7,10 +7,10 @@ For non-linear dynamic and observation transformation:
 
 $$
 \begin{align*}
-\mathbf{x}\_{k} &= f(
-    \mathbf{x}\_{k-1|k-1}, \mathbf{u}_k
+\mathbf{x}_{k} &= f(
+    \mathbf{x}_{k-1|k-1}, \mathbf{u}_k
 ) + \mathbf{w}_k \\\\
-\mathbf{z}\_{k} &= h(\mathbf{x}_k)+\mathbf{v}_k
+\mathbf{z}_{k} &= h(\mathbf{x}_k)+\mathbf{v}_k
 \end{align*}
 $$
 
@@ -21,10 +21,10 @@ $$
 \begin{align*}
 \mathbf{F}_k&=
 \frac{\partial f}{\partial \mathbf{x}}
-\bigg|_{\mathbf{x}\_{k-1|k-1}, \mathbf{u}_k} \\\\
+\bigg|_{\mathbf{x}_{k-1|k-1}, \mathbf{u}_k} \\\\
 \mathbf{H}_k&=
 \frac{\partial h}{\partial \mathbf{x}}
-\bigg|_{\mathbf{x}\_{k|k-1}}
+\bigg|_{\mathbf{x}_{k|k-1}}
 \end{align*}
 $$
 
@@ -32,22 +32,22 @@ The computation for $\mathbf{K}_k$ is identical to its linear Kalman counterpart
 
 Predicted (a priori) estimate covariance
 $$
-\mathbf{\hat{P}}\_{k|k-1}=
-\mathbf{F}_k\mathbf{P}\_{k-1|k-1} \mathbf{F}^\text{T}_k + \mathbf{Q}_k
+\mathbf{\hat{P}}_{k|k-1}=
+\mathbf{F}_k\mathbf{P}_{k-1|k-1} \mathbf{F}^\text{T}_k + \mathbf{Q}_k
 $$
 
 Innovation (or pre-fit residual) covariance
 
 $$
-\mathbf{{S}}\_{k} =
-\mathbf{H}_k \mathbf{\hat{P}}\_{k|k-1} \mathbf{H}^\text{T}_k + \mathbf{R}_k
+\mathbf{{S}}_{k} =
+\mathbf{H}_k \mathbf{\hat{P}}_{k|k-1} \mathbf{H}^\text{T}_k + \mathbf{R}_k
 $$
 
 Optimal Kalman gain
 
 $$
 \mathbf{K}_k =
-\mathbf{\hat{P}}\_{k|k-1} \mathbf{H}^\text{T}_k \mathbf{{S}}\_{k}^{-1}
+\mathbf{\hat{P}}_{k|k-1} \mathbf{H}^\text{T}_k \mathbf{{S}}_{k}^{-1}
 $$
 
 
@@ -107,23 +107,23 @@ $$
 \begin{align*}
 \mathbf{\overline{x}}
 &\approx
-\sum^{2d}\_{i=0}
+\sum^{2d}_{i=0}
 W^{(m)} x\_i \\\\
 \mathbf{\overline{y}} 
 &\approx
-\sum^{2d}\_{i=0}
+\sum^{2d}_{i=0}
 W^{(m)} y_i \\\\
 \mathbf{P_x} 
 &\approx
-\sum^{2d}\_{i=0}
+\sum^{2d}_{i=0}
 W^{(c)} (x\_i-\mathbf{\overline{x}}) (x\_i-\mathbf{\overline{x}})^\text{T} \\\\
 \mathbf{P_y} 
 &\approx
-\sum^{2d}\_{i=0}
+\sum^{2d}_{i=0}
 W^{(c)} (y_i-\mathbf{\overline{y}}) (y_i-\mathbf{\overline{y}})^\text{T} \\\\
 \mathbf{P_{xy}} 
 &\approx
-\sum^{2d}\_{i=0}
+\sum^{2d}_{i=0}
 W^{(c)} (x\_i-\mathbf{\overline{x}}) (y_i-\mathbf{\overline{y}})^\text{T}
 \end{align*}
 $$ 
@@ -164,13 +164,13 @@ and vehicle motion model
 $$
 \begin{align*}
 \mathbf{\hat{x}}_k &= 
-f(\mathbf{\hat{x}}\_{k-1}, \mathbf{u}_k, \mathbf{w}_k)
+f(\mathbf{\hat{x}}_{k-1}, \mathbf{u}_k, \mathbf{w}_k)
 \\\\ &=
 \begin{bmatrix}
 1 & \Delta t \\\\
 0 & 1
 \end{bmatrix}
-\mathbf{x}\_{k-1}
+\mathbf{x}_{k-1}
 +
 \begin{bmatrix}
 0 \\\\
@@ -184,7 +184,7 @@ f(\mathbf{\hat{x}}\_{k-1}, \mathbf{u}_k, \mathbf{w}_k)
 1 & 0.5 \\\\
 0 & 1
 \end{bmatrix}
-\mathbf{x}\_{k-1}
+\mathbf{x}_{k-1}
 -2
 \begin{bmatrix}
 0 \\\\
@@ -456,7 +456,7 @@ Compute the mean of motion update $x_1^-$
 $$
 \begin{align*}
 \hat{x}^-_1 &=
-\sum^{2d}\_{i=0} W_i^{(m)} \hat{x}_1^{(i)}
+\sum^{2d}_{i=0} W_i^{(m)} \hat{x}_1^{(i)}
 \\\\ &=
 \frac{1}{3}
 \begin{bmatrix}
@@ -494,12 +494,12 @@ $$
 \end{align*}
 $$
 
-Compute the covariance of motion update $\mathbf{\hat{P}}\_{1,x}$ 
+Compute the covariance of motion update $\mathbf{\hat{P}}_{1,x}$ 
 
 $$
 \begin{align*}
-\mathbf{\hat{P}}\_{1,x} &=
-\sum^{2d}\_{i=0}
+\mathbf{\hat{P}}_{1,x} &=
+\sum^{2d}_{i=0}
 W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{x}^{(i)}_1-{\hat{x}_1^-})^\text{T}+\mathbf{Q}_0
 \\\\ &=
 \frac{1}{3}
@@ -563,7 +563,7 @@ By Cholesky decomposition to find the solution to the covariance matrix
 
 $$
 \begin{align*}
-\mathbf{\hat{P}}\_{1,x}&=
+\mathbf{\hat{P}}_{1,x}&=
 \mathbf{L}_1 \mathbf{L}_1^\text{T} \\\\
 \begin{bmatrix}
       0.36 & 0.5 \\\\
@@ -740,7 +740,7 @@ Computed the mean of observation. It is the same as directly measuring ${x}_1^-$
 
 $$
 \begin{align*}
-\hat{y}^-_1&= \sum^{2d}\_{i=0}
+\hat{y}^-_1&= \sum^{2d}_{i=0}
 W^{(m)}\_i \hat{y}^{(i)}_1\\\\ &=
 \frac{1}{3} 
 \begin{bmatrix}
@@ -783,8 +783,8 @@ The covariance for the observation model $\hat{y}_1$ is computed.
 
 $$
 \begin{align*}
-\mathbf{\hat{P}}\_{1,y} &=
-\sum^{2d}\_{i=0}
+\mathbf{\hat{P}}_{1,y} &=
+\sum^{2d}_{i=0}
 W^{(c)} (\hat{y}^{(i)}_1-{\hat{y}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}+\mathbf{R}_0\\\\ &=
 \frac{1}{3}
 \bigg(
@@ -878,8 +878,8 @@ $$
 Now compute the covariance between $\hat{x}_1$ and $\hat{y}_1$
 $$
 \begin{align*}
-\mathbf{\hat{P}}\_{1,xy} &=
-\sum^{2d}\_{i=0}
+\mathbf{\hat{P}}_{1,xy} &=
+\sum^{2d}_{i=0}
 W^{(c)} (\hat{x}^{(i)}_1-{\hat{x}_1^-}) (\hat{y}^{(i)}_1-{\hat{y}_1^-})^\text{T}\\\\ &=
 \frac{1}{3}
 \bigg(
@@ -939,7 +939,7 @@ Then we can know the Kalman Gain $\mathbf{K}_1$
 $$
 \begin{align*}
 \mathbf{K}_1 &= 
-\mathbf{\hat{P}}\_{1,xy} \mathbf{\hat{P}}\_{1,y}^{-1} 
+\mathbf{\hat{P}}_{1,xy} \mathbf{\hat{P}}_{1,y}^{-1} 
 \\\\ &=
 \frac{333}{1000} \times \frac{1000}{343}
 \\\\ &=
@@ -974,4 +974,4 @@ $$
 
 ### Discussion
 
-Here we notice that Kalman Gain $\mathbf{K}$ is large. This is attributed to the beginning where $\mathbf{P}_0$ is large as well as the time interval $\Delta t = 0.5 s$. This gives a result of big spreads. The observation function $h$ is a simple directs measurement of the distance in $\mathbf{x}_k$, which accounts for value change sensitivity. If $h$ is not sensitive to $\mathbf{P}\_{1,y}$, $\mathbf{K}$ approaches to $0.5$. 
+Here we notice that Kalman Gain $\mathbf{K}$ is large. This is attributed to the beginning where $\mathbf{P}_0$ is large as well as the time interval $\Delta t = 0.5 s$. This gives a result of big spreads. The observation function $h$ is a simple directs measurement of the distance in $\mathbf{x}_k$, which accounts for value change sensitivity. If $h$ is not sensitive to $\mathbf{P}_{1,y}$, $\mathbf{K}$ approaches to $0.5$. 

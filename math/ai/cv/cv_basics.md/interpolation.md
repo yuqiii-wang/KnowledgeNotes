@@ -98,9 +98,9 @@ $$
 f(\mathbf{x})=
 \underbrace{\mathbf{a}^{\top}\begin{bmatrix}
     1 \\\\ \mathbf{x}
-\end{bmatrix}}\_{\substack{
+\end{bmatrix}}_{\substack{
     \scriptsize{\text{affine}} \\\\ \scriptsize{\text{transform}}}} +
-\underbrace{\sum_{i=1}^n w_i U\big(||\mathbf{x}-\mathbf{x}\_i||\big)}\_{\text{radial kernel}}
+\underbrace{\sum_{i=1}^n w_i U\big(||\mathbf{x}-\mathbf{x}\_i||\big)}_{\text{radial kernel}}
 $$
 
 where
@@ -114,8 +114,8 @@ Minimization by updating the weights $\mathbf{w} \in \mathbb{R}^n$:
 
 $$
 \argmin_{f_\mathbf{w}} J=\sum_{i=1}^{n}
-\underbrace{\Big|\Big|y_i-f(\mathbf{x}\_i) \Big|\Big|^2}\_{\text{Data Fidelity Term}}+
-\lambda\underbrace{\int_{\mathbb{R}^d} \Big|\Big|\nabla^2f(\mathbf{x})\Big|\Big|^2 d\mathbf{x}}\_{\text{Smoothness Term}}
+\underbrace{\Big|\Big|y_i-f(\mathbf{x}\_i) \Big|\Big|^2}_{\text{Data Fidelity Term}}+
+\lambda\underbrace{\int_{\mathbb{R}^d} \Big|\Big|\nabla^2f(\mathbf{x})\Big|\Big|^2 d\mathbf{x}}_{\text{Smoothness Term}}
 $$
 
 where

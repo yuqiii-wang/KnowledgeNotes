@@ -175,8 +175,8 @@ The most typical moving average in optimization is Exponential Moving Average (E
 
 $$
 \begin{align*}
-\hat{\theta}_t &= \alpha\theta_t + (1-\alpha)\hat{\theta}\_{t-1} \\\\
-\hat{g}_t &= \alpha g_t + (1-\alpha) \hat{g}\_{t-1}
+\hat{\theta}_t &= \alpha\theta_t + (1-\alpha)\hat{\theta}_{t-1} \\\\
+\hat{g}_t &= \alpha g_t + (1-\alpha) \hat{g}_{t-1}
 \end{align*}
 $$
 

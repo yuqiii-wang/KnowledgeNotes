@@ -18,7 +18,7 @@ for $\mathbf{x}(0)=\mathbf{x}_0 \ne \mathbf{0}$.
 By this applied correction $\mathbf{u}(t) = K \mathbf{x}(t)$, LQR attempts to minimize this cost function:
 
 $$
-\min \frac{1}{2} \mathbf{x}^\top(t_f) S \mathbf{x}(t_f)+\frac{1}{2} \int^{t_f}\_{t_0} \Big( 
+\min \frac{1}{2} \mathbf{x}^\top(t_f) S \mathbf{x}(t_f)+\frac{1}{2} \int^{t_f}_{t_0} \Big( 
 \mathbf{x}(t)^\top Q \mathbf{x}(t) + \mathbf{u}^\top (t)R \mathbf{u}(t)
 \Big) dt
 $$
@@ -30,8 +30,8 @@ $$
 \mathbf{x}(0)=\mathbf{x}_0 \ne \mathbf{0}
 $$
 
-where $\frac{1}{2} \mathbf{x}\_{t_f}^\top S \mathbf{x}\_{t_f}$ represents the error of when the system reaches a stable state at the time $t_f$; 
-$\frac{1}{2} \int^{t_f}\_{t_0} \Big( 
+where $\frac{1}{2} \mathbf{x}_{t_f}^\top S \mathbf{x}_{t_f}$ represents the error of when the system reaches a stable state at the time $t_f$; 
+$\frac{1}{2} \int^{t_f}_{t_0} \Big( 
 \mathbf{x}^\top Q \mathbf{x} + \mathbf{x}^\top R \mathbf{x} \Big) dt$ is the cost to be reduced to zero.
 In other words, over the integrated period $[t_0, t_f]$, the total $R$-transformed action $\mathbf{u}$ should cancel out the total $Q$-transformed state error $\mathbf{x}$
 
@@ -72,7 +72,7 @@ $$
 \underbrace{\begin{bmatrix}
     0 & v \\\\
     0 & 0
-\end{bmatrix}}\_{A}
+\end{bmatrix}}_{A}
 \begin{bmatrix}
     S \\\\
     \theta
@@ -81,7 +81,7 @@ $$
 \underbrace{\begin{bmatrix}
     0 \\\\
     1
-\end{bmatrix}}\_{B}
+\end{bmatrix}}_{B}
 \omega
 \end{align*}
 $$

@@ -35,7 +35,7 @@ Once the prefill is complete and the KV cache is populated, the LLM switches to 
 Decode cannot be parallelized for each token output is conditioned on preceding already output tokens.
 
 $$
-P(X) = P(\mathtt{x}_1) \cdot P(\mathtt{x}_2 | \mathtt{x}_1) \cdot P(\mathtt{x}_3 | \mathtt{x}_1, \mathtt{x}_2) \cdots P(\mathtt{x}_T | \mathtt{x}_1, ..., \mathtt{x}\_{T-1})
+P(X) = P(\mathtt{x}_1) \cdot P(\mathtt{x}_2 | \mathtt{x}_1) \cdot P(\mathtt{x}_3 | \mathtt{x}_1, \mathtt{x}_2) \cdots P(\mathtt{x}_T | \mathtt{x}_1, ..., \mathtt{x}_{T-1})
 $$
 
 Cache is updated via concatenation.

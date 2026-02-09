@@ -111,7 +111,7 @@ Change of interval rule allows mapping between $[a,b]$ and $[-1,1]$
 
 $$
 \int^b_a f(x) dx=
-\int^{1}\_{-1} 
+\int^{1}_{-1} 
 f(\frac{b-a}{2} \xi \frac{a+b}{2}) \frac{dx}{d \xi} d \xi
 $$
 

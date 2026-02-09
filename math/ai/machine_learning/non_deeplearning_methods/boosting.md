@@ -105,10 +105,10 @@ otherwise $D_t(x)$ sees weight multiplication by $w_{t,i}=e^{2\alpha_t}$.
 The effect of sample weight distribution sees $w_{t,i}\sim D_t$ applied on loss with respect to individual samples.
 
 $$
-\mathcal{L}_t=\sum^n\_{i=1} w_{t,i} \cdot\mathcal{L}\_{t,i}(y_i, \hat{y}\_i)
+\mathcal{L}_t=\sum^n\_{i=1} w_{t,i} \cdot\mathcal{L}_{t,i}(y_i, \hat{y}\_i)
 $$
 
-Heavy weights see the sample loss $w_{t,i} \cdot\mathcal{L}\_{t,i}(y_i, \hat{y}\_i)$ getting amplified.
+Heavy weights see the sample loss $w_{t,i} \cdot\mathcal{L}_{t,i}(y_i, \hat{y}\_i)$ getting amplified.
 
 #### Learner Weight Adaptation
 
@@ -117,11 +117,11 @@ The $t$-th stage weak learner weight $\alpha_t$ choice derives from $\alpha_t=\a
 $$
 \begin{align*}
 \mathcal{L}_t(F) &=\text{exp}(-Y F_t(x)) \\\\
-&= \text{E}\_{X\sim D_{t-1}} \exp\Big(-Y\big(F_{t-1}(x)+\alpha_{t-1} h_{t-1}(x)\big)\Big) \\\\
-&= \text{E}\_{X\sim D_{t-1}} \Big[\exp\Big(-YF_{t-1}(x)\Big)\cdot\text{exp}\Big(-Y\alpha_{t-1} h_{t-1}(x)\Big)\Big] \\\\
-&= \text{E}\_{X\sim D_t} \space\text{exp}\Big(Y\alpha_{t-1} h_{t-1}(x)\Big) &&\quad \text{for }D_{t-1} \rightarrow D_t \text{ samples are adaptively weighted} \\\\
+&= \text{E}_{X\sim D_{t-1}} \exp\Big(-Y\big(F_{t-1}(x)+\alpha_{t-1} h_{t-1}(x)\big)\Big) \\\\
+&= \text{E}_{X\sim D_{t-1}} \Big[\exp\Big(-YF_{t-1}(x)\Big)\cdot\text{exp}\Big(-Y\alpha_{t-1} h_{t-1}(x)\Big)\Big] \\\\
+&= \text{E}_{X\sim D_t} \space\text{exp}\Big(Y\alpha_{t-1} h_{t-1}(x)\Big) &&\quad \text{for }D_{t-1} \rightarrow D_t \text{ samples are adaptively weighted} \\\\
 &&&\quad D_t(x) \propto D_{t-1}(x) \space\space \text{exp}\Big(y_i \alpha_t F_{t-1}(x\_i)\Big) \\\\
-&= \text{E}\_{X\sim D_t} \Big[e^{-\alpha_t}\mathbb{1}\big(Y=F_t(x)\big)+e^{\alpha_t}\mathbb{1}\big(Y\ne F_t(x)\big)\Big] &&\quad 0\le\epsilon_t\le 1 \text{ is the normalized mean mis-classification of } n \text{ samples}\\\\
+&= \text{E}_{X\sim D_t} \Big[e^{-\alpha_t}\mathbb{1}\big(Y=F_t(x)\big)+e^{\alpha_t}\mathbb{1}\big(Y\ne F_t(x)\big)\Big] &&\quad 0\le\epsilon_t\le 1 \text{ is the normalized mean mis-classification of } n \text{ samples}\\\\
 &= e^{-\alpha_t}(1-\epsilon_t) + e^{\alpha_t}\epsilon_t \\\\
 \end{align*}
 $$
@@ -233,7 +233,7 @@ $$
 Provided the optimal $\gamma_{t,j}$ for each terminal region that aims to approximate a fraction of pseudo residual,the update becomes
 
 $$
-F_t(x)=F_{t-1}(x)+\sum^{J_t}\_{j=1}\gamma_{t,j} I\big(x\_i\in R_{t,j}\big)
+F_t(x)=F_{t-1}(x)+\sum^{J_t}_{j=1}\gamma_{t,j} I\big(x\_i\in R_{t,j}\big)
 $$
 
 where $I(.)$ is an indicator function output $1$ when argument condition is true; $0$ otherwise, i.e.,
@@ -250,7 +250,7 @@ A decision tree, however, is not a single, smooth mathematical function. It is a
 
 1. Assumed an fixed tree structure $F_t(x)$
 2. Find the optimal leaf output $\gamma_{t,j}^* = \argmin_{\gamma_{t,j}} \sum_{x\_i\in R_{t,j}} \mathcal{L}\Big(y_i, F_{t-1}(x\_i)+ \gamma_{t,j}\Big)$
-3. For the node $j$, compare parent loss $\mathcal{L}\_{t,j,\text{parent}}$ vs. if split to two children $\mathcal{L}\_{t,j,\text{leftChild}}+\mathcal{L}\_{t,j,\text{rightChild}}$
+3. For the node $j$, compare parent loss $\mathcal{L}_{t,j,\text{parent}}$ vs. if split to two children $\mathcal{L}_{t,j,\text{leftChild}}+\mathcal{L}_{t,j,\text{rightChild}}$
 4. The tree structure is updated
 
 ### XGBoost (eXtreme Gradient Boosting)
@@ -258,28 +258,28 @@ A decision tree, however, is not a single, smooth mathematical function. It is a
 XGBoost is built on top of GBDT with enhancements such as
 
 * Second order Taylor Expansion for better convergence
-* Regularization $\mathcal{\Omega}\_{\tau}\big(F_t\big)$ for better generalization
+* Regularization $\mathcal{\Omega}_{\tau}\big(F_t\big)$ for better generalization
 * Data storage by blocks to allow computation parallelization
 
 Considered an added regularization term, the optimization objective is
 
 $$
 \min_{y,F(x)} \mathcal{L} = \sum_{i=1}^n \mathcal{L}_t\Big(y_i, F_t(x\_i)\Big)+
-\sum_{\tau=1}^{t-1} \mathcal{\Omega}\_{\tau}\big(F_t\big) + \mathcal{\Omega}\_{t}\big(F_t\big)
+\sum_{\tau=1}^{t-1} \mathcal{\Omega}_{\tau}\big(F_t\big) + \mathcal{\Omega}_{t}\big(F_t\big)
 $$
 
 where regularization term is
 
 $$
-\mathcal{\Omega}\_{t}\big(F_t\big)=
-\lambda J_t + \frac{1}{2}\lambda\sum^{J_t}\_{j=1}\gamma_{t,j}^2
+\mathcal{\Omega}_{t}\big(F_t\big)=
+\lambda J_t + \frac{1}{2}\lambda\sum^{J_t}_{j=1}\gamma_{t,j}^2
 $$
 
 where
 
 * $\lambda$ is a regularization coefficient to control the significance of the regularization effect.
 * $\lambda J_t$ controls the complexity of a tree that the num of leaf nodes should NOT be too many.
-* $\frac{1}{2}\lambda\sum^{J_t}\_{j=1}\gamma_j^2$ balances individual leaf nodes' importance that neither does a single node have heavy nor light weight.
+* $\frac{1}{2}\lambda\sum^{J_t}_{j=1}\gamma_j^2$ balances individual leaf nodes' importance that neither does a single node have heavy nor light weight.
 
 #### Derive Optimal Leaf Output $\gamma_j^*$ in Each Tree Training
 
@@ -298,20 +298,20 @@ $$
 \mathcal{L}_t\Big(y,F_t(x)\Big) &\approx \mathcal{L}\Big(y,F_{t-1}(x)\Big)+
 \frac{\partial\mathcal{L}(y,F(x))}{\partial F(x)}\bigg|_{F(x)=F_{t-1}(x)}\cdot f_t(x)+
 \frac{1}{2}\frac{\partial^2\mathcal{L}(y,F(x))}{\partial F^2(x)}\bigg|_{F(x)=F_{t-1}(x)}\cdot f^2_t(x) +
-\sum_{\tau=1}^{t-1} \mathcal{\Omega}\_{\tau}\big(F_t\big) + \mathcal{\Omega}\_{t}\big(F_t\big) \\\\
+\sum_{\tau=1}^{t-1} \mathcal{\Omega}_{\tau}\big(F_t\big) + \mathcal{\Omega}_{t}\big(F_t\big) \\\\
 &= \mathcal{L}\Big(y,F_{t-1}(x)\Big)+
 g_t(x)\cdot f_t(x)+\frac{1}{2}h_t(x)\cdot f^2_t(x)+
-\sum_{\tau=1}^{t-1} \mathcal{\Omega}\_{\tau}\big(F_t\big) + \mathcal{\Omega}\_{t}\big(F_t\big)
+\sum_{\tau=1}^{t-1} \mathcal{\Omega}_{\tau}\big(F_t\big) + \mathcal{\Omega}_{t}\big(F_t\big)
  & \text{Gradient and Hessian represented as } g_t(x) \text{ and } h_t(x)
 \end{align*}
 $$
 
-where $\mathcal{L}\Big(y,F_{t-1}(x)\Big)$ and $\sum_{\tau=1}^{t-1} \mathcal{\Omega}\_{\tau}\big(F_t\big)$ are constant and can be removed in optimization.
+where $\mathcal{L}\Big(y,F_{t-1}(x)\Big)$ and $\sum_{\tau=1}^{t-1} \mathcal{\Omega}_{\tau}\big(F_t\big)$ are constant and can be removed in optimization.
 As a result, the real target is to minimize
 
 $$
 \tilde{\mathcal{L}}_t\Big(y,F_t(x)\Big)=
-g_t(x)\cdot f_t(x)+\frac{1}{2}h_t(x)\cdot f^2_t(x) + \mathcal{\Omega}\_{t}\big(F_t\big)
+g_t(x)\cdot f_t(x)+\frac{1}{2}h_t(x)\cdot f^2_t(x) + \mathcal{\Omega}_{t}\big(F_t\big)
 $$
 
 Now, the goal here is to find the optimal output $\gamma_{t,j}$ for each leaf, assuming the structure of the tree ($J_t$ and the instance/terminal region sets $\text{For } j = 1,2,...,J_t:\space R_{t,j}$) is fixed.
@@ -321,17 +321,17 @@ Rewrite the Objective Function in Terms of Leaves
 $$
 \begin{align*}
 \tilde{\mathcal{L}}_t\Big(y,F_t(x)\Big)&=
-g_t(x)\cdot f_t(x)+\frac{1}{2}h_t(x)\cdot f^2_t(x) + \mathcal{\Omega}\_{t}\big(F_t\big) \\\\
-&= \sum^{J_t}\_{j=1}\sum_{x\_i\in R_{t,j}}\bigg(g_t(x\_i)\cdot \gamma_{t,j}+\frac{1}{2}h_t(x\_i)\cdot \gamma_{t,j}^2 \bigg)+
-\lambda J_t + \frac{1}{2}\lambda\sum^{J_t}\_{j=1}\gamma_{t,j}^2 \\\\
+g_t(x)\cdot f_t(x)+\frac{1}{2}h_t(x)\cdot f^2_t(x) + \mathcal{\Omega}_{t}\big(F_t\big) \\\\
+&= \sum^{J_t}_{j=1}\sum_{x\_i\in R_{t,j}}\bigg(g_t(x\_i)\cdot \gamma_{t,j}+\frac{1}{2}h_t(x\_i)\cdot \gamma_{t,j}^2 \bigg)+
+\lambda J_t + \frac{1}{2}\lambda\sum^{J_t}_{j=1}\gamma_{t,j}^2 \\\\
 &= \sum_{j=1}^{J_t} \left[ \left(\sum_{x\_i\in R_{t,j}} g_t(x\_i)\right) \gamma_{t,j} + \frac{1}{2}\left(\sum_{x\_i\in R_{t,j}} h_t(x\_i)\right) \gamma_{t,j}^2 \right] + \lambda J_t + \frac{1}{2}\lambda \sum_{j=1}^{J_t} \gamma_{t,j}^2 \\\\
 &= \sum_{j=1}^{J_t} \left[ \left(\sum_{x\_i\in R_{t,j}} g_t(x\_i)\right) \gamma_{t,j} + \frac{1}{2}\left(\sum_{x\_i\in R_{t,j}} h_t(x\_i)+\lambda\right) \gamma_{t,j}^2 \right] + \lambda J_t \\\\
 \end{align*}
 $$
 
-where, provided a sample indexed by $i$ flown through a tree reaching leaf node indexed by $j$ it shall get output, $\left(\sum_{x\_i\in R_{t,j}} (.)\right) \gamma_{t,j}$ means all samples if reached $j$ shall get $\gamma_{t,j}$ which is a fraction of total residual $\sum^{J_t}\_{j=1}\gamma_{t,j} I\big(x\_i\in R_{t,j}\big)$.
+where, provided a sample indexed by $i$ flown through a tree reaching leaf node indexed by $j$ it shall get output, $\left(\sum_{x\_i\in R_{t,j}} (.)\right) \gamma_{t,j}$ means all samples if reached $j$ shall get $\gamma_{t,j}$ which is a fraction of total residual $\sum^{J_t}_{j=1}\gamma_{t,j} I\big(x\_i\in R_{t,j}\big)$.
 
-Rewrite $\tilde{\mathcal{L}}_t\Big(y,F_t(x)\Big)$ in matrix format, there is $\mathcal{L}\_{t,j}(\gamma_{t,j}) = G_j \gamma_{t,j} + \frac{1}{2}(H_j + \lambda) \gamma_{t,j}^2$
+Rewrite $\tilde{\mathcal{L}}_t\Big(y,F_t(x)\Big)$ in matrix format, there is $\mathcal{L}_{t,j}(\gamma_{t,j}) = G_j \gamma_{t,j} + \frac{1}{2}(H_j + \lambda) \gamma_{t,j}^2$
 
 Find the optimal $\gamma_j^*$
 
@@ -348,19 +348,19 @@ Substitute $\gamma_{t,j}^*=-\frac{G_j}{H_j + \lambda}$ back to the loss function
 
 $$
 \begin{align*}
-\mathcal{L}\_{t,j}\left(\gamma_{t,j}^*=-\frac{G_j}{H_j + \lambda}\right) &= G_j \gamma_{t,j} + \frac{1}{2}(H_j + \lambda) \gamma_{t,j}^2 \\\\
+\mathcal{L}_{t,j}\left(\gamma_{t,j}^*=-\frac{G_j}{H_j + \lambda}\right) &= G_j \gamma_{t,j} + \frac{1}{2}(H_j + \lambda) \gamma_{t,j}^2 \\\\
 &= -\frac{G_R^2}{H_R + \lambda}
 \end{align*}
 $$
 
-The negative of the node loss $-\mathcal{L}\_{t,j}$ is named *score*.
+The negative of the node loss $-\mathcal{L}_{t,j}$ is named *score*.
 
 The decision of a tree branch forking is based on *gain*,
 which is the summed left + right children vs. parent score.
 
 $$
 \begin{align*}
-\text{Gain} &= \underbrace{\frac{1}{2} \frac{G_L^2}{H_L + \lambda}}\_{\text{Left Child Score}} + \underbrace{\frac{1}{2} \frac{G_R^2}{H_R + \lambda}}\_{\text{Right Child Score}} - \underbrace{\frac{1}{2} \frac{G_I^2}{H_I + \lambda}}\_{\text{Parent Score}}
+\text{Gain} &= \underbrace{\frac{1}{2} \frac{G_L^2}{H_L + \lambda}}_{\text{Left Child Score}} + \underbrace{\frac{1}{2} \frac{G_R^2}{H_R + \lambda}}_{\text{Right Child Score}} - \underbrace{\frac{1}{2} \frac{G_I^2}{H_I + \lambda}}_{\text{Parent Score}}
 \end{align*}
 $$
 

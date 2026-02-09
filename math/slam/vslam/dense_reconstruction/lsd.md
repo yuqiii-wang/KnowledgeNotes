@@ -26,16 +26,16 @@ $$
 Define the transform corresponding element as $\mathbf{\xi} \in se(3)$, or $\mathbf{\xi} \in \mathbb{R}^6$. Elements are mapped to $\mathbf{G}$ by $\mathbf{G}=\exp_{se(3)}(\mathbf{\xi})$,
 and its inverse is $\mathbf{\xi}=\log_{SE(3)}(\mathbf{G})$.
 The transformation moving a point from
-frame $i$ to frame $j$ is written as $\mathbf{\xi}\_{ij}$.
+frame $i$ to frame $j$ is written as $\mathbf{\xi}_{ij}$.
 
 Define the pose concatenation operator $\circ : se(3) \times se(3) \rightarrow se(3)$ as
 $$
-\mathbf{\xi}\_{ki} := 
-\mathbf{\xi}\_{kj} \circ \mathbf{\xi}\_{ji} :=
+\mathbf{\xi}_{ki} := 
+\mathbf{\xi}_{kj} \circ \mathbf{\xi}_{ji} :=
 \log_{SE(3)} \bigg(
-    \exp_{se(3)}(\mathbf{\xi}\_{kj})
+    \exp_{se(3)}(\mathbf{\xi}_{kj})
     \cdot 
-    \exp_{se(3)}(\mathbf{\xi}\_{ji})
+    \exp_{se(3)}(\mathbf{\xi}_{ji})
 \bigg)
 $$
 
@@ -89,7 +89,7 @@ $$
     \underbrace{\bigg(
     I_A(\mathbf{p}\_i) 
     - I_B \big(\omega(\mathbf{p}\_i, D_A(\mathbf{p}\_i), \mathbf{\xi}) \big)
-\bigg)^2}\_{:= r_i^2(\mathbf{\xi})}
+\bigg)^2}_{:= r_i^2(\mathbf{\xi})}
 $$
 
 whose iterative step update $\mathbf{\xi}^*=\Delta\mathbf{\xi}^*+\mathbf{\xi}_0$ by Gauss-Newton method can be computed via
@@ -126,12 +126,12 @@ $$
 LSD's proposed normalized-variance that takes into account varying noise on the depth estimates.
 
 Starting from an existing keyframe $K_i=(I_i, D_i, V_i)$, 
-the relative 3D pose $\mathbf{\xi}\_{ij} \in se(3)$ of a new image $I_j$ is computed by minimizing the variance-Huber-normalized photometric error:
+the relative 3D pose $\mathbf{\xi}_{ij} \in se(3)$ of a new image $I_j$ is computed by minimizing the variance-Huber-normalized photometric error:
 $$
 \min_{\mathbf{\xi} \in se(3)} E_\mathbf{p}(\mathbf{\xi_{ij}})= 
 \sum_{\mathbf{p} \in \Omega_{D_i}}
 \bigg|\bigg|
-    \frac{r_p^2 (\mathbf{p}, \mathbf{\xi}\_{ij})}{\sigma_{r_p (\mathbf{p}, \mathbf{\xi}\_{ij})}^2}
+    \frac{r_p^2 (\mathbf{p}, \mathbf{\xi}_{ij})}{\sigma_{r_p (\mathbf{p}, \mathbf{\xi}_{ij})}^2}
 \bigg|\bigg|_\delta
 $$
 
@@ -147,17 +147,17 @@ $$
 \right.
 $$
 
-$r_p (\mathbf{p}, \mathbf{\xi}\_{ij})$ is the Lucas-Kanade style photometric error
+$r_p (\mathbf{p}, \mathbf{\xi}_{ij})$ is the Lucas-Kanade style photometric error
 $$
-r_p (\mathbf{p}, \mathbf{\xi}\_{ij}) :=
-I_i(\mathbf{p}\_i)  - I_j \big(\omega(\mathbf{p}\_i, D_A(\mathbf{p}\_i), \mathbf{\xi}\_{ij})\big)
+r_p (\mathbf{p}, \mathbf{\xi}_{ij}) :=
+I_i(\mathbf{p}\_i)  - I_j \big(\omega(\mathbf{p}\_i, D_A(\mathbf{p}\_i), \mathbf{\xi}_{ij})\big)
 $$
 
-The residual’s variance $\sigma_{r_p (\mathbf{p}, \mathbf{\xi}\_{ij})}$ is computed using covariance propagation $\Sigma_{r_p}=J_{r_p} \Sigma_{r_p} J^\top_{r_p}$, where $J^\top_{r_p}$ is the Jacobian of $r_p$, and utilizing the inverse depth variance $V_i$:
+The residual’s variance $\sigma_{r_p (\mathbf{p}, \mathbf{\xi}_{ij})}$ is computed using covariance propagation $\Sigma_{r_p}=J_{r_p} \Sigma_{r_p} J^\top_{r_p}$, where $J^\top_{r_p}$ is the Jacobian of $r_p$, and utilizing the inverse depth variance $V_i$:
 $$
-\sigma^2_{r_p (\mathbf{p}, \mathbf{\xi}\_{ij})} :=
+\sigma^2_{r_p (\mathbf{p}, \mathbf{\xi}_{ij})} :=
 2\sigma_I^2 +
-\bigg( \frac{\partial r_p(\mathbf{p}, \mathbf{\xi}\_{ij})}
+\bigg( \frac{\partial r_p(\mathbf{p}, \mathbf{\xi}_{ij})}
 {\partial D_i(\mathbf{p})}
 \bigg)^2 V_i(\mathbf{p})
 $$
@@ -168,8 +168,8 @@ $$
 
 Define the distance between two keyframes from $K_i$ to $K_j$ as
 $$
-dist(\mathbf{\xi}\_{ij}) := 
-\mathbf{\xi}\_{ij}^\top W \mathbf{\xi}\_{ij}
+dist(\mathbf{\xi}_{ij}) := 
+\mathbf{\xi}_{ij}^\top W \mathbf{\xi}_{ij}
 $$
 
 where $W$ is a diagonal matrix containing the weights.
@@ -177,7 +177,7 @@ where $W$ is a diagonal matrix containing the weights.
 Each keyframe is scaled and its mean inverse depth
 is final one distance.
 
-If two keyframes with $dist(\mathbf{\xi}\_{ij})$ greater than a threshold, a new keyframe is created. 
+If two keyframes with $dist(\mathbf{\xi}_{ij})$ greater than a threshold, a new keyframe is created. 
 
 * Depth Map Creation
 
@@ -202,30 +202,30 @@ $$
 := 
 \sum_{\mathbf{p} \in \Omega_{D_i}}
 \bigg|\bigg|
-    \frac{r_p^2 (\mathbf{p}, \mathbf{\xi}\_{ij})}{\sigma_{r_p (\mathbf{p}, \mathbf{\xi}\_{ij})}^2}
+    \frac{r_p^2 (\mathbf{p}, \mathbf{\xi}_{ij})}{\sigma_{r_p (\mathbf{p}, \mathbf{\xi}_{ij})}^2}
     +
-    \frac{r_d^2 (\mathbf{p}, \mathbf{\xi}\_{ij})}{\sigma_{r_d (\mathbf{p}, \mathbf{\xi}\_{ij})}^2}   
+    \frac{r_d^2 (\mathbf{p}, \mathbf{\xi}_{ij})}{\sigma_{r_d (\mathbf{p}, \mathbf{\xi}_{ij})}^2}   
 \bigg|\bigg|_\delta
 $$
 
-where $r_d$ is defined as the gap between $3$-axis depth and the estimated depth from $1$- and $2$- axises of the transformed pixel $\mathbf{p}':= \omega_s \big(\mathbf{p}, D_i(\mathbf{p}), \mathbf{\xi}\_{ij} \big)$.
+where $r_d$ is defined as the gap between $3$-axis depth and the estimated depth from $1$- and $2$- axises of the transformed pixel $\mathbf{p}':= \omega_s \big(\mathbf{p}, D_i(\mathbf{p}), \mathbf{\xi}_{ij} \big)$.
 
 $$
-r_d(\mathbf{p}, \mathbf{\xi}\_{ij})
+r_d(\mathbf{p}, \mathbf{\xi}_{ij})
 :=
 [\mathbf{p}']_3 - D_j([\mathbf{p}']_{1,2})
 $$
 
 Accordingly, the variance for $r_d$ talks about two parts: one for $D_j([\mathbf{p}']_{1,2})$ and $D_j(\mathbf{p]})$
 $$
-\sigma^2_{r_d(\mathbf{p}, \mathbf{\xi}\_{ij})} := 
+\sigma^2_{r_d(\mathbf{p}, \mathbf{\xi}_{ij})} := 
 V_j([\mathbf{p}']_{1,2})
-\bigg( \frac{\partial \space r_d(\mathbf{p}, \mathbf{\xi}\_{ij})}
+\bigg( \frac{\partial \space r_d(\mathbf{p}, \mathbf{\xi}_{ij})}
 {\partial \space D_j([\mathbf{p}']_{1,2})}
 \bigg)^2
 +
 V_j(\mathbf{p})
-\bigg( \frac{\partial \space r_d(\mathbf{p}, \mathbf{\xi}\_{ij})}
+\bigg( \frac{\partial \space r_d(\mathbf{p}, \mathbf{\xi}_{ij})}
 {\partial \space D_j(\mathbf{p})}
 \bigg)^2
 $$
@@ -255,13 +255,13 @@ $$
 
 * Reciprocal tracking check to prevent false loop closures
 
-For each keyframe $K_{i}$, independently forward and reverse track $\mathbf{\xi}\_{ij}$ and $\mathbf{\xi}\_{ji}$. The detected loop closure is good only if the
+For each keyframe $K_{i}$, independently forward and reverse track $\mathbf{\xi}_{ij}$ and $\mathbf{\xi}_{ji}$. The detected loop closure is good only if the
 two estimates are statistically similar (by $\mathcal{L}_2$ norm err):
 $$
-e(\mathbf{\xi}\_{ij}, \mathbf{\xi}\_{ji}) = 
-(\mathbf{\xi}\_{ij} \circ \mathbf{\xi}\_{ji})^\top
+e(\mathbf{\xi}_{ij}, \mathbf{\xi}_{ji}) = 
+(\mathbf{\xi}_{ij} \circ \mathbf{\xi}_{ji})^\top
 \big( \Sigma_{ji} + Adj_{ji}\Sigma_{ij}Adj_{ji}^\top \big)^{-1}
-(\mathbf{\xi}\_{ij} \circ \mathbf{\xi}\_{ji})
+(\mathbf{\xi}_{ij} \circ \mathbf{\xi}_{ji})
 $$
 
 ### Optimizations
@@ -304,13 +304,13 @@ Similar to pyramid approach scaling images at different level.
 The map, consisting of a set of keyframes and tracked $sim(3)$-constraints, is continuously optimized in the background using pose graph optimization.
 
 $$
-\min_{\mathbf{\xi}\_{w1}, \mathbf{\xi}\_{w2}, ..., \mathbf{\xi}\_{wn}} E(\mathbf{\xi}\_{w1}, \mathbf{\xi}\_{w2}, ..., \mathbf{\xi}\_{wn})
+\min_{\mathbf{\xi}_{w1}, \mathbf{\xi}_{w2}, ..., \mathbf{\xi}_{wn}} E(\mathbf{\xi}_{w1}, \mathbf{\xi}_{w2}, ..., \mathbf{\xi}_{wn})
 := 
-\sum_{\mathbf{\xi}\_{ji}, \Sigma_{ji}}
-\big( \mathbf{\xi}\_{ji} \circ \mathbf{\xi}^{-1}\_{wi} \circ \mathbf{\xi}\_{wj} \big)^\top
+\sum_{\mathbf{\xi}_{ji}, \Sigma_{ji}}
+\big( \mathbf{\xi}_{ji} \circ \mathbf{\xi}^{-1}_{wi} \circ \mathbf{\xi}_{wj} \big)^\top
 \Sigma_{ji}
-\big( \mathbf{\xi}\_{ji} \circ \mathbf{\xi}^{-1}\_{wi} \circ \mathbf{\xi}\_{wj} \big)
+\big( \mathbf{\xi}_{ji} \circ \mathbf{\xi}^{-1}_{wi} \circ \mathbf{\xi}_{wj} \big)
 $$
 
-where $\mathbf{\xi}\_{ji}$ denotes the transform from $\mathbf{\xi}\_{j}$ to $\mathbf{\xi}\_{i}$, and the subscript $w$ means in the "world frame". 
+where $\mathbf{\xi}_{ji}$ denotes the transform from $\mathbf{\xi}_{j}$ to $\mathbf{\xi}_{i}$, and the subscript $w$ means in the "world frame". 
 

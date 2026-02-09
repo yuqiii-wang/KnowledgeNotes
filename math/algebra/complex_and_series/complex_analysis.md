@@ -76,8 +76,8 @@ For example, $f(z)=z^2$. There is
 
 $$
 f(z)=(x+iy)^2=
-\underbrace{x^2-y^2}\_{u(x,y)}+
-i\underbrace{2xy}\_{v(x,y)}
+\underbrace{x^2-y^2}_{u(x,y)}+
+i\underbrace{2xy}_{v(x,y)}
 $$
 
 The partial derivative is

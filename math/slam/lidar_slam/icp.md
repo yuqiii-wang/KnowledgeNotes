@@ -97,7 +97,7 @@ $$
         \\\\ &\quad\quad\quad +
         \underbrace{        
             2\big(\mathbf{p}\_i - \mathbf{p}_c -\mathbf{R}(\mathbf{p}'_i - \mathbf{p}'_c)\big)^\text{T} (\mathbf{p}_c-\mathbf{R}\mathbf{p}'_c-\mathbf{t})
-        }\_{\begin{matrix}
+        }_{\begin{matrix}
             =0 \\\\
             \text{because} \sum^n\_{i=1}\mathbf{p}_c-\sum^n\_{i=1}\mathbf{p}\_i=0
             \\\\ \text{ and }
@@ -137,11 +137,11 @@ $$
 \bigg|\bigg|^2_2=
 \frac{1}{2} \sum^n\_{i=1}
 \bigg(
-    \underbrace{\mathbf{q}^\text{T}\_i \mathbf{q}\_i}\_{\frac{\partial \mathbf{q}^\text{T}\_i \mathbf{q}\_i}{\partial \mathbf{R}}=0}
+    \underbrace{\mathbf{q}^\text{T}\_i \mathbf{q}\_i}_{\frac{\partial \mathbf{q}^\text{T}\_i \mathbf{q}\_i}{\partial \mathbf{R}}=0}
     +
-    \mathbf{q}^\text{T}\_i \underbrace{\mathbf{R}^\text{T}\mathbf{R}}\_{=\mathbf{I}} \mathbf{q}'_i
+    \mathbf{q}^\text{T}\_i \underbrace{\mathbf{R}^\text{T}\mathbf{R}}_{=\mathbf{I}} \mathbf{q}'_i
     -
-    \underbrace{2\mathbf{q}^\text{T}\_i \mathbf{R} \mathbf{q}'_i}\_{\text{To be maximized}}
+    \underbrace{2\mathbf{q}^\text{T}\_i \mathbf{R} \mathbf{q}'_i}_{\text{To be maximized}}
 \bigg)
 $$
 
@@ -178,7 +178,7 @@ tr \big(
 \big)=
 tr \big(
         \mathbf{\Sigma} 
-        \underbrace{\mathbf{V}^\text{T} \mathbf{R} \mathbf{U}}\_{=\mathbf{M}}
+        \underbrace{\mathbf{V}^\text{T} \mathbf{R} \mathbf{U}}_{=\mathbf{M}}
 \big)
 $$
 

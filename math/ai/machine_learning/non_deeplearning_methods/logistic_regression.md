@@ -7,8 +7,8 @@ Consider independent binary tests $y_i \in \{0,1\}$, by Bernoulli distribution t
 A sequence of Bernoulli trials $y_1, y_2, ..., y_n$ with a constant probability $\pi_i$ is
 
 $$
-\prod^{n}\_{i=1} f(y_i; \pi_i)^{y_i} \big(1-f(y_i; \pi_i)\big)^{1-y_i} =
-\prod^{n}\_{i=1} \pi_i^{y_i} (1-\pi_i)^{1-y_i}
+\prod^{n}_{i=1} f(y_i; \pi_i)^{y_i} \big(1-f(y_i; \pi_i)\big)^{1-y_i} =
+\prod^{n}_{i=1} \pi_i^{y_i} (1-\pi_i)^{1-y_i}
 $$
 
 Usually, likelihood is maximized at $\hat{p}=\frac{1}{n} \sum^n\_{i=1} y_i$ (just count the $y_i$ events).
@@ -41,7 +41,7 @@ This is useful such as in activation function in deep learning that it outputs m
 
 Given $\pi(x)=\frac{e^x}{1+e^x}$, the derivative is $\pi'(x)=\pi(x)\big(1-\pi(x)\big)$.
 
-Interestingly, $\pi'(x)$ is exactly a step of a sequence of Bernoulli trials $\prod^{n}\_{i=1} \pi_i^{y_i} (1-\pi_i)^{1-y_i}$.
+Interestingly, $\pi'(x)$ is exactly a step of a sequence of Bernoulli trials $\prod^{n}_{i=1} \pi_i^{y_i} (1-\pi_i)^{1-y_i}$.
 
 ## Function Form
 

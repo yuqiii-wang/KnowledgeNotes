@@ -175,10 +175,10 @@ The quaternion derivative can be expressed as $\frac{d\mathbf{q}}{d\Delta t}=\fr
 
 ## Quaternion Integral
 
-The $\mathbf{q}(t+\Delta t)=\mathbf{q}\_{t+1}$ can be derived from Taylor series 
+The $\mathbf{q}(t+\Delta t)=\mathbf{q}_{t+1}$ can be derived from Taylor series 
 $$
 \begin{align*}
-\mathbf{q}\_{t+1} &= \mathbf{q}_t + \frac{d\mathbf{q}\_{t}}{d\Delta t} \Delta t+\frac{1}{2!}\frac{d^2\mathbf{q}\_{t}}{d\Delta t^2} \Delta t^2+\frac{1}{3!}\frac{d^3\mathbf{q}\_{t}}{d\Delta t^3} \Delta t^3 + ...
+\mathbf{q}_{t+1} &= \mathbf{q}_t + \frac{d\mathbf{q}_{t}}{d\Delta t} \Delta t+\frac{1}{2!}\frac{d^2\mathbf{q}_{t}}{d\Delta t^2} \Delta t^2+\frac{1}{3!}\frac{d^3\mathbf{q}_{t}}{d\Delta t^3} \Delta t^3 + ...
 \\\\ &=
 \Big( I_{4 \times 4} + \frac{1}{2} \Omega(\mathbf{\omega})\Delta t+\frac{1}{2!} \big(\frac{1}{2} \Omega(\mathbf{\omega})\Delta t\big)^2 +\frac{1}{3!} \big(\frac{1}{2} \Omega(\mathbf{\omega}) \Delta t \big)^3 + ... \Big) \mathbf{q}_t
 && \qquad \text{Apply } \frac{d\mathbf{q}}{d\Delta t}=\frac{1}{2} \Omega(\mathbf{\omega}) \mathbf{q} \text{ to all derivatives recursively to all degrees}

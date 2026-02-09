@@ -76,7 +76,7 @@ Encode in IEEE-754 Format
 Recall $1.0111\times 2^2$, to represent in binary format, there is
 
 $$
-\underbrace{0}\_{\text{sign}} \underbrace{10000001}\_{2^2} \underbrace{01110000000000000000000}\_{.0111}
+\underbrace{0}_{\text{sign}} \underbrace{10000001}_{2^2} \underbrace{01110000000000000000000}_{.0111}
 $$
 
 ## INT4 Quantization (Round To Nearest (RTN))
@@ -87,7 +87,7 @@ $$
 \begin{align*}
 \text{scale}&=\frac{x_{\max}-x_{\min}}{2^4-1}=\frac{x_{\max}-x_{\min}}{15} \\\\
 \text{zeroPointFloat}&=\text{round}\Big(\frac{-x_{\min}}{\text{scale}}\Big) \\\\
-\text{zeroPointInt}&=\text{zeroPointFloat}+\text{INT4}\_{\min} \\\\
+\text{zeroPointInt}&=\text{zeroPointFloat}+\text{INT4}_{\min} \\\\
 \text{quantizedValue}&=\text{clamp}\Big(\text{round}\big(\frac{x}{\text{scale}}+\text{zeroPointInt}\big), -8, 7\Big) \\\\
 \end{align*}
 $$
@@ -95,7 +95,7 @@ $$
 where
 
 * Scale: Determines the step size between integer values.
-* Zero Point: Shifts the integer range to match the floating-point range, and $\text{INT4}\_{\min}=-8$.
+* Zero Point: Shifts the integer range to match the floating-point range, and $\text{INT4}_{\min}=-8$.
 
 ### Asymmetric Quantization Example of FP32 -> INT4
 
@@ -134,8 +134,8 @@ $$
 where $\hat{W}$ denotes the quantized weights.
 The multiplication result is $WX\in\mathbb{R}^{m\times d}$.
 
-Recall Frobenius norm definition $||A||_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n |a_{ij}|^2}$ that is the sqrt of variance sum, the objective $||WX-\hat{W}X||^2_2$ by Frobenius norm basically means the sum of all individual variances $|w_{ij}x_{ij}-\hat{w}\_{ij}x_{ij}|^2$.
-In other words, the quantized result with input $\hat{w}\_{ij}x_{ij}$ should approximate as much as possible to the full-precision equivalent $w_{ij}x_{ij}$.
+Recall Frobenius norm definition $||A||_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n |a_{ij}|^2}$ that is the sqrt of variance sum, the objective $||WX-\hat{W}X||^2_2$ by Frobenius norm basically means the sum of all individual variances $|w_{ij}x_{ij}-\hat{w}_{ij}x_{ij}|^2$.
+In other words, the quantized result with input $\hat{w}_{ij}x_{ij}$ should approximate as much as possible to the full-precision equivalent $w_{ij}x_{ij}$.
 
 ### The Hessian of the Objective $||WX-\hat{W}X||^2_2$
 
@@ -229,7 +229,7 @@ To mitigate this, the OBS framework allows the other weights to adjust optimally
 
 The optimization problem wishes to find an optimal adjustment $\delta w_p$ that minimizes the increase in error, subject to the constraint $\delta w_p=-w_p$.
 
-Introduce the vector $\mathbf{e}_p=[\underbrace{0, 0, ..., 0, 1}\_{p \text{ entries}}, 0, ..., 0]$ which is zero everywhere except for a $1$ at the $p$-th position.
+Introduce the vector $\mathbf{e}_p=[\underbrace{0, 0, ..., 0, 1}_{p \text{ entries}}, 0, ..., 0]$ which is zero everywhere except for a $1$ at the $p$-th position.
 The constraint can be written as $\mathbf{e}_p^{\top}\delta\mathbf{w}=-w_p$.
 
 To solve the optimization problem $\frac{1}{2}\delta\mathbf{w}^{\top}H\delta\mathbf{w}$ subject to the constraint $\mathbf{e}_p^{\top}\delta\mathbf{w}=-w_p$, one can use Lagrangian Multiplier (denoted by $\lambda$).
@@ -256,18 +256,18 @@ $$
 -\lambda \mathbf{e}_p^{\top} H^{-1} \mathbf{e}_p=-w_p
 $$
 
-Notice that $\mathbf{e}_p^{\top} H^{-1} \mathbf{e}_p=H^{-1}\_{pp}$ is the $p$-th diagonal element of $H^{-1}$, hence,
+Notice that $\mathbf{e}_p^{\top} H^{-1} \mathbf{e}_p=H^{-1}_{pp}$ is the $p$-th diagonal element of $H^{-1}$, hence,
 
 $$
--\lambda H^{-1}\_{pp} = -w_p
-\qquad\Rightarrow\qquad \lambda=\frac{w_p}{H^{-1}\_{pp}}
+-\lambda H^{-1}_{pp} = -w_p
+\qquad\Rightarrow\qquad \lambda=\frac{w_p}{H^{-1}_{pp}}
 $$
 
 Finally,
 
 $$
-H\delta \mathbf{w} + \frac{w_p}{H^{-1}\_{pp}}\mathbf{e}_p=0 \qquad\Rightarrow\qquad
-\delta \mathbf{w}=-\frac{w_p}{H^{-1}\_{pp}}H^{-1}\mathbf{e}_p=-\frac{w_p}{H^{-1}\_{pp}}H^{-1}\_{:,p}
+H\delta \mathbf{w} + \frac{w_p}{H^{-1}_{pp}}\mathbf{e}_p=0 \qquad\Rightarrow\qquad
+\delta \mathbf{w}=-\frac{w_p}{H^{-1}_{pp}}H^{-1}\mathbf{e}_p=-\frac{w_p}{H^{-1}_{pp}}H^{-1}_{:,p}
 $$
 
 and for the loss $\Delta\mathcal{L}\approx\frac{1}{2}\delta\mathbf{w}^{\top}H\delta\mathbf{w}$,
@@ -275,10 +275,10 @@ and for the loss $\Delta\mathcal{L}\approx\frac{1}{2}\delta\mathbf{w}^{\top}H\de
 $$
 \begin{align*}
     \frac{1}{2}\delta\mathbf{w}^{\top}H\delta\mathbf{w}&=
-    \frac{1}{2}\big(\frac{w_p}{H^{-1}\_{pp}}H^{-1}\mathbf{e}_p\big)^{\top} H \frac{w_p}{H^{-1}\_{pp}}H^{-1}\mathbf{e}_p \\\\
-    &= \frac{1}{2} \frac{w_p}{H^{-1}\_{pp}} \big(\mathbf{e}^{\top}_p H^{-1} H H^{-1}\mathbf{e}_p \big)\frac{w_p}{H^{-1}\_{pp}} \\\\
-    &= \frac{1}{2} \frac{w_p}{H^{-1}\_{pp}} H_{pp}^{-1} \frac{w_p}{H^{-1}\_{pp}} \\\\
-    &= \frac{w_p^2}{2H^{-1}\_{pp}}
+    \frac{1}{2}\big(\frac{w_p}{H^{-1}_{pp}}H^{-1}\mathbf{e}_p\big)^{\top} H \frac{w_p}{H^{-1}_{pp}}H^{-1}\mathbf{e}_p \\\\
+    &= \frac{1}{2} \frac{w_p}{H^{-1}_{pp}} \big(\mathbf{e}^{\top}_p H^{-1} H H^{-1}\mathbf{e}_p \big)\frac{w_p}{H^{-1}_{pp}} \\\\
+    &= \frac{1}{2} \frac{w_p}{H^{-1}_{pp}} H_{pp}^{-1} \frac{w_p}{H^{-1}_{pp}} \\\\
+    &= \frac{w_p^2}{2H^{-1}_{pp}}
 \end{align*}
 $$
 
@@ -296,7 +296,7 @@ ExactOBS achieves $\mathcal{O}\big(n \cdot m^3\big)$ without approximation by av
 ExactOBS rewrites the above Frobenius error term as the sum of the squared errors for each row in the weight matrix $W\in\mathbb{R}^{n\times m}$ such that
 
 $$
-\min_{\hat{W}} \sum^n\_{i=1}||W_{i,:}X-\hat{W}\_{i,:}X||^2_2
+\min_{\hat{W}} \sum^n\_{i=1}||W_{i,:}X-\hat{W}_{i,:}X||^2_2
 $$
 
 where $W_{i,:}\in\mathbb{R}^{1\times m}$, and accordingly its Hessian is $H_{i,:}\in\mathbb{R}^{m\times m}$.
@@ -332,16 +332,16 @@ $$
 
 The removal (or "zero out") of the $p$-th weight from a weight row is equivalent to adding a rank-one modification to the system $H^{-1}$.
 
-Substitute $\mathbf{u}=-\frac{\mathbf{e}\_ p}{\sqrt{H^{-1}\_{pp}}}$ and $\mathbf{v}=\frac{\mathbf{e}\_ p}{\sqrt{H^{-1}\_{pp}}}$ into the Sherman-Morrison Formula,
+Substitute $\mathbf{u}=-\frac{\mathbf{e}\_ p}{\sqrt{H^{-1}_{pp}}}$ and $\mathbf{v}=\frac{\mathbf{e}\_ p}{\sqrt{H^{-1}_{pp}}}$ into the Sherman-Morrison Formula,
 
 $$
-\tilde{H}\_{i,:}^{-1}=
-H_{i,:}^{-1}-\frac{H_{i,:}^{-1}\mathbf{e}_p\mathbf{e}_p^{\top}H_{i,:}^{-1}}{H^{-1}\_{pp}}
+\tilde{H}_{i,:}^{-1}=
+H_{i,:}^{-1}-\frac{H_{i,:}^{-1}\mathbf{e}_p\mathbf{e}_p^{\top}H_{i,:}^{-1}}{H^{-1}_{pp}}
 $$
 
 This is equivalent to performing Gaussian elimination of row and column $p$ in $H_{i,:}^{−1}$ followed by dropping them completely.
 
-$H_{i,:}^{−1}\in\mathbb{R}^{m\times m}$ costs $\mathcal{O}(m^2)$ for only element-wise operation is conducted in computing $\tilde{H}\_{i,:}^{-1}$.
+$H_{i,:}^{−1}\in\mathbb{R}^{m\times m}$ costs $\mathcal{O}(m^2)$ for only element-wise operation is conducted in computing $\tilde{H}_{i,:}^{-1}$.
 
 Total cost for all $n$ rows in each row all $m$ individual weights are $\mathcal{O}(n\cdot m \cdot m^2)$.
 
@@ -350,12 +350,12 @@ Total cost for all $n$ rows in each row all $m$ individual weights are $\mathcal
 To map OBS to a quantized projection, rewrite the target of the Lagrangian constraint to $\hat{w}_p-w_p$, where $\hat{w}_p$ is the estimated optimal quantized/rounding weight for the $p$-th weight.
 
 $$
-w_p=\argmin_{w_p}\frac{(\hat{w}_p-w_p)^2}{H^{-1}\_{pp}},\qquad
-\delta \mathbf{w}=-\frac{\hat{w}_p-w_p}{H^{-1}\_{pp}}H^{-1}\_{:,p}
+w_p=\argmin_{w_p}\frac{(\hat{w}_p-w_p)^2}{H^{-1}_{pp}},\qquad
+\delta \mathbf{w}=-\frac{\hat{w}_p-w_p}{H^{-1}_{pp}}H^{-1}_{:,p}
 $$
 
 This is greedy because it makes locally optimal decisions (i.e., pick the best weight to quantize next) at each step based on second-order information.
-It is optimal in the sense that the local choices use the exact Hessian curvature (via $H^{-1}\_{pp}$) for accurate loss prediction.
+It is optimal in the sense that the local choices use the exact Hessian curvature (via $H^{-1}_{pp}$) for accurate loss prediction.
 
 ### The GPTQ Algorithm
 
@@ -488,11 +488,11 @@ For the saliency of weight channels is actually determined by the activation sca
 the scale factor search space is defined
 
 $$
-\mathbf{s}=\mathbf{s}\_{X}^{\alpha},\qquad
-\alpha^{*}=\argmin_{\alpha}\mathcal{L}(\mathbf{s}\_{X}^{\alpha})
+\mathbf{s}=\mathbf{s}_{X}^{\alpha},\qquad
+\alpha^{*}=\argmin_{\alpha}\mathcal{L}(\mathbf{s}_{X}^{\alpha})
 $$
 
-$\mathbf{s}\_{X}$ is the average magnitude of activation (per-channel) observed over a calibration dataset (a small subset of training dataset), $\alpha$ a single hyper-parameter to balance between the protection of salient and non-salient channels.
+$\mathbf{s}_{X}$ is the average magnitude of activation (per-channel) observed over a calibration dataset (a small subset of training dataset), $\alpha$ a single hyper-parameter to balance between the protection of salient and non-salient channels.
 
 $\alpha\in[0,1]$ is defined when $\alpha=0$, there is no scaling $\mathbf{s}=\mathbf{1}$;
 when $\alpha=1$, this corresponds to the most aggressive scaling in search space.

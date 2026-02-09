@@ -21,9 +21,9 @@ $$
 \beta^{(k+1)}=\beta^{(k)}-(\mathbf{J}_r^T \mathbf{J}_r)^{-1} \mathbf{J}_r^T \mathbf{r}(\mathbf{\beta}^{(k)})
 $$
 
-where $\mathbf{J}\_{\mathbf{r}}$ is Jacobian matrix, whose enrty is 
+where $\mathbf{J}_{\mathbf{r}}$ is Jacobian matrix, whose enrty is 
 $$
-(\mathbf{J}\_{\mathbf{r}})_{i,j}=\frac{\partial \mathbf{r}\_i (\mathbf{\beta}^{(k)})}{\partial \beta_j}
+(\mathbf{J}_{\mathbf{r}})_{i,j}=\frac{\partial \mathbf{r}\_i (\mathbf{\beta}^{(k)})}{\partial \beta_j}
 $$
 
 Intuitively speaking, $(\mathbf{J}_r^T \mathbf{J}_r)^{-1} \mathbf{J}_r^T$ is a $\mathbb{R}^{n \times m}$ version of Newton method's $\frac{1}{f'(x)}$, and $\mathbf{r}(\mathbf{\beta}^{(k)})$ is a $\mathbb{R}^{m \times 1}$ version of Newton method's $f(x)$.

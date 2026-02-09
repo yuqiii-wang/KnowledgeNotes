@@ -29,7 +29,7 @@ In computer vision, words translate to features, and documents/sentences transla
 To describe the similarity between two images, usually compare the similarities of feature points.
 Regard each feature point of an image as a "word", this image can be described in a way of vector containing many words.
 
-For example, for BRIEF features, an image can be described by the vector $\mathbf{v}=\{v_1, v_2, ..., v_m \}$, where each word is $v_k = \sum^{n=256}\_{i=1} 2^{i-1} t_{i}(p,q)$ for a total of $256$ test pairs $(p,q)$.
+For example, for BRIEF features, an image can be described by the vector $\mathbf{v}=\{v_1, v_2, ..., v_m \}$, where each word is $v_k = \sum^{n=256}_{i=1} 2^{i-1} t_{i}(p,q)$ for a total of $256$ test pairs $(p,q)$.
 
 ### BoW Vocabulary
 

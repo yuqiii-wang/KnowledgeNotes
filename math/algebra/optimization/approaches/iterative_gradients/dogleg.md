@@ -19,7 +19,7 @@ $$
 \frac{1}{2} \mathbf{p}^\text{T} H_k \mathbf{p}
 $$
 
-where $H_k$ is a Hessian matrix of the objective function $\mathbf{f}_k$, and $\mathbf{p}$ is the variable to $\mathbf{m}_k$. Intuitively speaking, $\mathbf{p}=\Delta\mathbf{x}_k; \quad \mathbf{x}\_{k+1}=\mathbf{x}_k+\Delta\mathbf{x}_k$ describes the possible next step. 
+where $H_k$ is a Hessian matrix of the objective function $\mathbf{f}_k$, and $\mathbf{p}$ is the variable to $\mathbf{m}_k$. Intuitively speaking, $\mathbf{p}=\Delta\mathbf{x}_k; \quad \mathbf{x}_{k+1}=\mathbf{x}_k+\Delta\mathbf{x}_k$ describes the possible next step. 
 
 The gray area shows good approximation by $\mathbf{m}_k$ (the smaller the gray area, the better the approximation), where within the trust region, the contours of $\mathbf{f}$ and $\mathbf{m}_k$ are similar to each other having similar contour curvatures. However, outside the trust region, the contours of $\mathbf{f}$ and $\mathbf{m}_k$ are quite different, rendering bad approximation of $\mathbf{f}$ by $\mathbf{m}_k$. The line search method such as Newton's method would perform badly in this scenario.
 
@@ -85,11 +85,11 @@ H_k
 \bigg)
 \\\\ &=
 \mathbf{f}_k 
-\underbrace{- \tau_k \frac{\Delta_k}{\big|\big| \nabla \mathbf{f}_k \big|\big|} \nabla \mathbf{f}_k^\text{T} \nabla\mathbf{f}_k }\_{
+\underbrace{- \tau_k \frac{\Delta_k}{\big|\big| \nabla \mathbf{f}_k \big|\big|} \nabla \mathbf{f}_k^\text{T} \nabla\mathbf{f}_k }_{
       :=M_1}
 +
 \underbrace{\frac{1}{2} \tau_k^2 \frac{\Delta_k^2}{\big|\big| \nabla \mathbf{f}_k \big|\big|^2} 
-\nabla \mathbf{f}_k^\text{T} H_k \nabla\mathbf{f}_k }\_{
+\nabla \mathbf{f}_k^\text{T} H_k \nabla\mathbf{f}_k }_{
       := M_2}
 \end{align*}
 $$

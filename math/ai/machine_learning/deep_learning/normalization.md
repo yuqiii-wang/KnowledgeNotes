@@ -7,19 +7,19 @@ For example, given a vector $\mathbf{v}=[3,4]$, there are
 * L1 Normalization (Manhattan Distance)
 
 $$
-\mathbf{v}\_{\text{norm}} = \frac{[3,4]}{3+4} = [\frac{3}{7},\frac{4}{7}] \approx [0.4286, 0.5714]
+\mathbf{v}_{\text{norm}} = \frac{[3,4]}{3+4} = [\frac{3}{7},\frac{4}{7}] \approx [0.4286, 0.5714]
 $$
 
 * L2 Normalization (Euclidean Distance)
 
 $$
-\mathbf{v}\_{\text{norm}} = \frac{[3,4]}{\sqrt{3^2+4^2}} = \frac{[3,4]}{5} = [0.6, 0.8]
+\mathbf{v}_{\text{norm}} = \frac{[3,4]}{\sqrt{3^2+4^2}} = \frac{[3,4]}{5} = [0.6, 0.8]
 $$
 
 * MAX Normalization (Chebyshev Distance)
 
 $$
-\mathbf{v}\_{\text{norm}} = \frac{[3,4]}{\max(\{3, 4\})} = \frac{[3,4]}{4} = [0.75, 1]
+\mathbf{v}_{\text{norm}} = \frac{[3,4]}{\max(\{3, 4\})} = \frac{[3,4]}{4} = [0.75, 1]
 $$
 
 where L2 normalization is the most used for vector similarity computation, e.g., for cosine similarity.
@@ -28,7 +28,7 @@ where L2 normalization is the most used for vector similarity computation, e.g.,
 
 Layer normalization is applied over the feature dimensions of a single training example rather than over the batch.
 
-Given $\mu=\frac{1}{d}\sum^{d}\_{i=1}d_i$ and $\sigma^2=\frac{1}{d}\sum^d_{i=1}(x\_i-\mu)^2$,
+Given $\mu=\frac{1}{d}\sum^{d}_{i=1}d_i$ and $\sigma^2=\frac{1}{d}\sum^d_{i=1}(x\_i-\mu)^2$,
 the layer norm is defined as
 
 $$

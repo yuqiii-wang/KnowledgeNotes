@@ -26,7 +26,7 @@ s \begin{bmatrix}
         t_5 & t_6 & t_7 & t_8 \\\\
         t_9 & t_{10} & t_{11} & t_{12} \\\\
     \end{bmatrix}
-}\_{[\mathbf{R}|\mathbf{t}]}
+}_{[\mathbf{R}|\mathbf{t}]}
 \begin{bmatrix}
     X \\\\
     Y \\\\

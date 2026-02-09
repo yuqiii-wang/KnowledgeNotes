@@ -77,7 +77,7 @@ Recall that in Schur elimination, the camera pose computation gives the below ex
 
 $$
 (\mathbf{B}-\mathbf{E}\mathbf{C}^{-1}\mathbf{E}^\text{T})
-\Delta \mathbf{x}\_{\mathbf{\xi}}=
+\Delta \mathbf{x}_{\mathbf{\xi}}=
 \mathbf{v} - \mathbf{E}\mathbf{C}^{-1} \mathbf{w}
 $$
 
@@ -115,7 +115,7 @@ $$
 
 where $\mathbf{\mu}_k$ is mean of the $k$-th keyframe, $\Sigma$ is the covariance matrix of all keyframes.
 
-BA collectively computes the windows's keyframes, and delivers the $\mathbf{S}$ that determines camera poses $\mathbf{x}\_{\mathbf{\xi}_k}: k = 1,2,...,n$.
+BA collectively computes the windows's keyframes, and delivers the $\mathbf{S}$ that determines camera poses $\mathbf{x}_{\mathbf{\xi}_k}: k = 1,2,...,n$.
 
 ### Manage Keyframes in a Window
 
@@ -123,18 +123,18 @@ BA collectively computes the windows's keyframes, and delivers the $\mathbf{S}$ 
 
 The sliding window has established $n$ keyframes at the last moment, and a certain Gaussian distribution describes poses conditional on landmarks.
 
-A new keyframe can be directly added to the window (denoted as $\mathbf{x}\_{n+1}$) and BA can normally perform computation on $\mathbf{S}$, in contrast to pose removal that has concerns over correlated observed landmarks between various poses.
+A new keyframe can be directly added to the window (denoted as $\mathbf{x}_{n+1}$) and BA can normally perform computation on $\mathbf{S}$, in contrast to pose removal that has concerns over correlated observed landmarks between various poses.
 
 $$
-[\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_n, \mathbf{x}\_{n+1} | \mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_m, \mathbf{y}\_{m+1}, ..., \mathbf{y}\_{m_{n+1}}]
-\sim N([\mathbf{\mu}_1, \mathbf{\mu}_2, ..., \mathbf{\mu}_n, \mathbf{\mu}\_{n+1}]^\text{T}, \Sigma_{n+1})
+[\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_n, \mathbf{x}_{n+1} | \mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_m, \mathbf{y}_{m+1}, ..., \mathbf{y}_{m_{n+1}}]
+\sim N([\mathbf{\mu}_1, \mathbf{\mu}_2, ..., \mathbf{\mu}_n, \mathbf{\mu}_{n+1}]^\text{T}, \Sigma_{n+1})
 $$
 
-where $[\mathbf{y}\_{m+1}, ..., \mathbf{y}\_{m_{n+1}}]$ are the new landmarks observed from the new pose $\mathbf{x}\_{n+1}$. There is possibility that landmarks $\mathbf{y}_k \in [\mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_m]$ are observed from the new camera pose $\mathbf{x}\_{n+1}$
+where $[\mathbf{y}_{m+1}, ..., \mathbf{y}_{m_{n+1}}]$ are the new landmarks observed from the new pose $\mathbf{x}_{n+1}$. There is possibility that landmarks $\mathbf{y}_k \in [\mathbf{y}_1, \mathbf{y}_2, ..., \mathbf{y}_m]$ are observed from the new camera pose $\mathbf{x}_{n+1}$
 
 * Removing Old Keyframes
 
-Keyframe removal, intuitively speaking, asks for the result of marginalization of $\mathbf{x}_1$ such as $P(\mathbf{x}_2, \mathbf{x}_3, ..., \mathbf{x}_n, \mathbf{y}\_{1}, \mathbf{y}\_{2}, ..., \mathbf{y}\_{m} | \mathbf{x}_1)$, where $[\mathbf{y}\_{1}, \mathbf{y}\_{2}, ..., \mathbf{y}\_{m}]$ are shared landmark observations between camera poses $[\mathbf{x}_2, ..., \mathbf{x}_n]$.
+Keyframe removal, intuitively speaking, asks for the result of marginalization of $\mathbf{x}_1$ such as $P(\mathbf{x}_2, \mathbf{x}_3, ..., \mathbf{x}_n, \mathbf{y}_{1}, \mathbf{y}_{2}, ..., \mathbf{y}_{m} | \mathbf{x}_1)$, where $[\mathbf{y}_{1}, \mathbf{y}_{2}, ..., \mathbf{y}_{m}]$ are shared landmark observations between camera poses $[\mathbf{x}_2, ..., \mathbf{x}_n]$.
 
 Schur elimination (a.k.a marginalization) removing $\mathbf{x}_1$ can cause a sparse matrix dense. This phenomenon is termed *fill-in*.
 
@@ -146,8 +146,8 @@ $$
     \mathbf{E}^\text{T} & \mathbf{C}
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{\mathbf{\xi}} \\\\
-    \Delta \mathbf{x}\_{\mathbf{p}}
+    \Delta \mathbf{x}_{\mathbf{\xi}} \\\\
+    \Delta \mathbf{x}_{\mathbf{p}}
 \end{bmatrix}=
 \begin{bmatrix}
     \mathbf{v} \\\\
@@ -159,11 +159,11 @@ $$
 
 First, permutation takes place moving $\mathbf{x}_1$- related landmark elements to the margin from $\mathbf{E}, \mathbf{E}^\text{T}, \mathbf{C}$.
 
-Then perform marginalization. Denote the permuted sub matrices (marked as slash-shaded areas) as $\mathbf{B}'=\mathbf{\Lambda}\_{p_{11}}, \mathbf{E}'=[\mathbf{\Lambda_{mp_{1,1:m}}} \quad \mathbf{\Lambda_{pp_{m,1:m}}}]$, 
+Then perform marginalization. Denote the permuted sub matrices (marked as slash-shaded areas) as $\mathbf{B}'=\mathbf{\Lambda}_{p_{11}}, \mathbf{E}'=[\mathbf{\Lambda_{mp_{1,1:m}}} \quad \mathbf{\Lambda_{pp_{m,1:m}}}]$, 
 and $\mathbf{C}'$ describes the remaining of the original $\mathbf{\Lambda}$ (the non-slash-shaded area): $\mathbf{C}'=\{ \forall \lambda_{ij} \in \mathbf{\Lambda}, \forall \lambda_{ij} \notin \mathbf{B}', \forall \lambda_{ij} \notin \mathbf{E}', \forall \lambda_{ij} \notin \mathbf{E}'^\text{T} \}$.
 
 Schur trick works on this linear system, where $\mathbf{v}'$ refers to permuted noises about $\mathbf{x}_1$. 
-The marginalization aims to compute $\Delta \mathbf{x}\_{{\mathbf{x}_1 } \notin \mathbf{x}}$.
+The marginalization aims to compute $\Delta \mathbf{x}_{{\mathbf{x}_1 } \notin \mathbf{x}}$.
 
 $$
 \begin{bmatrix}
@@ -171,8 +171,8 @@ $$
     \mathbf{E}'^\text{T} & \mathbf{C}'
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{{\mathbf{x}_1 }} \\\\
-    \Delta \mathbf{x}\_{{\mathbf{x}_1 } \notin \mathbf{x}}
+    \Delta \mathbf{x}_{{\mathbf{x}_1 }} \\\\
+    \Delta \mathbf{x}_{{\mathbf{x}_1 } \notin \mathbf{x}}
 \end{bmatrix}=
 \begin{bmatrix}
     \mathbf{v}'_{{\mathbf{x}_1 }} \\\\
@@ -180,30 +180,30 @@ $$
 \end{bmatrix}
 $$
 
-The coefficients for $\Delta \mathbf{x}\_{{\mathbf{x}_1 } \notin \mathbf{x}}$ should be
+The coefficients for $\Delta \mathbf{x}_{{\mathbf{x}_1 } \notin \mathbf{x}}$ should be
 $$
 (\mathbf{C}'-\mathbf{E}'^\text{T}\mathbf{B}'^{-1}\mathbf{E}')
-\Delta \mathbf{x}\_{{\mathbf{x}_1 } \notin \mathbf{x}}=
+\Delta \mathbf{x}_{{\mathbf{x}_1 } \notin \mathbf{x}}=
 \mathbf{v}'_{{\mathbf{x}_1 } \notin \mathbf{x}} - \mathbf{E}'^\text{T}\mathbf{B}'^{-1} \mathbf{v}'_{\mathbf{x}_1 }
 $$
 
 The coefficient matrix $\mathbf{S}'=\mathbf{C}'-\mathbf{E}'^\text{T}\mathbf{B}'^{-1}\mathbf{E}'$ is not sparse as a result of marginalization that removes $\mathbf{x}_1$. Fill-in refers to the dense matrix $\mathbf{S}'$ that derives from $\begin{bmatrix}    \mathbf{B} & \mathbf{E} \\\\    \mathbf{E}^\text{T} & \mathbf{C}   \end{bmatrix}$ which is a sparse matrix.
 
-Denote $\mathbf{S}' = \begin{bmatrix}    \mathbf{B}\_{\mathbf{S}'} & \mathbf{E}\_{\mathbf{S}'}  \\\\    \mathbf{E}\_{\mathbf{S}'} ^\text{T} & \mathbf{C}\_{\mathbf{S}'}    \end{bmatrix}$, now the linear system without $\mathbf{x}_1$ can be expressed as
+Denote $\mathbf{S}' = \begin{bmatrix}    \mathbf{B}_{\mathbf{S}'} & \mathbf{E}_{\mathbf{S}'}  \\\\    \mathbf{E}_{\mathbf{S}'} ^\text{T} & \mathbf{C}_{\mathbf{S}'}    \end{bmatrix}$, now the linear system without $\mathbf{x}_1$ can be expressed as
 
 $$
 \begin{bmatrix}    
-    \mathbf{B}\_{\mathbf{S}'} & \mathbf{E}\_{\mathbf{S}'}  
+    \mathbf{B}_{\mathbf{S}'} & \mathbf{E}_{\mathbf{S}'}  
     \\\\    
-    \mathbf{E}\_{\mathbf{S}'} ^\text{T} & \mathbf{C}\_{\mathbf{S}'}    
+    \mathbf{E}_{\mathbf{S}'} ^\text{T} & \mathbf{C}_{\mathbf{S}'}    
 \end{bmatrix}
 \begin{bmatrix}
-    \Delta \mathbf{x}\_{\mathbf{\xi}\_{\mathbf{x}_1 \notin \mathbf{x}}} \\\\
-    \Delta \mathbf{x}\_{\mathbf{p}\_{\mathbf{x}_1 \notin \mathbf{x}}}
+    \Delta \mathbf{x}_{\mathbf{\xi}_{\mathbf{x}_1 \notin \mathbf{x}}} \\\\
+    \Delta \mathbf{x}_{\mathbf{p}_{\mathbf{x}_1 \notin \mathbf{x}}}
 \end{bmatrix}=
 \begin{bmatrix}
-    \mathbf{v}\_{\mathbf{x}_1 \notin \mathbf{x}} \\\\
-    \mathbf{w}\_{\mathbf{x}_1 \notin \mathbf{x}}
+    \mathbf{v}_{\mathbf{x}_1 \notin \mathbf{x}} \\\\
+    \mathbf{w}_{\mathbf{x}_1 \notin \mathbf{x}}
 \end{bmatrix}
 $$
 
@@ -222,8 +222,8 @@ Pose graph agrees on this assumption that mainly focuses on optimizing camera po
 Define a camera pose $[\mathbf{R}|\mathbf{t}]_i$, for $j \ne i$, define another pose $[\mathbf{R}|\mathbf{t}]_j$ (NOT necessarily the next step $j=1,2, ..., i-2,i-1,i+1,i+2,...$). The movement in between is denoted as $\Delta [\mathbf{R}|\mathbf{t}]_{ij}$
 
 $$
-\Delta \mathbf{\xi}\_{ij} = 
-\mathbf{\xi}\_{i}^{-1} \circ \mathbf{\xi}\_{j}=
+\Delta \mathbf{\xi}_{ij} = 
+\mathbf{\xi}_{i}^{-1} \circ \mathbf{\xi}_{j}=
 ln([\mathbf{R}|\mathbf{t}]_{i}^{-1} [\mathbf{R}|\mathbf{t}]_{j})^\vee
 $$
 
@@ -233,9 +233,9 @@ $$
 [\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j
 $$
 
-The error $\mathbf{e}\_{ij}$ that concerns the differences between the ideal pose transformation $[\mathbf{R}|\mathbf{t}]_{ij}$ and the two-pose-based computed transformation $[\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j$ is defined as
+The error $\mathbf{e}_{ij}$ that concerns the differences between the ideal pose transformation $[\mathbf{R}|\mathbf{t}]_{ij}$ and the two-pose-based computed transformation $[\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j$ is defined as
 $$
-\mathbf{e}\_{ij} = 
+\mathbf{e}_{ij} = 
 ln([\mathbf{R}|\mathbf{t}]_{ij}^{-1}[\mathbf{R}|\mathbf{t}]^{-1}\_i [\mathbf{R}|\mathbf{t}]_j)
 $$
 
@@ -243,6 +243,6 @@ Apply Lie algebra perturbation $\Delta \mathbf{\xi}$ for finding the Jacobian of
 Since there are $\mathbf{\xi}\_i$ and $\mathbf{\xi}_j$, the Jacobian should respect these two variables. Define two trivial disturbance terms $\Delta \mathbf{\xi}\_i$ and $\Delta \mathbf{\xi}_j$ to the above error expression.
 
 $$
-\hat{\mathbf{e}}\_{ij} = 
+\hat{\mathbf{e}}_{ij} = 
 ln([\mathbf{R}|\mathbf{t}]_{ij}^{-1}[\mathbf{R}|\mathbf{t}]^{-1}\_i e^{(-\Delta \mathbf{\xi}\_i)^\wedge} e^{(\Delta \mathbf{\xi}_j)^\wedge} [\mathbf{R}|\mathbf{t}]_j)^\vee
 $$

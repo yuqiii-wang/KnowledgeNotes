@@ -35,9 +35,9 @@ For example, for a radius of $15$ patch, there is
 $$
 \begin{align*}
 m_{10} &= 
-\sum^{15}\_{x=-15} \sum^{15}\_{y=-15} x^1 y^0 i(x,y)
+\sum^{15}_{x=-15} \sum^{15}_{y=-15} x^1 y^0 i(x,y)
 \\\\ &=
-\sum^{15}\_{x=-15} \sum^{15}\_{y=-15} x \space i(x,y)
+\sum^{15}_{x=-15} \sum^{15}_{y=-15} x \space i(x,y)
 
 \end{align*}
 $$
@@ -75,7 +75,7 @@ $$
 The $256$-dimensional bit vector can be expressed as (where $2^{i-1}$ is for binary-decimal conversion)
 $$
 v = 
-\sum^{n=256}\_{i=1} 2^{i-1} t_{i}(p,q)
+\sum^{n=256}_{i=1} 2^{i-1} t_{i}(p,q)
 $$
 
 $(p,q)$ pair sampling can follows *Gaussian distribution* or *Coarse Polar Grid*:

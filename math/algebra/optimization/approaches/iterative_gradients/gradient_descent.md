@@ -4,7 +4,7 @@ Gradient descent (also often called steepest descent) is a first-order iterative
 
 Define a multi-variable function ${f}(\mathbf{x})$ being differentiable in a neighbourhood of a point $\mathbf{x}_k$, then ${f}(\mathbf{x})$ decreases fastest updating $\mathbf{x}_k$ to its local minimum following
 $$
-\mathbf{x}\_{k+1}=\mathbf{x}_k+\gamma \triangledown {f}(\mathbf{x})
+\mathbf{x}_{k+1}=\mathbf{x}_k+\gamma \triangledown {f}(\mathbf{x})
 $$
 where $\gamma$ is learning rate.
 
@@ -52,7 +52,7 @@ $$
 A \mathbf{x} + \mathbf{b}
 $$
 
-Define an iterative step $\Delta \mathbf{x}$ for gradient descent updating $\mathbf{x}_k$, there is $\mathbf{x}\_{k+1}=\mathbf{x}_k + \Delta \mathbf{x}_k = \mathbf{x}_k + \lambda \triangledown f(\mathbf{x}_k)$
+Define an iterative step $\Delta \mathbf{x}$ for gradient descent updating $\mathbf{x}_k$, there is $\mathbf{x}_{k+1}=\mathbf{x}_k + \Delta \mathbf{x}_k = \mathbf{x}_k + \lambda \triangledown f(\mathbf{x}_k)$
 
 $$
 \begin{align*}
@@ -74,15 +74,15 @@ $$
 \frac{d f(\mathbf{x_k})}{d\lambda}&=
 f'(\mathbf{x}_k)\frac{d \mathbf{x}_k}{d \lambda}
 \\\\ &=
-f'(\mathbf{x}_k)\mathbf{r}\_{k-1}
+f'(\mathbf{x}_k)\mathbf{r}_{k-1}
 \\\\ &=
--\mathbf{r}^\text{T}\_{k} \mathbf{r}\_{k-1}
+-\mathbf{r}^\text{T}_{k} \mathbf{r}_{k-1}
 \\\\ &=
--(\mathbf{b}-A\mathbf{x}_k)^{\text{T}} \mathbf{r}\_{k-1}
+-(\mathbf{b}-A\mathbf{x}_k)^{\text{T}} \mathbf{r}_{k-1}
 \\\\ &=
--(\mathbf{b}-A (\mathbf{x}\_{k-1} + \lambda \mathbf{r}\_{k-1}))^{\text{T}} \mathbf{r}\_{k-1}
+-(\mathbf{b}-A (\mathbf{x}_{k-1} + \lambda \mathbf{r}_{k-1}))^{\text{T}} \mathbf{r}_{k-1}
 \\\\ &=
--(\mathbf{r}\_{k-1}-\lambda A \mathbf{r}\_{k-1})^{\text{T}} \mathbf{r}\_{k-1}
+-(\mathbf{r}_{k-1}-\lambda A \mathbf{r}_{k-1})^{\text{T}} \mathbf{r}_{k-1}
 \\\\ &=
 0
 \end{align*}
@@ -93,4 +93,4 @@ $$
 \lambda = \frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathbf{r}_k^T A \mathbf{r}_k}
 $$
 
-Back to the iteration, this loop keeps going on $\mathbf{x}\_{k+1}=\mathbf{x}_k + \Delta \mathbf{x}_k = \mathbf{x}_k + \lambda \triangledown f(\mathbf{x}_k)$, until residual $\mathbf{r}$ is small.
+Back to the iteration, this loop keeps going on $\mathbf{x}_{k+1}=\mathbf{x}_k + \Delta \mathbf{x}_k = \mathbf{x}_k + \lambda \triangledown f(\mathbf{x}_k)$, until residual $\mathbf{r}$ is small.

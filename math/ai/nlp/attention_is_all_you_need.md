@@ -22,7 +22,7 @@ To make computation convenient, set $d_v=d_k$.
 For multi-head attention, there is
 
 $$
-\text{MultiHeadAttention}(Q,K,V) = \text{concat}\_{i=1}^h (\text{head}_1, \text{head}_2, ..., \text{head}_h) W
+\text{MultiHeadAttention}(Q,K,V) = \text{concat}_{i=1}^h (\text{head}_1, \text{head}_2, ..., \text{head}_h) W
 $$
 
 where $\text{head}\_i = \text{Attention} \big(Q_i (W_i^Q)^{\top},K_i (W_i^K)^{\top},V_i (W_i^V)^{\top} \big)$.

@@ -65,17 +65,17 @@ $$
 where $\sigma(.)$ is the sigmoid function. The resulting ($\mathbf{a}^{[l]}$) is a spatial map where values close to $1$ indicate regions of high relevance.
 
 Denote $\odot$ as an element-wise operation.
-$\hat{X}\_{enc}^{[l]}$ is attention-filtered encoder input.
+$\hat{X}_{enc}^{[l]}$ is attention-filtered encoder input.
 
 $$
-\hat{X}\_{enc}^{[l]} = X_{enc}^{[l]} \odot \mathbf{a}^{[l]} \in \mathbb{R}^{2H\times 2W\times C_{enc}}
+\hat{X}_{enc}^{[l]} = X_{enc}^{[l]} \odot \mathbf{a}^{[l]} \in \mathbb{R}^{2H\times 2W\times C_{enc}}
 $$
 
-Finally, $\hat{X}\_{enc}^{[l]}$ and $X_{up}^{[l]}$ are concatenated and applied convolution $K\in\mathbb{R}^{k\times k\times(C_{enc}+C_{dec})}$ to derive $X_o^{[l]}\in\mathbb{R}^{2H\times 2W\times C_{o}}$.
+Finally, $\hat{X}_{enc}^{[l]}$ and $X_{up}^{[l]}$ are concatenated and applied convolution $K\in\mathbb{R}^{k\times k\times(C_{enc}+C_{dec})}$ to derive $X_o^{[l]}\in\mathbb{R}^{2H\times 2W\times C_{o}}$.
 
 $$
 \begin{align*}
-X_{concat}^{[l]} &=[\hat{X}\_{enc}^{[l]};X_{up}^{[l]}]\in\mathbb{R}^{2H\times 2W\times (C_{enc}+C_{dec})} \\\\
+X_{concat}^{[l]} &=[\hat{X}_{enc}^{[l]};X_{up}^{[l]}]\in\mathbb{R}^{2H\times 2W\times (C_{enc}+C_{dec})} \\\\
 K \otimes X_{concat}^{[l]} &= X_o^{[l]}\in\mathbb{R}^{2H\times 2W\times C_{o}}
 \end{align*}
 $$
@@ -152,7 +152,7 @@ For $Q = X_{up} W_Q$ that the $\text{Attention}$ shows from what up-sampled feat
 Then, the attention is projected back to the original spatial form
 
 $$
-\text{Attention}\_{proj} =\text{Attention}\space\cdot\space W_A  \in \mathbb{R}^{2W \times 2H \times C_{dec}}
+\text{Attention}_{proj} =\text{Attention}\space\cdot\space W_A  \in \mathbb{R}^{2W \times 2H \times C_{dec}}
 $$
 
 The projection by $W_A$ makes the text-image feature attentions map to spatial locations.
@@ -160,14 +160,14 @@ The projection by $W_A$ makes the text-image feature attentions map to spatial l
 The projected attentions are added back to the original up-sampled $X_{up}^{[l]}$.
 
 $$
-X_{att}^{[l]}=X_{up}^{[l]}+\text{Attention}\_{proj}  \in \mathbb{R}^{2W \times 2H \times C_{dec}}
+X_{att}^{[l]}=X_{up}^{[l]}+\text{Attention}_{proj}  \in \mathbb{R}^{2W \times 2H \times C_{dec}}
 $$
 
-Finally, $\hat{X}\_{enc}^{[l]}$ and $X_{att}^{[l]}$ are concatenated and applied convolution $K\in\mathbb{R}^{k\times k\times(C_{enc}+C_{dec})}$ to derive $X_o^{[l]}\in\mathbb{R}^{2H\times 2W\times C_{o}}$.
+Finally, $\hat{X}_{enc}^{[l]}$ and $X_{att}^{[l]}$ are concatenated and applied convolution $K\in\mathbb{R}^{k\times k\times(C_{enc}+C_{dec})}$ to derive $X_o^{[l]}\in\mathbb{R}^{2H\times 2W\times C_{o}}$.
 
 $$
 \begin{align*}
-X_{concat}^{[l]} &=[\hat{X}\_{enc}^{[l]};X_{att}^{[l]}]\in\mathbb{R}^{2H\times 2W\times (C_{enc}+C_{dec})} \\\\
+X_{concat}^{[l]} &=[\hat{X}_{enc}^{[l]};X_{att}^{[l]}]\in\mathbb{R}^{2H\times 2W\times (C_{enc}+C_{dec})} \\\\
 K \otimes X_{concat}^{[l]} &= X_o^{[l]}\in\mathbb{R}^{2H\times 2W\times C_{o}}
 \end{align*}
 $$

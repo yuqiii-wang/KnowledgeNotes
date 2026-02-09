@@ -192,7 +192,7 @@ $$
 \end{bmatrix}
 \mathbf{y} - \mathbf{z}
 \Bigg|\Bigg|^2\\\\ =&
-\sum^{n}\_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2
+\sum^{n}_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2
 \end{align*}
 $$
 
@@ -211,14 +211,14 @@ $$
 
 Then, it is easy to find $\mathbf{x}$ by $\mathbf{x} = V\mathbf{y}$.
 
-The residual is $\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$.
+The residual is $\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$.
 
 ### Proof of SVD as Solution for Least Squares Problem
 
-In the above obtained $||A \mathbf{x} - \mathbf{b}||^2=\sum^{n}\_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$,
-the second residual term $\sum^{m}\_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$ does not depend on $\mathbf{y}$, so it is simply the irreducible residual.
+In the above obtained $||A \mathbf{x} - \mathbf{b}||^2=\sum^{n}_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2+\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$,
+the second residual term $\sum^{m}_{i=n+1} \big( \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$ does not depend on $\mathbf{y}$, so it is simply the irreducible residual.
 
-The first sum reaches its minimum $0=\sum^{n}\_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$ with $y_i=\frac{\mathbf{u}^{\top}\_i \mathbf{b}}{\sigma_i}$.
+The first sum reaches its minimum $0=\sum^{n}_{i=1} \big( \sigma_i {y}\_i - \mathbf{u}^{\top}\_i \mathbf{b} \big)^2$ with $y_i=\frac{\mathbf{u}^{\top}\_i \mathbf{b}}{\sigma_i}$.
 
 ## SVD vs Eigen Decomposition
 

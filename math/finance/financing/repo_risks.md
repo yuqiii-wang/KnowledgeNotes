@@ -112,7 +112,7 @@ $$
 $$
 
 So that, the final tenor-mapped NPVs are
-$\text{NPV}\_{\text{lower}}=\gamma_{\text{lower}} \text{NPV}$ and $\text{NPV}\_{\text{upper}}=\gamma_{\text{upper}} \text{NPV}$.
+$\text{NPV}_{\text{lower}}=\gamma_{\text{lower}} \text{NPV}$ and $\text{NPV}_{\text{upper}}=\gamma_{\text{upper}} \text{NPV}$.
 
 ### Example
 

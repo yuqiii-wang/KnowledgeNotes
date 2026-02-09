@@ -22,7 +22,7 @@ A small $r$ can help reduce computation maintaining small sizes for $A$ and $B$.
 The new hidden layer matrix is computed as below.
 
 $$
-\mathbf{h} = W^{\top}_0\mathbf{x} + \underbrace{B^{\top} A^{\top}}\_{W_{\Delta}} \mathbf{x}
+\mathbf{h} = W^{\top}_0\mathbf{x} + \underbrace{B^{\top} A^{\top}}_{W_{\Delta}} \mathbf{x}
 $$
 
 For intrinsic dimension (intrinsic dimension for a data set can be thought of as the number of variables needed in a minimal representation of the data), the number of neurons is small $r \ll d$ but can produce good approximation results.
@@ -123,7 +123,7 @@ AdaLoRA takes SVD on the added weight matrix such that $W_{\Delta}=P \Lambda Q$.
 
 $$
 \begin{align*}
-    \mathbf{h} &= W^{\top}_0\mathbf{x} + \underbrace{B^{\top} A^{\top}}\_{W_{\Delta}} \mathbf{x} \\\\
+    \mathbf{h} &= W^{\top}_0\mathbf{x} + \underbrace{B^{\top} A^{\top}}_{W_{\Delta}} \mathbf{x} \\\\
     &= W^{\top}_0\mathbf{x} + P \Lambda Q \mathbf{x}
 \end{align*}
 $$
@@ -154,8 +154,8 @@ AdaLoRA proposes using *importance-aware rank allocation* scheme.
 
 Generally speaking, *importance score* is consisted of singular value magnitude and sensitivity measurement (magnitude of the gradient-weight product), and is used to determine what singular values are to be retained.
 
-Define a triplet $\mathbf{w}\_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$, where $i$ denotes the index of the $i$-th singular value $\lambda_i$.
-When setting $\lambda_i=0$, the corresponding triplets $\mathbf{w}\_{\Delta, i}$ are set to $\mathbf{0}$ as well, thereby removing the less-importance dimensions of $W_{\Delta}=P \Lambda Q$.
+Define a triplet $\mathbf{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$, where $i$ denotes the index of the $i$-th singular value $\lambda_i$.
+When setting $\lambda_i=0$, the corresponding triplets $\mathbf{w}_{\Delta, i}$ are set to $\mathbf{0}$ as well, thereby removing the less-importance dimensions of $W_{\Delta}=P \Lambda Q$.
 
 The update of $\Lambda_t$ at the training step $t$ is shown as below. Here $\eta$ is learning rate.
 
@@ -179,8 +179,8 @@ where $\mathbf{S}_t$ refers to the set of importance scores of all LoRA addition
 
 Importance score $S_t$ is computed with two considerations
 
-* Magnitude of singular value: large $|\lambda_i|$ indicates high importance of its corresponding triplet $\mathbf{w}\_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$
-* Sensitivity-based importance: if the removal of a parameter, e.g., $\lambda_i$, has a large influence, then the model is sensitive to it and the triplet $\mathbf{w}\_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ should be retained
+* Magnitude of singular value: large $|\lambda_i|$ indicates high importance of its corresponding triplet $\mathbf{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$
+* Sensitivity-based importance: if the removal of a parameter, e.g., $\lambda_i$, has a large influence, then the model is sensitive to it and the triplet $\mathbf{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ should be retained
 
 In summary, $S_t$ is computed as below.
 
@@ -202,14 +202,14 @@ where, with the help of coefficients $0 < \beta_1, \beta_2 < 1$, there are
 
 $$
 \begin{align*}
-    \overline{s}\_{t}(w_{ij}) &= \beta_1 \overline{s}\_{t-1}(w_{ij}) + (1-\beta_1)\hat{s}\_{t}(w_{ij}) \\\\
-    \overline{u}\_{t}(w_{ij}) &= \beta_2 \overline{u}\_{t-1}(w_{ij}) + (1-\beta_2)\Big| \hat{s}\_{t}(w_{ij}) - \overline{s}\_{t}(w_{ij}) \Big|
+    \overline{s}_{t}(w_{ij}) &= \beta_1 \overline{s}_{t-1}(w_{ij}) + (1-\beta_1)\hat{s}_{t}(w_{ij}) \\\\
+    \overline{u}_{t}(w_{ij}) &= \beta_2 \overline{u}_{t-1}(w_{ij}) + (1-\beta_2)\Big| \hat{s}_{t}(w_{ij}) - \overline{s}_{t}(w_{ij}) \Big|
 \end{align*}
 $$
 
 #### Further Explanation
 
-A naive inspiration would be just performing SVD such that $W_{\Delta}=P \Lambda Q$, then remove triplets $\mathbf{w}\_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ with small $\lambda_i$, and increase $d_P$ and $d_Q$ for even smallest $\lambda_i$ remains large.
+A naive inspiration would be just performing SVD such that $W_{\Delta}=P \Lambda Q$, then remove triplets $\mathbf{w}_{\Delta, i} = \{ P_{i}, \lambda_i, Q_{i} \}$ with small $\lambda_i$, and increase $d_P$ and $d_Q$ for even smallest $\lambda_i$ remains large.
 However, at each training step $t$, performing once SVD would be very computation-expensive.
 AdaLoRA proposes turning $P$, $\Lambda$ and $Q$ into trainable matrices, thereby approximating $W_{\Delta}=AB$.
 

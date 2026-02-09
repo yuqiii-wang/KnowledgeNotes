@@ -13,11 +13,11 @@ $$
 
 $$
 \begin{align*}
-\mathbf{x}\_{n+1}&=
-\mathbf{x}\_{n} -
+\mathbf{x}_{n+1}&=
+\mathbf{x}_{n} -
 \lambda \Delta \big(\frac{1}{2} \mathbf{r}(\mathbf{x}_n)^\text{T} \mathbf{r}(\mathbf{x}_n)\big)
 \\\\ &=
-\mathbf{x}\_{n} -
+\mathbf{x}_{n} -
 \lambda \mathbf{J}^\text{T}_r \mathbf{r} (\mathbf{x}_n)
 \end{align*}
 $$
@@ -27,8 +27,8 @@ where $\lambda$ can be set to $\lambda=\frac{\mathbf{r}_k^T \mathbf{r}_k}{\mathb
 * Gauss-Newton
 
 $$
-\mathbf{x}\_{n+1}=
-\mathbf{x}\_{n} -
+\mathbf{x}_{n+1}=
+\mathbf{x}_{n} -
 (\mathbf{J}^\text{T}_r \mathbf{J}_r)^{-1} \mathbf{J}^\text{T}_r \mathbf{r} (\mathbf{x}_n)
 $$
 

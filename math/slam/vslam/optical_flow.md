@@ -110,15 +110,15 @@ $$
     \vdots \\\\
     \begin{bmatrix}
         \mathbf{I}_x &  \mathbf{I}_y
-    \end{bmatrix}\_{w^2}
+    \end{bmatrix}_{w^2}
 \end{bmatrix}
 , \quad
 \mathbf{b} = 
 \begin{bmatrix}
-    \mathbf{I}\_{t_1} \\\\
-    \mathbf{I}\_{t_2} \\\\
+    \mathbf{I}_{t_1} \\\\
+    \mathbf{I}_{t_2} \\\\
     \vdots \\\\
-    \mathbf{I}\_{t_{w^2}} 
+    \mathbf{I}_{t_{w^2}} 
 \end{bmatrix}
 $$
 
@@ -146,7 +146,7 @@ The optimal $(u,v)^*$ representing image frame changing speed. Extract the $dt$,
 $$
 arg \space \underset{\Delta x, \Delta y}{min} \space
 \big|\big|
-    \mathbf{I}_k(x,y) - \mathbf{I}\_{k+1} (x+\Delta x, y+\Delta y)
+    \mathbf{I}_k(x,y) - \mathbf{I}_{k+1} (x+\Delta x, y+\Delta y)
 \big|\big|^2
 $$
 
@@ -190,7 +190,7 @@ $$
 e = \mathbf{I}_1(\mathbf{p}_1) - \mathbf{I}_2(\mathbf{p}_2)
 $$
 
-The $\mathcal{L}_2$-norm error to be minimized can be defined as below $\forall e_i = \mathbf{I}_1(\mathbf{p}\_{1,i}) - \mathbf{I}_2(\mathbf{p}\_{2,i})$
+The $\mathcal{L}_2$-norm error to be minimized can be defined as below $\forall e_i = \mathbf{I}_1(\mathbf{p}_{1,i}) - \mathbf{I}_2(\mathbf{p}_{2,i})$
 $$
 \begin{align*}
 arg \space \underset{[\mathbf{R}|\mathbf{t}]}{min} \space

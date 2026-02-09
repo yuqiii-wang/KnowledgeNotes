@@ -70,7 +70,7 @@ $$
 where $\dot{R(t)}R(t)^T$ is a skew-symmetric matrix.
 
 Remember one property of skew-symmetric matrix:
-the space of a skew-symmetric matrices $A_{n \times n}$ has dimensionality $\frac{1}{2} n (n - 1)$, its vector representation is $a^{\wedge}\_{\frac{1}{2} n (n - 1)}$, for example, for a $3 \times 3$ matrix, there is
+the space of a skew-symmetric matrices $A_{n \times n}$ has dimensionality $\frac{1}{2} n (n - 1)$, its vector representation is $a^{\wedge}_{\frac{1}{2} n (n - 1)}$, for example, for a $3 \times 3$ matrix, there is
 
 $$
 \mathbf{a}^{\wedge}=
@@ -206,7 +206,7 @@ ln\bigg(
   \bigg)^\vee
 \\\\ &=
 \bigg(
-    \sum^{\infty}\_{n=0} \frac{(-1)^{n-1}}{n}
+    \sum^{\infty}_{n=0} \frac{(-1)^{n-1}}{n}
     (R-I)^{n}
 \bigg)^\vee
 \end{align*}

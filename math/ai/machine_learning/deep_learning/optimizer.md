@@ -94,12 +94,12 @@ v_{n+1} &= \beta_2 v_{n} + (1-\beta_2)\big( \frac{\partial\space Loss}{\partial\
 \end{align*}
 $$
 
-Define the bias-corrected momentums $\hat{m}\_{1,n+1}$ and $\hat{m}\_{2,n+1}$
+Define the bias-corrected momentums $\hat{m}_{1,n+1}$ and $\hat{m}_{2,n+1}$
 
 $$
 \begin{align*}
-\hat{m}\_{n+1} &= \frac{m_{n+1}}{1-\beta_1^n} \\\\
-\hat{v}\_{n+1} &= \frac{v_{n+1}}{1-\beta_2^n}
+\hat{m}_{n+1} &= \frac{m_{n+1}}{1-\beta_1^n} \\\\
+\hat{v}_{n+1} &= \frac{v_{n+1}}{1-\beta_2^n}
 \end{align*}
 $$
 
@@ -107,7 +107,7 @@ Finally, the weight update at the $n$-th iteration is
 
 $$
 \Delta W_{n+1} = 
-\eta \frac{\hat{m}\_{n+1}}{\sqrt{\hat{v}\_{n+1}}+\epsilon}
+\eta \frac{\hat{m}_{n+1}}{\sqrt{\hat{v}_{n+1}}+\epsilon}
 $$
 
 ### Adam Derivation
@@ -171,9 +171,9 @@ $$
 
 where $(1)$ is derived by taking out $E[g_n]$ from the summation and the remaining term is $\xi$, which represents the difference between sum of $\beta_1^{n-i} g_i$ and that of just applying $E[g_n]\beta_1^{n-i}$. $(2)$ is just the result of finite geometric sequence sum $\sum^n\_{i=1}r^i = \frac{a_1(1-r^n)}{1-r}$ for $r \ne 1$.
 
-As a result, bias correction is done by cancelling the term $1-\beta_1^n$ with $\hat{m}\_{n} = \frac{m_{n}}{1-\beta_1^n}$.
+As a result, bias correction is done by cancelling the term $1-\beta_1^n$ with $\hat{m}_{n} = \frac{m_{n}}{1-\beta_1^n}$.
 
-$v_n$ takes similar deduction result and has the correction term $\hat{v}\_{n} = \frac{v_{n}}{1-\beta_2^n}$.
+$v_n$ takes similar deduction result and has the correction term $\hat{v}_{n} = \frac{v_{n}}{1-\beta_2^n}$.
 
 ### Adam Variants: Weight Decay and AdamW
 
@@ -201,7 +201,7 @@ As iterations grow $n \rightarrow +\infty$, there is
 
 $$
 \begin{align*}
-    \lim_{n \rightarrow +\infty} \hat{m}\_{n} &=
+    \lim_{n \rightarrow +\infty} \hat{m}_{n} &=
     \frac{m_{n}}{1-\beta_1^{n-1}}
 \\\\ &\approx
     m_{n} 
@@ -241,7 +241,7 @@ ADAM controls the importance of momentum and RMS-Prop via $\beta_1$ and $\beta_2
 For SGD, by multiplying $0.5$ to loss function, the learning rate is reduced to half.
 However, for ADAM, this is not true.
 
-For $\frac{\partial\space Loss}{\partial\space W_{n}} \rightarrow m_{n+1}$ and $(\frac{\partial\space Loss}{\partial\space W_{n}})^2 \rightarrow v_{n+1}$, and finally for $\Delta W_{n+1} = \eta \frac{\hat{m}\_{n+1}}{\sqrt{\hat{v}\_{n+1}}+\epsilon}$, the square root operation cancels out the $0.5$ effect on the loss function.
+For $\frac{\partial\space Loss}{\partial\space W_{n}} \rightarrow m_{n+1}$ and $(\frac{\partial\space Loss}{\partial\space W_{n}})^2 \rightarrow v_{n+1}$, and finally for $\Delta W_{n+1} = \eta \frac{\hat{m}_{n+1}}{\sqrt{\hat{v}_{n+1}}+\epsilon}$, the square root operation cancels out the $0.5$ effect on the loss function.
 In conclusion, scaling on loss function has no effect on ADAM learning/weight update.
 
 ## Bayesian Optimizer
