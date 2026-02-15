@@ -2530,7 +2530,8 @@ $$
 where the rotation is defined as rotating an angle of $\theta$ about the axis defined by the unit vector $\mathbf{u}$ such that $\mathring{\mathbf{q}} = \cos \frac{\theta}{2} + \sin\frac{\theta}{2} \big( \overrightarrow{i}u_x + \overrightarrow{j}u_y + \overrightarrow{k}u_z \big)$.
 Here $\mathring{\mathbf{q}}^{\dagger}$ is the normalization term.
 
-Then, 
+Then,
+
 $$
 M= \sum_{i=1}^{n} \mathbf{r}'_{l,i} \mathbf{r'}_{l,i}^{\top}= \begin{bmatrix}
     S_{xx} & S_{xy} & S_{xz} \\\\

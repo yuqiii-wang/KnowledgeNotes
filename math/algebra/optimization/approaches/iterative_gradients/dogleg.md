@@ -50,7 +50,6 @@ $$
 $$
 
 where
-
 $$
 \tau_k = \left\{
       \begin{matrix}

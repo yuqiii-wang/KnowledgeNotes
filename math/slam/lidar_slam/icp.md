@@ -279,7 +279,8 @@ arg \space \underset{\mathbf{\xi}}{min} \space
 \big|\big|^2_2
 $$
 
-By introducing a trivial perturbation $\Delta \mathbf{\xi}$, 
+By introducing a trivial perturbation $\Delta \mathbf{\xi}$,
+
 $$
 \begin{align*}
 \frac{\partial \mathbf{e}_i}{\partial \mathbf{\Delta \mathbf{\xi}}}&=

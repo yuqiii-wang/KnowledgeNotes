@@ -30,7 +30,8 @@ Recall some trace operation properties:
 * Linearity: $tr(A\pm B)=tr(A)\pm tr(B)$
 * Associative: $tr(AB)=tr(BA)$
 
-So that, 
+So that,
+
 $$
 \begin{align*}
 df &= tr \big(

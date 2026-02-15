@@ -242,7 +242,8 @@ $$
 \end{align*}
 $$
 
-So that, 
+So that,
+
 $$
 \begin{align*}
     5x^2 + 8xy + 5y^2 &=

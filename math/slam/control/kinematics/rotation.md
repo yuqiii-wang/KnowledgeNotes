@@ -103,7 +103,8 @@ $$
 \end{bmatrix}
 $$
 
-where, 
+where,
+
 $$
 \mathbf{K}=
 \begin{bmatrix}

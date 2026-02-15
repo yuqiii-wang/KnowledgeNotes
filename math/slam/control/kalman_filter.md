@@ -229,7 +229,8 @@ cov(\mathbf{x}_k - \mathbf{\hat{x}}_{k|k},)=
 \end{bmatrix}
 $$
 
-Each covariance's entry $\sigma_i^2$ is the mean of each error vector element's squared sum $\frac{1}{n} \sum_{k=0}^n(x_{k,i}-\hat{x}_{k,i})^2$. Therefore, 
+Each covariance's entry $\sigma_i^2$ is the mean of each error vector element's squared sum $\frac{1}{n} \sum_{k=0}^n(x_{k,i}-\hat{x}_{k,i})^2$. Therefore,
+
 $$
 E \big(
     ||\mathbf{x}_k-\mathbf{\hat{x}}_{k|k}||^2
