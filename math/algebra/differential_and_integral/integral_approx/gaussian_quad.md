@@ -214,7 +214,8 @@ $$
 
 ### If $f(x)=5x^4+4x^3+3x^2+2x+1$
 
-By approximation: 
+By approximation:
+
 $$
 \begin{align*}
 \int^1_{-1} f(x)dx

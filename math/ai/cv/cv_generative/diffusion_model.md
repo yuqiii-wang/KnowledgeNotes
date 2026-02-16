@@ -313,3 +313,7 @@ $$
 $$
 
 Finally, the result reveals the loss $\mathcal{L}_{\text{t}}$ how it is influenced by model output $\mathbf{z}_{\theta}$.
+
+## Latent Stable Diffusion (LSD)
+
+By VAE to learn a latent representation of input, then Stable Diffusion (SD) noising/denoising is applied on the latent representation rather than directly on source images.

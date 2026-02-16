@@ -53,13 +53,11 @@ $$
 
 $$
 \begin{align*}
-
 h_0(x) &= 1 \\\\
 h_1(x) &= 2x \\\\
 h_2(x) &= 4x^2-2 \\\\
 h_3(x) &= 8x^3-12x \\\\
 h_4(x) &= 16x^4-48x^2+12
-
 \end{align*}
 $$
 
@@ -146,7 +144,6 @@ w_0 &=
 \frac{\sqrt{\pi}}{2}
 & &=
 \frac{\sqrt{\pi}}{2}
-
 \end{align*}
 $$
 
@@ -191,6 +188,7 @@ y&=
 $$
 
 and by $y=\phi(x)$, then
+
 $$
 \int_a^b g(y) dy = 
 \int_{\phi^{-1}(a)}^{\phi^{-1}(b)}
@@ -201,7 +199,6 @@ Coupled with the integration by substitution,
 
 $$
 \begin{align*}
-
 E\big(f(y)\big)&=
 \int_{-\infty}^{+\infty}
 \frac{1}{\sigma \sqrt{2\pi}}
@@ -216,7 +213,6 @@ dx
 \\\\ &\approx
 \frac{1}{\sqrt{\pi}}
 \sum_{i=1}^n w_i f(\sqrt{2} \sigma x_i + \mu)
-
 \end{align*}
 $$
 
