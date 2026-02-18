@@ -35,6 +35,7 @@ There are $n$ samples are drawn from a discrete distribution with $k$ different 
 Define max likelihood estimation of sample distribution as $\hat{p}$, and true distribution as $p$, $D_{KL}(\hat{p}||p) \le \epsilon$ is defined to contain the difference between estimation $\hat{p}$ and truth $p$ below $\epsilon$.
 
 The number of particles should be
+
 $$
 n=\frac{k-1}{2\epsilon}
 \bigg( 

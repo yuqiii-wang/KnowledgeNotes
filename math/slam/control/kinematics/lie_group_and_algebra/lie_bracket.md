@@ -437,6 +437,7 @@ J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\t
 $$
 
 and for the right multiple
+
 $$
 J_r(\phi) = J_l(-\phi)
 $$

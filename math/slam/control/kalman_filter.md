@@ -34,12 +34,14 @@ $$
 ### Predict phase
 
 Predicted (a priori) state estimate
+
 $$
 \mathbf{\hat{x}}_{k|k-1}=
 \mathbf{F}_k\mathbf{x}_{k-1|k-1} + \mathbf{B}_k \mathbf{u}_k
 $$
 
 Predicted (a priori) estimate covariance
+
 $$
 \mathbf{\hat{P}}_{k|k-1}=
 \mathbf{F}_k\mathbf{P}_{k-1|k-1} \mathbf{F}^\text{T}_k + \mathbf{Q}_k
@@ -55,24 +57,28 @@ $$
 $$
 
 Innovation (or pre-fit residual) covariance
+
 $$
 \mathbf{{S}}_{k}=
 \mathbf{H}_k \mathbf{\hat{P}}_{k|k-1} \mathbf{H}^\text{T}_k + \mathbf{R}_k
 $$
 
 Optimal Kalman gain
+
 $$
 \mathbf{K}_k=
 \mathbf{\hat{P}}_{k|k-1} \mathbf{H}^\text{T}_k \mathbf{{S}}_{k}^{-1}
 $$
 
 Updated (a posteriori) state estimate
+
 $$
 \mathbf{x}_{k|k}=
 \mathbf{\hat{x}}_{k|k-1} + \mathbf{K}_k \mathbf{\hat{y}}_k
 $$
 
 Updated (a posteriori) estimate covariance
+
 $$
 \mathbf{P}_{k|k}=
 (\mathbf{I}-\mathbf{K}_k \mathbf{H}) \mathbf{\hat{P}}_{k|k-1}
@@ -238,7 +244,8 @@ E \big(
 tr \big(
     cov(\mathbf{x}_k - \mathbf{\hat{x}}_{k|k})
     \big)
-$$ 
+$$
+
 where $tr$ denotes the trace of the covariance matrix.
 
 Consequently, the minimization problem becomes:
@@ -297,7 +304,8 @@ $$
 
 ## Convergence
 
-In the long term, the mean squared error should be nearly zero given a sufficient number of iterations.  
+In the long term, the mean squared error should be nearly zero given a sufficient number of iterations.
+
 $$
 E \big(
     ||\mathbf{x}_k-\mathbf{\hat{x}}_{k|k}||^2

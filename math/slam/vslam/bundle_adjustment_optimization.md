@@ -183,6 +183,7 @@ $$
 $$
 
 The coefficients for $\Delta \mathbf{x}_{{\mathbf{x}_1 } \notin \mathbf{x}}$ should be
+
 $$
 (\mathbf{C}'-\mathbf{E}'^\text{T}\mathbf{B}'^{-1}\mathbf{E}')
 \Delta \mathbf{x}_{{\mathbf{x}_1 } \notin \mathbf{x}}=

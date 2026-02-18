@@ -59,6 +59,7 @@ Legendre transform is used to transform $L(q, \dot{q})$ to a new function $H(q,p
 * $w \equiv \big(\frac{\partial f}{\partial y}\big)_x = \big(\frac{\partial L}{\partial \dot{q}}\big)_q \equiv p$ the conjugate of the switched variable.
 
 By the canonical momentum definition $p=mv$, consider kinetic energy definition $K=\frac{1}{2}mv^2$, where $\dot{q}=v$ as the velocity, then
+
 $$
 \big(\frac{\partial L}{\partial \dot{q}}\big)_q=
 \big(\frac{\partial K}{\partial v}\big)_q= mv = p

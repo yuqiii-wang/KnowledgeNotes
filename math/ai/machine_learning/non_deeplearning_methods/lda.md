@@ -154,7 +154,7 @@ S_w = \sum_{j=1}^{C_k} \sum_{\mathbf{x}_i \in X_j}
 $$
 
 * $S_b$'s computation first calculates the global mean $\mathbf{\mu}=\frac{1}{N}\sum^N_{i=1} \mathbf{x}_i$, then sums up the respective variances of each class mean $\mathbf{\mu}_j$. The variance is not normalized so that $N_j$ is included ($S_w$ sums up all $\mathbf{x}_i \in X_j$ so that $S_b$ needs $N_j$ for each class $C_j$). 
-  
+
 $$
 S_b = \sum_{j=1}^{C_k} N_j (\mathbf{\mu}_j - \mathbf{\mu})(\mathbf{\mu}_j - \mathbf{\mu})^\text{T}
 $$

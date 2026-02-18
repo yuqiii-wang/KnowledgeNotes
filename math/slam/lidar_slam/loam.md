@@ -22,6 +22,7 @@ the same scan.
 This step is to find planes and edges of scanned obstacles.
 
 Define a term $c$ to evaluate the smoothness of local surface
+
 $$
 c=\frac{1}{|S|\cdot||\mathbf{X}^L_{(k,i)}||}
 \big|\big|

@@ -304,6 +304,7 @@ $$
 ## Derivative
 
 An important question is about rotation matrix derivative, such as given a 3-d point $\mathbf{p}$, here to compute
+
 $$
 \frac{\partial R\mathbf{p}}{\partial R}
 $$
@@ -372,6 +373,7 @@ J^{-1}_l = \frac{\theta}{2}cot\frac{\theta}{2}I + (1-\frac{\theta}{2}cot\frac{\t
 $$
 
 and for the right multiple
+
 $$
 J_r(\phi) = J_l(-\phi)
 $$

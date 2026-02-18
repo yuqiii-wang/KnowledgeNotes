@@ -11,6 +11,7 @@ a_{j,i} = -a_{i,j}
 $$
 
 For example
+
 $$
 A=
 \begin{bmatrix}

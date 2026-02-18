@@ -1658,6 +1658,7 @@ $$
 $$
 
 For the $i$-th frame
+
 $$
 \frac{\partial \mathbf{r}}{\partial (\mathbf{p}_i, \mathbf{\theta}_i)} = \begin{bmatrix}
     \frac{\partial \mathbf{p}_i}{\partial \mathbf{p}_i}

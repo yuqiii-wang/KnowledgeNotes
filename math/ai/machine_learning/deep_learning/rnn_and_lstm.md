@@ -266,7 +266,8 @@ $$
 \end{align*}
 $$
 
-Gradient with respect to output gate  
+Gradient with respect to output gate
+
 $$
 \frac{\partial e}{\partial o_t} = 
 \frac{\partial{e}}{\partial {h}_t} \cdot

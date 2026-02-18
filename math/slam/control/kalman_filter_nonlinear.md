@@ -32,6 +32,7 @@ $$
 The computation for $\mathbf{K}_k$ is identical to its linear Kalman counterpart.
 
 Predicted (a priori) estimate covariance
+
 $$
 \mathbf{\hat{P}}_{k|k-1}=
 \mathbf{F}_k\mathbf{P}_{k-1|k-1} \mathbf{F}^\text{T}_k + \mathbf{Q}_k
@@ -50,7 +51,6 @@ $$
 \mathbf{K}_k =
 \mathbf{\hat{P}}_{k|k-1} \mathbf{H}^\text{T}_k \mathbf{{S}}_{k}^{-1}
 $$
-
 
 ### Convergence discussions
 
@@ -80,8 +80,7 @@ $$
 X_0 &= \mathbf{\overline{x}} \\\\
 X_i &= 
 \mathbf{\overline{x}} + (\sqrt{(d+\lambda)\mathbf{P_\mathbf{x}}})_i 
-\quad
-\quad i=1,2,...,d \\\\
+\quad \quad i=1,2,...,d \\\\
 X_i &= 
 \mathbf{\overline{x}} - (\sqrt{(d+\lambda)\mathbf{P_\mathbf{x}}})_{i-d} 
 \quad i=d+1,d+2,...,2d \\\\
@@ -172,27 +171,22 @@ f(\mathbf{\hat{x}}_{k-1}, \mathbf{u}_k, \mathbf{w}_k)
 1 & \Delta t \\\\
 0 & 1
 \end{bmatrix}
-\mathbf{x}_{k-1}
-+
+\mathbf{x}_{k-1} +
 \begin{bmatrix}
 0 \\\\
 \Delta t
 \end{bmatrix}
-\mathbf{u}_k
-+
+\mathbf{u}_k +
 \mathbf{w}_k
 \\\\ &=
 \begin{bmatrix}
 1 & 0.5 \\\\
 0 & 1
 \end{bmatrix}
-\mathbf{x}_{k-1}
--2
+\mathbf{x}_{k-1} -2
 \begin{bmatrix}
-0 \\\\
-0.5
-\end{bmatrix}
-+
+0 \\\\ 0.5
+\end{bmatrix} +
 \mathbf{w}_k
 \end{align*}
 $$
@@ -982,4 +976,4 @@ $$
 
 ### Discussion
 
-Here we notice that Kalman Gain $\mathbf{K}$ is large. This is attributed to the beginning where $\mathbf{P}_0$ is large as well as the time interval $\Delta t = 0.5 s$. This gives a result of big spreads. The observation function $h$ is a simple directs measurement of the distance in $\mathbf{x}_k$, which accounts for value change sensitivity. If $h$ is not sensitive to $\mathbf{P}_{1,y}$, $\mathbf{K}$ approaches to $0.5$. 
+Here we notice that Kalman Gain $\mathbf{K}$ is large. This is attributed to the beginning where $\mathbf{P}_0$ is large as well as the time interval $\Delta t = 0.5 s$. This gives a result of big spreads. The observation function $h$ is a simple directs measurement of the distance in $\mathbf{x}_k$, which accounts for value change sensitivity. If $h$ is not sensitive to $\mathbf{P}_{1,y}$, $\mathbf{K}$ approaches to $0.5$.
